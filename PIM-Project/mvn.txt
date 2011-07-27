@@ -1,3 +1,5 @@
+mvn install:install-file -DgeneratePom=true -DgroupId=com.ibm.tivoli.tim -DartifactId=itim_common -Dversion=5.1.0.1 -Dpackaging=jar -Dfile="C:/Program Files/IBM/itim/lib/itim_common.jar"
+mvn install:install-file -DgeneratePom=true -DgroupId=com.ibm.tivoli.tim -DartifactId=itim_server -Dversion=5.1.0.1 -Dpackaging=jar -Dfile="C:/Program Files/IBM/itim/lib/itim_server.jar"
 mvn install:install-file -DgeneratePom=true -DgroupId=com.ibm.tivoli.tim -DartifactId=api_ejb -Dversion=5.1.0.1 -Dpackaging=jar -Dfile="C:/Program Files/IBM/itim/lib/api_ejb.jar"
 mvn install:install-file -DgeneratePom=true -DgroupId=com.ibm.tivoli.tim -DartifactId=itim_api -Dversion=5.1.0.1 -Dpackaging=jar -Dfile="C:/Program Files/IBM/itim/lib/itim_api.jar"
 mvn install:install-file -DgeneratePom=true -DgroupId=com.ibm.tivoli.tim -DartifactId=itim_server_api -Dversion=5.1.0.1 -Dpackaging=jar -Dfile="C:/Program Files/IBM/itim/lib/itim_server_api.jar"
