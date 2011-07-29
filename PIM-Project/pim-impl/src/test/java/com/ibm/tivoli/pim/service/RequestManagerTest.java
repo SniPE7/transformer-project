@@ -1,8 +1,8 @@
 package com.ibm.tivoli.pim.service;
 
 import java.util.Date;
-import java.util.Hashtable;
 import java.util.List;
+import java.util.Properties;
 
 import javax.security.auth.Subject;
 import javax.security.auth.login.LoginContext;
@@ -13,8 +13,8 @@ import junit.framework.TestCase;
 import com.ibm.itim.apps.InitialPlatformContext;
 import com.ibm.itim.apps.PlatformContext;
 import com.ibm.itim.apps.jaas.callback.PlatformCallbackHandler;
-import com.ibm.tivoli.pim.entity.PIMAccount;
 import com.ibm.tivoli.pim.entity.AccountRequest;
+import com.ibm.tivoli.pim.entity.PIMAccount;
 import com.ibm.tivoli.pim.entity.Service;
 import com.ibm.tivoli.pim.entity.SubmitResponse;
 import com.ibm.tivoli.pim.entity.TimeRange;
@@ -40,7 +40,7 @@ public class RequestManagerTest extends TestCase {
     String itimPswd = "smartway";
 
     // setup environment table to create an InitialPlatformContext
-    Hashtable env = new Hashtable();
+    Properties env = new Properties();
 
     //env.put(Context.INITIAL_CONTEXT_FACTORY, "com.ibm.websphere.naming.WsnInitialContextFactory");
     //env.put(Context.PROVIDER_URL, appServerUrl);
