@@ -7,15 +7,20 @@ package com.ibm.tivoli.pim.entity;
  * @author zhaodonglu
  *
  */
-public class Account {
+public class PIMAccount {
   
   private String username = null;
 
   /**
    * 
    */
-  public Account() {
+  public PIMAccount() {
     super();
+  }
+
+  public PIMAccount(String username) {
+    super();
+    this.username = username;
   }
 
   /**
@@ -30,6 +35,15 @@ public class Account {
    */
   public void setUsername(String username) {
     this.username = username;
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("Account [username=");
+    builder.append(username);
+    builder.append("]");
+    return builder.toString();
   }
 
 }

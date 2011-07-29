@@ -25,4 +25,8 @@ public class RejectReponse extends BaseResponse {
     super(code, cause);
   }
 
+  public RejectReponse(String code) {
+    super(code);
+  }
+
 }

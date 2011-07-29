@@ -17,4 +17,12 @@ public class ApprovalReponse extends BaseResponse {
     super();
   }
 
+  public ApprovalReponse(String code, String cause) {
+    super(code, cause);
+  }
+
+  public ApprovalReponse(String code) {
+    super(code);
+  }
+
 }

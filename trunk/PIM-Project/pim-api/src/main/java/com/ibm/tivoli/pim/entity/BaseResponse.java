@@ -1,8 +1,10 @@
 package com.ibm.tivoli.pim.entity;
 
 public abstract class BaseResponse {
+  public static final String CODE_SUCCESS = "success";
+  public static final String CODE_FAILURE = "failure";
 
-  private String code = null;
+  private String code = CODE_SUCCESS;
   private String cause = null;
 
   protected BaseResponse() {
@@ -13,6 +15,11 @@ public abstract class BaseResponse {
     super();
     this.code = code;
     this.cause = cause;
+  }
+
+  public BaseResponse(String code) {
+    super();
+    this.code = code;
   }
 
   /**

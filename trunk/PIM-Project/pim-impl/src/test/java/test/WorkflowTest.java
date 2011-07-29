@@ -101,8 +101,8 @@ public class WorkflowTest extends TestCase {
         if (wpMO.getParent() == null) {
           System.out.println("Top Workflow Process ID: " + wpMO.getID());
           // getChildWorkflowProcess(wpMO);
-          displayWorkflowProcess(wpMO);
           displayWorkflowActivities(wpMO);
+          displayWorkflowProcess(wpMO);
 
         }
       }

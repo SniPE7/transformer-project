@@ -9,6 +9,10 @@ package com.ibm.tivoli.pim.entity;
  */
 public class Service {
   private String name = null;
+  /**
+   * Name of the profile (NTAccount, Exchange Account, etc.) identifying the type of this account as listed in Configuration > Entities within the IBM Tivoli Idenitity Manager UI.
+   */
+  private String profileName = null;
   private String description = null;
 
   /**
@@ -16,6 +20,12 @@ public class Service {
    */
   public Service() {
     super();
+  }
+
+  public Service(String name, String profileName) {
+    super();
+    this.name = name;
+    this.profileName = profileName;
   }
 
   /**
@@ -30,6 +40,14 @@ public class Service {
    */
   public void setName(String name) {
     this.name = name;
+  }
+
+  public String getProfileName() {
+    return profileName;
+  }
+
+  public void setProfileName(String profileName) {
+    this.profileName = profileName;
   }
 
   /**

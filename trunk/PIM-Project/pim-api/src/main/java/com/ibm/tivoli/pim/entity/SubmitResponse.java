@@ -22,6 +22,12 @@ public class SubmitResponse extends BaseResponse {
     super(code, cause);
   }
 
+  public SubmitResponse(String requestId) {
+    super();
+    this.setCode("Success");
+    this.requestId = requestId;
+  }
+
   /**
    * @return the requestId
    */
@@ -34,6 +40,15 @@ public class SubmitResponse extends BaseResponse {
    */
   public void setRequestId(String requestId) {
     this.requestId = requestId;
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("SubmitResponse [requestId=");
+    builder.append(requestId);
+    builder.append("]");
+    return builder.toString();
   }
 
 }

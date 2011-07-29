@@ -114,5 +114,18 @@
 			<version>7.0.0.11</version>
 			<scope>provide</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.ibm.tivoli</groupId>
+			<artifactId>pim-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+		</dependency>
+
 	</dependencies>
 </project>
