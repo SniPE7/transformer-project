@@ -21,7 +21,7 @@ public class CheckInAccount {
   /**
    * Target account for this request
    */
-  private Account account = null;
+  private PIMAccount account = null;
   
   /**
    * Time range for this request
@@ -71,13 +71,13 @@ public class CheckInAccount {
   /**
    * @return the account
    */
-  public Account getAccount() {
+  public PIMAccount getAccount() {
     return account;
   }
   /**
    * @param account the account to set
    */
-  public void setAccount(Account account) {
+  public void setAccount(PIMAccount account) {
     this.account = account;
   }
   /**

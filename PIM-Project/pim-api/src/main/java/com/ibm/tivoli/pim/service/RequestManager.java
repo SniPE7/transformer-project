@@ -3,12 +3,15 @@
  */
 package com.ibm.tivoli.pim.service;
 
+import java.rmi.RemoteException;
 import java.util.List;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
+
+import org.omg.CORBA.portable.ApplicationException;
 
 import com.ibm.tivoli.pim.entity.AccountRequest;
 import com.ibm.tivoli.pim.entity.ApprovalReponse;
@@ -30,11 +33,11 @@ public interface RequestManager {
   
   @WebMethod(operationName = "approval")
   @WebResult(name="submitResponse")
-  public abstract ApprovalReponse approval(@WebParam(name = "approver")User approver, @WebParam(name = "requestId")String requestId);
+  public abstract ApprovalReponse approval(@WebParam(name = "approver")User approver, @WebParam(name = "requestId")String requestId, @WebParam(name = "comment")String comment);
   
   @WebMethod(operationName = "reject")
   @WebResult(name="rejectReponse")
-  public abstract RejectReponse reject(@WebParam(name = "rejector")User rejector, @WebParam(name = "requestId")String requestId);
+  public abstract RejectReponse reject(@WebParam(name = "rejector")User rejector, @WebParam(name = "requestId")String requestId, @WebParam(name = "comment")String comment);
   
   @WebMethod(operationName = "getPendingRequestsByRequester")
   @WebResult(name="getPendingRequestsByRequesterResp")
