@@ -10,7 +10,7 @@
 	<artifactId>pim-impl</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>pim-api</name>
-
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.ibm.tivoli.tim</groupId>

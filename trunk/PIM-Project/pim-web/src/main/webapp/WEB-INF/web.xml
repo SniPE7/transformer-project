@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+	<!-- Spring Parameters -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+       classpath*:com/ibm/tivoli/pim/spring/*.xml
+    </param-value>
+	</context-param>
+	<!-- Spring Listener -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- Apache CXF Service (SOAP) -->
+	<servlet>
+		<servlet-name>CXFServlet</servlet-name>
+		<servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CXFServlet</servlet-name>
+		<url-pattern>/services/soap/*</url-pattern>
+	</servlet-mapping>
+
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+	<!-- Define a Security Constraint on this Application -->
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>SOAP Service Resources</web-resource-name>
+			<url-pattern>/services/soap/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<!-- NOTE: This role is not present in the default users file -->
+			<role-name>PIMService</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<!-- Define the Login Configuration for this Application -->
+	<login-config>
+		<auth-method>BASIC</auth-method>
+		<realm-name>4A Service Realm</realm-name>
+	</login-config>
+
+	<!-- Security roles referenced by this web application -->
+	<security-role>
+		<description>
+      The role that is required to log in to the Manager Application
+    </description>
+		<role-name>PIMService</role-name>
+	</security-role>
+</web-app>
