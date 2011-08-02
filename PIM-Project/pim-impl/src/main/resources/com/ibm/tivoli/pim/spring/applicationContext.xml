@@ -29,7 +29,7 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 		</property>
 	</bean>
 
-	<bean id="requestManager" class="com.ibm.tivoli.pim.service.RequestManagerImpl">
+	<bean id="requestManager" class="com.ibm.tivoli.pim.service.SimpleRequestManagerImpl">
 		<property name="pimAccountProfileName" value="PIMProfileAccount" />
 		<property name="platformContext">
 			<bean class="com.ibm.itim.apps.InitialPlatformContext">
