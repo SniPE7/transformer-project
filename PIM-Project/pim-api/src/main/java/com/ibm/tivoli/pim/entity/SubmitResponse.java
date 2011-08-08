@@ -3,10 +3,13 @@
  */
 package com.ibm.tivoli.pim.entity;
 
+import javax.xml.bind.annotation.XmlType;
+
 /**
  * @author zhaodonglu
  *
  */
+@XmlType(namespace="http://submitResponse.entity.pim.tivoli.ibm.com")
 public class SubmitResponse extends BaseResponse {
   
   private String requestId = null;

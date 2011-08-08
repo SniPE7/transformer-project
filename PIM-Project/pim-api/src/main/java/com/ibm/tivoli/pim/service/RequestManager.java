@@ -25,14 +25,14 @@ import com.ibm.tivoli.pim.entity.User;
  * @author zhaodonglu
  *
  */
-@WebService(targetNamespace="http://requestmanager.pim.tivoli.ibm.com/")
+@WebService(targetNamespace="http://reqmgr.service.pim.tivoli.ibm.com/")
 public interface RequestManager {
   @WebMethod(operationName = "submit")
   @WebResult(name="submitResponse")
   public abstract SubmitResponse submit(@WebParam(name = "request")AccountRequest request);
   
   @WebMethod(operationName = "approval")
-  @WebResult(name="submitResponse")
+  @WebResult(name="approvalResponse")
   public abstract ApprovalReponse approval(@WebParam(name = "approver")User approver, @WebParam(name = "requestId")String requestId, @WebParam(name = "comment")String comment);
   
   @WebMethod(operationName = "reject")
