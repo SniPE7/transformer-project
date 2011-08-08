@@ -29,21 +29,26 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 		</property>
 	</bean>
 
-	<bean id="requestManager" class="com.ibm.tivoli.pim.service.SimpleRequestManagerImpl">
-		<property name="pimAccountProfileName" value="PIMProfileAccount" />
-		<property name="platformContext">
-			<bean class="com.ibm.itim.apps.InitialPlatformContext">
-				<constructor-arg>
-					<props>
-						<prop key="enrole.platform.contextFactory">com.ibm.itim.apps.impl.websphere.WebSpherePlatformContextFactory</prop>
+	<bean id="requestManager4Test" class="com.ibm.tivoli.pim.service.SimpleRequestManagerImpl">
+	</bean>
+	<!-- 
+  <bean id="requestManager4WAS" class="com.ibm.tivoli.pim.service.RequestManagerImpl" lazy-init="true">
+    <property name="pimAccountProfileName" value="PIMProfileAccount" />
+    <property name="platformContext">
+      <bean class="com.ibm.itim.apps.InitialPlatformContext">
+        <constructor-arg>
+          <props>
+            <prop key="enrole.platform.contextFactory">com.ibm.itim.apps.impl.websphere.WebSpherePlatformContextFactory</prop>
             <prop key="enrole.appServer.url">iiop://iam:2809</prop>
             <prop key="enrole.appServer.ejbuser.principal">administrator</prop>
             <prop key="enrole.appServer.ejbuser.credentials">smartway</prop>
-					</props>
-				</constructor-arg>
-			</bean>
-		</property>
-	</bean>
+          </props>
+        </constructor-arg>
+      </bean>
+    </property>
+  </bean>
+   -->
+  <alias name="requestManager4Test" alias="requestManager"/>
 	<jaxws:endpoint id="requestManagerService" implementor="#requestManager"
 		address="/requestManager" serviceName="RequestManager" />
 
