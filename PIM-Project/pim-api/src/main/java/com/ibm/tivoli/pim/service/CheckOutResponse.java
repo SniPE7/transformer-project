@@ -3,12 +3,15 @@
  */
 package com.ibm.tivoli.pim.service;
 
+import javax.xml.bind.annotation.XmlType;
+
 import com.ibm.tivoli.pim.entity.BaseResponse;
 
 /**
  * @author zhaodonglu
  *
  */
+@XmlType(namespace="http://CheckOutResponse.entity.pim.tivoli.ibm.com")
 public class CheckOutResponse extends BaseResponse {
 
   /**
@@ -16,6 +19,10 @@ public class CheckOutResponse extends BaseResponse {
    */
   public CheckOutResponse() {
     super();
+  }
+
+  public CheckOutResponse(String code) {
+    super(code);
   }
 
   /**

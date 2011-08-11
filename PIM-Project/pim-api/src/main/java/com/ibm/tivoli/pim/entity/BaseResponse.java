@@ -1,11 +1,14 @@
 package com.ibm.tivoli.pim.entity;
 
+import java.util.Date;
+
 public abstract class BaseResponse {
   public static final String CODE_SUCCESS = "success";
   public static final String CODE_FAILURE = "failure";
 
   private String code = CODE_SUCCESS;
   private String cause = null;
+  private Date timestamp = new Date();
 
   protected BaseResponse() {
     super();
@@ -17,7 +20,7 @@ public abstract class BaseResponse {
     this.cause = cause;
   }
 
-  public BaseResponse(String code) {
+  protected BaseResponse(String code) {
     super();
     this.code = code;
   }
@@ -48,6 +51,20 @@ public abstract class BaseResponse {
    */
   public void setCause(String cause) {
     this.cause = cause;
+  }
+
+  /**
+   * @return the timestamp
+   */
+  public Date getTimestamp() {
+    return timestamp;
+  }
+
+  /**
+   * @param timestamp the timestamp to set
+   */
+  public void setTimestamp(Date timestamp) {
+    this.timestamp = timestamp;
   }
 
 }

@@ -6,6 +6,7 @@ package com.ibm.tivoli.pim.service;
 import java.util.List;
 
 import javax.jws.WebMethod;
+import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
 
@@ -21,10 +22,10 @@ public interface BackEndService {
 
   @WebMethod(operationName = "checkIn")
   @WebResult(name="checkInResp")
-  public abstract CheckInResponse checkIn(AccountRequest request);
+  public abstract CheckInResponse checkIn(@WebParam(name = "request")AccountRequest request);
 
   @WebMethod(operationName = "checkOut")
   @WebResult(name="checkOutResp")
-  public abstract CheckOutResponse checkOut(AccountRequest request);
+  public abstract CheckOutResponse checkOut(@WebParam(name = "request")AccountRequest request);
 
 }
