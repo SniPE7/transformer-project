@@ -234,7 +234,7 @@ public class RequestManagerImpl implements RequestManager, PlatformContextAware 
    * .User, java.lang.String)
    */
   public RejectReponse reject(User rejector, String requestId, String comment) {
-    String status = ActivityResult.APPROVED;
+    String status = ActivityResult.REJECTED;
     try {
       Subject subject = this.getSubject(this.getPlatformContext(), rejector.getUsername(), rejector.getPassword());
       WorkflowManager wfm = new WorkflowManager(this.platformContext, subject);
