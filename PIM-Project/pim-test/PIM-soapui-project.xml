@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project name="PIM" resourceRoot="" soapui-version="3.6.1" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="BackendServiceSoapBinding" type="wsdl" bindingName="{http://www.springframework.org/schema/beans}BackendServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://9.115.71.230:9080/pim/services/soap/backendService?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://9.115.71.230:9080/pim/services/soap/backendService?wsdl"><con:part><con:url>http://9.115.71.230:9080/pim/services/soap/backendService?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="BackendService" targetNamespace="http://www.springframework.org/schema/beans" xmlns:ns1="http://backendservice.pim.tivoli.ibm.com/" xmlns:ns2="http://cxf.apache.org/bindings/xformat" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.springframework.org/schema/beans" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:import location="http://9.115.71.230:9080/pim/services/soap/backendService?wsdl=BackEndService.wsdl" namespace="http://backendservice.pim.tivoli.ibm.com/"></wsdl:import>
+  <wsdl:binding name="BackendServiceSoapBinding" type="ns1:BackEndService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="checkIn">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="checkIn">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="checkInResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkOut">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="checkOut">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="checkOutResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="BackendService">
+    <wsdl:port binding="tns:BackendServiceSoapBinding" name="SimpleBackEndServiceImplPort">
+      <soap:address location="http://9.115.71.230:9080/pim/services/soap/backendService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>http://9.115.71.230:9080/pim/services/soap/backendService?wsdl=BackEndService.wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="BackEndService" targetNamespace="http://backendservice.pim.tivoli.ibm.com/" xmlns:ns1="http://backendservice.pim.tivoli.ibm.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://CheckInResponse.entity.pim.tivoli.ibm.com" xmlns="http://CheckInResponse.entity.pim.tivoli.ibm.com" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://backendservice.pim.tivoli.ibm.com/"/>
+      <xs:complexType name="checkInResponse">
+        <xs:complexContent>
+          <xs:extension base="ns1:baseResponse">
+            <xs:sequence/>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+    </xs:schema>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://CheckOutResponse.entity.pim.tivoli.ibm.com" xmlns="http://CheckOutResponse.entity.pim.tivoli.ibm.com" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://backendservice.pim.tivoli.ibm.com/"/>
+      <xs:complexType name="checkOutResponse">
+        <xs:complexContent>
+          <xs:extension base="ns1:baseResponse">
+            <xs:sequence/>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+    </xs:schema>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://backendservice.pim.tivoli.ibm.com/" xmlns:ns1="http://CheckInResponse.entity.pim.tivoli.ibm.com" xmlns:ns2="http://CheckOutResponse.entity.pim.tivoli.ibm.com" xmlns:tns="http://backendservice.pim.tivoli.ibm.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://CheckInResponse.entity.pim.tivoli.ibm.com"/>
+      <xs:import namespace="http://CheckOutResponse.entity.pim.tivoli.ibm.com"/>
+      <xs:element name="checkIn" type="tns:checkIn"/>
+      <xs:element name="checkInResponse" type="tns:checkInResponse"/>
+      <xs:element name="checkOut" type="tns:checkOut"/>
+      <xs:element name="checkOutResponse" type="tns:checkOutResponse"/>
+      <xs:complexType name="checkIn">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="request" type="tns:accountRequest"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="accountRequest">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="account" type="tns:pimAccount"/>
+          <xs:element minOccurs="0" name="id" type="xs:string"/>
+          <xs:element minOccurs="0" name="pimServiceName" type="xs:string"/>
+          <xs:element minOccurs="0" name="requester" type="tns:user"/>
+          <xs:element minOccurs="0" name="service" type="tns:service"/>
+          <xs:element minOccurs="0" name="timeRange" type="tns:timeRange"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="pimAccount">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="username" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="user">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="password" type="xs:string"/>
+          <xs:element minOccurs="0" name="username" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="service">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="description" type="xs:string"/>
+          <xs:element minOccurs="0" name="name" type="xs:string"/>
+          <xs:element minOccurs="0" name="profileName" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="timeRange">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="beginTime" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="endTime" type="xs:dateTime"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="checkInResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="checkInResp" type="ns1:checkInResponse"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType abstract="true" name="baseResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="cause" type="xs:string"/>
+          <xs:element minOccurs="0" name="code" type="xs:string"/>
+          <xs:element minOccurs="0" name="timestamp" type="xs:dateTime"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="checkOut">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="request" type="tns:accountRequest"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="checkOutResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="checkOutResp" type="ns2:checkOutResponse"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="checkIn">
+    <wsdl:part element="ns1:checkIn" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="checkOutResponse">
+    <wsdl:part element="ns1:checkOutResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="checkOut">
+    <wsdl:part element="ns1:checkOut" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="checkInResponse">
+    <wsdl:part element="ns1:checkInResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="BackEndService">
+    <wsdl:operation name="checkIn">
+      <wsdl:input message="ns1:checkIn" name="checkIn"></wsdl:input>
+      <wsdl:output message="ns1:checkInResponse" name="checkInResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkOut">
+      <wsdl:input message="ns1:checkOut" name="checkOut"></wsdl:input>
+      <wsdl:output message="ns1:checkOutResponse" name="checkOutResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://9.115.71.230:9080/pim/services/soap/backendService</con:endpoint></con:endpoints><con:operation isOneWay="false" action="" name="checkIn" bindingOperationName="checkIn" type="Request-Response" outputName="checkInResponse" inputName="checkIn" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://9.115.71.230:9080/pim/services/soap/backendService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:bac="http://backendservice.pim.tivoli.ibm.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <bac:checkIn>
+         <request>
+           <account>
+               <!--Target service account uid:-->
+               <username>root</username>
+            </account>
+            <!--Optional:-->
+            <pimServiceName>?</pimServiceName>
+            <requester>
+                <!--Request TIM userid:-->
+               <username>abc</username>
+            </requester>
+            <!--Target service info:-->
+            <service>
+               <!--pimAccountTargetServiceProfileName:-->
+               <profileName>AIX-10.1.1.1</profileName>
+            </service>
+            <timeRange>
+               <!--Optional:-->
+               <beginTime>2011-08-11T19:00:42.188+08:00</beginTime>
+               <!--Optional:-->
+               <endTime>2011-08-19T19:00:42.188+08:00</endTime>
+            </timeRange>
+         </request>
+      </bac:checkIn>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.springframework.org/schema/beans/BackEndService/checkIn"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="" name="checkOut" bindingOperationName="checkOut" type="Request-Response" outputName="checkOutResponse" inputName="checkOut" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://9.115.71.230:9080/pim/services/soap/backendService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:bac="http://backendservice.pim.tivoli.ibm.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <bac:checkOut>
+         <request>
+           <account>
+               <!--Target service account uid:-->
+               <username>root</username>
+            </account>
+            <!--Optional:-->
+            <pimServiceName>?</pimServiceName>
+            <requester>
+                <!--Request TIM userid:-->
+               <username>abc</username>
+            </requester>
+            <!--Target service info:-->
+            <service>
+               <!--pimAccountTargetServiceProfileName:-->
+               <profileName>AIX-10.1.1.1</profileName>
+            </service>
+          </request>
+     </bac:checkOut>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.springframework.org/schema/beans/BackEndService/checkOut"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:endpointStrategy xsi:type="con:DefaultEndpointStrategy" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:endpoint mode="COMPLEMENT" username="wasadmin" password="passw0rd">http://9.115.71.230:9080/pim/services/soap/backendService</con:endpoint></con:endpointStrategy><con:properties/><con:wssContainer/></con:soapui-project>
