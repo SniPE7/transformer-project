@@ -33,9 +33,14 @@ public class RequestManagerTest extends TestCase {
 
     // get OS properties
     String contextFactory = "com.ibm.itim.apps.impl.websphere.WebSpherePlatformContextFactory";
-    String appServerUrl = "iiop://iam:2809";
-    String ejbUser = "administrator";
-    String ejbPswd = "smartway";
+//    String appServerUrl = "iiop://iam:2809";
+//    String ejbUser = "administrator";
+//    String ejbPswd = "smartway";
+//    String itimUser = "itim manager";
+//    String itimPswd = "smartway";
+    String appServerUrl = "iiop://9.115.71.230:2809";
+    String ejbUser = "wasadmin";
+    String ejbPswd = "passw0rd";
     String itimUser = "itim manager";
     String itimPswd = "smartway";
 
@@ -82,8 +87,8 @@ public class RequestManagerTest extends TestCase {
   public void testSubmit() throws Exception {
     AccountRequest req = new AccountRequest();
     req.setAccount(new PIMAccount("root"));
-    req.setPimServiceName("PIMServer1");
-    req.setRequester(new User("bbbbb", "passw0rd"));
+    req.setPimServiceName("PIM4LinuxServers");
+    req.setRequester(new User("test1", "passw0rd"));
     //req.setRequester(new User("aaaaaaa", "passw0rd"));
     req.setService(new Service("", ""));
     req.setTimeRange(new TimeRange(new Date(), new Date()));
