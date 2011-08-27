@@ -5,8 +5,12 @@
 		<title>jQuery UI Example Page</title>
 		<link type="text/css" href="css/ui-lightness/jquery-ui-1.8.14.custom.css" rel="stylesheet" />	
 		<script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
+        <script type="text/javascript" src="js/jquery-calendar.js"></script>
 		<script type="text/javascript" src="js/jquery-ui-1.8.14.custom.min.js"></script>
-		<script type="text/javascript">
+        
+		<link rel="stylesheet" type="text/css" href="css/ui-lightness/jquery-ui-1.8.14.custom.css">
+        <link rel="stylesheet" type="text/css" href="css/jquery-calendar.css">
+	<script type="text/javascript">
 			$(function(){
 
 				// Accordion
@@ -30,6 +34,11 @@
 					}
 				});
 				
+		// Date & TIME Picker
+		$(document).ready(function (){ 
+				$(".calendarFocus").calendar();
+				//$(".calendarFocus").click(function(){alert(popUpCal.parseDate($('.calendarFocus').val()))});
+			});
 				// Dialog Link
 				$('#dialog_link').click(function(){
 					$('#dialog').dialog('open');
@@ -62,7 +71,11 @@
 		</script>
 		<style type="text/css">
 			/*demo page css*/
-			body{ font: 62.5% "Trebuchet MS", sans-serif; margin: 50px;}
+			body{
+	font: 62.5% "Trebuchet MS", sans-serif;
+	margin: 50px;
+	font-size: 12px;
+}
 			.demoHeaders { margin-top: 2em; }
 			#dialog_link {padding: .4em 1em .4em 20px;text-decoration: none;position: relative;}
 			#dialog_link span.ui-icon {margin: 0 5px 0 0;position: absolute;left: .2em;top: 50%;margin-top: -8px;}
@@ -70,7 +83,7 @@
 			ul#icons li {margin: 2px; position: relative; padding: 4px 0; cursor: pointer; float: left;  list-style: none;}
 			ul#icons span.ui-icon {float: left; margin: 0 4px;}
 		</style>	
-	</head>
+</head>
 	<body>
 	<h1>Hello test1, Welcome to PIM Center!	</h1>
 	<h1>The following are your Application recoder:</h1>
@@ -175,9 +188,9 @@
           </select>
 	   </td>
 	    <td align="center" valign="middle" class="itemdesc" id="task1_proj2"><label>
-          <input name="textfield" type="text" id="textfield" value="20110202 15:00:00">
+          <input name="textfield" type="text" id="calendar1" value="20110202 15:00:00" class="calendarFocus">
         </label></td>
-	    <td align="center" valign="middle" class="itemdesc" id="task1_status2"><input name="textfield2" type="text" id="textfield2" value="20110203 06:30:00"></td>
+	    <td align="center" valign="middle" class="itemdesc" id="task1_status2"><input name="textfield2" type="text" id="textfield2" value="20110203 06:30:00" class="calendarFocus"></td>
 	    <td align="center" valign="middle" class="itemdesc" id="task1_status2"><label>
 	      <textarea name="textarea" id="textarea" cols="45" rows="3"></textarea>
 	      </label></td>
@@ -193,9 +206,9 @@
 	        <option value="oracle">oracle</option>
           </select></td>
 	    <td align="center" valign="middle" class="itemdesc" id="task1_proj2"><label>
-	      <input name="textfield" type="text" id="textfield" value="20110202 15:00:00">
+	      <input name="textfield" type="text" id="textfield" value="20110202 15:00:00" class="calendarFocus">
 	      </label></td>
-	    <td align="center" valign="middle" class="itemdesc" id="task1_status2"><input name="textfield2" type="text" id="textfield2" value="20110203 06:30:00"></td>
+	    <td align="center" valign="middle" class="itemdesc" id="task1_status2"><input name="textfield2" type="text" id="textfield2" value="20110203 06:30:00" class="calendarFocus"></td>
 	    <td align="center" valign="middle" class="itemdesc" id="task1_status2"><textarea name="textarea2" id="textarea2" cols="45" rows="3"></textarea></td>
 	    <td align="center" valign="middle" class="itemdesc" id="task1_status2">Delete</td>
       </tr>
