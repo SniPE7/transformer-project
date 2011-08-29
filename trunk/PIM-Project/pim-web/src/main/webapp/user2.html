@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=GB2312" />
+		<title>PIM-UserUI</title>
+		<script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
+        <script type="text/javascript" src="js/jquery-calendar.js"></script>
+		<script type="text/javascript" src="js/jquery-ui-1.8.14.custom.min.js"></script>
+        
+		<link rel="stylesheet" type="text/css" href="css/ui-lightness/jquery-ui-1.8.14.custom.css">
+        <link rel="stylesheet" type="text/css" href="css/jquery-calendar.css">
+		
+		<style type="text/css">
+			body { margin: 50px;	font-size: 12px;}
+			span.button {
+	text-decoration: underline;
+	cursor: pointer;
+			}
+        select.targetlist {
+	height: 180px;
+	width: 600px;
+}
+        textarea.targetdesc {
+	height: 180px;
+	width: 300px;
+}
+        </style>	
+        
+		<script type="text/javascript">
+			$(function(){
+
+				// Set the Date and Time dailog
+				$(".calendarFocus").calendar();
+				$("#newreqeust").hide(); // Hide the new request main forms.
+							
+				$("#newr").click( function () { 
+					if($(this).text()=="New PIM Request")
+					{
+						$("#newreqeust").show();
+						$(this).text("Hide PIM Request");
+					}else{
+						$("#newreqeust").hide();
+						$(this).text("New PIM Request");
+					}
+				
+				});
+
+				
+				//$(".calendarFocus").click(function(){alert(popUpCal.parseDate($('.calendarFocus').val()))});
+			});
+
+		</script>
+
+	</head>
+	
+	<body>
+    <!-- Welcome Page -->
+    <div id="Welcompart">
+		<h1>Hello test1, Welcome to PIM Center!	[<a href="">LOGOUT</a>]</h1>
+		<h1>The following are your Application recoder: [<span class="button">&lt;</span> 
+			<span class="button">&lt;&lt;</span> 
+			<span class="button">&gt;&gt;</span> 
+			<span class="button">&gt;</span> 
+			Page:<input name="cols" type="text" size="2" id="calendar1" value="1"> 
+			<span class="button">Go</span> 
+			]  <span class="button">Refresh</span>  </h1>
+    </div>
+    
+    <!-- Welcome Page -->
+    <div id="recoders">
+		<table width="100%" border="0" cellpadding="1" cellspacing="1" bordercolor="#FFFFFF" bgcolor="#FFFFFF" id="historyrecs">
+		  <tr bgcolor="#0099CC" class="taskheader itemnumber">
+			<td width="8%" align="center" valign="middle">Proccess ID</td>
+			<td width="13%" align="center" valign="middle">Account Infomation</td>
+			<td width="9%" align="center" valign="middle">Start TIME</td>
+			<td width="11%" align="center" valign="middle">End TIME</td>
+			<td width="29%" align="center" valign="middle">Reason</td>
+			<td width="6%" align="center" valign="middle">Requestor</td>
+			<td width="6%" align="center" valign="middle">Approver</td>
+			<td width="7%" align="center" valign="middle">Status</td>
+			<td width="11%" align="center" valign="middle">Acction</td>
+		  </tr>
+		  <tr class="taskitem" id="task1">
+			<td align="center" valign="middle" class="itemnumber" id="task1_number"> 201101081234567</td>
+			<td align="center" valign="middle" class="itemdesc" id="task1_desc">AIX_HE_192.168.9.120:oracle</td>
+			<td align="center" valign="middle" class="itemdesc" id="task1_proj">20110202 15:00:00</td>
+			<td align="center" valign="middle" class="itemdesc" id="task1_status">20110203 06:30:00</td>
+			<td align="center" valign="middle" class="itemdesc" id="task1_date">Oracle Admin Monthly Maintance</td>
+			<td align="center" valign="middle" class="itemdesc" id="task1_date">test1</td>
+			<td align="center" valign="middle" class="itemdesc" id="task1_date"><a href="">admin1</a></td>
+			<td align="center" valign="middle" class="itemdesc" id="task1_date">Finish</td>
+			<td align="center" valign="middle" class="itemdesc" id="task1_com">&nbsp;</td>
+		  </tr>
+		  <tr class="taskitem">
+			<td align="center" valign="middle" class="itemnumber">201108081234569</td>
+			<td align="center" valign="middle" class="itemdesc">AIX_HE_192.168.9.120:oracle</td>
+			<td align="center" valign="middle" class="itemdesc">20110809 15:00:00</td>
+			<td align="center" valign="middle" class="itemdesc">20110810 06:30:00</td>
+			<td align="center" valign="middle" class="itemdesc">Oracle Admin Monthly Maintance</td>
+			<td align="center" valign="middle" class="itemdesc">test1</td>
+			<td align="center" valign="middle" class="itemdesc"><a href="">admin1</a></td>
+			<td align="center" valign="middle" class="itemdesc">Using</td>
+			<td align="center" valign="middle" class="itemdesc"><a href="""">Finish</a></td>
+		  </tr>
+		  <tr class="taskitem">
+			<td align="center" valign="middle" class="itemnumber">201109081234568</td>
+			<td align="center" valign="middle" class="itemdesc">Linux_HE_192.168.9.122:root	    </td>
+			<td align="center" valign="middle" class="itemdesc">20110809 15:00:00</td>
+			<td align="center" valign="middle" class="itemdesc">20110810 06:30:00</td>
+			<td align="center" valign="middle" class="itemdesc">Hosts Table Mantaince and restart Apache Server<br></td>
+			<td align="center" valign="middle" class="itemdesc">test1</td>
+			<td align="center" valign="middle" class="itemdesc"><a href="">linuxadmin</a></td>
+			<td align="center" valign="middle" class="itemdesc">Pending</td>
+			<td align="center" valign="middle" class="itemdesc"><a href="""">Cancle</a> <a href="""">ReNotice</a></td>
+		  </tr>
+		  <tr class="taskitem">
+			<td align="center" valign="middle" class="itemnumber")>201109081234567</td>
+			<td align="center" valign="middle" class="itemdesc">Linux_HE_192.168.9.122:root </td>
+			<td align="center" valign="middle" class="itemdesc">20110809 15:00:00</td>
+			<td align="center" valign="middle" class="itemdesc">20110810 06:30:00</td>
+			<td align="center" valign="middle" class="itemdesc">Hosts Table Mantaince and restart Apache Server<br></td>
+			<td align="center" valign="middle" class="itemdesc">test1</td>
+			<td align="center" valign="middle" class="itemdesc">system</td>
+			<td align="center" valign="middle" class="itemdesc">Audto Cancled</td>
+			<td align="center" valign="middle" class="itemdesc">&nbsp;</td>
+		  </tr>
+		</table>
+		<h1><span id="newr" class="button">New PIM Request</span></h1>
+    </div>
+    
+	
+    <!-- NEW REQUEST PART -->
+	<div id="newreqeust">
+	<!-- New Request Main form -->
+		<div id="mainform">
+			<form action="" id="MainForm" name="MainForm" method="post">
+				<select multiple id="mainlist" class="targetlist">
+				  <option>Please chose your target Host and Time Space</option>
+				</select>
+			  <input type="submit" name="add5" id="add5" value="Delete">
+				<textarea name="textarea2" id="textarea2" cols="45" rows="10" class="targetdesc">AIX Agent Update,B2 FP5安装,变更号码: 9899887</textarea>
+				<input type="submit" name="add6" id="add6" value="Submit">
+			</form>
+		</div>
+		
+		<P></P>
+		<div id="selections">
+		<form action="" id="selection" name="selection" method="post">
+		Any Account/IP/Hostname or  * for ALL  <input name="textfield4" type="text" id="textfield4" value="root"> 
+			From    <input name="calendar" type="text" id="calendar1" value="20110202 15:00:00" class="calendarFocus">
+			TO		<input name="textfield3" type="text" id="textfield3" value="20110203 06:30:00" class="calendarFocus">
+					<input type="checkbox" name="checkbox2" id="checkbox2">Any Status. 
+					<input type="submit" name="button" id="button" value="Submit">
+		</form>
+		</div>
+		
+		<!-- Selection result -->
+		<div id="selectionret">
+
+			<table width="100%" border="0" cellpadding="1" cellspacing="1" bordercolor="#FFFFFF" bgcolor="#FFFFFF">
+			  <tr bgcolor="#0099CC" class="taskheader itemnumber">
+				<td width="30%" align="center" valign="middle">Account Infomation</td>
+				<td width="16%" align="center" valign="middle">Start TIME</td>
+				<td width="21%" align="center" valign="middle">End TIME</td>
+				<td width="33%" align="center" valign="middle">Action Or Status</td>
+			  </tr>
+			  <tr class="taskitem" id="task2">
+				<td align="right" valign="middle" class="itemdesc" id="task1_desc2">root@AIX_HE_192.168.9.120</td>
+				<td align="center" valign="middle" class="itemdesc" id="task1_proj2"><input name="textfield5" type="text" id="textfield5" value="20110202 15:00:00" class="calendarFocus"></td>
+				<td align="center" valign="middle" class="itemdesc" id="task1_status2"><input name="textfield7" type="text" id="textfield7" value="20110203 06:30:00" class="calendarFocus"></td>
+				<td align="center" valign="middle" class="itemdesc" id="task1_status2"><label>
+				  <input type="submit" name="add" id="add" value="Add">
+				</label></td>
+			  </tr>
+			  <tr class="taskitem">
+				<td align="right" valign="middle" class="itemdesc" id="task1_desc2">oracle@AIX_HE_192.168.9.120</td>
+				<td align="center" valign="middle" class="itemdesc" id="task1_proj2"><input name="textfield6" type="text" id="textfield6" value="20110202 15:00:00" class="calendarFocus"></td>
+				<td align="center" valign="middle" class="itemdesc" id="task1_status2"><input name="textfield2" type="text" id="textfield2" value="20110203 06:30:00" class="calendarFocus"></td>
+				<td align="center" valign="middle" class="itemdesc" id="task1_status2">Somebody Has Take up</td>
+			  </tr>
+			  <tr class="taskitem">
+				<td align="right" valign="middle" class="itemdesc" id="task1_desc2">db2inst1@AIX_HE_192.168.9.120</td>
+				<td align="center" valign="middle" class="itemdesc" id="task1_proj2"><label>
+				  <input name="textfield" type="text" id="textfield" value="20110202 15:00:00">
+				  </label></td>
+				<td align="center" valign="middle" class="itemdesc" id="task1_status2"><input name="textfield2" type="text" id="textfield2" value="20110203 06:30:00"></td>
+				<td align="center" valign="middle" class="itemdesc" id="task1_status2"><input type="submit" name="add2" id="add2" value="Add"></td>
+			  </tr>
+			  <tr class="taskitem">
+				<td align="right" valign="middle" class="itemdesc" id="task1_desc2">root@AIX_HE_192.168.9.120</td>
+				<td align="center" valign="middle" class="itemdesc" id="task1_proj2"><label>
+				  <input name="textfield" type="text" id="textfield" value="20110202 15:00:00">
+				  </label></td>
+				<td align="center" valign="middle" class="itemdesc" id="task1_status2"><input name="textfield2" type="text" id="textfield2" value="20110203 06:30:00"></td>
+				<td align="center" valign="middle" class="itemdesc" id="task1_status2"><input type="submit" name="add3" id="add3" value="Add"></td>
+			  </tr>
+			</table>
+		</div>
+		
+	</div>  <!-- END NEWREQUEST-->
+	</body>
+</html>
+
+
