@@ -11,19 +11,10 @@
         <link rel="stylesheet" type="text/css" href="css/jquery-calendar.css">
 		
 		<style type="text/css">
-			body { margin: 50px;	font-size: 12px;}
-			span.button {
-	text-decoration: underline;
-	cursor: pointer;
-			}
-        select.targetlist {
-	height: 180px;
-	width: 600px;
-}
-        textarea.targetdesc {
-	height: 180px;
-	width: 300px;
-}
+			body 				{	margin: 50px;	font-size: 12px;}
+			span.button 		{	text-decoration: underline;	cursor: pointer;}
+			select.targetlist 	{	height: 180px;	width: 600px;}
+			textarea.targetdesc {	height: 180px;	width: 300px;}
         </style>	
         
 		<script type="text/javascript">
@@ -66,83 +57,79 @@
 			]  <span class="button">Refresh</span>  </h1>
     </div>
     
-    <!-- Welcome Page -->
-    <div id="recoders">
-		<table width="100%" border="0" cellpadding="1" cellspacing="1" bordercolor="#FFFFFF" bgcolor="#FFFFFF" id="historyrecs">
-		  <tr bgcolor="#0099CC" class="taskheader itemnumber">
-			<td width="8%" align="center" valign="middle">Proccess ID</td>
-			<td width="13%" align="center" valign="middle">Account Infomation</td>
-			<td width="9%" align="center" valign="middle">Start TIME</td>
-			<td width="11%" align="center" valign="middle">End TIME</td>
-			<td width="29%" align="center" valign="middle">Reason</td>
-			<td width="6%" align="center" valign="middle">Requestor</td>
-			<td width="6%" align="center" valign="middle">Approver</td>
-			<td width="7%" align="center" valign="middle">Status</td>
-			<td width="11%" align="center" valign="middle">Acction</td>
-		  </tr>
-		  <tr class="taskitem" id="task1">
-			<td align="center" valign="middle" class="itemnumber" id="task1_number"> 201101081234567</td>
-			<td align="center" valign="middle" class="itemdesc" id="task1_desc">AIX_HE_192.168.9.120:oracle</td>
-			<td align="center" valign="middle" class="itemdesc" id="task1_proj">20110202 15:00:00</td>
-			<td align="center" valign="middle" class="itemdesc" id="task1_status">20110203 06:30:00</td>
-			<td align="center" valign="middle" class="itemdesc" id="task1_date">Oracle Admin Monthly Maintance</td>
-			<td align="center" valign="middle" class="itemdesc" id="task1_date">test1</td>
-			<td align="center" valign="middle" class="itemdesc" id="task1_date"><a href="">admin1</a></td>
-			<td align="center" valign="middle" class="itemdesc" id="task1_date">Finish</td>
-			<td align="center" valign="middle" class="itemdesc" id="task1_com">&nbsp;</td>
-		  </tr>
-		  <tr class="taskitem">
-			<td align="center" valign="middle" class="itemnumber">201108081234569</td>
-			<td align="center" valign="middle" class="itemdesc">AIX_HE_192.168.9.120:oracle</td>
-			<td align="center" valign="middle" class="itemdesc">20110809 15:00:00</td>
-			<td align="center" valign="middle" class="itemdesc">20110810 06:30:00</td>
-			<td align="center" valign="middle" class="itemdesc">Oracle Admin Monthly Maintance</td>
-			<td align="center" valign="middle" class="itemdesc">test1</td>
-			<td align="center" valign="middle" class="itemdesc"><a href="">admin1</a></td>
-			<td align="center" valign="middle" class="itemdesc">Using</td>
-			<td align="center" valign="middle" class="itemdesc"><a href="""">Finish</a></td>
-		  </tr>
-		  <tr class="taskitem">
-			<td align="center" valign="middle" class="itemnumber">201109081234568</td>
-			<td align="center" valign="middle" class="itemdesc">Linux_HE_192.168.9.122:root	    </td>
-			<td align="center" valign="middle" class="itemdesc">20110809 15:00:00</td>
-			<td align="center" valign="middle" class="itemdesc">20110810 06:30:00</td>
-			<td align="center" valign="middle" class="itemdesc">Hosts Table Mantaince and restart Apache Server<br></td>
-			<td align="center" valign="middle" class="itemdesc">test1</td>
-			<td align="center" valign="middle" class="itemdesc"><a href="">linuxadmin</a></td>
-			<td align="center" valign="middle" class="itemdesc">Pending</td>
-			<td align="center" valign="middle" class="itemdesc"><a href="""">Cancle</a> <a href="""">ReNotice</a></td>
-		  </tr>
-		  <tr class="taskitem">
-			<td align="center" valign="middle" class="itemnumber")>201109081234567</td>
-			<td align="center" valign="middle" class="itemdesc">Linux_HE_192.168.9.122:root </td>
-			<td align="center" valign="middle" class="itemdesc">20110809 15:00:00</td>
-			<td align="center" valign="middle" class="itemdesc">20110810 06:30:00</td>
-			<td align="center" valign="middle" class="itemdesc">Hosts Table Mantaince and restart Apache Server<br></td>
-			<td align="center" valign="middle" class="itemdesc">test1</td>
-			<td align="center" valign="middle" class="itemdesc">system</td>
-			<td align="center" valign="middle" class="itemdesc">Audto Cancled</td>
-			<td align="center" valign="middle" class="itemdesc">&nbsp;</td>
-		  </tr>
-		</table>
-		<h1><span id="newr" class="button">New PIM Request</span></h1>
-    </div>
-    
+    <!-- Welcome Page END -->
+	
+	<!-- HISTORY PAGE -->
+    <div id="historys"></div>
+	
+	<script type="text/javascript">
+		var servers="";
+		
+        $.ajax({
+        url:'recoder.xml',
+        type: 'GET',
+        dataType: 'xml',//这里可以不写，但千万别写text或者html!!!
+        timeout: 1000,
+        error: function(xml){
+            alert('Error loading XML document'+xml);
+        },
+        success: function(xml){
+			var htmlData = '<table width="100%" border="0" cellpadding="1" cellspacing="1" id="historyrecs">';
+			htmlData+= '<tr bgcolor="#0099CC" class="taskheader itemnumber">';
+			htmlData+= '<td width="8%" align="center" valign="middle">Proccess ID</td>';
+			htmlData+= '<td width="13%" align="center" valign="middle">Account Infomation</td>';
+			htmlData+= '<td width="12%" align="center" valign="middle">Start TIME</td>';
+			htmlData+= '<td width="12%" align="center" valign="middle">End TIME</td>';
+			htmlData+= '<td width="29%" align="center" valign="middle">Reason</td>';
+			htmlData+= '<td width="6%" align="center" valign="middle">Requestor</td>';
+			htmlData+= '<td width="6%" align="center" valign="middle">Approver</td>';
+			htmlData+= '<td width="7%" align="center" valign="middle">Status</td>';
+			htmlData+= '<td width="9%" align="center" valign="middle">Acction</td>';
+			htmlData+= '</tr>';
+			
+            $(xml).find("serverlist").each(function(i){
+				var serverlist = $(this);
+				
+				htmlData+= '<tr bgcolor="#EE99CC">';
+				htmlData+= '<td>'+serverlist.children("ProccessID").text()+'</td>';
+				htmlData+= '<td>'+serverlist.children("AccountID").text()+'</td>';
+				htmlData+= '<td>'+serverlist.children("StartTime").text()+'</td>';
+				htmlData+= '<td>'+serverlist.children("EndTime").text()+'</td>';
+				htmlData+= '<td>'+serverlist.children("Reason").text()+'</td>';
+				htmlData+= '<td>'+serverlist.children("Requestor").text()+'</td>';
+				htmlData+= '<td>'+serverlist.children("Approver").text()+'</td>';
+				htmlData+= '<td>'+serverlist.children("Acction").text()+'</td>';
+				htmlData+= '<td>Acction</td>';
+				htmlData+= '</tr>';
+            });
+						
+						
+			htmlData+= '</talbe>';
+			$("#historys").append(htmlData);
+        }
+		});
+	</script>
+	
+	<h1><span id="newr" class="button">New PIM Request</span></h1>
 	
     <!-- NEW REQUEST PART -->
 	<div id="newreqeust">
-	<!-- New Request Main form -->
+		
+		<!-- New Request Main form -->
 		<div id="mainform">
 			<form action="" id="MainForm" name="MainForm" method="post">
 				<select multiple id="mainlist" class="targetlist">
 				  <option>Please chose your target Host and Time Space</option>
 				</select>
-			  <input type="submit" name="add5" id="add5" value="Delete">
+				<input type="submit" name="add5" id="add5" value="Delete">
 				<textarea name="textarea2" id="textarea2" cols="45" rows="10" class="targetdesc">AIX Agent Update,B2 FP5安装,变更号码: 9899887</textarea>
 				<input type="submit" name="add6" id="add6" value="Submit">
 			</form>
 		</div>
+		<!-- New Request Main form END -->
 		
+		
+		<!-- Search Part --> 
 		<P></P>
 		<div id="selections">
 		<form action="" id="selection" name="selection" method="post">
@@ -153,6 +140,8 @@
 					<input type="submit" name="button" id="button" value="Submit">
 		</form>
 		</div>
+		<P></P>
+		<!-- Search Part END --> 
 		
 		<!-- Selection result -->
 		<div id="selectionret">
@@ -196,8 +185,8 @@
 			  </tr>
 			</table>
 		</div>
-		
 	</div>  <!-- END NEWREQUEST-->
+	
 	</body>
 </html>
 
