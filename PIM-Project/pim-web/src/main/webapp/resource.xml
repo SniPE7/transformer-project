@@ -4,8 +4,8 @@
 		<AccountID>AIX_HE_192.168.9.120:oracle</AccountID>
 		<StartTime>20110202 15:00:00</StartTime>
 		<EndTime>20110203 06:30:00</EndTime>
-		<Requestor></Requestor>
-		<Approver></Approver>
+		<Requestor>ABC</Requestor>
+		<Approver>TEST</Approver>
 		<Status>Finish</Status>
 		<Acction></Acction>
 	</resource>
@@ -13,9 +13,9 @@
 		<AccountID>AIX_HE_192.168.9.120:oracle</AccountID>
 		<StartTime>20110202 15:00:00</StartTime>
 		<EndTime>20110203 06:30:00</EndTime>
-		<Requestor></Requestor>
-		<Approver></Approver>
-		<Status>Finish</Status>
+		<Requestor>abc</Requestor>
+		<Approver>Test</Approver>
+		<Status>Using</Status>
 		<Acction></Acction>
 	</resource>
 	<resource>

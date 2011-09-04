@@ -2,7 +2,7 @@
 <serverlists>
 	<serverlist>
 		<ProccessID>201101081234567</ProccessID>
-		<AccountID>AIX_HE_192.168.9.120:oracle</AccountID>
+		<AccountID>oracle@AIX_HE_192.168.9.120</AccountID>
 		<StartTime>20110202 15:00:00</StartTime>
 		<EndTime>20110203 06:30:00</EndTime>
 		<Reason>Oracle Admin Monthly Maintance</Reason>
@@ -13,7 +13,7 @@
 	</serverlist>
 	<serverlist>
 		<ProccessID>201101081234567</ProccessID>
-		<AccountID>AIX_HE_192.168.9.121:oracle</AccountID>
+		<AccountID>root@AIX_HE_192.168.9.121</AccountID>
 		<StartTime>20110202 15:00:00 GMT</StartTime>
 		<EndTime>20110203 06:30:00 GMT</EndTime>
 		<Reason>Oracle Admin Monthly Maintance</Reason>
