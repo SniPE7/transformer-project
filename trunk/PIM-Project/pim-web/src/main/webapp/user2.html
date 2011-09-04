@@ -22,8 +22,7 @@
 
 				// Set the Date and Time dailog
 				$(".calendarFocus").calendar();
-				$("#newreqeust").hide(); // Hide the new request main forms.
-							
+				$("#newreqeust").hide(); // Hide the new request main forms.				
 				$("#newr").click( function () { 
 					if($(this).text()=="New PIM Request")
 					{
@@ -34,6 +33,56 @@
 						$(this).text("New PIM Request");
 					}
 				
+				});
+				
+				
+				// Query submit. to search the service name and private account.
+				
+				$('#selection').submit(function() {
+					$.ajax({
+						url:'resource.xml',
+						type: 'GET',
+						dataType: 'xml',//这里可以不写，但千万别写text或者html!!!
+						timeout: 1000,
+						error: function(xml){
+							alert('Error loading XML document'+xml);
+						},
+						success: function(xml){
+							var htmlData = '<table width="100%" border="0" cellpadding="1" cellspacing="1" id="serverpim">';
+							htmlData+= '<tr bgcolor="#0099CC">';
+							htmlData+= '<td width="30%">Account Infomation</td>';
+							htmlData+= '<td width="16%">Start TIME</td>';
+							htmlData+= '<td width="21%">End TIME</td>';
+							htmlData+= '<td width="33%">Action Or Status</td>';
+							htmlData+= '</tr>';
+														
+							$(xml).find("resource").each(function(i){
+								var serverlist = $(this);
+								var serveraccout = serverlist.children("AccountID").text();
+								var requestor = serverlist.children("Requestor").text();
+								var approver = serverlist.children("Approver").text();
+								var status = serverlist.children("status").text();
+
+																
+								htmlData+= '<tr bgcolor="#BB99CC">';
+								htmlData+= '<td>'+serverlist.children("AccountID").text()+'</td>';
+								htmlData+= '<td>'+serverlist.children("StartTime").text()+'</td>';
+								htmlData+= '<td>'+serverlist.children("EndTime").text()+'</td>';
+								if(status.toLowerCase()!="finish")
+								{
+									htmlData+= '<td>'+requestor+' Has Occupted.</td>';
+								}else{
+								  
+									htmlData+= '<td><input type="button" name="button" id="add'+serveraccout+'" value="add"></td>';
+								}
+								htmlData+= '</tr>';
+							});
+							htmlData+= '</talbe>';
+							$("#selectionret").empty();
+							$("#selectionret").append(htmlData);
+						}
+					});
+					return false;
 				});
 
 				
@@ -66,47 +115,45 @@
 		var servers="";
 		
         $.ajax({
-        url:'recoder.xml',
-        type: 'GET',
-        dataType: 'xml',//这里可以不写，但千万别写text或者html!!!
-        timeout: 1000,
-        error: function(xml){
-            alert('Error loading XML document'+xml);
-        },
-        success: function(xml){
-			var htmlData = '<table width="100%" border="0" cellpadding="1" cellspacing="1" id="historyrecs">';
-			htmlData+= '<tr bgcolor="#0099CC" class="taskheader itemnumber">';
-			htmlData+= '<td width="8%" align="center" valign="middle">Proccess ID</td>';
-			htmlData+= '<td width="13%" align="center" valign="middle">Account Infomation</td>';
-			htmlData+= '<td width="12%" align="center" valign="middle">Start TIME</td>';
-			htmlData+= '<td width="12%" align="center" valign="middle">End TIME</td>';
-			htmlData+= '<td width="29%" align="center" valign="middle">Reason</td>';
-			htmlData+= '<td width="6%" align="center" valign="middle">Requestor</td>';
-			htmlData+= '<td width="6%" align="center" valign="middle">Approver</td>';
-			htmlData+= '<td width="7%" align="center" valign="middle">Status</td>';
-			htmlData+= '<td width="9%" align="center" valign="middle">Acction</td>';
-			htmlData+= '</tr>';
-			
-            $(xml).find("serverlist").each(function(i){
-				var serverlist = $(this);
-				
-				htmlData+= '<tr bgcolor="#EE99CC">';
-				htmlData+= '<td>'+serverlist.children("ProccessID").text()+'</td>';
-				htmlData+= '<td>'+serverlist.children("AccountID").text()+'</td>';
-				htmlData+= '<td>'+serverlist.children("StartTime").text()+'</td>';
-				htmlData+= '<td>'+serverlist.children("EndTime").text()+'</td>';
-				htmlData+= '<td>'+serverlist.children("Reason").text()+'</td>';
-				htmlData+= '<td>'+serverlist.children("Requestor").text()+'</td>';
-				htmlData+= '<td>'+serverlist.children("Approver").text()+'</td>';
-				htmlData+= '<td>'+serverlist.children("Acction").text()+'</td>';
-				htmlData+= '<td>Acction</td>';
+			url:'recoder.xml',
+			type: 'GET',
+			dataType: 'xml',//这里可以不写，但千万别写text或者html!!!
+			timeout: 1000,
+			error: function(xml){
+				alert('Error loading XML document'+xml);
+			},
+			success: function(xml){
+				var htmlData = '<table width="100%" border="0" cellpadding="1" cellspacing="1" id="historyrecs">';
+				htmlData+= '<tr bgcolor="#0099CC" class="taskheader itemnumber">';
+				htmlData+= '<td width="8%" align="center" valign="middle">Proccess ID</td>';
+				htmlData+= '<td width="13%" align="center" valign="middle">Account Infomation</td>';
+				htmlData+= '<td width="12%" align="center" valign="middle">Start TIME</td>';
+				htmlData+= '<td width="12%" align="center" valign="middle">End TIME</td>';
+				htmlData+= '<td width="29%" align="center" valign="middle">Reason</td>';
+				htmlData+= '<td width="6%" align="center" valign="middle">Requestor</td>';
+				htmlData+= '<td width="6%" align="center" valign="middle">Approver</td>';
+				htmlData+= '<td width="7%" align="center" valign="middle">Status</td>';
+				htmlData+= '<td width="9%" align="center" valign="middle">Acction</td>';
 				htmlData+= '</tr>';
-            });
-						
-						
-			htmlData+= '</talbe>';
-			$("#historys").append(htmlData);
-        }
+				
+				$(xml).find("serverlist").each(function(i){
+					var serverlist = $(this);
+					
+					htmlData+= '<tr bgcolor="#EE99CC">';
+					htmlData+= '<td>'+serverlist.children("ProccessID").text()+'</td>';
+					htmlData+= '<td>'+serverlist.children("AccountID").text()+'</td>';
+					htmlData+= '<td>'+serverlist.children("StartTime").text()+'</td>';
+					htmlData+= '<td>'+serverlist.children("EndTime").text()+'</td>';
+					htmlData+= '<td>'+serverlist.children("Reason").text()+'</td>';
+					htmlData+= '<td>'+serverlist.children("Requestor").text()+'</td>';
+					htmlData+= '<td>'+serverlist.children("Approver").text()+'</td>';
+					htmlData+= '<td>'+serverlist.children("Acction").text()+'</td>';
+					htmlData+= '<td>Acction</td>';
+					htmlData+= '</tr>';
+				});
+				htmlData+= '</talbe>';
+				$("#historys").append(htmlData);
+			}
 		});
 	</script>
 	
@@ -133,59 +180,25 @@
 		<P></P>
 		<div id="selections">
 		<form action="" id="selection" name="selection" method="post">
-		Any Account/IP/Hostname or  * for ALL  <input name="textfield4" type="text" id="textfield4" value="root"> 
-			From    <input name="calendar" type="text" id="calendar1" value="20110202 15:00:00" class="calendarFocus">
-			TO		<input name="textfield3" type="text" id="textfield3" value="20110203 06:30:00" class="calendarFocus">
-					<input type="checkbox" name="checkbox2" id="checkbox2">Any Status. 
-					<input type="submit" name="button" id="button" value="Submit">
+		Any Account/IP/Hostname or  * for ALL  
+					<input type="text" name="qureystr" id="qureystr" value=""> 
+			From    <input type="text" name="fromtime" id="fromtime" value="" class="calendarFocus">
+			TO		<input type="text" name="totime" id="totime" value="" class="calendarFocus">
+					<input type="checkbox" name="status" id="status">Any Status. 
+					<input type="submit" name="querysubmit" id="querysubmit" value="Query">
 		</form>
 		</div>
 		<P></P>
 		<!-- Search Part END --> 
-		
+	
+	
 		<!-- Selection result -->
-		<div id="selectionret">
+		<div id="selectionret"></div>
 
-			<table width="100%" border="0" cellpadding="1" cellspacing="1" bordercolor="#FFFFFF" bgcolor="#FFFFFF">
-			  <tr bgcolor="#0099CC" class="taskheader itemnumber">
-				<td width="30%" align="center" valign="middle">Account Infomation</td>
-				<td width="16%" align="center" valign="middle">Start TIME</td>
-				<td width="21%" align="center" valign="middle">End TIME</td>
-				<td width="33%" align="center" valign="middle">Action Or Status</td>
-			  </tr>
-			  <tr class="taskitem" id="task2">
-				<td align="right" valign="middle" class="itemdesc" id="task1_desc2">root@AIX_HE_192.168.9.120</td>
-				<td align="center" valign="middle" class="itemdesc" id="task1_proj2"><input name="textfield5" type="text" id="textfield5" value="20110202 15:00:00" class="calendarFocus"></td>
-				<td align="center" valign="middle" class="itemdesc" id="task1_status2"><input name="textfield7" type="text" id="textfield7" value="20110203 06:30:00" class="calendarFocus"></td>
-				<td align="center" valign="middle" class="itemdesc" id="task1_status2"><label>
-				  <input type="submit" name="add" id="add" value="Add">
-				</label></td>
-			  </tr>
-			  <tr class="taskitem">
-				<td align="right" valign="middle" class="itemdesc" id="task1_desc2">oracle@AIX_HE_192.168.9.120</td>
-				<td align="center" valign="middle" class="itemdesc" id="task1_proj2"><input name="textfield6" type="text" id="textfield6" value="20110202 15:00:00" class="calendarFocus"></td>
-				<td align="center" valign="middle" class="itemdesc" id="task1_status2"><input name="textfield2" type="text" id="textfield2" value="20110203 06:30:00" class="calendarFocus"></td>
-				<td align="center" valign="middle" class="itemdesc" id="task1_status2">Somebody Has Take up</td>
-			  </tr>
-			  <tr class="taskitem">
-				<td align="right" valign="middle" class="itemdesc" id="task1_desc2">db2inst1@AIX_HE_192.168.9.120</td>
-				<td align="center" valign="middle" class="itemdesc" id="task1_proj2"><label>
-				  <input name="textfield" type="text" id="textfield" value="20110202 15:00:00">
-				  </label></td>
-				<td align="center" valign="middle" class="itemdesc" id="task1_status2"><input name="textfield2" type="text" id="textfield2" value="20110203 06:30:00"></td>
-				<td align="center" valign="middle" class="itemdesc" id="task1_status2"><input type="submit" name="add2" id="add2" value="Add"></td>
-			  </tr>
-			  <tr class="taskitem">
-				<td align="right" valign="middle" class="itemdesc" id="task1_desc2">root@AIX_HE_192.168.9.120</td>
-				<td align="center" valign="middle" class="itemdesc" id="task1_proj2"><label>
-				  <input name="textfield" type="text" id="textfield" value="20110202 15:00:00">
-				  </label></td>
-				<td align="center" valign="middle" class="itemdesc" id="task1_status2"><input name="textfield2" type="text" id="textfield2" value="20110203 06:30:00"></td>
-				<td align="center" valign="middle" class="itemdesc" id="task1_status2"><input type="submit" name="add3" id="add3" value="Add"></td>
-			  </tr>
-			</table>
-		</div>
+
+	
 	</div>  <!-- END NEWREQUEST-->
+
 	
 	</body>
 </html>
