@@ -58,8 +58,8 @@ public class RequestManagerImpl implements RequestManager, PlatformContextAware 
   // private Subject subject = null;
 
   /**
-   * Name of the profile (NTAccount, Exchange Account, etc.) identifying the
-   * type of this account as listed in Configuration > Entities within the IBM
+   * Name of the profile identifying the
+   * type of PIM account as listed in Configuration > Entities within the IBM
    * Tivoli Idenitity Manager UI.
    */
   private String pimAccountProfileName = "PIMProfileAccount";
