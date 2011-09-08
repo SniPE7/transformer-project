@@ -92,8 +92,8 @@ public class ResetPasswordScheduleTaskTest extends TestCase {
     task.setOrgDN("ou=jke, DC=ITIM");
     //task.setPimAccountProfileName("PIMAdapterProfile");
     //task.setNameOfService("PIMServer1");
-    task.setPimAccountProfileName("PosixHpuxProfile");
-    task.setNameOfService("HPUX Service");
+    task.setPimAccountProfileName("PIMAdapterProfile");
+    task.setNameOfService("PIMService1");
     task.setPlatformContext(this.platformContext);
     task.setSubject(this.getSubject(this.platformContext, itimUser, itimPswd));
     

@@ -141,7 +141,8 @@ public class RequestManagerImpl implements RequestManager, PlatformContextAware 
       account.addAttribute(new AttributeValue("pimAccountBeginTime", request.getTimeRange().getBeginTime()));
       account.addAttribute(new AttributeValue("pimAccountEndTime", request.getTimeRange().getBeginTime()));
       // Set target service
-      account.addAttribute(new AttributeValue("pimAccountTargetServiceProfileName", request.getService().getProfileName()));
+      //account.addAttribute(new AttributeValue("pimAccountTargetServiceType", ""));
+      account.addAttribute(new AttributeValue("pimAccountTargetServiceName", request.getService().getProfileName()));
 
       log.info("Submit PIM Request: [" + request + "]");
       Request timReq = accountManager.createAccount(personMO, serviceMO, account, new Date());
