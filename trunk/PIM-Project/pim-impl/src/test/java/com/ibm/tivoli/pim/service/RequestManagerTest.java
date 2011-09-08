@@ -33,14 +33,9 @@ public class RequestManagerTest extends TestCase {
 
     // get OS properties
     String contextFactory = "com.ibm.itim.apps.impl.websphere.WebSpherePlatformContextFactory";
-//    String appServerUrl = "iiop://iam:2809";
-//    String ejbUser = "administrator";
-//    String ejbPswd = "smartway";
-//    String itimUser = "itim manager";
-//    String itimPswd = "smartway";
-    String appServerUrl = "iiop://9.115.71.230:2809";
-    String ejbUser = "wasadmin";
-    String ejbPswd = "passw0rd";
+    String appServerUrl = "iiop://iam:2809";
+    String ejbUser = "administrator";
+    String ejbPswd = "smartway";
     String itimUser = "itim manager";
     String itimPswd = "smartway";
 
@@ -87,8 +82,8 @@ public class RequestManagerTest extends TestCase {
   public void testSubmit() throws Exception {
     AccountRequest req = new AccountRequest();
     req.setAccount(new PIMAccount("root"));
-    req.setPimServiceName("PIM4LinuxServers");
-    req.setRequester(new User("test1", "passw0rd"));
+    req.setPimServiceName("PIMServer1");
+    req.setRequester(new User("bbbbb", "passw0rd"));
     //req.setRequester(new User("aaaaaaa", "passw0rd"));
     req.setService(new Service("", ""));
     req.setTimeRange(new TimeRange(new Date(), new Date()));
@@ -105,6 +100,30 @@ public class RequestManagerTest extends TestCase {
   public void testApproval() throws Exception {
     User approver = new User("itim manager", "smartway");
     RequestManagerImpl rm = new RequestManagerImpl();
+    rm.setPlatformContext(this.platformContext);
+    rm.setPimAccountProfileName("PIMProfileAccount");
+    
+    rm.approval(approver, "8358946509918800095", "approval comment");
+  }
+  
+  public void testSubmitAndAproval() throws Exception {
+    AccountRequest req = new AccountRequest();
+    req.setAccount(new PIMAccount("root"));
+    req.setPimServiceName("PIMServer1");
+    req.setRequester(new User("bbbbb", "passw0rd"));
+    //req.setRequester(new User("aaaaaaa", "passw0rd"));
+    req.setService(new Service("", ""));
+    req.setTimeRange(new TimeRange(new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis() + 3600 * 1000)));
+
+    RequestManagerImpl rm = new RequestManagerImpl();
+    rm.setPlatformContext(this.platformContext);
+    rm.setPimAccountProfileName("PIMProfileAccount");
+    
+    SubmitResponse resp = rm.submit(req);
+    assertEquals("Success", resp.getCode());
+    assertNotNull(resp.getRequestId());
+
+    User approver = new User("itim manager", "smartway");
     rm.setPlatformContext(this.platformContext);
     rm.setPimAccountProfileName("PIMProfileAccount");
     
