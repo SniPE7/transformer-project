@@ -81,11 +81,11 @@ public class RequestManagerTest extends TestCase {
   
   public void testSubmit() throws Exception {
     AccountRequest req = new AccountRequest();
-    req.setAccount(new PIMAccount("root"));
-    req.setPimServiceName("PIMServer1");
+    req.setAccount(new PIMAccount("jhill"));
+    req.setPimServiceName("PIMService1");
     req.setRequester(new User("bbbbb", "passw0rd"));
     //req.setRequester(new User("aaaaaaa", "passw0rd"));
-    req.setService(new Service("", ""));
+    req.setService(new Service("ADprofile", "JKE Active Directory"));
     req.setTimeRange(new TimeRange(new Date(), new Date()));
 
     RequestManagerImpl rm = new RequestManagerImpl();
