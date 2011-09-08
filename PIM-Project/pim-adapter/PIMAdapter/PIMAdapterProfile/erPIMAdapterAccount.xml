@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page>
+  <body>
+    <form action="formvalidator0">
+      <formElement direction="inherit" label="$eruid" name="data.eruid">
+        <input name="data.eruid" size="50" type="text"></input>
+        <constraint>
+          <type>required</type>
+          <parameter>true</parameter>
+        </constraint>
+      </formElement>
+      <formElement direction="inherit" label="$erpassword" name="data.erpassword">
+        <input name="data.erpassword" size="50" type="password"></input>
+      </formElement>
+      <formElement direction="inherit" label="$eraccountstatus" name="data.eraccountstatus">
+        <input name="data.eraccountstatus" size="50" type="text"></input>
+      </formElement>
+      <formElement direction="inherit" label="$pimaccountbegintime" name="data.pimaccountbegintime">
+        <input name="data.pimaccountbegintime" size="50" type="text"></input>
+      </formElement>
+      <formElement direction="inherit" label="$pimaccountendtime" name="data.pimaccountendtime">
+        <input name="data.pimaccountendtime" size="50" type="text"></input>
+      </formElement>
+      <formElement direction="inherit" label="$pimaccountlastnotifiedtime" name="data.pimaccountlastnotifiedtime">
+        <input name="data.pimaccountlastnotifiedtime" size="50" type="text"></input>
+      </formElement>
+      <formElement direction="inherit" label="$pimaccounttargetservicename" name="data.pimaccounttargetservicename">
+        <input name="data.pimaccounttargetservicename" size="50" type="text"></input>
+      </formElement>
+      <formElement direction="inherit" label="$pimaccounttargetservicetype" name="data.pimaccounttargetservicetype">
+        <input name="data.pimaccounttargetservicetype" size="50" type="text"></input>
+      </formElement>
+      <formElement direction="inherit" label="$pimaccounttargetuid" name="data.pimaccounttargetuid">
+        <input name="data.pimaccounttargetuid" size="50" type="text"></input>
+      </formElement>
+    </form>
+  </body>
+</page>

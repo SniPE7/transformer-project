@@ -1,0 +1,2115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AdapterFactoryProject ADTVersion="2.1" TDIVersion="6.1.1" format="RMI" name="PIMAdapter">
+  <Value><![CDATA[]]></Value>
+  <Folder name="ITIM Profile">
+    <Value><![CDATA[]]></Value>
+    <ObjectClass name="erPIMAdapterAccount" type="account">
+      <Value><![CDATA[]]></Value>
+      <ObjectClassAttribute name="eruid">
+        <Value><![CDATA[]]></Value>
+        <ReadOnly>true</ReadOnly>
+        <Required>true</Required>
+        <Custom>false</Custom>
+        <FormIndex>1000</FormIndex>
+        <FormLabel></FormLabel>
+        <DefaultValue></DefaultValue>
+      </ObjectClassAttribute>
+      <ObjectClassAttribute name="erpassword">
+        <Value><![CDATA[]]></Value>
+        <ReadOnly>true</ReadOnly>
+        <Required>false</Required>
+        <Custom>false</Custom>
+        <FormIndex>1000</FormIndex>
+        <FormLabel></FormLabel>
+        <DefaultValue></DefaultValue>
+      </ObjectClassAttribute>
+      <ObjectClassAttribute name="eraccountstatus">
+        <Value><![CDATA[]]></Value>
+        <ReadOnly>true</ReadOnly>
+        <Required>false</Required>
+        <Custom>false</Custom>
+        <FormIndex>1000</FormIndex>
+        <FormLabel></FormLabel>
+        <DefaultValue></DefaultValue>
+      </ObjectClassAttribute>
+      <ObjectClassAttribute name="pimAccountBeginTime">
+        <Value><![CDATA[]]></Value>
+        <ReadOnly>false</ReadOnly>
+        <Required>false</Required>
+        <Custom>true</Custom>
+        <FormIndex>1000</FormIndex>
+        <FormLabel></FormLabel>
+        <DefaultValue></DefaultValue>
+      </ObjectClassAttribute>
+      <ObjectClassAttribute name="pimAccountEndTime">
+        <Value><![CDATA[]]></Value>
+        <ReadOnly>false</ReadOnly>
+        <Required>false</Required>
+        <Custom>true</Custom>
+        <FormIndex>1000</FormIndex>
+        <FormLabel></FormLabel>
+        <DefaultValue></DefaultValue>
+      </ObjectClassAttribute>
+      <ObjectClassAttribute name="pimAccountLastNotifiedTime">
+        <Value><![CDATA[]]></Value>
+        <ReadOnly>false</ReadOnly>
+        <Required>false</Required>
+        <Custom>true</Custom>
+        <FormIndex>1000</FormIndex>
+        <FormLabel></FormLabel>
+        <DefaultValue></DefaultValue>
+      </ObjectClassAttribute>
+      <ObjectClassAttribute name="pimAccountTargetServiceName">
+        <Value><![CDATA[]]></Value>
+        <ReadOnly>false</ReadOnly>
+        <Required>false</Required>
+        <Custom>true</Custom>
+        <FormIndex>1000</FormIndex>
+        <FormLabel></FormLabel>
+        <DefaultValue></DefaultValue>
+      </ObjectClassAttribute>
+      <ObjectClassAttribute name="pimAccountTargetServiceType">
+        <Value><![CDATA[]]></Value>
+        <ReadOnly>false</ReadOnly>
+        <Required>false</Required>
+        <Custom>true</Custom>
+        <FormIndex>1000</FormIndex>
+        <FormLabel></FormLabel>
+        <DefaultValue></DefaultValue>
+      </ObjectClassAttribute>
+      <ObjectClassAttribute name="pimAccountTargetUID">
+        <Value><![CDATA[]]></Value>
+        <ReadOnly>false</ReadOnly>
+        <Required>false</Required>
+        <Custom>true</Custom>
+        <FormIndex>1000</FormIndex>
+        <FormLabel></FormLabel>
+        <DefaultValue></DefaultValue>
+      </ObjectClassAttribute>
+      <OID>erPIMAdapterAccount-OID</OID>
+      <SuperClass>top</SuperClass>
+      <Description><![CDATA[]]></Description>
+    </ObjectClass>
+    <ObjectClass name="erPIMAdapterService" type="service">
+      <Value><![CDATA[]]></Value>
+      <ObjectClassAttribute name="erservicename">
+        <Value><![CDATA[]]></Value>
+        <ReadOnly>true</ReadOnly>
+        <Required>true</Required>
+        <Custom>false</Custom>
+        <FormIndex>1000</FormIndex>
+        <FormLabel></FormLabel>
+        <DefaultValue></DefaultValue>
+      </ObjectClassAttribute>
+      <ObjectClassAttribute name="eritdiurl">
+        <Value><![CDATA[]]></Value>
+        <ReadOnly>true</ReadOnly>
+        <Required>false</Required>
+        <Custom>false</Custom>
+        <FormIndex>1000</FormIndex>
+        <FormLabel></FormLabel>
+        <DefaultValue></DefaultValue>
+      </ObjectClassAttribute>
+      <ObjectClassAttribute name="erServiceUid">
+        <Value><![CDATA[]]></Value>
+        <ReadOnly>false</ReadOnly>
+        <Required>false</Required>
+        <Custom>false</Custom>
+        <FormIndex>1000</FormIndex>
+        <FormLabel></FormLabel>
+        <DefaultValue></DefaultValue>
+      </ObjectClassAttribute>
+      <ObjectClassAttribute name="erServicePassword">
+        <Value><![CDATA[]]></Value>
+        <ReadOnly>false</ReadOnly>
+        <Required>false</Required>
+        <Custom>false</Custom>
+        <FormIndex>1000</FormIndex>
+        <FormLabel></FormLabel>
+        <DefaultValue></DefaultValue>
+      </ObjectClassAttribute>
+      <ObjectClassAttribute name="pimServiceTargetAccounts">
+        <Value><![CDATA[]]></Value>
+        <ReadOnly>false</ReadOnly>
+        <Required>false</Required>
+        <Custom>true</Custom>
+        <FormIndex>1000</FormIndex>
+        <FormLabel></FormLabel>
+        <DefaultValue></DefaultValue>
+      </ObjectClassAttribute>
+      <OID>erPIMAdapterService-OID</OID>
+      <SuperClass>top</SuperClass>
+      <Description><![CDATA[]]></Description>
+    </ObjectClass>
+    <CustomAttributeList name="Custom Attributes" type="custom">
+      <Value><![CDATA[]]></Value>
+      <Attribute name="pimAccountBeginTime">
+        <Value><![CDATA[]]></Value>
+        <Required>false</Required>
+        <Create>false</Create>
+        <SingleValue>false</SingleValue>
+        <ReadOnly>false</ReadOnly>
+        <AlwaysInclude>false</AlwaysInclude>
+        <Label>PIM Begin Time</Label>
+        <Syntax>1.3.6.1.4.1.1466.115.121.1.53</Syntax>
+        <OID>pimAccountBeginTime-OID</OID>
+        <Description><![CDATA[]]></Description>
+      </Attribute>
+      <Attribute name="pimAccountEndTime">
+        <Value><![CDATA[]]></Value>
+        <Required>false</Required>
+        <Create>false</Create>
+        <SingleValue>false</SingleValue>
+        <ReadOnly>false</ReadOnly>
+        <AlwaysInclude>false</AlwaysInclude>
+        <Label>PIM End Time</Label>
+        <Syntax>1.3.6.1.4.1.1466.115.121.1.53</Syntax>
+        <OID>pimAccountEndTime-OID</OID>
+        <Description><![CDATA[]]></Description>
+      </Attribute>
+      <Attribute name="pimAccountTargetServiceType">
+        <Value><![CDATA[]]></Value>
+        <Required>false</Required>
+        <Create>false</Create>
+        <SingleValue>false</SingleValue>
+        <ReadOnly>false</ReadOnly>
+        <AlwaysInclude>false</AlwaysInclude>
+        <Label>Service Type</Label>
+        <Syntax>1.3.6.1.4.1.1466.115.121.1.15</Syntax>
+        <OID>pimAccountTargetServiceType-OID</OID>
+        <Description><![CDATA[]]></Description>
+      </Attribute>
+      <Attribute name="pimAccountTargetServiceName">
+        <Value><![CDATA[]]></Value>
+        <Required>false</Required>
+        <Create>false</Create>
+        <SingleValue>false</SingleValue>
+        <ReadOnly>false</ReadOnly>
+        <AlwaysInclude>false</AlwaysInclude>
+        <Label>Service Name</Label>
+        <Syntax>1.3.6.1.4.1.1466.115.121.1.15</Syntax>
+        <OID>pimAccountTargetServiceName-OID</OID>
+        <Description><![CDATA[]]></Description>
+      </Attribute>
+      <Attribute name="pimAccountTargetUID">
+        <Value><![CDATA[]]></Value>
+        <Required>false</Required>
+        <Create>false</Create>
+        <SingleValue>false</SingleValue>
+        <ReadOnly>false</ReadOnly>
+        <AlwaysInclude>false</AlwaysInclude>
+        <Label>Target UID</Label>
+        <Syntax>1.3.6.1.4.1.1466.115.121.1.15</Syntax>
+        <OID>pimAccountTargetUID-OID</OID>
+        <Description><![CDATA[]]></Description>
+      </Attribute>
+      <Attribute name="pimAccountLastNotifiedTime">
+        <Value><![CDATA[]]></Value>
+        <Required>false</Required>
+        <Create>false</Create>
+        <SingleValue>false</SingleValue>
+        <ReadOnly>false</ReadOnly>
+        <AlwaysInclude>false</AlwaysInclude>
+        <Label></Label>
+        <Syntax>1.3.6.1.4.1.1466.115.121.1.53</Syntax>
+        <OID>pimAccountLastNotifiedTime-OID</OID>
+        <Description><![CDATA[]]></Description>
+      </Attribute>
+      <Attribute name="pimServiceTargetAccounts">
+        <Value><![CDATA[]]></Value>
+        <Required>false</Required>
+        <Create>false</Create>
+        <SingleValue>false</SingleValue>
+        <ReadOnly>false</ReadOnly>
+        <AlwaysInclude>false</AlwaysInclude>
+        <Label>Target Accounts</Label>
+        <Syntax>1.3.6.1.4.1.1466.115.121.1.15</Syntax>
+        <OID>pimServiceTargetAccounts-OID</OID>
+        <Description><![CDATA[]]></Description>
+      </Attribute>
+      <OID>Custom Attributes-OID</OID>
+      <Description><![CDATA[]]></Description>
+    </CustomAttributeList>
+  </Folder>
+  <Folder name="Supported Requests">
+    <Value><![CDATA[]]></Value>
+    <Request RequestType="0" name="Create New Account">
+      <Value><![CDATA[]]></Value>
+      <KeyAttributesList name="Key Attributes">
+        <Value><![CDATA[]]></Value>
+        <KeyAttribute name="eruid">
+          <Value><![CDATA[]]></Value>
+          <KeySource>0</KeySource>
+        </KeyAttribute>
+      </KeyAttributesList>
+      <Connector name="ibmdi.ScriptConnector">
+        <Value><![CDATA[]]></Value>
+        <Map name="Input Attribute Map">
+          <Value><![CDATA[]]></Value>
+          <Input>True</Input>
+        </Map>
+        <Map name="Output Attribute Map">
+          <Value><![CDATA[]]></Value>
+          <Input>False</Input>
+        </Map>
+        <Schema name="Input Schema">
+          <Value><![CDATA[]]></Value>
+          <input>True</input>
+        </Schema>
+        <Schema name="Output Schema">
+          <Value><![CDATA[]]></Value>
+          <input>False</input>
+        </Schema>
+        <SearchCriteriaList name="Search Criteria">
+          <Value><![CDATA[]]></Value>
+          <Script><![CDATA[// Example: 
+// ret.filter = "uid=" + work.getString("eruid");]]></Script>
+          <Advanced>False</Advanced>
+        </SearchCriteriaList>
+        <ParamList name="Parameters">
+          <Value><![CDATA[]]></Value>
+          <Param name="includePrologs">
+            <Value><![CDATA[]]></Value>
+            <Label>Include Global Scripts</Label>
+            <Description><![CDATA[Include selected scripts from the Script Library]]></Description>
+            <Syntax>textarea</Syntax>
+            <Originalvalue><![CDATA[]]></Originalvalue>
+            <DefaultValue><![CDATA[]]></DefaultValue>
+            <AllowedValues><![CDATA[]]></AllowedValues>
+          </Param>
+        </ParamList>
+        <HooksList name="Hooks">
+          <Value><![CDATA[]]></Value>
+          <Hook name="initialize_fail">
+            <Value><![CDATA[]]></Value>
+            <Script><![CDATA[task.logmsg("DEBUG","Initialize Fail Hook");
+var work = system.newEntry();
+
+processError();]]></Script>
+            <Enabled>true</Enabled>
+          </Hook>
+          <Hook name="addonly_ok">
+            <Value><![CDATA[]]></Value>
+            <Script><![CDATA[task.logmsg("DEBUG","AddOnly OK Hook");
+work.removeAllAttributes();
+work.setProperty(Packages.com.ibm.di.dispatcher.Defs.STATUSCODE, new Packages.java.lang.Integer(
+    Packages.com.ibm.itim.remoteservices.provider.Status.SUCCESSFUL));]]></Script>
+            <Enabled>true</Enabled>
+          </Hook>
+          <Hook name="addonly_fail">
+            <Value><![CDATA[]]></Value>
+            <Script><![CDATA[task.logmsg("DEBUG","AddOnly Fail Hook");
+processError();]]></Script>
+            <Enabled>true</Enabled>
+          </Hook>
+          <Hook name="default_fail">
+            <Value><![CDATA[]]></Value>
+            <Script><![CDATA[task.logmsg("DEBUG","Default Fail Hook");
+
+processError();]]></Script>
+            <Enabled>true</Enabled>
+          </Hook>
+        </HooksList>
+        <Order>0</Order>
+        <Label><![CDATA[Add]]></Label>
+        <InheritInputAttributeMap>True</InheritInputAttributeMap>
+        <InheritParameters>True</InheritParameters>
+        <InheritInputSchema>False</InheritInputSchema>
+        <InheritOutputSchema>True</InheritOutputSchema>
+        <InheritOutputAttributeMap>True</InheritOutputAttributeMap>
+        <DebugEnabled>False</DebugEnabled>
+        <Mode>AddOnly</Mode>
+        <State>Enabled</State>
+        <Script><![CDATA[// Sample connector
+// Place initialization code before function declarations
+//
+var counter = 0;
+
+function selectEntries()
+{
+}
+
+function getNextEntry ()
+{
+	if (counter > 100) {
+		result.setStatus (0);
+		result.setMessage ("End of input");
+		return;
+	}
+
+	entry.setAttribute ("counter", counter);
+	counter++;
+}
+
+function putEntry ()
+{
+}
+
+function modEntry ()
+{
+}
+
+function deleteEntry ()
+{
+}
+
+function findEntry ()
+{
+}]]></Script>
+        <Description><![CDATA[Roll your own Connector using scripts]]></Description>
+        <ConnectorType>com.ibm.di.connector.ScriptConnector</ConnectorType>
+        <InitializeOption>0</InitializeOption>
+        <ParserOption>2</ParserOption>
+        <Modes>AddOnly Delete Iterator Lookup Update Delta CallReply Server</Modes>
+        <InheritSearchCriteria>True</InheritSearchCriteria>
+        <ComputeChanges>True</ComputeChanges>
+        <DeltaStrict>True</DeltaStrict>
+        <DeltaBehavior>0</DeltaBehavior>
+        <DeltaConfig name="Delta Config">
+          <Value><![CDATA[]]></Value>
+          <UniqueAttribute></UniqueAttribute>
+          <DeltaDB></DeltaDB>
+          <State>Disabled</State>
+          <DeltaDriver>CloudScape</DeltaDriver>
+          <WhenToCommit>On end of AL cycle</WhenToCommit>
+          <IterateDeletedEntries>false</IterateDeletedEntries>
+          <RemoveDeletedEntries>false</RemoveDeletedEntries>
+          <ReturnUnchangedEntries>false</ReturnUnchangedEntries>
+        </DeltaConfig>
+      </Connector>
+      <ParamList name="Parameters">
+        <Value><![CDATA[]]></Value>
+        <Param name="OperationType">
+          <Value><![CDATA[]]></Value>
+          <DefaultValueSource>Operation</DefaultValueSource>
+          <DefaultValue><![CDATA[operation]]></DefaultValue>
+          <SourceAttribute></SourceAttribute>
+          <ReadOnly>True</ReadOnly>
+        </Param>
+      </ParamList>
+      <OperationsList name="Operations">
+        <Value><![CDATA[]]></Value>
+        <Operation name="Default">
+          <Value><![CDATA[]]></Value>
+          <Map name="Input Attribute Map">
+            <Value><![CDATA[]]></Value>
+            <MapEntry name="$dn">
+              <Value><![CDATA[]]></Value>
+              <Target>$dn</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="eraccountstatus">
+              <Value><![CDATA[]]></Value>
+              <Target>eraccountstatus</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="erpassword">
+              <Value><![CDATA[]]></Value>
+              <Target>erpassword</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="eruid">
+              <Value><![CDATA[]]></Value>
+              <Target>eruid</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountBeginTime">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountBeginTime</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountEndTime">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountEndTime</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountLastNotifiedTime">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountLastNotifiedTime</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountTargetServiceName">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountTargetServiceName</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountTargetServiceType">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountTargetServiceType</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountTargetUID">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountTargetUID</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <Input>True</Input>
+          </Map>
+          <Map name="Output Attribute Map">
+            <Value><![CDATA[]]></Value>
+            <Input>False</Input>
+          </Map>
+          <Schema name="Input Schema">
+            <Value><![CDATA[]]></Value>
+            <SchemaItem name="$dn">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="eraccountstatus">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="erpassword">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="eruid">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountBeginTime">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountEndTime">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountLastNotifiedTime">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountTargetServiceName">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountTargetServiceType">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountTargetUID">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <input>True</input>
+          </Schema>
+          <Schema name="Output Schema">
+            <Value><![CDATA[]]></Value>
+            <input>False</input>
+          </Schema>
+        </Operation>
+      </OperationsList>
+      <LoggerList name="Loggers">
+        <Value><![CDATA[]]></Value>
+      </LoggerList>
+      <Description><![CDATA[]]></Description>
+      <InitScript><![CDATA[]]></InitScript>
+      <InheritParameters>True</InheritParameters>
+      <GenerateInitScript>True</GenerateInitScript>
+    </Request>
+    <Request RequestType="1" name="Modify Existing Account">
+      <Value><![CDATA[]]></Value>
+      <KeyAttributesList name="Key Attributes">
+        <Value><![CDATA[]]></Value>
+        <KeyAttribute name="eruid">
+          <Value><![CDATA[]]></Value>
+          <KeySource>0</KeySource>
+        </KeyAttribute>
+      </KeyAttributesList>
+      <Connector name="ibmdi.ScriptConnector">
+        <Value><![CDATA[]]></Value>
+        <Map name="Input Attribute Map">
+          <Value><![CDATA[]]></Value>
+          <Input>True</Input>
+        </Map>
+        <Map name="Output Attribute Map">
+          <Value><![CDATA[]]></Value>
+          <Input>False</Input>
+        </Map>
+        <Schema name="Input Schema">
+          <Value><![CDATA[]]></Value>
+          <input>True</input>
+        </Schema>
+        <Schema name="Output Schema">
+          <Value><![CDATA[]]></Value>
+          <input>False</input>
+        </Schema>
+        <SearchCriteriaList name="Search Criteria">
+          <Value><![CDATA[]]></Value>
+          <Script><![CDATA[// Example: 
+// ret.filter = "uid=" + work.getString("eruid");]]></Script>
+          <Advanced>False</Advanced>
+        </SearchCriteriaList>
+        <ParamList name="Parameters">
+          <Value><![CDATA[]]></Value>
+          <Param name="includePrologs">
+            <Value><![CDATA[]]></Value>
+            <Label>Include Global Scripts</Label>
+            <Description><![CDATA[Include selected scripts from the Script Library]]></Description>
+            <Syntax>textarea</Syntax>
+            <Originalvalue><![CDATA[]]></Originalvalue>
+            <DefaultValue><![CDATA[]]></DefaultValue>
+            <AllowedValues><![CDATA[]]></AllowedValues>
+          </Param>
+        </ParamList>
+        <HooksList name="Hooks">
+          <Value><![CDATA[]]></Value>
+          <Hook name="initialize_fail">
+            <Value><![CDATA[]]></Value>
+            <Script><![CDATA[task.logmsg("DEBUG","Initialize Fail Hook");
+var work = system.newEntry();
+
+processError();]]></Script>
+            <Enabled>true</Enabled>
+          </Hook>
+          <Hook name="before_execute">
+            <Value><![CDATA[]]></Value>
+            <Script><![CDATA[task.logmsg("DEBUG","Modify Before Excute Hook");
+
+work.setOp(work.OP_MOD);
+
+// Set the erAccountStatus attribute based on the operation type
+if(gOperationType.indexOf("suspend") >= 0) {
+    task.logmsg("DEBUG", "[Before Execute] Operation is suspend");
+    work.setAttribute("erAccountStatus","1");
+}
+else if(gOperationType.indexOf("restore") >= 0) {
+    task.logmsg("DEBUG","[Before Execute] Operation is Restore");
+    work.setAttribute("erAccountStatus","0");
+}
+else if(gOperationType.indexOf("changePassword") >= 0) {
+    task.logmsg("DEBUG","[Before Execute] Operation is Change Password");
+}
+else {
+    task.logmsg("DEBUG","[Before Execute] Operation is modify");
+}]]></Script>
+            <Enabled>true</Enabled>
+          </Hook>
+          <Hook name="before_modify">
+            <Value><![CDATA[]]></Value>
+            <Script><![CDATA[task.logmsg("DEBUG","Before Modify Hook");
+
+// The following will set the proper operation code for attribute values when it is a 
+// replace operation. The ITIM service provider sets the attribute value operation to
+// AttributeValue.AV_UNDEFINED for attribute values being replaced on a modify operation.
+// If the value is a replace (AV_UNDEFINED) then store it as a straight string rather
+// then an AttributeValue object. Some connectors do not like an AV_UNDEFINED code when
+// the attribute value is an AttributeValue object but are ok with a string value and
+// no operation code.
+
+
+// Get the names of all attributes
+var attrnames = conn.getAttributeNames();
+
+// Process each attribute
+for ( i = 0; i < attrnames.length; i++ ) {
+    // Get this attr from the conn entry
+    var attr = conn.getAttribute(attrnames[i]);
+
+    // Remove the current attribute (we will replace it with a completed version)
+    conn.removeAttribute(attr.getName());
+
+    // Create a new attribute
+    var newattr = conn.newAttribute(attr.getName());
+
+    // process each value of this attribute
+    for (j=0;j<attr.size();j++ ) {
+        // add the value to the new copy of the attr
+        newattr.addValue(attr.getValue(j));
+
+        // If the ITIM value operation is not AV_UNDEFINED (-1) then use the
+        // AttributeValue object created in ITIM, it would have an op code or AV_ADD or AV_DELETE
+        // otherwise, leave the value as a string (returned from attr.getValue(j) above)
+        if( attr.getValueOper(j) != -1) {
+            newattr.setValueOper( j,attr.getValueOper(j) );
+        }
+    }
+}]]></Script>
+            <Enabled>true</Enabled>
+          </Hook>
+          <Hook name="override_add">
+            <Value><![CDATA[]]></Value>
+            <Script><![CDATA[task.logmsg("DEBUG","Modify Override Add Hook");
+
+work.removeAllAttributes();
+work.setProperty(Packages.com.ibm.di.dispatcher.Defs.STATUSCODE,
+    Packages.com.ibm.itim.remoteservices.provider.Status.UNSUCCESSFUL);
+
+work.setProperty(Packages.com.ibm.di.dispatcher.Defs.REASONCODE,
+    Packages.com.ibm.itim.remoteservices.provider.Reason.NAME_NOT_FOUND_ERROR);
+
+work.setProperty(Packages.com.ibm.di.dispatcher.Defs.REASON_MESSAGE,
+    Packages.com.ibm.di.dispatcher.DispatcherReasonMessage.ADAPTER_MOD_FAILED);
+
+var v = new Packages.java.util.Vector();
+v.add("Entry not Found Error.");
+work.setProperty(Packages.com.ibm.di.dispatcher.Defs.REASON_MESSAGE_ARGS, v);
+
+task.logmsg("ERROR","User Entry not found");
+
+var e = new Packages.com.ibm.di.exception.ITDIAgentException(work.getString("entryDN") + ": Not Found in managed resource");
+e.setEntry(work);
+throw e;]]></Script>
+            <Enabled>true</Enabled>
+          </Hook>
+          <Hook name="update_ok">
+            <Value><![CDATA[]]></Value>
+            <Script><![CDATA[task.logmsg("DEBUG","Update OK Hook");
+work.removeAllAttributes();
+work.setProperty(Packages.com.ibm.di.dispatcher.Defs.STATUSCODE, new Packages.java.lang.Integer(
+    Packages.com.ibm.itim.remoteservices.provider.Status.SUCCESSFUL));]]></Script>
+            <Enabled>true</Enabled>
+          </Hook>
+          <Hook name="update_fail">
+            <Value><![CDATA[]]></Value>
+            <Script><![CDATA[task.logmsg("DEBUG","Update Fail Hook");
+
+processError();]]></Script>
+            <Enabled>true</Enabled>
+          </Hook>
+          <Hook name="default_fail">
+            <Value><![CDATA[]]></Value>
+            <Script><![CDATA[task.logmsg("DEBUG","Default Fail Hook");
+
+processError();]]></Script>
+            <Enabled>true</Enabled>
+          </Hook>
+        </HooksList>
+        <Order>0</Order>
+        <Label><![CDATA[Modify]]></Label>
+        <InheritInputAttributeMap>True</InheritInputAttributeMap>
+        <InheritParameters>True</InheritParameters>
+        <InheritInputSchema>False</InheritInputSchema>
+        <InheritOutputSchema>True</InheritOutputSchema>
+        <InheritOutputAttributeMap>True</InheritOutputAttributeMap>
+        <DebugEnabled>False</DebugEnabled>
+        <Mode>Update</Mode>
+        <State>Enabled</State>
+        <Script><![CDATA[// Sample connector
+// Place initialization code before function declarations
+//
+var counter = 0;
+
+function selectEntries()
+{
+}
+
+function getNextEntry ()
+{
+	if (counter > 100) {
+		result.setStatus (0);
+		result.setMessage ("End of input");
+		return;
+	}
+
+	entry.setAttribute ("counter", counter);
+	counter++;
+}
+
+function putEntry ()
+{
+}
+
+function modEntry ()
+{
+}
+
+function deleteEntry ()
+{
+}
+
+function findEntry ()
+{
+}]]></Script>
+        <Description><![CDATA[Roll your own Connector using scripts]]></Description>
+        <ConnectorType>com.ibm.di.connector.ScriptConnector</ConnectorType>
+        <InitializeOption>0</InitializeOption>
+        <ParserOption>2</ParserOption>
+        <Modes>AddOnly Delete Iterator Lookup Update Delta CallReply Server</Modes>
+        <InheritSearchCriteria>True</InheritSearchCriteria>
+        <ComputeChanges>True</ComputeChanges>
+        <DeltaStrict>True</DeltaStrict>
+        <DeltaBehavior>0</DeltaBehavior>
+        <DeltaConfig name="Delta Config">
+          <Value><![CDATA[]]></Value>
+          <UniqueAttribute></UniqueAttribute>
+          <DeltaDB></DeltaDB>
+          <State>Disabled</State>
+          <DeltaDriver>CloudScape</DeltaDriver>
+          <WhenToCommit>On end of AL cycle</WhenToCommit>
+          <IterateDeletedEntries>false</IterateDeletedEntries>
+          <RemoveDeletedEntries>false</RemoveDeletedEntries>
+          <ReturnUnchangedEntries>false</ReturnUnchangedEntries>
+        </DeltaConfig>
+      </Connector>
+      <ParamList name="Parameters">
+        <Value><![CDATA[]]></Value>
+        <Param name="OperationType">
+          <Value><![CDATA[]]></Value>
+          <DefaultValueSource>Operation</DefaultValueSource>
+          <DefaultValue><![CDATA[operation]]></DefaultValue>
+          <SourceAttribute></SourceAttribute>
+          <ReadOnly>True</ReadOnly>
+        </Param>
+      </ParamList>
+      <OperationsList name="Operations">
+        <Value><![CDATA[]]></Value>
+        <Operation name="Default">
+          <Value><![CDATA[]]></Value>
+          <Map name="Input Attribute Map">
+            <Value><![CDATA[]]></Value>
+            <MapEntry name="$dn">
+              <Value><![CDATA[]]></Value>
+              <Target>$dn</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="eraccountstatus">
+              <Value><![CDATA[]]></Value>
+              <Target>eraccountstatus</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="erpassword">
+              <Value><![CDATA[]]></Value>
+              <Target>erpassword</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="eruid">
+              <Value><![CDATA[]]></Value>
+              <Target>eruid</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountBeginTime">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountBeginTime</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountEndTime">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountEndTime</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountLastNotifiedTime">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountLastNotifiedTime</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountTargetServiceName">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountTargetServiceName</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountTargetServiceType">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountTargetServiceType</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountTargetUID">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountTargetUID</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <Input>True</Input>
+          </Map>
+          <Map name="Output Attribute Map">
+            <Value><![CDATA[]]></Value>
+            <Input>False</Input>
+          </Map>
+          <Schema name="Input Schema">
+            <Value><![CDATA[]]></Value>
+            <SchemaItem name="$dn">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="eraccountstatus">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="erpassword">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="eruid">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountBeginTime">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountEndTime">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountLastNotifiedTime">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountTargetServiceName">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountTargetServiceType">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountTargetUID">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <input>True</input>
+          </Schema>
+          <Schema name="Output Schema">
+            <Value><![CDATA[]]></Value>
+            <input>False</input>
+          </Schema>
+        </Operation>
+      </OperationsList>
+      <LoggerList name="Loggers">
+        <Value><![CDATA[]]></Value>
+      </LoggerList>
+      <Description><![CDATA[]]></Description>
+      <InitScript><![CDATA[]]></InitScript>
+      <InheritParameters>True</InheritParameters>
+      <GenerateInitScript>True</GenerateInitScript>
+    </Request>
+    <Request RequestType="2" name="Delete an Account">
+      <Value><![CDATA[]]></Value>
+      <KeyAttributesList name="Key Attributes">
+        <Value><![CDATA[]]></Value>
+        <KeyAttribute name="eruid">
+          <Value><![CDATA[]]></Value>
+          <KeySource>0</KeySource>
+        </KeyAttribute>
+      </KeyAttributesList>
+      <Connector name="ibmdi.ScriptConnector">
+        <Value><![CDATA[]]></Value>
+        <Map name="Input Attribute Map">
+          <Value><![CDATA[]]></Value>
+          <Input>True</Input>
+        </Map>
+        <Map name="Output Attribute Map">
+          <Value><![CDATA[]]></Value>
+          <Input>False</Input>
+        </Map>
+        <Schema name="Input Schema">
+          <Value><![CDATA[]]></Value>
+          <input>True</input>
+        </Schema>
+        <Schema name="Output Schema">
+          <Value><![CDATA[]]></Value>
+          <input>False</input>
+        </Schema>
+        <SearchCriteriaList name="Search Criteria">
+          <Value><![CDATA[]]></Value>
+          <Script><![CDATA[// Example: 
+// ret.filter = "uid=" + work.getString("eruid");]]></Script>
+          <Advanced>False</Advanced>
+        </SearchCriteriaList>
+        <ParamList name="Parameters">
+          <Value><![CDATA[]]></Value>
+          <Param name="includePrologs">
+            <Value><![CDATA[]]></Value>
+            <Label>Include Global Scripts</Label>
+            <Description><![CDATA[Include selected scripts from the Script Library]]></Description>
+            <Syntax>textarea</Syntax>
+            <Originalvalue><![CDATA[]]></Originalvalue>
+            <DefaultValue><![CDATA[]]></DefaultValue>
+            <AllowedValues><![CDATA[]]></AllowedValues>
+          </Param>
+        </ParamList>
+        <HooksList name="Hooks">
+          <Value><![CDATA[]]></Value>
+          <Hook name="initialize_fail">
+            <Value><![CDATA[]]></Value>
+            <Script><![CDATA[task.logmsg("DEBUG","Initialize Fail Hook");
+var work = system.newEntry();
+
+processError();]]></Script>
+            <Enabled>true</Enabled>
+          </Hook>
+          <Hook name="delete_ok">
+            <Value><![CDATA[]]></Value>
+            <Script><![CDATA[task.logmsg("DEBUG","Delete OK Hook");
+work.removeAllAttributes();
+work.setProperty(Packages.com.ibm.di.dispatcher.Defs.STATUSCODE, new Packages.java.lang.Integer(
+    Packages.com.ibm.itim.remoteservices.provider.Status.SUCCESSFUL));]]></Script>
+            <Enabled>true</Enabled>
+          </Hook>
+          <Hook name="delete_fail">
+            <Value><![CDATA[]]></Value>
+            <Script><![CDATA[task.logmsg("DEBUG","Delete Fail Hook");
+processError();]]></Script>
+            <Enabled>true</Enabled>
+          </Hook>
+          <Hook name="default_fail">
+            <Value><![CDATA[]]></Value>
+            <Script><![CDATA[task.logmsg("DEBUG","Default Fail Hook");
+
+processError();]]></Script>
+            <Enabled>true</Enabled>
+          </Hook>
+        </HooksList>
+        <Order>0</Order>
+        <Label><![CDATA[Delete]]></Label>
+        <InheritInputAttributeMap>True</InheritInputAttributeMap>
+        <InheritParameters>True</InheritParameters>
+        <InheritInputSchema>True</InheritInputSchema>
+        <InheritOutputSchema>False</InheritOutputSchema>
+        <InheritOutputAttributeMap>True</InheritOutputAttributeMap>
+        <DebugEnabled>False</DebugEnabled>
+        <Mode>Delete</Mode>
+        <State>Enabled</State>
+        <Script><![CDATA[// Sample connector
+// Place initialization code before function declarations
+//
+var counter = 0;
+
+function selectEntries()
+{
+}
+
+function getNextEntry ()
+{
+	if (counter > 100) {
+		result.setStatus (0);
+		result.setMessage ("End of input");
+		return;
+	}
+
+	entry.setAttribute ("counter", counter);
+	counter++;
+}
+
+function putEntry ()
+{
+}
+
+function modEntry ()
+{
+}
+
+function deleteEntry ()
+{
+}
+
+function findEntry ()
+{
+}]]></Script>
+        <Description><![CDATA[Roll your own Connector using scripts]]></Description>
+        <ConnectorType>com.ibm.di.connector.ScriptConnector</ConnectorType>
+        <InitializeOption>0</InitializeOption>
+        <ParserOption>2</ParserOption>
+        <Modes>AddOnly Delete Iterator Lookup Update Delta CallReply Server</Modes>
+        <InheritSearchCriteria>True</InheritSearchCriteria>
+        <ComputeChanges>True</ComputeChanges>
+        <DeltaStrict>True</DeltaStrict>
+        <DeltaBehavior>0</DeltaBehavior>
+        <DeltaConfig name="Delta Config">
+          <Value><![CDATA[]]></Value>
+          <UniqueAttribute></UniqueAttribute>
+          <DeltaDB></DeltaDB>
+          <State>Disabled</State>
+          <DeltaDriver>CloudScape</DeltaDriver>
+          <WhenToCommit>On end of AL cycle</WhenToCommit>
+          <IterateDeletedEntries>false</IterateDeletedEntries>
+          <RemoveDeletedEntries>false</RemoveDeletedEntries>
+          <ReturnUnchangedEntries>false</ReturnUnchangedEntries>
+        </DeltaConfig>
+      </Connector>
+      <ParamList name="Parameters">
+        <Value><![CDATA[]]></Value>
+        <Param name="OperationType">
+          <Value><![CDATA[]]></Value>
+          <DefaultValueSource>Operation</DefaultValueSource>
+          <DefaultValue><![CDATA[operation]]></DefaultValue>
+          <SourceAttribute></SourceAttribute>
+          <ReadOnly>True</ReadOnly>
+        </Param>
+      </ParamList>
+      <OperationsList name="Operations">
+        <Value><![CDATA[]]></Value>
+        <Operation name="Default">
+          <Value><![CDATA[]]></Value>
+          <Map name="Input Attribute Map">
+            <Value><![CDATA[]]></Value>
+            <MapEntry name="$dn">
+              <Value><![CDATA[]]></Value>
+              <Target>$dn</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="eraccountstatus">
+              <Value><![CDATA[]]></Value>
+              <Target>eraccountstatus</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="erpassword">
+              <Value><![CDATA[]]></Value>
+              <Target>erpassword</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="eruid">
+              <Value><![CDATA[]]></Value>
+              <Target>eruid</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountBeginTime">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountBeginTime</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountEndTime">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountEndTime</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountLastNotifiedTime">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountLastNotifiedTime</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountTargetServiceName">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountTargetServiceName</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountTargetServiceType">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountTargetServiceType</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountTargetUID">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountTargetUID</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <Input>True</Input>
+          </Map>
+          <Map name="Output Attribute Map">
+            <Value><![CDATA[]]></Value>
+            <Input>False</Input>
+          </Map>
+          <Schema name="Input Schema">
+            <Value><![CDATA[]]></Value>
+            <SchemaItem name="$dn">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="eraccountstatus">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="erpassword">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="eruid">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountBeginTime">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountEndTime">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountLastNotifiedTime">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountTargetServiceName">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountTargetServiceType">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountTargetUID">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <input>True</input>
+          </Schema>
+          <Schema name="Output Schema">
+            <Value><![CDATA[]]></Value>
+            <input>False</input>
+          </Schema>
+        </Operation>
+      </OperationsList>
+      <LoggerList name="Loggers">
+        <Value><![CDATA[]]></Value>
+      </LoggerList>
+      <Description><![CDATA[]]></Description>
+      <InitScript><![CDATA[]]></InitScript>
+      <InheritParameters>True</InheritParameters>
+      <GenerateInitScript>True</GenerateInitScript>
+    </Request>
+    <Request RequestType="3" name="Reconcile Accounts">
+      <Value><![CDATA[]]></Value>
+      <KeyAttributesList name="Key Attributes">
+        <Value><![CDATA[]]></Value>
+        <KeyAttribute name="eruid">
+          <Value><![CDATA[]]></Value>
+          <KeySource>0</KeySource>
+        </KeyAttribute>
+      </KeyAttributesList>
+      <Connector name="ibmdi.ScriptConnector">
+        <Value><![CDATA[]]></Value>
+        <Map name="Input Attribute Map">
+          <Value><![CDATA[]]></Value>
+          <Input>True</Input>
+        </Map>
+        <Map name="Output Attribute Map">
+          <Value><![CDATA[]]></Value>
+          <Input>False</Input>
+        </Map>
+        <Schema name="Input Schema">
+          <Value><![CDATA[]]></Value>
+          <input>True</input>
+        </Schema>
+        <Schema name="Output Schema">
+          <Value><![CDATA[]]></Value>
+          <input>False</input>
+        </Schema>
+        <SearchCriteriaList name="Search Criteria">
+          <Value><![CDATA[]]></Value>
+          <Script><![CDATA[// Example: 
+// ret.filter = "uid=" + work.getString("eruid");]]></Script>
+          <Advanced>False</Advanced>
+        </SearchCriteriaList>
+        <ParamList name="Parameters">
+          <Value><![CDATA[]]></Value>
+          <Param name="includePrologs">
+            <Value><![CDATA[]]></Value>
+            <Label>Include Global Scripts</Label>
+            <Description><![CDATA[Include selected scripts from the Script Library]]></Description>
+            <Syntax>textarea</Syntax>
+            <Originalvalue><![CDATA[]]></Originalvalue>
+            <DefaultValue><![CDATA[]]></DefaultValue>
+            <AllowedValues><![CDATA[]]></AllowedValues>
+          </Param>
+        </ParamList>
+        <HooksList name="Hooks">
+          <Value><![CDATA[]]></Value>
+          <Hook name="initialize_fail">
+            <Value><![CDATA[]]></Value>
+            <Script><![CDATA[task.logmsg("DEBUG","Initialize Fail Hook");
+var work = system.newEntry();
+
+processError();]]></Script>
+            <Enabled>true</Enabled>
+          </Hook>
+          <Hook name="get_ok">
+            <Value><![CDATA[]]></Value>
+            <Script><![CDATA[task.logmsg("DEBUG","Search OK Hook");
+work.setProperty(Packages.com.ibm.di.dispatcher.Defs.STATUSCODE, new Packages.java.lang.Integer(
+    Packages.com.ibm.itim.remoteservices.provider.Status.SUCCESSFUL));]]></Script>
+            <Enabled>true</Enabled>
+          </Hook>
+          <Hook name="get_fail">
+            <Value><![CDATA[]]></Value>
+            <Script><![CDATA[task.logmsg("DEBUG","Search Fail Hook");
+
+work.removeAllAttributes();
+if( error.getString("class") != "com.ibm.di.exception.ITDIAgentException") {
+    work.setProperty(Packages.com.ibm.di.dispatcher.Defs.STATUSCODE, new Packages.java.lang.Integer(
+        Packages.com.ibm.itim.remoteservices.provider.Status.UNSUCCESSFUL));
+
+    work.setProperty(Packages.com.ibm.di.dispatcher.Defs.REASONCODE, new Packages.java.lang.Integer(
+        Packages.com.ibm.itim.remoteservices.provider.Reason.PROCESSING_ERROR));
+
+    work.setProperty(Packages.com.ibm.di.dispatcher.Defs.REASON_MESSAGE, 
+        Packages.com.ibm.di.dispatcher.DispatcherReasonMessage.ADAPTER_SRCH_FAILED);
+
+    var v = new Packages.java.util.Vector();
+    v.add("Update Unsuccesful : " + error.toString());
+    work.setProperty(Packages.com.ibm.di.dispatcher.Defs.REASON_MESSAGE_ARGS, v);
+
+    task.logmsg("ERROR", "[Iterator Error] Search Entry Unsuccessful " + error.toString());
+
+    var e = new Packages.com.ibm.di.exception.ITDIAgentException("");
+    e.setEntry(work);
+    throw e;
+}]]></Script>
+            <Enabled>true</Enabled>
+          </Hook>
+          <Hook name="default_fail">
+            <Value><![CDATA[]]></Value>
+            <Script><![CDATA[task.logmsg("DEBUG","Default Fail Hook");
+
+processError();]]></Script>
+            <Enabled>true</Enabled>
+          </Hook>
+        </HooksList>
+        <Order>0</Order>
+        <Label><![CDATA[Search]]></Label>
+        <InheritInputAttributeMap>True</InheritInputAttributeMap>
+        <InheritParameters>True</InheritParameters>
+        <InheritInputSchema>True</InheritInputSchema>
+        <InheritOutputSchema>False</InheritOutputSchema>
+        <InheritOutputAttributeMap>True</InheritOutputAttributeMap>
+        <DebugEnabled>False</DebugEnabled>
+        <Mode>Iterator</Mode>
+        <State>Enabled</State>
+        <Script><![CDATA[// Sample connector
+// Place initialization code before function declarations
+//
+var counter = 0;
+
+function selectEntries()
+{
+}
+
+function getNextEntry ()
+{
+	if (counter > 100) {
+		result.setStatus (0);
+		result.setMessage ("End of input");
+		return;
+	}
+
+	entry.setAttribute ("counter", counter);
+	counter++;
+}
+
+function putEntry ()
+{
+}
+
+function modEntry ()
+{
+}
+
+function deleteEntry ()
+{
+}
+
+function findEntry ()
+{
+}]]></Script>
+        <Description><![CDATA[Roll your own Connector using scripts]]></Description>
+        <ConnectorType>com.ibm.di.connector.ScriptConnector</ConnectorType>
+        <InitializeOption>0</InitializeOption>
+        <ParserOption>2</ParserOption>
+        <Modes>AddOnly Delete Iterator Lookup Update Delta CallReply Server</Modes>
+        <InheritSearchCriteria>True</InheritSearchCriteria>
+        <ComputeChanges>True</ComputeChanges>
+        <DeltaStrict>True</DeltaStrict>
+        <DeltaBehavior>0</DeltaBehavior>
+        <DeltaConfig name="Delta Config">
+          <Value><![CDATA[]]></Value>
+          <UniqueAttribute></UniqueAttribute>
+          <DeltaDB></DeltaDB>
+          <State>Disabled</State>
+          <DeltaDriver>CloudScape</DeltaDriver>
+          <WhenToCommit>On end of AL cycle</WhenToCommit>
+          <IterateDeletedEntries>false</IterateDeletedEntries>
+          <RemoveDeletedEntries>false</RemoveDeletedEntries>
+          <ReturnUnchangedEntries>false</ReturnUnchangedEntries>
+        </DeltaConfig>
+      </Connector>
+      <ParamList name="Parameters">
+        <Value><![CDATA[]]></Value>
+        <Param name="OperationType">
+          <Value><![CDATA[]]></Value>
+          <DefaultValueSource>Operation</DefaultValueSource>
+          <DefaultValue><![CDATA[operation]]></DefaultValue>
+          <SourceAttribute></SourceAttribute>
+          <ReadOnly>True</ReadOnly>
+        </Param>
+      </ParamList>
+      <OperationsList name="Operations">
+        <Value><![CDATA[]]></Value>
+        <Operation name="Default">
+          <Value><![CDATA[]]></Value>
+          <Map name="Input Attribute Map">
+            <Value><![CDATA[]]></Value>
+            <MapEntry name="$dn">
+              <Value><![CDATA[]]></Value>
+              <Target>$dn</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="eraccountstatus">
+              <Value><![CDATA[]]></Value>
+              <Target>eraccountstatus</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="erpassword">
+              <Value><![CDATA[]]></Value>
+              <Target>erpassword</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="eruid">
+              <Value><![CDATA[]]></Value>
+              <Target>eruid</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountBeginTime">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountBeginTime</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountEndTime">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountEndTime</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountLastNotifiedTime">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountLastNotifiedTime</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountTargetServiceName">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountTargetServiceName</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountTargetServiceType">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountTargetServiceType</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountTargetUID">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountTargetUID</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <Input>True</Input>
+          </Map>
+          <Map name="Output Attribute Map">
+            <Value><![CDATA[]]></Value>
+            <Input>False</Input>
+          </Map>
+          <Schema name="Input Schema">
+            <Value><![CDATA[]]></Value>
+            <SchemaItem name="$dn">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="eraccountstatus">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="erpassword">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="eruid">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountBeginTime">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountEndTime">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountLastNotifiedTime">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountTargetServiceName">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountTargetServiceType">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountTargetUID">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <input>True</input>
+          </Schema>
+          <Schema name="Output Schema">
+            <Value><![CDATA[]]></Value>
+            <input>False</input>
+          </Schema>
+        </Operation>
+      </OperationsList>
+      <LoggerList name="Loggers">
+        <Value><![CDATA[]]></Value>
+      </LoggerList>
+      <Description><![CDATA[]]></Description>
+      <InitScript><![CDATA[]]></InitScript>
+      <InheritParameters>True</InheritParameters>
+      <GenerateInitScript>True</GenerateInitScript>
+    </Request>
+    <Request RequestType="4" name="Test Connection">
+      <Value><![CDATA[]]></Value>
+      <KeyAttributesList name="Key Attributes">
+        <Value><![CDATA[]]></Value>
+        <KeyAttribute name="eruid">
+          <Value><![CDATA[]]></Value>
+          <KeySource>0</KeySource>
+        </KeyAttribute>
+      </KeyAttributesList>
+      <Connector name="ibmdi.ScriptConnector">
+        <Value><![CDATA[]]></Value>
+        <Map name="Input Attribute Map">
+          <Value><![CDATA[]]></Value>
+          <Input>True</Input>
+        </Map>
+        <Map name="Output Attribute Map">
+          <Value><![CDATA[]]></Value>
+          <Input>False</Input>
+        </Map>
+        <Schema name="Input Schema">
+          <Value><![CDATA[]]></Value>
+          <input>True</input>
+        </Schema>
+        <Schema name="Output Schema">
+          <Value><![CDATA[]]></Value>
+          <input>False</input>
+        </Schema>
+        <SearchCriteriaList name="Search Criteria">
+          <Value><![CDATA[]]></Value>
+          <Script><![CDATA[// Example: 
+// ret.filter = "uid=" + work.getString("eruid");]]></Script>
+          <Advanced>False</Advanced>
+        </SearchCriteriaList>
+        <ParamList name="Parameters">
+          <Value><![CDATA[]]></Value>
+          <Param name="includePrologs">
+            <Value><![CDATA[]]></Value>
+            <Label>Include Global Scripts</Label>
+            <Description><![CDATA[Include selected scripts from the Script Library]]></Description>
+            <Syntax>textarea</Syntax>
+            <Originalvalue><![CDATA[]]></Originalvalue>
+            <DefaultValue><![CDATA[]]></DefaultValue>
+            <AllowedValues><![CDATA[]]></AllowedValues>
+          </Param>
+        </ParamList>
+        <HooksList name="Hooks">
+          <Value><![CDATA[]]></Value>
+          <Hook name="before_execute">
+            <Value><![CDATA[]]></Value>
+            <Script><![CDATA[task.logmsg("DEBUG","Test Before Execute Hook");
+work.removeAllAttributes();
+work.setProperty(Packages.com.ibm.di.dispatcher.Defs.STATUSCODE, new Packages.java.lang.Integer(
+    Packages.com.ibm.itim.remoteservices.provider.Status.SUCCESSFUL));]]></Script>
+            <Enabled>true</Enabled>
+          </Hook>
+          <Hook name="override_add">
+            <Value><![CDATA[]]></Value>
+            <Script><![CDATA[task.logmsg("DEBUG","Test Override Add Hook");
+work.removeAllAttributes();
+work.setProperty(Packages.com.ibm.di.dispatcher.Defs.CACHE_CONNECTORS, "false");
+work.setProperty(Packages.com.ibm.di.dispatcher.Defs.STATUSCODE, new Packages.java.lang.Integer(Packages.com.ibm.itim.remoteservices.provider.Status.SUCCESSFUL));]]></Script>
+            <Enabled>true</Enabled>
+          </Hook>
+        </HooksList>
+        <Order>0</Order>
+        <Label><![CDATA[Test]]></Label>
+        <InheritInputAttributeMap>True</InheritInputAttributeMap>
+        <InheritParameters>True</InheritParameters>
+        <InheritInputSchema>False</InheritInputSchema>
+        <InheritOutputSchema>True</InheritOutputSchema>
+        <InheritOutputAttributeMap>True</InheritOutputAttributeMap>
+        <DebugEnabled>False</DebugEnabled>
+        <Mode>AddOnly</Mode>
+        <State>Enabled</State>
+        <Script><![CDATA[// Sample connector
+// Place initialization code before function declarations
+//
+var counter = 0;
+
+function selectEntries()
+{
+}
+
+function getNextEntry ()
+{
+	if (counter > 100) {
+		result.setStatus (0);
+		result.setMessage ("End of input");
+		return;
+	}
+
+	entry.setAttribute ("counter", counter);
+	counter++;
+}
+
+function putEntry ()
+{
+}
+
+function modEntry ()
+{
+}
+
+function deleteEntry ()
+{
+}
+
+function findEntry ()
+{
+}]]></Script>
+        <Description><![CDATA[Roll your own Connector using scripts]]></Description>
+        <ConnectorType>com.ibm.di.connector.ScriptConnector</ConnectorType>
+        <InitializeOption>0</InitializeOption>
+        <ParserOption>2</ParserOption>
+        <Modes>AddOnly Delete Iterator Lookup Update Delta CallReply Server</Modes>
+        <InheritSearchCriteria>True</InheritSearchCriteria>
+        <ComputeChanges>True</ComputeChanges>
+        <DeltaStrict>True</DeltaStrict>
+        <DeltaBehavior>0</DeltaBehavior>
+        <DeltaConfig name="Delta Config">
+          <Value><![CDATA[]]></Value>
+          <UniqueAttribute></UniqueAttribute>
+          <DeltaDB></DeltaDB>
+          <State>Disabled</State>
+          <DeltaDriver>CloudScape</DeltaDriver>
+          <WhenToCommit>On end of AL cycle</WhenToCommit>
+          <IterateDeletedEntries>false</IterateDeletedEntries>
+          <RemoveDeletedEntries>false</RemoveDeletedEntries>
+          <ReturnUnchangedEntries>false</ReturnUnchangedEntries>
+        </DeltaConfig>
+      </Connector>
+      <ParamList name="Parameters">
+        <Value><![CDATA[]]></Value>
+        <Param name="OperationType">
+          <Value><![CDATA[]]></Value>
+          <DefaultValueSource>Operation</DefaultValueSource>
+          <DefaultValue><![CDATA[operation]]></DefaultValue>
+          <SourceAttribute></SourceAttribute>
+          <ReadOnly>True</ReadOnly>
+        </Param>
+      </ParamList>
+      <OperationsList name="Operations">
+        <Value><![CDATA[]]></Value>
+        <Operation name="Default">
+          <Value><![CDATA[]]></Value>
+          <Map name="Input Attribute Map">
+            <Value><![CDATA[]]></Value>
+            <MapEntry name="$dn">
+              <Value><![CDATA[]]></Value>
+              <Target>$dn</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="eraccountstatus">
+              <Value><![CDATA[]]></Value>
+              <Target>eraccountstatus</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="erpassword">
+              <Value><![CDATA[]]></Value>
+              <Target>erpassword</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="eruid">
+              <Value><![CDATA[]]></Value>
+              <Target>eruid</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountBeginTime">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountBeginTime</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountEndTime">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountEndTime</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountLastNotifiedTime">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountLastNotifiedTime</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountTargetServiceName">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountTargetServiceName</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountTargetServiceType">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountTargetServiceType</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <MapEntry name="pimAccountTargetUID">
+              <Value><![CDATA[]]></Value>
+              <Target>pimAccountTargetUID</Target>
+              <Advanced>False</Advanced>
+              <UseOnAdd>True</UseOnAdd>
+              <UseOnMOdify>True</UseOnMOdify>
+              <Script><![CDATA[]]></Script>
+            </MapEntry>
+            <Input>True</Input>
+          </Map>
+          <Map name="Output Attribute Map">
+            <Value><![CDATA[]]></Value>
+            <Input>False</Input>
+          </Map>
+          <Schema name="Input Schema">
+            <Value><![CDATA[]]></Value>
+            <SchemaItem name="$dn">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="eraccountstatus">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="erpassword">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="eruid">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountBeginTime">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountEndTime">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountLastNotifiedTime">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountTargetServiceName">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountTargetServiceType">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <SchemaItem name="pimAccountTargetUID">
+              <Value><![CDATA[]]></Value>
+              <externalSyntax></externalSyntax>
+              <InternalSyntax></InternalSyntax>
+            </SchemaItem>
+            <input>True</input>
+          </Schema>
+          <Schema name="Output Schema">
+            <Value><![CDATA[]]></Value>
+            <input>False</input>
+          </Schema>
+        </Operation>
+      </OperationsList>
+      <LoggerList name="Loggers">
+        <Value><![CDATA[]]></Value>
+      </LoggerList>
+      <Description><![CDATA[]]></Description>
+      <InitScript><![CDATA[]]></InitScript>
+      <InheritParameters>True</InheritParameters>
+      <GenerateInitScript>True</GenerateInitScript>
+    </Request>
+  </Folder>
+  <Connector name="ibmdi.ScriptConnector">
+    <Value><![CDATA[]]></Value>
+    <Map name="Input Attribute Map">
+      <Value><![CDATA[]]></Value>
+      <Input>True</Input>
+    </Map>
+    <Map name="Output Attribute Map">
+      <Value><![CDATA[]]></Value>
+      <Input>False</Input>
+    </Map>
+    <Schema name="Input Schema">
+      <Value><![CDATA[]]></Value>
+      <input>True</input>
+    </Schema>
+    <Schema name="Output Schema">
+      <Value><![CDATA[]]></Value>
+      <input>False</input>
+    </Schema>
+    <SearchCriteriaList name="Search Criteria">
+      <Value><![CDATA[]]></Value>
+      <Script><![CDATA[// Example: 
+// ret.filter = "uid=" + work.getString("eruid");]]></Script>
+      <Advanced>False</Advanced>
+    </SearchCriteriaList>
+    <ParamList name="Parameters">
+      <Value><![CDATA[]]></Value>
+      <Param name="includePrologs">
+        <Value><![CDATA[]]></Value>
+        <Label>Include Global Scripts</Label>
+        <Description><![CDATA[Include selected scripts from the Script Library]]></Description>
+        <Syntax>textarea</Syntax>
+        <Originalvalue><![CDATA[]]></Originalvalue>
+        <DefaultValue><![CDATA[]]></DefaultValue>
+        <AllowedValues><![CDATA[]]></AllowedValues>
+      </Param>
+    </ParamList>
+    <HooksList name="Hooks">
+      <Value><![CDATA[]]></Value>
+    </HooksList>
+    <Order>0</Order>
+    <Label><![CDATA[ScriptConnector]]></Label>
+    <InheritInputAttributeMap>False</InheritInputAttributeMap>
+    <InheritParameters>False</InheritParameters>
+    <InheritInputSchema>False</InheritInputSchema>
+    <InheritOutputSchema>False</InheritOutputSchema>
+    <InheritOutputAttributeMap>False</InheritOutputAttributeMap>
+    <DebugEnabled>False</DebugEnabled>
+    <Mode>AddOnly</Mode>
+    <State>Enabled</State>
+    <Script><![CDATA[// Sample connector
+// Place initialization code before function declarations
+//
+var counter = 0;
+
+function selectEntries()
+{
+}
+
+function getNextEntry ()
+{
+	if (counter > 100) {
+		result.setStatus (0);
+		result.setMessage ("End of input");
+		return;
+	}
+
+	entry.setAttribute ("counter", counter);
+	counter++;
+}
+
+function putEntry ()
+{
+}
+
+function modEntry ()
+{
+}
+
+function deleteEntry ()
+{
+}
+
+function findEntry ()
+{
+}]]></Script>
+    <Description><![CDATA[Roll your own Connector using scripts]]></Description>
+    <ConnectorType>com.ibm.di.connector.ScriptConnector</ConnectorType>
+    <InitializeOption>0</InitializeOption>
+    <ParserOption>2</ParserOption>
+    <Modes>AddOnly Delete Iterator Lookup Update Delta CallReply Server</Modes>
+    <InheritSearchCriteria>False</InheritSearchCriteria>
+    <ComputeChanges>True</ComputeChanges>
+    <DeltaStrict>True</DeltaStrict>
+    <DeltaBehavior>0</DeltaBehavior>
+    <DeltaConfig name="Delta Config">
+      <Value><![CDATA[]]></Value>
+      <UniqueAttribute></UniqueAttribute>
+      <DeltaDB></DeltaDB>
+      <State>Disabled</State>
+      <DeltaDriver>CloudScape</DeltaDriver>
+      <WhenToCommit>On end of AL cycle</WhenToCommit>
+      <IterateDeletedEntries>false</IterateDeletedEntries>
+      <RemoveDeletedEntries>false</RemoveDeletedEntries>
+      <ReturnUnchangedEntries>false</ReturnUnchangedEntries>
+    </DeltaConfig>
+  </Connector>
+  <ParamList name="Parameters">
+    <Value><![CDATA[]]></Value>
+    <Param name="OperationType">
+      <Value><![CDATA[]]></Value>
+      <DefaultValueSource>Operation</DefaultValueSource>
+      <DefaultValue><![CDATA[operation]]></DefaultValue>
+      <SourceAttribute></SourceAttribute>
+      <ReadOnly>True</ReadOnly>
+    </Param>
+  </ParamList>
+  <ScriptComponent name="Adapter Global Script">
+    <Value><![CDATA[]]></Value>
+    <Order>0</Order>
+    <Label><![CDATA[Adapter Global Script]]></Label>
+    <InheritInputAttributeMap>False</InheritInputAttributeMap>
+    <InheritParameters>False</InheritParameters>
+    <InheritInputSchema>False</InheritInputSchema>
+    <InheritOutputSchema>False</InheritOutputSchema>
+    <InheritOutputAttributeMap>False</InheritOutputAttributeMap>
+    <DebugEnabled>False</DebugEnabled>
+    <Mode>Script</Mode>
+    <State>Enabled</State>
+    <Script><![CDATA[function initStatusCode() {
+    // Init status code to successful
+    work.setProperty(Packages.com.ibm.di.dispatcher.Defs.STATUSCODE, new Packages.java.lang.Integer(
+        Packages.com.ibm.itim.remoteservices.provider.Status.SUCCESSFUL));
+}
+
+function setStatusUnSuccessful() {
+    work.setProperty(Packages.com.ibm.di.dispatcher.Defs.STATUSCODE, new Packages.java.lang.Integer(
+        Packages.com.ibm.itim.remoteservices.provider.Status.UNSUCCESSFUL));
+}
+
+function processError() {
+    work.removeAllAttributes();
+
+    work.setProperty(Packages.com.ibm.di.dispatcher.Defs.STATUSCODE, 
+        new Packages.java.lang.Integer(Packages.com.ibm.itim.remoteservices.provider.Status.UNSUCCESSFUL));
+
+    if( error.getString("class") == "javax.naming.CommunicationException")
+    {
+        work.setProperty(Packages.com.ibm.di.dispatcher.Defs.REASONCODE, 
+            new Packages.java.lang.Integer(Packages.com.ibm.itim.remoteservices.provider.Reason.COMMUNICATION_ERROR));
+        work.setProperty(Packages.com.ibm.di.dispatcher.Defs.REASON_MESSAGE, 
+            Packages.com.ibm.di.dispatcher.DispatcherReasonMessage.CONNECTOR_CONNECTION_ERROR);
+
+    }
+    else if( error.getString("class") == "javax.naming.AuthenticationException")
+    {
+        work.setProperty(Packages.com.ibm.di.dispatcher.Defs.REASONCODE, 
+            new Packages.java.lang.Integer(Packages.com.ibm.itim.remoteservices.provider.Reason.AUTHENTICATION_ERROR));
+        work.setProperty(Packages.com.ibm.di.dispatcher.Defs.REASON_MESSAGE, 
+            Packages.com.ibm.di.dispatcher.DispatcherReasonMessage.ADAPTER_INVALID_LOGIN_CREDENTIALS);
+    }
+    else if(error.getString("class") == "javax.naming.NameNotFoundException")
+    {
+        work.setProperty(Packages.com.ibm.di.dispatcher.Defs.REASONCODE, 
+            new Packages.java.lang.Integer(Packages.com.ibm.itim.remoteservices.provider.Reason.NAME_NOT_FOUND_ERROR));
+        work.setProperty(Packages.com.ibm.di.dispatcher.Defs.REASON_MESSAGE,getErrorReasonMessage());
+    }
+    else
+    {
+        work.setProperty(Packages.com.ibm.di.dispatcher.Defs.REASONCODE, 
+            new Packages.java.lang.Integer(Packages.com.ibm.itim.remoteservices.provider.Reason.PROCESSING_ERROR));
+        work.setProperty(Packages.com.ibm.di.dispatcher.Defs.REASON_MESSAGE,getErrorReasonMessage());
+    }
+
+    var v = new Packages.java.util.Vector();
+    v.add(gOperationType + " Error: " + error.toString());
+    work.setProperty(Packages.com.ibm.di.dispatcher.Defs.REASON_MESSAGE_ARGS, v);
+
+    var e = new Packages.com.ibm.di.exception.ITDIAgentException(gOperationType + " Error");
+    e.setEntry(work);
+    task.logmsg("DEBUG", "Process Error: Throwing ITDI Exception");
+    system.dumpEntry(work);
+    throw e;
+}
+
+function getErrorReasonMessage() {
+    var rmsg = "";
+    if (gOperationType == "add") 
+        rmsg = Packages.com.ibm.di.dispatcher.DispatcherReasonMessage.ADAPTER_ADD_FAILED;
+    else if (gOperationType == "modify") 
+        rmsg = Packages.com.ibm.di.dispatcher.DispatcherReasonMessage.ADAPTER_MOD_FAILED;
+    else if (gOperationType == "delete") 
+        rmsg = Packages.com.ibm.di.dispatcher.DispatcherReasonMessage.ADAPTER_DEL_FAILED;
+    else if (gOperationType == "suspend") 
+       rmsg = Packages.com.ibm.di.dispatcher.DispatcherReasonMessage.ADAPTER_SUSPEND_FAILED;
+    else if (gOperationType == "restore") 
+        rmsg = Packages.com.ibm.di.dispatcher.DispatcherReasonMessage.ADAPTER_RESTORE_FAILED;
+    else if (gOperationType == "changepassword") 
+        rmsg = Packages.com.ibm.di.dispatcher.DispatcherReasonMessage.ADAPTER_MOD_FAILED;
+    else if (gOperationType == "search") 
+        rmsg = Packages.com.ibm.di.dispatcher.DispatcherReasonMessage.ADAPTER_SRCH_FAILED;
+    else task.logmsg("DEBUG", "getErrorReasonMessage: Invalid operation type " + gOperationType);
+
+    task.logmsg("DEBUG","getErrorReasonMessage: ReasonMessage: " + rmsg);
+    return rmsg;
+}]]></Script>
+  </ScriptComponent>
+  <AccountObjectClassName>erPIMAdapterAccount</AccountObjectClassName>
+  <ServiceObjectClassName>erPIMAdapterService</ServiceObjectClassName>
+  <Description><![CDATA[]]></Description>
+  <Version>1.0</Version>
+</AdapterFactoryProject>
