@@ -1,0 +1,712 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig IDIversion="Created by TDI6.1.1 - null" created="Thu Sep 08 10:38:20 EDT 2011" createdBy="Administrator" modified="Thu Sep 08 10:38:20 EDT 2011" modifiedBy="Administrator" version="6.1.1">
+<Folder name="AssemblyLines">
+<AssemblyLine name="Modify Existing Account">
+<Settings/>
+<Hooks>
+<Hook>
+<Name>prolog0</Name>
+<Script><![CDATA[// Import ITDI packages
+importPackage(Packages.com.ibm.di);
+
+var adapterVersion = "1.0";
+task.logmsg("INFO","Adapter Version - 1.0");
+
+// Read AL parameters
+
+// ITIM Account Objectclass
+var gITIMAccountObjectclass = "erPIMAdapterAccount";
+
+
+
+// Read AL parameters
+
+// Get AL config object.
+var gALCfg = task.getConfigClone();
+
+// Get AL settings object from AL config.
+var gALSettings = gALCfg.getSettings();
+
+// Get Parameters from TCB
+var gOperationType = gALSettings.getStringParameter("OperationType");
+
+// Get config object for AL connectors.
+var gModify = task.getConnector("Modify");
+gModifyCfg = gModify.getConfiguration();
+gModifyConnConfig = gModifyCfg.getConnectionConfig();
+
+
+//END OF AUTO-GENERATED SCRIPT - DO NOT REMOVE THIS LINE
+
+
+]]></Script>
+<Enabled>true</Enabled>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer"/>
+<ContainerDF name="DataFlowContainer">
+<Connector name="Modify">
+<InheritFrom>system:/Connectors/ibmdi.ScriptConnector</InheritFrom>
+<ConnectorMode>Update</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="includePrologs"/>
+<parameter name="script"><![CDATA[// Sample connector
+// Place initialization code before function declarations
+//
+var counter = 0;
+
+function selectEntries()
+{
+}
+
+function getNextEntry ()
+{
+	if (counter > 100) {
+		result.setStatus (0);
+		result.setMessage ("End of input");
+		return;
+	}
+
+	entry.setAttribute ("counter", counter);
+	counter++;
+}
+
+function putEntry ()
+{
+}
+
+function modEntry ()
+{
+}
+
+function deleteEntry ()
+{
+}
+
+function findEntry ()
+{
+}]]></parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<DeltaSettings>
+<Enabled>false</Enabled>
+<UniqueAttribute/>
+<FilePath/>
+<ReadDeleted>false</ReadDeleted>
+<RemoveDeleted>false</RemoveDeleted>
+<ReturnUnchanged>false</ReturnUnchanged>
+<WhenToCommit>On end of AL cycle</WhenToCommit>
+<Driver>CloudScape</Driver>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[parent]</InheritFrom>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+<Hook>
+<Name>before_execute</Name>
+<Script><![CDATA[task.logmsg("DEBUG","Modify Before Excute Hook");
+
+work.setOp(work.OP_MOD);
+
+// Set the erAccountStatus attribute based on the operation type
+if(gOperationType.indexOf("suspend") >= 0) {
+    task.logmsg("DEBUG", "[Before Execute] Operation is suspend");
+    work.setAttribute("erAccountStatus","1");
+}
+else if(gOperationType.indexOf("restore") >= 0) {
+    task.logmsg("DEBUG","[Before Execute] Operation is Restore");
+    work.setAttribute("erAccountStatus","0");
+}
+else if(gOperationType.indexOf("changePassword") >= 0) {
+    task.logmsg("DEBUG","[Before Execute] Operation is Change Password");
+}
+else {
+    task.logmsg("DEBUG","[Before Execute] Operation is modify");
+}]]></Script>
+<Enabled>true</Enabled>
+</Hook>
+<Hook>
+<Name>before_modify</Name>
+<Script><![CDATA[task.logmsg("DEBUG","Before Modify Hook");
+
+// The following will set the proper operation code for attribute values when it is a 
+// replace operation. The ITIM service provider sets the attribute value operation to
+// AttributeValue.AV_UNDEFINED for attribute values being replaced on a modify operation.
+// If the value is a replace (AV_UNDEFINED) then store it as a straight string rather
+// then an AttributeValue object. Some connectors do not like an AV_UNDEFINED code when
+// the attribute value is an AttributeValue object but are ok with a string value and
+// no operation code.
+
+
+// Get the names of all attributes
+var attrnames = conn.getAttributeNames();
+
+// Process each attribute
+for ( i = 0; i < attrnames.length; i++ ) {
+    // Get this attr from the conn entry
+    var attr = conn.getAttribute(attrnames[i]);
+
+    // Remove the current attribute (we will replace it with a completed version)
+    conn.removeAttribute(attr.getName());
+
+    // Create a new attribute
+    var newattr = conn.newAttribute(attr.getName());
+
+    // process each value of this attribute
+    for (j=0;j<attr.size();j++ ) {
+        // add the value to the new copy of the attr
+        newattr.addValue(attr.getValue(j));
+
+        // If the ITIM value operation is not AV_UNDEFINED (-1) then use the
+        // AttributeValue object created in ITIM, it would have an op code or AV_ADD or AV_DELETE
+        // otherwise, leave the value as a string (returned from attr.getValue(j) above)
+        if( attr.getValueOper(j) != -1) {
+            newattr.setValueOper( j,attr.getValueOper(j) );
+        }
+    }
+}]]></Script>
+<Enabled>true</Enabled>
+</Hook>
+<Hook>
+<Name>default_fail</Name>
+<Script><![CDATA[task.logmsg("DEBUG","Default Fail Hook");
+
+processError();]]></Script>
+<Enabled>true</Enabled>
+</Hook>
+<Hook>
+<Name>initialize_fail</Name>
+<Script><![CDATA[task.logmsg("DEBUG","Initialize Fail Hook");
+var work = system.newEntry();
+
+processError();]]></Script>
+<Enabled>true</Enabled>
+</Hook>
+<Hook>
+<Name>override_add</Name>
+<Script><![CDATA[task.logmsg("DEBUG","Modify Override Add Hook");
+
+work.removeAllAttributes();
+work.setProperty(Packages.com.ibm.di.dispatcher.Defs.STATUSCODE,
+    Packages.com.ibm.itim.remoteservices.provider.Status.UNSUCCESSFUL);
+
+work.setProperty(Packages.com.ibm.di.dispatcher.Defs.REASONCODE,
+    Packages.com.ibm.itim.remoteservices.provider.Reason.NAME_NOT_FOUND_ERROR);
+
+work.setProperty(Packages.com.ibm.di.dispatcher.Defs.REASON_MESSAGE,
+    Packages.com.ibm.di.dispatcher.DispatcherReasonMessage.ADAPTER_MOD_FAILED);
+
+var v = new Packages.java.util.Vector();
+v.add("Entry not Found Error.");
+work.setProperty(Packages.com.ibm.di.dispatcher.Defs.REASON_MESSAGE_ARGS, v);
+
+task.logmsg("ERROR","User Entry not found");
+
+var e = new Packages.com.ibm.di.exception.ITDIAgentException(work.getString("entryDN") + ": Not Found in managed resource");
+e.setEntry(work);
+throw e;]]></Script>
+<Enabled>true</Enabled>
+</Hook>
+<Hook>
+<Name>update_fail</Name>
+<Script><![CDATA[task.logmsg("DEBUG","Update Fail Hook");
+
+processError();]]></Script>
+<Enabled>true</Enabled>
+</Hook>
+<Hook>
+<Name>update_ok</Name>
+<Script><![CDATA[task.logmsg("DEBUG","Update OK Hook");
+work.removeAllAttributes();
+work.setProperty(Packages.com.ibm.di.dispatcher.Defs.STATUSCODE, new Packages.java.lang.Integer(
+    Packages.com.ibm.itim.remoteservices.provider.Status.SUCCESSFUL));]]></Script>
+<Enabled>true</Enabled>
+</Hook>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="autoreconnect">false</parameter>
+<parameter name="initreconnect">false</parameter>
+<parameter name="numberOfRetries">1</parameter>
+<parameter name="retryDelay">10</parameter>
+</Reconnect>
+<Operations/>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance/>
+<InitializeOption>0</InitializeOption>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<Operations>
+<Operation name="Default">
+<Schema name="Input">
+<SchemaItem>
+<Name>$dn</Name>
+</SchemaItem>
+<SchemaItem>
+<Name>eraccountstatus</Name>
+</SchemaItem>
+<SchemaItem>
+<Name>erpassword</Name>
+</SchemaItem>
+<SchemaItem>
+<Name>eruid</Name>
+</SchemaItem>
+<SchemaItem>
+<Name>pimAccountBeginTime</Name>
+</SchemaItem>
+<SchemaItem>
+<Name>pimAccountEndTime</Name>
+</SchemaItem>
+<SchemaItem>
+<Name>pimAccountLastNotifiedTime</Name>
+</SchemaItem>
+<SchemaItem>
+<Name>pimAccountTargetServiceName</Name>
+</SchemaItem>
+<SchemaItem>
+<Name>pimAccountTargetServiceType</Name>
+</SchemaItem>
+<SchemaItem>
+<Name>pimAccountTargetUID</Name>
+</SchemaItem>
+</Schema>
+<Schema name="Output"/>
+<AttributeMap name="Input">
+<AttributeMapItem>
+<Name>$dn</Name>
+<Type>simple</Type>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>$dn</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>eraccountstatus</Name>
+<Type>simple</Type>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>eraccountstatus</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>erpassword</Name>
+<Type>simple</Type>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>erpassword</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>eruid</Name>
+<Type>simple</Type>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>eruid</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>pimAccountBeginTime</Name>
+<Type>simple</Type>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>pimAccountBeginTime</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>pimAccountEndTime</Name>
+<Type>simple</Type>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>pimAccountEndTime</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>pimAccountLastNotifiedTime</Name>
+<Type>simple</Type>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>pimAccountLastNotifiedTime</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>pimAccountTargetServiceName</Name>
+<Type>simple</Type>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>pimAccountTargetServiceName</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>pimAccountTargetServiceType</Name>
+<Type>simple</Type>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>pimAccountTargetServiceType</Simple>
+</AttributeMapItem>
+<AttributeMapItem>
+<Name>pimAccountTargetUID</Name>
+<Type>simple</Type>
+<Add>true</Add>
+<Modify>true</Modify>
+<Script/>
+<Simple>pimAccountTargetUID</Simple>
+</AttributeMapItem>
+</AttributeMap>
+<AttributeMap name="Output"/>
+<Public>true</Public>
+</Operation>
+</Operations>
+<InitParams>
+<Schema name="AssemblyLineInitParams"/>
+</InitParams>
+</AssemblyLine>
+<AssemblyLine name="TestDriver">
+<Settings/>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<LogConfig/>
+<ContainerEF name="EntryFeedContainer"/>
+<ContainerDF name="DataFlowContainer">
+<Connector name="TestDriver">
+<ConnectorMode>Script</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration/>
+<ConnectorScript><![CDATA[
+var tcb = system.newTCB();
+var testEntry = system.newEntry();
+
+// The following attributes are required for all requests
+testEntry.setAttribute("eruid","");
+
+// Uncomment any additional attributes you would like to process
+
+//testEntry.setAttribute("erpassword","");
+//testEntry.setAttribute("eraccountstatus","");
+//testEntry.setAttribute("pimAccountBeginTime","");
+//testEntry.setAttribute("pimAccountEndTime","");
+//testEntry.setAttribute("pimAccountLastNotifiedTime","");
+//testEntry.setAttribute("pimAccountTargetServiceName","");
+//testEntry.setAttribute("pimAccountTargetServiceType","");
+//testEntry.setAttribute("pimAccountTargetUID","");
+tcb.setInitialWorkEntry(testEntry);
+
+// Set the following values as appropriate. 
+// These values will be accessed in the Assembly Line Prolog
+
+tcb.setALSetting("OperationType","modify");
+//tcb.setALSetting("OperationType","suspend");
+//tcb.setALSetting("OperationType","restore");
+//tcb.setALSetting("OperationType","changePassword");
+//tcb.setALSetting("OperationType","validatePassword");
+
+// Set the following connector values as appropriate. 
+// These values will be used to by the named connector
+
+
+main.startAL("Modify Existing Account", tcb );
+]]></ConnectorScript>
+<Parser/>
+<AttributeMap name="Input"/>
+<AttributeMap name="Output"/>
+<DeltaSettings/>
+<Schema name="Input"/>
+<Schema name="Output"/>
+<LinkCriteria/>
+<Hooks/>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+</Reconnect>
+<Operations/>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance/>
+</Connector>
+</ContainerDF>
+<ThreadOptions/>
+<Operations/>
+<InitParams>
+<Schema name="AssemblyLineInitParams"/>
+</InitParams>
+</AssemblyLine>
+</Folder>
+<Folder name="Connectors">
+<Connector name="ScriptConnector">
+<InheritFrom>system:/Connectors/ibmdi.ScriptConnector</InheritFrom>
+<ConnectorMode>AddOnly</ConnectorMode>
+<ConnectorState>Enabled</ConnectorState>
+<Configuration>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="debug">false</parameter>
+<parameter name="includePrologs"/>
+<parameter name="script"><![CDATA[// Sample connector
+// Place initialization code before function declarations
+//
+var counter = 0;
+
+function selectEntries()
+{
+}
+
+function getNextEntry ()
+{
+	if (counter > 100) {
+		result.setStatus (0);
+		result.setMessage ("End of input");
+		return;
+	}
+
+	entry.setAttribute ("counter", counter);
+	counter++;
+}
+
+function putEntry ()
+{
+}
+
+function modEntry ()
+{
+}
+
+function deleteEntry ()
+{
+}
+
+function findEntry ()
+{
+}]]></parameter>
+</Configuration>
+<ComputeChanges>true</ComputeChanges>
+<DeltaBehavior>0</DeltaBehavior>
+<DeltaStrict>true</DeltaStrict>
+<Parser>
+<InheritFrom>[parent]</InheritFrom>
+</Parser>
+<AttributeMap name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<AttributeMap name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</AttributeMap>
+<DeltaSettings>
+<Enabled>false</Enabled>
+<UniqueAttribute/>
+<FilePath/>
+<ReadDeleted>false</ReadDeleted>
+<RemoveDeleted>false</RemoveDeleted>
+<ReturnUnchanged>false</ReturnUnchanged>
+<WhenToCommit>On end of AL cycle</WhenToCommit>
+<Driver>CloudScape</Driver>
+</DeltaSettings>
+<Schema name="Input">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<Schema name="Output">
+<InheritFrom>[parent]</InheritFrom>
+</Schema>
+<LinkCriteria>
+<InheritFrom>[parent]</InheritFrom>
+</LinkCriteria>
+<Hooks>
+<InheritFrom>[parent]</InheritFrom>
+</Hooks>
+<CheckpointConfig/>
+<SandboxConfig/>
+<Reconnect>
+<InheritFrom>[parent]</InheritFrom>
+<parameter name="autoreconnect">false</parameter>
+<parameter name="initreconnect">false</parameter>
+<parameter name="numberOfRetries">1</parameter>
+<parameter name="retryDelay">10</parameter>
+</Reconnect>
+<Operations/>
+<PoolDefinition>
+<InheritFrom>[parent]</InheritFrom>
+</PoolDefinition>
+<PoolInstance/>
+<InitializeOption>0</InitializeOption>
+</Connector>
+</Folder>
+<Folder name="Parsers"/>
+<Folder name="EventHandlers"/>
+<Folder name="Scripts">
+<Script name="Adapter Global Script">
+<parameter name="autoInclude">true</parameter>
+<parameter name="script"><![CDATA[function initStatusCode() {
+    // Init status code to successful
+    work.setProperty(Packages.com.ibm.di.dispatcher.Defs.STATUSCODE, new Packages.java.lang.Integer(
+        Packages.com.ibm.itim.remoteservices.provider.Status.SUCCESSFUL));
+}
+
+function setStatusUnSuccessful() {
+    work.setProperty(Packages.com.ibm.di.dispatcher.Defs.STATUSCODE, new Packages.java.lang.Integer(
+        Packages.com.ibm.itim.remoteservices.provider.Status.UNSUCCESSFUL));
+}
+
+function processError() {
+    work.removeAllAttributes();
+
+    work.setProperty(Packages.com.ibm.di.dispatcher.Defs.STATUSCODE, 
+        new Packages.java.lang.Integer(Packages.com.ibm.itim.remoteservices.provider.Status.UNSUCCESSFUL));
+
+    if( error.getString("class") == "javax.naming.CommunicationException")
+    {
+        work.setProperty(Packages.com.ibm.di.dispatcher.Defs.REASONCODE, 
+            new Packages.java.lang.Integer(Packages.com.ibm.itim.remoteservices.provider.Reason.COMMUNICATION_ERROR));
+        work.setProperty(Packages.com.ibm.di.dispatcher.Defs.REASON_MESSAGE, 
+            Packages.com.ibm.di.dispatcher.DispatcherReasonMessage.CONNECTOR_CONNECTION_ERROR);
+
+    }
+    else if( error.getString("class") == "javax.naming.AuthenticationException")
+    {
+        work.setProperty(Packages.com.ibm.di.dispatcher.Defs.REASONCODE, 
+            new Packages.java.lang.Integer(Packages.com.ibm.itim.remoteservices.provider.Reason.AUTHENTICATION_ERROR));
+        work.setProperty(Packages.com.ibm.di.dispatcher.Defs.REASON_MESSAGE, 
+            Packages.com.ibm.di.dispatcher.DispatcherReasonMessage.ADAPTER_INVALID_LOGIN_CREDENTIALS);
+    }
+    else if(error.getString("class") == "javax.naming.NameNotFoundException")
+    {
+        work.setProperty(Packages.com.ibm.di.dispatcher.Defs.REASONCODE, 
+            new Packages.java.lang.Integer(Packages.com.ibm.itim.remoteservices.provider.Reason.NAME_NOT_FOUND_ERROR));
+        work.setProperty(Packages.com.ibm.di.dispatcher.Defs.REASON_MESSAGE,getErrorReasonMessage());
+    }
+    else
+    {
+        work.setProperty(Packages.com.ibm.di.dispatcher.Defs.REASONCODE, 
+            new Packages.java.lang.Integer(Packages.com.ibm.itim.remoteservices.provider.Reason.PROCESSING_ERROR));
+        work.setProperty(Packages.com.ibm.di.dispatcher.Defs.REASON_MESSAGE,getErrorReasonMessage());
+    }
+
+    var v = new Packages.java.util.Vector();
+    v.add(gOperationType + " Error: " + error.toString());
+    work.setProperty(Packages.com.ibm.di.dispatcher.Defs.REASON_MESSAGE_ARGS, v);
+
+    var e = new Packages.com.ibm.di.exception.ITDIAgentException(gOperationType + " Error");
+    e.setEntry(work);
+    task.logmsg("DEBUG", "Process Error: Throwing ITDI Exception");
+    system.dumpEntry(work);
+    throw e;
+}
+
+function getErrorReasonMessage() {
+    var rmsg = "";
+    if (gOperationType == "add") 
+        rmsg = Packages.com.ibm.di.dispatcher.DispatcherReasonMessage.ADAPTER_ADD_FAILED;
+    else if (gOperationType == "modify") 
+        rmsg = Packages.com.ibm.di.dispatcher.DispatcherReasonMessage.ADAPTER_MOD_FAILED;
+    else if (gOperationType == "delete") 
+        rmsg = Packages.com.ibm.di.dispatcher.DispatcherReasonMessage.ADAPTER_DEL_FAILED;
+    else if (gOperationType == "suspend") 
+       rmsg = Packages.com.ibm.di.dispatcher.DispatcherReasonMessage.ADAPTER_SUSPEND_FAILED;
+    else if (gOperationType == "restore") 
+        rmsg = Packages.com.ibm.di.dispatcher.DispatcherReasonMessage.ADAPTER_RESTORE_FAILED;
+    else if (gOperationType == "changepassword") 
+        rmsg = Packages.com.ibm.di.dispatcher.DispatcherReasonMessage.ADAPTER_MOD_FAILED;
+    else if (gOperationType == "search") 
+        rmsg = Packages.com.ibm.di.dispatcher.DispatcherReasonMessage.ADAPTER_SRCH_FAILED;
+    else task.logmsg("DEBUG", "getErrorReasonMessage: Invalid operation type " + gOperationType);
+
+    task.logmsg("DEBUG","getErrorReasonMessage: ReasonMessage: " + rmsg);
+    return rmsg;
+}]]></parameter>
+</Script>
+</Folder>
+<JavaLibraries/>
+<JavaProperties/>
+<Folder name="Includes"/>
+<Folder name="Config">
+<LogConfig name="Logging"/>
+<InstanceProperties name="AutoStart">
+<AutoStart/>
+</InstanceProperties>
+<TombstonesConfig name="Tombstones"/>
+<SolutionInterface name="SolutionInterface"/>
+</Folder>
+<Folder name="Functions"/>
+<Folder name="AttributeMaps"/>
+<Properties name="Properties">
+<Stores>
+<PropertyStore name="Solution-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">Solution-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+<PropertyStore name="Global-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">Global-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+<PropertyStore name="Java-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">Java-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+<PropertyStore name="System-Properties">
+<Parser/>
+<RawConnector>
+<InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+<parameter name="collectionType">System-Properties</parameter>
+</RawConnector>
+<Key>key</Key>
+<Value>value</Value>
+<ReadOnly>false</ReadOnly>
+<InitialLoad>true</InitialLoad>
+<CacheTimeout>0</CacheTimeout>
+</PropertyStore>
+</Stores>
+</Properties>
+</MetamergeConfig>
