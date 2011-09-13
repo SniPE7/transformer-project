@@ -6,7 +6,8 @@
 		<script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
         <script type="text/javascript" src="js/jquery-calendar.js"></script>
 		<script type="text/javascript" src="js/jquery-ui-1.8.14.custom.min.js"></script>
-        
+        <script type="text/javascript" src="js/pim-core.js"></script>
+
 		<link rel="stylesheet" type="text/css" href="css/ui-lightness/jquery-ui-1.8.14.custom.css">
         <link rel="stylesheet" type="text/css" href="css/jquery-calendar.css">
 		
@@ -22,6 +23,7 @@
 
 				// Set the Date and Time dailog
 				$(".calendarFocus").calendar();
+				
 				$("#newreqeust").hide(); // Hide the new request main forms.				
 				$("#newr").click( function () { 
 					if($(this).text()=="New PIM Request")
@@ -35,65 +37,70 @@
 				
 				});
 				
+				// get history (pim-core.js)
+				var ret = gethistory('recoder.xml');
+				$("#historys").append(ret);
 				
 				// Query submit. to search the service name and private account.
 				
 				$('#selection').submit(function() {
-					$.ajax({
-						url:'resource.xml',
-						type: 'GET',
-						dataType: 'xml',//这里可以不写，但千万别写text或者html!!!
-						timeout: 1000,
-						error: function(xml){
-							alert('Error loading XML document'+xml);
-						},
-						success: function(xml){
-							var htmlData = '<table width="100%" border="0" cellpadding="1" cellspacing="1" id="serverpim">';
-							htmlData+= '<tr bgcolor="#0099CC">';
-							htmlData+= '<td width="30%">Account Infomation</td>';
-							htmlData+= '<td width="16%">Start TIME</td>';
-							htmlData+= '<td width="21%">End TIME</td>';
-							htmlData+= '<td width="33%">Action Or Status</td>';
-							htmlData+= '</tr>';
-														
-							$(xml).find("resource").each(function(i){
-								var serverlist = $(this);
-								var serveraccout = serverlist.children("AccountID").text();
-								var requestor = serverlist.children("Requestor").text();
-								var approver = serverlist.children("Approver").text();
-								var status = serverlist.children("status").text();
+					var abc= getserveraccount('resource.xml');
+					if(abc.length>0)
+					{
+						$("#selectionret").empty();
+						$("#selectionret").append(abc);
+					}
+					// add the click function here.
+					$('button').click(function() {
+					
+						var isok=false;
+					
+						var addval=$(this).attr("name");  // 准备添加的值
+						
+						// 检查select中是否已经存在该值，存在则忽略。
+						$("#mainlist > option").each(function(i){
+							var val1=$(this).val();  // 遍历值
+							if(addval == val1){ isok=true;};
 
-																
-								htmlData+= '<tr bgcolor="#BB99CC">';
-								htmlData+= '<td>'+serverlist.children("AccountID").text()+'</td>';
-								htmlData+= '<td>'+serverlist.children("StartTime").text()+'</td>';
-								htmlData+= '<td>'+serverlist.children("EndTime").text()+'</td>';
-								if(status.toLowerCase()!="finish")
-								{
-									htmlData+= '<td>'+requestor+' Has Occupted.</td>';
-								}else{
-								  
-									htmlData+= '<td><input type="button" name="button" id="add'+serveraccout+'" value="add"></td>';
-								}
-								htmlData+= '</tr>';
-							});
-							htmlData+= '</talbe>';
-							$("#selectionret").empty();
-							$("#selectionret").append(htmlData);
+						});
+						
+						if(!isok){
+						
+							$("#mainlist").append("<option value="+addval+">"+addval+"</option>"); 
 						}
 					});
 					return false;
 				});
 
+				// Dynimic add the selection box.
 				
-				//$(".calendarFocus").click(function(){alert(popUpCal.parseDate($('.calendarFocus').val()))});
+				
+				// submit the backend servlet to run the real process.
+				
+				$('#MainForm').submit(function() {
+					
+					$("#mainlist > option").each(function(){
+						alert($(this).val()+"  Submitting ........");
+						// Here need add the real action to submit for each resource.
+					});
+					
+					return false;
+				});
+				
+				// this function for delete some no use options， 删除已经选择的内容，可删除多选
+				
+				$('#maindelete').click(function() {
+					$("#mainlist option:selected").remove(); 
+				});
+				
+				
 			});
 
 		</script>
 
 	</head>
 	
-	<body>
+  <body>
     <!-- Welcome Page -->
     <div id="Welcompart">
 		<h1>Hello test1, Welcome to PIM Center!	[<a href="">LOGOUT</a>]</h1>
@@ -108,54 +115,9 @@
     
     <!-- Welcome Page END -->
 	
-	<!-- HISTORY PAGE -->
+	<!-- HISTORY PAGE, Here will be insert a table. -->
     <div id="historys"></div>
 	
-	<script type="text/javascript">
-		var servers="";
-		
-        $.ajax({
-			url:'recoder.xml',
-			type: 'GET',
-			dataType: 'xml',//这里可以不写，但千万别写text或者html!!!
-			timeout: 1000,
-			error: function(xml){
-				alert('Error loading XML document'+xml);
-			},
-			success: function(xml){
-				var htmlData = '<table width="100%" border="0" cellpadding="1" cellspacing="1" id="historyrecs">';
-				htmlData+= '<tr bgcolor="#0099CC" class="taskheader itemnumber">';
-				htmlData+= '<td width="8%" align="center" valign="middle">Proccess ID</td>';
-				htmlData+= '<td width="13%" align="center" valign="middle">Account Infomation</td>';
-				htmlData+= '<td width="12%" align="center" valign="middle">Start TIME</td>';
-				htmlData+= '<td width="12%" align="center" valign="middle">End TIME</td>';
-				htmlData+= '<td width="29%" align="center" valign="middle">Reason</td>';
-				htmlData+= '<td width="6%" align="center" valign="middle">Requestor</td>';
-				htmlData+= '<td width="6%" align="center" valign="middle">Approver</td>';
-				htmlData+= '<td width="7%" align="center" valign="middle">Status</td>';
-				htmlData+= '<td width="9%" align="center" valign="middle">Acction</td>';
-				htmlData+= '</tr>';
-				
-				$(xml).find("serverlist").each(function(i){
-					var serverlist = $(this);
-					
-					htmlData+= '<tr bgcolor="#EE99CC">';
-					htmlData+= '<td>'+serverlist.children("ProccessID").text()+'</td>';
-					htmlData+= '<td>'+serverlist.children("AccountID").text()+'</td>';
-					htmlData+= '<td>'+serverlist.children("StartTime").text()+'</td>';
-					htmlData+= '<td>'+serverlist.children("EndTime").text()+'</td>';
-					htmlData+= '<td>'+serverlist.children("Reason").text()+'</td>';
-					htmlData+= '<td>'+serverlist.children("Requestor").text()+'</td>';
-					htmlData+= '<td>'+serverlist.children("Approver").text()+'</td>';
-					htmlData+= '<td>'+serverlist.children("Acction").text()+'</td>';
-					htmlData+= '<td>Acction</td>';
-					htmlData+= '</tr>';
-				});
-				htmlData+= '</talbe>';
-				$("#historys").append(htmlData);
-			}
-		});
-	</script>
 	
 	<h1><span id="newr" class="button">New PIM Request</span></h1>
 	
@@ -164,12 +126,12 @@
 		
 		<!-- New Request Main form -->
 		<div id="mainform">
+			请选择特权帐号资源和独占的时间段<BR>
 			<form action="" id="MainForm" name="MainForm" method="post">
 				<select multiple id="mainlist" class="targetlist">
-				  <option>Please chose your target Host and Time Space</option>
 				</select>
-				<input type="submit" name="add5" id="add5" value="Delete">
-				<textarea name="textarea2" id="textarea2" cols="45" rows="10" class="targetdesc">AIX Agent Update,B2 FP5安装,变更号码: 9899887</textarea>
+				<input type="button" name="delete" id="maindelete" value="Delete">
+				<textarea name="textarea2" id="textarea2" cols="45" rows="10" class="targetdesc">这里填写，申请的理由，及与此申请相关的信息</textarea>
 				<input type="submit" name="add6" id="add6" value="Submit">
 			</form>
 		</div>
@@ -200,7 +162,7 @@
 	</div>  <!-- END NEWREQUEST-->
 
 	
-	</body>
+  </body>
 </html>
 
 

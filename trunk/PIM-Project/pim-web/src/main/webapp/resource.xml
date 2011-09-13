@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <resources>
 	<resource>
-		<AccountID>AIX_HE_192.168.9.120:oracle</AccountID>
+		<AccountID>root@AIX_HE_192.168.9.120</AccountID>
 		<StartTime>20110202 15:00:00</StartTime>
 		<EndTime>20110203 06:30:00</EndTime>
 		<Requestor>ABC</Requestor>
@@ -10,7 +10,7 @@
 		<Acction></Acction>
 	</resource>
 	<resource>
-		<AccountID>AIX_HE_192.168.9.120:oracle</AccountID>
+		<AccountID>oracle@AIX_HE_192.168.9.121</AccountID>
 		<StartTime>20110202 15:00:00</StartTime>
 		<EndTime>20110203 06:30:00</EndTime>
 		<Requestor>abc</Requestor>
@@ -19,7 +19,7 @@
 		<Acction></Acction>
 	</resource>
 	<resource>
-		<AccountID>AIX_HE_192.168.9.120:oracle</AccountID>
+		<AccountID>db2inst1@AIX_HE_192.168.9.122</AccountID>
 		<StartTime>20110202 15:00:00</StartTime>
 		<EndTime>20110203 06:30:00</EndTime>
 		<Requestor></Requestor>
@@ -28,7 +28,7 @@
 		<Acction></Acction>
 	</resource>
 	<resource>
-		<AccountID>AIX_HE_192.168.9.120:oracle</AccountID>
+		<AccountID>root@AIX_HE_192.168.9.123</AccountID>
 		<StartTime>20110202 15:00:00</StartTime>
 		<EndTime>20110203 06:30:00</EndTime>
 		<Requestor></Requestor>
@@ -37,7 +37,7 @@
 		<Acction></Acction>
 	</resource>
 	<resource>
-		<AccountID>AIX_HE_192.168.9.120:oracle</AccountID>
+		<AccountID>root@AIX_HE_192.168.9.124</AccountID>
 		<StartTime>20110202 15:00:00</StartTime>
 		<EndTime>20110203 06:30:00</EndTime>
 		<Requestor></Requestor>
@@ -46,7 +46,7 @@
 		<Acction></Acction>
 	</resource>
 	<resource>
-		<AccountID>AIX_HE_192.168.9.120:oracle</AccountID>
+		<AccountID>root@AIX_HE_192.168.9.125</AccountID>
 		<StartTime>20110202 15:00:00</StartTime>
 		<EndTime>20110203 06:30:00</EndTime>
 		<Requestor></Requestor>
@@ -55,7 +55,7 @@
 		<Acction></Acction>
 	</resource>	
 	<resource>
-		<AccountID>AIX_HE_192.168.9.120:oracle</AccountID>
+		<AccountID>tivoli@AIX_HE_192.168.9.126</AccountID>
 		<StartTime>20110202 15:00:00</StartTime>
 		<EndTime>20110203 06:30:00</EndTime>
 		<Requestor></Requestor>
