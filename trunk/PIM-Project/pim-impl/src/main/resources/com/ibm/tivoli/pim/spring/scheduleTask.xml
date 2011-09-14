@@ -11,7 +11,7 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 	<bean id="ResetPasswordScheduleTaskBean" class="com.ibm.tivoli.pim.task.ResetPasswordScheduleTask">
 		<property name="pimServiceType" value="${pim.account.profile.name}" />
 		<property name="passwordGenerator" ref="passwordGenerator"></property>
-		<property name="">
+		<property name="pimServiceNames">
 		  <list>
 		    <value>${pim.account.service.name.0}</value>
         <value>${pim.account.service.name.1}</value>

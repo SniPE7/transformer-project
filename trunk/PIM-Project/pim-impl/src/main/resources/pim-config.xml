@@ -20,14 +20,14 @@
   <entry key="pim.account.profile.name">PIMProfileAccount</entry>
 
   <entry key="pim.account.service.name.0">JKE Active Directory</entry>
-  <entry key="pim.account.service.name.1">JKE Active Directory</entry>
-  <entry key="pim.account.service.name.2">JKE Active Directory</entry>
-  <entry key="pim.account.service.name.3">JKE Active Directory</entry>
-  <entry key="pim.account.service.name.4">JKE Active Directory</entry>
-  <entry key="pim.account.service.name.5">JKE Active Directory</entry>
-  <entry key="pim.account.service.name.6">JKE Active Directory</entry>
-  <entry key="pim.account.service.name.7">JKE Active Directory</entry>
-  <entry key="pim.account.service.name.8">JKE Active Directory</entry>
-  <entry key="pim.account.service.name.9">JKE Active Directory</entry>
+  <entry key="pim.account.service.name.1"></entry>
+  <entry key="pim.account.service.name.2"></entry>
+  <entry key="pim.account.service.name.3"></entry>
+  <entry key="pim.account.service.name.4"></entry>
+  <entry key="pim.account.service.name.5"></entry>
+  <entry key="pim.account.service.name.6"></entry>
+  <entry key="pim.account.service.name.7"></entry>
+  <entry key="pim.account.service.name.8"></entry>
+  <entry key="pim.account.service.name.9"></entry>
 
 </properties>
