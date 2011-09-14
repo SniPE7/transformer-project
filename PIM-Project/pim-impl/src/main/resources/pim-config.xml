@@ -8,11 +8,26 @@
   <entry key="tim.server.platform.url">iiop://iam:2809</entry>
 	<entry key="tim.server.platform.uid">administrator</entry>
   <entry key="tim.server.platform.password">smartway</entry>
+
+  <entry key="tim.server.schedule.user">itim manager</entry>
+  <entry key="tim.server.schedule.password">smartway</entry>
+
   <!-- 
    * Name of the profile (NTAccount, Exchange Account, etc.) identifying the
    * type of this account as listed in Configuration > Entities within the IBM
    * Tivoli Idenitity Manager UI.  
    -->
   <entry key="pim.account.profile.name">PIMProfileAccount</entry>
-  
+
+  <entry key="pim.account.service.name.0">JKE Active Directory</entry>
+  <entry key="pim.account.service.name.1">JKE Active Directory</entry>
+  <entry key="pim.account.service.name.2">JKE Active Directory</entry>
+  <entry key="pim.account.service.name.3">JKE Active Directory</entry>
+  <entry key="pim.account.service.name.4">JKE Active Directory</entry>
+  <entry key="pim.account.service.name.5">JKE Active Directory</entry>
+  <entry key="pim.account.service.name.6">JKE Active Directory</entry>
+  <entry key="pim.account.service.name.7">JKE Active Directory</entry>
+  <entry key="pim.account.service.name.8">JKE Active Directory</entry>
+  <entry key="pim.account.service.name.9">JKE Active Directory</entry>
+
 </properties>

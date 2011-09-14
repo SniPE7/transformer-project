@@ -24,7 +24,7 @@ public class RequestManagerTest extends TestCase {
 
   private static final String LOGIN_CONTEXT = "ITIM";
 
-  private PlatformContext platformContext;
+  private Properties environment = null;
 
   protected void setUp() throws Exception {
     super.setUp();
@@ -36,22 +36,18 @@ public class RequestManagerTest extends TestCase {
     String appServerUrl = "iiop://iam:2809";
     String ejbUser = "administrator";
     String ejbPswd = "smartway";
-    String itimUser = "itim manager";
-    String itimPswd = "smartway";
 
     // setup environment table to create an InitialPlatformContext
-    Properties env = new Properties();
+    Properties environment = new Properties();
 
     //env.put(Context.INITIAL_CONTEXT_FACTORY, "com.ibm.websphere.naming.WsnInitialContextFactory");
     //env.put(Context.PROVIDER_URL, appServerUrl);
 
-    env.put(InitialPlatformContext.CONTEXT_FACTORY, contextFactory);
-    env.put(PlatformContext.PLATFORM_URL, appServerUrl);
-    env.put(PlatformContext.PLATFORM_PRINCIPAL, ejbUser);
-    env.put(PlatformContext.PLATFORM_CREDENTIALS, ejbPswd);
+    environment.put(InitialPlatformContext.CONTEXT_FACTORY, contextFactory);
+    environment.put(PlatformContext.PLATFORM_URL, appServerUrl);
+    environment.put(PlatformContext.PLATFORM_PRINCIPAL, ejbUser);
+    environment.put(PlatformContext.PLATFORM_CREDENTIALS, ejbPswd);
 
-    System.out.print("Creating new PlatformContext...");
-    platformContext = new InitialPlatformContext(env);
   }
 
   private Subject getSubject(PlatformContext platformContext, String itimUser, String itimPswd) throws LoginException {
@@ -89,7 +85,7 @@ public class RequestManagerTest extends TestCase {
     req.setTimeRange(new TimeRange(new Date(), new Date()));
 
     RequestManagerImpl rm = new RequestManagerImpl();
-    rm.setPlatformContext(this.platformContext);
+    rm.setEnvironment(this.environment);
     rm.setPimAccountProfileName("PIMProfileAccount");
     
     SubmitResponse resp = rm.submit(req);
@@ -100,7 +96,7 @@ public class RequestManagerTest extends TestCase {
   public void testApproval() throws Exception {
     User approver = new User("itim manager", "smartway");
     RequestManagerImpl rm = new RequestManagerImpl();
-    rm.setPlatformContext(this.platformContext);
+    rm.setEnvironment(this.environment);
     rm.setPimAccountProfileName("PIMProfileAccount");
     
     rm.approval(approver, "8358946509918800095", "approval comment");
@@ -116,7 +112,7 @@ public class RequestManagerTest extends TestCase {
     req.setTimeRange(new TimeRange(new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis() + 3600 * 1000)));
 
     RequestManagerImpl rm = new RequestManagerImpl();
-    rm.setPlatformContext(this.platformContext);
+    rm.setEnvironment(this.environment);
     rm.setPimAccountProfileName("PIMProfileAccount");
     
     SubmitResponse resp = rm.submit(req);
@@ -124,7 +120,7 @@ public class RequestManagerTest extends TestCase {
     assertNotNull(resp.getRequestId());
 
     User approver = new User("itim manager", "smartway");
-    rm.setPlatformContext(this.platformContext);
+    rm.setEnvironment(this.environment);
     rm.setPimAccountProfileName("PIMProfileAccount");
     
     rm.approval(approver, "8358946509918800095", "approval comment");
@@ -133,7 +129,7 @@ public class RequestManagerTest extends TestCase {
   public void testReject() throws Exception {
     User rejector = new User("itim manager", "smartway");
     RequestManagerImpl rm = new RequestManagerImpl();
-    rm.setPlatformContext(this.platformContext);
+    rm.setEnvironment(this.environment);
     rm.setPimAccountProfileName("PIMProfileAccount");
     
     rm.reject(rejector, "8358946509918800095", "approval comment");
@@ -142,7 +138,7 @@ public class RequestManagerTest extends TestCase {
   public void testGetPendingRequestsByApprover() throws Exception {
     User approver = new User("itim manager", "smartway");
     RequestManagerImpl rm = new RequestManagerImpl();
-    rm.setPlatformContext(this.platformContext);
+    rm.setEnvironment(this.environment);
     rm.setPimAccountProfileName("PIMProfileAccount");
     
     List<AccountRequest> result = rm.getPendingRequestsByApprover(approver);

@@ -7,23 +7,26 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.List;
 
+import javax.annotation.Resource;
+import javax.jws.WebService;
 import javax.security.auth.Subject;
-import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
+import javax.xml.ws.WebServiceContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.ibm.itim.apps.ApplicationException;
 import com.ibm.itim.apps.AuthorizationException;
+import com.ibm.itim.apps.InitialPlatformContext;
 import com.ibm.itim.apps.PlatformContext;
 import com.ibm.itim.apps.Request;
 import com.ibm.itim.apps.SchemaViolationException;
 import com.ibm.itim.apps.identity.PersonMO;
 import com.ibm.itim.apps.identity.PersonManager;
-import com.ibm.itim.apps.jaas.callback.PlatformCallbackHandler;
 import com.ibm.itim.apps.provisioning.AccountManager;
 import com.ibm.itim.apps.provisioning.ServiceMO;
 import com.ibm.itim.apps.provisioning.ServiceManager;
@@ -35,6 +38,10 @@ import com.ibm.itim.dataservices.model.domain.Account;
 import com.ibm.itim.workflow.model.Activity;
 import com.ibm.itim.workflow.model.ActivityResult;
 import com.ibm.itim.workflow.model.WorkflowProcess;
+import com.ibm.tivoli.pim.callback.ChainSubjectCallbackHandler;
+import com.ibm.tivoli.pim.callback.HttpSessionBasedSubjectCallbackHandler;
+import com.ibm.tivoli.pim.callback.SubjectCallbackHandler;
+import com.ibm.tivoli.pim.callback.UserBasedSubjectCallbackHandler;
 import com.ibm.tivoli.pim.entity.AccountRequest;
 import com.ibm.tivoli.pim.entity.ApprovalReponse;
 import com.ibm.tivoli.pim.entity.CheckInAccount;
@@ -48,19 +55,28 @@ import com.ibm.tivoli.pim.entity.User;
  * @author Administrator
  * 
  */
-public class RequestManagerImpl implements RequestManager, PlatformContextAware {
+@WebService(endpointInterface = "com.ibm.tivoli.pim.service.RequestManager")
+public class RequestManagerImpl implements RequestManager {
 
   private static Log log = LogFactory.getLog(RequestManagerImpl.class);
 
   private static final String LOGIN_CONTEXT = "ITIM";
 
-  private PlatformContext platformContext = null;
-  // private Subject subject = null;
+  @Resource
+  private WebServiceContext webServiceContext;
 
   /**
-   * Name of the profile identifying the
-   * type of PIM account as listed in Configuration > Entities within the IBM
-   * Tivoli Idenitity Manager UI.
+   * Subject callback handler
+   */
+  private SubjectCallbackHandler subjectCallbackHandler = new ChainSubjectCallbackHandler(new UserBasedSubjectCallbackHandler(), new HttpSessionBasedSubjectCallbackHandler());
+  
+  private Hashtable environment = new Hashtable();
+  
+  private PlatformContext platformContext = null;
+
+  /**
+   * Name of the profile identifying the type of PIM account as listed in
+   * Configuration > Entities within the IBM Tivoli Idenitity Manager UI.
    */
   private String pimAccountProfileName = "PIMProfileAccount";
 
@@ -71,12 +87,8 @@ public class RequestManagerImpl implements RequestManager, PlatformContextAware 
     super();
   }
 
-  public PlatformContext getPlatformContext() {
-    return platformContext;
-  }
-
-  public void setPlatformContext(PlatformContext platformContext) {
-    this.platformContext = platformContext;
+  public void setWebServiceContext(WebServiceContext webServiceContext) {
+    this.webServiceContext = webServiceContext;
   }
 
   public String getPimAccountProfileName() {
@@ -87,24 +99,24 @@ public class RequestManagerImpl implements RequestManager, PlatformContextAware 
     this.pimAccountProfileName = pimAccountProfileName;
   }
 
-  private Subject getSubject(PlatformContext platformContext, String itimUser, String itimPswd) throws LoginException {
-    Subject subject = null;
+  public SubjectCallbackHandler getSubjectCallbackHandler() {
+    return subjectCallbackHandler;
+  }
 
-    // create the ITIM JAAS CallbackHandler
-    PlatformCallbackHandler handler = new PlatformCallbackHandler(itimUser, itimPswd);
-    handler.setPlatformContext(platformContext);
+  public void setSubjectCallbackHandler(SubjectCallbackHandler subjectCallbackHandler) {
+    this.subjectCallbackHandler = subjectCallbackHandler;
+  }
 
-    // Associate the CallbackHandler with a LoginContext,
-    // then try to authenticate the user with the platform
-    log.info("Logging in...");
-    LoginContext lc = new LoginContext(LOGIN_CONTEXT, handler);
-    lc.login();
-    log.info("Done");
+  private Subject getSubject(PlatformContext platformContext, User user) throws LoginException {
+    return this.subjectCallbackHandler.getSubject(LOGIN_CONTEXT, platformContext, webServiceContext, user);
+  }
 
-    // Extract the authenticated JAAS Subject from the LoginContext
-    log.info("Getting subject... ");
-    subject = lc.getSubject();
-    return subject;
+  public Hashtable getEnvironment() {
+    return environment;
+  }
+
+  public void setEnvironment(Hashtable environment) {
+    this.environment = environment;
   }
 
   /*
@@ -116,10 +128,11 @@ public class RequestManagerImpl implements RequestManager, PlatformContextAware 
    */
   public SubmitResponse submit(AccountRequest request) {
     try {
-      Subject subject = this.getSubject(this.getPlatformContext(), request.getRequester().getUsername(), request.getRequester().getPassword());
-      AccountManager accountManager = new AccountManager(this.getPlatformContext(), subject);
-      ServiceManager serviceManager = new ServiceManager(this.getPlatformContext(), subject);
-      PersonManager mgr = new PersonManager(this.getPlatformContext(), subject);
+      PlatformContext pcontext = new InitialPlatformContext((Hashtable) this.getEnvironment().clone());
+      Subject subject = this.getSubject(pcontext, request.getRequester());
+      AccountManager accountManager = new AccountManager(pcontext, subject);
+      ServiceManager serviceManager = new ServiceManager(pcontext, subject);
+      PersonManager mgr = new PersonManager(pcontext, subject);
       Collection people = mgr.getPeople("uid", request.getRequester().getUsername(), null);
       if (people.isEmpty()) {
         log.error("Could not found person by uid: [" + request.getRequester().getUsername() + "]");
@@ -141,7 +154,8 @@ public class RequestManagerImpl implements RequestManager, PlatformContextAware 
       account.addAttribute(new AttributeValue("pimAccountBeginTime", request.getTimeRange().getBeginTime()));
       account.addAttribute(new AttributeValue("pimAccountEndTime", request.getTimeRange().getBeginTime()));
       // Set target service
-      //account.addAttribute(new AttributeValue("pimAccountTargetServiceType", ""));
+      // account.addAttribute(new AttributeValue("pimAccountTargetServiceType",
+      // ""));
       account.addAttribute(new AttributeValue("pimAccountTargetServiceName", request.getService().getProfileName()));
 
       log.info("Submit PIM Request: [" + request + "]");
@@ -178,7 +192,8 @@ public class RequestManagerImpl implements RequestManager, PlatformContextAware 
   public ApprovalReponse approval(User approver, String requestId, String comment) {
     String status = ActivityResult.APPROVED;
     try {
-      Subject subject = this.getSubject(this.getPlatformContext(), approver.getUsername(), approver.getPassword());
+      PlatformContext pcontext = new InitialPlatformContext((Hashtable) this.getEnvironment().clone());
+      Subject subject = this.getSubject(pcontext, approver);
       WorkflowManager wfm = new WorkflowManager(this.platformContext, subject);
       WorkflowProcessMO processMO = wfm.getProcess(Long.parseLong(requestId));
       if (processMO == null) {
@@ -237,7 +252,8 @@ public class RequestManagerImpl implements RequestManager, PlatformContextAware 
   public RejectReponse reject(User rejector, String requestId, String comment) {
     String status = ActivityResult.REJECTED;
     try {
-      Subject subject = this.getSubject(this.getPlatformContext(), rejector.getUsername(), rejector.getPassword());
+      PlatformContext pcontext = new InitialPlatformContext((Hashtable) this.getEnvironment().clone());
+      Subject subject = this.getSubject(pcontext, rejector);
       WorkflowManager wfm = new WorkflowManager(this.platformContext, subject);
       WorkflowProcessMO processMO = wfm.getProcess(Long.parseLong(requestId));
       if (processMO == null) {
@@ -333,7 +349,8 @@ public class RequestManagerImpl implements RequestManager, PlatformContextAware 
   public List<AccountRequest> getPendingRequestsByApprover(User approver) {
     List<AccountRequest> result = new ArrayList<AccountRequest>();
     try {
-      Subject subject = this.getSubject(this.getPlatformContext(), approver.getUsername(), approver.getPassword());
+      PlatformContext pcontext = new InitialPlatformContext((Hashtable) this.getEnvironment().clone());
+      Subject subject = this.getSubject(pcontext, approver);
 
       WorkflowManager wfm = new WorkflowManager(this.platformContext, subject);
       Collection<WorkflowProcessMO> wpMOCollection = wfm.getActiveProcesses();
@@ -363,15 +380,15 @@ public class RequestManagerImpl implements RequestManager, PlatformContextAware 
             req.setId(Long.toString(wp.getId()));
             req.setTimeRange(new TimeRange());
             req.setService(new Service());
-            
+
             result.add(req);
             /*
-            log.info("\t[WorkflowProcessEntity Info] ");
-            WorkflowProcessEntity entity = new WorkflowProcessEntity(wp);
-            for (RelevantDataItem data : (Collection<RelevantDataItem>) entity.getProcessContext()) {
-              log.info("\t\t[Relevent Data]: " + data);
-            }
-            */
+             * log.info("\t[WorkflowProcessEntity Info] ");
+             * WorkflowProcessEntity entity = new WorkflowProcessEntity(wp); for
+             * (RelevantDataItem data : (Collection<RelevantDataItem>)
+             * entity.getProcessContext()) { log.info("\t\t[Relevent Data]: " +
+             * data); }
+             */
           }
         }
       }

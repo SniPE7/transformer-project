@@ -6,17 +6,23 @@ package com.ibm.tivoli.pim.task;
 import java.rmi.RemoteException;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Hashtable;
+import java.util.List;
 
 import javax.security.auth.Subject;
+import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.ibm.itim.apps.ApplicationException;
 import com.ibm.itim.apps.AuthorizationException;
+import com.ibm.itim.apps.InitialPlatformContext;
 import com.ibm.itim.apps.PlatformContext;
 import com.ibm.itim.apps.identity.InvalidPasswordException;
 import com.ibm.itim.apps.identity.OrganizationalContainerMO;
+import com.ibm.itim.apps.jaas.callback.PlatformCallbackHandler;
 import com.ibm.itim.apps.provisioning.AccountMO;
 import com.ibm.itim.apps.provisioning.AccountManager;
 import com.ibm.itim.apps.provisioning.PasswordManager;
@@ -35,19 +41,34 @@ import com.ibm.tivoli.pim.entity.TimeRange;
 public class ResetPasswordScheduleTask extends ScheduleTask {
   private static Log log = LogFactory.getLog(ResetPasswordScheduleTask.class);
 
-  private PlatformContext platformContext = null;
-  private Subject subject = null;
+  private static final String LOGIN_CONTEXT = "ITIM";
+
+  private Hashtable environment = new Hashtable();
 
   /**
    * Name of the profile (NTAccount, Exchange Account, etc.) identifying the
    * type of this account as listed in Configuration > Entities within the IBM
    * Tivoli Idenitity Manager UI.
    */
-  private String pimAccountProfileName = "PIMProfileAccount";
+  private String pimServiceType = "PIMProfileAccount";
+
+  /**
+   * PIM Service Name
+   */
+  private List<String> pimServiceNames;
+
+  /**
+   * Organization Container DN in TIM
+   */
   private String orgDN;
-  private String nameOfService;
+  /**
+   * Password generator
+   */
   private PasswordGenerator passwordGenerator;
 
+  /**
+   * Notifier
+   */
   private Notifier notifier;
 
   /**
@@ -57,42 +78,44 @@ public class ResetPasswordScheduleTask extends ScheduleTask {
     super();
   }
 
-  /**
-   * @return the platformContext
-   */
-  public PlatformContext getPlatformContext() {
-    return platformContext;
+  public Hashtable getEnvironment() {
+    return environment;
   }
 
-  /**
-   * @param platformContext
-   *          the platformContext to set
-   */
-  public void setPlatformContext(PlatformContext platformContext) {
-    this.platformContext = platformContext;
+  public void setEnvironment(Hashtable environment) {
+    this.environment = environment;
   }
 
   /**
    * @return the subject
+   * @throws LoginException 
    */
-  public Subject getSubject() {
+  private Subject getSubject(PlatformContext platformContext) throws LoginException {
+    Subject subject = null;
+
+    // create the ITIM JAAS CallbackHandler
+    PlatformCallbackHandler handler = new PlatformCallbackHandler((String)this.getEnvironment().get("tim.server.schedule.user"), (String)this.getEnvironment().get("tim.server.schedule.password"));
+    handler.setPlatformContext(platformContext);
+
+    // Associate the CallbackHandler with a LoginContext,
+    // then try to authenticate the user with the platform
+    log.info("Logging in...");
+    LoginContext lc = new LoginContext(LOGIN_CONTEXT, handler);
+    lc.login();
+    log.info("Done");
+
+    // Extract the authenticated JAAS Subject from the LoginContext
+    log.info("Getting subject... ");
+    subject = lc.getSubject();
     return subject;
   }
 
-  /**
-   * @param subject
-   *          the subject to set
-   */
-  public void setSubject(Subject subject) {
-    this.subject = subject;
+  public String getPimServiceType() {
+    return pimServiceType;
   }
 
-  public String getPimAccountProfileName() {
-    return pimAccountProfileName;
-  }
-
-  public void setPimAccountProfileName(String pimAccountProfileName) {
-    this.pimAccountProfileName = pimAccountProfileName;
+  public void setPimServiceType(String pimAccountProfileName) {
+    this.pimServiceType = pimAccountProfileName;
   }
 
   public String getOrgDN() {
@@ -103,12 +126,12 @@ public class ResetPasswordScheduleTask extends ScheduleTask {
     this.orgDN = orgDN;
   }
 
-  public String getNameOfService() {
-    return nameOfService;
+  public List<String> getPimServiceNames() {
+    return pimServiceNames;
   }
 
-  public void setNameOfService(String nameOfService) {
-    this.nameOfService = nameOfService;
+  public void setPimServiceNames(List<String> nameOfServices) {
+    this.pimServiceNames = nameOfServices;
   }
 
   public PasswordGenerator getPasswordGenerator() {
@@ -130,23 +153,31 @@ public class ResetPasswordScheduleTask extends ScheduleTask {
   @Override
   protected void enableAccounts() {
     try {
-      OrganizationalContainerMO org = new OrganizationalContainerMO(this.getPlatformContext(), this.getSubject(), new DistinguishedName(this.orgDN));
-      ServiceManager sm = new ServiceManager(this.getPlatformContext(), this.getSubject());
-      AccountManager acctMgr = new AccountManager(this.getPlatformContext(), this.getSubject());
+      PlatformContext pcontext = new InitialPlatformContext((Hashtable) this.getEnvironment().clone());
 
-      PasswordManager pwdMgr = new PasswordManager(this.getPlatformContext(), this.getSubject());
-      Collection<ServiceMO> services = sm.getServices(org, this.pimAccountProfileName, this.nameOfService);
-      if (services == null) {
-        log.error(String.format("Cound not found PIM Service by service type :[%s], and service name: [%s]", this.pimAccountProfileName, this.nameOfService));
-        return;
-      }
-      for (ServiceMO serviceMO : services) {
-        Collection<AccountMO> accountMOs = serviceMO.getAccounts();
-        for (AccountMO accountMO : accountMOs) {
-          try {
-            process4Activation(org, sm, acctMgr, pwdMgr, accountMO);
-          } catch (Exception e) {
-            log.error(String.format("fail to process PIM account: [%s]", accountMO.getDistinguishedName().toString()), e);
+      Subject subj = this.getSubject(pcontext);
+      OrganizationalContainerMO org = new OrganizationalContainerMO(pcontext, subj, new DistinguishedName(this.orgDN));
+      ServiceManager sm = new ServiceManager(pcontext, subj);
+      AccountManager acctMgr = new AccountManager(pcontext, subj);
+
+      PasswordManager pwdMgr = new PasswordManager(pcontext, subj);
+      for (String pimServiceName : this.pimServiceNames) {
+        if (pimServiceName.trim().length() == 0) {
+           continue;
+        }
+        Collection<ServiceMO> services = sm.getServices(org, this.pimServiceType, pimServiceName);
+        if (services == null) {
+          log.error(String.format("Cound not found PIM Service by service type :[%s], and service name: [%s]", this.pimServiceType, pimServiceName));
+          return;
+        }
+        for (ServiceMO serviceMO : services) {
+          Collection<AccountMO> accountMOs = serviceMO.getAccounts();
+          for (AccountMO accountMO : accountMOs) {
+            try {
+              process4Activation(org, sm, acctMgr, pwdMgr, accountMO);
+            } catch (Exception e) {
+              log.error(String.format("fail to process PIM account: [%s]", accountMO.getDistinguishedName().toString()), e);
+            }
           }
         }
       }
@@ -154,6 +185,8 @@ public class ResetPasswordScheduleTask extends ScheduleTask {
     } catch (RemoteException e) {
       log.error(e.getMessage(), e);
     } catch (ApplicationException e) {
+      log.error(e.getMessage(), e);
+    } catch (LoginException e) {
       log.error(e.getMessage(), e);
     }
   }
@@ -194,7 +227,7 @@ public class ResetPasswordScheduleTask extends ScheduleTask {
           Date scheduledTime = new Date();
           pwdMgr.changePassword(targetAccts, password, scheduledTime, false);
           this.notifier.notifyActivation(accountMO, password);
-          
+
           // Update last notify time
           account.setAttribute(new AttributeValue("pimAccountNotifiedTime", new Date()));
           accountMO.update(account, new Date());
@@ -213,7 +246,7 @@ public class ResetPasswordScheduleTask extends ScheduleTask {
       lastNotifyTime = attribute.getDate();
     }
     if (lastNotifyTime != null) {
-       return false;
+      return false;
     }
     return true;
   }
@@ -221,23 +254,30 @@ public class ResetPasswordScheduleTask extends ScheduleTask {
   @Override
   protected void disableAccounts() {
     try {
-      OrganizationalContainerMO org = new OrganizationalContainerMO(this.getPlatformContext(), this.getSubject(), new DistinguishedName(this.orgDN));
-      ServiceManager sm = new ServiceManager(this.getPlatformContext(), this.getSubject());
-      AccountManager acctMgr = new AccountManager(this.getPlatformContext(), this.getSubject());
+      PlatformContext pcontext = new InitialPlatformContext((Hashtable) this.getEnvironment().clone());
+      Subject subj = this.getSubject(pcontext);
+      OrganizationalContainerMO org = new OrganizationalContainerMO(pcontext, subj, new DistinguishedName(this.orgDN));
+      ServiceManager sm = new ServiceManager(pcontext, subj);
+      AccountManager acctMgr = new AccountManager(pcontext, subj);
 
-      PasswordManager pwdMgr = new PasswordManager(this.getPlatformContext(), this.getSubject());
-      Collection<ServiceMO> services = sm.getServices(org, this.pimAccountProfileName, this.nameOfService);
-      if (services == null) {
-        log.error(String.format("Cound not found PIM Service by service type :[%s], and service name: [%s]", this.pimAccountProfileName, this.nameOfService));
-        return;
-      }
-      for (ServiceMO serviceMO : services) {
-        Collection<AccountMO> accountMOs = serviceMO.getAccounts();
-        for (AccountMO accountMO : accountMOs) {
-          try {
-            process4Deactivation(org, sm, acctMgr, pwdMgr, accountMO);
-          } catch (Exception e) {
-            log.error(String.format("fail to process PIM account: [%s]", accountMO.getDistinguishedName().toString()), e);
+      PasswordManager pwdMgr = new PasswordManager(pcontext, subj);
+      for (String pimServiceName : this.pimServiceNames) {
+        if (pimServiceName.trim().length() == 0) {
+          continue;
+        }
+        Collection<ServiceMO> services = sm.getServices(org, this.pimServiceType, pimServiceName);
+        if (services == null) {
+          log.error(String.format("Cound not found PIM Service by service type :[%s], and service name: [%s]", this.pimServiceType, pimServiceName));
+          return;
+        }
+        for (ServiceMO serviceMO : services) {
+          Collection<AccountMO> accountMOs = serviceMO.getAccounts();
+          for (AccountMO accountMO : accountMOs) {
+            try {
+              process4Deactivation(org, sm, acctMgr, pwdMgr, accountMO);
+            } catch (Exception e) {
+              log.error(String.format("fail to process PIM account: [%s]", accountMO.getDistinguishedName().toString()), e);
+            }
           }
         }
       }
@@ -245,6 +285,8 @@ public class ResetPasswordScheduleTask extends ScheduleTask {
     } catch (RemoteException e) {
       log.error(e.getMessage(), e);
     } catch (ApplicationException e) {
+      log.error(e.getMessage(), e);
+    } catch (LoginException e) {
       log.error(e.getMessage(), e);
     }
   }
@@ -285,7 +327,7 @@ public class ResetPasswordScheduleTask extends ScheduleTask {
           Date scheduledTime = new Date();
           pwdMgr.changePassword(targetAccts, password, scheduledTime, false);
           this.notifier.notifyDeactivation(accountMO, password);
-          
+
           // Disable PIM account
           accountMO.suspend(new Date());
           // accountMO.changePassword(password);
@@ -293,7 +335,7 @@ public class ResetPasswordScheduleTask extends ScheduleTask {
       }
     }
   }
-  
+
   private boolean isTimeToDeactivation(AccountMO accountMO) throws RemoteException, ApplicationException {
     Account account = accountMO.getData();
     TimeRange tr = new TimeRange(account.getAttribute("pimAccountBeginTime").getDate(), account.getAttribute("pimAccountEndTime").getDate());
