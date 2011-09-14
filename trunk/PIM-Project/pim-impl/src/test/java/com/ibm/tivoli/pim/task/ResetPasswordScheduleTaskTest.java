@@ -3,6 +3,7 @@
  */
 package com.ibm.tivoli.pim.task;
 
+import java.util.Arrays;
 import java.util.Properties;
 
 import javax.security.auth.Subject;
@@ -23,7 +24,7 @@ public class ResetPasswordScheduleTaskTest extends TestCase {
 
   private static final String LOGIN_CONTEXT = "ITIM";
 
-  private PlatformContext platformContext;
+  private Properties environment = null;
 
   /* (non-Javadoc)
    * @see junit.framework.TestCase#setUp()
@@ -38,41 +39,22 @@ public class ResetPasswordScheduleTaskTest extends TestCase {
     String appServerUrl = "iiop://iam:2809";
     String ejbUser = "administrator";
     String ejbPswd = "smartway";
+    String itimUser = "itim manager";
+    String itimPswd = "smartway";
 
     // setup environment table to create an InitialPlatformContext
-    Properties env = new Properties();
+    environment = new Properties();
 
     //env.put(Context.INITIAL_CONTEXT_FACTORY, "com.ibm.websphere.naming.WsnInitialContextFactory");
     //env.put(Context.PROVIDER_URL, appServerUrl);
 
-    env.put(InitialPlatformContext.CONTEXT_FACTORY, contextFactory);
-    env.put(PlatformContext.PLATFORM_URL, appServerUrl);
-    env.put(PlatformContext.PLATFORM_PRINCIPAL, ejbUser);
-    env.put(PlatformContext.PLATFORM_CREDENTIALS, ejbPswd);
+    environment.put(InitialPlatformContext.CONTEXT_FACTORY, contextFactory);
+    environment.put(PlatformContext.PLATFORM_URL, appServerUrl);
+    environment.put(PlatformContext.PLATFORM_PRINCIPAL, ejbUser);
+    environment.put(PlatformContext.PLATFORM_CREDENTIALS, ejbPswd);
+    environment.put("tim.server.schedule.user", itimUser);
+    environment.put("tim.server.schedule.password", itimPswd);
 
-    System.out.print("Creating new PlatformContext...");
-    platformContext = new InitialPlatformContext(env);
-  }
-
-  private Subject getSubject(PlatformContext platformContext, String itimUser, String itimPswd) throws LoginException {
-    Subject subject = null;
-    System.out.println("Done");
-
-    // create the ITIM JAAS CallbackHandler
-    PlatformCallbackHandler handler = new PlatformCallbackHandler(itimUser, itimPswd);
-    handler.setPlatformContext(platformContext);
-
-    // Associate the CallbackHandler with a LoginContext,
-    // then try to authenticate the user with the platform
-    System.out.print("Logging in...");
-    LoginContext lc = new LoginContext(LOGIN_CONTEXT, handler);
-    lc.login();
-    System.out.println("Done");
-
-    // Extract the authenticated JAAS Subject from the LoginContext
-    System.out.print("Getting subject... ");
-    subject = lc.getSubject();
-    return subject;
   }
 
   /* (non-Javadoc)
@@ -83,19 +65,14 @@ public class ResetPasswordScheduleTaskTest extends TestCase {
   }
   
   public void testEnable() throws Exception {
-    String itimUser = "itim manager";
-    String itimPswd = "smartway";
 
     ResetPasswordScheduleTask task = new ResetPasswordScheduleTask();
     task.setPasswordGenerator(new SimplePasswordGeneratorImpl());
     task.setNotifier(new ConsoleAndLogNotifer());
     task.setOrgDN("ou=jke, DC=ITIM");
-    //task.setPimAccountProfileName("PIMAdapterProfile");
-    //task.setNameOfService("PIMServer1");
-    task.setPimAccountProfileName("PIMAdapterProfile");
-    task.setNameOfService("PIMService1");
-    task.setPlatformContext(this.platformContext);
-    task.setSubject(this.getSubject(this.platformContext, itimUser, itimPswd));
+    task.setPimServiceType("PIMAdapterProfile");
+    task.setPimServiceNames(Arrays.asList(new String[]{"PIMService1"}));
+    task.setEnvironment(this.environment);
     
     task.enableAccounts();
   }
