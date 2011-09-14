@@ -30,7 +30,7 @@ function getserveraccount(xmlurl){
 				var status = serverlist.children("status").text();
 
 												
-				htmlData+= '<tr bgcolor="#BB99CC">';
+				htmlData+= '<tr bgcolor="#BB99CC" id='+serveraccout+'>';
 				htmlData+= '<td>'+serverlist.children("AccountID").text()+'</td>';
 				htmlData+= '<td>'+serverlist.children("StartTime").text()+'</td>';
 				htmlData+= '<td>'+serverlist.children("EndTime").text()+'</td>';
