@@ -193,4 +193,470 @@
           </request>
      </bac:checkOut>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.springframework.org/schema/beans/BackEndService/checkOut"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:endpointStrategy xsi:type="con:DefaultEndpointStrategy" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:endpoint mode="COMPLEMENT" username="wasadmin" password="passw0rd">http://9.115.71.230:9080/pim/services/soap/backendService</con:endpoint></con:endpointStrategy><con:properties/><con:wssContainer/></con:soapui-project>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.springframework.org/schema/beans/BackEndService/checkOut"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="RequestManagerSoapBinding" type="wsdl" bindingName="{http://www.springframework.org/schema/beans}RequestManagerSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://192.168.2.129:9080/pim-web/services/soap/requestManager?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://192.168.2.129:9080/pim-web/services/soap/requestManager?wsdl"><con:part><con:url>http://192.168.2.129:9080/pim-web/services/soap/requestManager?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="RequestManager" targetNamespace="http://www.springframework.org/schema/beans" xmlns:ns1="http://reqmgr.service.pim.tivoli.ibm.com/" xmlns:ns2="http://cxf.apache.org/bindings/xformat" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.springframework.org/schema/beans" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:import location="http://192.168.2.129:9080/pim-web/services/soap/requestManager?wsdl=RequestManager.wsdl" namespace="http://reqmgr.service.pim.tivoli.ibm.com/"></wsdl:import>
+  <wsdl:binding name="RequestManagerSoapBinding" type="ns1:RequestManager">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getPendingRequestsByApprover">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getPendingRequestsByApprover">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPendingRequestsByApproverResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="approval">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="approval">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="approvalResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPendingRequestsByTargetService">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getPendingRequestsByTargetService">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPendingRequestsByTargetServiceResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllCheckInAccount">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAllCheckInAccount">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllCheckInAccountResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="reject">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="reject">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="rejectResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="submit">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="submit">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="submitResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPendingRequestsByRequester">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getPendingRequestsByRequester">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPendingRequestsByRequesterResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPendingRequestsByTargetAccount">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getPendingRequestsByTargetAccount">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPendingRequestsByTargetAccountResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="RequestManager">
+    <wsdl:port binding="tns:RequestManagerSoapBinding" name="RequestManagerImplPort">
+      <soap:address location="http://192.168.2.129:9080/pim-web/services/soap/requestManager"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>http://192.168.2.129:9080/pim-web/services/soap/requestManager?wsdl=RequestManager.wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="RequestManager" targetNamespace="http://reqmgr.service.pim.tivoli.ibm.com/" xmlns:ns1="http://reqmgr.service.pim.tivoli.ibm.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://reqmgr.service.pim.tivoli.ibm.com/" xmlns:ns1="http://submitResponse.entity.pim.tivoli.ibm.com" xmlns:tns="http://reqmgr.service.pim.tivoli.ibm.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://submitResponse.entity.pim.tivoli.ibm.com"/>
+      <xs:element name="approval" type="tns:approval"/>
+      <xs:element name="approvalResponse" type="tns:approvalResponse"/>
+      <xs:element name="getAllCheckInAccount" type="tns:getAllCheckInAccount"/>
+      <xs:element name="getAllCheckInAccountResponse" type="tns:getAllCheckInAccountResponse"/>
+      <xs:element name="getPendingRequestsByApprover" type="tns:getPendingRequestsByApprover"/>
+      <xs:element name="getPendingRequestsByApproverResponse" type="tns:getPendingRequestsByApproverResponse"/>
+      <xs:element name="getPendingRequestsByRequester" type="tns:getPendingRequestsByRequester"/>
+      <xs:element name="getPendingRequestsByRequesterResponse" type="tns:getPendingRequestsByRequesterResponse"/>
+      <xs:element name="getPendingRequestsByTargetAccount" type="tns:getPendingRequestsByTargetAccount"/>
+      <xs:element name="getPendingRequestsByTargetAccountResponse" type="tns:getPendingRequestsByTargetAccountResponse"/>
+      <xs:element name="getPendingRequestsByTargetService" type="tns:getPendingRequestsByTargetService"/>
+      <xs:element name="getPendingRequestsByTargetServiceResponse" type="tns:getPendingRequestsByTargetServiceResponse"/>
+      <xs:element name="reject" type="tns:reject"/>
+      <xs:element name="rejectResponse" type="tns:rejectResponse"/>
+      <xs:element name="submit" type="tns:submit"/>
+      <xs:element name="submitResponse" type="tns:submitResponse"/>
+      <xs:complexType name="getPendingRequestsByApprover">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="approver" type="tns:user"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="user">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="password" type="xs:string"/>
+          <xs:element minOccurs="0" name="username" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getPendingRequestsByApproverResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="getPendingRequestsByApproverResp" type="tns:accountRequest"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="accountRequest">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="account" type="tns:pimAccount"/>
+          <xs:element minOccurs="0" name="id" type="xs:string"/>
+          <xs:element minOccurs="0" name="pimServiceName" type="xs:string"/>
+          <xs:element minOccurs="0" name="requester" type="tns:user"/>
+          <xs:element minOccurs="0" name="service" type="tns:service"/>
+          <xs:element minOccurs="0" name="timeRange" type="tns:timeRange"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="pimAccount">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="username" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="service">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="description" type="xs:string"/>
+          <xs:element minOccurs="0" name="name" type="xs:string"/>
+          <xs:element minOccurs="0" name="profileName" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="timeRange">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="beginTime" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="endTime" type="xs:dateTime"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="approval">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="approver" type="tns:user"/>
+          <xs:element minOccurs="0" name="requestId" type="xs:string"/>
+          <xs:element minOccurs="0" name="comment" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="approvalResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="approvalResponse" type="tns:approvalReponse"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="approvalReponse">
+        <xs:complexContent>
+          <xs:extension base="tns:baseResponse">
+            <xs:sequence/>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType abstract="true" name="baseResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="cause" type="xs:string"/>
+          <xs:element minOccurs="0" name="code" type="xs:string"/>
+          <xs:element minOccurs="0" name="timestamp" type="xs:dateTime"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getPendingRequestsByTargetService">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="serviceName" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getPendingRequestsByTargetServiceResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="getPendingRequestsByTargetServiceResp" type="tns:accountRequest"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="reject">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="rejector" type="tns:user"/>
+          <xs:element minOccurs="0" name="requestId" type="xs:string"/>
+          <xs:element minOccurs="0" name="comment" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="rejectResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="rejectReponse" type="tns:rejectReponse"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="rejectReponse">
+        <xs:complexContent>
+          <xs:extension base="tns:baseResponse">
+            <xs:sequence/>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="getAllCheckInAccount">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="tns:timeRange"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getAllCheckInAccountResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:checkInAccount"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="checkInAccount">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="account" type="tns:pimAccount"/>
+          <xs:element minOccurs="0" name="approvedTime" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="approver" type="tns:user"/>
+          <xs:element minOccurs="0" name="checkOutTime" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="requestId" type="xs:string"/>
+          <xs:element minOccurs="0" name="requester" type="tns:user"/>
+          <xs:element minOccurs="0" name="service" type="tns:service"/>
+          <xs:element minOccurs="0" name="timeRange" type="tns:timeRange"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="submit">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="request" type="tns:accountRequest"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="submitResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="submitResponse" type="ns1:submitResponse"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getPendingRequestsByRequester">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="approver" type="tns:user"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getPendingRequestsByRequesterResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="getPendingRequestsByRequesterResp" type="tns:accountRequest"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getPendingRequestsByTargetAccount">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="serviceName" type="xs:string"/>
+          <xs:element minOccurs="0" name="accountId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getPendingRequestsByTargetAccountResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="getPendingRequestsByTargetAccountResp" type="tns:accountRequest"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://submitResponse.entity.pim.tivoli.ibm.com" xmlns="http://submitResponse.entity.pim.tivoli.ibm.com" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://reqmgr.service.pim.tivoli.ibm.com/"/>
+      <xs:complexType name="submitResponse">
+        <xs:complexContent>
+          <xs:extension base="ns1:baseResponse">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="requestId" type="xs:string"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="reject">
+    <wsdl:part element="ns1:reject" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="submit">
+    <wsdl:part element="ns1:submit" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="submitResponse">
+    <wsdl:part element="ns1:submitResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="approvalResponse">
+    <wsdl:part element="ns1:approvalResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPendingRequestsByApproverResponse">
+    <wsdl:part element="ns1:getPendingRequestsByApproverResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="approval">
+    <wsdl:part element="ns1:approval" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPendingRequestsByTargetAccount">
+    <wsdl:part element="ns1:getPendingRequestsByTargetAccount" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPendingRequestsByRequester">
+    <wsdl:part element="ns1:getPendingRequestsByRequester" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="rejectResponse">
+    <wsdl:part element="ns1:rejectResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPendingRequestsByTargetAccountResponse">
+    <wsdl:part element="ns1:getPendingRequestsByTargetAccountResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPendingRequestsByRequesterResponse">
+    <wsdl:part element="ns1:getPendingRequestsByRequesterResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPendingRequestsByApprover">
+    <wsdl:part element="ns1:getPendingRequestsByApprover" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllCheckInAccountResponse">
+    <wsdl:part element="ns1:getAllCheckInAccountResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllCheckInAccount">
+    <wsdl:part element="ns1:getAllCheckInAccount" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPendingRequestsByTargetService">
+    <wsdl:part element="ns1:getPendingRequestsByTargetService" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPendingRequestsByTargetServiceResponse">
+    <wsdl:part element="ns1:getPendingRequestsByTargetServiceResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="RequestManager">
+    <wsdl:operation name="getPendingRequestsByApprover">
+      <wsdl:input message="ns1:getPendingRequestsByApprover" name="getPendingRequestsByApprover"></wsdl:input>
+      <wsdl:output message="ns1:getPendingRequestsByApproverResponse" name="getPendingRequestsByApproverResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="approval">
+      <wsdl:input message="ns1:approval" name="approval"></wsdl:input>
+      <wsdl:output message="ns1:approvalResponse" name="approvalResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPendingRequestsByTargetService">
+      <wsdl:input message="ns1:getPendingRequestsByTargetService" name="getPendingRequestsByTargetService"></wsdl:input>
+      <wsdl:output message="ns1:getPendingRequestsByTargetServiceResponse" name="getPendingRequestsByTargetServiceResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="reject">
+      <wsdl:input message="ns1:reject" name="reject"></wsdl:input>
+      <wsdl:output message="ns1:rejectResponse" name="rejectResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllCheckInAccount">
+      <wsdl:input message="ns1:getAllCheckInAccount" name="getAllCheckInAccount"></wsdl:input>
+      <wsdl:output message="ns1:getAllCheckInAccountResponse" name="getAllCheckInAccountResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="submit">
+      <wsdl:input message="ns1:submit" name="submit"></wsdl:input>
+      <wsdl:output message="ns1:submitResponse" name="submitResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPendingRequestsByRequester">
+      <wsdl:input message="ns1:getPendingRequestsByRequester" name="getPendingRequestsByRequester"></wsdl:input>
+      <wsdl:output message="ns1:getPendingRequestsByRequesterResponse" name="getPendingRequestsByRequesterResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPendingRequestsByTargetAccount">
+      <wsdl:input message="ns1:getPendingRequestsByTargetAccount" name="getPendingRequestsByTargetAccount"></wsdl:input>
+      <wsdl:output message="ns1:getPendingRequestsByTargetAccountResponse" name="getPendingRequestsByTargetAccountResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://192.168.2.129:9080/pim-web/services/soap/requestManager</con:endpoint></con:endpoints><con:operation isOneWay="false" action="" name="approval" bindingOperationName="approval" type="Request-Response" outputName="approvalResponse" inputName="approval" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://192.168.2.129:9080/pim-web/services/soap/requestManager</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:req="http://reqmgr.service.pim.tivoli.ibm.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <req:approval>
+         <!--Optional:-->
+         <approver>
+            <!--Optional:-->
+            <password>?</password>
+            <!--Optional:-->
+            <username>?</username>
+         </approver>
+         <!--Optional:-->
+         <requestId>?</requestId>
+         <!--Optional:-->
+         <comment>?</comment>
+      </req:approval>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.springframework.org/schema/beans/RequestManager/approval"/></con:call></con:operation><con:operation isOneWay="false" action="" name="getAllCheckInAccount" bindingOperationName="getAllCheckInAccount" type="Request-Response" outputName="getAllCheckInAccountResponse" inputName="getAllCheckInAccount" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://192.168.2.129:9080/pim-web/services/soap/requestManager</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:req="http://reqmgr.service.pim.tivoli.ibm.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <req:getAllCheckInAccount>
+         <!--Optional:-->
+         <arg0>
+            <!--Optional:-->
+            <beginTime>?</beginTime>
+            <!--Optional:-->
+            <endTime>?</endTime>
+         </arg0>
+      </req:getAllCheckInAccount>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.springframework.org/schema/beans/RequestManager/getAllCheckInAccount"/></con:call></con:operation><con:operation isOneWay="false" action="" name="getPendingRequestsByApprover" bindingOperationName="getPendingRequestsByApprover" type="Request-Response" outputName="getPendingRequestsByApproverResponse" inputName="getPendingRequestsByApprover" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://192.168.2.129:9080/pim-web/services/soap/requestManager</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:req="http://reqmgr.service.pim.tivoli.ibm.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <req:getPendingRequestsByApprover>
+         <!--Optional:-->
+         <approver>
+            <!--Optional:-->
+            <password>?</password>
+            <!--Optional:-->
+            <username>?</username>
+         </approver>
+      </req:getPendingRequestsByApprover>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.springframework.org/schema/beans/RequestManager/getPendingRequestsByApprover"/></con:call></con:operation><con:operation isOneWay="false" action="" name="getPendingRequestsByRequester" bindingOperationName="getPendingRequestsByRequester" type="Request-Response" outputName="getPendingRequestsByRequesterResponse" inputName="getPendingRequestsByRequester" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://192.168.2.129:9080/pim-web/services/soap/requestManager</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:req="http://reqmgr.service.pim.tivoli.ibm.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <req:getPendingRequestsByRequester>
+         <!--Optional:-->
+         <approver>
+            <!--Optional:-->
+            <password>?</password>
+            <!--Optional:-->
+            <username>?</username>
+         </approver>
+      </req:getPendingRequestsByRequester>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.springframework.org/schema/beans/RequestManager/getPendingRequestsByRequester"/></con:call></con:operation><con:operation isOneWay="false" action="" name="getPendingRequestsByTargetAccount" bindingOperationName="getPendingRequestsByTargetAccount" type="Request-Response" outputName="getPendingRequestsByTargetAccountResponse" inputName="getPendingRequestsByTargetAccount" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://192.168.2.129:9080/pim-web/services/soap/requestManager</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:req="http://reqmgr.service.pim.tivoli.ibm.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <req:getPendingRequestsByTargetAccount>
+         <!--Optional:-->
+         <serviceName>?</serviceName>
+         <!--Optional:-->
+         <accountId>?</accountId>
+      </req:getPendingRequestsByTargetAccount>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.springframework.org/schema/beans/RequestManager/getPendingRequestsByTargetAccount"/></con:call></con:operation><con:operation isOneWay="false" action="" name="getPendingRequestsByTargetService" bindingOperationName="getPendingRequestsByTargetService" type="Request-Response" outputName="getPendingRequestsByTargetServiceResponse" inputName="getPendingRequestsByTargetService" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://192.168.2.129:9080/pim-web/services/soap/requestManager</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:req="http://reqmgr.service.pim.tivoli.ibm.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <req:getPendingRequestsByTargetService>
+         <!--Optional:-->
+         <serviceName>?</serviceName>
+      </req:getPendingRequestsByTargetService>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.springframework.org/schema/beans/RequestManager/getPendingRequestsByTargetService"/></con:call></con:operation><con:operation isOneWay="false" action="" name="reject" bindingOperationName="reject" type="Request-Response" outputName="rejectResponse" inputName="reject" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://192.168.2.129:9080/pim-web/services/soap/requestManager</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:req="http://reqmgr.service.pim.tivoli.ibm.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <req:reject>
+         <!--Optional:-->
+         <rejector>
+            <!--Optional:-->
+            <password>?</password>
+            <!--Optional:-->
+            <username>?</username>
+         </rejector>
+         <!--Optional:-->
+         <requestId>?</requestId>
+         <!--Optional:-->
+         <comment>?</comment>
+      </req:reject>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.springframework.org/schema/beans/RequestManager/reject"/></con:call></con:operation><con:operation isOneWay="false" action="" name="submit" bindingOperationName="submit" type="Request-Response" outputName="submitResponse" inputName="submit" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://192.168.2.129:9080/pim-web/services/soap/requestManager</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:req="http://reqmgr.service.pim.tivoli.ibm.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <req:submit>
+         <request>
+            <requester>
+               <username>bbbbb</username>
+               <password>passw0rd</password>
+            </requester>
+            <service>
+               <profileName>JKE Active Directory</profileName>
+               <name>ADprofile</name>
+               <description></description>
+            </service>
+            <account>
+               <username>jhill</username>
+            </account>
+            <pimServiceName>PIMService1</pimServiceName>
+             <timeRange>
+               <beginTime>2011-09-11T19:00:42.188+08:00</beginTime>
+               <endTime>2011-10-11T19:00:42.188+08:00</endTime>
+            </timeRange>
+         </request>
+      </req:submit>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.springframework.org/schema/beans/RequestManager/submit"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:endpointStrategy xsi:type="con:DefaultEndpointStrategy" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:endpoint mode="COMPLEMENT" username="wasadmin" password="passw0rd">http://9.115.71.230:9080/pim/services/soap/backendService</con:endpoint></con:endpointStrategy><con:properties/><con:wssContainer/></con:soapui-project>
