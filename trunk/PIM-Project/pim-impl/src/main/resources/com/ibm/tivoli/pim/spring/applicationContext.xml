@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:jaxrs="http://cxf.apache.org/jaxrs"
 	xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://cxf.apache.org/jaxws 
+		http://cxf.apache.org/schemas/jaxws.xsd
+	  http://cxf.apache.org/jaxrs 
+	  http://cxf.apache.org/schemas/jaxrs.xsd">
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
-	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+  <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+  <import resource="classpath:META-INF/cxf/cxf-extension-jaxrs-binding.xml" />
+  <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
 	<bean id="propertyPlaceholderConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -29,6 +36,30 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 		</property>
 	</bean>
 
+  <!-- RESTful -->
+  <jaxrs:server id="RESTfulServer" address="/rest">
+    <jaxrs:serviceBeans>
+      <ref bean="loginServiceBean" />
+    </jaxrs:serviceBeans>
+    <jaxrs:extensionMappings>
+      <entry key="json" value="application/json" />
+      <entry key="xml" value="application/xml" />
+    </jaxrs:extensionMappings>
+  </jaxrs:server>
+
+  <bean id="loginServiceBean" class="com.ibm.tivoli.pim.service.LoginServiceImpl">
+    <property name="environment">
+          <props>
+            <prop key="enrole.platform.contextFactory">${tim.server.platform.context.factory}</prop>
+            <prop key="enrole.appServer.url">${tim.server.platform.url}</prop>
+            <prop key="enrole.appServer.ejbuser.principal">${tim.server.platform.uid}</prop>
+            <prop key="enrole.appServer.ejbuser.credentials">${tim.server.platform.password}</prop>
+          </props>
+    </property>
+  </bean>
+  <jaxws:endpoint id="loginService" implementor="#loginServiceBean"
+    address="soap/loginService" serviceName="LoginService" />
+
 	<bean id="requestManager4WAS" class="com.ibm.tivoli.pim.service.RequestManagerImpl">
 		<property name="pimAccountProfileName" value="${pim.account.profile.name}" />
 		<property name="environment">
@@ -43,10 +74,10 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
 	<alias alias="requestManager" name="requestManager4WAS" />
 	<jaxws:endpoint id="requestManagerService" implementor="#requestManager"
-		address="/requestManager" serviceName="RequestManager" />
+		address="soap/requestManager" serviceName="RequestManager" />
 
 	<bean id="backendServiceBean" class="com.ibm.tivoli.pim.service.SimpleBackEndServiceImpl"></bean>
 	<jaxws:endpoint id="backendService" implementor="#backendServiceBean"
-		address="/backendService" serviceName="BackendService"></jaxws:endpoint>
+		address="soap/backendService" serviceName="BackendService"></jaxws:endpoint>
 </beans>
 
