@@ -17,6 +17,7 @@ import org.apache.commons.logging.LogFactory;
 import com.ibm.itim.apps.PlatformContext;
 import com.ibm.itim.apps.jaas.callback.PlatformCallbackHandler;
 import com.ibm.tivoli.pim.entity.User;
+import com.ibm.tivoli.pim.service.LoginServiceImpl;
 
 /**
  * @author Administrator
@@ -45,8 +46,8 @@ public class HttpSessionBasedSubjectCallbackHandler implements SubjectCallbackHa
     if (session == null) {
        throw new LoginException("Could not found HttpSession");
     }
-    String username = (String)session.getAttribute("username");
-    String password = (String)session.getAttribute("password");
+    String username = (String)session.getAttribute(LoginServiceImpl.SESSION_USERNAME);
+    String password = (String)session.getAttribute(LoginServiceImpl.SESSION_PASSWORD);
 
     // create the ITIM JAAS CallbackHandler
     PlatformCallbackHandler handler = new PlatformCallbackHandler(username, password);
