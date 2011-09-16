@@ -3,10 +3,16 @@
  */
 package com.ibm.tivoli.pim.entity;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * @author zhaodonglu
  * 
  */
+@XmlRootElement(name = "request")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class AccountRequest {
   private String id = null;
 

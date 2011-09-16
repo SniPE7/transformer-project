@@ -6,6 +6,7 @@ package com.ibm.tivoli.pim.callback;
 import javax.security.auth.Subject;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.ws.WebServiceContext;
 
 import org.apache.commons.logging.Log;
@@ -30,7 +31,7 @@ public class UserBasedSubjectCallbackHandler implements SubjectCallbackHandler {
   /* (non-Javadoc)
    * @see com.ibm.tivoli.pim.service.SubjectCallbackHandler#getSubject(java.lang.String, com.ibm.itim.apps.PlatformContext, javax.xml.ws.WebServiceContext, com.ibm.tivoli.pim.entity.User)
    */
-  public Subject getSubject(String LOGIN_CONTEXT, PlatformContext platformContext, WebServiceContext webServiceContext, User user) throws LoginException {
+  public Subject getSubject(String LOGIN_CONTEXT, PlatformContext platformContext, HttpServletRequest request, User user) throws LoginException {
     Subject subject = null;
 
     // create the ITIM JAAS CallbackHandler

@@ -5,10 +5,16 @@ package com.ibm.tivoli.pim.entity;
 
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * @author zhaodonglu
  *
  */
+@XmlRootElement(name = "timeRange")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class TimeRange {
   
   private Date beginTime = null;

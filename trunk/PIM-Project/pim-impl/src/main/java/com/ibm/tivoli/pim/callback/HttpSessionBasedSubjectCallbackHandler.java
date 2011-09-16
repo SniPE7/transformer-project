@@ -34,11 +34,9 @@ public class HttpSessionBasedSubjectCallbackHandler implements SubjectCallbackHa
   /* (non-Javadoc)
    * @see com.ibm.tivoli.pim.service.SubjectCallbackHandler#getSubject(java.lang.String, com.ibm.itim.apps.PlatformContext, javax.xml.ws.WebServiceContext, com.ibm.tivoli.pim.entity.User)
    */
-  public Subject getSubject(String LOGIN_CONTEXT, PlatformContext platformContext, WebServiceContext webServiceContext, User user) throws LoginException {
+  public Subject getSubject(String LOGIN_CONTEXT, PlatformContext platformContext, HttpServletRequest request, User user) throws LoginException {
     Subject subject = null;
 
-    MessageContext mct = webServiceContext.getMessageContext();
-    HttpServletRequest request = (HttpServletRequest) mct.get("HTTP.REQUEST");
     if (request == null) {
        throw new LoginException("Could not found HttpRequest");
     }

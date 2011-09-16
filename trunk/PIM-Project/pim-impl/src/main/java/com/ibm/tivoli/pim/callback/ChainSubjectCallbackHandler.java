@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.security.auth.Subject;
 import javax.security.auth.login.LoginException;
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.ws.WebServiceContext;
 
 import org.apache.commons.logging.Log;
@@ -66,11 +67,11 @@ public class ChainSubjectCallbackHandler implements SubjectCallbackHandler {
    * .String, com.ibm.itim.apps.PlatformContext, javax.xml.ws.WebServiceContext,
    * com.ibm.tivoli.pim.entity.User)
    */
-  public Subject getSubject(String LOGIN_CONTEXT, PlatformContext platformContext, WebServiceContext webServiceContext, User user) throws LoginException {
+  public Subject getSubject(String LOGIN_CONTEXT, PlatformContext platformContext, HttpServletRequest request, User user) throws LoginException {
     for (SubjectCallbackHandler callback : this.callbackHandlers) {
       try {
         log.debug(String.format("Get Subject from: [%s]", callback.getClass().getName()));
-        Subject subject = callback.getSubject(LOGIN_CONTEXT, platformContext, webServiceContext, user);
+        Subject subject = callback.getSubject(LOGIN_CONTEXT, platformContext, request, user);
         if (subject != null) {
           return subject;
         }

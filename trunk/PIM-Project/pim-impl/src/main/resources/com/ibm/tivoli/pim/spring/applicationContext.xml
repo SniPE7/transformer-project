@@ -40,6 +40,7 @@
   <jaxrs:server id="RESTfulServer" address="/rest">
     <jaxrs:serviceBeans>
       <ref bean="loginServiceBean" />
+      <ref bean="requestManagerBean" />
     </jaxrs:serviceBeans>
     <jaxrs:extensionMappings>
       <entry key="json" value="application/json" />
@@ -72,8 +73,8 @@
 		</property>
 	</bean>
 
-	<alias alias="requestManager" name="requestManager4WAS" />
-	<jaxws:endpoint id="requestManagerService" implementor="#requestManager"
+	<alias alias="requestManagerBean" name="requestManager4WAS" />
+	<jaxws:endpoint id="requestManagerService" implementor="#requestManagerBean"
 		address="soap/requestManager" serviceName="RequestManager" />
 
 	<bean id="backendServiceBean" class="com.ibm.tivoli.pim.service.SimpleBackEndServiceImpl"></bean>
