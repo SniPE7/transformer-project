@@ -3,15 +3,14 @@
  */
 package com.ibm.tivoli.pim.service;
 
-import java.rmi.RemoteException;
 import java.util.List;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
-
-import org.omg.CORBA.portable.ApplicationException;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 
 import com.ibm.tivoli.pim.entity.AccountRequest;
 import com.ibm.tivoli.pim.entity.ApprovalReponse;
@@ -26,9 +25,12 @@ import com.ibm.tivoli.pim.entity.User;
  *
  */
 @WebService(targetNamespace="http://reqmgr.service.pim.tivoli.ibm.com/")
+@Path(value = "/request_manager_service")  
 public interface RequestManager {
   @WebMethod(operationName = "submit")
   @WebResult(name="submitResponse")
+  @POST
+  @Path(value = "/submit")
   public abstract SubmitResponse submit(@WebParam(name = "request")AccountRequest request);
   
   @WebMethod(operationName = "approval")

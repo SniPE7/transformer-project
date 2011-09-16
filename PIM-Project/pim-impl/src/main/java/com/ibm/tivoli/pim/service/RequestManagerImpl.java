@@ -14,10 +14,14 @@ import javax.annotation.Resource;
 import javax.jws.WebService;
 import javax.security.auth.Subject;
 import javax.security.auth.login.LoginException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.ws.rs.core.Context;
 import javax.xml.ws.WebServiceContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.cxf.jaxrs.ext.MessageContext;
 
 import com.ibm.itim.apps.ApplicationException;
 import com.ibm.itim.apps.AuthorizationException;
@@ -65,6 +69,9 @@ public class RequestManagerImpl implements RequestManager {
   @Resource
   private WebServiceContext webServiceContext;
 
+  @Context
+  private MessageContext messgeContext;
+
   /**
    * Subject callback handler
    */
@@ -91,6 +98,10 @@ public class RequestManagerImpl implements RequestManager {
     this.webServiceContext = webServiceContext;
   }
 
+  public void setMessgeContext(MessageContext messgeContext) {
+    this.messgeContext = messgeContext;
+  }
+
   public String getPimAccountProfileName() {
     return pimAccountProfileName;
   }
@@ -107,8 +118,22 @@ public class RequestManagerImpl implements RequestManager {
     this.subjectCallbackHandler = subjectCallbackHandler;
   }
 
+  private HttpServletRequest getHttpRequest() {
+    HttpServletRequest request = null;
+    if (webServiceContext.getMessageContext() != null) {
+       // For SOAP mode
+       request = (HttpServletRequest) webServiceContext.getMessageContext().get("HTTP.REQUEST");
+    }
+    
+    if (this.messgeContext != null) {
+       // For RESTful mode
+       request = this.messgeContext.getHttpServletRequest();
+    }
+    return request;
+  }
+
   private Subject getSubject(PlatformContext platformContext, User user) throws LoginException {
-    return this.subjectCallbackHandler.getSubject(LOGIN_CONTEXT, platformContext, webServiceContext, user);
+    return this.subjectCallbackHandler.getSubject(LOGIN_CONTEXT, platformContext, this.getHttpRequest(), user);
   }
 
   public Hashtable getEnvironment() {
@@ -133,10 +158,15 @@ public class RequestManagerImpl implements RequestManager {
       AccountManager accountManager = new AccountManager(pcontext, subject);
       ServiceManager serviceManager = new ServiceManager(pcontext, subject);
       PersonManager mgr = new PersonManager(pcontext, subject);
-      Collection people = mgr.getPeople("uid", request.getRequester().getUsername(), null);
+      String currentUser = getCurrentUser(request);
+      if (currentUser == null) {
+        log.error("Could not found current login uid");
+        return new SubmitResponse("Failure", "Could not found current login uid");
+      }
+      Collection people = mgr.getPeople("uid", currentUser, null);
       if (people.isEmpty()) {
-        log.error("Could not found person by uid: [" + request.getRequester().getUsername() + "]");
-        return new SubmitResponse("Failure", "Could not found person by uid: [" + request.getRequester().getUsername() + "]");
+        log.error("Could not found person by uid: [" + currentUser + "]");
+        return new SubmitResponse("Failure", "Could not found person by uid: [" + currentUser + "]");
       }
 
       PersonMO personMO = (PersonMO) people.iterator().next();
@@ -180,6 +210,18 @@ public class RequestManagerImpl implements RequestManager {
       log.error("Fail to submit pim request, cause: " + e.getMessage(), e);
       return new SubmitResponse("Failure", "Fail to submit pim request, cause: " + e.getMessage());
     }
+  }
+
+  private String getCurrentUser(AccountRequest request) {
+    HttpServletRequest hreq = this.getHttpRequest();
+    if (hreq == null) {
+       return request.getRequester().getUsername();
+    }
+    HttpSession session = hreq.getSession(false);
+    if (session != null) {
+       return (String)session.getAttribute(LoginServiceImpl.SESSION_USERNAME);
+    }
+    return null;
   }
 
   /*
