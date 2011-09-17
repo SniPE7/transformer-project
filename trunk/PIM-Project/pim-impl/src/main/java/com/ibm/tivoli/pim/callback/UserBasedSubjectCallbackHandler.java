@@ -32,7 +32,9 @@ public class UserBasedSubjectCallbackHandler implements SubjectCallbackHandler {
    * @see com.ibm.tivoli.pim.service.SubjectCallbackHandler#getSubject(java.lang.String, com.ibm.itim.apps.PlatformContext, javax.xml.ws.WebServiceContext, com.ibm.tivoli.pim.entity.User)
    */
   public Subject getSubject(String LOGIN_CONTEXT, PlatformContext platformContext, HttpServletRequest request, User user) throws LoginException {
-    Subject subject = null;
+    if (user == null || user.getPassword() == null || user.getUsername() == null) {
+      return null;
+    }
 
     // create the ITIM JAAS CallbackHandler
     PlatformCallbackHandler handler = new PlatformCallbackHandler(user.getUsername(), user.getPassword());
@@ -47,7 +49,7 @@ public class UserBasedSubjectCallbackHandler implements SubjectCallbackHandler {
 
     // Extract the authenticated JAAS Subject from the LoginContext
     log.info("Getting subject... ");
-    subject = lc.getSubject();
+    Subject subject = lc.getSubject();
     return subject;
   }
 }

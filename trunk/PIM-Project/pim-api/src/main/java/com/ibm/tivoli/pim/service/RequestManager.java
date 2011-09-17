@@ -10,8 +10,10 @@ import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import com.ibm.tivoli.pim.entity.AccountRequest;
@@ -39,19 +41,35 @@ public interface RequestManager {
   
   @WebMethod(operationName = "approval")
   @WebResult(name="approvalResponse")
+  @POST
+  @Path(value = "/approval")
+  @Produces({"application/xml", "application/json"})
+  @Consumes({"application/xml", "application/json"})
   public abstract ApprovalReponse approval(@WebParam(name = "approver")User approver, @WebParam(name = "requestId")String requestId, @WebParam(name = "comment")String comment);
   
   @WebMethod(operationName = "reject")
   @WebResult(name="rejectReponse")
+  @POST
+  @Path(value = "/reject")
+  @Produces({"application/xml", "application/json"})
+  @Consumes({"application/xml", "application/json"})
   public abstract RejectReponse reject(@WebParam(name = "rejector")User rejector, @WebParam(name = "requestId")String requestId, @WebParam(name = "comment")String comment);
   
   @WebMethod(operationName = "getPendingRequestsByRequester")
   @WebResult(name="getPendingRequestsByRequesterResp")
-  public abstract List<AccountRequest> getPendingRequestsByRequester(@WebParam(name = "approver")User requester);
+  @POST
+  @Path(value = "/pendings_by_requestor")
+  @Produces({"application/xml", "application/json"})
+  @Consumes({"application/xml", "application/json"})
+  public abstract List<AccountRequest> getPendingRequestsByRequester(@WebParam(name = "requester")User requester);
   
   @WebMethod(operationName = "getPendingRequestsByTargetService")
   @WebResult(name="getPendingRequestsByTargetServiceResp")
-  public abstract List<AccountRequest> getPendingRequestsByTargetService(@WebParam(name = "serviceName")String serviceName);
+  @GET
+  @Path(value = "/pendings_by_service/{serviceName}/result")
+  @Produces({"application/xml", "application/json"})
+  @Consumes({"application/xml", "application/json"})
+  public abstract List<AccountRequest> getPendingRequestsByTargetService(@WebParam(name = "serviceName") @PathParam("serviceName")String serviceName);
   
   @WebMethod(operationName = "getPendingRequestsByTargetAccount")
   @WebResult(name="getPendingRequestsByTargetAccountResp")
