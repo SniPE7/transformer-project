@@ -79,7 +79,7 @@ public class RequestManagerImpl implements RequestManager {
   
   private Hashtable environment = new Hashtable();
   
-  private PlatformContext platformContext = null;
+  //private PlatformContext platformContext = null;
 
   /**
    * Name of the profile identifying the type of PIM account as listed in
@@ -120,7 +120,7 @@ public class RequestManagerImpl implements RequestManager {
 
   private HttpServletRequest getHttpRequest() {
     HttpServletRequest request = null;
-    if (webServiceContext.getMessageContext() != null) {
+    if (webServiceContext != null && webServiceContext.getMessageContext() != null) {
        // For SOAP mode
        request = (HttpServletRequest) webServiceContext.getMessageContext().get("HTTP.REQUEST");
     }
@@ -236,7 +236,7 @@ public class RequestManagerImpl implements RequestManager {
     try {
       PlatformContext pcontext = new InitialPlatformContext((Hashtable) this.getEnvironment().clone());
       Subject subject = this.getSubject(pcontext, approver);
-      WorkflowManager wfm = new WorkflowManager(this.platformContext, subject);
+      WorkflowManager wfm = new WorkflowManager(pcontext, subject);
       WorkflowProcessMO processMO = wfm.getProcess(Long.parseLong(requestId));
       if (processMO == null) {
         // Not found process
@@ -296,7 +296,7 @@ public class RequestManagerImpl implements RequestManager {
     try {
       PlatformContext pcontext = new InitialPlatformContext((Hashtable) this.getEnvironment().clone());
       Subject subject = this.getSubject(pcontext, rejector);
-      WorkflowManager wfm = new WorkflowManager(this.platformContext, subject);
+      WorkflowManager wfm = new WorkflowManager(pcontext, subject);
       WorkflowProcessMO processMO = wfm.getProcess(Long.parseLong(requestId));
       if (processMO == null) {
         // Not found process
@@ -354,7 +354,7 @@ public class RequestManagerImpl implements RequestManager {
    */
   public List<AccountRequest> getPendingRequestsByRequester(User requester) {
     // TODO Auto-generated method stub
-    return null;
+    return this.getPendingRequestsByApprover(requester);
   }
 
   /*
@@ -366,7 +366,7 @@ public class RequestManagerImpl implements RequestManager {
    */
   public List<AccountRequest> getPendingRequestsByTargetService(String serviceName) {
     // TODO Auto-generated method stub
-    return null;
+    return this.getPendingRequestsByApprover(null);
   }
 
   /*
@@ -378,7 +378,7 @@ public class RequestManagerImpl implements RequestManager {
    */
   public List<AccountRequest> getPendingRequestsByTargetAccount(String serviceName, String accountId) {
     // TODO Auto-generated method stub
-    return null;
+    return this.getPendingRequestsByApprover(null);
   }
 
   /*
@@ -394,7 +394,7 @@ public class RequestManagerImpl implements RequestManager {
       PlatformContext pcontext = new InitialPlatformContext((Hashtable) this.getEnvironment().clone());
       Subject subject = this.getSubject(pcontext, approver);
 
-      WorkflowManager wfm = new WorkflowManager(this.platformContext, subject);
+      WorkflowManager wfm = new WorkflowManager(pcontext, subject);
       Collection<WorkflowProcessMO> wpMOCollection = wfm.getActiveProcesses();
 
       if (wpMOCollection.size() == 0) {
@@ -443,6 +443,7 @@ public class RequestManagerImpl implements RequestManager {
     } catch (ApplicationException e) {
       log.error(e.getMessage(), e);
     }
+    //return result.toArray(new AccountRequest[0]);
     return result;
   }
 

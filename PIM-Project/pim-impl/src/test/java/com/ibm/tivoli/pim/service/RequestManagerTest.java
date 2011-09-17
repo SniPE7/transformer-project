@@ -38,7 +38,7 @@ public class RequestManagerTest extends TestCase {
     String ejbPswd = "smartway";
 
     // setup environment table to create an InitialPlatformContext
-    Properties environment = new Properties();
+    environment = new Properties();
 
     //env.put(Context.INITIAL_CONTEXT_FACTORY, "com.ibm.websphere.naming.WsnInitialContextFactory");
     //env.put(Context.PROVIDER_URL, appServerUrl);
@@ -86,7 +86,7 @@ public class RequestManagerTest extends TestCase {
 
     RequestManagerImpl rm = new RequestManagerImpl();
     rm.setEnvironment(this.environment);
-    rm.setPimAccountProfileName("PIMProfileAccount");
+    rm.setPimAccountProfileName("PIMAdapterAccount");
     
     SubmitResponse resp = rm.submit(req);
     assertEquals("Success", resp.getCode());
@@ -141,8 +141,7 @@ public class RequestManagerTest extends TestCase {
     rm.setEnvironment(this.environment);
     rm.setPimAccountProfileName("PIMProfileAccount");
     
-    List<AccountRequest> result = rm.getPendingRequestsByApprover(approver);
-    assertTrue(result.size() > 0);
+    assertTrue(rm.getPendingRequestsByApprover(approver).size() > 0);
   }
 
 }
