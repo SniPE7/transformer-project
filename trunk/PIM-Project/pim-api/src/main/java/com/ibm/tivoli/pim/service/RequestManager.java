@@ -9,8 +9,10 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 
 import com.ibm.tivoli.pim.entity.AccountRequest;
 import com.ibm.tivoli.pim.entity.ApprovalReponse;
@@ -31,6 +33,8 @@ public interface RequestManager {
   @WebResult(name="submitResponse")
   @POST
   @Path(value = "/submit")
+  @Produces({"application/xml", "application/json"})
+  @Consumes({"application/xml", "application/json"})
   public abstract SubmitResponse submit(@WebParam(name = "request")AccountRequest request);
   
   @WebMethod(operationName = "approval")
