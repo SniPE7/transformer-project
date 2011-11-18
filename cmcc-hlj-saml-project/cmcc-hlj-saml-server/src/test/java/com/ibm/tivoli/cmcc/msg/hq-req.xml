@@ -1,0 +1,10 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Body>
+    <samlp:ActivateRequest xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" ID="ca368a747597461cb4c38976655ca08d"
+      IssueInstant="2010-07-13
+T05:40:11:337Z" Version="2.0">
+      <saml:Issuer>http://10.1.249.46:7001/sso/SSO</saml:Issuer>
+      <saml:NameID Format="urn:oasis:names:tc:SAML:2.0:nameidformat:transient">37afc9fa5cf7412!abaccc6bf0d82a68</saml:NameID>
+    </samlp:ActivateRequest>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
