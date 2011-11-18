@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<beans>
+
+  <bean id="propertyPlaceholderConfigurer" class="com.ibm.tivoli.cmcc.server.utils.MyPropertyPlaceholderConfigurer">
+    <!--
+      Set how to check system properties: as fallback, as override, or never. The default is "fallback": If not being able to resolve a placeholder with the
+      specified properties, a system property will be tried. "override" will check for a system property first, before trying the specified properties. "never"
+      will not check system properties at all.
+    -->
+    <!-- 系统属性总是优先, 即: JVM "-Dkey=value"方式设置的属性信息总是优先于在配置文件的设置. -->
+    <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+    <property name="ignoreResourceNotFound" value="true"></property>
+
+    <property name="locations">
+      <list>
+        <value>classpath:com/ibm/tivoli/cmcc/server/spring/saml-server-config.properties</value>
+        <value>file:${saml.server.home}/conf/saml-server-config.properties</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="samlServer" class="com.ibm.tivoli.cmcc.server.SAMLSocketServer">
+    <property name="port" value="${saml.server.tcp.port}"></property>
+    <property name="charset" value="${message.saml.charset}"></property>
+    <property name="requestHandler" ref="requestHandler"></property>
+  </bean>
+
+  <bean id="requestHandler" class="com.ibm.tivoli.cmcc.handler.SAMLRequestHanlder">
+    <property name="propertyPlaceholderConfigurer" ref="propertyPlaceholderConfigurer"></property>
+  </bean>
+
+  <bean id="contextSource" class="org.springframework.ldap.support.LdapContextSource">
+    <property name="url" value="${ldap.server.url}" />
+    <property name="base" value="${ldap.server.base}" />
+    <property name="userName" value="${ldap.server.bindDN}" />
+    <property name="password" value="${ldap.server.bindPassword}" />
+  </bean>
+
+  <bean id="ldapTemplate" class="org.springframework.ldap.LdapTemplate">
+    <constructor-arg ref="contextSource" />
+  </bean>
+
+  <bean id="ldapDao" class="com.ibm.tivoli.cmcc.ldap.LDAPPersonDAO">
+    <property name="ldapTemplate" ref="ldapTemplate" />
+    <property name="url" value="${ldap.server.url}" />
+    <property name="base" value="${ldap.server.base}" />
+    <property name="userName" value="${ldap.server.bindDN}" />
+    <property name="password" value="${ldap.server.bindPassword}" />
+    <property name="ldapCtxFactory" value="com.sun.jndi.ldap.LdapCtxFactory"></property>
+  </bean>
+
+</beans>
+

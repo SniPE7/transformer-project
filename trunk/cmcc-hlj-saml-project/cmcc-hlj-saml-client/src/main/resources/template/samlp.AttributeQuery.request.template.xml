@@ -1,0 +1,21 @@
+<SOAP-ENV:Envelope
+    xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+    <SOAP-ENV:Body>
+        <samlp:AttributeQuery
+            xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+            xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"
+            ID="${samlId}"
+            Version="2.0"
+            IssueInstant="${issueInstant}">
+            <saml:Issuer>${samlIssuer}</saml:Issuer>
+            <saml:Subject>
+                <saml:NameID
+                Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient">${nameId}</saml:NameID>
+            </saml:Subject>
+            <saml:Attribute
+            NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format: unspecified"
+            Name="userinfo">
+            </saml:Attribute>
+        </samlp:AttributeQuery>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

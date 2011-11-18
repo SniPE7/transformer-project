@@ -1,0 +1,15 @@
+<SOAP-ENV:Envelope
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Body>
+    <samlp:LogoutRequest
+        xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"
+        xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+        ID="${samlId}"
+        IssueInstant="${issueInstant}"
+        Version="2.0">
+        <saml:Issuer> ${samlIssuer}</saml:Issuer>
+        <saml:NameID Format="urn:oasis:names:tc:SAML:2.0:nameidformat:transient">${nameId}</saml:NameID>
+    </samlp:LogoutRequest>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+

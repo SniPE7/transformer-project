@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<beans>
+
+  <bean id="samlServer4Tomcat" class="com.ibm.tivoli.cmcc.server.SAMLSocketServer" init-method="start" destroy-method="stop">
+    <property name="port" value="${saml.server.tcp.port}"></property>
+    <property name="charset" value="${message.saml.charset}"></property>
+    <property name="requestHandler" ref="requestHandler"></property>
+  </bean>
+  
+  <bean id="logoutClient" class="com.ibm.tivoli.cmcc.client.LogoutServiceClientImpl" scope="prototype">
+    <property name="charset" value="${message.saml.charset}"></property>
+    <property name="serverName" value="${remote.saml.server.hostname}"></property>
+    <property name="serverPort" value="${remote.saml.server.port}"></property>
+    <!-- 60 seconds -->
+    <property name="timeOut" value="60"></property>
+  </bean>
+  <bean id="activiateClient" class="com.ibm.tivoli.cmcc.client.ActiviateServiceClientImpl" scope="prototype">
+    <property name="charset" value="${message.saml.charset}"></property>
+    <property name="serverName" value="${remote.saml.server.hostname}"></property>
+    <property name="serverPort" value="${remote.saml.server.port}"></property>
+    <!-- 60 seconds -->
+    <property name="timeOut" value="60"></property>
+  </bean>
+  <bean id="queryAttributeClient" class="com.ibm.tivoli.cmcc.client.QueryAttributeServiceClientImpl" scope="prototype">
+    <property name="charset" value="${message.saml.charset}"></property>
+    <property name="serverName" value="${remote.saml.server.hostname}"></property>
+    <property name="serverPort" value="${remote.saml.server.port}"></property>
+    <!-- 60 seconds -->
+    <property name="timeOut" value="60"></property>
+  </bean>
+  <bean id="passwordResetClient" class="com.ibm.tivoli.cmcc.client.PasswordResetServiceClientImpl" scope="prototype">
+    <property name="charset" value="${message.saml.charset}"></property>
+    <property name="serverName" value="${remote.saml.server.hostname}"></property>
+    <property name="serverPort" value="${remote.saml.server.port}"></property>
+    <!-- 60 seconds -->
+    <property name="timeOut" value="60"></property>
+  </bean>  
+</beans>
+
