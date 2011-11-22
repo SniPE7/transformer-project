@@ -331,7 +331,7 @@ public class LDAPPersonDAO implements PersonDAO {
       }
       return uniqueIdentifier;
     } else {
-      throw new Exception("could not found eniity from LDAP, filter: [" + filter + "]");
+      throw new Exception("could not found entity from LDAP, filter: [" + filter + "]");
     }
    }
 }
