@@ -71,11 +71,11 @@ public class CreateSamlIDServlet extends HttpServlet {
       this.getServletConfig().getServletContext().getRequestDispatcher("/view_message.jsp").forward(request, response);
       
     } catch (BeansException e) {
-      throw new IOException(e.getMessage(), e);
+      throw new ServletException(e);
     } catch (ClientException e) {
-      throw new IOException(e.getMessage(), e);
+      throw new ServletException(e);
     } catch (Exception e) {
-      throw new IOException(e.getMessage(), e);
+      throw new ServletException(e);
     }
     
   }

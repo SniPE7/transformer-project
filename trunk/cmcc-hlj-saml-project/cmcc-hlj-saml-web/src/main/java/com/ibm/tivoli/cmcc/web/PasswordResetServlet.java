@@ -84,9 +84,9 @@ public class PasswordResetServlet extends HttpServlet {
       //writer.write(responseXML);
       //writer.flush();
     } catch (BeansException e) {
-      throw new IOException(e.getMessage(), e);
+      throw new ServletException(e);
     } catch (ClientException e) {
-      throw new IOException(e.getMessage(), e);
+      throw new ServletException(e);
     }
     
   }
