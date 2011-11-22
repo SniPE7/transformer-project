@@ -24,7 +24,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-    <c:if test="${responseXML != null}"><pre><c:out value="${responseXML}" escapeXml="yes"></c:out></pre><br/></c:if>
+    <c:if test="${responseXML != null}">
+      <pre><c:out value="${responseXML}" escapeXml="yes"></c:out></pre><br/>
+    </c:if>
     <c:if test="${msisdn != null}">&nbsp;MSISDN: <c:out value="${msisdn}"/><br/></c:if>
     <c:if test="${uniqueIdentifier != null}">SAML ID: <c:out value="${uniqueIdentifier}"/><br/></c:if>
   </body>

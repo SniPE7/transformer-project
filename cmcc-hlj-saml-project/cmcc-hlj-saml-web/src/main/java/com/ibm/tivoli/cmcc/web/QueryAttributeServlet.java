@@ -34,60 +34,72 @@ public class QueryAttributeServlet extends HttpServlet {
 
   /**
    * The doGet method of the servlet. <br>
-   *
+   * 
    * This method is called when a form has its tag value method equals to get.
    * 
-   * @param request the request send by the client to the server
-   * @param response the response send by the server to the client
-   * @throws ServletException if an error occurred
-   * @throws IOException if an error occurred
+   * @param request
+   *          the request send by the client to the server
+   * @param response
+   *          the response send by the server to the client
+   * @throws ServletException
+   *           if an error occurred
+   * @throws IOException
+   *           if an error occurred
    */
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     try {
       String samlId = request.getParameter("id");
       if (StringUtils.isEmpty(samlId)) {
-         throw new RuntimeException("Missing ID!");
+        throw new RuntimeException("Missing ID!");
       }
       String hostname = request.getParameter("hostname");
       String port = request.getParameter("port");
-      
+
       ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
-      QueryAttributeServiceClient client = (QueryAttributeServiceClient)context.getBean("queryAttributeClient");;
+      QueryAttributeServiceClient client = (QueryAttributeServiceClient) context.getBean("queryAttributeClient");
+      ;
       if (StringUtils.isNotEmpty(hostname)) {
         client.setServerName(hostname);
       }
-      
+
       if (StringUtils.isNotEmpty(port)) {
         client.setServerPort(Integer.parseInt(port));
-      }      
+      }
 
       String responseXML = client.submit(samlId);
+      //request.setAttribute("responseFormatXML", XMLFormat.formatXml(responseXML));
       
       responseXML = StringUtils.replace(responseXML, "<", "&lt;");
       responseXML = StringUtils.replace(responseXML, ">", "&gt;");
       request.setAttribute("responseXML", responseXML);
       this.getServletConfig().getServletContext().getRequestDispatcher("/view_message.jsp").forward(request, response);
-      //response.setContentType("text/xml;charset=UTF-8");
-      //PrintWriter writer = response.getWriter();
-      //writer.write(responseXML);
-      //writer.flush();
+      // response.setContentType("text/xml;charset=UTF-8");
+      // PrintWriter writer = response.getWriter();
+      // writer.write(responseXML);
+      // writer.flush();
     } catch (BeansException e) {
-      throw new IOException(e.getMessage(), e);
+      throw new ServletException(e);
     } catch (ClientException e) {
-      throw new IOException(e.getMessage(), e);
+      throw new ServletException(e);
+    } catch (Exception e) {
+      throw new ServletException(e);
     }
-    
+
   }
 
   /**
    * The doPost method of the servlet. <br>
-   *
+   * 
    * This method is called when a form has its tag value method equals to post.
    * 
-   * @param request the request send by the client to the server
-   * @param response the response send by the server to the client
-   * @throws ServletException if an error occurred
-   * @throws IOException if an error occurred
+   * @param request
+   *          the request send by the client to the server
+   * @param response
+   *          the response send by the server to the client
+   * @throws ServletException
+   *           if an error occurred
+   * @throws IOException
+   *           if an error occurred
    */
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     this.doGet(request, response);
@@ -95,8 +107,9 @@ public class QueryAttributeServlet extends HttpServlet {
 
   /**
    * Initialization of the servlet. <br>
-   *
-   * @throws ServletException if an error occurs
+   * 
+   * @throws ServletException
+   *           if an error occurs
    */
   public void init() throws ServletException {
     // Put your code here
