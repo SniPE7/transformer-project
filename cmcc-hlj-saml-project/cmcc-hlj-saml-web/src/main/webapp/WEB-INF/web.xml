@@ -106,6 +106,18 @@
     <url-pattern>/service/pwdreset</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <description>AuthenServlet</description>
+    <display-name>AuthenServlet</display-name>
+    <servlet-name>com.ibm.tivoli.cmcc.web.AuthenServlet</servlet-name>
+    <servlet-class>com.ibm.tivoli.cmcc.web.AuthenServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>com.ibm.tivoli.cmcc.web.AuthenServlet</servlet-name>
+    <url-pattern>/service/authen</url-pattern>
+  </servlet-mapping>
+
   <error-page>
     <exception-type>java.lang.Throwable</exception-type>
     <location>/error.jsp</location>
