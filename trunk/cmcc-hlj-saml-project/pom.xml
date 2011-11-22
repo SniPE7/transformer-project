@@ -15,6 +15,7 @@
     <module>cmcc-hlj-saml-server</module>
     <module>cmcc-hlj-saml-web</module>
     <module>cmcc-hlj-saml-assembly</module>
+    <module>cmcc-hlj-saml-xmlsec</module>
   </modules>
 
   <properties>
