@@ -10,6 +10,7 @@ import com.ibm.tivoli.cmcc.handler.activiate.ActivateServiceProcessor;
 import com.ibm.tivoli.cmcc.handler.logout.LogoutServiceProcessor;
 import com.ibm.tivoli.cmcc.handler.passwordreset.PasswordResetServiceProcessor;
 import com.ibm.tivoli.cmcc.handler.query.QueryAttributeServiceProcessor;
+import com.ibm.tivoli.cmcc.handler.resolv.ArtifactResolvServiceProcessor;
 
 
 /**
@@ -41,6 +42,8 @@ public class RequestTypeDetectorProcessor extends AbstractProcessor implements P
       processor = new QueryAttributeServiceProcessor(this.getProperties());
     } else if (in.indexOf("<samlp:LogoutRequest") > 0) {
       processor = new LogoutServiceProcessor(this.getProperties());
+    } else if (in.indexOf("<samlp:ArtifactResolve") > 0) {
+      processor = new ArtifactResolvServiceProcessor(this.getProperties());
     } else if (in.indexOf("<PasswordReset") > 0) {
       processor = new PasswordResetServiceProcessor(this.getProperties());
     } else if (in.indexOf("<SOAP-ENV:Envelope>cmcc-sso</SOAP-ENV:Envelope>") >=0 ) {

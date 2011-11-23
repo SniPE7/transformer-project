@@ -1,0 +1,61 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Body>
+
+    <samlp:ArtifactResponse xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"
+      ID="${samlId}" InResponseTo="${inResponseTo}" Version="${version}" IssueInstant="${issueInstant}">
+      <samlp:Status>
+        <samlp:StatusCode Value="${statusCode}" />
+      </samlp:Status>
+      <samlp:Response xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"
+        xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" ID="${samlId}"
+        InResponseTo="${inResponseTo}" Version="${version}" IssueInstant="${issueInstant}">
+        <saml:Issuer>${samlIssuer}</saml:Issuer>
+        <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+          <ds:SignedInfo>
+            <ds:CanonicalizationMethod
+              Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+            <ds:SignatureMethod
+              Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+            <ds:Reference URI="id_q2">
+              <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+              <ds:DigestValue>::DigestValue</ds:DigestValue>
+            </ds:Reference>
+          </ds:SignedInfo>
+          <ds:SignatureValue>::SignatureValue</ds:SignatureValue>
+        </ds:Signature>
+        <samlp:Status>
+          <samlp:StatusCode Value="${statusCode}" />
+        </samlp:Status>
+        <saml:Assertion xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+          ID="${samlId}" Version="${version}" IssueInstant="${issueInstant}">
+          <saml:Issuer>${samlIssuer}</saml:Issuer>
+          <saml:Subject>
+            <saml:NameID
+              Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient">${nameId}</saml:NameID>
+          </saml:Subject>
+          <saml:Conditions NotBefore="${conditionNotBefore}"
+            NotOnOrAfter="${conditionNotOnOrAfter}"></saml:Conditions>
+          <saml:AttributeStatement>
+            <saml:Attribute
+              NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified"
+              Name="userinfo">
+              <saml:AttributeValue xsi:type="xs:string">${person.msisdn}</saml:AttributeValue>
+              <saml:AttributeValue xsi:type="xs:string">${person.province}</saml:AttributeValue>
+              <saml:AttributeValue xsi:type="xs:string">${person.commonName}</saml:AttributeValue>
+              <saml:AttributeValue xsi:type="xs:string">${person.brand}</saml:AttributeValue>
+              <saml:AttributeValue xsi:type="xs:string">${person.status}</saml:AttributeValue>
+              <saml:AttributeValue xsi:type="xs:string">null</saml:AttributeValue>
+              <saml:AttributeValue xsi:type="xs:string">${person.nickname}</saml:AttributeValue>
+              <saml:AttributeValue xsi:type="xs:string">${person.mail139Status}</saml:AttributeValue>
+              <saml:AttributeValue xsi:type="xs:string">${person.fetionStatus}</saml:AttributeValue>
+              <saml:AttributeValue xsi:type="xs:string">null</saml:AttributeValue>
+            </saml:Attribute>
+          </saml:AttributeStatement>
+        </saml:Assertion>
+      </samlp:Response>
+    </samlp:ArtifactResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+
+
+

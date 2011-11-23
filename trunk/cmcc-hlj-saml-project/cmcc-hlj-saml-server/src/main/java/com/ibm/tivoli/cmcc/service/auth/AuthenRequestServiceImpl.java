@@ -25,7 +25,7 @@ import com.ibm.tivoli.cmcc.server.utils.Helper;
 
 /**
  * @author zhaodonglu
- *
+ * 
  */
 public class AuthenRequestServiceImpl implements ApplicationContextAware, AuthenRequestService {
 
@@ -48,7 +48,8 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
   }
 
   /**
-   * @param cookieDomain the cookieDomain to set
+   * @param cookieDomain
+   *          the cookieDomain to set
    */
   public void setCookieDomain(String cookieDomain) {
     this.cookieDomain = cookieDomain;
@@ -71,6 +72,7 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
 
   /**
    * Save value into cookies
+   * 
    * @param response
    * @param key
    * @param value
@@ -84,6 +86,7 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
 
   /**
    * Extract value from cookie
+   * 
    * @param request
    * @param key
    * @return
@@ -91,13 +94,13 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
   private String getFromCookies(HttpServletRequest request, String key) {
     Cookie[] cookies = request.getCookies();
     if (cookies == null) {
-       return null;
+      return null;
     }
-    for (Cookie cookie: cookies) {
-        String name = cookie.getName();
-        if (name.equals(key)) {
-           return cookie.getValue();
-        }
+    for (Cookie cookie : cookies) {
+      String name = cookie.getName();
+      if (name.equals(key)) {
+        return cookie.getValue();
+      }
     }
     return null;
   }
@@ -113,10 +116,13 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
     digester.addSetProperties("*/samlp:AuthnRequest/samlp:NameIDPolicy", "AllowCreate", "allowCreate");
     return digester;
   }
-  
 
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.web.AuthenRequestService#validate(javax.servlet.http.HttpServletRequest)
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * com.ibm.tivoli.cmcc.web.AuthenRequestService#validate(javax.servlet.http
+   * .HttpServletRequest)
    */
   public void validate(HttpServletRequest request) throws Exception {
     String relayState = request.getParameter("RelayState");
@@ -125,17 +131,25 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
     }
     this.parseRequest(request);
   }
-  
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.web.AuthenRequestService#parseRequest(javax.servlet.http.HttpServletRequest)
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * com.ibm.tivoli.cmcc.web.AuthenRequestService#parseRequest(javax.servlet
+   * .http.HttpServletRequest)
    */
   public AuthenRequest parseRequest(HttpServletRequest request) throws IOException, SAXException {
     String samlRequestB64 = request.getParameter("SAMLRequest");
-    if (StringUtils.isEmpty(samlRequestB64)) {
+    String samlContent = request.getParameter("SAMLRequestXML");
+
+    if (StringUtils.isEmpty(samlRequestB64) && StringUtils.isEmpty(samlContent)) {
       throw new RuntimeException("Missing SAMLRequest!");
     }
     // Parsing SAMLRequest
-    String samlContent = new String(Base64.decode(samlRequestB64));
+    if (StringUtils.isNotEmpty(samlRequestB64)) {
+      samlContent = new String(Base64.decode(samlRequestB64));
+    }
 
     AuthenRequest result = new AuthenRequest();
     Digester digester = getDigester();
@@ -152,61 +166,78 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
       throw e;
     }
   }
-  
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.web.AuthenRequestService#getRelayState(javax.servlet.http.HttpServletRequest)
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * com.ibm.tivoli.cmcc.web.AuthenRequestService#getRelayState(javax.servlet
+   * .http.HttpServletRequest)
    */
   public String getRelayState(HttpServletRequest request) {
     return request.getParameter("RelayState");
   }
 
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.web.AuthenRequestService#isAuthenticated(javax.servlet.http.HttpServletRequest)
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * com.ibm.tivoli.cmcc.web.AuthenRequestService#isAuthenticated(javax.servlet
+   * .http.HttpServletRequest)
    */
   public boolean isAuthenticated(HttpServletRequest request) {
     // 检查是否已经在本地登录
     HttpSession session = request.getSession(false);
     if (session != null) {
-       String artifactID = (String)session.getAttribute("ARTIFACT_ID");
-       if (StringUtils.isNotEmpty(artifactID)) {
-          return true;
-       }
+      String artifactID = (String) session.getAttribute("ARTIFACT_ID");
+      if (StringUtils.isNotEmpty(artifactID)) {
+        return true;
+      }
     }
     // 检查是否已经在一级节点登录
     return false;
   }
-  
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.web.AuthenRequestService#getCurrentArtifactID(javax.servlet.http.HttpServletRequest)
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * com.ibm.tivoli.cmcc.web.AuthenRequestService#getCurrentArtifactID(javax
+   * .servlet.http.HttpServletRequest)
    */
   public String getCurrentArtifactID(HttpServletRequest request) {
     HttpSession session = request.getSession(false);
     if (session != null) {
-       String artifactID = (String)session.getAttribute("ARTIFACT_ID");
-       if (StringUtils.isNotEmpty(artifactID)) {
-          return artifactID;
-       }
+      String artifactID = (String) session.getAttribute("ARTIFACT_ID");
+      if (StringUtils.isNotEmpty(artifactID)) {
+        return artifactID;
+      }
     }
     return null;
   }
 
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.web.AuthenRequestService#generateAndSaveArtifactID(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.String)
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * com.ibm.tivoli.cmcc.web.AuthenRequestService#generateAndSaveArtifactID(
+   * javax.servlet.http.HttpServletRequest,
+   * javax.servlet.http.HttpServletResponse, java.lang.String)
    */
   public String generateAndSaveArtifactID(HttpServletRequest request, HttpServletResponse response, String username) throws Exception {
-    PersonDAO dao = (PersonDAO)this.applicationContext.getBean("ldapDao");
-    
-    String artifactID =  Helper.generatorID();
-    artifactID = dao.insertUniqueIdentifier("", username, artifactID );
+    PersonDAO dao = (PersonDAO) this.applicationContext.getBean("ldapDao");
+
+    String artifactID = Helper.generatorID();
+    artifactID = dao.insertUniqueIdentifier("", username, artifactID);
     if (artifactID == null) {
-       throw new IOException("failure to create or update ldap entry.");
+      throw new IOException("failure to create or update ldap entry.");
     }
-    
+
     // Update Session state
     HttpSession session = request.getSession(true);
     session.setAttribute("username", username);
     session.setAttribute("ARTIFACT_ID", artifactID);
-    
+
     // Update to Cookies
     this.saveArtifactIdIntoCookies(response, artifactID);
     return artifactID;
