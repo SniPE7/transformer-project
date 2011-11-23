@@ -1,0 +1,20 @@
+dn: cn=13804511234, cn=user, DC=HLJCMCC
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmcc139MailStatus: 1
+erhljmccstatus: 1
+sn: 13804511234
+userPassword:: MTExMQ==
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13804511234
+cn: 13804511234
+erhljmccFetionStatus: 1
+
