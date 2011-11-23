@@ -4,12 +4,14 @@
 package com.ibm.tivoli.cmcc.service.auth;
 
 import java.io.IOException;
+import java.io.StringReader;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.digester.Digester;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -20,7 +22,6 @@ import com.ibm.tivoli.cmcc.ldap.PersonDAO;
 import com.ibm.tivoli.cmcc.request.AuthenRequest;
 import com.ibm.tivoli.cmcc.server.utils.Base64;
 import com.ibm.tivoli.cmcc.server.utils.Helper;
-import com.ibm.tivoli.cmcc.service.auth.AuthenServiceProcessorImpl;
 
 /**
  * @author zhaodonglu
@@ -101,6 +102,19 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
     return null;
   }
 
+  private Digester getDigester() {
+    Digester digester = new Digester();
+    digester.setNamespaceAware(false);
+    digester.setValidating(false);
+
+    digester.addSetProperties("*/samlp:AuthnRequest", "ID", "samlId");
+    digester.addSetProperties("*/samlp:AuthnRequest", "IssueInstant", "issueInstant");
+    digester.addBeanPropertySetter("*/samlp:AuthnRequest/saml:Issuer", "samlIssuer");
+    digester.addSetProperties("*/samlp:AuthnRequest/samlp:NameIDPolicy", "AllowCreate", "allowCreate");
+    return digester;
+  }
+  
+
   /* (non-Javadoc)
    * @see com.ibm.tivoli.cmcc.web.AuthenRequestService#validate(javax.servlet.http.HttpServletRequest)
    */
@@ -123,8 +137,20 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
     // Parsing SAMLRequest
     String samlContent = new String(Base64.decode(samlRequestB64));
 
-    AuthenServiceProcessorImpl processor = new AuthenServiceProcessorImpl();
-    return (AuthenRequest)processor.parseRequest(new AuthenRequest(), samlContent);
+    AuthenRequest result = new AuthenRequest();
+    Digester digester = getDigester();
+    digester.push(result);
+    try {
+      if (!samlContent.trim().toLowerCase().startsWith("<?xml")) {
+        samlContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + samlContent;
+      }
+      digester.parse(new StringReader(samlContent));
+      return result;
+    } catch (IOException e) {
+      throw e;
+    } catch (SAXException e) {
+      throw e;
+    }
   }
   
   /* (non-Javadoc)
