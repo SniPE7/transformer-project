@@ -1,0 +1,33 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8" session="false"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%
+  String path = request.getContextPath();
+  String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+%>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<base href="<%=basePath%>">
+
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="This is my page">
+</head>
+<body>
+	<form method="post" action="./service/authen/request">
+	  <textarea name="SAMLRequest" rows="12" cols="80">PHNhbWxwOkF1dGhuUmVxdWVzdA0KICAgIHhtbG5zOnNhbWxwPSJ1cm46b2FzaXM6bmFtZXM6dGM6
+U0FNTDoyLjA6cHJvdG9jb2wiDQogICAgeG1sbnM6c2FtbD0idXJuOm9hc2lzOm5hbWVzOnRjOlNB
+TUw6Mi4wOmFzc2VydGlvbiINCiAgICBJRD0iaWRfMSINCiAgICBWZXJzaW9uPSIyLjAiDQogICAg
+SXNzdWVJbnN0YW50PSIyMDA3LTEyLTA1VDA5OjIxOjU5WiI+DQogICAgPHNhbWw6SXNzdWVyPmh0
+dHBzOi8vd3d3LmNoaW5hbW9iaWxlLmNvbS9TU088L3NhbWw6SXNzdWVyPg0KICAgIDxzYW1scDpO
+YW1lSURQb2xpY3kNCiAgICAgICAgQWxsb3dDcmVhdGU9InRydWUiDQogICAgICAgIEZvcm1hdD0i
+dXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOm5hbWVpZC1mb3JtYXQ6dHJhbnNpZW50Ii8+DQo8
+L3NhbWxwOkF1dGhuUmVxdWVzdD4NCg==</textarea><br/>
+		<input type="text" name="RelayState" value='1234567890' />
+		<input type="submit"/>
+	</form>
+</body>
+</html>

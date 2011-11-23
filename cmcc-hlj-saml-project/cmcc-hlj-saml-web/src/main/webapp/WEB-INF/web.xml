@@ -25,10 +25,12 @@
 
   <!-- Listeners -->
   <!-- Log4J Listener -->
+  <!-- 
   <listener>
     <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
   </listener>
-  
+   -->
+   
   <!-- Spring Listener -->
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -107,15 +109,39 @@
   </servlet-mapping>
 
   <servlet>
-    <description>AuthenServlet</description>
+    <description>AuthenRequestServlet</description>
     <display-name>AuthenServlet</display-name>
-    <servlet-name>com.ibm.tivoli.cmcc.web.AuthenServlet</servlet-name>
-    <servlet-class>com.ibm.tivoli.cmcc.web.AuthenServlet</servlet-class>
+    <servlet-name>com.ibm.tivoli.cmcc.web.AuthenRequestServlet</servlet-name>
+    <servlet-class>com.ibm.tivoli.cmcc.web.AuthenRequestServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>com.ibm.tivoli.cmcc.web.AuthenServlet</servlet-name>
-    <url-pattern>/service/authen</url-pattern>
+    <servlet-name>com.ibm.tivoli.cmcc.web.AuthenRequestServlet</servlet-name>
+    <url-pattern>/service/authen/request</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <description>AuthenResponseServlet</description>
+    <display-name>AuthenServlet</display-name>
+    <servlet-name>com.ibm.tivoli.cmcc.web.AuthenResponseServlet</servlet-name>
+    <servlet-class>com.ibm.tivoli.cmcc.web.AuthenResponseServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>com.ibm.tivoli.cmcc.web.AuthenResponseServlet</servlet-name>
+    <url-pattern>/service/authen/response</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <description>LoginServlet</description>
+    <display-name>AuthenServlet</display-name>
+    <servlet-name>com.ibm.tivoli.cmcc.web.LoginServlet</servlet-name>
+    <servlet-class>com.ibm.tivoli.cmcc.web.LoginServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>com.ibm.tivoli.cmcc.web.LoginServlet</servlet-name>
+    <url-pattern>/service/authen/login</url-pattern>
   </servlet-mapping>
 
   <error-page>

@@ -1,4 +1,5 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8" session="false"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -9,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>SAMPL Client Test Tool</title>
+    <title>SAMPL Client Login Form</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -26,12 +27,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
    <h4>SSO Login Form</h4>
    <hr/>
-   <form action="./service/authen" method="post">
+   
+   <form action="./service/authen/login" method="post">
+   <input type="hidden" name="SAMLRequest" value='<c:out value="${param.SAMLRequest}" escapeXml="false"/>'/>
+   <input type="hidden" name="RelayState" value='<c:out value="${param.RelayState}" escapeXml="false"/>'/>
    MSISDN: <input type="text" name="username" value="" size="32" maxlength="32"><br/>
    Password: <input type="text" name="password" value="" size="32" maxlength="32"><br/>
    <input type="submit">
    </form>
-
 
   </body>
 </html>
