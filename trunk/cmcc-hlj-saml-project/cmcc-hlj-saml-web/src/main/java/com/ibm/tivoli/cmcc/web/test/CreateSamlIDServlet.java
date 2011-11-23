@@ -1,8 +1,9 @@
-package com.ibm.tivoli.cmcc.web;
+package com.ibm.tivoli.cmcc.web.test;
 
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,15 +14,20 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.ibm.tivoli.cmcc.client.ClientException;
-import com.ibm.tivoli.cmcc.client.LogoutServiceClient;
-import com.ibm.tivoli.cmcc.server.utils.MyPropertyPlaceholderConfigurer;
+import com.ibm.tivoli.cmcc.ldap.PersonDAO;
+import com.ibm.tivoli.cmcc.server.utils.Helper;
 
-public class LogoutServlet extends HttpServlet {
+public class CreateSamlIDServlet extends HttpServlet {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 6581467109008767380L;
 
   /**
    * Constructor of the object.
    */
-  public LogoutServlet() {
+  public CreateSamlIDServlet() {
     super();
   }
 
@@ -45,40 +51,35 @@ public class LogoutServlet extends HttpServlet {
    */
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     try {
-      String samlId = request.getParameter("id");
-      if (StringUtils.isEmpty(samlId)) {
-        throw new RuntimeException("Missing ID!");
+      String msisdn = request.getParameter("msisdn");
+      if (StringUtils.isEmpty(msisdn)) {
+        throw new RuntimeException("Missing MSISDN!");
       }
-      String hostname = request.getParameter("hostname");
-      String port = request.getParameter("port");
 
       ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
-      LogoutServiceClient client = (LogoutServiceClient)context.getBean("logoutClient");
+      PersonDAO dao = (PersonDAO)context.getBean("ldapDao");
       
-      if (StringUtils.isNotEmpty(hostname)) {
-        client.setServerName(hostname);
+      String uniqueIdentifier =  Helper.generatorID();
+      uniqueIdentifier = dao.insertUniqueIdentifier("", msisdn, uniqueIdentifier );
+      if (uniqueIdentifier == null) {
+         throw new IOException("failure to create or update ldap entry.");
       }
       
-      if (StringUtils.isNotEmpty(port)) {
-        client.setServerPort(Integer.parseInt(port));
-      }
+      request.setAttribute("msisdn", msisdn);
+      request.setAttribute("uniqueIdentifier", uniqueIdentifier);
       
-      MyPropertyPlaceholderConfigurer propertyPlaceholderConfigurer = (MyPropertyPlaceholderConfigurer)context.getBean("propertyPlaceholderConfigurer");
-      client.setProperties(propertyPlaceholderConfigurer.getProperties());
-      
-      String responseXML = client.submit(samlId);
-      
-      responseXML = StringUtils.replace(responseXML, "<", "&lt;");
-      responseXML = StringUtils.replace(responseXML, ">", "&gt;");
-      request.setAttribute("responseXML", responseXML);
+      Cookie cookie = new Cookie("cmtokenid", uniqueIdentifier + "@" + "ac.10086.cn");
+      cookie.setDomain("ac.10086.cn");
+      cookie.setPath("/");
+      response.addCookie(cookie);
+
       this.getServletConfig().getServletContext().getRequestDispatcher("/view_message.jsp").forward(request, response);
-      //response.setContentType("text/xml;charset=UTF-8");
-      //PrintWriter writer = response.getWriter();
-      //writer.write(responseXML);
-      //writer.flush();
+      
     } catch (BeansException e) {
       throw new ServletException(e);
     } catch (ClientException e) {
+      throw new ServletException(e);
+    } catch (Exception e) {
       throw new ServletException(e);
     }
     

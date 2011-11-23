@@ -30,6 +30,13 @@
     <!-- 60 seconds -->
     <property name="timeOut" value="60"></property>
   </bean>
+  <bean id="artifactResolvServiceClient" class="com.ibm.tivoli.cmcc.client.ArtifactResolvServiceClientImpl" scope="prototype">
+    <property name="charset" value="${message.saml.charset}"></property>
+    <property name="serverName" value="${remote.saml.server.hostname}"></property>
+    <property name="serverPort" value="${remote.saml.server.port}"></property>
+    <!-- 60 seconds -->
+    <property name="timeOut" value="60"></property>
+  </bean>
   <bean id="passwordResetClient" class="com.ibm.tivoli.cmcc.client.PasswordResetServiceClientImpl" scope="prototype">
     <property name="charset" value="${message.saml.charset}"></property>
     <property name="serverName" value="${remote.saml.server.hostname}"></property>

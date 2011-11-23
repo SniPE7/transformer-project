@@ -1,4 +1,4 @@
-package com.ibm.tivoli.cmcc.web;
+package com.ibm.tivoli.cmcc.web.test;
 
 import java.io.IOException;
 
@@ -7,20 +7,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.ibm.tivoli.cmcc.client.ActiviateServiceClient;
-import com.ibm.tivoli.cmcc.client.LogoutServiceClient;
-import com.ibm.tivoli.cmcc.client.QueryAttributeServiceClient;
+import com.ibm.tivoli.cmcc.client.ClientException;
 
-public class HomeServlet extends HttpServlet {
+public class ActiviateServlet extends HttpServlet {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 6887846462398365105L;
 
   /**
    * Constructor of the object.
    */
-  public HomeServlet() {
+  public ActiviateServlet() {
     super();
   }
 
@@ -44,17 +49,38 @@ public class HomeServlet extends HttpServlet {
    */
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     try {
-      ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
-      ActiviateServiceClient activiateClient = (ActiviateServiceClient)context.getBean("activiateClient");;
-      LogoutServiceClient logoutClient = (LogoutServiceClient)context.getBean("logoutClient");;
-      QueryAttributeServiceClient queryAttributeClient = (QueryAttributeServiceClient)context.getBean("queryAttributeClient");;
+      String samlId = request.getParameter("id");
+      if (StringUtils.isEmpty(samlId)) {
+        throw new RuntimeException("Missing ID!");
+      }
+      String hostname = request.getParameter("hostname");
+      String port = request.getParameter("port");
 
-      request.setAttribute("activiateClient", activiateClient);
-      request.setAttribute("logoutClient", logoutClient);
-      request.setAttribute("queryAttributeClient", queryAttributeClient);
-      this.getServletConfig().getServletContext().getRequestDispatcher("/form.jsp").forward(request, response);
+      ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
+      ActiviateServiceClient client = (ActiviateServiceClient)context.getBean("activiateClient");;
+
+      if (StringUtils.isNotEmpty(hostname)) {
+        client.setServerName(hostname);
+      }
+      
+      if (StringUtils.isNotEmpty(port)) {
+        client.setServerPort(Integer.parseInt(port));
+      }
+      
+      String responseXML = client.submit(samlId);
+      
+      responseXML = StringUtils.replace(responseXML, "<", "&lt;");
+      responseXML = StringUtils.replace(responseXML, ">", "&gt;");
+      request.setAttribute("responseXML", responseXML);
+      this.getServletConfig().getServletContext().getRequestDispatcher("/view_message.jsp").forward(request, response);
+      //response.setContentType("text/xml;charset=UTF-8");
+      //PrintWriter writer = response.getWriter();
+      //writer.write(responseXML);
+      //writer.flush();
     } catch (BeansException e) {
-      throw new IOException(e.getMessage(), e);
+      throw new ServletException(e);
+    } catch (ClientException e) {
+      throw new ServletException(e);
     }
     
   }

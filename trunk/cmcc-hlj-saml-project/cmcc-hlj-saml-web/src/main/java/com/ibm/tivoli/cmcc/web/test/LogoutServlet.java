@@ -1,4 +1,4 @@
-package com.ibm.tivoli.cmcc.web;
+package com.ibm.tivoli.cmcc.web.test;
 
 import java.io.IOException;
 
@@ -13,19 +13,20 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.ibm.tivoli.cmcc.client.ClientException;
-import com.ibm.tivoli.cmcc.client.PasswordResetClient;
+import com.ibm.tivoli.cmcc.client.LogoutServiceClient;
+import com.ibm.tivoli.cmcc.server.utils.MyPropertyPlaceholderConfigurer;
 
-public class PasswordResetServlet extends HttpServlet {
+public class LogoutServlet extends HttpServlet {
 
   /**
    * 
    */
-  private static final long serialVersionUID = 162966896737175375L;
+  private static final long serialVersionUID = 7858968680252620605L;
 
   /**
    * Constructor of the object.
    */
-  public PasswordResetServlet() {
+  public LogoutServlet() {
     super();
   }
 
@@ -49,27 +50,16 @@ public class PasswordResetServlet extends HttpServlet {
    */
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     try {
-      String userName = request.getParameter("userName");
-      if (StringUtils.isEmpty(userName)) {
-        throw new RuntimeException("Missing userName!");
+      String samlId = request.getParameter("id");
+      if (StringUtils.isEmpty(samlId)) {
+        throw new RuntimeException("Missing ID!");
       }
-      
-      String serviceCode = request.getParameter("serviceCode");
-      if (StringUtils.isEmpty(serviceCode)) {
-        throw new RuntimeException("Missing serviceCode!");
-      }
-      
-      String networkPassword = request.getParameter("networkPassword");
-      if (StringUtils.isEmpty(networkPassword)) {
-        throw new RuntimeException("Missing networkPassword!");
-      }
-      
       String hostname = request.getParameter("hostname");
       String port = request.getParameter("port");
 
       ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
-      PasswordResetClient client = (PasswordResetClient)context.getBean("passwordResetClient");;
-
+      LogoutServiceClient client = (LogoutServiceClient)context.getBean("logoutClient");
+      
       if (StringUtils.isNotEmpty(hostname)) {
         client.setServerName(hostname);
       }
@@ -78,7 +68,10 @@ public class PasswordResetServlet extends HttpServlet {
         client.setServerPort(Integer.parseInt(port));
       }
       
-      String responseXML = client.submit(userName, serviceCode, networkPassword);
+      MyPropertyPlaceholderConfigurer propertyPlaceholderConfigurer = (MyPropertyPlaceholderConfigurer)context.getBean("propertyPlaceholderConfigurer");
+      client.setProperties(propertyPlaceholderConfigurer.getProperties());
+      
+      String responseXML = client.submit(samlId);
       
       responseXML = StringUtils.replace(responseXML, "<", "&lt;");
       responseXML = StringUtils.replace(responseXML, ">", "&gt;");

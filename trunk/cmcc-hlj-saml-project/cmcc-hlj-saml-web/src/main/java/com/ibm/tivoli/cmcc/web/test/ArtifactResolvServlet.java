@@ -1,4 +1,4 @@
-package com.ibm.tivoli.cmcc.web;
+package com.ibm.tivoli.cmcc.web.test;
 
 import java.io.IOException;
 
@@ -12,15 +12,21 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.ibm.tivoli.cmcc.client.ArtifactResolvServiceClient;
 import com.ibm.tivoli.cmcc.client.ClientException;
 import com.ibm.tivoli.cmcc.client.QueryAttributeServiceClient;
 
-public class QueryAttributeServlet extends HttpServlet {
+public class ArtifactResolvServlet extends HttpServlet {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -5076821019617048839L;
 
   /**
    * Constructor of the object.
    */
-  public QueryAttributeServlet() {
+  public ArtifactResolvServlet() {
     super();
   }
 
@@ -56,8 +62,8 @@ public class QueryAttributeServlet extends HttpServlet {
       String port = request.getParameter("port");
 
       ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
-      QueryAttributeServiceClient client = (QueryAttributeServiceClient) context.getBean("queryAttributeClient");
-      ;
+      ArtifactResolvServiceClient client = (ArtifactResolvServiceClient) context.getBean("artifactResolvServiceClient");
+      
       if (StringUtils.isNotEmpty(hostname)) {
         client.setServerName(hostname);
       }
