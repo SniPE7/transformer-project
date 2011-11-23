@@ -39,60 +39,72 @@
   <servlet>
     <description>Home</description>
     <display-name>Home</display-name>
-    <servlet-name>com.ibm.tivoli.cmcc.web.HomeServlet</servlet-name>
-    <servlet-class>com.ibm.tivoli.cmcc.web.HomeServlet</servlet-class>
+    <servlet-name>com.ibm.tivoli.cmcc.web.test.HomeServlet</servlet-name>
+    <servlet-class>com.ibm.tivoli.cmcc.web.test.HomeServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>com.ibm.tivoli.cmcc.web.HomeServlet</servlet-name>
+    <servlet-name>com.ibm.tivoli.cmcc.web.test.HomeServlet</servlet-name>
     <url-pattern>/service/home</url-pattern>
   </servlet-mapping>
 
   <servlet>
     <description>Global Logout</description>
     <display-name>Global Logout</display-name>
-    <servlet-name>com.ibm.tivoli.cmcc.web.LogoutServlet</servlet-name>
-    <servlet-class>com.ibm.tivoli.cmcc.web.LogoutServlet</servlet-class>
+    <servlet-name>com.ibm.tivoli.cmcc.web.test.LogoutServlet</servlet-name>
+    <servlet-class>com.ibm.tivoli.cmcc.web.test.LogoutServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>com.ibm.tivoli.cmcc.web.LogoutServlet</servlet-name>
+    <servlet-name>com.ibm.tivoli.cmcc.web.test.LogoutServlet</servlet-name>
     <url-pattern>/service/logout</url-pattern>
   </servlet-mapping>
 
   <servlet>
     <description>ActiviateServlet</description>
     <display-name>ActiviateServlet</display-name>
-    <servlet-name>com.ibm.tivoli.cmcc.web.ActiviateServlet</servlet-name>
-    <servlet-class>com.ibm.tivoli.cmcc.web.ActiviateServlet</servlet-class>
+    <servlet-name>com.ibm.tivoli.cmcc.web.test.ActiviateServlet</servlet-name>
+    <servlet-class>com.ibm.tivoli.cmcc.web.test.ActiviateServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>com.ibm.tivoli.cmcc.web.ActiviateServlet</servlet-name>
+    <servlet-name>com.ibm.tivoli.cmcc.web.test.ActiviateServlet</servlet-name>
     <url-pattern>/service/activiate</url-pattern>
   </servlet-mapping>
 
   <servlet>
     <description>QueryAttributeServlet</description>
     <display-name>QueryAttributeServlet</display-name>
-    <servlet-name>com.ibm.tivoli.cmcc.web.QueryAttributeServlet</servlet-name>
-    <servlet-class>com.ibm.tivoli.cmcc.web.QueryAttributeServlet</servlet-class>
+    <servlet-name>com.ibm.tivoli.cmcc.web.test.QueryAttributeServlet</servlet-name>
+    <servlet-class>com.ibm.tivoli.cmcc.web.test.QueryAttributeServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>com.ibm.tivoli.cmcc.web.QueryAttributeServlet</servlet-name>
+    <servlet-name>com.ibm.tivoli.cmcc.web.test.QueryAttributeServlet</servlet-name>
     <url-pattern>/service/query</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <description>QueryAttributeServlet</description>
+    <display-name>QueryAttributeServlet</display-name>
+    <servlet-name>com.ibm.tivoli.cmcc.web.test.ArtifactResolvServlet</servlet-name>
+    <servlet-class>com.ibm.tivoli.cmcc.web.test.ArtifactResolvServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>com.ibm.tivoli.cmcc.web.test.ArtifactResolvServlet</servlet-name>
+    <url-pattern>/service/resolv</url-pattern>
   </servlet-mapping>
 
   <servlet>
     <description>CreateSamlIDServlet</description>
     <display-name>CreateSamlIDServlet</display-name>
-    <servlet-name>com.ibm.tivoli.cmcc.web.CreateSamlIDServlet</servlet-name>
-    <servlet-class>com.ibm.tivoli.cmcc.web.CreateSamlIDServlet</servlet-class>
+    <servlet-name>com.ibm.tivoli.cmcc.web.test.CreateSamlIDServlet</servlet-name>
+    <servlet-class>com.ibm.tivoli.cmcc.web.test.CreateSamlIDServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>com.ibm.tivoli.cmcc.web.CreateSamlIDServlet</servlet-name>
+    <servlet-name>com.ibm.tivoli.cmcc.web.test.CreateSamlIDServlet</servlet-name>
     <url-pattern>/service/create</url-pattern>
   </servlet-mapping>
 

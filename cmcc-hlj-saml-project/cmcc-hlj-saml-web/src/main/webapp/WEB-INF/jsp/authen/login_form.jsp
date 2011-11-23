@@ -31,8 +31,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <form action="./service/authen/login" method="post">
    <input type="hidden" name="SAMLRequest" value='<c:out value="${param.SAMLRequest}" escapeXml="false"/>'/>
    <input type="hidden" name="RelayState" value='<c:out value="${param.RelayState}" escapeXml="false"/>'/>
-   MSISDN: <input type="text" name="username" value="" size="32" maxlength="32"><br/>
-   Password: <input type="text" name="password" value="" size="32" maxlength="32"><br/>
+   MSISDN: <input type="text" name="username" value="13804511234" size="32" maxlength="32"><br/>
+   Password: <input type="text" name="password" value="12345" size="32" maxlength="32"><br/>
    <input type="submit">
    </form>
 

@@ -18,7 +18,8 @@
 </head>
 <body>
 	<form method="post" action="./service/authen/request">
-	  <textarea name="SAMLRequest" rows="12" cols="80">PHNhbWxwOkF1dGhuUmVxdWVzdA0KICAgIHhtbG5zOnNhbWxwPSJ1cm46b2FzaXM6bmFtZXM6dGM6
+    RelayState :<input type="text" name="RelayState" value='1234567890' /><br/>
+    SALMRequest(Base64) : <textarea name="SAMLRequest" rows="8" cols="80">PHNhbWxwOkF1dGhuUmVxdWVzdA0KICAgIHhtbG5zOnNhbWxwPSJ1cm46b2FzaXM6bmFtZXM6dGM6
 U0FNTDoyLjA6cHJvdG9jb2wiDQogICAgeG1sbnM6c2FtbD0idXJuOm9hc2lzOm5hbWVzOnRjOlNB
 TUw6Mi4wOmFzc2VydGlvbiINCiAgICBJRD0iaWRfMSINCiAgICBWZXJzaW9uPSIyLjAiDQogICAg
 SXNzdWVJbnN0YW50PSIyMDA3LTEyLTA1VDA5OjIxOjU5WiI+DQogICAgPHNhbWw6SXNzdWVyPmh0
@@ -26,7 +27,7 @@ dHBzOi8vd3d3LmNoaW5hbW9iaWxlLmNvbS9TU088L3NhbWw6SXNzdWVyPg0KICAgIDxzYW1scDpO
 YW1lSURQb2xpY3kNCiAgICAgICAgQWxsb3dDcmVhdGU9InRydWUiDQogICAgICAgIEZvcm1hdD0i
 dXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOm5hbWVpZC1mb3JtYXQ6dHJhbnNpZW50Ii8+DQo8
 L3NhbWxwOkF1dGhuUmVxdWVzdD4NCg==</textarea><br/>
-		<input type="text" name="RelayState" value='1234567890' />
+    Or SAMLRequest(XML) : <textarea name="SAMLRequestXML" rows="8" cols="80"></textarea><br/>
 		<input type="submit"/>
 	</form>
 </body>

@@ -1,28 +1,31 @@
-package com.ibm.tivoli.cmcc.web;
+package com.ibm.tivoli.cmcc.web.test;
 
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.ibm.tivoli.cmcc.client.ClientException;
-import com.ibm.tivoli.cmcc.ldap.PersonDAO;
-import com.ibm.tivoli.cmcc.server.utils.Helper;
+import com.ibm.tivoli.cmcc.client.ActiviateServiceClient;
+import com.ibm.tivoli.cmcc.client.LogoutServiceClient;
+import com.ibm.tivoli.cmcc.client.QueryAttributeServiceClient;
 
-public class CreateSamlIDServlet extends HttpServlet {
+public class HomeServlet extends HttpServlet {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -7549002691920817472L;
 
   /**
    * Constructor of the object.
    */
-  public CreateSamlIDServlet() {
+  public HomeServlet() {
     super();
   }
 
@@ -46,36 +49,17 @@ public class CreateSamlIDServlet extends HttpServlet {
    */
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     try {
-      String msisdn = request.getParameter("msisdn");
-      if (StringUtils.isEmpty(msisdn)) {
-        throw new RuntimeException("Missing MSISDN!");
-      }
-
       ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
-      PersonDAO dao = (PersonDAO)context.getBean("ldapDao");
-      
-      String uniqueIdentifier =  Helper.generatorID();
-      uniqueIdentifier = dao.insertUniqueIdentifier("", msisdn, uniqueIdentifier );
-      if (uniqueIdentifier == null) {
-         throw new IOException("failure to create or update ldap entry.");
-      }
-      
-      request.setAttribute("msisdn", msisdn);
-      request.setAttribute("uniqueIdentifier", uniqueIdentifier);
-      
-      Cookie cookie = new Cookie("cmtokenid", uniqueIdentifier + "@" + "ac.10086.cn");
-      cookie.setDomain("ac.10086.cn");
-      cookie.setPath("/");
-      response.addCookie(cookie);
+      ActiviateServiceClient activiateClient = (ActiviateServiceClient)context.getBean("activiateClient");;
+      LogoutServiceClient logoutClient = (LogoutServiceClient)context.getBean("logoutClient");;
+      QueryAttributeServiceClient queryAttributeClient = (QueryAttributeServiceClient)context.getBean("queryAttributeClient");;
 
-      this.getServletConfig().getServletContext().getRequestDispatcher("/view_message.jsp").forward(request, response);
-      
+      request.setAttribute("activiateClient", activiateClient);
+      request.setAttribute("logoutClient", logoutClient);
+      request.setAttribute("queryAttributeClient", queryAttributeClient);
+      this.getServletConfig().getServletContext().getRequestDispatcher("/form.jsp").forward(request, response);
     } catch (BeansException e) {
-      throw new ServletException(e);
-    } catch (ClientException e) {
-      throw new ServletException(e);
-    } catch (Exception e) {
-      throw new ServletException(e);
+      throw new IOException(e.getMessage(), e);
     }
     
   }

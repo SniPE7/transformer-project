@@ -70,5 +70,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    SAML Server IP/Port: <input type="text" name="hostname" value="${logoutClient.serverName}" size="32"> <input type="text" name="port" value="${logoutClient.serverPort}" size="6"><br/>
    <input type="submit">
    </form>
+   
+   <hr/>
+   <h4>Send ArtifactResolv SAML Request</h4>
+   <hr/>
+   <form action="/samlsvc/service/resolv" method="get">
+   Cookie ID (SAML ID): <input type="text" name="id" value="" size="32" maxlength="32"><br/>
+   SAML Server IP/Port: <input type="text" name="hostname" value="${queryAttributeClient.serverName}" size="32"> <input type="text" name="port" value="${queryAttributeClient.serverPort}" size="6"><br/>
+   <input type="submit">
+   </form>
+
+   
   </body>
 </html>
