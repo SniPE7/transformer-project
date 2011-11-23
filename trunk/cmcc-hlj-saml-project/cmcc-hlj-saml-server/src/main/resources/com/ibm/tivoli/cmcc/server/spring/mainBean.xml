@@ -51,5 +51,9 @@
     <property name="ldapCtxFactory" value="com.sun.jndi.ldap.LdapCtxFactory"></property>
   </bean>
 
+  <bean id="authenRequestService" class="com.ibm.tivoli.cmcc.service.auth.AuthenRequestServiceImpl">
+    <property name="cookieDomain" value="${webapp.cookies.domain}"></property>
+  </bean>
+
 </beans>
 
