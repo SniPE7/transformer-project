@@ -16,10 +16,11 @@
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
 </head>
-<body onload="document.forms[0].submit();">
+<body onload="document.forms[1].submit();">
+<h4>Return to application ... </h4>
 	<form method="post" action="<c:out value="${SAMLAuthenRequest.samlIssuer}" escapeXml="yes"/>">
-		<input type="hidden" name="SAMLart" value='<c:out value="artifact" escapeXml="yes"/>' />
-		<input type="hidden" name="RelayState" value='<c:out value="${RelayState}" escapeXml="yes"/>' />
+		<input type="hidden" name="SAMLart" value='<c:out value="${SAMLart}" escapeXml="yes"/>' />
+		<input type="hidden" name="RelayState" value='<c:out value="${param.RelayState}" escapeXml="yes"/>' />
 	</form>
 
 </body>
