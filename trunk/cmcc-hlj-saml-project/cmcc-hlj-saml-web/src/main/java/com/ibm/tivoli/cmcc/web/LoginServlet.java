@@ -2,6 +2,9 @@ package com.ibm.tivoli.cmcc.web;
 
 import java.io.IOException;
 
+import javax.security.auth.Subject;
+import javax.security.auth.callback.CallbackHandler;
+import javax.security.auth.spi.LoginModule;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +17,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.ibm.tivoli.cmcc.request.AuthenRequest;
 import com.ibm.tivoli.cmcc.service.auth.AuthenRequestService;
+import com.ibm.tivoli.cmcc.service.auth.MobileUserPasswordCallbackHandler;
 
 /**
  * 登录成功后携带票据跳转回应用
@@ -58,21 +62,24 @@ public class LoginServlet extends HttpServlet {
    */
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     try {
-      String username = request.getParameter("username");
+      String username = request.getParameter("User-Name");
       if (StringUtils.isEmpty(username)) {
         throw new RuntimeException("Missing username!");
       }
 
-      String password = request.getParameter("password");
+      String password = request.getParameter("User-Password");
       if (StringUtils.isEmpty(password)) {
         throw new RuntimeException("Missing password!");
       }
 
+      ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
       // TODO call loginmodule
-      boolean ok = true;
+      LoginModule loginModule = (LoginModule)context.getBean("loginModule");
+      CallbackHandler callbackHandler = new MobileUserPasswordCallbackHandler(request);
+      loginModule.initialize(new Subject(), callbackHandler , null, null);
+      boolean ok = loginModule.login();
 
       if (ok) {
-        ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
         AuthenRequestService service = (AuthenRequestService) context.getBean("authenRequestService", AuthenRequestService.class);
         String artifactID = service.generateAndSaveArtifactID(request, response, username);
         try {

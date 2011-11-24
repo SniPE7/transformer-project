@@ -53,7 +53,7 @@ public class ArtifactResolvServiceProcessor extends BaseProcessor implements Pro
     digester.addSetProperties("*/samlp:ArtifactResolve", "Version", "version");
     digester.addSetProperties("*/samlp:ArtifactResolve", "IssueInstant", "issueInstant");
     digester.addBeanPropertySetter("*/samlp:ArtifactResolve/saml:Issuer", "samlIssuer");
-    digester.addBeanPropertySetter("*/samlp:ArtifactResolve/saml:Artifact", "artifact");
+    digester.addBeanPropertySetter("*/samlp:ArtifactResolve/samlp:Artifact", "artifact");
     return digester;
 
   }
@@ -78,7 +78,7 @@ public class ArtifactResolvServiceProcessor extends BaseProcessor implements Pro
       PersonDAO dao = (LDAPPersonDAO) this.getApplicationContext().getBean("ldapDao");
       String filterPattern = this.getProperties().getProperty("ldap.filter.query.attribute.service", "(uniqueIdentifier=%UID)");
       String filter = StringUtils.replace(filterPattern, "%UID", req.getArtifact());
-      List<PersonDTO> persons = dao.searchPerson("", filter );
+      List<PersonDTO> persons = dao.searchPerson(filter );
       if (persons != null && persons.size() > 0) {
          this.personDTO  = persons.get(0);
          this.personDTO.setProvince(this.getProperties().getProperty("message.saml.province.code"));

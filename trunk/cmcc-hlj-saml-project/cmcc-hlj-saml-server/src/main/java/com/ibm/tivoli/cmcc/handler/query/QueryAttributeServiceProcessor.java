@@ -79,7 +79,7 @@ public class QueryAttributeServiceProcessor extends BaseProcessor implements Pro
       PersonDAO dao = (LDAPPersonDAO) this.getApplicationContext().getBean("ldapDao");
       String filterPattern = this.getProperties().getProperty("ldap.filter.query.attribute.service", "(uniqueIdentifier=%UID)");
       String filter = StringUtils.replace(filterPattern, "%UID", req.getNameId());
-      List<PersonDTO> persons = dao.searchPerson("", filter );
+      List<PersonDTO> persons = dao.searchPerson(filter );
       if (persons != null && persons.size() > 0) {
          this.personDTO  = persons.get(0);
          this.personDTO.setProvince(this.getProperties().getProperty("message.saml.province.code"));

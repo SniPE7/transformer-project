@@ -56,7 +56,7 @@ public class LDAPContactDAOTest extends TestCase {
 
     env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
 
-    env.put(Context.PROVIDER_URL, "ldap://10.110.21.55:389");
+    env.put(Context.PROVIDER_URL, "ldap://10.110.21.58:389");
     env.put(Context.SECURITY_AUTHENTICATION, "simple");
     env.put(Context.SECURITY_PRINCIPAL, "cn=root");
     env.put(Context.SECURITY_CREDENTIALS, "passw0rd");
@@ -73,4 +73,5 @@ public class LDAPContactDAOTest extends TestCase {
 
     ctx.modifyAttributes("uid=13916918000,cn=user,dc=hljcmcc", mods);    
   }
+
 }

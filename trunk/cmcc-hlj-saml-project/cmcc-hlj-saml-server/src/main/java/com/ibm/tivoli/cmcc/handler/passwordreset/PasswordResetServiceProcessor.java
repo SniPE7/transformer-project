@@ -63,7 +63,7 @@ public class PasswordResetServiceProcessor extends BaseProcessor implements Proc
     if (!StringUtils.isEmpty(cmd)) {
       try {
         String filter = "(uid=" + req.getUserName() + ")";
-        List<PersonDTO> persons = dao.searchPerson("", filter );
+        List<PersonDTO> persons = dao.searchPerson(filter );
         if (persons != null && persons.size() > 0) {
            PersonDTO personDTO  = persons.get(0);
            Runtime runtime = Runtime.getRuntime();
@@ -84,7 +84,7 @@ public class PasswordResetServiceProcessor extends BaseProcessor implements Proc
     String resultCode = "1";
     try {
       String filter = "(uid=" + req.getUserName() + ")";
-      success = dao.updatePassword("", filter, req.getNetworkPassword());
+      success = dao.updatePassword(filter, req.getNetworkPassword());
       if (!success) {
         resultCode = "0";
         description = "失败";

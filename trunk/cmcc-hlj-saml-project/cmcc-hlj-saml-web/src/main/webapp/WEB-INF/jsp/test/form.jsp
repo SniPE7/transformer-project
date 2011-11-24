@@ -80,6 +80,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <input type="submit">
    </form>
 
+   <hr/>
+   <h4><a href="./authen/test_from_app.jsp">SSO Application Login</a></h4>
+   <hr/>
+
    
   </body>
 </html>

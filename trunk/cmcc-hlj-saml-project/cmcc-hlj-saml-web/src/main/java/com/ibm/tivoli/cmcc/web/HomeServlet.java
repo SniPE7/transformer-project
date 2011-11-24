@@ -1,4 +1,4 @@
-package com.ibm.tivoli.cmcc.web.test;
+package com.ibm.tivoli.cmcc.web;
 
 import java.io.IOException;
 
@@ -57,7 +57,7 @@ public class HomeServlet extends HttpServlet {
       request.setAttribute("activiateClient", activiateClient);
       request.setAttribute("logoutClient", logoutClient);
       request.setAttribute("queryAttributeClient", queryAttributeClient);
-      this.getServletConfig().getServletContext().getRequestDispatcher("/form.jsp").forward(request, response);
+      this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/test/form.jsp").forward(request, response);
     } catch (BeansException e) {
       throw new IOException(e.getMessage(), e);
     }

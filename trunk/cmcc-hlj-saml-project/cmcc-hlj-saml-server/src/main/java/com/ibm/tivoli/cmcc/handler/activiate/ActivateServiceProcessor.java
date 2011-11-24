@@ -64,7 +64,7 @@ public class ActivateServiceProcessor extends BaseProcessor implements Processor
       PersonDAO dao = (LDAPPersonDAO) this.getApplicationContext().getBean("ldapDao");
       String filterPattern = this.getProperties().getProperty("ldap.filter.query.attribute.service", "(uniqueIdentifier=%UID)");
       String filter = StringUtils.replace(filterPattern, "%UID", req.getNameId());
-      success = dao.updateUniqueIdentifier("", filter, req.getNameId());
+      success = dao.updateUniqueIdentifier(filter, req.getNameId());
     } catch (BeansException e) {
       log.error(e.getMessage(), e);
     }

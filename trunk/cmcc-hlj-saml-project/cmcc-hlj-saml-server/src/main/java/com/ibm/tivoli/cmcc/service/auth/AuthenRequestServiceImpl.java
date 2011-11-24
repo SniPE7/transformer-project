@@ -228,7 +228,7 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
     PersonDAO dao = (PersonDAO) this.applicationContext.getBean("ldapDao");
 
     String artifactID = Helper.generatorID();
-    artifactID = dao.insertUniqueIdentifier("", username, artifactID);
+    artifactID = dao.insertUniqueIdentifier(username, artifactID);
     if (artifactID == null) {
       throw new IOException("failure to create or update ldap entry.");
     }

@@ -11,13 +11,23 @@ import java.util.List;
  */
 public interface PersonDAO {
 
-  public List<PersonDTO> searchPerson(String base, String filter);
+  public List<PersonDTO> searchPerson(String filter);
   
   //public List getContactDetails(String commonName, String lastName);
   
   //public void insertContact(PersonDTO contactDTO);
   
-  public boolean updatePassword(String base, String filter, String password);
+  public boolean updatePassword(String filter, String password);
+  
+  /**
+   * 检查用户的口令
+   * @param msisdn
+   * @param passwordType    1：互联网密码, 2：服务密码
+   * @param password
+   * @return
+   * @throws Exception 
+   */
+  public boolean checkMobileUserPassword(String msisdn, String passwordType, char[] password) throws Exception;
   
   /**
    * Find person by samlID and update samlID attribute
@@ -26,7 +36,7 @@ public interface PersonDAO {
    * @param uniqueIdentifier
    * @return
    */
-  public boolean updateUniqueIdentifier(String base, String filter, String uniqueIdentifier);
+  public boolean updateUniqueIdentifier(String filter, String uniqueIdentifier);
   
   /**
    * Find person by samlID and delete samlID attribute
@@ -35,7 +45,7 @@ public interface PersonDAO {
    * @param uniqueIdentifier
    * @return
    */
-  public boolean deleteUniqueIdentifier(String base, String filter, String uniqueIdentifier);
+  public boolean deleteUniqueIdentifier(String filter, String uniqueIdentifier);
   
   /**
    * Find person by msisdn and create samlID attribute
@@ -44,7 +54,7 @@ public interface PersonDAO {
    * @return
    * @throws Exception
    */
-  public String insertUniqueIdentifier(String base, String msisdn, String uniqueIdentifier) throws Exception;
+  public String insertUniqueIdentifier(String msisdn, String uniqueIdentifier) throws Exception;
   
   //public void deleteContact(PersonDTO contactDTO);
 }
