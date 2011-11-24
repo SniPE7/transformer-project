@@ -69,7 +69,7 @@ public class LogoutServiceProcessor extends BaseProcessor implements Processor {
       try {
         String filterPattern = this.getProperties().getProperty("ldap.filter.query.attribute.service", "(uniqueIdentifier=%UID)");
         String filter = StringUtils.replace(filterPattern, "%UID", req.getNameId());
-        List<PersonDTO> persons = dao.searchPerson("", filter );
+        List<PersonDTO> persons = dao.searchPerson(filter );
         if (persons != null && persons.size() > 0) {
            PersonDTO personDTO  = persons.get(0);
            Runtime runtime = Runtime.getRuntime();
@@ -88,7 +88,7 @@ public class LogoutServiceProcessor extends BaseProcessor implements Processor {
     try {
       String filterPattern = this.getProperties().getProperty("ldap.filter.query.attribute.service", "(uniqueIdentifier=%UID)");
       String filter = StringUtils.replace(filterPattern, "%UID", req.getNameId());
-      dao.deleteUniqueIdentifier("", filter, req.getNameId());
+      dao.deleteUniqueIdentifier(filter, req.getNameId());
       log.debug("");
     } catch (BeansException e) {
       log.error(e.getMessage(), e);

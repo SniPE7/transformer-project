@@ -39,12 +39,12 @@
   <servlet>
     <description>Home</description>
     <display-name>Home</display-name>
-    <servlet-name>com.ibm.tivoli.cmcc.web.test.HomeServlet</servlet-name>
-    <servlet-class>com.ibm.tivoli.cmcc.web.test.HomeServlet</servlet-class>
+    <servlet-name>com.ibm.tivoli.cmcc.web.HomeServlet</servlet-name>
+    <servlet-class>com.ibm.tivoli.cmcc.web.HomeServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>com.ibm.tivoli.cmcc.web.test.HomeServlet</servlet-name>
+    <servlet-name>com.ibm.tivoli.cmcc.web.HomeServlet</servlet-name>
     <url-pattern>/service/home</url-pattern>
   </servlet-mapping>
 

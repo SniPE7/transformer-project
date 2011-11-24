@@ -78,7 +78,7 @@ public class ArtifactResolvServlet extends HttpServlet {
       responseXML = StringUtils.replace(responseXML, "<", "&lt;");
       responseXML = StringUtils.replace(responseXML, ">", "&gt;");
       request.setAttribute("responseXML", responseXML);
-      this.getServletConfig().getServletContext().getRequestDispatcher("/view_message.jsp").forward(request, response);
+      this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/test/view_message.jsp").forward(request, response);
       // response.setContentType("text/xml;charset=UTF-8");
       // PrintWriter writer = response.getWriter();
       // writer.write(responseXML);

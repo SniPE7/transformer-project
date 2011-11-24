@@ -31,14 +31,17 @@
     <property name="propertyPlaceholderConfigurer" ref="propertyPlaceholderConfigurer"></property>
   </bean>
 
-  <bean id="contextSource" class="org.springframework.ldap.support.LdapContextSource">
+  <bean id="contextSourceTarget" class="org.springframework.ldap.core.support.LdapContextSource">
     <property name="url" value="${ldap.server.url}" />
-    <property name="base" value="${ldap.server.base}" />
-    <property name="userName" value="${ldap.server.bindDN}" />
+    <property name="userDn" value="${ldap.server.bindDN}" />
     <property name="password" value="${ldap.server.bindPassword}" />
+    <property name="pooled" value="true" />
   </bean>
-
-  <bean id="ldapTemplate" class="org.springframework.ldap.LdapTemplate">
+  <bean id="contextSource" class="org.springframework.ldap.pool.factory.MutablePoolingContextSource">
+    <property name="contextSource" ref="contextSourceTarget" />
+    <property name="maxTotal" value="10" />
+  </bean>
+  <bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
     <constructor-arg ref="contextSource" />
   </bean>
 

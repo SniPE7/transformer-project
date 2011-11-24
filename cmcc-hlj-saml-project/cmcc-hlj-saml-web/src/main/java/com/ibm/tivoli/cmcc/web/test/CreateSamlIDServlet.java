@@ -60,7 +60,7 @@ public class CreateSamlIDServlet extends HttpServlet {
       PersonDAO dao = (PersonDAO)context.getBean("ldapDao");
       
       String uniqueIdentifier =  Helper.generatorID();
-      uniqueIdentifier = dao.insertUniqueIdentifier("", msisdn, uniqueIdentifier );
+      uniqueIdentifier = dao.insertUniqueIdentifier(msisdn, uniqueIdentifier );
       if (uniqueIdentifier == null) {
          throw new IOException("failure to create or update ldap entry.");
       }
@@ -73,7 +73,7 @@ public class CreateSamlIDServlet extends HttpServlet {
       cookie.setPath("/");
       response.addCookie(cookie);
 
-      this.getServletConfig().getServletContext().getRequestDispatcher("/view_message.jsp").forward(request, response);
+      this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/test/view_message.jsp").forward(request, response);
       
     } catch (BeansException e) {
       throw new ServletException(e);

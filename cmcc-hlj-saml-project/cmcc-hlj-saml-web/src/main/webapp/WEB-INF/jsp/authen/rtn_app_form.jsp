@@ -17,7 +17,7 @@
 <meta http-equiv="description" content="This is my page">
 </head>
 <body onload="document.forms[1].submit();">
-<h4>Return to application ... </h4>
+<h4>Return to application [<c:out value="${SAMLart}" escapeXml="yes"/>] [<c:out value="${SAMLAuthenRequest.samlIssuer}" escapeXml="yes"/>]... </h4>
 	<form method="post" action="<c:out value="${SAMLAuthenRequest.samlIssuer}" escapeXml="yes"/>">
 		<input type="hidden" name="SAMLart" value='<c:out value="${SAMLart}" escapeXml="yes"/>' />
 		<input type="hidden" name="RelayState" value='<c:out value="${param.RelayState}" escapeXml="yes"/>' />
