@@ -224,7 +224,12 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
    * javax.servlet.http.HttpServletRequest,
    * javax.servlet.http.HttpServletResponse, java.lang.String)
    */
-  public String generateAndSaveArtifactID(HttpServletRequest request, HttpServletResponse response, String username) throws Exception {
+  public String generateAndSaveArtifactID(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    String username = request.getParameter("User-Name");
+    if (StringUtils.isEmpty(username)) {
+      throw new RuntimeException("Missing username!");
+    }
+
     PersonDAO dao = (PersonDAO) this.applicationContext.getBean("ldapDao");
 
     String artifactID = Helper.generatorID();

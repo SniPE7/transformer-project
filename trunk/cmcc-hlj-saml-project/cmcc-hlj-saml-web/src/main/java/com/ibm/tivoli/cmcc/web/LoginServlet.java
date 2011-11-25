@@ -81,7 +81,7 @@ public class LoginServlet extends HttpServlet {
 
       if (ok) {
         AuthenRequestService service = (AuthenRequestService) context.getBean("authenRequestService", AuthenRequestService.class);
-        String artifactID = service.generateAndSaveArtifactID(request, response, username);
+        String artifactID = service.generateAndSaveArtifactID(request, response);
         try {
           AuthenRequest authenReq = service.parseRequest(request);
           String relayState = service.getRelayState(request);
