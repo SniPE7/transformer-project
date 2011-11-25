@@ -56,6 +56,6 @@ public interface AuthenRequestService {
    * @return
    * @throws Exception
    */
-  public abstract String generateAndSaveArtifactID(HttpServletRequest request, HttpServletResponse response, String username) throws Exception;
+  public abstract String generateAndSaveArtifactID(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 }
