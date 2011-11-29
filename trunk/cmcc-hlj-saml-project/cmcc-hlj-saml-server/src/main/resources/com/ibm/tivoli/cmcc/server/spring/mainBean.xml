@@ -45,7 +45,7 @@
     <constructor-arg ref="contextSource" />
   </bean>
 
-  <bean id="personDao" class="com.ibm.tivoli.cmcc.dao.LDAPPersonDAO">
+  <bean id="personDao" class="com.ibm.tivoli.cmcc.dir.LDAPPersonDAO">
     <property name="ldapTemplate" ref="ldapTemplate" />
     <property name="url" value="${ldap.server.url}" />
     <property name="base" value="${ldap.server.base}" />

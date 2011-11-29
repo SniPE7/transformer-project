@@ -16,7 +16,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.SAXException;
 
-import com.ibm.tivoli.cmcc.dao.PersonDTO;
 import com.ibm.tivoli.cmcc.handler.BaseProcessor;
 import com.ibm.tivoli.cmcc.handler.Processor;
 import com.ibm.tivoli.cmcc.request.ArtifactResolvRequest;
@@ -24,6 +23,7 @@ import com.ibm.tivoli.cmcc.response.ArtifactResolvResponse;
 import com.ibm.tivoli.cmcc.server.utils.Helper;
 import com.ibm.tivoli.cmcc.session.Session;
 import com.ibm.tivoli.cmcc.session.SessionManager;
+import com.ibm.tivoli.cmcc.spi.PersonDTO;
 
 /**
  * @author Zhao Dong Lu
