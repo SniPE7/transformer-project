@@ -18,10 +18,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.xml.sax.SAXException;
 
-import com.ibm.tivoli.cmcc.ldap.PersonDAO;
 import com.ibm.tivoli.cmcc.request.AuthenRequest;
 import com.ibm.tivoli.cmcc.server.utils.Base64;
-import com.ibm.tivoli.cmcc.server.utils.Helper;
+import com.ibm.tivoli.cmcc.session.SessionManager;
 
 /**
  * @author zhaodonglu
@@ -230,10 +229,9 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
       throw new RuntimeException("Missing username!");
     }
 
-    PersonDAO dao = (PersonDAO) this.applicationContext.getBean("ldapDao");
+    SessionManager dao = (SessionManager) this.getApplicationContext().getBean("sessionManager");
 
-    String artifactID = Helper.generatorID();
-    artifactID = dao.insertUniqueIdentifier(username, artifactID);
+    String artifactID = dao.create(username);
     if (artifactID == null) {
       throw new IOException("failure to create or update ldap entry.");
     }
