@@ -14,8 +14,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.ibm.tivoli.cmcc.client.ClientException;
-import com.ibm.tivoli.cmcc.ldap.PersonDAO;
 import com.ibm.tivoli.cmcc.server.utils.Helper;
+import com.ibm.tivoli.cmcc.session.SessionManager;
 
 public class CreateSamlIDServlet extends HttpServlet {
 
@@ -57,10 +57,9 @@ public class CreateSamlIDServlet extends HttpServlet {
       }
 
       ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
-      PersonDAO dao = (PersonDAO)context.getBean("ldapDao");
+      SessionManager dao = (SessionManager)context.getBean("sessionManager");
       
-      String uniqueIdentifier =  Helper.generatorID();
-      uniqueIdentifier = dao.insertUniqueIdentifier(msisdn, uniqueIdentifier );
+      String uniqueIdentifier = dao.create(msisdn);
       if (uniqueIdentifier == null) {
          throw new IOException("failure to create or update ldap entry.");
       }
@@ -76,8 +75,6 @@ public class CreateSamlIDServlet extends HttpServlet {
       this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/test/view_message.jsp").forward(request, response);
       
     } catch (BeansException e) {
-      throw new ServletException(e);
-    } catch (ClientException e) {
       throw new ServletException(e);
     } catch (Exception e) {
       throw new ServletException(e);
