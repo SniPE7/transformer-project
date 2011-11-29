@@ -3,6 +3,7 @@
  */
 package com.ibm.tivoli.cmcc.session;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.ibm.tivoli.cmcc.server.utils.Helper;
@@ -12,7 +13,12 @@ import com.ibm.tivoli.cmcc.spi.PersonDTO;
  * @author zhaodonglu
  *
  */
-public class Session {
+public class Session implements Serializable {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -1171871599242867847L;
+  
   private String artifactID = Helper.generatorID();;
   private Date createTime = new Date();
   private Date lastAccessTime = new Date();
