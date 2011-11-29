@@ -17,6 +17,9 @@ import junit.framework.TestCase;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.ibm.tivoli.cmcc.session.SessionManager;
+import com.ibm.tivoli.cmcc.spi.PersonDAO;
+
 /**
  * @author Zhao Dong Lu
  *
@@ -39,15 +42,15 @@ public class LDAPContactDAOTest extends TestCase {
 
   public void testList() throws Exception {
     ClassPathXmlApplicationContext factory = new ClassPathXmlApplicationContext(new String[] { "/com/ibm/tivoli/cmcc/server/spring/mainBean.xml" });
-    PersonDAO dao = (LDAPPersonDAO) factory.getBean("ldapDao");
-    List persons = dao.searchPerson("", "(uid=13916918120)");
+    PersonDAO dao = (PersonDAO) factory.getBean("personDao");
+    List persons = dao.searchPerson("(uid=13916918120)");
     assertTrue(persons.size() > 0);
   }
 
   public void testUpdateUniqueIdentifier() throws Exception {
     ClassPathXmlApplicationContext factory = new ClassPathXmlApplicationContext(new String[] { "/com/ibm/tivoli/cmcc/server/spring/mainBean.xml" });
-    PersonDAO dao = (LDAPPersonDAO) factory.getBean("ldapDao");
-    dao.updateUniqueIdentifier("", "(uniqueIdentify=0f23dedc4b7710562117804301596812)", "0f23dedc4b7710562117804301596812");
+    SessionManager dao = (SessionManager) factory.getBean("sessionManager");
+    dao.touch("0f23dedc4b7710562117804301596812");
     assertTrue(true);
   }
   
