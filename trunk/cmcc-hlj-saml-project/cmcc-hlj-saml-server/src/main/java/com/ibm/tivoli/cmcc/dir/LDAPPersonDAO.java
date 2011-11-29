@@ -127,6 +127,14 @@ public class LDAPPersonDAO implements PersonDAO {
    * .ContactDTO)
    */
   public boolean updatePassword(String msisdn, String serviceCode, String networkPassword) {
+    if (serviceCode == null || serviceCode.length() < 6) {
+      // 检查密码策略
+      throw new RuntimeException("无效服务代码!");
+    }
+    if (networkPassword == null || networkPassword.length() < 6) {
+      // 检查密码策略
+      throw new RuntimeException("密码强度不足!");
+    }
     String attributeName = "userPassword";
 
     Hashtable<String, String> env = new Hashtable<String, String>();
@@ -158,6 +166,10 @@ public class LDAPPersonDAO implements PersonDAO {
           return dn;
         }
       });
+      
+      if (entities == null || entities.size() == 0) {
+        throw new RuntimeException("服务代码错误或手机号不存在!");
+      }
 
       if (entities != null && entities.size() > 0) {
         for (String dn : entities) {
