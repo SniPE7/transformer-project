@@ -5,7 +5,6 @@ package com.ibm.tivoli.cmcc.spi;
 
 import java.util.List;
 
-import com.ibm.tivoli.cmcc.dao.PersonDTO;
 
 /**
  * @author zhaodonglu
