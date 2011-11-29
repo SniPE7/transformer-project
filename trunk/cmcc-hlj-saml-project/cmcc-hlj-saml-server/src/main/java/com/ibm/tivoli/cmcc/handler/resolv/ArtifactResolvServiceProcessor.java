@@ -8,24 +8,22 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.digester.Digester;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.util.StringUtils;
 import org.xml.sax.SAXException;
 
+import com.ibm.tivoli.cmcc.dao.PersonDTO;
 import com.ibm.tivoli.cmcc.handler.BaseProcessor;
 import com.ibm.tivoli.cmcc.handler.Processor;
-import com.ibm.tivoli.cmcc.ldap.LDAPPersonDAO;
-import com.ibm.tivoli.cmcc.ldap.PersonDAO;
-import com.ibm.tivoli.cmcc.ldap.PersonDTO;
 import com.ibm.tivoli.cmcc.request.ArtifactResolvRequest;
 import com.ibm.tivoli.cmcc.response.ArtifactResolvResponse;
 import com.ibm.tivoli.cmcc.server.utils.Helper;
+import com.ibm.tivoli.cmcc.session.Session;
+import com.ibm.tivoli.cmcc.session.SessionManager;
 
 /**
  * @author Zhao Dong Lu
@@ -75,12 +73,10 @@ public class ArtifactResolvServiceProcessor extends BaseProcessor implements Pro
     boolean found = false;
     
     try {
-      PersonDAO dao = (LDAPPersonDAO) this.getApplicationContext().getBean("ldapDao");
-      String filterPattern = this.getProperties().getProperty("ldap.filter.query.attribute.service", "(uniqueIdentifier=%UID)");
-      String filter = StringUtils.replace(filterPattern, "%UID", req.getArtifact());
-      List<PersonDTO> persons = dao.searchPerson(filter );
-      if (persons != null && persons.size() > 0) {
-         this.personDTO  = persons.get(0);
+      SessionManager dao = (SessionManager) this.getApplicationContext().getBean("sessionManager");
+      Session session = dao.get(req.getArtifact());
+      if (session != null && session.getPersonDTO() != null) {
+         this.personDTO  = session.getPersonDTO();
          this.personDTO.setProvince(this.getProperties().getProperty("message.saml.province.code"));
          log.debug("found ldap entity [uid=" + this.personDTO.getMsisdn() + "] by samlID: " + req.getSamlId());
          

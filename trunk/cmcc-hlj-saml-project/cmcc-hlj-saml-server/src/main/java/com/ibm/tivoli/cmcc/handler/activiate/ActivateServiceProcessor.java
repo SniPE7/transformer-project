@@ -11,17 +11,14 @@ import java.util.Properties;
 import org.apache.commons.digester.Digester;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.BeansException;
-import org.springframework.util.StringUtils;
 import org.xml.sax.SAXException;
 
 import com.ibm.tivoli.cmcc.handler.BaseProcessor;
 import com.ibm.tivoli.cmcc.handler.Processor;
-import com.ibm.tivoli.cmcc.ldap.LDAPPersonDAO;
-import com.ibm.tivoli.cmcc.ldap.PersonDAO;
 import com.ibm.tivoli.cmcc.request.ActiviateRequest;
 import com.ibm.tivoli.cmcc.response.ActiviateResponse;
 import com.ibm.tivoli.cmcc.server.utils.Helper;
+import com.ibm.tivoli.cmcc.session.SessionManager;
 
 /**
  * @author Zhao Dong Lu
@@ -61,11 +58,9 @@ public class ActivateServiceProcessor extends BaseProcessor implements Processor
     
     boolean success = false;
     try {
-      PersonDAO dao = (LDAPPersonDAO) this.getApplicationContext().getBean("ldapDao");
-      String filterPattern = this.getProperties().getProperty("ldap.filter.query.attribute.service", "(uniqueIdentifier=%UID)");
-      String filter = StringUtils.replace(filterPattern, "%UID", req.getNameId());
-      success = dao.updateUniqueIdentifier(filter, req.getNameId());
-    } catch (BeansException e) {
+      SessionManager dao = (SessionManager) this.getApplicationContext().getBean("sessionManager");
+      success = dao.touch(req.getNameId());
+    } catch (Exception e) {
       log.error(e.getMessage(), e);
     }
 

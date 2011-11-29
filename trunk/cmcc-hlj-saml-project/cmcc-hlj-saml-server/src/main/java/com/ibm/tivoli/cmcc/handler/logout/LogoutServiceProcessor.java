@@ -6,24 +6,19 @@ package com.ibm.tivoli.cmcc.handler.logout;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.digester.Digester;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.BeansException;
 import org.xml.sax.SAXException;
 
 import com.ibm.tivoli.cmcc.handler.BaseProcessor;
 import com.ibm.tivoli.cmcc.handler.Processor;
-import com.ibm.tivoli.cmcc.ldap.LDAPPersonDAO;
-import com.ibm.tivoli.cmcc.ldap.PersonDAO;
-import com.ibm.tivoli.cmcc.ldap.PersonDTO;
 import com.ibm.tivoli.cmcc.request.LogoutRequest;
 import com.ibm.tivoli.cmcc.response.LogoutResponse;
 import com.ibm.tivoli.cmcc.server.utils.Helper;
+import com.ibm.tivoli.cmcc.session.SessionManager;
 
 /**
  * @author Zhao Dong Lu
@@ -62,13 +57,14 @@ public class LogoutServiceProcessor extends BaseProcessor implements Processor {
     LogoutRequest req = (LogoutRequest)parseRequest(new LogoutRequest(), in);
     LogoutResponse resp = new LogoutResponse(req);
     
-    PersonDAO dao = (LDAPPersonDAO) this.getApplicationContext().getBean("ldapDao");
     // Callback external command
+    /*
     String cmd = this.getProperties().getProperty("cmd.global.logout", "/usr/sbin/saml_logout");
     if (!StringUtils.isEmpty(cmd)) {
       try {
         String filterPattern = this.getProperties().getProperty("ldap.filter.query.attribute.service", "(uniqueIdentifier=%UID)");
         String filter = StringUtils.replace(filterPattern, "%UID", req.getNameId());
+        PersonDAO dao = (PersonDAO) this.getApplicationContext().getBean("personDao");
         List<PersonDTO> persons = dao.searchPerson(filter );
         if (persons != null && persons.size() > 0) {
            PersonDTO personDTO  = persons.get(0);
@@ -84,13 +80,13 @@ public class LogoutServiceProcessor extends BaseProcessor implements Processor {
     } else {
       log.debug("undefined logout notify (external command)");
     }
-
+    */
+    
     try {
-      String filterPattern = this.getProperties().getProperty("ldap.filter.query.attribute.service", "(uniqueIdentifier=%UID)");
-      String filter = StringUtils.replace(filterPattern, "%UID", req.getNameId());
-      dao.deleteUniqueIdentifier(filter, req.getNameId());
+      SessionManager dao = (SessionManager) this.getApplicationContext().getBean("sessionManager");
+      dao.destroy(req.getNameId());
       log.debug("");
-    } catch (BeansException e) {
+    } catch (Exception e) {
       log.error(e.getMessage(), e);
     }
         

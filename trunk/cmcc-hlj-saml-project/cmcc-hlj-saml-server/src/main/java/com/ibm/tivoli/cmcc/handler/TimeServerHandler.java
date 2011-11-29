@@ -1,6 +1,7 @@
 package com.ibm.tivoli.cmcc.handler;
 
 import java.util.Date;
+
 import org.apache.mina.common.IdleStatus;
 import org.apache.mina.common.IoHandlerAdapter;
 import org.apache.mina.common.IoSession;
