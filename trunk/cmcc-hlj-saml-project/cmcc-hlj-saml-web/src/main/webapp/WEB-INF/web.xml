@@ -37,6 +37,14 @@
   <listener>
     <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
   </listener>
+  <!-- For SessionManager -->
+  <listener>
+    <listener-class>com.ibm.tivoli.cmcc.session.HttpSessionListenerImpl</listener-class>
+  </listener>
+
+  <session-config>
+    <session-timeout>30</session-timeout>
+  </session-config>
 
   <servlet>
     <description>Home</description>
