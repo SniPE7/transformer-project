@@ -23,8 +23,8 @@ import org.springframework.ldap.core.DirContextAdapter;
 import org.springframework.ldap.core.LdapTemplate;
 
 import com.ibm.tivoli.cmcc.dao.PersonAttributeMapper;
-import com.ibm.tivoli.cmcc.dao.PersonDTO;
 import com.ibm.tivoli.cmcc.server.utils.Helper;
+import com.ibm.tivoli.cmcc.spi.PersonDTO;
 
 /**
  * @author Zhao Dong Lu
