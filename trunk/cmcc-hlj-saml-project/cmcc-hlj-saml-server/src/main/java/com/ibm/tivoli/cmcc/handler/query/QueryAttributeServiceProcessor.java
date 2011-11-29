@@ -69,17 +69,19 @@ public class QueryAttributeServiceProcessor extends BaseProcessor implements Pro
     resp.setInResponseTo(req.getSamlId());
     resp.setIssueInstant(Helper.formatDate4SAML(new Date()));
     resp.setSamlIssuer(this.getProperties().getProperty("message.saml.issuer"));
-    resp.setNameId(req.getNameId());
+    String artifactID = req.getNameId();
+    resp.setNameId(artifactID);
     
     boolean found = false;
     
     try {
+      Helper.validateArtifactID(artifactID);
       SessionManager dao = (SessionManager) this.getApplicationContext().getBean("sessionManager");
-      Session session = dao.get(req.getNameId());
+      Session session = dao.get(artifactID);
       if (session != null && session.getPersonDTO() != null) {
          this.personDTO  = session.getPersonDTO();
          this.personDTO.setProvince(this.getProperties().getProperty("message.saml.province.code"));
-         log.debug("found ldap entity [uid=" + this.personDTO.getMsisdn() + "] by samlID: " + req.getNameId());
+         log.debug("found ldap entity [uid=" + this.personDTO.getMsisdn() + "] by samlID: " + artifactID);
          found = true;
       }
     } catch (Exception e) {

@@ -73,6 +73,7 @@ public class ArtifactResolvServiceProcessor extends BaseProcessor implements Pro
     boolean found = false;
     
     try {
+      Helper.validateArtifactID(req.getArtifact());
       SessionManager dao = (SessionManager) this.getApplicationContext().getBean("sessionManager");
       Session session = dao.get(req.getArtifact());
       if (session != null && session.getPersonDTO() != null) {

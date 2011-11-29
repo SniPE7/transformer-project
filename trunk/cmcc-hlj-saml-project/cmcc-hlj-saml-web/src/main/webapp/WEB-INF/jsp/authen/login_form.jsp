@@ -33,7 +33,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <input type="hidden" name="RelayState" value='<c:out value="${param.RelayState}" escapeXml="false"/>'/>
    MSISDN: <input type="text" name="User-Name" value="13804511234" size="32" maxlength="32"><br/>
    Password-Type: <input type="radio" name="Password-Type" value="1" checked="checked">互联网密码&nbsp;&nbsp;&nbsp;<input type="radio" name="Password-Type" value="2">服务密码<br/>
-   Password: <input type="text" name="User-Password" value="1111" size="32" maxlength="32"><br/>
+   Password: <input type="text" name="User-Password" value="111111" size="32" maxlength="32"><br/>
    <input type="submit">
    </form>
 
