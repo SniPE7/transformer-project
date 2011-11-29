@@ -5,7 +5,6 @@ package com.ibm.tivoli.cmcc.handler.passwordreset;
 
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.digester.Digester;
@@ -60,11 +59,9 @@ public class PasswordResetServiceProcessor extends BaseProcessor implements Proc
     String cmd = this.getProperties().getProperty("cmd.global.PasswordReset", "/usr/sbin/saml_PasswordReset");
     if (!StringUtils.isEmpty(cmd)) {
       try {
-        String filter = "(uid=" + req.getUserName() + ")";
         PersonDAO dao = (PersonDAO) this.getApplicationContext().getBean("personDao");
-        List<PersonDTO> persons = dao.searchPerson(filter );
-        if (persons != null && persons.size() > 0) {
-           PersonDTO personDTO  = persons.get(0);
+        PersonDTO personDTO  =dao.getPersonByMsisdn(req.getUserName());
+        if (personDTO != null) {
            Runtime runtime = Runtime.getRuntime();
            String arg = personDTO.getMsisdn();
            String[] cmdarray = new String[]{cmd, arg};
@@ -84,7 +81,7 @@ public class PasswordResetServiceProcessor extends BaseProcessor implements Proc
     try {
       String msisdn = req.getUserName();
       PersonDAO dao = (PersonDAO) this.getApplicationContext().getBean("personDao");
-      success = dao.updatePassword(msisdn, req.getNetworkPassword());
+      success = dao.updatePassword(msisdn, req.getServiceCode(), req.getNetworkPassword());
       if (!success) {
         resultCode = "0";
         description = "失败";

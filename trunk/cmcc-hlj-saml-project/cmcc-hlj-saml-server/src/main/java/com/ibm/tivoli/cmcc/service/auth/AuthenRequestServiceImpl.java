@@ -20,6 +20,7 @@ import org.xml.sax.SAXException;
 
 import com.ibm.tivoli.cmcc.request.AuthenRequest;
 import com.ibm.tivoli.cmcc.server.utils.Base64;
+import com.ibm.tivoli.cmcc.session.Session;
 import com.ibm.tivoli.cmcc.session.SessionManager;
 
 /**
@@ -230,16 +231,16 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
     }
 
     SessionManager dao = (SessionManager) this.getApplicationContext().getBean("sessionManager");
-
-    String artifactID = dao.create(username);
+    Session session = dao.create(username);
+    String artifactID = session.getArtifactID();
     if (artifactID == null) {
       throw new IOException("failure to create or update ldap entry.");
     }
 
     // Update Session state
-    HttpSession session = request.getSession(true);
-    session.setAttribute("username", username);
-    session.setAttribute("ARTIFACT_ID", artifactID);
+    HttpSession httpSession = request.getSession(true);
+    httpSession.setAttribute("username", username);
+    httpSession.setAttribute("ARTIFACT_ID", artifactID);
 
     // Update to Cookies
     this.saveArtifactIdIntoCookies(response, artifactID);

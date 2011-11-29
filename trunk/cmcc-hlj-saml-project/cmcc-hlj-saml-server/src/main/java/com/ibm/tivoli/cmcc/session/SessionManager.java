@@ -14,10 +14,10 @@ public interface SessionManager {
   /**
    * Create a session
    * @param msisdn
-   * @return ArtifactID (Session ID)
+   * @return Session
    * @throws Exception
    */
-  public String create(String msisdn) throws SessionManagementException;
+  public Session create(String msisdn) throws SessionManagementException;
 
   /**
    * Touch and active a session

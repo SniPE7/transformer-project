@@ -76,7 +76,7 @@ public class PersonDTO {
 
   public void setStatus(String status) {
     if (status != null && status.toLowerCase().trim().equals("kaiji")) {
-       this.status = "1";
+      this.status = "1";
     } else {
       this.status = status;
     }
@@ -113,5 +113,16 @@ public class PersonDTO {
   public void setFetionStatus(String fetionStatus) {
     this.fetionStatus = fetionStatus;
   }
-  
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return String
+        .format(
+            "PersonDTO [commonName=%s, lastName=%s, msisdn=%s, province=%s, brand=%s, status=%s, currentPoint=%s, nickname=%s, mail139Status=%s, fetionStatus=%s, userLevel=%s]",
+            commonName, lastName, msisdn, province, brand, status, currentPoint, nickname, mail139Status, fetionStatus, userLevel);
+  }
+
 }

@@ -3,7 +3,6 @@
  */
 package com.ibm.tivoli.cmcc.spi;
 
-import java.util.List;
 
 
 /**
@@ -12,18 +11,23 @@ import java.util.List;
  */
 public interface PersonDAO {
 
-  public List<PersonDTO> searchPerson(String filter);
+  /**
+   * Get User detail information.
+   * @param msisdn
+   * @return
+   */
+  public PersonDTO getPersonByMsisdn(String msisdn);
   
   /**
-   * Update password
+   * Verify service code , and update network password
    * @param msisdn
    * @param password
    * @return
    */
-  public boolean updatePassword(String msisdn, String password);
+  public boolean updatePassword(String msisdn, String serviceCode, String networkPassword);
   
   /**
-   * 检查用户的口令
+   * Verify User password
    * @param msisdn
    * @param passwordType    1：互联网密码, 2：服务密码
    * @param password
