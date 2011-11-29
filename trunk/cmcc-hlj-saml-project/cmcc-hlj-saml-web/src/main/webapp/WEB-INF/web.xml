@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
 	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
@@ -19,21 +20,22 @@
   </context-param>
   <context-param>
     <param-name>log4jRefreshInterval</param-name>
-    <!-- Log4J's watchdog thread, 10 seconds between config file refresh checks -->
+    <!-- Log4J's watchdog thread, 10 seconds between config file refresh 
+      checks -->
     <param-value>1000</param-value>
   </context-param>
 
   <!-- Listeners -->
   <!-- Log4J Listener -->
-  <!-- 
-  <listener>
-    <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
-  </listener>
-   -->
-   
+  <!-- <listener> <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class> 
+    </listener> -->
+
   <!-- Spring Listener -->
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <listener>
+    <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
   </listener>
 
   <servlet>
@@ -160,7 +162,7 @@
     <exception-type>java.lang.Throwable</exception-type>
     <location>/error.jsp</location>
   </error-page>
-  
+
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
