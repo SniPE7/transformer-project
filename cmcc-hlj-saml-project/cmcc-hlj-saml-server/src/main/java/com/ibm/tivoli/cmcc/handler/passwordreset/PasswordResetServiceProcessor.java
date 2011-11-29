@@ -3,7 +3,6 @@
  */
 package com.ibm.tivoli.cmcc.handler.passwordreset;
 
-
 import java.io.IOException;
 import java.util.Properties;
 
@@ -22,19 +21,19 @@ import com.ibm.tivoli.cmcc.spi.PersonDTO;
 
 /**
  * @author Zhao Dong Lu
- *
+ * 
  */
 public class PasswordResetServiceProcessor extends BaseProcessor implements Processor {
-  
+
   private static Log log = LogFactory.getLog(PasswordResetServiceProcessor.class);
-  
+
   /**
    * 
    */
   public PasswordResetServiceProcessor() {
     super();
   }
-  
+
   public PasswordResetServiceProcessor(Properties properties) {
     super(properties);
   }
@@ -51,22 +50,22 @@ public class PasswordResetServiceProcessor extends BaseProcessor implements Proc
   }
 
   protected Object doBusiness(String in) throws IOException, SAXException {
-    PasswordResetRequest req = (PasswordResetRequest)parseRequest(new PasswordResetRequest(), in);
+    PasswordResetRequest req = (PasswordResetRequest) parseRequest(new PasswordResetRequest(), in);
     PasswordResetResponse resp = new PasswordResetResponse();
     resp.setUserName(req.getUserName());
-    
+
     // Callback external command
     String cmd = this.getProperties().getProperty("cmd.global.PasswordReset", "/usr/sbin/saml_PasswordReset");
     if (!StringUtils.isEmpty(cmd)) {
       try {
         PersonDAO dao = (PersonDAO) this.getApplicationContext().getBean("personDao");
-        PersonDTO personDTO  =dao.getPersonByMsisdn(req.getUserName());
+        PersonDTO personDTO = dao.getPersonByMsisdn(req.getUserName());
         if (personDTO != null) {
-           Runtime runtime = Runtime.getRuntime();
-           String arg = personDTO.getMsisdn();
-           String[] cmdarray = new String[]{cmd, arg};
-           Process proc = runtime.exec(cmdarray);
-           log.debug("execute external command for global PasswordReset, cmd: " + cmdarray);
+          Runtime runtime = Runtime.getRuntime();
+          String arg = personDTO.getMsisdn();
+          String[] cmdarray = new String[] { cmd, arg };
+          Process proc = runtime.exec(cmdarray);
+          log.debug("execute external command for global PasswordReset, cmd: " + cmdarray);
         }
       } catch (Exception e) {
         log.error(e.getMessage(), e);
@@ -78,6 +77,7 @@ public class PasswordResetServiceProcessor extends BaseProcessor implements Proc
     boolean success = true;
     String description = "成功";
     String resultCode = "1";
+
     try {
       String msisdn = req.getUserName();
       PersonDAO dao = (PersonDAO) this.getApplicationContext().getBean("personDao");
@@ -92,7 +92,7 @@ public class PasswordResetServiceProcessor extends BaseProcessor implements Proc
       resultCode = "0";
       description = e.getMessage();
     }
-        
+
     // Do business logic
     resp.setResultCode(resultCode);
     resp.setDescription(description);

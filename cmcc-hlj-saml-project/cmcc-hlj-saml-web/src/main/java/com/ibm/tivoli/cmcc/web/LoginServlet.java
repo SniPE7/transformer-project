@@ -73,7 +73,6 @@ public class LoginServlet extends HttpServlet {
       }
 
       ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
-      // TODO call loginmodule
       LoginModule loginModule = (LoginModule)context.getBean("loginModule");
       CallbackHandler callbackHandler = new MobileUserPasswordCallbackHandler(request);
       loginModule.initialize(new Subject(), callbackHandler , null, null);
