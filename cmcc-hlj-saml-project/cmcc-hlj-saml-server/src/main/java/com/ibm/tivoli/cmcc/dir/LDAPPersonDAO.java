@@ -107,8 +107,16 @@ public class LDAPPersonDAO implements PersonDAO {
    * 
    * @see com.ibm.tivoli.cmcc.dao.ContactDAO#getAllContactNames()
    */
-  public List<PersonDTO> searchPerson(String filter) {
-    return ldapTemplate.search(base, filter, new PersonAttributeMapper());
+  public PersonDTO getPersonByMsisdn(String msisdn) {
+    log.debug(String.format("Get detail user info: [msisdn]", msisdn));
+    String filter = "(uid=" + msisdn + ")";
+    List<PersonDTO> persons = ldapTemplate.search(base, filter, new PersonAttributeMapper());
+    if (persons != null && persons.size() > 0) {
+      PersonDTO personDTO = persons.get(0);
+      log.debug(String.format("Got detail info: %s", personDTO.toString()));
+      return personDTO;
+    }
+    return null;
   }
 
   /*
@@ -118,7 +126,7 @@ public class LDAPPersonDAO implements PersonDAO {
    * com.ibm.tivoli.cmcc.dao.ContactDAO#updateContact(com.ibm.tivoli.cmcc.dao
    * .ContactDTO)
    */
-  public boolean updatePassword(String msisdn, String password) {
+  public boolean updatePassword(String msisdn, String serviceCode, String networkPassword) {
     String attributeName = "userPassword";
 
     Hashtable<String, String> env = new Hashtable<String, String>();
@@ -131,19 +139,18 @@ public class LDAPPersonDAO implements PersonDAO {
     env.put(Context.SECURITY_CREDENTIALS, this.getPassword());
 
     ModificationItem[] mods = new ModificationItem[1];
-
-    Attribute mod0 = new BasicAttribute(attributeName, password);
-    // Attribute mod1 = new BasicAttribute("st", "AAA");
-
+    Attribute mod0 = new BasicAttribute(attributeName, networkPassword);
     mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, mod0);
-    // mods[1] = new ModificationItem(DirContext.ADD_ATTRIBUTE, mod1);
 
     boolean success = false;
     DirContext ctx = null;
     try {
+      log.debug(String.format("Verify service password, msisdn: [%s], service password: [%s]", msisdn, serviceCode));
       ctx = new InitialDirContext(env);
-      String filter = "(uid=" + msisdn + ")";
-      List<String> entities = ldapTemplate.search(base, filter, new ContextMapper() {
+      AndFilter filter = new AndFilter();
+      filter.and(new EqualsFilter("uid", msisdn));
+      filter.and(new EqualsFilter("erhljmccServiceCode", serviceCode));
+      List<String> entities = ldapTemplate.search(base, filter.encode(), new ContextMapper() {
 
         public Object mapFromContext(Object entity) {
           DirContextAdapter context = (DirContextAdapter) entity;
@@ -158,13 +165,13 @@ public class LDAPPersonDAO implements PersonDAO {
             String targetDN = dn;
             ctx.modifyAttributes(targetDN, mods);
             success = true;
-            log.debug("Reset password, dn:[" + targetDN + "], userPassword:[" + password + "]");
+            log.debug(String.format("Update network password, msisdn: [%s], service password: [%s]", msisdn, networkPassword));
           } catch (NamingException e) {
             log.error(e.getMessage(), e);
           }
         }
       } else {
-        log.debug("could not found eniity from LDAP, filter: [" + filter + "]");
+        log.debug("could not found eniity for reset password, filter: [" + filter + "]");
       }
     } catch (DataAccessException e) {
       log.error(e.getMessage(), e);
@@ -175,45 +182,68 @@ public class LDAPPersonDAO implements PersonDAO {
     }
     return success;
   }
-  
+
   private String searchUserDNByMsisdn(String msisdn) {
     AndFilter filter = new AndFilter();
-    
     filter.and(new EqualsFilter("uid", msisdn));
-    
-    return (String) ldapTemplate.searchForObject("", filter.encode(),
-        new AbstractContextMapper() {
-          
-          @Override
-          protected Object doMapFromContext(DirContextOperations ctx) {
-            return ctx.getNameInNamespace();
-          }
-        }
-    );
+
+    return (String) ldapTemplate.searchForObject("", filter.encode(), new AbstractContextMapper() {
+
+      @Override
+      protected Object doMapFromContext(DirContextOperations ctx) {
+        return ctx.getNameInNamespace();
+      }
+    });
   }
 
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.dao.SessionManager#checkMobileUserPassword(java.lang.String, java.lang.String, char[])
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * com.ibm.tivoli.cmcc.dao.SessionManager#checkMobileUserPassword(java.lang
+   * .String, java.lang.String, char[])
    */
   public boolean checkMobileUserPassword(String msisdn, String passwordType, char[] password) throws Exception {
-    
+    log.debug(String.format("Check mobile user password, msisdn: [%s], passwordType: [%s]", msisdn, passwordType));
     DirContext ctx = null;
     try {
-      SearchControls cons = new SearchControls();
-      cons.setReturningAttributes(new String[0]);       // Return no attrs
-      cons.setSearchScope(SearchControls.OBJECT_SCOPE); // Search object only
-
       ctx = ldapTemplate.getContextSource().getReadOnlyContext();
-      // Get User DN by MSISDN
-      String userDn = this.searchUserDNByMsisdn(msisdn);
-      byte[] bytes = (password != null)?new String(password).getBytes("iso8859-1"):new byte[0];
-      String filterPattern = ("1".equals(passwordType))?"(userPassword={0})":"(userPassword={0})";
-      NamingEnumeration answer = ctx.search(userDn, filterPattern, new Object[]{bytes}, cons);
-      if(answer == null || !answer.hasMoreElements()){
-        throw LdapUtils.convertLdapException(new NamingException("Wrong password"));
+      if ("1".equals(passwordType)) {
+        log.debug(String.format("Check mobile user network password, msisdn: [%s], passwordType: [%s]", msisdn, passwordType));
+        // Verify network password
+        SearchControls cons = new SearchControls();
+        cons.setReturningAttributes(new String[0]); // Return no attrs
+        cons.setSearchScope(SearchControls.OBJECT_SCOPE); // Search object only
+
+        // Get User DN by MSISDN
+        String userDn = this.searchUserDNByMsisdn(msisdn);
+        byte[] bytes = (password != null) ? new String(password).getBytes("iso8859-1") : new byte[0];
+        String filterPattern = ("1".equals(passwordType)) ? "(userPassword={0})" : "(userPassword={0})";
+        NamingEnumeration answer = ctx.search(userDn, filterPattern, new Object[] { bytes }, cons);
+        if (answer == null || !answer.hasMoreElements()) {
+          throw LdapUtils.convertLdapException(new NamingException("Wrong password"));
+        }
+        answer.close();
+        return true;
+      } else {
+        // Verify service code
+        log.debug(String.format("Check mobile user service password, msisdn: [%s], passwordType: [%s]", msisdn, passwordType));
+        AndFilter filter = new AndFilter();
+        filter.and(new EqualsFilter("uid", msisdn));
+        filter.and(new EqualsFilter("erhljmccServiceCode", new String(password)));
+        List<String> entities = ldapTemplate.search(base, filter.encode(), new ContextMapper() {
+
+          public Object mapFromContext(Object entity) {
+            DirContextAdapter context = (DirContextAdapter) entity;
+            String dn = context.getDn().toString();
+            return dn;
+          }
+        });
+        if (entities != null && entities.size() > 0) {
+          return true;
+        }        
       }
-      answer.close();
-      return true;
+      return false;
     } catch (NamingException e) {
       throw LdapUtils.convertLdapException(e);
     } catch (Exception e) {
