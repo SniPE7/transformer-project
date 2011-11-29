@@ -45,9 +45,9 @@
     <property name="timeOut" value="60"></property>
   </bean>
   
-  <bean id="loginModule" class="com.ibm.tivoli.cmcc.service.auth.MobileUserLoginModule" scope="prototype">
+  <bean id="loginModule" class="com.ibm.tivoli.cmcc.module.LDAPMobileUserLoginModule" scope="prototype">
     <property name="debug" value="true"></property>
-    <property name="userDAO" ref="ldapDao"></property>
+    <property name="personDAO" ref="personDao"></property>
   </bean>  
     
 </beans>

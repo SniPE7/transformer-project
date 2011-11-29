@@ -15,9 +15,9 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.ibm.tivoli.cmcc.module.MobileUserPasswordCallbackHandler;
 import com.ibm.tivoli.cmcc.request.AuthenRequest;
 import com.ibm.tivoli.cmcc.service.auth.AuthenRequestService;
-import com.ibm.tivoli.cmcc.service.auth.MobileUserPasswordCallbackHandler;
 
 /**
  * 登录成功后携带票据跳转回应用
