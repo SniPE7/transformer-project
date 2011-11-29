@@ -14,13 +14,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.SAXException;
 
+import com.ibm.tivoli.cmcc.dao.PersonDTO;
 import com.ibm.tivoli.cmcc.handler.BaseProcessor;
 import com.ibm.tivoli.cmcc.handler.Processor;
-import com.ibm.tivoli.cmcc.ldap.LDAPPersonDAO;
-import com.ibm.tivoli.cmcc.ldap.PersonDAO;
-import com.ibm.tivoli.cmcc.ldap.PersonDTO;
 import com.ibm.tivoli.cmcc.request.PasswordResetRequest;
 import com.ibm.tivoli.cmcc.response.PasswordResetResponse;
+import com.ibm.tivoli.cmcc.spi.PersonDAO;
 
 /**
  * @author Zhao Dong Lu
@@ -57,12 +56,12 @@ public class PasswordResetServiceProcessor extends BaseProcessor implements Proc
     PasswordResetResponse resp = new PasswordResetResponse();
     resp.setUserName(req.getUserName());
     
-    PersonDAO dao = (LDAPPersonDAO) this.getApplicationContext().getBean("ldapDao");
     // Callback external command
     String cmd = this.getProperties().getProperty("cmd.global.PasswordReset", "/usr/sbin/saml_PasswordReset");
     if (!StringUtils.isEmpty(cmd)) {
       try {
         String filter = "(uid=" + req.getUserName() + ")";
+        PersonDAO dao = (PersonDAO) this.getApplicationContext().getBean("personDao");
         List<PersonDTO> persons = dao.searchPerson(filter );
         if (persons != null && persons.size() > 0) {
            PersonDTO personDTO  = persons.get(0);
@@ -83,8 +82,9 @@ public class PasswordResetServiceProcessor extends BaseProcessor implements Proc
     String description = "成功";
     String resultCode = "1";
     try {
-      String filter = "(uid=" + req.getUserName() + ")";
-      success = dao.updatePassword(filter, req.getNetworkPassword());
+      String msisdn = req.getUserName();
+      PersonDAO dao = (PersonDAO) this.getApplicationContext().getBean("personDao");
+      success = dao.updatePassword(msisdn, req.getNetworkPassword());
       if (!success) {
         resultCode = "0";
         description = "失败";
