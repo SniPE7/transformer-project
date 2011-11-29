@@ -38,24 +38,25 @@ import com.ibm.tivoli.cmcc.spi.PersonDTO;
  */
 public class ServletSessionManagerImpl implements SessionManager {
 
-  private static final String SAML_SESSION_ATTR_NAME = "SAML_SESSION_ATTR_NAME";
-
   private static Log log = LogFactory.getLog(ServletSessionManagerImpl.class);
+
+  public static final String SAML_SESSION_ATTR_NAME = "SAML_SESSION_ATTR_NAME";
 
   private String url = null;
   private String base = null;
   private String userName = null;
   private String password = null;
   private String ldapCtxFactory = "com.sun.jndi.ldap.LdapCtxFactory";
-  
+
   private String provinceCode = null;
 
   private LdapTemplate ldapTemplate;
-  
+
   private Map<String, HttpSession> sessionMap = new ConcurrentHashMap<String, HttpSession>();
 
   /**
-   * Specifies the time, in seconds, between client requests before the servlet container will invalidate this session. 
+   * Specifies the time, in seconds, between client requests before the servlet
+   * container will invalidate this session.
    */
   private long maxInactiveInterval = 30 * 60;
 
@@ -74,7 +75,8 @@ public class ServletSessionManagerImpl implements SessionManager {
   }
 
   /**
-   * @param maxInactiveInterval the maxInactiveInterval to set
+   * @param maxInactiveInterval
+   *          the maxInactiveInterval to set
    */
   public void setMaxInactiveInterval(long maxInactiveInterval) {
     this.maxInactiveInterval = maxInactiveInterval;
@@ -136,7 +138,8 @@ public class ServletSessionManagerImpl implements SessionManager {
   }
 
   /**
-   * @param provinceCode the provinceCode to set
+   * @param provinceCode
+   *          the provinceCode to set
    */
   public void setProvinceCode(String provinceCode) {
     this.provinceCode = provinceCode;
@@ -159,21 +162,21 @@ public class ServletSessionManagerImpl implements SessionManager {
     env.put(Context.SECURITY_AUTHENTICATION, "simple");
     env.put(Context.SECURITY_PRINCIPAL, this.getUserName());
     env.put(Context.SECURITY_CREDENTIALS, this.getPassword());
-  
+
     boolean success = false;
     DirContext ctx = null;
     try {
       ctx = new InitialDirContext(env);
       String filter = "(uid=" + msisdn + ")";
       List<String> entities = ldapTemplate.search(base, filter, new ContextMapper() {
- 
+
         public Object mapFromContext(Object entity) {
           DirContextAdapter context = (DirContextAdapter) entity;
           String dn = context.getDn().toString();
           return dn;
         }
       });
- 
+
       String artifactID = Helper.generatorID();
       if (entities != null && entities.size() > 0) {
         for (String dn : entities) {
@@ -191,19 +194,19 @@ public class ServletSessionManagerImpl implements SessionManager {
           log.debug("add or update ldap attribute, dn:[" + targetDN + "], uniqueIdentifier:[" + artifactID + "]");
           log.debug(String.format("Created a session, msisdn: [%s], artifactID: [%s]", msisdn, artifactID));
         }
-        
+
         // Load Person DTO
-        List<PersonDTO> persons = ldapTemplate.search(base, filter , new PersonAttributeMapper());
+        List<PersonDTO> persons = ldapTemplate.search(base, filter, new PersonAttributeMapper());
         if (persons != null && persons.size() > 0) {
-           PersonDTO personDTO  = persons.get(0);
-           personDTO.setProvince(this.getProvinceCode());
-           log.debug(String.format("found ldap entity [uid=%s] artifactID: [%s], attrs:[%s]", personDTO.getMsisdn(), artifactID, personDTO.toString()));
-           Session session = new Session(artifactID, personDTO.getMsisdn(), personDTO);
-           HttpSession hSession = request.getSession(true);
-           hSession.setMaxInactiveInterval((int)this.maxInactiveInterval);
-           hSession.setAttribute(SAML_SESSION_ATTR_NAME, session);
-           this.sessionMap.put(artifactID, hSession);
-           return session;
+          PersonDTO personDTO = persons.get(0);
+          personDTO.setProvince(this.getProvinceCode());
+          log.debug(String.format("found ldap entity [uid=%s] artifactID: [%s], attrs:[%s]", personDTO.getMsisdn(), artifactID, personDTO.toString()));
+          Session session = new Session(artifactID, personDTO.getMsisdn(), personDTO);
+          HttpSession hSession = request.getSession(true);
+          hSession.setMaxInactiveInterval((int) this.maxInactiveInterval);
+          hSession.setAttribute(SAML_SESSION_ATTR_NAME, session);
+          this.sessionMap.put(artifactID, hSession);
+          return session;
         }
         return null;
       } else {
@@ -222,7 +225,7 @@ public class ServletSessionManagerImpl implements SessionManager {
         }
       }
     }
-   }
+  }
 
   private HttpServletRequest getHttpServletRequest() {
     ServletRequestAttributes srAttr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
@@ -241,13 +244,13 @@ public class ServletSessionManagerImpl implements SessionManager {
     log.debug(String.format("Touch session, artifactId: [%s]", artifactID));
     HttpSession hSession = this.sessionMap.get(artifactID);
     if (hSession != null) {
-       log.debug(String.format("Before touching session, artifactID: [%s], Last access time: [%s]", artifactID, new Date(hSession.getLastAccessedTime())));
-       hSession.setMaxInactiveInterval((int)(this.maxInactiveInterval + (System.currentTimeMillis() - hSession.getLastAccessedTime())/1000));
-       hSession.setAttribute("dummy", "");
-       Session session = (Session)hSession.getAttribute(SAML_SESSION_ATTR_NAME);
-       session.touch();
-       log.debug(String.format("After touching session, artifactID: [%s], Last access time: [%s]", artifactID, new Date(hSession.getLastAccessedTime())));
-       return true;
+      log.debug(String.format("Before touching session, artifactID: [%s], Last access time: [%s]", artifactID, new Date(hSession.getLastAccessedTime())));
+      hSession.setMaxInactiveInterval((int) (this.maxInactiveInterval + (System.currentTimeMillis() - hSession.getLastAccessedTime()) / 1000));
+      hSession.setAttribute("dummy", "");
+      Session session = (Session) hSession.getAttribute(SAML_SESSION_ATTR_NAME);
+      session.touch();
+      log.debug(String.format("After touching session, artifactID: [%s], Last access time: [%s]", artifactID, new Date(hSession.getLastAccessedTime())));
+      return true;
     }
     return false;
   }
@@ -263,22 +266,27 @@ public class ServletSessionManagerImpl implements SessionManager {
     log.debug(String.format("Destroy session, artifactId: [%s]", artifactID));
     HttpSession hSession = this.sessionMap.get(artifactID);
     if (hSession != null) {
-       this.sessionMap.remove(artifactID);
-       hSession.invalidate();
+      if (this.sessionMap.containsKey(artifactID)) {
+        this.sessionMap.remove(artifactID);
+      }
+      hSession.invalidate();
     }
     return true;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see com.ibm.tivoli.cmcc.dao.SessionManager#get(java.lang.String)
    */
   public Session get(String artifactId) throws SessionManagementException {
     log.debug(String.format("Destroy session, artifactId: [%s]", artifactId));
     HttpSession hSession = this.sessionMap.get(artifactId);
     if (hSession != null) {
-       Session session = (Session)hSession.getAttribute(SAML_SESSION_ATTR_NAME);
-       return session;
+      Session session = (Session) hSession.getAttribute(SAML_SESSION_ATTR_NAME);
+      return session;
     }
     return null;
   }
+
 }
