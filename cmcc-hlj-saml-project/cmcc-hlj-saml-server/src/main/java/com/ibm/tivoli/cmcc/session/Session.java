@@ -5,7 +5,7 @@ package com.ibm.tivoli.cmcc.session;
 
 import java.util.Date;
 
-import com.ibm.tivoli.cmcc.dao.PersonDTO;
+import com.ibm.tivoli.cmcc.spi.PersonDTO;
 
 /**
  * @author zhaodonglu
