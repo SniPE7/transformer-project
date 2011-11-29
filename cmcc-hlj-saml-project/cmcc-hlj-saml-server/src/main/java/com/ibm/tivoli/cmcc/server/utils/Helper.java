@@ -40,4 +40,16 @@ public class Helper {
     return buf.toString();
   }
 
+  public static void validateArtifactID(String id) {
+    if (id == null || id.length() < 32) {
+       throw new RuntimeException("ArtifactID too short or empty, [" + id + "]");
+    }
+    char[] cs = id.toCharArray();
+    for (char c: cs) {
+        if (!Character.isDigit(c) && !Character.isLetter(c)) {
+          throw new RuntimeException("ArtifactID contain invaludate character, [" + id + "]");
+        }
+    }
+  }
+
 }

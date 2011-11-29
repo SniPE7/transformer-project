@@ -81,7 +81,19 @@ public class LogoutServiceProcessor extends BaseProcessor implements Processor {
       log.debug("undefined logout notify (external command)");
     }
     */
+    try {
+      Helper.validateArtifactID(req.getNameId());
+    } catch (Exception e) {
+      log.error(e.getMessage(), e);
+      resp.setSamlId(Helper.generatorID());
+      resp.setInResponseTo(req.getSamlId());
+      resp.setIssueInstant(Helper.formatDate4SAML(new Date()));
+      resp.setSamlIssuer(this.getProperties().getProperty("message.saml.issuer"));
+      resp.setStatusCode("urn:oasis:names:tc:SAML:2.0:status:Requestor");
+      return resp;
+    }
     
+    // Do business logic
     try {
       SessionManager dao = (SessionManager) this.getApplicationContext().getBean("sessionManager");
       dao.destroy(req.getNameId());

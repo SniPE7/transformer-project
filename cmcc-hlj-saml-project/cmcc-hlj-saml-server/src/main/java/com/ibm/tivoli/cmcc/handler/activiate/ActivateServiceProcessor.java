@@ -58,6 +58,7 @@ public class ActivateServiceProcessor extends BaseProcessor implements Processor
     
     boolean success = false;
     try {
+      Helper.validateArtifactID(req.getNameId());
       SessionManager dao = (SessionManager) this.getApplicationContext().getBean("sessionManager");
       success = dao.touch(req.getNameId());
     } catch (Exception e) {
