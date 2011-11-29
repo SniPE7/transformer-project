@@ -3,11 +3,18 @@
  */
 package com.ibm.tivoli.cmcc.spi;
 
+import java.io.Serializable;
+
 /**
  * @author Zhao Dong Lu
  * 
  */
-public class PersonDTO {
+public class PersonDTO implements Serializable {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 5136872735843770741L;
+  
   String commonName;
   String lastName;
   String msisdn;
