@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.naming.Context;
 import javax.naming.NamingException;
@@ -52,7 +53,7 @@ public class ServletSessionManagerImpl implements SessionManager {
 
   private LdapTemplate ldapTemplate;
   
-  private Map<String, HttpSession> sessionMap = new HashMap<String, HttpSession>();
+  private Map<String, HttpSession> sessionMap = new ConcurrentHashMap<String, HttpSession>();
 
   /**
    * 
