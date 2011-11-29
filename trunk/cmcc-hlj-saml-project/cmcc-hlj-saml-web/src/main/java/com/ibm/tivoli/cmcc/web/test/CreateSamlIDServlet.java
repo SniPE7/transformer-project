@@ -13,8 +13,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.ibm.tivoli.cmcc.client.ClientException;
-import com.ibm.tivoli.cmcc.server.utils.Helper;
+import com.ibm.tivoli.cmcc.session.Session;
 import com.ibm.tivoli.cmcc.session.SessionManager;
 
 public class CreateSamlIDServlet extends HttpServlet {
@@ -58,8 +57,8 @@ public class CreateSamlIDServlet extends HttpServlet {
 
       ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
       SessionManager dao = (SessionManager)context.getBean("sessionManager");
-      
-      String uniqueIdentifier = dao.create(msisdn);
+      Session session = dao.create(msisdn);
+      String uniqueIdentifier = session.getArtifactID();
       if (uniqueIdentifier == null) {
          throw new IOException("failure to create or update ldap entry.");
       }
