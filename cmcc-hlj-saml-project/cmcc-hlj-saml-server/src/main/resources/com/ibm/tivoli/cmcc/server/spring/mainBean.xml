@@ -54,7 +54,7 @@
     <property name="ldapCtxFactory" value="com.sun.jndi.ldap.LdapCtxFactory"></property>
   </bean>
 
-  <bean id="sessionManager" class="com.ibm.tivoli.cmcc.session.LDAPSessionManagerImpl">
+  <bean id="sessionManager" class="com.ibm.tivoli.cmcc.session.ServletSessionManagerImpl">
     <property name="ldapCtxFactory" value="com.sun.jndi.ldap.LdapCtxFactory"></property>
     <property name="ldapTemplate" ref="ldapTemplate" />
     <property name="url" value="${ldap.server.url}" />

@@ -146,4 +146,13 @@ public class Session implements Serializable {
     this.lastAccessTime = new Date();    
   }
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return String.format("Session [artifactID=%s, createTime=%s, lastAccessTime=%s, personDTO=%s, uid=%s]", artifactID, createTime, lastAccessTime, personDTO,
+        uid);
+  }
+
 }

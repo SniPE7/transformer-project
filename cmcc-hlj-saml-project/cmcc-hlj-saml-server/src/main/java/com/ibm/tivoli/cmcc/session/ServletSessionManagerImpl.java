@@ -4,7 +4,6 @@
 package com.ibm.tivoli.cmcc.session;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -56,10 +55,29 @@ public class ServletSessionManagerImpl implements SessionManager {
   private Map<String, HttpSession> sessionMap = new ConcurrentHashMap<String, HttpSession>();
 
   /**
+   * Specifies the time, in seconds, between client requests before the servlet container will invalidate this session. 
+   */
+  private long maxInactiveInterval = 30 * 60;
+
+  /**
    * 
    */
   public ServletSessionManagerImpl() {
     super();
+  }
+
+  /**
+   * @return the maxInactiveInterval
+   */
+  public long getMaxInactiveInterval() {
+    return maxInactiveInterval;
+  }
+
+  /**
+   * @param maxInactiveInterval the maxInactiveInterval to set
+   */
+  public void setMaxInactiveInterval(long maxInactiveInterval) {
+    this.maxInactiveInterval = maxInactiveInterval;
   }
 
   public void setLdapTemplate(LdapTemplate ldapTemplate) {
@@ -182,8 +200,10 @@ public class ServletSessionManagerImpl implements SessionManager {
            log.debug(String.format("found ldap entity [uid=%s] artifactID: [%s], attrs:[%s]", personDTO.getMsisdn(), artifactID, personDTO.toString()));
            Session session = new Session(artifactID, personDTO.getMsisdn(), personDTO);
            HttpSession hSession = request.getSession(true);
+           hSession.setMaxInactiveInterval((int)this.maxInactiveInterval);
            hSession.setAttribute(SAML_SESSION_ATTR_NAME, session);
            this.sessionMap.put(artifactID, hSession);
+           return session;
         }
         return null;
       } else {
@@ -222,6 +242,7 @@ public class ServletSessionManagerImpl implements SessionManager {
     HttpSession hSession = this.sessionMap.get(artifactID);
     if (hSession != null) {
        log.debug(String.format("Before touching session, artifactID: [%s], Last access time: [%s]", artifactID, new Date(hSession.getLastAccessedTime())));
+       hSession.setMaxInactiveInterval((int)(this.maxInactiveInterval + (System.currentTimeMillis() - hSession.getLastAccessedTime())/1000));
        hSession.setAttribute("dummy", "");
        Session session = (Session)hSession.getAttribute(SAML_SESSION_ATTR_NAME);
        session.touch();
