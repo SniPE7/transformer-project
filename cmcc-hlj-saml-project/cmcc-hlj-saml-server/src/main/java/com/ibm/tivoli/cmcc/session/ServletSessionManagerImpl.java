@@ -3,8 +3,11 @@
  */
 package com.ibm.tivoli.cmcc.session;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.NamingException;
@@ -14,13 +17,16 @@ import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.ModificationItem;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.dao.DataAccessException;
 import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.DirContextAdapter;
 import org.springframework.ldap.core.LdapTemplate;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.ibm.tivoli.cmcc.dir.PersonAttributeMapper;
 import com.ibm.tivoli.cmcc.server.utils.Helper;
@@ -30,9 +36,11 @@ import com.ibm.tivoli.cmcc.spi.PersonDTO;
  * @author Zhao Dong Lu
  * 
  */
-public class LDAPSessionManagerImpl implements SessionManager {
+public class ServletSessionManagerImpl implements SessionManager {
 
-  private static Log log = LogFactory.getLog(LDAPSessionManagerImpl.class);
+  private static final String SAML_SESSION_ATTR_NAME = "SAML_SESSION_ATTR_NAME";
+
+  private static Log log = LogFactory.getLog(ServletSessionManagerImpl.class);
 
   private String url = null;
   private String base = null;
@@ -43,11 +51,13 @@ public class LDAPSessionManagerImpl implements SessionManager {
   private String provinceCode = null;
 
   private LdapTemplate ldapTemplate;
+  
+  private Map<String, HttpSession> sessionMap = new HashMap<String, HttpSession>();
 
   /**
    * 
    */
-  public LDAPSessionManagerImpl() {
+  public ServletSessionManagerImpl() {
     super();
   }
 
@@ -122,18 +132,10 @@ public class LDAPSessionManagerImpl implements SessionManager {
    */
   public Session create(String msisdn) throws SessionManagementException {
     log.debug(String.format("Creating session, msisdn: [%s]", msisdn));
-    /*
-    ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-    HttpServletRequest request = attr.getRequest();
-    String username = request.getParameter("User-Name");
-    if (StringUtils.isEmpty(username)) {
-      throw new RuntimeException("Missing username!");
-    }
-    */
+    HttpServletRequest request = getHttpServletRequest();
+
     Hashtable<String, String> env = new Hashtable<String, String>();
-  
     env.put(Context.INITIAL_CONTEXT_FACTORY, ldapCtxFactory);
-  
     env.put(Context.PROVIDER_URL, this.getUrl());
     env.put(Context.SECURITY_AUTHENTICATION, "simple");
     env.put(Context.SECURITY_PRINCIPAL, this.getUserName());
@@ -177,9 +179,11 @@ public class LDAPSessionManagerImpl implements SessionManager {
            PersonDTO personDTO  = persons.get(0);
            personDTO.setProvince(this.getProvinceCode());
            log.debug(String.format("found ldap entity [uid=%s] artifactID: [%s], attrs:[%s]", personDTO.getMsisdn(), artifactID, personDTO.toString()));
-           return new Session(artifactID, personDTO.getMsisdn(), personDTO);
+           Session session = new Session(artifactID, personDTO.getMsisdn(), personDTO);
+           HttpSession hSession = request.getSession(true);
+           hSession.setAttribute(SAML_SESSION_ATTR_NAME, session);
+           this.sessionMap.put(artifactID, hSession);
         }
-
         return null;
       } else {
         throw new Exception("could not found entity from LDAP, filter: [" + filter + "]");
@@ -199,6 +203,12 @@ public class LDAPSessionManagerImpl implements SessionManager {
     }
    }
 
+  private HttpServletRequest getHttpServletRequest() {
+    ServletRequestAttributes srAttr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+    HttpServletRequest request = srAttr.getRequest();
+    return request;
+  }
+
   /*
    * (non-Javadoc)
    * 
@@ -208,67 +218,16 @@ public class LDAPSessionManagerImpl implements SessionManager {
    */
   public boolean touch(String artifactID) throws SessionManagementException {
     log.debug(String.format("Touch session, artifactId: [%s]", artifactID));
-    String attributeName = "uniqueIdentifier";
-
-    Hashtable<String, String> env = new Hashtable<String, String>();
-
-    env.put(Context.INITIAL_CONTEXT_FACTORY, ldapCtxFactory);
-
-    env.put(Context.PROVIDER_URL, this.getUrl());
-    env.put(Context.SECURITY_AUTHENTICATION, "simple");
-    env.put(Context.SECURITY_PRINCIPAL, this.getUserName());
-    env.put(Context.SECURITY_CREDENTIALS, this.getPassword());
-
-    ModificationItem[] mods = new ModificationItem[1];
-
-    Attribute mod0 = new BasicAttribute(attributeName, artifactID);
-    // Attribute mod1 = new BasicAttribute("st", "AAA");
-
-    mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, mod0);
-    // mods[1] = new ModificationItem(DirContext.ADD_ATTRIBUTE, mod1);
-
-    boolean success = false;
-    DirContext ctx = null;
-    try {
-      ctx = new InitialDirContext(env);
-      String filter = "(" + attributeName + "=" + artifactID + ")";
-      List<String> entities = ldapTemplate.search(base, filter, new ContextMapper() {
-
-        public Object mapFromContext(Object entity) {
-          DirContextAdapter context = (DirContextAdapter) entity;
-          String dn = context.getDn().toString();
-          return dn;
-        }
-      });
-
-      if (entities != null && entities.size() > 0) {
-        for (String dn : entities) {
-          try {
-            String targetDN = dn;
-            ctx.modifyAttributes(targetDN, mods);
-            success = true;
-            log.debug("touch ldap attribute, dn:[" + targetDN + "], uniqueIdentifier:[" + artifactID + "]");
-          } catch (NamingException e) {
-            log.error(e.getMessage(), e);
-          }
-        }
-      } else {
-        log.debug("could not found eniity from LDAP, filter: [" + filter + "]");
-      }
-    } catch (DataAccessException e) {
-      throw new SessionManagementException(e);
-    } catch (NamingException e) {
-      throw new SessionManagementException(e);
-    } finally {
-      if (ctx != null) {
-        try {
-          ctx.close();
-        } catch (NamingException e) {
-          throw new SessionManagementException(e);
-        }
-      }
+    HttpSession hSession = this.sessionMap.get(artifactID);
+    if (hSession != null) {
+       log.debug(String.format("Before touching session, artifactID: [%s], Last access time: [%s]", artifactID, new Date(hSession.getLastAccessedTime())));
+       hSession.setAttribute("dummy", "");
+       Session session = (Session)hSession.getAttribute(SAML_SESSION_ATTR_NAME);
+       session.touch();
+       log.debug(String.format("After touching session, artifactID: [%s], Last access time: [%s]", artifactID, new Date(hSession.getLastAccessedTime())));
+       return true;
     }
-    return success;
+    return false;
   }
 
   /*
@@ -280,83 +239,23 @@ public class LDAPSessionManagerImpl implements SessionManager {
    */
   public boolean destroy(String artifactID) throws SessionManagementException {
     log.debug(String.format("Destroy session, artifactId: [%s]", artifactID));
-    Hashtable<String, String> env = new Hashtable<String, String>();
-
-    env.put(Context.INITIAL_CONTEXT_FACTORY, ldapCtxFactory);
-
-    env.put(Context.PROVIDER_URL, this.getUrl());
-    env.put(Context.SECURITY_AUTHENTICATION, "simple");
-    env.put(Context.SECURITY_PRINCIPAL, this.getUserName());
-    env.put(Context.SECURITY_CREDENTIALS, this.getPassword());
-
-    ModificationItem[] mods = new ModificationItem[1];
-
-    Attribute mod0 = new BasicAttribute("uniqueIdentifier");
-    // Attribute mod1 = new BasicAttribute("st", "AAA");
-
-    mods[0] = new ModificationItem(DirContext.REMOVE_ATTRIBUTE, mod0);
-    // mods[1] = new ModificationItem(DirContext.ADD_ATTRIBUTE, mod1);
-
-    boolean success = false;
-    DirContext ctx = null;
-    try {
-      ctx = new InitialDirContext(env);
-      String filter = "(" + "uniqueIdentifier" + "=" + artifactID + ")";
-      List<String> entities = ldapTemplate.search(base, filter, new ContextMapper() {
-
-        public Object mapFromContext(Object entity) {
-          DirContextAdapter context = (DirContextAdapter) entity;
-          String dn = context.getDn().toString();
-          return dn;
-        }
-      });
-
-      if (entities != null && entities.size() > 0) {
-        for (String dn : entities) {
-          try {
-            String targetDN = dn;
-            ctx.modifyAttributes(targetDN, mods);
-            success = true;
-            log.debug("delete ldap attribute, dn:[" + targetDN + "], uniqueIdentifier:[" + artifactID + "]");
-          } catch (NamingException e) {
-            log.error(e.getMessage(), e);
-          }
-        }
-      } else {
-        log.debug("could not found eniity from LDAP, filter: [" + filter + "]");
-      }
-    } catch (DataAccessException e) {
-      throw new SessionManagementException(e);
-    } catch (NamingException e) {
-      throw new SessionManagementException(e);
-    } finally {
-      if (ctx != null) {
-        try {
-          ctx.close();
-        } catch (NamingException e) {
-          throw new SessionManagementException(e);
-        }
-      }
+    HttpSession hSession = this.sessionMap.get(artifactID);
+    if (hSession != null) {
+       this.sessionMap.remove(artifactID);
+       hSession.invalidate();
     }
-    return success;
+    return true;
   }
 
   /* (non-Javadoc)
    * @see com.ibm.tivoli.cmcc.dao.SessionManager#get(java.lang.String)
    */
   public Session get(String artifactId) throws SessionManagementException {
-    log.debug(String.format("Get session, artifactId: [%s]", artifactId));
-    try {
-      String filter = "(uniqueIdentifier=" + artifactId + ")";
-      List<PersonDTO> persons = ldapTemplate.search(base, filter , new PersonAttributeMapper());
-      if (persons != null && persons.size() > 0) {
-         PersonDTO personDTO  = persons.get(0);
-         personDTO.setProvince(this.getProvinceCode());
-         log.debug("found ldap entity [uid=" + personDTO.getMsisdn() + "] by samlID: " + artifactId);
-         return new Session(personDTO);
-      }
-    } catch (Exception e) {
-      throw new SessionManagementException(e);
+    log.debug(String.format("Destroy session, artifactId: [%s]", artifactId));
+    HttpSession hSession = this.sessionMap.get(artifactId);
+    if (hSession != null) {
+       Session session = (Session)hSession.getAttribute(SAML_SESSION_ATTR_NAME);
+       return session;
     }
     return null;
   }

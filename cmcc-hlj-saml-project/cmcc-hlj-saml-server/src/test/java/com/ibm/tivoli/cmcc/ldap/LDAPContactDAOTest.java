@@ -4,7 +4,6 @@
 package com.ibm.tivoli.cmcc.ldap;
 
 import java.util.Hashtable;
-import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.directory.Attribute;
@@ -19,6 +18,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.ibm.tivoli.cmcc.session.SessionManager;
 import com.ibm.tivoli.cmcc.spi.PersonDAO;
+import com.ibm.tivoli.cmcc.spi.PersonDTO;
 
 /**
  * @author Zhao Dong Lu
@@ -43,8 +43,8 @@ public class LDAPContactDAOTest extends TestCase {
   public void testList() throws Exception {
     ClassPathXmlApplicationContext factory = new ClassPathXmlApplicationContext(new String[] { "/com/ibm/tivoli/cmcc/server/spring/mainBean.xml" });
     PersonDAO dao = (PersonDAO) factory.getBean("personDao");
-    List persons = dao.searchPerson("(uid=13916918120)");
-    assertTrue(persons.size() > 0);
+    PersonDTO p = dao.getPersonByMsisdn("13916918120");
+    assertNotNull(p);
   }
 
   public void testUpdateUniqueIdentifier() throws Exception {
