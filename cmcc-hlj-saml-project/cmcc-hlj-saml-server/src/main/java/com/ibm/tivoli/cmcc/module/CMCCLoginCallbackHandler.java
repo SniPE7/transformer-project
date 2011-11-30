@@ -13,25 +13,27 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.ibm.tivoli.cmcc.server.utils.CookieHelper;
+
 /**
  * @author zhaodonglu
  *
  */
-public class MobileUserPasswordCallbackHandler implements CallbackHandler {
-  private static Log log = LogFactory.getLog(MobileUserPasswordCallbackHandler.class);
+public class CMCCLoginCallbackHandler implements CallbackHandler {
+  private static Log log = LogFactory.getLog(CMCCLoginCallbackHandler.class);
   private HttpServletRequest httpRequest;
 
   /**
    * 
    */
-  public MobileUserPasswordCallbackHandler() {
+  public CMCCLoginCallbackHandler() {
     super();
   }
 
   /**
    * 
    */
-  public MobileUserPasswordCallbackHandler(HttpServletRequest request) {
+  public CMCCLoginCallbackHandler(HttpServletRequest request) {
     super();
     this.httpRequest = request;
   }
@@ -49,6 +51,12 @@ public class MobileUserPasswordCallbackHandler implements CallbackHandler {
         if (password != null) {
            callback.setPassword(password.toCharArray());
         }
+        callback.setRemoteIPAddress(this.httpRequest.getRemoteAddr());
+      } else if (callbacks[i] instanceof CMCCArtifactIDCallback) {
+          CMCCArtifactIDCallback callback = (CMCCArtifactIDCallback) callbacks[i];
+          String artifactID = CookieHelper.getArtifactIDFromCookies(this.httpRequest);
+          callback.setArtifactID(artifactID);
+          callback.setRemoteIPAddress(this.httpRequest.getRemoteAddr());
       } else {
         throw new UnsupportedCallbackException(callbacks[i], "Unrecognized Callback");
       }

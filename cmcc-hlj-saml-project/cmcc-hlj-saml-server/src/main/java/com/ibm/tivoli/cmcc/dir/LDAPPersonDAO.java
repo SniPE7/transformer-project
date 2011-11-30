@@ -215,7 +215,7 @@ public class LDAPPersonDAO implements PersonDAO {
    * com.ibm.tivoli.cmcc.dao.SessionManager#checkMobileUserPassword(java.lang
    * .String, java.lang.String, char[])
    */
-  public boolean checkMobileUserPassword(String msisdn, String passwordType, char[] password) throws Exception {
+  public boolean verifyPassword(String msisdn, String passwordType, char[] password) throws Exception {
     log.debug(String.format("Check mobile user password, msisdn: [%s], passwordType: [%s]", msisdn, passwordType));
     DirContext ctx = null;
     try {

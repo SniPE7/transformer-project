@@ -12,6 +12,14 @@ package com.ibm.tivoli.cmcc.session;
 public interface SessionManager {
 
   /**
+   * Create a session with artifactID
+   * @param msisdn
+   * @return Session
+   * @throws Exception
+   */
+  public Session create(String msisdn, String artifactID) throws SessionManagementException;
+
+  /**
    * Create a session
    * @param msisdn
    * @return Session

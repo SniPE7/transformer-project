@@ -14,13 +14,13 @@ import com.ibm.tivoli.cmcc.spi.PersonDAO;
  * @author zhaodonglu
  * 
  */
-public class LDAPMobileUserLoginModule extends AbstractMobileUserLoginModule implements LoginModule {
+public class UserPasswordLoginModule extends AbstractMobileUserLoginModule implements LoginModule {
 
   protected PersonDAO personDAO = null;
   /**
    * 
    */
-  public LDAPMobileUserLoginModule() {
+  public UserPasswordLoginModule() {
     super();
   }
 
@@ -43,7 +43,7 @@ public class LDAPMobileUserLoginModule extends AbstractMobileUserLoginModule imp
    */
   protected boolean authenticate(String username, String passwordType, char[] password) throws Exception {
     boolean correct;
-    correct = personDAO.checkMobileUserPassword(username, passwordType, password);
+    correct = personDAO.verifyPassword(username, passwordType, password);
     return correct;
   }
 

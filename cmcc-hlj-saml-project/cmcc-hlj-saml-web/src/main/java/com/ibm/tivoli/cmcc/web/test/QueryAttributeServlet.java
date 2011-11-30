@@ -62,7 +62,7 @@ public class QueryAttributeServlet extends HttpServlet {
 
       ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
       QueryAttributeServiceClient client = (QueryAttributeServiceClient) context.getBean("queryAttributeClient");
-      ;
+      
       if (StringUtils.isNotEmpty(hostname)) {
         client.setServerName(hostname);
       }

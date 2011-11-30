@@ -34,6 +34,6 @@ public interface PersonDAO {
    * @return
    * @throws Exception 
    */
-  public boolean checkMobileUserPassword(String msisdn, String passwordType, char[] password) throws Exception;
+  public boolean verifyPassword(String msisdn, String passwordType, char[] password) throws Exception;
   
 }

@@ -1,6 +1,7 @@
 package com.ibm.tivoli.cmcc.service.auth;
 
 import java.io.IOException;
+import java.security.Principal;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,7 +40,7 @@ public interface AuthenRequestService {
    * @param request
    * @return
    */
-  public abstract boolean isAuthenticated(HttpServletRequest request);
+  public abstract boolean isAuthenticated(HttpServletRequest request, HttpServletResponse response);
 
   /**
    * 检返回其合法的artifactID
@@ -56,6 +57,6 @@ public interface AuthenRequestService {
    * @return
    * @throws Exception
    */
-  public abstract String generateAndSaveArtifactID(HttpServletRequest request, HttpServletResponse response) throws Exception;
+  public abstract String generateAndSaveArtifactID(Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 }

@@ -153,7 +153,16 @@ public class ServletSessionManagerImpl implements SessionManager {
    * .ContactDTO)
    */
   public Session create(String msisdn) throws SessionManagementException {
-    log.debug(String.format("Creating session, msisdn: [%s]", msisdn));
+    String artifactID = Helper.generatorID();
+
+    return create(msisdn, artifactID);
+  }
+
+  /* (non-Javadoc)
+   * @see com.ibm.tivoli.cmcc.session.SessionManager#create(java.lang.String, java.lang.String)
+   */
+  public Session create(String msisdn, String artifactID) throws SessionManagementException {
+    log.debug(String.format("Creating session, msisdn: [%s], artifactID: [%s]", msisdn, artifactID));
     HttpServletRequest request = getHttpServletRequest();
 
     Hashtable<String, String> env = new Hashtable<String, String>();
@@ -177,7 +186,6 @@ public class ServletSessionManagerImpl implements SessionManager {
         }
       });
 
-      String artifactID = Helper.generatorID();
       if (entities != null && entities.size() > 0) {
         for (String dn : entities) {
           String targetDN = dn;

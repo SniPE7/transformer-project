@@ -5,22 +5,32 @@ package com.ibm.tivoli.cmcc.service.auth;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.security.Principal;
 
-import javax.servlet.http.Cookie;
+import javax.security.auth.Subject;
+import javax.security.auth.callback.CallbackHandler;
+import javax.security.auth.login.LoginException;
+import javax.security.auth.spi.LoginModule;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.digester.Digester;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.xml.sax.SAXException;
 
+import com.ibm.tivoli.cmcc.module.CMCCLoginCallbackHandler;
+import com.ibm.tivoli.cmcc.module.PrincipalAware;
 import com.ibm.tivoli.cmcc.request.AuthenRequest;
 import com.ibm.tivoli.cmcc.server.utils.Base64;
+import com.ibm.tivoli.cmcc.server.utils.CookieHelper;
 import com.ibm.tivoli.cmcc.session.Session;
+import com.ibm.tivoli.cmcc.session.SessionManagementException;
 import com.ibm.tivoli.cmcc.session.SessionManager;
 
 /**
@@ -29,7 +39,8 @@ import com.ibm.tivoli.cmcc.session.SessionManager;
  */
 public class AuthenRequestServiceImpl implements ApplicationContextAware, AuthenRequestService {
 
-  private static final String CM_TOKENID = "cmtokenid";
+  private static Log log = LogFactory.getLog(AuthenRequestServiceImpl.class);
+
   private String cookieDomain = "ac.10086.cn";
   private ApplicationContext applicationContext;
 
@@ -64,45 +75,6 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
 
   public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
     this.applicationContext = applicationContext;
-  }
-
-  private void saveArtifactIdIntoCookies(HttpServletResponse response, String value) {
-    saveToCookies(response, CM_TOKENID, value + "@" + cookieDomain);
-  }
-
-  /**
-   * Save value into cookies
-   * 
-   * @param response
-   * @param key
-   * @param value
-   */
-  private void saveToCookies(HttpServletResponse response, String key, String value) {
-    Cookie cookie = new Cookie(key, value);
-    cookie.setDomain("ac.10086.cn");
-    cookie.setPath("/");
-    response.addCookie(cookie);
-  }
-
-  /**
-   * Extract value from cookie
-   * 
-   * @param request
-   * @param key
-   * @return
-   */
-  private String getFromCookies(HttpServletRequest request, String key) {
-    Cookie[] cookies = request.getCookies();
-    if (cookies == null) {
-      return null;
-    }
-    for (Cookie cookie : cookies) {
-      String name = cookie.getName();
-      if (name.equals(key)) {
-        return cookie.getValue();
-      }
-    }
-    return null;
   }
 
   private Digester getDigester() {
@@ -185,16 +157,47 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
    * com.ibm.tivoli.cmcc.web.AuthenRequestService#isAuthenticated(javax.servlet
    * .http.HttpServletRequest)
    */
-  public boolean isAuthenticated(HttpServletRequest request) {
+  public boolean isAuthenticated(HttpServletRequest request, HttpServletResponse response) {
+    log.debug("Checking SAML login state.");
     // 检查是否已经在本地登录
-    HttpSession session = request.getSession(false);
-    if (session != null) {
-      String artifactID = (String) session.getAttribute("ARTIFACT_ID");
+    HttpSession hsession = request.getSession(false);
+    if (hsession != null) {
+      String artifactID = (String) hsession.getAttribute("ARTIFACT_ID");
       if (StringUtils.isNotEmpty(artifactID)) {
+        log.debug(String.format("Local login session is validate, artifactID: {%s].", artifactID));
         return true;
       }
     }
+    log.debug(String.format("Not found local login session, checking federated state."));
     // 检查是否已经在一级节点登录
+    CallbackHandler callbackHandler = new CMCCLoginCallbackHandler(request);
+    LoginModule loginModule = (LoginModule) this.applicationContext.getBean("federalLoginModule");
+    loginModule.initialize(new Subject(), callbackHandler, null, null);
+    try {
+      boolean ok = loginModule.login();
+      if (ok) {
+        log.debug(String.format("Federated login state is validate.!"));
+        if (loginModule instanceof PrincipalAware) {
+          Principal principal = ((PrincipalAware) loginModule).getPrincipal();
+          if (principal instanceof PersonDTOPrincipal) {
+             String username = ((PersonDTOPrincipal)principal).getPersonDTO().getMsisdn();
+             log.debug(String.format("Federated login state is validate, msisdn: [%s].", username));
+             // Create session and update state
+             SessionManager dao = (SessionManager) this.getApplicationContext().getBean("sessionManager");
+             String artifactID = CookieHelper.getArtifactIDFromCookies(request);
+             if (artifactID == null) {
+               throw new IOException("Failure to get artifactID from cookies.");
+             }
+             Session session = dao.create(username, artifactID);
+             // 刷新本地登录状态
+             updateSessionState(request, response, username, artifactID);
+          }
+        }
+      }
+      return ok;
+    } catch (Exception e) {
+      log.error("Failure to checking federated SSO state.", e);
+    }
     return false;
   }
 
@@ -224,8 +227,8 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
    * javax.servlet.http.HttpServletRequest,
    * javax.servlet.http.HttpServletResponse, java.lang.String)
    */
-  public String generateAndSaveArtifactID(HttpServletRequest request, HttpServletResponse response) throws Exception {
-    String username = request.getParameter("User-Name");
+  public String generateAndSaveArtifactID(Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    String username = principal.getName();
     if (StringUtils.isEmpty(username)) {
       throw new RuntimeException("Missing username!");
     }
@@ -237,14 +240,19 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
       throw new IOException("failure to create or update ldap entry.");
     }
 
+    // 刷新本地登录状态
+    updateSessionState(request, response, username, artifactID);
+    return artifactID;
+  }
+
+  private void updateSessionState(HttpServletRequest request, HttpServletResponse response, String username, String artifactID) {
     // Update Session state
     HttpSession httpSession = request.getSession(true);
     httpSession.setAttribute("username", username);
     httpSession.setAttribute("ARTIFACT_ID", artifactID);
 
     // Update to Cookies
-    this.saveArtifactIdIntoCookies(response, artifactID);
-    return artifactID;
+    CookieHelper.saveArtifactIdIntoCookies(response, artifactID, this.cookieDomain);
   }
 
 }
