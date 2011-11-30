@@ -42,6 +42,8 @@ package com.ibm.tivoli.cmcc.service.auth;
 
 import java.security.Principal;
 
+import com.ibm.tivoli.cmcc.spi.PersonDTO;
+
 /**
  * <p>
  * This class implements the <code>Principal</code> interface and represents a
@@ -58,16 +60,17 @@ import java.security.Principal;
  * @see java.security.Principal
  * @see javax.security.auth.Subject
  */
-public class NamePrincipal implements Principal, java.io.Serializable {
+public class PersonDTOPrincipal implements Principal, java.io.Serializable {
 
   /**
    * 
    */
-  private static final long serialVersionUID = 5299083214520071123L;
+  private static final long serialVersionUID = -326320964229610296L;
   /**
    * @serial
    */
   private String name;
+  private PersonDTO personDTO;
 
   /**
    * Create a NamePrincipal with a Sample username.
@@ -80,11 +83,12 @@ public class NamePrincipal implements Principal, java.io.Serializable {
    * @exception NullPointerException
    *              if the <code>name</code> is <code>null</code>.
    */
-  public NamePrincipal(String name) {
-    if (name == null)
+  public PersonDTOPrincipal(String name, PersonDTO personDTO) {
+    if (name == null || personDTO == null)
       throw new NullPointerException("illegal null input");
 
     this.name = name;
+    this.personDTO = personDTO;
   }
 
   /**
@@ -99,6 +103,13 @@ public class NamePrincipal implements Principal, java.io.Serializable {
   }
 
   /**
+   * @return the personDTO
+   */
+  public PersonDTO getPersonDTO() {
+    return personDTO;
+  }
+
+  /**
    * Return a string representation of this <code>NamePrincipal</code>.
    * 
    * <p>
@@ -106,7 +117,7 @@ public class NamePrincipal implements Principal, java.io.Serializable {
    * @return a string representation of this <code>NamePrincipal</code>.
    */
   public String toString() {
-    return ("NamePrincipal:  " + name);
+    return ("PersonDTOPrincipal:  " + name + ", PersonDTO: " + this.personDTO.toString() );
   }
 
   /**
@@ -131,9 +142,9 @@ public class NamePrincipal implements Principal, java.io.Serializable {
     if (this == o)
       return true;
 
-    if (!(o instanceof NamePrincipal))
+    if (!(o instanceof PersonDTOPrincipal))
       return false;
-    NamePrincipal that = (NamePrincipal) o;
+    PersonDTOPrincipal that = (PersonDTOPrincipal) o;
 
     if (this.getName().equals(that.getName()))
       return true;

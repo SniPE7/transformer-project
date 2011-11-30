@@ -121,6 +121,11 @@ public class LDAPSessionManagerImpl implements SessionManager {
    * .ContactDTO)
    */
   public Session create(String msisdn) throws SessionManagementException {
+    String artifactID = Helper.generatorID();
+    return create(msisdn, artifactID);
+   }
+
+  public Session create(String msisdn, String artifactID) throws SessionManagementException {
     log.debug(String.format("Creating session, msisdn: [%s]", msisdn));
     /*
     ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
@@ -153,7 +158,6 @@ public class LDAPSessionManagerImpl implements SessionManager {
         }
       });
  
-      String artifactID = Helper.generatorID();
       if (entities != null && entities.size() > 0) {
         for (String dn : entities) {
           String targetDN = dn;
@@ -197,7 +201,7 @@ public class LDAPSessionManagerImpl implements SessionManager {
         }
       }
     }
-   }
+  }
 
   /*
    * (non-Javadoc)

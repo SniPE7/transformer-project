@@ -1,6 +1,7 @@
 package com.ibm.tivoli.cmcc.web;
 
 import java.io.IOException;
+import java.security.Principal;
 
 import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
@@ -15,7 +16,8 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.ibm.tivoli.cmcc.module.MobileUserPasswordCallbackHandler;
+import com.ibm.tivoli.cmcc.module.CMCCLoginCallbackHandler;
+import com.ibm.tivoli.cmcc.module.PrincipalAware;
 import com.ibm.tivoli.cmcc.request.AuthenRequest;
 import com.ibm.tivoli.cmcc.service.auth.AuthenRequestService;
 
@@ -72,15 +74,21 @@ public class LoginServlet extends HttpServlet {
         throw new RuntimeException("Missing password!");
       }
 
+      CallbackHandler callbackHandler = new CMCCLoginCallbackHandler(request);
       ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
-      LoginModule loginModule = (LoginModule)context.getBean("loginModule");
-      CallbackHandler callbackHandler = new MobileUserPasswordCallbackHandler(request);
+      LoginModule loginModule = (LoginModule)context.getBean("localLoginModule");
       loginModule.initialize(new Subject(), callbackHandler , null, null);
       boolean ok = loginModule.login();
 
       if (ok) {
+        // Set Principal
+        loginModule.commit();
+        Principal userPrincipal = null;
+        if (loginModule instanceof PrincipalAware) {
+           userPrincipal = ((PrincipalAware)loginModule).getPrincipal();
+        }
         AuthenRequestService service = (AuthenRequestService) context.getBean("authenRequestService", AuthenRequestService.class);
-        String artifactID = service.generateAndSaveArtifactID(request, response);
+        String artifactID = service.generateAndSaveArtifactID(userPrincipal, request, response);
         try {
           AuthenRequest authenReq = service.parseRequest(request);
           String relayState = service.getRelayState(request);

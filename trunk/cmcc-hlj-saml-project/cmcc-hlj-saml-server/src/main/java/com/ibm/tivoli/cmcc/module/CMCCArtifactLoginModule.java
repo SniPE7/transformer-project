@@ -1,5 +1,10 @@
+/**
+ * 
+ */
 package com.ibm.tivoli.cmcc.module;
 
+
+import java.security.Principal;
 import java.util.Map;
 
 import javax.security.auth.Subject;
@@ -12,9 +17,20 @@ import javax.security.auth.spi.LoginModule;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.ibm.tivoli.cmcc.client.QueryAttributeServiceClient;
+import com.ibm.tivoli.cmcc.response.QueryAttributeResponse;
+import com.ibm.tivoli.cmcc.server.utils.Helper;
 import com.ibm.tivoli.cmcc.service.auth.NamePrincipal;
+import com.ibm.tivoli.cmcc.service.auth.PersonDTOPrincipal;
+import com.ibm.tivoli.cmcc.spi.PersonDTO;
 
-public abstract class AbstractMobileUserLoginModule implements LoginModule, PrincipalAware {
+
+
+/**
+ * @author zhaodonglu
+ * 
+ */
+public class CMCCArtifactLoginModule implements LoginModule, PrincipalAware {
 
   private static Log log = LogFactory.getLog(UserPasswordLoginModule.class);
   private Subject subject = new Subject();
@@ -22,11 +38,17 @@ public abstract class AbstractMobileUserLoginModule implements LoginModule, Prin
   private boolean debug = false;
   private boolean succeeded = false;
   private boolean commitSucceeded = false;
-  private String username;
-  private char[] password;
-  private NamePrincipal principal;
-
-  public AbstractMobileUserLoginModule() {
+  private String artifactID;
+  
+  private PersonDTOPrincipal userPrincipal;
+  private String username = null;
+  private PersonDTO personDTO = null;
+  
+  private QueryAttributeServiceClient queryAttributeServiceClient = null;
+  /**
+   * 
+   */
+  public CMCCArtifactLoginModule() {
     super();
   }
 
@@ -58,11 +80,25 @@ public abstract class AbstractMobileUserLoginModule implements LoginModule, Prin
     this.debug = debug;
   }
 
-  /**
-   * @return the principal
+  /* (non-Javadoc)
+   * @see com.ibm.tivoli.cmcc.module.PrincipalAware#getPrincipal()
    */
-  public NamePrincipal getPrincipal() {
-    return principal;
+  public Principal getPrincipal() {
+    return userPrincipal;
+  }
+
+  /**
+   * @return the queryAttributeServiceClient
+   */
+  public QueryAttributeServiceClient getQueryAttributeServiceClient() {
+    return queryAttributeServiceClient;
+  }
+
+  /**
+   * @param queryAttributeServiceClient the queryAttributeServiceClient to set
+   */
+  public void setQueryAttributeServiceClient(QueryAttributeServiceClient queryAttributeServiceClient) {
+    this.queryAttributeServiceClient = queryAttributeServiceClient;
   }
 
   public void initialize(Subject subject, CallbackHandler callbackHandler, Map<String, ?> arg2, Map<String, ?> arg3) {
@@ -75,13 +111,9 @@ public abstract class AbstractMobileUserLoginModule implements LoginModule, Prin
     } else if (succeeded == true && commitSucceeded == false) {
       // login succeeded but overall authentication failed
       succeeded = false;
+      artifactID = null;
       username = null;
-      if (password != null) {
-        for (int i = 0; i < password.length; i++)
-          password[i] = ' ';
-        password = null;
-      }
-      principal = null;
+      userPrincipal = null;
     } else {
       // overall authentication succeeded and commit succeeded,
       // but someone else's commit failed
@@ -98,20 +130,16 @@ public abstract class AbstractMobileUserLoginModule implements LoginModule, Prin
       // to the Subject
   
       // assume the user we authenticated is the NamePrincipal
-      principal = new NamePrincipal(username);
-      if (!subject.getPrincipals().contains(principal))
-        subject.getPrincipals().add(principal);
+      userPrincipal = new PersonDTOPrincipal(this.username, this.personDTO);
+      if (!subject.getPrincipals().contains(userPrincipal))
+        subject.getPrincipals().add(userPrincipal);
   
       if (debug) {
         log.info("\t\t[UserPasswordLoginModule] " + "added NamePrincipal to Subject");
       }
   
       // in any case, clean out state
-      username = null;
-      for (int i = 0; i < password.length; i++)
-        password[i] = ' ';
-      password = null;
-  
+      artifactID = null;
       commitSucceeded = true;
       return true;
     }
@@ -122,25 +150,14 @@ public abstract class AbstractMobileUserLoginModule implements LoginModule, Prin
     if (callbackHandler == null)
       throw new LoginException("Error: no CallbackHandler available " + "to garner authentication information from the user");
   
-    Callback[] callbacks = new Callback[2];
-    callbacks[0] = new MobileUserPasswordCallback();
-    callbacks[1] = new CMCCArtifactIDCallback();
+    Callback[] callbacks = new Callback[1];
+    callbacks[0] = new CMCCArtifactIDCallback();
   
-    String passwordType = null;
     try {
       callbackHandler.handle(callbacks);
-      username = ((MobileUserPasswordCallback) callbacks[0]).getMsisdn();
-      passwordType = ((MobileUserPasswordCallback) callbacks[0]).getPassworType();
-      char[] tmpPassword = ((MobileUserPasswordCallback) callbacks[0]).getPassword();
+      artifactID = ((CMCCArtifactIDCallback) callbacks[0]).getArtifactID();
+      Helper.validateArtifactID(artifactID);
       
-      if (tmpPassword == null) {
-        // treat a NULL password as an empty password
-        tmpPassword = new char[0];
-      }
-      password = new char[tmpPassword.length];
-      System.arraycopy(tmpPassword, 0, password, 0, tmpPassword.length);
-      ((MobileUserPasswordCallback) callbacks[0]).clearPassword();
-  
     } catch (java.io.IOException e) {
       log.error(e.getMessage(), e);
       throw new LoginException(e.toString());
@@ -151,57 +168,70 @@ public abstract class AbstractMobileUserLoginModule implements LoginModule, Prin
   
     // print debugging information
     if (debug) {
-      log.info("\t\t[UserPasswordLoginModule] " + "user entered user name: " + username);
-      //log.info("\t\t[UserPasswordLoginModule] " + "user entered password: ");
+      log.info("Resolv artifactId from cookie: " + artifactID);
     }
   
-    // verify the username/password
+    // verify the artifactID/password
     boolean correct;
     try {
-      correct = authenticate(username, passwordType, password);
+      correct = authenticate(artifactID);
     } catch (Exception e) {
-      log.error("Failure to check user password.", e);
+      log.error("Failure to check artifactID.", e);
       throw new LoginException(e.getMessage());
     }
     if (correct) {
       // authentication succeeded!!!
       if (debug)
-        log.info("\t\t[UserPasswordLoginModule] [" + username + "] authentication succeeded");
+        log.info("Success to verify artifactID: [" + artifactID + "]");
       succeeded = true;
       return true;
     } else {
   
       // authentication failed -- clean out state
       if (debug)
-        log.info("\t\t[UserPasswordLoginModule] [" + username + "] authentication failed");
+        log.info("Invalidate artifactID: [" + artifactID + "]");
       succeeded = false;
-      username = null;
-      for (int i = 0; i < password.length; i++)
-        password[i] = ' ';
-      password = null;
+      artifactID = null;
       return false;
     }
   }
 
   public boolean logout() throws LoginException {
   
-    subject.getPrincipals().remove(principal);
+    subject.getPrincipals().remove(userPrincipal);
     succeeded = false;
     succeeded = commitSucceeded;
+    artifactID = null;
+    userPrincipal = null;
     username = null;
-    if (password != null) {
-      for (int i = 0; i < password.length; i++)
-        password[i] = ' ';
-      password = null;
-    }
-    principal = null;
     return true;
   }
 
-  /**
-   * @param passwordType
-   * @return
-   * @throws Exception
+  /* (non-Javadoc)
+   * @see com.ibm.tivoli.cmcc.module.AbstractMobileUserLoginModule#authenticate(java.lang.String, java.lang.String, char[])
    */
-  protected abstract boolean authenticate(String username, String passwordType, char[] password) throws Exception;
+  protected boolean authenticate(String artifactID) throws Exception {
+    QueryAttributeResponse resp = queryAttributeServiceClient.submitAndParse(artifactID);
+    if (resp.getStatusCode() != null && resp.getStatusCode().equalsIgnoreCase("urn:oasis:names:tc:SAML:2.0:status:Success")) {
+       // Success
+       this.username  = resp.getAttributeByIndex(0);
+       if (this.username != null && this.username.trim().length() > 0) {
+          this.personDTO = new PersonDTO();
+          this.personDTO.setBrand(resp.getAttributeByIndex(3));
+          this.personDTO.setCommonName(resp.getAttributeByIndex(2));
+          this.personDTO.setCurrentPoint(resp.getAttributeByIndex(5));
+          this.personDTO.setFetionStatus(resp.getAttributeByIndex(8));
+          this.personDTO.setLastName(resp.getAttributeByIndex(2));
+          this.personDTO.setMail139Status(resp.getAttributeByIndex(7));
+          this.personDTO.setMsisdn(resp.getAttributeByIndex(0));
+          this.personDTO.setNickname(resp.getAttributeByIndex(6));
+          this.personDTO.setProvince(resp.getAttributeByIndex(1));
+          this.personDTO.setStatus(resp.getAttributeByIndex(4));
+          this.personDTO.setUserLevel(resp.getAttributeByIndex(9));
+          return true;
+       }
+    }
+    return false;
+  }
+
 }

@@ -36,7 +36,7 @@ public class AuthenRequestServlet extends HttpServlet {
    * Destruction of the servlet. <br>
    */
   public void destroy() {
-    super.destroy(); // Just puts "destroy" string in log
+    super.destroy(); 
   }
 
   /**
@@ -55,7 +55,7 @@ public class AuthenRequestServlet extends HttpServlet {
       ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
       AuthenRequestService service = (AuthenRequestService) context.getBean("authenRequestService", AuthenRequestService.class);
       service.validate(request);
-      boolean authenticated = service.isAuthenticated(request);
+      boolean authenticated = service.isAuthenticated(request, response);
       if (!authenticated) {
          this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/authen/login_form.jsp").forward(request, response);
       } else {

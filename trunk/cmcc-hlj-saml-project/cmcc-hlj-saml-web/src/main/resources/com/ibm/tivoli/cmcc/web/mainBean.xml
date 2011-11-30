@@ -45,10 +45,14 @@
     <property name="timeOut" value="60"></property>
   </bean>
   
-  <bean id="loginModule" class="com.ibm.tivoli.cmcc.module.LDAPMobileUserLoginModule" scope="prototype">
+  <bean id="localLoginModule" class="com.ibm.tivoli.cmcc.module.UserPasswordLoginModule" scope="prototype">
     <property name="debug" value="true"></property>
     <property name="personDAO" ref="personDao"></property>
   </bean>  
-    
+
+  <bean id="federalLoginModule" class="com.ibm.tivoli.cmcc.module.CMCCArtifactLoginModule" scope="prototype">
+    <property name="debug" value="true"></property>
+    <property name="queryAttributeServiceClient" ref="queryAttributeClient"></property>
+  </bean>      
 </beans>
 

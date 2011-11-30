@@ -19,6 +19,8 @@ public class MobileUserPasswordCallback implements Callback {
    */
   private String passworType = null;
   private char[] password = null;
+  
+  private String remoteIPAddress = null;
 
   /**
    * 
@@ -90,5 +92,19 @@ public class MobileUserPasswordCallback implements Callback {
     }
     for (int i = 0; i < password.length; i++)
       password[i] = ' ';
+  }
+
+  /**
+   * @return the remoteIPAddress
+   */
+  public String getRemoteIPAddress() {
+    return remoteIPAddress;
+  }
+
+  /**
+   * @param remoteIPAddress the remoteIPAddress to set
+   */
+  public void setRemoteIPAddress(String remoteIPAddress) {
+    this.remoteIPAddress = remoteIPAddress;
   }
 }
