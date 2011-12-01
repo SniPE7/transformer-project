@@ -5,3 +5,5 @@ attributetypes=( 1.3.8.0.4.51.1.3.9.4 NAME 'erhljmcc139MailStatus' DESC 'Brand o
 attributetypes=( 1.3.8.0.4.51.1.3.9.5 NAME 'erhljmccFetionStatus' DESC 'Brand of CMCC SAML User' EQUALITY 1.3.6.1.4.1.1466.109.114.2 ORDERING 2.5.13.3 SUBSTR 2.5.13.4 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 USAGE userApplications )
 attributetypes=( 1.3.8.0.4.51.1.3.9.6 NAME 'erhljmccuserlevel' DESC 'Brand of CMCC SAML User' EQUALITY 1.3.6.1.4.1.1466.109.114.2 ORDERING 2.5.13.3 SUBSTR 2.5.13.4 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 USAGE userApplications )
 attributetypes=( 1.3.8.0.4.51.1.3.9.7 NAME 'erhljmccServiceCode' DESC 'ServiceCode (password)' EQUALITY 1.3.6.1.4.1.1466.109.114.2 ORDERING 2.5.13.3 SUBSTR 2.5.13.4 SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 USAGE userApplications )
+attributetypes=( 1.3.8.0.4.51.1.3.9.8 NAME 'erhljmccAuthTimes' DESC 'Count of auth failure' SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 SINGLE-VALUE USAGE userApplications )
+attributetypes=( 1.3.8.0.4.51.1.3.9.9 NAME 'erhljmccAuthThreshold' DESC 'Count of auth failure' SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 SINGLE-VALUE USAGE userApplications )

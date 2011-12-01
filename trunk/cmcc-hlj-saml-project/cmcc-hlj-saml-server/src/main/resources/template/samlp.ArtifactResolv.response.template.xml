@@ -44,11 +44,11 @@
               <saml:AttributeValue xsi:type="xs:string">${person.commonName}</saml:AttributeValue>
               <saml:AttributeValue xsi:type="xs:string">${person.brand}</saml:AttributeValue>
               <saml:AttributeValue xsi:type="xs:string">${person.status}</saml:AttributeValue>
-              <saml:AttributeValue xsi:type="xs:string">null</saml:AttributeValue>
+              <saml:AttributeValue xsi:type="xs:string">${person.currentPoint}</saml:AttributeValue>
               <saml:AttributeValue xsi:type="xs:string">${person.nickname}</saml:AttributeValue>
               <saml:AttributeValue xsi:type="xs:string">${person.mail139Status}</saml:AttributeValue>
               <saml:AttributeValue xsi:type="xs:string">${person.fetionStatus}</saml:AttributeValue>
-              <saml:AttributeValue xsi:type="xs:string">null</saml:AttributeValue>
+              <saml:AttributeValue xsi:type="xs:string">${person.userLevel}</saml:AttributeValue>
             </saml:Attribute>
           </saml:AttributeStatement>
         </saml:Assertion>

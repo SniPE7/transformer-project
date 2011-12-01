@@ -27,7 +27,8 @@ public class PersonAttributeMapper implements AttributesMapper {
     attributeMapping.put("sn", "lastName");
     attributeMapping.put("erhljmccbrand", "brand");
     attributeMapping.put("erhljmccstatus", "status");
-    //attributeMapping.put("", "currentPoint");
+    attributeMapping.put("erhljmcccurrentpoint", "currentPoint");
+    attributeMapping.put("erhljmccuserlevel", "userLevel");
     //attributeMapping.put("", "lastMonthBill");
     //attributeMapping.put("", "balance");
     attributeMapping.put("displayName", "nickname");
