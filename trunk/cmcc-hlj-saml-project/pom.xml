@@ -16,10 +16,13 @@
     <module>cmcc-hlj-saml-web</module>
     <module>cmcc-hlj-saml-assembly</module>
     <module>cmcc-hlj-saml-xmlsec</module>
+    <module>cmcc-hlj-saml-soap</module>
   </modules>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <spring.version>2.5.6</spring.version>
+    <cxf.version>2.2.1</cxf.version>
   </properties>
 
   <build>
