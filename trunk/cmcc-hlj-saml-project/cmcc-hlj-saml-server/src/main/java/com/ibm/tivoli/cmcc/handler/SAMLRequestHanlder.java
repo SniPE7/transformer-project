@@ -108,24 +108,48 @@ public class SAMLRequestHanlder extends IoHandlerAdapter implements ApplicationC
         session.setAttribute("CONTENT", "");
       }
     } else if (msg instanceof ByteBuffer) {
-      String content = new String(((ByteBuffer) msg).array(), "UTF-8");
+      ByteBuffer byteBuf = (ByteBuffer) msg;
+      int position = byteBuf.position();
+      int limit = byteBuf.limit();
       
-      boolean includeBegin = content.trim().startsWith("<SOAP-ENV:Envelope") || content.trim().startsWith("<?xml");
-      boolean includeEnd = (content.trim().indexOf("</SOAP-ENV:Envelope>") >= 0) || (content.trim().indexOf("</PasswordReset>") >= 0);
+      String input = new String(byteBuf.array(), position, limit, "UTF-8");
+      String last = (String)session.getAttribute("CONTENT");
+      String currentContext = last + input;
+      
+      log.debug(String.format("Input:[%s], Buf Content: [%s]", input, currentContext));
+      
+      boolean includeBegin = includeBegin(currentContext);
+      boolean includeEnd = includeEnd(currentContext);
       if (includeBegin && includeEnd) {
-        procesRequest(session, content);
+        procesRequest(session, currentContext);
+        session.setAttribute("CONTENT", "");
       } else if (includeBegin) {
-        session.setAttribute("CONTENT", content);
+        if (currentContext.length() < 4096) {
+           session.setAttribute("CONTENT", currentContext);
+        } else {
+          // Clear buf
+          session.setAttribute("CONTENT", "");
+        }
       } else if (includeEnd) {
-        String last = (String)session.getAttribute("CONTENT");
-        content = last + content;
-        procesRequest(session, content);
+        procesRequest(session, currentContext);
+        session.setAttribute("CONTENT", "");
       } else {
-        String last = (String)session.getAttribute("CONTENT");
-        session.setAttribute("CONTENT", last + content);
+        if (currentContext.length() < 4096) {
+          session.setAttribute("CONTENT", currentContext);
+       } else {
+         // Clear buf
+         session.setAttribute("CONTENT", "");
+       }
       }      
-      session.setAttribute("CONTENT", "");
     }
+  }
+
+  private boolean includeEnd(String input) {
+    return (input.trim().indexOf("</SOAP-ENV:Envelope>") >= 0) || (input.trim().indexOf("</PasswordReset>") >= 0);
+  }
+
+  private boolean includeBegin(String input) {
+    return input.trim().startsWith("<SOAP-ENV:Envelope") || input.trim().startsWith("<?xml");
   }
 
   private void procesRequest(IoSession session, String content) throws IOException, Exception, UnsupportedEncodingException, CharacterCodingException {
@@ -167,6 +191,8 @@ public class SAMLRequestHanlder extends IoHandlerAdapter implements ApplicationC
       ((SocketSessionConfig) session.getConfig()).setReceiveBufferSize(20 * 1024);
 
     session.setIdleTime(IdleStatus.BOTH_IDLE, 10);
+    
+    session.setAttribute("CONTENT", "");
   }
 
   public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
