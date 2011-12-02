@@ -1,12 +1,11 @@
 package com.ibm.tivoli.cmcc.server.handler;
 
-import java.io.FileInputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.security.KeyStore;
 
+import javax.net.SocketFactory;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 
@@ -70,20 +69,24 @@ public class SAMLSSLServerTest extends TestCase {
 
 
   public void testCaseSunClientWithTrustCA() throws Exception {
+    // Load key store
     char[] passphrase = "importkey".toCharArray();
     KeyStore keystore = KeyStore.getInstance("JKS");
     keystore.load(this.getClass().getResourceAsStream("/certs/server_pwd_importkey.jks"), passphrase);
 
+    // Initialize trust manager factory and set trusted CA list using keystore
     TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
     tmf.init(keystore);
 
-    SSLContext context = SSLContext.getInstance("SSL");
+    // Get SSL Context and initialize context
+    SSLContext context = SSLContext.getInstance("TLS");
     TrustManager[] trustManagers = tmf.getTrustManagers();
-
     context.init(null, trustManagers, null);
 
-    SSLSocketFactory sf = context.getSocketFactory();
+    // Get SSL socket factory
+    SocketFactory sf = context.getSocketFactory();
 
+    // Make socket connect with SSL server
     Socket s = sf.createSocket("127.0.0.1", 8443);
     OutputStream out = s.getOutputStream();
     out.write("<SOAP-ENV:Envelope   xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">   <SOAP-ENV:Body>     <samlp:ActivateRequest         xmlns:samlp=\"urn:oasis:names:tc:SAML:2.0:protocol\"         xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\"         ID=\"i14fhcy071acvv8qdquo7nwr0la6d2h8\"         IssueInstant=\"2011-12-01T21:37:40+0800\"         Version=\"2.0\">         <saml:Issuer></saml:Issuer>         <saml:NameID Format=\"urn:oasis:names:tc:SAML:2.0:nameidformat:transient\">3b6ehrwiqnasq7fguybiaoxv87ug3470</saml:NameID>     </samlp:ActivateRequest>   </SOAP-ENV:Body> </SOAP-ENV:Envelope>\n\n".getBytes());
@@ -99,6 +102,44 @@ public class SAMLSSLServerTest extends TestCase {
 
     out.close();
     s.close();
+  }
+  
+  public void testCase() throws Exception {
+    //myselfsign_pwd_importkey.jks
+    // Load key store
+    char[] passphrase = "importkey".toCharArray();
+    KeyStore keystore = KeyStore.getInstance("JKS");
+    keystore.load(this.getClass().getResourceAsStream("/certs/myselfsign_pwd_importkey.jks"), passphrase);
+
+    // Initialize trust manager factory and set trusted CA list using keystore
+    TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
+    tmf.init(keystore);
+
+    // Get SSL Context and initialize context
+    SSLContext context = SSLContext.getInstance("TLS");
+    TrustManager[] trustManagers = tmf.getTrustManagers();
+    context.init(null, trustManagers, null);
+
+    // Get SSL socket factory
+    SocketFactory sf = context.getSocketFactory();
+
+    // Make socket connect with SSL server
+    Socket s = sf.createSocket("127.0.0.1", 8443);
+    OutputStream out = s.getOutputStream();
+    out.write("<SOAP-ENV:Envelope   xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">   <SOAP-ENV:Body>     <samlp:ActivateRequest         xmlns:samlp=\"urn:oasis:names:tc:SAML:2.0:protocol\"         xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\"         ID=\"i14fhcy071acvv8qdquo7nwr0la6d2h8\"         IssueInstant=\"2011-12-01T21:37:40+0800\"         Version=\"2.0\">         <saml:Issuer></saml:Issuer>         <saml:NameID Format=\"urn:oasis:names:tc:SAML:2.0:nameidformat:transient\">3b6ehrwiqnasq7fguybiaoxv87ug3470</saml:NameID>     </samlp:ActivateRequest>   </SOAP-ENV:Body> </SOAP-ENV:Envelope>\n\n".getBytes());
+
+    int theCharacter = 0;
+    theCharacter = System.in.read();
+    while (theCharacter != '~') // The '~' is an escape character to exit
+    {
+      out.write(theCharacter);
+      out.flush();
+      theCharacter = System.in.read();
+    }
+
+    out.close();
+    s.close();
+    
   }
 
 }

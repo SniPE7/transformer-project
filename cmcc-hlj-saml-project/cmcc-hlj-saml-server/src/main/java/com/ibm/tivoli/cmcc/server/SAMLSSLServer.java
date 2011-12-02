@@ -38,10 +38,7 @@ public class SAMLSSLServer {
   private String charset = "UTF-8";
 
   // NOTE: The keystore was generated using keytool:
-  // keytool -genkey -alias bogus -keysize 512 -validity 3650
-  // -keyalg RSA -dname "CN=bogus.com, OU=XXX CA,
-  // O=Bogus Inc, L=Stockholm, S=Stockholm, C=SE"
-  // -keypass boguspw -storepass boguspw -keystore bogus.cert
+  // keytool -genkey -alias bogus -keysize 512 -validity 3650 -keyalg RSA -dname "CN=bogus.com, OU=XXX CA, O=Bogus Inc, L=Stockholm, S=Stockholm, C=SE" -keypass boguspw -storepass boguspw -keystore bogus.cert
 
   /**
    * Server certificate keystore file name.
@@ -185,7 +182,12 @@ public class SAMLSSLServer {
       }
 
       if (StringUtils.isEmpty(this.keyManagerAlgorithm)) {
-         this.keyManagerAlgorithm = "SunX509";
+         // "IbmX509"
+         if (System.getProperty("java.vm.vendor", "").startsWith("IBM")) {
+           this.keyManagerAlgorithm = "IbmX509";
+         } else {
+           this.keyManagerAlgorithm = "SunX509";
+         }
       }
       SSLContext sslContextFactory = SSLContextFactory.getServerInstance(protocol, keyManagerAlgorithm, storeIn, "JKS", storePasswords, keyPasswords);
       SSLFilter sslFilter = new SSLFilter(sslContextFactory);
