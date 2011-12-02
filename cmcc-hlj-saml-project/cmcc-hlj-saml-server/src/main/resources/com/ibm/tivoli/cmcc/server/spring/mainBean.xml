@@ -21,12 +21,6 @@
     </property>
   </bean>
 
-  <bean id="samlServer" class="com.ibm.tivoli.cmcc.server.SAMLSocketServer">
-    <property name="port" value="${saml.server.tcp.port}"></property>
-    <property name="charset" value="${message.saml.charset}"></property>
-    <property name="requestHandler" ref="requestHandler"></property>
-  </bean>
-
   <bean id="requestHandler" class="com.ibm.tivoli.cmcc.handler.SAMLRequestHanlder">
     <property name="propertyPlaceholderConfigurer" ref="propertyPlaceholderConfigurer"></property>
   </bean>
