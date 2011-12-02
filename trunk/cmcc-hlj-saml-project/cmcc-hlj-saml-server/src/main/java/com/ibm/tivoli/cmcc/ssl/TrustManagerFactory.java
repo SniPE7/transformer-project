@@ -36,7 +36,7 @@ import javax.net.ssl.X509TrustManager;
  * @author The Apache Directory Project (mina-dev@directory.apache.org)
  * @version $Rev: 555855 $, $Date: 2007-07-13 12:19:00 +0900 (Fri, 13 Jul 2007) $
  */
-class BogusTrustManagerFactory extends TrustManagerFactorySpi {
+class TrustManagerFactory extends TrustManagerFactorySpi {
 
     static final X509TrustManager X509 = new X509TrustManager() {
         public void checkClientTrusted(X509Certificate[] x509Certificates,
@@ -54,7 +54,7 @@ class BogusTrustManagerFactory extends TrustManagerFactorySpi {
 
     static final TrustManager[] X509_MANAGERS = new TrustManager[] { X509 };
 
-    public BogusTrustManagerFactory() {
+    public TrustManagerFactory() {
     }
 
     protected TrustManager[] engineGetTrustManagers() {

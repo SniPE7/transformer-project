@@ -108,7 +108,7 @@ public class SSLContextFactory {
       IOException {
     // Initialize the SSLContext to work with our key managers.
     SSLContext sslContext = SSLContext.getInstance(protocol);
-    sslContext.init(kmf.getKeyManagers(), BogusTrustManagerFactory.X509_MANAGERS, null);
+    sslContext.init(kmf.getKeyManagers(), TrustManagerFactory.X509_MANAGERS, null);
     return sslContext;
   }
 
@@ -155,7 +155,7 @@ public class SSLContextFactory {
 
   private static SSLContext createBougusClientSSLContext(String protocol) throws GeneralSecurityException {
     SSLContext context = SSLContext.getInstance(protocol);
-    context.init(null, BogusTrustManagerFactory.X509_MANAGERS, null);
+    context.init(null, TrustManagerFactory.X509_MANAGERS, null);
     return context;
   }
 
