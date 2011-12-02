@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeansException;
@@ -72,6 +73,13 @@ public class LoginServlet extends HttpServlet {
       String password = request.getParameter("User-Password");
       if (StringUtils.isEmpty(password)) {
         throw new RuntimeException("Missing password!");
+      }
+      
+      // Verify check_code
+      String checkCode = request.getParameter("check_code");
+      HttpSession hsession = request.getSession(false);
+      if (hsession == null || checkCode == null || !checkCode.equals((String)hsession.getAttribute("check_code"))) {
+         throw new RuntimeException("Missing or invalidate check code");
       }
 
       CallbackHandler callbackHandler = new CMCCLoginCallbackHandler(request);

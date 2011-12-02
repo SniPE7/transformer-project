@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -24,6 +25,9 @@ public class AuthenRequestServlet extends HttpServlet {
    * 
    */
   private static final long serialVersionUID = -7812159369032202041L;
+  
+  private String login_page_style = "cmcc_1";
+  //private String login_page_style = "simple";
 
   /**
    * Constructor of the object.
@@ -57,7 +61,11 @@ public class AuthenRequestServlet extends HttpServlet {
       service.validate(request);
       boolean authenticated = service.isAuthenticated(request, response);
       if (!authenticated) {
-         this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/authen/login_form.jsp").forward(request, response);
+         String style = request.getParameter("login_style");
+         if (StringUtils.isEmpty(style)) {
+            style = this.login_page_style;
+         }
+         this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/authen/login_form_" + style + ".jsp").forward(request, response);
       } else {
         this.getServletConfig().getServletContext().getRequestDispatcher("/service/authen/response").forward(request, response);
       }
