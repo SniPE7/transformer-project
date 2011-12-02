@@ -3,12 +3,24 @@
 
 <beans>
 
-  <bean id="samlServer4Tomcat" class="com.ibm.tivoli.cmcc.server.SAMLSocketServer" init-method="start" destroy-method="stop">
+  <bean id="samlTCPServer4Tomcat" class="com.ibm.tivoli.cmcc.server.SAMLSocketServer" init-method="start" destroy-method="stop">
     <property name="port" value="${saml.server.tcp.port}"></property>
     <property name="charset" value="${message.saml.charset}"></property>
     <property name="requestHandler" ref="requestHandler"></property>
   </bean>
   
+  <bean id="samlSSLServer4Tomcat" class="com.ibm.tivoli.cmcc.server.SAMLSSLServer" init-method="start" destroy-method="stop">
+    <property name="port" value="${saml.server.ssl.port}"></property>
+    <property name="charset" value="${message.saml.charset}"></property>
+    <property name="requestHandler" ref="requestHandler"></property>
+    
+    <property name="keyStorePath" value="${saml.server.ssl.keystore.path}"></property>
+    <property name="storePasswords" value="${saml.server.ssl.keystore.store.password}"></property>
+    <property name="keyPasswords" value="${saml.server.ssl.keystore.key.password}"></property>
+    <property name="protocol" value="${saml.server.ssl.protocol}"></property>
+    <property name="keyManagerAlgorithm" value="${saml.server.ssl.key.algorithm}"></property>
+  </bean>
+
   <bean id="logoutClient" class="com.ibm.tivoli.cmcc.client.LogoutServiceClientImpl" scope="prototype">
     <property name="charset" value="${message.saml.charset}"></property>
     <property name="serverName" value="${remote.saml.server.hostname}"></property>
