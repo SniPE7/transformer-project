@@ -52,7 +52,7 @@
     <servlet-name>com.ibm.tivoli.cmcc.web.HomeServlet</servlet-name>
     <servlet-class>com.ibm.tivoli.cmcc.web.HomeServlet</servlet-class>
   </servlet>
-
+  <!-- Anonymous -->
   <servlet-mapping>
     <servlet-name>com.ibm.tivoli.cmcc.web.HomeServlet</servlet-name>
     <url-pattern>/service/home</url-pattern>
@@ -64,12 +64,85 @@
     <servlet-name>com.ibm.tivoli.cmcc.web.test.LogoutServlet</servlet-name>
     <servlet-class>com.ibm.tivoli.cmcc.web.test.LogoutServlet</servlet-class>
   </servlet>
-
+  <!-- Anonymous or authenticated -->
   <servlet-mapping>
     <servlet-name>com.ibm.tivoli.cmcc.web.test.LogoutServlet</servlet-name>
     <url-pattern>/service/logout</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <description>com.ibm.tivoli.cmcc.web.PasswordResetServlet</description>
+    <display-name>com.ibm.tivoli.cmcc.web.PasswordResetServlet</display-name>
+    <servlet-name>com.ibm.tivoli.cmcc.web.PasswordResetServlet</servlet-name>
+    <servlet-class>com.ibm.tivoli.cmcc.web.PasswordResetServlet</servlet-class>
+  </servlet>
+  <!-- Anonymous -->
+  <servlet-mapping>
+    <servlet-name>com.ibm.tivoli.cmcc.web.PasswordResetServlet</servlet-name>
+    <url-pattern>/service/pwdreset</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <description>com.ibm.tivoli.cmcc.web.AuthenRequestServlet</description>
+    <display-name>com.ibm.tivoli.cmcc.web.AuthenRequestServlet</display-name>
+    <servlet-name>com.ibm.tivoli.cmcc.web.AuthenRequestServlet</servlet-name>
+    <servlet-class>com.ibm.tivoli.cmcc.web.AuthenRequestServlet</servlet-class>
+  </servlet>
+  <!-- Anonymous -->
+  <servlet-mapping>
+    <servlet-name>com.ibm.tivoli.cmcc.web.AuthenRequestServlet</servlet-name>
+    <url-pattern>/service/authen/request</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <description>com.ibm.tivoli.cmcc.web.AuthenResponseServlet</description>
+    <display-name>com.ibm.tivoli.cmcc.web.AuthenResponseServlet</display-name>
+    <servlet-name>com.ibm.tivoli.cmcc.web.AuthenResponseServlet</servlet-name>
+    <servlet-class>com.ibm.tivoli.cmcc.web.AuthenResponseServlet</servlet-class>
+  </servlet>
+  <!-- Authenticated -->
+  <servlet-mapping>
+    <servlet-name>com.ibm.tivoli.cmcc.web.AuthenResponseServlet</servlet-name>
+    <url-pattern>/service/authen/response</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>com.ibm.tivoli.cmcc.web.LoginServlet</description>
+    <display-name>com.ibm.tivoli.cmcc.web.LoginServlet</display-name>
+    <servlet-name>com.ibm.tivoli.cmcc.web.LoginServlet</servlet-name>
+    <servlet-class>com.ibm.tivoli.cmcc.web.LoginServlet</servlet-class>
+  </servlet>
+  <!-- Anonymous -->
+  <servlet-mapping>
+    <servlet-name>com.ibm.tivoli.cmcc.web.LoginServlet</servlet-name>
+    <url-pattern>/service/authen/login</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <description>com.ibm.tivoli.cmcc.web.LoginFormServlet</description>
+    <display-name>com.ibm.tivoli.cmcc.web.LoginFormServlet</display-name>
+    <servlet-name>com.ibm.tivoli.cmcc.web.LoginFormServlet</servlet-name>
+    <servlet-class>com.ibm.tivoli.cmcc.web.LoginFormServlet</servlet-class>
+  </servlet>
+  <!-- Anonymous -->
+  <servlet-mapping>
+    <servlet-name>com.ibm.tivoli.cmcc.web.LoginFormServlet</servlet-name>
+    <url-pattern>/service/authen/showlogin</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <description>com.ibm.tivoli.cmcc.web.MyPageServlet</description>
+    <display-name>com.ibm.tivoli.cmcc.web.MyPageServlet</display-name>
+    <servlet-name>com.ibm.tivoli.cmcc.web.MyPageServlet</servlet-name>
+    <servlet-class>com.ibm.tivoli.cmcc.web.MyPageServlet</servlet-class>
+  </servlet>
+  <!-- Authenticated -->
+  <servlet-mapping>
+    <servlet-name>com.ibm.tivoli.cmcc.web.MyPageServlet</servlet-name>
+    <url-pattern>/service/authen/mypage</url-pattern>
+  </servlet-mapping>
+
+  <!-- Only for testing -->
   <servlet>
     <description>com.ibm.tivoli.cmcc.web.test.ActiviateServlet</description>
     <display-name>com.ibm.tivoli.cmcc.web.test.ActiviateServlet</display-name>
@@ -116,78 +189,6 @@
   <servlet-mapping>
     <servlet-name>com.ibm.tivoli.cmcc.web.test.CreateSamlIDServlet</servlet-name>
     <url-pattern>/service/create</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <description>com.ibm.tivoli.cmcc.web.PasswordResetServlet</description>
-    <display-name>com.ibm.tivoli.cmcc.web.PasswordResetServlet</display-name>
-    <servlet-name>com.ibm.tivoli.cmcc.web.PasswordResetServlet</servlet-name>
-    <servlet-class>com.ibm.tivoli.cmcc.web.PasswordResetServlet</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>com.ibm.tivoli.cmcc.web.PasswordResetServlet</servlet-name>
-    <url-pattern>/service/pwdreset</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <description>com.ibm.tivoli.cmcc.web.AuthenRequestServlet</description>
-    <display-name>com.ibm.tivoli.cmcc.web.AuthenRequestServlet</display-name>
-    <servlet-name>com.ibm.tivoli.cmcc.web.AuthenRequestServlet</servlet-name>
-    <servlet-class>com.ibm.tivoli.cmcc.web.AuthenRequestServlet</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>com.ibm.tivoli.cmcc.web.AuthenRequestServlet</servlet-name>
-    <url-pattern>/service/authen/request</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <description>com.ibm.tivoli.cmcc.web.AuthenResponseServlet</description>
-    <display-name>com.ibm.tivoli.cmcc.web.AuthenResponseServlet</display-name>
-    <servlet-name>com.ibm.tivoli.cmcc.web.AuthenResponseServlet</servlet-name>
-    <servlet-class>com.ibm.tivoli.cmcc.web.AuthenResponseServlet</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>com.ibm.tivoli.cmcc.web.AuthenResponseServlet</servlet-name>
-    <url-pattern>/service/authen/response</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <description>com.ibm.tivoli.cmcc.web.LoginServlet</description>
-    <display-name>com.ibm.tivoli.cmcc.web.LoginServlet</display-name>
-    <servlet-name>com.ibm.tivoli.cmcc.web.LoginServlet</servlet-name>
-    <servlet-class>com.ibm.tivoli.cmcc.web.LoginServlet</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>com.ibm.tivoli.cmcc.web.LoginServlet</servlet-name>
-    <url-pattern>/service/authen/login</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <description>com.ibm.tivoli.cmcc.web.LoginFormServlet</description>
-    <display-name>com.ibm.tivoli.cmcc.web.LoginFormServlet</display-name>
-    <servlet-name>com.ibm.tivoli.cmcc.web.LoginFormServlet</servlet-name>
-    <servlet-class>com.ibm.tivoli.cmcc.web.LoginFormServlet</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>com.ibm.tivoli.cmcc.web.LoginFormServlet</servlet-name>
-    <url-pattern>/service/authen/showlogin</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <description>com.ibm.tivoli.cmcc.web.MyPageServlet</description>
-    <display-name>com.ibm.tivoli.cmcc.web.MyPageServlet</display-name>
-    <servlet-name>com.ibm.tivoli.cmcc.web.MyPageServlet</servlet-name>
-    <servlet-class>com.ibm.tivoli.cmcc.web.MyPageServlet</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>com.ibm.tivoli.cmcc.web.MyPageServlet</servlet-name>
-    <url-pattern>/service/authen/mypage</url-pattern>
   </servlet-mapping>
 
   <error-page>
