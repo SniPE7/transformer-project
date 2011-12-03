@@ -25,7 +25,7 @@
 	$(function() {
 
 		$("#login").button();
-		$("#PasswordType").combobox();
+		//$("#PasswordType").combobox();
 
 		$("#reset").click(function() {
 			$("#accordion").effect("shake", 219);

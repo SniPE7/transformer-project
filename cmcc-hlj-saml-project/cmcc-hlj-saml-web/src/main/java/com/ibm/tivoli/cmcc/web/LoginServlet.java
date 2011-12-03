@@ -108,11 +108,11 @@ public class LoginServlet extends HttpServlet {
         } catch (Exception e) {
         }
         // Show mypage for authenitcate user
-        this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/authen/mypage.jsp").forward(request, response);
+        this.getServletConfig().getServletContext().getRequestDispatcher("/service/authen/mypag").forward(request, response);
         return;
       }
       // Login failure
-      this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/authen/login_form.jsp").forward(request, response);
+      this.getServletConfig().getServletContext().getRequestDispatcher("/service/authen/showlogin").forward(request, response);
 
     } catch (BeansException e) {
       throw new ServletException(e);

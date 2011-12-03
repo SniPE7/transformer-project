@@ -17,22 +17,23 @@ import com.ibm.tivoli.cmcc.service.auth.AuthenRequestService;
  * 1. 接收来自应用的SAML认证请求
  * 
  * @author zhaodonglu
- *
+ * 
  */
-public class AuthenRequestServlet extends HttpServlet {
+public class LoginFormServlet extends HttpServlet {
 
   /**
    * 
    */
   private static final long serialVersionUID = -7812159369032202041L;
-  
+
   private String login_page_style = "cmcc_1";
-  //private String login_page_style = "simple";
+
+  // private String login_page_style = "simple";
 
   /**
    * Constructor of the object.
    */
-  public AuthenRequestServlet() {
+  public LoginFormServlet() {
     super();
   }
 
@@ -40,33 +41,31 @@ public class AuthenRequestServlet extends HttpServlet {
    * Destruction of the servlet. <br>
    */
   public void destroy() {
-    super.destroy(); 
+    super.destroy();
   }
 
   /**
    * The doGet method of the servlet. <br>
-   *
+   * 
    * This method is called when a form has its tag value method equals to get.
    * 
-   * @param request the request send by the client to the server
-   * @param response the response send by the server to the client
-   * @throws ServletException if an error occurred
-   * @throws IOException if an error occurred
+   * @param request
+   *          the request send by the client to the server
+   * @param response
+   *          the response send by the server to the client
+   * @throws ServletException
+   *           if an error occurred
+   * @throws IOException
+   *           if an error occurred
    */
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     try {
-      ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
-      AuthenRequestService service = (AuthenRequestService) context.getBean("authenRequestService", AuthenRequestService.class);
-      service.validate(request);
-      boolean authenticated = service.isAuthenticated(request, response);
-      if (!authenticated) {
-         this.getServletConfig().getServletContext().getRequestDispatcher("/service/authen/showlogin").forward(request, response);
-         return;
-      } else {
-        this.getServletConfig().getServletContext().getRequestDispatcher("/service/authen/response").forward(request, response);
-        return;
+      String style = request.getParameter("login_page_style");
+      if (StringUtils.isEmpty(style)) {
+        style = this.login_page_style;
       }
+      this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/authen/login_form_" + style + ".jsp").forward(request, response);
     } catch (RuntimeException e) {
       throw new ServletException(e);
     } catch (Exception e) {
@@ -76,22 +75,27 @@ public class AuthenRequestServlet extends HttpServlet {
 
   /**
    * The doPost method of the servlet. <br>
-   *
+   * 
    * This method is called when a form has its tag value method equals to post.
    * 
-   * @param request the request send by the client to the server
-   * @param response the response send by the server to the client
-   * @throws ServletException if an error occurred
-   * @throws IOException if an error occurred
+   * @param request
+   *          the request send by the client to the server
+   * @param response
+   *          the response send by the server to the client
+   * @throws ServletException
+   *           if an error occurred
+   * @throws IOException
+   *           if an error occurred
    */
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     this.doGet(request, response);
   }
-  
+
   /**
    * Initialization of the servlet. <br>
-   *
-   * @throws ServletException if an error occurs
+   * 
+   * @throws ServletException
+   *           if an error occurs
    */
   public void init() throws ServletException {
     // Put your code here

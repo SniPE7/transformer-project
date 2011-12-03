@@ -17,6 +17,8 @@
       <list>
         <value>classpath:com/ibm/tivoli/cmcc/server/spring/saml-server-config.properties</value>
         <value>file:${saml.server.home}/conf/saml-server-config.properties</value>
+        <value>file:${catalina.home}/conf/saml-server-config.properties</value>
+        <value>file:${user.home}/conf/saml-server-config.properties</value>
       </list>
     </property>
   </bean>
