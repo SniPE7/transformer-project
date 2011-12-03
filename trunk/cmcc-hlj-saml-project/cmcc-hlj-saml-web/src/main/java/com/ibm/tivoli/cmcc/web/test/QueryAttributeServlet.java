@@ -59,9 +59,11 @@ public class QueryAttributeServlet extends HttpServlet {
       }
       String hostname = request.getParameter("hostname");
       String port = request.getParameter("port");
+      String protocol = request.getParameter("protocol");
 
       ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
       QueryAttributeServiceClient client = (QueryAttributeServiceClient) context.getBean("queryAttributeClient");
+      client.setProtocol(protocol);
       
       if (StringUtils.isNotEmpty(hostname)) {
         client.setServerName(hostname);

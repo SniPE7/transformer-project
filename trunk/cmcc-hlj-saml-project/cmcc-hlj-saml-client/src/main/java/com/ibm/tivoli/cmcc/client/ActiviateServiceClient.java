@@ -9,7 +9,7 @@ import java.util.Properties;
  * @author Zhao Dong Lu
  *
  */
-public interface ActiviateServiceClient {
+public interface ActiviateServiceClient extends Client {
   
   /**
    * Set properties

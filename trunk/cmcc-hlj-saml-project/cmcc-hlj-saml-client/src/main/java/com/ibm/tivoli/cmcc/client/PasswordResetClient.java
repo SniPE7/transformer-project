@@ -9,7 +9,7 @@ import java.util.Properties;
  * @author Zhao Dong Lu
  *
  */
-public interface PasswordResetClient {
+public interface PasswordResetClient extends Client {
 
   /**
    * Set properties

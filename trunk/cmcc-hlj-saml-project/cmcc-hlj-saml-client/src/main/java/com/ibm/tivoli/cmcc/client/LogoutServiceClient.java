@@ -9,7 +9,7 @@ import java.util.Properties;
  * @author Zhao Dong Lu
  *
  */
-public interface LogoutServiceClient {
+public interface LogoutServiceClient extends Client {
 
   /**
    * Set properties

@@ -11,7 +11,7 @@ import com.ibm.tivoli.cmcc.response.QueryAttributeResponse;
  * @author Zhao Dong Lu
  *
  */
-public interface QueryAttributeServiceClient {
+public interface QueryAttributeServiceClient extends Client {
 
   /**
    * Set properties

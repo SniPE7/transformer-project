@@ -56,9 +56,11 @@ public class LogoutServlet extends HttpServlet {
       }
       String hostname = request.getParameter("hostname");
       String port = request.getParameter("port");
+      String protocol = request.getParameter("protocol");
 
       ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
       LogoutServiceClient client = (LogoutServiceClient)context.getBean("logoutClient");
+      client.setProtocol(protocol);
       
       if (StringUtils.isNotEmpty(hostname)) {
         client.setServerName(hostname);
