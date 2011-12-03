@@ -71,8 +71,8 @@
   </servlet-mapping>
 
   <servlet>
-    <description>ActiviateServlet</description>
-    <display-name>ActiviateServlet</display-name>
+    <description>com.ibm.tivoli.cmcc.web.test.ActiviateServlet</description>
+    <display-name>com.ibm.tivoli.cmcc.web.test.ActiviateServlet</display-name>
     <servlet-name>com.ibm.tivoli.cmcc.web.test.ActiviateServlet</servlet-name>
     <servlet-class>com.ibm.tivoli.cmcc.web.test.ActiviateServlet</servlet-class>
   </servlet>
@@ -83,8 +83,8 @@
   </servlet-mapping>
 
   <servlet>
-    <description>QueryAttributeServlet</description>
-    <display-name>QueryAttributeServlet</display-name>
+    <description>com.ibm.tivoli.cmcc.web.test.QueryAttributeServlet</description>
+    <display-name>com.ibm.tivoli.cmcc.web.test.QueryAttributeServlet</display-name>
     <servlet-name>com.ibm.tivoli.cmcc.web.test.QueryAttributeServlet</servlet-name>
     <servlet-class>com.ibm.tivoli.cmcc.web.test.QueryAttributeServlet</servlet-class>
   </servlet>
@@ -95,8 +95,8 @@
   </servlet-mapping>
 
   <servlet>
-    <description>QueryAttributeServlet</description>
-    <display-name>QueryAttributeServlet</display-name>
+    <description>com.ibm.tivoli.cmcc.web.test.ArtifactResolvServlet</description>
+    <display-name>com.ibm.tivoli.cmcc.web.test.ArtifactResolvServlet</display-name>
     <servlet-name>com.ibm.tivoli.cmcc.web.test.ArtifactResolvServlet</servlet-name>
     <servlet-class>com.ibm.tivoli.cmcc.web.test.ArtifactResolvServlet</servlet-class>
   </servlet>
@@ -107,8 +107,8 @@
   </servlet-mapping>
 
   <servlet>
-    <description>CreateSamlIDServlet</description>
-    <display-name>CreateSamlIDServlet</display-name>
+    <description>com.ibm.tivoli.cmcc.web.test.CreateSamlIDServlet</description>
+    <display-name>com.ibm.tivoli.cmcc.web.test.CreateSamlIDServlet</display-name>
     <servlet-name>com.ibm.tivoli.cmcc.web.test.CreateSamlIDServlet</servlet-name>
     <servlet-class>com.ibm.tivoli.cmcc.web.test.CreateSamlIDServlet</servlet-class>
   </servlet>
@@ -119,8 +119,8 @@
   </servlet-mapping>
 
   <servlet>
-    <description>PasswordResetServlet</description>
-    <display-name>PasswordResetServlet</display-name>
+    <description>com.ibm.tivoli.cmcc.web.PasswordResetServlet</description>
+    <display-name>com.ibm.tivoli.cmcc.web.PasswordResetServlet</display-name>
     <servlet-name>com.ibm.tivoli.cmcc.web.PasswordResetServlet</servlet-name>
     <servlet-class>com.ibm.tivoli.cmcc.web.PasswordResetServlet</servlet-class>
   </servlet>
@@ -131,8 +131,8 @@
   </servlet-mapping>
 
   <servlet>
-    <description>AuthenRequestServlet</description>
-    <display-name>AuthenServlet</display-name>
+    <description>com.ibm.tivoli.cmcc.web.AuthenRequestServlet</description>
+    <display-name>com.ibm.tivoli.cmcc.web.AuthenRequestServlet</display-name>
     <servlet-name>com.ibm.tivoli.cmcc.web.AuthenRequestServlet</servlet-name>
     <servlet-class>com.ibm.tivoli.cmcc.web.AuthenRequestServlet</servlet-class>
   </servlet>
@@ -143,8 +143,8 @@
   </servlet-mapping>
 
   <servlet>
-    <description>AuthenResponseServlet</description>
-    <display-name>AuthenServlet</display-name>
+    <description>com.ibm.tivoli.cmcc.web.AuthenResponseServlet</description>
+    <display-name>com.ibm.tivoli.cmcc.web.AuthenResponseServlet</display-name>
     <servlet-name>com.ibm.tivoli.cmcc.web.AuthenResponseServlet</servlet-name>
     <servlet-class>com.ibm.tivoli.cmcc.web.AuthenResponseServlet</servlet-class>
   </servlet>
@@ -155,8 +155,8 @@
   </servlet-mapping>
 
   <servlet>
-    <description>LoginServlet</description>
-    <display-name>AuthenServlet</display-name>
+    <description>com.ibm.tivoli.cmcc.web.LoginServlet</description>
+    <display-name>com.ibm.tivoli.cmcc.web.LoginServlet</display-name>
     <servlet-name>com.ibm.tivoli.cmcc.web.LoginServlet</servlet-name>
     <servlet-class>com.ibm.tivoli.cmcc.web.LoginServlet</servlet-class>
   </servlet>
@@ -164,6 +164,30 @@
   <servlet-mapping>
     <servlet-name>com.ibm.tivoli.cmcc.web.LoginServlet</servlet-name>
     <url-pattern>/service/authen/login</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <description>com.ibm.tivoli.cmcc.web.LoginFormServlet</description>
+    <display-name>com.ibm.tivoli.cmcc.web.LoginFormServlet</display-name>
+    <servlet-name>com.ibm.tivoli.cmcc.web.LoginFormServlet</servlet-name>
+    <servlet-class>com.ibm.tivoli.cmcc.web.LoginFormServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>com.ibm.tivoli.cmcc.web.LoginFormServlet</servlet-name>
+    <url-pattern>/service/authen/showlogin</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <description>com.ibm.tivoli.cmcc.web.MyPageServlet</description>
+    <display-name>com.ibm.tivoli.cmcc.web.MyPageServlet</display-name>
+    <servlet-name>com.ibm.tivoli.cmcc.web.MyPageServlet</servlet-name>
+    <servlet-class>com.ibm.tivoli.cmcc.web.MyPageServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>com.ibm.tivoli.cmcc.web.MyPageServlet</servlet-name>
+    <url-pattern>/service/authen/mypage</url-pattern>
   </servlet-mapping>
 
   <error-page>
