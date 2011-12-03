@@ -45,9 +45,9 @@ public class SAMLSSLServer {
    */
   private String keyStorePath = "/certs/server_pwd_importkey.jks";
 
-  private char[] storePasswords = "importkey".toCharArray();
+  private char[] storePassword = "importkey".toCharArray();
 
-  private char[] keyPasswords = "importkey".toCharArray();
+  private char[] keyPassword = "importkey".toCharArray();
 
   private String protocol = "TLS";
 
@@ -80,31 +80,31 @@ public class SAMLSSLServer {
   }
 
   /**
-   * @return the storePasswords
+   * @return the storePassword
    */
-  public char[] getStorePasswords() {
-    return storePasswords;
+  public char[] getStorePassword() {
+    return storePassword;
   }
 
   /**
-   * @param storePasswords the storePasswords to set
+   * @param storePassword the storePassword to set
    */
-  public void setStorePasswords(char[] storePasswords) {
-    this.storePasswords = storePasswords;
+  public void setStorePassword(char[] storePasswords) {
+    this.storePassword = storePasswords;
   }
 
   /**
-   * @return the keyPasswords
+   * @return the keyPassword
    */
-  public char[] getKeyPasswords() {
-    return keyPasswords;
+  public char[] getKeyPassword() {
+    return keyPassword;
   }
 
   /**
-   * @param keyPasswords the keyPasswords to set
+   * @param keyPassword the keyPassword to set
    */
-  public void setKeyPasswords(char[] keyPasswords) {
-    this.keyPasswords = keyPasswords;
+  public void setKeyPassword(char[] keyPasswords) {
+    this.keyPassword = keyPasswords;
   }
 
   /**
@@ -189,7 +189,7 @@ public class SAMLSSLServer {
            this.keyManagerAlgorithm = "SunX509";
          }
       }
-      SSLContext sslContextFactory = SSLContextFactory.getServerInstance(protocol, keyManagerAlgorithm, storeIn, "JKS", storePasswords, keyPasswords);
+      SSLContext sslContextFactory = SSLContextFactory.getServerInstance(protocol, keyManagerAlgorithm, storeIn, "JKS", storePassword, keyPassword);
       SSLFilter sslFilter = new SSLFilter(sslContextFactory);
       cfg.getFilterChain().addLast("sslFilter", sslFilter);
       //cfg.getFilterChain().addLast("codec", new ProtocolCodecFilter(new TextLineCodecFactory(Charset.forName(this.charset))));

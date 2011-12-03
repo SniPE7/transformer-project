@@ -37,7 +37,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <hr/>
    <form action="/samlsvc/service/activiate" method="get">
    Cookie ID (SAML ID): <input type="text" name="id" value="" size="32" maxlength="32"><br/>
-   SAML Server IP/Port: <input type="text" name="hostname" value="${activiateClient.serverName}" size="32"> <input type="text" name="port" value="${activiateClient.serverPort}" size="6"><br/>
+   SAML Server IP/Port: <input type="text" name="hostname" value="${activiateClient.serverName}" size="32">
+   <input type="text" name="port" value="${activiateClient.serverPort}" size="6">
+   <input type="radio" name="protocol" value="TCP">TCP <input type="radio" name="protocol" value="SSL" checked="checked">SSL <input type="radio" name="protocol" value="TLS">TLS
+   <br/>
    <input type="submit">
    </form>
 
@@ -47,7 +50,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <hr/>
    <form action="/samlsvc/service/query" method="get">
    Cookie ID (SAML ID): <input type="text" name="id" value="" size="32" maxlength="32"><br/>
-   SAML Server IP/Port: <input type="text" name="hostname" value="${queryAttributeClient.serverName}" size="32"> <input type="text" name="port" value="${queryAttributeClient.serverPort}" size="6"><br/>
+   SAML Server IP/Port: <input type="text" name="hostname" value="${queryAttributeClient.serverName}" size="32"> <input type="text" name="port" value="${queryAttributeClient.serverPort}" size="6">
+   <input type="radio" name="protocol" value="TCP">TCP <input type="radio" name="protocol" value="SSL" checked="checked">SSL <input type="radio" name="protocol" value="TLS">TLS<br/>
    <input type="submit">
    </form>
 
@@ -56,7 +60,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <hr/>
    <form action="/samlsvc/service/logout" method="get">
    Cookie ID (SAML ID): <input type="text" name="id" value="" size="32" maxlength="32"><br/>
-   SAML Server IP/Port: <input type="text" name="hostname" value="${logoutClient.serverName}" size="32"> <input type="text" name="port" value="${logoutClient.serverPort}" size="6"><br/>
+   SAML Server IP/Port: <input type="text" name="hostname" value="${logoutClient.serverName}" size="32"> <input type="text" name="port" value="${logoutClient.serverPort}" size="6">
+   <input type="radio" name="protocol" value="TCP">TCP <input type="radio" name="protocol" value="SSL" checked="checked">SSL <input type="radio" name="protocol" value="TLS">TLS<br/>
    <input type="submit">
    </form>
 
@@ -67,7 +72,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    UserName: <input type="text" name="userName" value="" size="32" maxlength="32"><br/>
    ServiceCode: <input type="text" name="serviceCode" value="" size="32" maxlength="32"><br/>
    Network Password: <input type="text" name="networkPassword" value="" size="32" maxlength="32"><br/>
-   SAML Server IP/Port: <input type="text" name="hostname" value="${logoutClient.serverName}" size="32"> <input type="text" name="port" value="${logoutClient.serverPort}" size="6"><br/>
+   SAML Server IP/Port: <input type="text" name="hostname" value="${logoutClient.serverName}" size="32"> <input type="text" name="port" value="${logoutClient.serverPort}" size="6">
+   <input type="radio" name="protocol" value="TCP">TCP <input type="radio" name="protocol" value="SSL" checked="checked">SSL <input type="radio" name="protocol" value="TLS">TLS<br/>
    <input type="submit">
    </form>
    
@@ -76,7 +82,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <hr/>
    <form action="/samlsvc/service/resolv" method="get">
    Cookie ID (SAML ID): <input type="text" name="id" value="" size="32" maxlength="32"><br/>
-   SAML Server IP/Port: <input type="text" name="hostname" value="${queryAttributeClient.serverName}" size="32"> <input type="text" name="port" value="${queryAttributeClient.serverPort}" size="6"><br/>
+   SAML Server IP/Port: <input type="text" name="hostname" value="${queryAttributeClient.serverName}" size="32"> <input type="text" name="port" value="${queryAttributeClient.serverPort}" size="6">
+   <input type="radio" name="protocol" value="TCP">TCP <input type="radio" name="protocol" value="SSL" checked="checked">SSL <input type="radio" name="protocol" value="TLS">TLS<br/>
    <input type="submit">
    </form>
 

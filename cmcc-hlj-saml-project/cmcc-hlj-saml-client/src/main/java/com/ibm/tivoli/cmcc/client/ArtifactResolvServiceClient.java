@@ -11,7 +11,7 @@ import com.ibm.tivoli.cmcc.response.ArtifactResolvResponse;
  * @author Zhao Dong Lu
  *
  */
-public interface ArtifactResolvServiceClient {
+public interface ArtifactResolvServiceClient extends Client {
 
   /**
    * Set properties

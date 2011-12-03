@@ -55,9 +55,11 @@ public class ActiviateServlet extends HttpServlet {
       }
       String hostname = request.getParameter("hostname");
       String port = request.getParameter("port");
+      String protocol = request.getParameter("protocol");
 
       ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
-      ActiviateServiceClient client = (ActiviateServiceClient)context.getBean("activiateClient");;
+      ActiviateServiceClient client = (ActiviateServiceClient)context.getBean("activiateClient");
+      client.setProtocol(protocol);
 
       if (StringUtils.isNotEmpty(hostname)) {
         client.setServerName(hostname);
