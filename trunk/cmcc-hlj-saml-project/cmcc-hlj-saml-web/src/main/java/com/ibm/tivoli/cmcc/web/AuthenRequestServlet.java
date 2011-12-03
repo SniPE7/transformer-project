@@ -61,7 +61,7 @@ public class AuthenRequestServlet extends HttpServlet {
       service.validate(request);
       boolean authenticated = service.isAuthenticated(request, response);
       if (!authenticated) {
-         String style = request.getParameter("login_style");
+         String style = request.getParameter("login_page_style");
          if (StringUtils.isEmpty(style)) {
             style = this.login_page_style;
          }
