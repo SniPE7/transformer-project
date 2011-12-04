@@ -14,6 +14,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.ibm.tivoli.cmcc.client.ClientException;
 import com.ibm.tivoli.cmcc.client.PasswordResetClient;
+import com.ibm.tivoli.cmcc.connector.NetworkConnectorManager;
 
 public class PasswordResetServlet extends HttpServlet {
 
@@ -66,16 +67,19 @@ public class PasswordResetServlet extends HttpServlet {
       
       String hostname = request.getParameter("hostname");
       String port = request.getParameter("port");
+      String protocol = request.getParameter("protocol");
 
       ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
-      PasswordResetClient client = (PasswordResetClient)context.getBean("passwordResetClient");;
+      NetworkConnectorManager connectionManager = (NetworkConnectorManager)context.getBean("connectorManager4Test");;
+      PasswordResetClient client = (PasswordResetClient)context.getBean("passwordResetClient4Test");
+      connectionManager.setProtocol(protocol);
 
       if (StringUtils.isNotEmpty(hostname)) {
-        client.setServerName(hostname);
+        connectionManager.setServerName(hostname);
       }
       
       if (StringUtils.isNotEmpty(port)) {
-        client.setServerPort(Integer.parseInt(port));
+        connectionManager.setServerPort(Integer.parseInt(port));
       }
       
       String responseXML = client.submit(userName, serviceCode, networkPassword);

@@ -20,63 +20,47 @@
     <property name="protocol" value="${saml.server.ssl.protocol}"></property>
     <property name="keyManagerAlgorithm" value="${saml.server.ssl.key.algorithm}"></property>
   </bean>
+  
+  <!-- Client -->
+  <bean id="connectorManager" class="com.ibm.tivoli.cmcc.connector.NetworkConnectorManager">
+    <property name="serverName" value="${remote.saml.server.hostname}"></property>
+    <property name="serverPort" value="${remote.saml.server.port}"></property>
+    <!-- 60 seconds -->
+    <property name="timeOut" value="60"></property>
+    <!-- SSl/TLS parameters -->
+    <property name="protocol" value="${remote.saml.server.protocol}"></property>
+    <property name="keyStorePath" value="${saml.client.ssl.keystore.path}"></property>
+    <property name="storePassword" value="${saml.client.ssl.keystore.store.password}"></property>
+    <property name="connectorClassName" value="${saml.client.connector.class}"></property>
+  </bean>
 
   <bean id="logoutClient" class="com.ibm.tivoli.cmcc.client.LogoutServiceClientImpl" scope="prototype">
     <property name="charset" value="${message.saml.charset}"></property>
-    <property name="serverName" value="${remote.saml.server.hostname}"></property>
-    <property name="serverPort" value="${remote.saml.server.port}"></property>
-    <!-- 60 seconds -->
-    <property name="timeOut" value="60"></property>
-    <!-- SSl/TLS parameters -->
-    <property name="protocol" value="${remote.saml.server.protocol}"></property>
-    <property name="keyStorePath" value="${saml.client.ssl.keystore.path}"></property>
-    <property name="storePassword" value="${saml.client.ssl.keystore.store.password}"></property>
+    <property name="connectorManager" ref="connectorManager"></property>
+    <property name="properties" ref="configProperties"></property>
   </bean>
   <bean id="activiateClient" class="com.ibm.tivoli.cmcc.client.ActiviateServiceClientImpl" scope="prototype">
     <property name="charset" value="${message.saml.charset}"></property>
-    <property name="serverName" value="${remote.saml.server.hostname}"></property>
-    <property name="serverPort" value="${remote.saml.server.port}"></property>
-    <!-- 60 seconds -->
-    <property name="timeOut" value="60"></property>
-    <!-- SSl/TLS parameters -->
-    <property name="protocol" value="${remote.saml.server.protocol}"></property>
-    <property name="keyStorePath" value="${saml.client.ssl.keystore.path}"></property>
-    <property name="storePassword" value="${saml.client.ssl.keystore.store.password}"></property>
+    <property name="connectorManager" ref="connectorManager"></property>
+    <property name="properties" ref="configProperties"></property>
   </bean>
   <bean id="queryAttributeClient" class="com.ibm.tivoli.cmcc.client.QueryAttributeServiceClientImpl" scope="prototype">
     <property name="charset" value="${message.saml.charset}"></property>
-    <property name="serverName" value="${remote.saml.server.hostname}"></property>
-    <property name="serverPort" value="${remote.saml.server.port}"></property>
-    <!-- 60 seconds -->
-    <property name="timeOut" value="60"></property>
-    <!-- SSl/TLS parameters -->
-    <property name="protocol" value="${remote.saml.server.protocol}"></property>
-    <property name="keyStorePath" value="${saml.client.ssl.keystore.path}"></property>
-    <property name="storePassword" value="${saml.client.ssl.keystore.store.password}"></property>
+    <property name="connectorManager" ref="connectorManager"></property>
+    <property name="properties" ref="configProperties"></property>
   </bean>
   <bean id="artifactResolvServiceClient" class="com.ibm.tivoli.cmcc.client.ArtifactResolvServiceClientImpl" scope="prototype">
     <property name="charset" value="${message.saml.charset}"></property>
-    <property name="serverName" value="${remote.saml.server.hostname}"></property>
-    <property name="serverPort" value="${remote.saml.server.port}"></property>
-    <!-- 60 seconds -->
-    <property name="timeOut" value="60"></property>
-    <!-- SSl/TLS parameters -->
-    <property name="protocol" value="${remote.saml.server.protocol}"></property>
-    <property name="keyStorePath" value="${saml.client.ssl.keystore.path}"></property>
-    <property name="storePassword" value="${saml.client.ssl.keystore.store.password}"></property>
+    <property name="connectorManager" ref="connectorManager"></property>
+    <property name="properties" ref="configProperties"></property>
   </bean>
   <bean id="passwordResetClient" class="com.ibm.tivoli.cmcc.client.PasswordResetServiceClientImpl" scope="prototype">
     <property name="charset" value="${message.saml.charset}"></property>
-    <property name="serverName" value="${remote.saml.server.hostname}"></property>
-    <property name="serverPort" value="${remote.saml.server.port}"></property>
-    <!-- 60 seconds -->
-    <property name="timeOut" value="60"></property>
-    <!-- SSl/TLS parameters -->
-    <property name="protocol" value="${remote.saml.server.protocol}"></property>
-    <property name="keyStorePath" value="${saml.client.ssl.keystore.path}"></property>
-    <property name="storePassword" value="${saml.client.ssl.keystore.store.password}"></property>
+    <property name="connectorManager" ref="connectorManager"></property>
+    <property name="properties" ref="configProperties"></property>
   </bean>
-  
+
+  <!-- Service for SAML Web Module -->  
   <bean id="localLoginModule" class="com.ibm.tivoli.cmcc.module.UserPasswordLoginModule" scope="prototype">
     <property name="debug" value="true"></property>
     <property name="personDAO" ref="personDao"></property>

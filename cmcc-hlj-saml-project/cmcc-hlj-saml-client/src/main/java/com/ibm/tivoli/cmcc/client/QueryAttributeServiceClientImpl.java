@@ -9,6 +9,7 @@ import java.util.Properties;
 
 import org.xml.sax.SAXException;
 
+import com.ibm.tivoli.cmcc.connector.ConnectorManager;
 import com.ibm.tivoli.cmcc.request.QueryAttributeRequest;
 import com.ibm.tivoli.cmcc.response.QueryAttributeResponse;
 import com.ibm.tivoli.cmcc.server.utils.Helper;
@@ -26,9 +27,10 @@ public class QueryAttributeServiceClientImpl extends BaseServiceClient implement
     super();
   }
 
-  public QueryAttributeServiceClientImpl(String serverName, int serverPort, Properties properties) {
-    super(serverName, serverPort, properties);
+  public QueryAttributeServiceClientImpl(ConnectorManager networkConnectorManager, Properties properties) {
+    super(networkConnectorManager, properties);
   }
+
 
   public Object doBusiness(String id) throws ClientException {
     QueryAttributeRequest request = new QueryAttributeRequest();

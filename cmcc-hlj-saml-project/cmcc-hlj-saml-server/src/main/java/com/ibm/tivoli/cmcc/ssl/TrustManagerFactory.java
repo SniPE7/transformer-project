@@ -30,43 +30,48 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactorySpi;
 import javax.net.ssl.X509TrustManager;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Bogus trust manager factory. Creates BogusX509TrustManager
- *
+ * 
  * @author The Apache Directory Project (mina-dev@directory.apache.org)
- * @version $Rev: 555855 $, $Date: 2007-07-13 12:19:00 +0900 (Fri, 13 Jul 2007) $
+ * @version $Rev: 555855 $, $Date: 2007-07-13 12:19:00 +0900 (Fri, 13 Jul 2007)
+ *          $
  */
 class TrustManagerFactory extends TrustManagerFactorySpi {
 
-    static final X509TrustManager X509 = new X509TrustManager() {
-        public void checkClientTrusted(X509Certificate[] x509Certificates,
-                String s) throws CertificateException {
-        }
-
-        public void checkServerTrusted(X509Certificate[] x509Certificates,
-                String s) throws CertificateException {
-        }
-
-        public X509Certificate[] getAcceptedIssuers() {
-            return new X509Certificate[0];
-        }
-    };
-
-    static final TrustManager[] X509_MANAGERS = new TrustManager[] { X509 };
-
-    public TrustManagerFactory() {
+  private static Log log = LogFactory.getLog(TrustManagerFactory.class);
+  
+  static final X509TrustManager X509 = new X509TrustManager() {
+    public void checkClientTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
+      log.debug(String.format("Checking Client Trusted, label: [%s], certs: %s", s, x509Certificates));
     }
 
-    protected TrustManager[] engineGetTrustManagers() {
-        return X509_MANAGERS;
+    public void checkServerTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
+      log.debug(String.format("Checking Server Trusted, label: [%s], certs: %s", s, x509Certificates));
     }
 
-    protected void engineInit(KeyStore keystore) throws KeyStoreException {
-        // noop
+    public X509Certificate[] getAcceptedIssuers() {
+      return new X509Certificate[0];
     }
+  };
 
-    protected void engineInit(ManagerFactoryParameters managerFactoryParameters)
-            throws InvalidAlgorithmParameterException {
-        // noop
-    }
+  static final TrustManager[] X509_MANAGERS = new TrustManager[] { X509 };
+
+  public TrustManagerFactory() {
+  }
+
+  protected TrustManager[] engineGetTrustManagers() {
+    return X509_MANAGERS;
+  }
+
+  protected void engineInit(KeyStore keystore) throws KeyStoreException {
+    // noop
+  }
+
+  protected void engineInit(ManagerFactoryParameters managerFactoryParameters) throws InvalidAlgorithmParameterException {
+    // noop
+  }
 }
