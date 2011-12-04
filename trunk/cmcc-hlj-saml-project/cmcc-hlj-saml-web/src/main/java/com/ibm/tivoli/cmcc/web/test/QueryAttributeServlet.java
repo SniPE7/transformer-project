@@ -14,6 +14,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.ibm.tivoli.cmcc.client.ClientException;
 import com.ibm.tivoli.cmcc.client.QueryAttributeServiceClient;
+import com.ibm.tivoli.cmcc.connector.NetworkConnectorManager;
 
 public class QueryAttributeServlet extends HttpServlet {
 
@@ -62,15 +63,16 @@ public class QueryAttributeServlet extends HttpServlet {
       String protocol = request.getParameter("protocol");
 
       ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
-      QueryAttributeServiceClient client = (QueryAttributeServiceClient) context.getBean("queryAttributeClient");
-      client.setProtocol(protocol);
+      NetworkConnectorManager connectionManager = (NetworkConnectorManager)context.getBean("connectorManager4Test");;
+      QueryAttributeServiceClient client = (QueryAttributeServiceClient) context.getBean("queryAttributeClient4Test");
+      connectionManager.setProtocol(protocol);
       
       if (StringUtils.isNotEmpty(hostname)) {
-        client.setServerName(hostname);
+        connectionManager.setServerName(hostname);
       }
 
       if (StringUtils.isNotEmpty(port)) {
-        client.setServerPort(Integer.parseInt(port));
+        connectionManager.setServerPort(Integer.parseInt(port));
       }
 
       String responseXML = client.submit(samlId);

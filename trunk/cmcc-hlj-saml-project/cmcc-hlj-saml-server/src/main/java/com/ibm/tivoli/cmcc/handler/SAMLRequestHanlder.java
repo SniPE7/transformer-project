@@ -185,7 +185,7 @@ public class SAMLRequestHanlder extends IoHandlerAdapter implements ApplicationC
   }
 
   public void sessionCreated(IoSession session) throws Exception {
-    log.info("SAML session created, client IP: [" + session.getRemoteAddress().toString() + "]");
+    log.info(String.format("SAML session created, client: [%s] -> server: [%s]", session.getRemoteAddress(), session.getLocalAddress()));
 
     if (session.getTransportType() == TransportType.SOCKET)
       ((SocketSessionConfig) session.getConfig()).setReceiveBufferSize(20 * 1024);

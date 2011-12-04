@@ -7,17 +7,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketAddress;
-import java.net.UnknownHostException;
 import java.security.KeyManagementException;
-import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
@@ -26,109 +21,45 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import javax.net.SocketFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactory;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.ibm.tivoli.cmcc.connector.Connector;
+import com.ibm.tivoli.cmcc.connector.ConnectorManager;
+
 public abstract class BaseServiceClient {
 
-  private static Log log = LogFactory.getLog(LogoutServiceClientImpl.class);
+  private static Log log = LogFactory.getLog(BaseServiceClient.class);
 
-  /**
-   * Server certificate keystore file name.
-   */
-  private String keyStorePath = "/certs/client_pwd_importkey.jks";
-
-  private char[] storePassword = "importkey".toCharArray();
-
-  private char[] keyPassword = "importkey".toCharArray();
-
-  private String keyManagerAlgorithm;
-
-  private String protocol = "TCP";
-  private String serverName = null;
-  private int serverPort = 8080;
-
-  /**
-   * In seconds
-   */
-  private int timeOut = 60;
   private String charset = "UTF-8";
 
-  private Properties properties = System.getProperties();
+  private ConnectorManager networkConnectorManager;
+  private Properties properties = new Properties();
 
 
   protected BaseServiceClient() {
     super();
   }
 
-  protected BaseServiceClient(String serverName, int serverPort, Properties properties) {
+  protected BaseServiceClient(ConnectorManager networkConnectorManager, Properties properties) {
     super();
-    this.serverName = serverName;
-    this.serverPort = serverPort;
-    this.properties = properties;
+    this.networkConnectorManager = networkConnectorManager;
   }
 
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.client.Client#getProperties()
+  /**
+   * @return the networkConnectorManager
    */
-  public Properties getProperties() {
-    return properties;
+  public ConnectorManager getConnectorManager() {
+    return networkConnectorManager;
   }
 
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.client.Client#setProperties(java.util.Properties)
+  /**
+   * @param networkConnectorManager the networkConnectorManager to set
    */
-  public void setProperties(Properties properties) {
-    this.properties = properties;
-  }
-
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.client.Client#getServerName()
-   */
-  public String getServerName() {
-    return serverName;
-  }
-
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.client.Client#setServerName(java.lang.String)
-   */
-  public void setServerName(String serverName) {
-    this.serverName = serverName;
-  }
-
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.client.Client#getServerPort()
-   */
-  public int getServerPort() {
-    return serverPort;
-  }
-
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.client.Client#setServerPort(int)
-   */
-  public void setServerPort(int serverPort) {
-    this.serverPort = serverPort;
-  }
-
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.client.Client#getTimeOut()
-   */
-  public int getTimeOut() {
-    return timeOut;
-  }
-
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.client.Client#setTimeOut(int)
-   */
-  public void setTimeOut(int timeOut) {
-    this.timeOut = timeOut;
+  public void setConnectorManager(ConnectorManager networkConnectorManager) {
+    this.networkConnectorManager = networkConnectorManager;
   }
 
   /* (non-Javadoc)
@@ -145,81 +76,29 @@ public abstract class BaseServiceClient {
     this.charset = charset;
   }
 
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.client.Client#getKeyStorePath()
+  /**
+   * @return the properties
    */
-  public String getKeyStorePath() {
-    return keyStorePath;
+  public Properties getProperties() {
+    return properties;
   }
 
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.client.Client#setKeyStorePath(java.lang.String)
+  /**
+   * @param properties the properties to set
    */
-  public void setKeyStorePath(String keyStorePath) {
-    this.keyStorePath = keyStorePath;
-  }
-
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.client.Client#getStorePassword()
-   */
-  public char[] getStorePassword() {
-    return storePassword;
-  }
-
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.client.Client#setStorePassword(char[])
-   */
-  public void setStorePassword(char[] storePassword) {
-    this.storePassword = storePassword;
-  }
-
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.client.Client#getKeyPassword()
-   */
-  public char[] getKeyPassword() {
-    return keyPassword;
-  }
-
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.client.Client#setKeyPassword(char[])
-   */
-  public void setKeyPassword(char[] keyPassword) {
-    this.keyPassword = keyPassword;
-  }
-
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.client.Client#getKeyManagerAlgorithm()
-   */
-  public String getKeyManagerAlgorithm() {
-    return keyManagerAlgorithm;
-  }
-
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.client.Client#setKeyManagerAlgorithm(java.lang.String)
-   */
-  public void setKeyManagerAlgorithm(String keyManagerAlgorithm) {
-    this.keyManagerAlgorithm = keyManagerAlgorithm;
-  }
-
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.client.Client#getProtocol()
-   */
-  public String getProtocol() {
-    return protocol;
-  }
-
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.client.Client#setProtocol(java.lang.String)
-   */
-  public void setProtocol(String protocol) {
-    this.protocol = protocol;
+  public void setProperties(Properties properties) {
+    this.properties = properties;
   }
 
   public String submit(String id) throws ClientException {
+    Connector connector = null;
     try {
-      // Create a socket with server
-      Socket socket = getSocket();
-      BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), charset));
+      connector = this.networkConnectorManager.getConnector();
+      connector.open();
+      OutputStream out = connector.getOutput();
+      InputStream in = connector.getInput();
+      
+      BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, charset));
 
       Object request = doBusiness(id);
 
@@ -236,7 +115,6 @@ public abstract class BaseServiceClient {
       writer.flush();
 
       // Get response
-      InputStream in = socket.getInputStream();
       byte[] buf = new byte[2048];
 
       ByteArrayOutputStream responseXML = new ByteArrayOutputStream();
@@ -280,83 +158,15 @@ public abstract class BaseServiceClient {
     } catch (CertificateException e) {
       log.error(e.getMessage(), e);
       throw new ClientException(e);
+    } catch (Exception e) {
+      log.error(e.getMessage(), e);
+      throw new ClientException(e);
+    } finally {
+      if (connector != null) {
+         connector.release();
+      }
     }
 
-  }
-
-  /**
-   * @return
-   * @throws UnknownHostException
-   * @throws IOException
-   * @throws KeyStoreException 
-   * @throws CertificateException 
-   * @throws NoSuchAlgorithmException 
-   * @throws KeyManagementException 
-   */
-  private Socket getSocket() throws UnknownHostException, IOException, KeyStoreException, NoSuchAlgorithmException, CertificateException, KeyManagementException {
-    if (StringUtils.isEmpty(protocol) || protocol.equalsIgnoreCase("TCP")) {
-      return getTCPSocket();
-    } else if (protocol.equalsIgnoreCase("TLS") || protocol.equalsIgnoreCase("SSL")) {
-      return getSSLTLSSocket();
-    } else {
-      throw new RuntimeException("Unkonw protocol type: " + this.protocol);
-    }
-  }
-
-  /**
-   * @return
-   * @throws KeyStoreException
-   * @throws IOException
-   * @throws NoSuchAlgorithmException
-   * @throws CertificateException
-   * @throws KeyManagementException
-   * @throws UnknownHostException
-   */
-  private Socket getSSLTLSSocket() throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, KeyManagementException,
-      UnknownHostException {
-    // Load key store
-    KeyStore keystore = KeyStore.getInstance("JKS");
-    InputStream in = this.getClass().getResourceAsStream(this.keyStorePath);
-    if (in == null) {
-       throw new IOException(String.format("Could not reading from : [%s]", this.keyStorePath));
-    }
-    keystore.load(in, this.storePassword);
-
-    // Initialize trust manager factory and set trusted CA list using keystore
-    if (System.getProperty("java.vm.vendor", "").startsWith("IBM")) {
-      this.keyManagerAlgorithm = "IbmX509";
-    } else {
-      this.keyManagerAlgorithm = "SunX509";
-    }
-    TrustManagerFactory tmf = TrustManagerFactory.getInstance(this.keyManagerAlgorithm);
-    tmf.init(keystore);
-
-    // Get SSL Context and initialize context
-    SSLContext context = SSLContext.getInstance(this.protocol);
-    TrustManager[] trustManagers = tmf.getTrustManagers();
-    context.init(null, trustManagers, null);
-
-    // Get SSL socket factory
-    SocketFactory sf = context.getSocketFactory();
-
-    // Make socket connect with SSL server
-    Socket s = sf.createSocket(InetAddress.getByName(this.serverName), this.serverPort);
-    return s;
-  }
-
-  /**
-   * @return
-   * @throws UnknownHostException
-   * @throws IOException
-   */
-  private Socket getTCPSocket() throws UnknownHostException, IOException {
-    SocketAddress sockaddr = new InetSocketAddress(InetAddress.getByName(this.serverName), this.serverPort);
-    // Create an unbound socket
-    Socket socket = new Socket();
-    // This method will block no more than timeoutMs.
-    // If the timeout occurs, SocketTimeoutException is thrown.
-    socket.connect(sockaddr, timeOut);
-    return socket;
   }
 
   protected String getTemplate(String templateFile) throws IOException {

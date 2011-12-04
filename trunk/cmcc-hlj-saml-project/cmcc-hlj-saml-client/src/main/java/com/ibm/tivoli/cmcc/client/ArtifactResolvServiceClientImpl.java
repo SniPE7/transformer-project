@@ -9,6 +9,7 @@ import java.util.Properties;
 
 import org.xml.sax.SAXException;
 
+import com.ibm.tivoli.cmcc.connector.ConnectorManager;
 import com.ibm.tivoli.cmcc.request.ArtifactResolvRequest;
 import com.ibm.tivoli.cmcc.response.ArtifactResolvResponse;
 import com.ibm.tivoli.cmcc.server.utils.Helper;
@@ -26,8 +27,8 @@ public class ArtifactResolvServiceClientImpl extends BaseServiceClient implement
     super();
   }
 
-  public ArtifactResolvServiceClientImpl(String serverName, int serverPort, Properties properties) {
-    super(serverName, serverPort, properties);
+  public ArtifactResolvServiceClientImpl(ConnectorManager networkConnectorManager, Properties properties) {
+    super(networkConnectorManager, properties);
   }
 
   public Object doBusiness(String artifact) throws ClientException {

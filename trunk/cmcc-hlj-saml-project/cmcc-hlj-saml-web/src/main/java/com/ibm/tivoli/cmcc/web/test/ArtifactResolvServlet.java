@@ -14,7 +14,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.ibm.tivoli.cmcc.client.ArtifactResolvServiceClient;
 import com.ibm.tivoli.cmcc.client.ClientException;
-import com.ibm.tivoli.cmcc.client.QueryAttributeServiceClient;
+import com.ibm.tivoli.cmcc.connector.NetworkConnectorManager;
 
 public class ArtifactResolvServlet extends HttpServlet {
 
@@ -63,15 +63,16 @@ public class ArtifactResolvServlet extends HttpServlet {
       String protocol = request.getParameter("protocol");
 
       ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
-      ArtifactResolvServiceClient client = (ArtifactResolvServiceClient) context.getBean("artifactResolvServiceClient");
-      client.setProtocol(protocol);
+      NetworkConnectorManager connectionManager = (NetworkConnectorManager)context.getBean("connectorManager4Test");;
+      ArtifactResolvServiceClient client = (ArtifactResolvServiceClient) context.getBean("artifactResolvServiceClient4Test");
+      connectionManager.setProtocol(protocol);
       
       if (StringUtils.isNotEmpty(hostname)) {
-        client.setServerName(hostname);
+        connectionManager.setServerName(hostname);
       }
 
       if (StringUtils.isNotEmpty(port)) {
-        client.setServerPort(Integer.parseInt(port));
+        connectionManager.setServerPort(Integer.parseInt(port));
       }
 
       String responseXML = client.submit(samlId);

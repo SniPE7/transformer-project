@@ -11,9 +11,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.ibm.tivoli.cmcc.client.ActiviateServiceClient;
-import com.ibm.tivoli.cmcc.client.LogoutServiceClient;
-import com.ibm.tivoli.cmcc.client.QueryAttributeServiceClient;
+import com.ibm.tivoli.cmcc.connector.ConnectorManager;
 
 public class HomeServlet extends HttpServlet {
 
@@ -50,13 +48,9 @@ public class HomeServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     try {
       ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
-      ActiviateServiceClient activiateClient = (ActiviateServiceClient)context.getBean("activiateClient");;
-      LogoutServiceClient logoutClient = (LogoutServiceClient)context.getBean("logoutClient");;
-      QueryAttributeServiceClient queryAttributeClient = (QueryAttributeServiceClient)context.getBean("queryAttributeClient");;
+      ConnectorManager connectionManager = (ConnectorManager)context.getBean("connectorManager4Test");;
 
-      request.setAttribute("activiateClient", activiateClient);
-      request.setAttribute("logoutClient", logoutClient);
-      request.setAttribute("queryAttributeClient", queryAttributeClient);
+      request.setAttribute("connectionManager", connectionManager);
       this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/test/form.jsp").forward(request, response);
     } catch (BeansException e) {
       throw new IOException(e.getMessage(), e);

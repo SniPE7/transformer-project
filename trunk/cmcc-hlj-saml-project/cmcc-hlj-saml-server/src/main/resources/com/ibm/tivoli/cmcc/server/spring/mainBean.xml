@@ -22,6 +22,11 @@
       </list>
     </property>
   </bean>
+  <bean name="configProperties" class="com.ibm.tivoli.cmcc.server.utils.PropertiesWrapper">
+    <constructor-arg>
+      <ref bean="propertyPlaceholderConfigurer"/>
+    </constructor-arg>
+  </bean>
 
   <bean id="requestHandler" class="com.ibm.tivoli.cmcc.handler.SAMLRequestHanlder">
     <property name="propertyPlaceholderConfigurer" ref="propertyPlaceholderConfigurer"></property>

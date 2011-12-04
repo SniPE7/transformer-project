@@ -27,7 +27,7 @@ import org.slf4j.Logger;
 public class MyLoggingFilter extends IoFilterAdapter {
 
   private static Log log = LogFactory.getLog(MyLoggingFilter.class);
-  
+
   /**
    * Session attribute key: prefix string
    */
@@ -46,20 +46,26 @@ public class MyLoggingFilter extends IoFilterAdapter {
 
   public void sessionCreated(NextFilter nextFilter, IoSession session) {
     SessionLog.info(session, "CREATED");
+    log.debug(String.format("[%s] CREATED", session));
     nextFilter.sessionCreated(session);
   }
 
   public void sessionOpened(NextFilter nextFilter, IoSession session) {
     SessionLog.info(session, "OPENED");
+    log.debug(String.format("SAML session OPENED, session: [%s]", session));
     nextFilter.sessionOpened(session);
   }
 
   public void sessionClosed(NextFilter nextFilter, IoSession session) {
     SessionLog.info(session, "CLOSED");
+    log.debug(String.format("[%s] CLOSED", session));
     nextFilter.sessionClosed(session);
   }
 
   public void sessionIdle(NextFilter nextFilter, IoSession session, IdleStatus status) {
+    if (log.isDebugEnabled()) {
+      log.debug(String.format("[%s] IDLE", session));
+    }
     if (SessionLog.isInfoEnabled(session)) {
       SessionLog.info(session, "IDLE: " + status);
     }
@@ -67,6 +73,9 @@ public class MyLoggingFilter extends IoFilterAdapter {
   }
 
   public void exceptionCaught(NextFilter nextFilter, IoSession session, Throwable cause) {
+    if (log.isDebugEnabled()) {
+      log.debug(String.format("[%s] EXCEPTION: ", session, cause.getMessage()), cause);
+    }
     if (SessionLog.isWarnEnabled(session)) {
       SessionLog.warn(session, "EXCEPTION:", cause);
     }
@@ -74,6 +83,9 @@ public class MyLoggingFilter extends IoFilterAdapter {
   }
 
   public void messageReceived(NextFilter nextFilter, IoSession session, Object message) {
+    if (log.isDebugEnabled()) {
+      log.debug(String.format("[%s] RECEIVED: [%s]", session, makeLineWrap(message)));
+    }
     if (SessionLog.isInfoEnabled(session)) {
       SessionLog.info(session, "RECEIVED: " + makeLineWrap(message));
     }
@@ -81,6 +93,9 @@ public class MyLoggingFilter extends IoFilterAdapter {
   }
 
   public void messageSent(NextFilter nextFilter, IoSession session, Object message) {
+    if (log.isDebugEnabled()) {
+      log.debug(String.format("[%s] SENT: [%s]", session, makeLineWrap(message)));
+    }
     if (SessionLog.isInfoEnabled(session)) {
       SessionLog.info(session, "SENT: " + makeLineWrap(message));
     }
@@ -88,6 +103,9 @@ public class MyLoggingFilter extends IoFilterAdapter {
   }
 
   public void filterWrite(NextFilter nextFilter, IoSession session, WriteRequest writeRequest) {
+    if (log.isDebugEnabled()) {
+      log.debug(String.format("[%s] WRITE: [%s]", session, makeLineWrap(writeRequest)));
+    }
     if (SessionLog.isInfoEnabled(session)) {
       SessionLog.info(session, "WRITE: " + makeLineWrap(writeRequest));
     }
@@ -95,13 +113,16 @@ public class MyLoggingFilter extends IoFilterAdapter {
   }
 
   public void filterClose(NextFilter nextFilter, IoSession session) throws Exception {
+    if (log.isDebugEnabled()) {
+      log.debug(String.format("[%s] CLOSE", session));
+    }
     SessionLog.info(session, "CLOSE");
     nextFilter.filterClose(session);
   }
-  
+
   private static String makeLineWrap(Object o) {
     if (o == null) {
-       return null;
+      return null;
     }
     String s = o.toString();
     try {
@@ -110,12 +131,12 @@ public class MyLoggingFilter extends IoFilterAdapter {
       int c = in.read();
       int i = 0;
       while (c >= 0) {
-           result.write(c);
-           if (i != 0 && i % 128 == 0) {
-              result.write('\n');
-           }
-           i++;
-           c = in.read();
+        result.write(c);
+        if (i != 0 && i % 128 == 0) {
+          result.write('\n');
+        }
+        i++;
+        c = in.read();
       }
       return result.toString();
     } catch (IOException e) {
