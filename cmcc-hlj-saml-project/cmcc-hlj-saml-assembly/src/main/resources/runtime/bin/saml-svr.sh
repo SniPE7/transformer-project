@@ -8,6 +8,6 @@
 #
 # Caution: DO NOT MODIFY THE FOLLOWING LINES!
 #
-export JAVA_OPTS=-Dsaml.server.home=$SAML_SVR_HOME
+export JAVA_OPTS="-Dsaml.server.home=$SAML_SVR_HOME -Djava.awt.headless=true"
 export CATALINA_HOME=$SAML_SVR_HOME
 $SAML_SVR_HOME/bin/catalina.sh $*
