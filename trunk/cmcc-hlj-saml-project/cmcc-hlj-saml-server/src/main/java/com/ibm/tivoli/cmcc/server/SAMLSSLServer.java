@@ -24,6 +24,7 @@ import org.apache.mina.transport.socket.nio.SocketAcceptorConfig;
 
 import com.ibm.tivoli.cmcc.handler.MyLoggingFilter;
 import com.ibm.tivoli.cmcc.handler.SAMLRequestHanlder;
+import com.ibm.tivoli.cmcc.handler.SSLHandshakeErrorFilter;
 import com.ibm.tivoli.cmcc.ssl.SSLContextFactory;
 
 /**
@@ -190,6 +191,8 @@ public class SAMLSSLServer {
          }
       }
       SSLContext sslContextFactory = SSLContextFactory.getServerInstance(protocol, keyManagerAlgorithm, storeIn, "JKS", storePassword, keyPassword);
+      SSLHandshakeErrorFilter handeShakeFilter = new SSLHandshakeErrorFilter();
+      cfg.getFilterChain().addLast("sslHandshakeErrorFilter", handeShakeFilter);
       SSLFilter sslFilter = new SSLFilter(sslContextFactory);
       cfg.getFilterChain().addLast("sslFilter", sslFilter);
       //cfg.getFilterChain().addLast("codec", new ProtocolCodecFilter(new TextLineCodecFactory(Charset.forName(this.charset))));
