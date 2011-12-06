@@ -15,7 +15,7 @@
   <appender name="server.rolling.file" class="org.apache.log4j.RollingFileAppender">
     <param name="Threshold" value="DEBUG" />
     <!-- The active file to log to -->
-    <param name="file" value="${catalina.home}/logs/sampl_server.log" />
+    <param name="file" value="${saml.server.home}/logs/sampl_server.log" />
     <param name="append" value="true" />
     <param name="encoding" value="UTF-8" />
 
