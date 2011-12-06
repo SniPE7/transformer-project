@@ -28,7 +28,12 @@ YW1lSURQb2xpY3kNCiAgICAgICAgQWxsb3dDcmVhdGU9InRydWUiDQogICAgICAgIEZvcm1hdD0i
 dXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOm5hbWVpZC1mb3JtYXQ6dHJhbnNpZW50Ii8+DQo8
 L3NhbWxwOkF1dGhuUmVxdWVzdD4NCg==</textarea><br/>
     Or SAMLRequest(XML) : <textarea name="SAMLRequestXML" rows="8" cols="80"></textarea><br/>
-    Login Style: <select name="login_page_style"><option value="cmcc_1">CMCC_1</option><option value="cmcc_2">CMCC_2</option><option value="simple">Simple</option></select><br/>
+    Login Style: <select name="login_page_style">
+                   <option value="cmcc_1">CMCC_1</option>
+                   <option value="cmcc_2">CMCC_2</option>
+                   <option value="cmcc_embed" selected>CMCC_Embed</option>
+                   <option value="simple">Simple</option>
+                 </select><br/>
 		<input type="submit"/>
 	</form>
 </body>
