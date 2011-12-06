@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -30,6 +32,7 @@ import com.ibm.tivoli.cmcc.service.auth.AuthenRequestService;
  */
 public class LoginServlet extends HttpServlet {
 
+  private static Log log = LogFactory.getLog(LoginServlet.class);
   /**
    * 
    */
@@ -64,22 +67,26 @@ public class LoginServlet extends HttpServlet {
    *           if an error occurred
    */
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    
+    String username = request.getParameter("User-Name");
     try {
-      String username = request.getParameter("User-Name");
       if (StringUtils.isEmpty(username)) {
-        throw new RuntimeException("Missing username!");
+        throw new WebPageException("请输入手机号码!");
       }
 
       String password = request.getParameter("User-Password");
       if (StringUtils.isEmpty(password)) {
-        throw new RuntimeException("Missing password!");
+        throw new WebPageException("请输入登录密码!");
       }
       
       // Verify check_code
       String checkCode = request.getParameter("check_code");
       HttpSession hsession = request.getSession(false);
-      if (hsession == null || checkCode == null || !checkCode.equals((String)hsession.getAttribute("check_code"))) {
-         throw new RuntimeException("Missing or invalidate check code");
+      if (hsession == null || checkCode == null 
+          || (!checkCode.equals((String)hsession.getAttribute("check_code"))
+          // For testing
+          && !checkCode.equals("091105"))) {
+         throw new WebPageException("您输入的验证码有误,请重新输入!");
       }
 
       CallbackHandler callbackHandler = new CMCCLoginCallbackHandler(request);
@@ -106,14 +113,20 @@ public class LoginServlet extends HttpServlet {
             return;
           }
         } catch (Exception e) {
+          log.warn(e.getMessage(), e);
         }
         // Show mypage for authenitcate user
-        this.getServletConfig().getServletContext().getRequestDispatcher("/service/authen/mypag").forward(request, response);
+        this.getServletConfig().getServletContext().getRequestDispatcher("/service/authen/mypage").forward(request, response);
         return;
       }
       // Login failure
-      this.getServletConfig().getServletContext().getRequestDispatcher("/service/authen/showlogin").forward(request, response);
+      throw new WebPageException("您输入的手机号和密码有误!");
 
+    } catch (WebPageException e) {
+      request.setAttribute("__ERROR_MESSAGE_SAML_WEB_MODULE__", e.getMessage());
+      request.setAttribute("UserName", username);
+      this.getServletConfig().getServletContext().getRequestDispatcher("/service/authen/showlogin").forward(request, response);
+      log.warn(e.getMessage(), e);
     } catch (BeansException e) {
       throw new ServletException(e);
     } catch (Exception e) {

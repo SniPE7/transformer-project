@@ -139,8 +139,8 @@ fieldset {
     <div class="login_top"></div>
     <div class="login_center">
         <form id="LoginForm" name="LoginForm" action="./service/authen/login" method="post" style="margin-left: 90px;">
-          <input type="hidden" name="SAMLRequest" value='<c:out value="${param.SAMLRequest}" escapeXml="false"/>' /> <input
-            type="hidden" name="RelayState" value='<c:out value="${param.RelayState}" escapeXml="false"/>' />
+          <input type="hidden" name="SAMLRequest" value='<c:out value="${param.SAMLRequest}" escapeXml="false"/>' />
+          <input type="hidden" name="RelayState" value='<c:out value="${param.RelayState}" escapeXml="false"/>' />
           <fieldset>
             <label for="name" class="loginLabel">手机号码 :</label> <input type="text" name="User-Name" id="UserName"
               class="text ui-widget-content ui-corner-all" maxlength="11" /><br />
