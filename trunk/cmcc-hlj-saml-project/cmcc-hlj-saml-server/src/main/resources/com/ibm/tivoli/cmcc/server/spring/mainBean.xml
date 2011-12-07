@@ -61,7 +61,7 @@
       </bean>
     </property>
   </bean>
-  <alias alias="personDao" name="personBossDao"/>
+  <alias alias="personDao" name="personLDAPDao"/>
 
   <!-- LDAP Session Manager only for testing -->
   <bean id="ldapSessionManager" class="com.ibm.tivoli.cmcc.session.LDAPSessionManagerImpl">
