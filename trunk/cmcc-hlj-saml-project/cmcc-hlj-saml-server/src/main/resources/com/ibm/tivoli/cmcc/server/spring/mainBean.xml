@@ -46,7 +46,7 @@
     <constructor-arg ref="contextSource" />
   </bean>
 
-  <bean id="personDao" class="com.ibm.tivoli.cmcc.dir.LDAPPersonDAO">
+  <bean id="personLDAPDao" class="com.ibm.tivoli.cmcc.dir.LDAPPersonDAO">
     <property name="ldapTemplate" ref="ldapTemplate" />
     <property name="url" value="${ldap.server.url}" />
     <property name="base" value="${ldap.server.base}" />
@@ -54,8 +54,17 @@
     <property name="password" value="${ldap.server.bindPassword}" />
     <property name="ldapCtxFactory" value="com.sun.jndi.ldap.LdapCtxFactory"></property>
   </bean>
+  <bean id="personBossDao" class="com.ibm.tivoli.cmcc.boss.PersonDAOBossWSImpl">
+    <property name="bossService">
+      <bean class="com.ibm.lbs.mcc.hl.fsso.boss.BossServiceSoapImpl">
+        <property name="serviceEndPoint" value="${boss.soap.service.url}"></property>
+      </bean>
+    </property>
+  </bean>
+  <alias alias="personDao" name="personBossDao"/>
 
-  <bean id="sessionManager" class="com.ibm.tivoli.cmcc.session.ServletSessionManagerImpl">
+  <!-- LDAP Session Manager only for testing -->
+  <bean id="ldapSessionManager" class="com.ibm.tivoli.cmcc.session.LDAPSessionManagerImpl">
     <property name="ldapCtxFactory" value="com.sun.jndi.ldap.LdapCtxFactory"></property>
     <property name="ldapTemplate" ref="ldapTemplate" />
     <property name="url" value="${ldap.server.url}" />
@@ -64,6 +73,10 @@
     <property name="password" value="${ldap.server.bindPassword}" />
     <property name="provinceCode" value="${message.saml.province.code}" />
   </bean>
+  <bean id="servletSessionManager" class="com.ibm.tivoli.cmcc.session.ServletSessionManagerImpl">
+    <property name="personDAO" ref="personDao" />
+  </bean>
+  <alias alias="sessionManager" name="servletSessionManager"/>
 
   <bean id="authenRequestService" class="com.ibm.tivoli.cmcc.service.auth.AuthenRequestServiceImpl">
     <property name="cookieDomain" value="${webapp.cookies.domain}"></property>
