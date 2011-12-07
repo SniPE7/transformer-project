@@ -1,0 +1,61 @@
+* {
+	margin:0px;
+	padding:0px;
+}
+
+#login_successfull{
+	background-color:#FFC;
+	width:200px;
+	height:250px;
+	margin:1px;
+	border:thin #03C;
+	font-size:14px;
+	
+}
+
+#login_successfull a{
+	text-decoration:none;
+}
+#login_successfull #brand {
+	padding:5px;
+	height:40px;
+	width:190px;
+	background-image:url(../images/brand_mzone.gif);
+	background-repeat: no-repeat;
+	vertical-align:bottom;
+	text-align:right;
+}
+   
+#login_successfull #button a {
+	display:block;
+	margin:10px;
+	padding:5px 20px;
+	background:#F90;
+	margin-top: 0px;
+	text-decoration:none;
+
+}
+#login_successfull #button a:hover {
+	background:#F60;
+	color:#FFF;
+	text-decoration:none;
+}
+#login_successfull #welcome {
+	padding:5px;
+	height:40px;
+	font-size: 14px;
+}
+#login_successfull #main {
+	height:100px;
+}
+#MainNav {
+	list-style:none;
+	height:1%;
+	margin-top: 10px;
+}
+
+#MainNav li{
+	height:30px;
+	margin-top: 10px;
+	margin-left:10px;
+}
