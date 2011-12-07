@@ -160,7 +160,7 @@ public class BossServiceSoapImpl implements BossService {
   public Map<String, String> query(String user) {
     SrvReturnBean bean = queryInfo(this.getServiceEndPoint(), user);
     Map<String, String> map = convert(bean);
-    log.debug(String.format("query result: %", map));
+    log.debug(String.format("query result: %s", map));
     return map;
   }
 
