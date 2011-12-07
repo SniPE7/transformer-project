@@ -40,6 +40,8 @@ public class SAMLRequestHanlder extends IoHandlerAdapter implements ApplicationC
    */
   private int maxContentLength = 16 * 1024;
 
+  private int idleTime = 10;
+
   /**
    * 
    */
@@ -53,6 +55,20 @@ public class SAMLRequestHanlder extends IoHandlerAdapter implements ApplicationC
 
   public void setMaxContentLength(int maxContentLength) {
     this.maxContentLength = maxContentLength;
+  }
+
+  /**
+   * @return the idleTime
+   */
+  public int getIdleTime() {
+    return idleTime;
+  }
+
+  /**
+   * @param idleTime the idleTime to set
+   */
+  public void setIdleTime(int idleTime) {
+    this.idleTime = idleTime;
   }
 
   public MyPropertyPlaceholderConfigurer getPropertyPlaceholderConfigurer() {
@@ -190,7 +206,7 @@ public class SAMLRequestHanlder extends IoHandlerAdapter implements ApplicationC
     if (session.getTransportType() == TransportType.SOCKET)
       ((SocketSessionConfig) session.getConfig()).setReceiveBufferSize(20 * 1024);
 
-    session.setIdleTime(IdleStatus.BOTH_IDLE, 10);
+    session.setIdleTime(IdleStatus.BOTH_IDLE, idleTime);
     
     session.setAttribute("CONTENT", "");
   }
