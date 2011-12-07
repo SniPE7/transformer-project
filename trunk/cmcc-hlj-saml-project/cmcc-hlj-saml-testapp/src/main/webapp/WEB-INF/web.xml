@@ -1,12 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-	<display-name>cmcc-hlj-saml-testapp</display-name>
-	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
-		<welcome-file>index.htm</welcome-file>
-		<welcome-file>index.jsp</welcome-file>
-		<welcome-file>default.html</welcome-file>
-		<welcome-file>default.htm</welcome-file>
-		<welcome-file>default.jsp</welcome-file>
-	</welcome-file-list>
+<web-app id="WebApp_ID" version="2.4"
+  xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+  <display-name>cmcc-hlj-saml-testapp</display-name>
+  <servlet>
+    <description>
+		</description>
+    <display-name>com.ibm.cmcc.test.web.WelcomeServlet</display-name>
+    <servlet-name>com.ibm.cmcc.test.web.WelcomeServlet</servlet-name>
+    <servlet-class>com.ibm.cmcc.test.web.WelcomeServlet</servlet-class>
+    <init-param>
+      <param-name>SsoSAMLAuthRequestURL</param-name>
+      <param-value>https://127.0.0.1:18443/samlsvc/service/authen/request</param-value>
+    </init-param>
+    <init-param>
+      <param-name>SsoLoginBoxURL</param-name>
+      <param-value>https://127.0.0.1:18443/samlsvc/service/authen/showlogin</param-value>
+    </init-param>
+    <init-param>
+      <param-name>SAML.server.protocol</param-name>
+      <param-value>SSL</param-value>
+    </init-param>
+    <init-param>
+      <param-name>SAML.server.hostname</param-name>
+      <param-value>127.0.0.1</param-value>
+    </init-param>
+    <init-param>
+      <param-name>SAML.server.port</param-name>
+      <param-value>8080</param-value>
+    </init-param>
+    <init-param>
+      <param-name>SAML.client.key.store.path</param-name>
+      <param-value>/certs/client_pwd_importkey.jks</param-value>
+    </init-param>
+    <init-param>
+      <param-name>SAML.client.key.store.key.password</param-name>
+      <param-value>importkey</param-value>
+    </init-param>
+    <init-param>
+      <param-name>SAML.client.key.store.store.password</param-name>
+      <param-value>importkey</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>com.ibm.cmcc.test.web.WelcomeServlet</servlet-name>
+    <url-pattern>/welcome</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
 </web-app>
