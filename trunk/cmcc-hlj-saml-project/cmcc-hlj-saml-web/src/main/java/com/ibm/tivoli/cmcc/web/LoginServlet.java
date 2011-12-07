@@ -85,7 +85,7 @@ public class LoginServlet extends HttpServlet {
       if (hsession == null || checkCode == null 
           || (!checkCode.equals((String)hsession.getAttribute("check_code"))
           // For testing
-          && !checkCode.equals("091105"))) {
+          && !checkCode.equals("1105"))) {
          throw new WebPageException("您输入的验证码有误,请重新输入!");
       }
 
