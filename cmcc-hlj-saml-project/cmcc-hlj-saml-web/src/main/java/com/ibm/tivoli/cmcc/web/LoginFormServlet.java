@@ -8,10 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-
-import com.ibm.tivoli.cmcc.service.auth.AuthenRequestService;
 
 /**
  * 1. 接收来自应用的SAML认证请求
@@ -26,7 +22,7 @@ public class LoginFormServlet extends HttpServlet {
    */
   private static final long serialVersionUID = -7812159369032202041L;
 
-  private String login_page_style = "cmcc_1";
+  private String login_page_style = "cmcc_embed";
 
   // private String login_page_style = "simple";
 
