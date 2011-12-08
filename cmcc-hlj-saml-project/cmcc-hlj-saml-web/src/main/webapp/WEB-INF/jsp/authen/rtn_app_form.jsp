@@ -17,22 +17,37 @@
 <meta http-equiv="description" content="This is my page">
 </head>
 <body onload="document.forms[1].submit();">
-<h4>Return to application [<c:out value="${SAMLart}" escapeXml="yes"/>] [<c:out value="${SAMLAuthenRequest.samlIssuer}" escapeXml="yes"/>]... </h4>
+<c:if test="${SAMLart == null}">
+  <h4>您目前没有登录, 点击继续按钮将进入登录界面! </h4>
+</c:if>
+<c:if test="${SAMLart != null}">
+  <h4>登录成功, 点击继续按钮将返回应用! </h4>
+</c:if>
+
 <c:if test="${SAMLAuthenRequest.samlIssuer != null}">
 	<form method="post" action="<c:out value="${SAMLAuthenRequest.samlIssuer}"/>">
+    <input type="hidden" name="SAMLart" value='<c:out value="${SAMLart}"/>' />
+    <c:if test="${param.RelayState != null}">
+    <input type="hidden" name="RelayState" value='<c:out value="${param.RelayState}"/>' />
+    </c:if>
+    <c:if test="${sessionScope.RELAY_STATE != null}">
+    <input type="hidden" name="RELAY_STATE" value='<c:out value="${sessionScope.RelayState}"/>' />
+    </c:if>
+    <input type="submit" value="  继  续  "/>
+  </form>
 </c:if>
 <c:if test="${param.continue != null}">
   <form method="post" action="<c:out value="${param.continue}"/>">
-</c:if>
-		<input type="hidden" name="SAMLart" value='<c:out value="${SAMLart}"/>' />
-<c:if test="${param.RelayState != null}">
-		<input type="hidden" name="RelayState" value='<c:out value="${param.RelayState}"/>' />
-</c:if>
-<c:if test="${sessionScope.RELAY_STATE != null}">
+    <input type="hidden" name="SAMLart" value='<c:out value="${SAMLart}"/>' />
+    <c:if test="${param.RelayState != null}">
+    <input type="hidden" name="RelayState" value='<c:out value="${param.RelayState}"/>' />
+    </c:if>
+    <c:if test="${sessionScope.RELAY_STATE != null}">
     <input type="hidden" name="RELAY_STATE" value='<c:out value="${sessionScope.RelayState}"/>' />
+    </c:if>
+    <input type="submit" value="  继  续  "/>
+  </form>
 </c:if>
-		<input type="submit" value="Return to App"/>
-	</form>
 
 </body>
 </html>
