@@ -24,6 +24,13 @@ public class Session implements Serializable {
   private Date lastAccessTime = new Date();
   private PersonDTO personDTO = null;
   private String uid = null;
+  
+  /**
+   * 表示用户是否已经在总部登录后转入二级节点.
+   * true -- 本地先登录
+   * false -- 表示总部先登录
+   */
+  private boolean oringinal = true;
 
   /**
    * 
@@ -146,13 +153,27 @@ public class Session implements Serializable {
     this.lastAccessTime = new Date();    
   }
 
+  /**
+   * @return the oringinal
+   */
+  public boolean isOringinal() {
+    return oringinal;
+  }
+
+  /**
+   * @param oringinal the oringinal to set
+   */
+  public void setOringinal(boolean original) {
+    this.oringinal = original;
+  }
+
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
-    return String.format("Session [artifactID=%s, createTime=%s, lastAccessTime=%s, personDTO=%s, uid=%s]", artifactID, createTime, lastAccessTime, personDTO,
-        uid);
+    return String.format("Session [artifactID=%s, createTime=%s, lastAccessTime=%s, personDTO=%s, uid=%s, oringinal=%s]", artifactID, createTime, lastAccessTime, personDTO,
+        uid, this.oringinal);
   }
 
 }
