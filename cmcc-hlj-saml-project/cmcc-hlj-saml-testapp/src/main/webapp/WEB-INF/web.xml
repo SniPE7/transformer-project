@@ -11,11 +11,11 @@
     <servlet-class>com.ibm.cmcc.test.web.WelcomeServlet</servlet-class>
     <init-param>
       <param-name>SsoSAMLAuthRequestURL</param-name>
-      <param-value>https://127.0.0.1:18443/samlsvc/service/authen/request</param-value>
+      <param-value>https://127.0.0.1:18443/sso/service/authen/request</param-value>
     </init-param>
     <init-param>
       <param-name>SsoLoginBoxURL</param-name>
-      <param-value>https://127.0.0.1:18443/samlsvc/service/authen/showlogin</param-value>
+      <param-value>https://127.0.0.1:18443/sso/service/authen/showlogin?continue=https://127.0.0.1:18443/testapp/welcome</param-value>
     </init-param>
     <init-param>
       <param-name>SAML.server.protocol</param-name>

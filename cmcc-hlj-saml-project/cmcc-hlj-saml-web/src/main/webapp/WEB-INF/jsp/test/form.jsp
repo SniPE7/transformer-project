@@ -26,7 +26,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
    <h4>Create a SAML ID on specified user.</h4>
    <hr/>
-   <form action="/samlsvc/service/create" method="get">
+   <form action="./service/create" method="get">
    MSISDN: <input type="text" name="msisdn" value="" size="32" maxlength="32"><br/>
    <input type="submit">
    </form>
@@ -35,7 +35,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    
    <h4>Send Activiate SAML Request</h4>
    <hr/>
-   <form action="/samlsvc/service/activiate" method="get">
+   <form action="./service/activiate" method="get">
    Cookie ID (SAML ID): <input type="text" name="id" value="" size="32" maxlength="32"><br/>
    SAML Server IP/Port: <input type="text" name="hostname" value="${connectionManager.serverName}" size="32">
    <input type="text" name="port" value="${connectionManager.serverPort}" size="6">
@@ -48,7 +48,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    
    <h4>Send Qurey Attribute SAML Request</h4>
    <hr/>
-   <form action="/samlsvc/service/query" method="get">
+   <form action="./service/query" method="get">
    Cookie ID (SAML ID): <input type="text" name="id" value="" size="32" maxlength="32"><br/>
    SAML Server IP/Port: <input type="text" name="hostname" value="${connectionManager.serverName}" size="32"> <input type="text" name="port" value="${connectionManager.serverPort}" size="6">
    <input type="radio" name="protocol" value="TCP">TCP <input type="radio" name="protocol" value="SSL" checked="checked">SSL <input type="radio" name="protocol" value="TLS">TLS<br/>
@@ -58,7 +58,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <br/><br/>
    <h4>Send Global Logout SAML Request</h4>
    <hr/>
-   <form action="/samlsvc/service/logout" method="get">
+   <form action="./service/logout" method="get">
    Cookie ID (SAML ID): <input type="text" name="id" value="" size="32" maxlength="32"><br/>
    SAML Server IP/Port: <input type="text" name="hostname" value="${connectionManager.serverName}" size="32"> <input type="text" name="port" value="${connectionManager.serverPort}" size="6">
    <input type="radio" name="protocol" value="TCP">TCP <input type="radio" name="protocol" value="SSL" checked="checked">SSL <input type="radio" name="protocol" value="TLS">TLS<br/>
@@ -68,7 +68,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <br/><br/>
    <h4>Send Password Reset SAML Request</h4>
    <hr/>
-   <form action="/samlsvc/service/pwdreset" method="get">
+   <form action="./service/pwdreset" method="get">
    UserName: <input type="text" name="userName" value="" size="32" maxlength="32"><br/>
    ServiceCode: <input type="text" name="serviceCode" value="" size="32" maxlength="32"><br/>
    Network Password: <input type="text" name="networkPassword" value="" size="32" maxlength="32"><br/>
@@ -80,7 +80,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <hr/>
    <h4>Send ArtifactResolv SAML Request</h4>
    <hr/>
-   <form action="/samlsvc/service/resolv" method="get">
+   <form action="./service/resolv" method="get">
    Cookie ID (SAML ID): <input type="text" name="id" value="" size="32" maxlength="32"><br/>
    SAML Server IP/Port: <input type="text" name="hostname" value="${connectionManager.serverName}" size="32"> <input type="text" name="port" value="${connectionManager.serverPort}" size="6">
    <input type="radio" name="protocol" value="TCP">TCP <input type="radio" name="protocol" value="SSL" checked="checked">SSL <input type="radio" name="protocol" value="TLS">TLS<br/>
