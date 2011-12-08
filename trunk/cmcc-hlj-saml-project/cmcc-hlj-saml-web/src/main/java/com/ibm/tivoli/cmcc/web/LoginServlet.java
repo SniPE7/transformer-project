@@ -104,16 +104,22 @@ public class LoginServlet extends HttpServlet {
         }
         AuthenRequestService service = (AuthenRequestService) context.getBean("authenRequestService", AuthenRequestService.class);
         String artifactID = service.generateAndSaveArtifactID(userPrincipal, request, response);
+        
+        // Controll where url will be redirect
+        String continueURL = request.getParameter("continue");
+        AuthenRequest authenReq = null;
+        String relayState = null;
         try {
-          AuthenRequest authenReq = service.parseRequest(request);
-          String relayState = service.getRelayState(request);
-          if (authenReq != null && StringUtils.isNotEmpty(relayState)) {
+          authenReq = service.parseRequest(request);
+          relayState = service.getRelayState(request);
+        } catch (Exception e) {
+          log.warn(e.getMessage(), e);
+        } finally {
+          if (continueURL != null || authenReq != null && !StringUtils.isEmpty(relayState)) {
             // Return application
             this.getServletConfig().getServletContext().getRequestDispatcher("/service/authen/response").forward(request, response);
             return;
           }
-        } catch (Exception e) {
-          log.warn(e.getMessage(), e);
         }
         // Show mypage for authenitcate user
         this.getServletConfig().getServletContext().getRequestDispatcher("/service/authen/mypage").forward(request, response);

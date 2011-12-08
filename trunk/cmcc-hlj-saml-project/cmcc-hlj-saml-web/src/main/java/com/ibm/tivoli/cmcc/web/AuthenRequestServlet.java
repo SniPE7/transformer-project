@@ -2,12 +2,16 @@ package com.ibm.tivoli.cmcc.web;
 
 import java.io.IOException;
 
+import javax.servlet.Servlet;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -20,6 +24,8 @@ import com.ibm.tivoli.cmcc.service.auth.AuthenRequestService;
  *
  */
 public class AuthenRequestServlet extends HttpServlet {
+  
+  private static Log log = LogFactory.getLog(AuthenRequestServlet.class);
 
   /**
    * 
@@ -29,6 +35,8 @@ public class AuthenRequestServlet extends HttpServlet {
   private String login_page_style = "cmcc_1";
   //private String login_page_style = "simple";
 
+  private boolean challengeLoginByApp = true;
+
   /**
    * Constructor of the object.
    */
@@ -36,6 +44,17 @@ public class AuthenRequestServlet extends HttpServlet {
     super();
   }
 
+  /**
+   * @see Servlet#init(ServletConfig)
+   */
+  public void init(ServletConfig config) throws ServletException {
+    super.init(config);
+    String t = config.getInitParameter("ChallengeLoginByApp");
+    if (t != null) {
+       this.challengeLoginByApp = Boolean.parseBoolean(t);
+    }
+  }
+  
   /**
    * Destruction of the servlet. <br>
    */
@@ -56,12 +75,26 @@ public class AuthenRequestServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     try {
+      // Tracking RelayState
+      String relayState = request.getParameter("");
+      if (relayState != null) {
+         HttpSession session = request.getSession(true);
+         session.setAttribute("RELAY_STATE", relayState);
+      }
       ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
       AuthenRequestService service = (AuthenRequestService) context.getBean("authenRequestService", AuthenRequestService.class);
       service.validate(request);
       boolean authenticated = service.isAuthenticated(request, response);
       if (!authenticated) {
-         this.getServletConfig().getServletContext().getRequestDispatcher("/service/authen/showlogin").forward(request, response);
+         boolean isChallengeLoginByApp = (request.getParameter("ChallengeLoginByApp") != null)?Boolean.parseBoolean(request.getParameter("ChallengeLoginByApp")):this.challengeLoginByApp;
+         if (!isChallengeLoginByApp) {
+            // Redirect to login box
+            log.debug("unauthenticate, redirect to loginbox.");
+            this.getServletConfig().getServletContext().getRequestDispatcher("/service/authen/showlogin").forward(request, response);
+         } else {
+           // Redirect to SAML response for SAMLRequest
+           this.getServletConfig().getServletContext().getRequestDispatcher("/service/authen/response").forward(request, response);
+         }
          return;
       } else {
         this.getServletConfig().getServletContext().getRequestDispatcher("/service/authen/response").forward(request, response);
