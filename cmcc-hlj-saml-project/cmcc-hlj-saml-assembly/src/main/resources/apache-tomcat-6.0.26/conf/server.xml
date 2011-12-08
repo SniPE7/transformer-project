@@ -66,7 +66,7 @@
          APR (HTTP/AJP) Connector: /docs/apr.html
          Define a non-SSL HTTP/1.1 Connector on port 8080
     -->
-    <Connector port="18080" protocol="HTTP/1.1" 
+    <Connector port="80" protocol="HTTP/1.1" 
                connectionTimeout="20000" 
                redirectPort="18443" />
     <!-- A "Connector" using the shared thread pool-->
@@ -80,7 +80,7 @@
          This connector uses the JSSE configuration, when using APR, the 
          connector should be using the OpenSSL style configuration
          described in the APR documentation -->
-    <Connector port="18443" protocol="HTTP/1.1" SSLEnabled="true"
+    <Connector port="443" protocol="HTTP/1.1" SSLEnabled="true"
                maxThreads="150" scheme="https" secure="true"
                keystoreFile="${catalina.home}/conf/server_pwd_importkey.jks" keystorePass="importkey"
                clientAuth="false" sslProtocol="TLS" />
