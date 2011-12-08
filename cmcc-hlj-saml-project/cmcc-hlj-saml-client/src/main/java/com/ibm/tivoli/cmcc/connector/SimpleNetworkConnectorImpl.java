@@ -34,6 +34,8 @@ import org.apache.commons.logging.LogFactory;
 import com.ibm.tivoli.cmcc.server.utils.Helper;
 
 /**
+ * 目前无需配置keyStore相关参数, 也不支持keyStore相关参数.<br/>
+ * 而trustStore可以配置服务器端的签发证书, 当配置trustCertStorePath参数后,则本客户端将验证服务器证书, 如果此参数不设置, 则不验证服务器端证书.
  * @author zhaodonglu
  * 
  */
@@ -342,8 +344,10 @@ public class SimpleNetworkConnectorImpl implements Connector {
       keystore.load(in, this.keyStorePassword);
 
       KeyManagerFactory kmf = KeyManagerFactory.getInstance(this.getKeyManagerAlgorithm());
-      KeyManager[] keyManagers = kmf.getKeyManagers();
       kmf.init(keystore, this.keyStoreKeyPassword);
+      log.info(String.format("Initialized key store: [%s]", this.keyStorePath));
+      
+      KeyManager[] keyManagers = kmf.getKeyManagers();
       return keyManagers;
     }
   }
