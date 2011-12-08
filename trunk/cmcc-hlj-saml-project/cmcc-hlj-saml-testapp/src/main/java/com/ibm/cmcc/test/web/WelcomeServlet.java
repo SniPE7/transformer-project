@@ -20,7 +20,7 @@ import com.ibm.tivoli.cmcc.connector.NetworkConnectorManager;
 import com.ibm.tivoli.cmcc.connector.SimpleNetworkConnectorImpl;
 import com.ibm.tivoli.cmcc.response.ArtifactResolvResponse;
 import com.ibm.tivoli.cmcc.server.utils.Helper;
-import com.ibm.xml.enc.dom.Base64;
+import com.ibm.cmcc.test.util.Base64;
 
 /**
  * Servlet implementation class WelcomeServlet
