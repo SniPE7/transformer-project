@@ -91,12 +91,8 @@ public class PersonDTOPrincipal implements Principal, java.io.Serializable {
     this.personDTO = personDTO;
   }
 
-  /**
-   * Return the Sample username for this <code>NamePrincipal</code>.
-   * 
-   * <p>
-   * 
-   * @return the Sample username for this <code>NamePrincipal</code>
+  /* (non-Javadoc)
+   * @see java.security.Principal#getName()
    */
   public String getName() {
     return name;

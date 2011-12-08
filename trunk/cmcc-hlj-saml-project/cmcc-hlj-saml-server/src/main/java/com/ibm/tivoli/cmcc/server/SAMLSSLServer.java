@@ -25,6 +25,7 @@ import org.apache.mina.transport.socket.nio.SocketAcceptorConfig;
 import com.ibm.tivoli.cmcc.handler.MyLoggingFilter;
 import com.ibm.tivoli.cmcc.handler.SAMLRequestHanlder;
 import com.ibm.tivoli.cmcc.handler.SSLHandshakeErrorFilter;
+import com.ibm.tivoli.cmcc.server.utils.Helper;
 import com.ibm.tivoli.cmcc.ssl.SSLContextFactory;
 
 /**
@@ -46,9 +47,19 @@ public class SAMLSSLServer {
    */
   private String keyStorePath = "/certs/server_pwd_importkey.jks";
 
-  private char[] storePassword = "importkey".toCharArray();
+  private char[] keyStorePassword = "importkey".toCharArray();
 
   private char[] keyPassword = "importkey".toCharArray();
+
+  /**
+   * Trust certificate store path
+   */
+  private String trustCertsStorePath = "/certs/client_pwd_importkey.jks";
+
+  /**
+   * Trust certificate store password
+   */
+  private char[] trustCertsStorePassword = "importkey".toCharArray();
 
   private String protocol = "TLS";
 
@@ -81,17 +92,17 @@ public class SAMLSSLServer {
   }
 
   /**
-   * @return the storePassword
+   * @return the keyStorePassword
    */
-  public char[] getStorePassword() {
-    return storePassword;
+  public char[] getKeyStorePassword() {
+    return keyStorePassword;
   }
 
   /**
-   * @param storePassword the storePassword to set
+   * @param keyStorePassword the keyStorePassword to set
    */
-  public void setStorePassword(char[] storePasswords) {
-    this.storePassword = storePasswords;
+  public void setKeyStorePassword(char[] storePasswords) {
+    this.keyStorePassword = storePasswords;
   }
 
   /**
@@ -106,6 +117,34 @@ public class SAMLSSLServer {
    */
   public void setKeyPassword(char[] keyPasswords) {
     this.keyPassword = keyPasswords;
+  }
+
+  /**
+   * @return the trustCertsStorePath
+   */
+  public String getTrustCertsStorePath() {
+    return trustCertsStorePath;
+  }
+
+  /**
+   * @param trustCertsStorePath the trustCertsStorePath to set
+   */
+  public void setTrustCertsStorePath(String trustCertsStorePath) {
+    this.trustCertsStorePath = trustCertsStorePath;
+  }
+
+  /**
+   * @return the trustCertsStorePassword
+   */
+  public char[] getTrustCertsStorePassword() {
+    return trustCertsStorePassword;
+  }
+
+  /**
+   * @param trustCertsStorePassword the trustCertsStorePassword to set
+   */
+  public void setTrustCertsStorePassword(char[] trustCertsStorePassword) {
+    this.trustCertsStorePassword = trustCertsStorePassword;
   }
 
   /**
@@ -140,7 +179,14 @@ public class SAMLSSLServer {
    * @return the keyManagerAlgorithm
    */
   public String getKeyManagerAlgorithm() {
-    return keyManagerAlgorithm;
+    if (StringUtils.isEmpty(this.keyManagerAlgorithm)) {
+      if (System.getProperty("java.vm.vendor", "").startsWith("IBM")) {
+        this.keyManagerAlgorithm = "IbmX509";
+      } else {
+        this.keyManagerAlgorithm = "SunX509";
+      }
+    }
+    return this.keyManagerAlgorithm;
   }
 
   /**
@@ -176,21 +222,7 @@ public class SAMLSSLServer {
     
     try {
       log.info(String.format("Reading SSL KeyStore from: [%s]", keyStorePath));
-      InputStream storeIn = SSLContextFactory.class.getResourceAsStream(keyStorePath);
-      if (storeIn == null) {
-         log.error(String.format("Failure to reading SSL KeyStore from: [%s]", keyStorePath));
-         return;
-      }
-
-      if (StringUtils.isEmpty(this.keyManagerAlgorithm)) {
-         // "IbmX509"
-         if (System.getProperty("java.vm.vendor", "").startsWith("IBM")) {
-           this.keyManagerAlgorithm = "IbmX509";
-         } else {
-           this.keyManagerAlgorithm = "SunX509";
-         }
-      }
-      SSLContext sslContextFactory = SSLContextFactory.getServerInstance(protocol, keyManagerAlgorithm, storeIn, "JKS", storePassword, keyPassword);
+      SSLContext sslContextFactory = SSLContextFactory.getServerSSLContext(protocol, this.getKeyManagerAlgorithm(), keyStorePath, "JKS", keyStorePassword, keyPassword, this.trustCertsStorePath, "JKS", this.trustCertsStorePassword);
       SSLHandshakeErrorFilter handeShakeFilter = new SSLHandshakeErrorFilter();
       cfg.getFilterChain().addLast("sslHandshakeErrorFilter", handeShakeFilter);
       SSLFilter sslFilter = new SSLFilter(sslContextFactory);

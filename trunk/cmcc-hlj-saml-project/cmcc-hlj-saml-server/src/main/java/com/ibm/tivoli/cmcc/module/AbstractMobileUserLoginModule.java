@@ -1,5 +1,6 @@
 package com.ibm.tivoli.cmcc.module;
 
+import java.security.Principal;
 import java.util.Map;
 
 import javax.security.auth.Subject;
@@ -12,7 +13,8 @@ import javax.security.auth.spi.LoginModule;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.ibm.tivoli.cmcc.service.auth.NamePrincipal;
+import com.ibm.tivoli.cmcc.service.auth.PersonDTOPrincipal;
+import com.ibm.tivoli.cmcc.spi.PersonDTO;
 
 public abstract class AbstractMobileUserLoginModule implements LoginModule, PrincipalAware {
 
@@ -24,7 +26,8 @@ public abstract class AbstractMobileUserLoginModule implements LoginModule, Prin
   private boolean commitSucceeded = false;
   private String username;
   private char[] password;
-  private NamePrincipal principal;
+  private Principal principal;
+  private PersonDTO personDTO = null;
 
   public AbstractMobileUserLoginModule() {
     super();
@@ -61,7 +64,7 @@ public abstract class AbstractMobileUserLoginModule implements LoginModule, Prin
   /**
    * @return the principal
    */
-  public NamePrincipal getPrincipal() {
+  public Principal getPrincipal() {
     return principal;
   }
 
@@ -98,7 +101,7 @@ public abstract class AbstractMobileUserLoginModule implements LoginModule, Prin
       // to the Subject
   
       // assume the user we authenticated is the NamePrincipal
-      principal = new NamePrincipal(username);
+      principal = new PersonDTOPrincipal(this.username, this.personDTO);;
       if (!subject.getPrincipals().contains(principal))
         subject.getPrincipals().add(principal);
   
@@ -156,14 +159,13 @@ public abstract class AbstractMobileUserLoginModule implements LoginModule, Prin
     }
   
     // verify the username/password
-    boolean correct;
     try {
-      correct = authenticate(username, passwordType, password);
+      personDTO = authenticate(username, passwordType, password);
     } catch (Exception e) {
       log.error("Failure to check user password.", e);
       throw new LoginException(e.getMessage());
     }
-    if (correct) {
+    if (personDTO != null && personDTO.getMsisdn() != null) {
       // authentication succeeded!!!
       if (debug)
         log.info("\t\t[UserPasswordLoginModule] [" + username + "] authentication succeeded");
@@ -203,5 +205,5 @@ public abstract class AbstractMobileUserLoginModule implements LoginModule, Prin
    * @return
    * @throws Exception
    */
-  protected abstract boolean authenticate(String username, String passwordType, char[] password) throws Exception;
+  protected abstract PersonDTO authenticate(String username, String passwordType, char[] password) throws Exception;
 }

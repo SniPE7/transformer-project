@@ -7,6 +7,7 @@ package com.ibm.tivoli.cmcc.module;
 import javax.security.auth.spi.LoginModule;
 
 import com.ibm.tivoli.cmcc.spi.PersonDAO;
+import com.ibm.tivoli.cmcc.spi.PersonDTO;
 
 
 
@@ -41,10 +42,14 @@ public class UserPasswordLoginModule extends AbstractMobileUserLoginModule imple
   /* (non-Javadoc)
    * @see com.ibm.tivoli.cmcc.module.AbstractMobileUserLoginModule#authenticate(java.lang.String, java.lang.String, char[])
    */
-  protected boolean authenticate(String username, String passwordType, char[] password) throws Exception {
-    boolean correct;
-    correct = personDAO.verifyPassword(username, passwordType, password);
-    return correct;
+  protected PersonDTO authenticate(String username, String passwordType, char[] password) throws Exception {
+    PersonDTO person = null;
+    // TODO 合并两次调用为一次
+    boolean correct = personDAO.verifyPassword(username, passwordType, password);
+    if (correct) {
+       person = personDAO.getPersonByMsisdn(username);
+    }
+    return person;
   }
 
 }
