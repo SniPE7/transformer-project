@@ -3,6 +3,13 @@
   xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
   <display-name>cmcc-hlj-saml-testapp</display-name>
+  
+  
+  <!-- For SessionManager -->
+  <listener>
+    <listener-class>com.ibm.cmcc.test.web.HttpSessionListenerImpl</listener-class>
+  </listener>
+  
   <servlet>
     <description>
 		</description>
@@ -11,15 +18,15 @@
     <servlet-class>com.ibm.cmcc.test.web.WelcomeServlet</servlet-class>
     <init-param>
       <param-name>SsoSAMLAuthRequestURL</param-name>
-      <param-value>https://127.0.0.1:18443/sso/service/authen/request</param-value>
+      <param-value>https://hl1.ac.10086.cn/sso/service/authen/request</param-value>
     </init-param>
     <init-param>
       <param-name>SsoLoginBoxURL</param-name>
-      <param-value>https://127.0.0.1:18443/sso/service/authen/showlogin?continue=https://127.0.0.1:18443/testapp/welcome</param-value>
+      <param-value>https://hl1.ac.10086.cn/sso/service/authen/showlogin?continue=https://hl1.ac.10086.cn/testapp/welcome</param-value>
     </init-param>
     <init-param>
       <param-name>SAML.server.protocol</param-name>
-      <param-value>SSL</param-value>
+      <param-value>TCP</param-value>
     </init-param>
     <init-param>
       <param-name>SAML.server.hostname</param-name>
@@ -50,9 +57,20 @@
       <param-value>importkey</param-value>
     </init-param>
   </servlet>
+  <servlet>
+  	<description>
+  	</description>
+  	<display-name>com.ibm.cmcc.test.web.LogoutServlet</display-name>
+  	<servlet-name>com.ibm.cmcc.test.web.LogoutServlet</servlet-name>
+  	<servlet-class>com.ibm.cmcc.test.web.LogoutServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>com.ibm.cmcc.test.web.WelcomeServlet</servlet-name>
     <url-pattern>/welcome</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>com.ibm.cmcc.test.web.LogoutServlet</servlet-name>
+  	<url-pattern>/logout</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
