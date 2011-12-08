@@ -31,15 +31,15 @@
     </init-param>
     <init-param>
       <param-name>SAML.client.key.store.path</param-name>
-      <param-value>/certs/client_pwd_importkey.jks</param-value>
+      <param-value></param-value>
     </init-param>
     <init-param>
       <param-name>SAML.client.key.store.key.password</param-name>
-      <param-value>importkey</param-value>
+      <param-value></param-value>
     </init-param>
     <init-param>
       <param-name>SAML.client.key.store.store.password</param-name>
-      <param-value>importkey</param-value>
+      <param-value></param-value>
     </init-param>
     <init-param>
       <param-name>SAML.client.trust.store.path</param-name>
