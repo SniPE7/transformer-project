@@ -18,9 +18,20 @@
 </head>
 <body onload="document.forms[1].submit();">
 <h4>Return to application [<c:out value="${SAMLart}" escapeXml="yes"/>] [<c:out value="${SAMLAuthenRequest.samlIssuer}" escapeXml="yes"/>]... </h4>
-	<form method="post" action="<c:out value="${SAMLAuthenRequest.samlIssuer}" escapeXml="yes"/>">
-		<input type="hidden" name="SAMLart" value='<c:out value="${SAMLart}" escapeXml="yes"/>' />
-		<input type="hidden" name="RelayState" value='<c:out value="${param.RelayState}" escapeXml="yes"/>' />
+<c:if test="${SAMLAuthenRequest.samlIssuer != null}">
+	<form method="post" action="<c:out value="${SAMLAuthenRequest.samlIssuer}"/>">
+</c:if>
+<c:if test="${param.continue != null}">
+  <form method="post" action="<c:out value="${param.continue}"/>">
+</c:if>
+		<input type="hidden" name="SAMLart" value='<c:out value="${SAMLart}"/>' />
+<c:if test="${param.RelayState != null}">
+		<input type="hidden" name="RelayState" value='<c:out value="${param.RelayState}"/>' />
+</c:if>
+<c:if test="${sessionScope.RELAY_STATE != null}">
+    <input type="hidden" name="RELAY_STATE" value='<c:out value="${sessionScope.RelayState}"/>' />
+</c:if>
+		<input type="submit" value="Return to app"/>
 		<input type="submit" value="Return to App"/>
 	</form>
 
