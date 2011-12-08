@@ -115,7 +115,7 @@ public class LoginServlet extends HttpServlet {
         } catch (Exception e) {
           log.warn(e.getMessage(), e);
         } finally {
-          if (continueURL != null || authenReq != null && !StringUtils.isEmpty(relayState)) {
+          if ( StringUtils.isNotEmpty(continueURL) || authenReq != null && !StringUtils.isEmpty(relayState)) {
             // Return application
             this.getServletConfig().getServletContext().getRequestDispatcher("/service/authen/response").forward(request, response);
             return;

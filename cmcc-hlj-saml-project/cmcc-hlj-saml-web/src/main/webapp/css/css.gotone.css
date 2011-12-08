@@ -4,7 +4,7 @@
 }
 
 #login_successfull{
-	background-color:#FFC;
+	background-color:#CFF;
 	width:200px;
 	height:250px;
 	margin:1px;
@@ -20,7 +20,7 @@
 	padding:5px;
 	height:40px;
 	width:190px;
-	background-image:url(../images/brand_mzone.gif);
+	background-image:url(../images/brand_gotone.gif);
 	background-repeat: no-repeat;
 	vertical-align:bottom;
 	text-align:right;

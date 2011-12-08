@@ -11,9 +11,12 @@
     <property name="timeOut" value="60"></property>
     <!-- SSl/TLS parameters -->
     <property name="protocol" value="${remote.saml.server.protocol}"></property>
-    <property name="keyStorePath" value="${saml.client.ssl.keystore.path}"></property>
-    <property name="storePassword" value="${saml.client.ssl.keystore.store.password}"></property>
-    <property name="connectorClassName" value="com.ibm.tivoli.cmcc.connector.SimpleNetworkConnectorImpl"></property>
+    <property name="trustCertsStorePath"     value="${saml.client.ssl.trust.store.path}"></property>
+    <property name="trustCertsStorePassword" value="${saml.client.ssl.trust.store.password}"></property>
+    <property name="keyStorePath"            value="${saml.client.ssl.key.store.path}"></property>
+    <property name="keyStorePassword"        value="${saml.client.ssl.key.store.password}"></property>
+    <property name="keyStoreKeyPassword"     value="${saml.client.ssl.key.password}"></property>
+    <property name="connectorClassName"      value="com.ibm.tivoli.cmcc.connector.SimpleNetworkConnectorImpl"></property>
   </bean>
 
   <bean id="logoutClient4Test" class="com.ibm.tivoli.cmcc.client.LogoutServiceClientImpl" scope="prototype">
