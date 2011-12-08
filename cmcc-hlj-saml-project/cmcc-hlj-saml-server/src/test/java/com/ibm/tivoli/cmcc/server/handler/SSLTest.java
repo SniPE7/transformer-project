@@ -1,19 +1,16 @@
+/**
+ * 
+ */
 package com.ibm.tivoli.cmcc.server.handler;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.Socket;
-import java.security.KeyManagementException;
 import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.security.cert.X509Certificate;
 
 import javax.net.SocketFactory;
 import javax.net.ssl.KeyManagerFactory;
@@ -23,70 +20,52 @@ import javax.net.ssl.SSLServerSocketFactory;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
-import javax.security.cert.CertificateException;
+import javax.net.ssl.X509TrustManager;
 
 import junit.framework.TestCase;
 
-import org.apache.mina.common.IdleStatus;
-import org.apache.mina.common.IoHandlerAdapter;
-import org.apache.mina.common.IoSession;
+/**
+ * @author zhaodonglu
+ * 
+ */
+public class SSLTest extends TestCase {
 
-import com.ibm.tivoli.cmcc.server.SAMLSSLServer;
-
-public class SAMLSSLServerTest extends TestCase {
-
-  public class TLSClientHandler extends IoHandlerAdapter {
-    public void sessionCreated(IoSession session) throws Exception {
-      System.out.println("[NIO Client]>> sessionCreated");
-    }
-
-    public void sessionOpened(IoSession session) throws Exception {
-      System.out.println("[NIO Client]>> sessionOpened");
-    }
-
-    public void sessionClosed(IoSession session) throws Exception {
-      System.out.println("[NIO Client]>> sessionClosed");
-    }
-
-    public void sessionIdle(IoSession session, IdleStatus status) throws Exception {
-      System.out.println("[NIO Client]>> sessionIdle");
-    }
-
-    public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
-      System.out.println("[NIO Client]>> exceptionCaught :");
-      cause.printStackTrace();
-    }
-
-    public void messageReceived(IoSession session, Object message) throws Exception {
-      System.out.println("[NIO Client]>> messageReceived");
-      System.out.println("[NIO Client Received]>>" + (String) message);
-    }
-
-    public void messageSent(IoSession session, Object message) throws Exception {
-      System.out.println("[NIO Client]>> messageSent");
-      System.out.println("[NIO Client messageSent]>> : " + (String) message);
-    }
-  }
-
+  /*
+   * (non-Javadoc)
+   * 
+   * @see junit.framework.TestCase#setUp()
+   */
   protected void setUp() throws Exception {
     super.setUp();
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see junit.framework.TestCase#tearDown()
+   */
   protected void tearDown() throws Exception {
     super.tearDown();
   }
 
-  public void testCaseServer() throws Exception {
-    SAMLSSLServer server = new SAMLSSLServer();
-    server.start();
-    Thread.sleep(10000000);
-  }
+  public void testCaseAsClientWithoutPrivateKey() throws Exception {
+    TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+      public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+        return null;
+      }
 
-  public void testCaseSunClientWithTrustCA() throws Exception {
+      public void checkClientTrusted(X509Certificate[] certs, String authType) {
+        System.out.println(String.format("Client certs;[%s], authType: [%s]", certs, authType));
+      }
+
+      public void checkServerTrusted(X509Certificate[] certs, String authType) {
+        System.out.println(String.format("Client certs;[%s], authType: [%s]", certs, authType));
+      }
+    } };
     // Load key store
     char[] passphrase = "importkey".toCharArray();
     KeyStore keystore = KeyStore.getInstance("JKS");
-    keystore.load(this.getClass().getResourceAsStream("/certs/server_pwd_importkey.jks"), passphrase);
+    keystore.load(this.getClass().getResourceAsStream("/certs/cmcc_ssl.jks"), passphrase);
 
     // Initialize trust manager factory and set trusted CA list using keystore
     TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
@@ -95,7 +74,7 @@ public class SAMLSSLServerTest extends TestCase {
     // Get SSL Context and initialize context
     SSLContext context = SSLContext.getInstance("TLS");
     TrustManager[] trustManagers = tmf.getTrustManagers();
-    context.init(null, trustManagers, null);
+    context.init(null, trustAllCerts, null);
 
     // Get SSL socket factory
     SocketFactory sf = context.getSocketFactory();
@@ -132,12 +111,24 @@ public class SAMLSSLServerTest extends TestCase {
     s.close();
   }
 
-  public void testCase() throws Exception {
-    // myselfsign_pwd_importkey.jks
+  public void testCaseAsClientWithPrivateKey() throws Exception {
+    TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+      public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+        return null;
+      }
+
+      public void checkClientTrusted(X509Certificate[] certs, String authType) {
+        System.out.println(String.format("Client certs;[%s], authType: [%s]", certs, authType));
+      }
+
+      public void checkServerTrusted(X509Certificate[] certs, String authType) {
+        System.out.println(String.format("Client certs;[%s], authType: [%s]", certs, authType));
+      }
+    } };
     // Load key store
     char[] passphrase = "importkey".toCharArray();
     KeyStore keystore = KeyStore.getInstance("JKS");
-    keystore.load(this.getClass().getResourceAsStream("/certs/myselfsign_pwd_importkey.jks"), passphrase);
+    keystore.load(this.getClass().getResourceAsStream("/certs/client_pwd_importkey.jks"), passphrase);
 
     // Initialize trust manager factory and set trusted CA list using keystore
     TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
@@ -146,32 +137,44 @@ public class SAMLSSLServerTest extends TestCase {
     // Get SSL Context and initialize context
     SSLContext context = SSLContext.getInstance("TLS");
     TrustManager[] trustManagers = tmf.getTrustManagers();
-    context.init(null, trustManagers, null);
+    context.init(null, trustAllCerts, null);
 
     // Get SSL socket factory
     SocketFactory sf = context.getSocketFactory();
 
     // Make socket connect with SSL server
-    Socket s = sf.createSocket("127.0.0.1", 8443);
+    Socket s = sf.createSocket("127.0.0.1", 8080);
+    // Send first
     OutputStream out = s.getOutputStream();
     out.write("<SOAP-ENV:Envelope   xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">   <SOAP-ENV:Body>     <samlp:ActivateRequest         xmlns:samlp=\"urn:oasis:names:tc:SAML:2.0:protocol\"         xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\"         ID=\"i14fhcy071acvv8qdquo7nwr0la6d2h8\"         IssueInstant=\"2011-12-01T21:37:40+0800\"         Version=\"2.0\">         <saml:Issuer></saml:Issuer>         <saml:NameID Format=\"urn:oasis:names:tc:SAML:2.0:nameidformat:transient\">3b6ehrwiqnasq7fguybiaoxv87ug3470</saml:NameID>     </samlp:ActivateRequest>   </SOAP-ENV:Body> </SOAP-ENV:Envelope>\n\n"
         .getBytes());
-
-    int theCharacter = 0;
-    theCharacter = System.in.read();
-    while (theCharacter != '~') // The '~' is an escape character to exit
+    InputStream in = s.getInputStream();
     {
-      out.write(theCharacter);
-      out.flush();
-      theCharacter = System.in.read();
+      byte[] buf = new byte[512];
+      int len = in.read(buf);
+      while (len > 0) {
+        System.err.print(new String(buf, 0, len));
+        len = in.read(buf);
+      }
+    }
+
+    // Send second
+    out.write("<SOAP-ENV:Envelope   xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">   <SOAP-ENV:Body>     <samlp:ActivateRequest         xmlns:samlp=\"urn:oasis:names:tc:SAML:2.0:protocol\"         xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\"         ID=\"i14fhcy071acvv8qdquo7nwr0la6d2h8\"         IssueInstant=\"2011-12-01T21:37:40+0800\"         Version=\"2.0\">         <saml:Issuer></saml:Issuer>         <saml:NameID Format=\"urn:oasis:names:tc:SAML:2.0:nameidformat:transient\">3b6ehrwiqnasq7fguybiaoxv87ug3470</saml:NameID>     </samlp:ActivateRequest>   </SOAP-ENV:Body> </SOAP-ENV:Envelope>\n\n"
+        .getBytes());
+    {
+      byte[] buf = new byte[512];
+      int len = in.read(buf);
+      while (len > 0) {
+        System.err.print(new String(buf, 0, len));
+        len = in.read(buf);
+      }
     }
 
     out.close();
     s.close();
-
   }
 
-  public void testAsServer() throws Exception {
+  public void testAsServerWithoutPrivateKey() throws Exception {
     int port = 8080;// 监听端口
     String keyFilePass = "importkey";
     String keyPass = "importkey";
@@ -182,7 +185,7 @@ public class SAMLSSLServerTest extends TestCase {
     // 初始化安全连接的密钥
     try {
       ks = KeyStore.getInstance("JKS");
-      InputStream in = this.getClass().getResourceAsStream("/certs/client_pwd_importkey.jks");
+      InputStream in = this.getClass().getResourceAsStream("/testcerts/cmcc.jks");
       ks.load(in, keyFilePass.toCharArray());
       kmf = KeyManagerFactory.getInstance("SunX509");
       kmf.init(ks, keyPass.toCharArray());
@@ -197,7 +200,7 @@ public class SAMLSSLServerTest extends TestCase {
     sslsocket.getChannel();
     System.out.println("Listening...");
     SSLSocket ssocket = (SSLSocket) sslsocket.accept();
-    
+
     // 以下代码同socket通讯实例中的代码
     BufferedReader socketIn = new BufferedReader(new InputStreamReader(ssocket.getInputStream()));
     BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
@@ -220,6 +223,10 @@ public class SAMLSSLServerTest extends TestCase {
     socketOut.close();
     userIn.close();
     sslsocket.close();
+  }
+
+  public void testCase1() throws Exception {
+
   }
 
 }
