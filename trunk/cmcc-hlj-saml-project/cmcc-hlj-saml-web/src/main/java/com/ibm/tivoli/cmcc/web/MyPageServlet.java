@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -54,12 +55,19 @@ public class MyPageServlet extends HttpServlet {
    */
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+    String style = request.getParameter("login_page_style");
+    if (StringUtils.isEmpty(style)) {
+      style = this.login_page_style;
+    }
     try {
-      String style = request.getParameter("login_page_style");
-      if (StringUtils.isEmpty(style)) {
-        style = this.login_page_style;
+      HttpSession session = request.getSession(false);
+      if (session != null) {
+        this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/authen/mypage_" + style + ".jsp").forward(request, response);
+        return;
+      } else {
+        this.getServletConfig().getServletContext().getRequestDispatcher("/service/authen/showlogin").forward(request, response);
+        return;
       }
-      this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/authen/mypage_" + style + ".jsp").forward(request, response);
     } catch (RuntimeException e) {
       throw new ServletException(e);
     } catch (Exception e) {
