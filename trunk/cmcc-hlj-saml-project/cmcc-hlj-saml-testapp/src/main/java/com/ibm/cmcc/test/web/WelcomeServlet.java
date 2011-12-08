@@ -31,7 +31,9 @@ public class WelcomeServlet extends HttpServlet {
   private String ssoLoginBoxURL;
   private String keyStorePath;
   private char[] keyPassword;
-  private char[] storePassword;
+  private String trustStorePath;
+  private char[] trustStorePassword;
+  private char[] keyStorePassword;
   private String samlServer;
   private String samlPort;
   private String samlProtocol;
@@ -53,9 +55,11 @@ public class WelcomeServlet extends HttpServlet {
     this.samlServer = config.getInitParameter("SAML.server.hostname");
     this.samlPort = config.getInitParameter("SAML.server.port");
     this.samlProtocol = config.getInitParameter("SAML.server.protocol");
-    this.keyStorePath = config.getInitParameter("SAML.client.key.store.path");
-    this.keyPassword = config.getInitParameter("SAML.client.key.store.key.password").toCharArray();
-    this.storePassword = config.getInitParameter("SAML.client.key.store.store.password").toCharArray();
+    this.keyStorePath =       config.getInitParameter("SAML.client.key.store.path");
+    this.keyStorePassword =   config.getInitParameter("SAML.client.key.store.store.password").toCharArray();
+    this.keyPassword =        config.getInitParameter("SAML.client.key.store.key.password").toCharArray();
+    this.trustStorePath =     config.getInitParameter("SAML.client.trust.store.path");
+    this.trustStorePassword = config.getInitParameter("SAML.client.trust.store.password").toCharArray();
   }
 
   /**
@@ -102,8 +106,11 @@ public class WelcomeServlet extends HttpServlet {
         conMgr.setServerName(this.samlServer);
         conMgr.setServerPort(Integer.parseInt(this.samlPort));
         conMgr.setKeyStorePath(keyStorePath);
-        conMgr.setKeyPassword(keyPassword);
-        conMgr.setStorePassword(storePassword);
+        conMgr.setKeyStoreKeyPassword(keyPassword);
+        conMgr.setKeyStorePassword(keyStorePassword);
+        conMgr.setTrustCertsStorePath(this.trustStorePath);
+        conMgr.setKeyStorePassword(this.trustStorePassword);
+
         ArtifactResolvServiceClient client = new ArtifactResolvServiceClientImpl(conMgr, new Properties());
         try {
           ArtifactResolvResponse samlResp = client.submitAndParse(artifact);
