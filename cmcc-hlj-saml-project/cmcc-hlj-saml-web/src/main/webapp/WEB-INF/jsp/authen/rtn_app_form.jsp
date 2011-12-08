@@ -31,7 +31,6 @@
 <c:if test="${sessionScope.RELAY_STATE != null}">
     <input type="hidden" name="RELAY_STATE" value='<c:out value="${sessionScope.RelayState}"/>' />
 </c:if>
-		<input type="submit" value="Return to app"/>
 		<input type="submit" value="Return to App"/>
 	</form>
 
