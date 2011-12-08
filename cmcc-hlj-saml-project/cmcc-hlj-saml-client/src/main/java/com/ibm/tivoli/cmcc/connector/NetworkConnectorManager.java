@@ -20,15 +20,31 @@ public class NetworkConnectorManager implements ConnectorManager {
   private String connectorClassName = SimpleNetworkConnectorImpl.class.getName();
 
   /**
-   * Server certificate keystore file name.
+   * Trust certificate store path
+   */
+  private String trustCertsStorePath = "/certs/client_pwd_importkey.jks";
+
+  /**
+   * Trust certificate store password
+   */
+  private char[] trustCertsStorePassword = "importkey".toCharArray();
+
+  /**
+   * Key store path
    */
   private String keyStorePath = "/certs/client_pwd_importkey.jks";
 
-  private char[] storePassword = "importkey".toCharArray();
+  /**
+   * Key store password
+   */
+  private char[] keyStorePassword = "importkey".toCharArray();
+  
+  /**
+   * Key password
+   */
+  private char[] keyStoreKeyPassword = "importkey".toCharArray();
 
-  private char[] keyPassword = "importkey".toCharArray();
-
-  private String keyManagerAlgorithm;
+  private String keyManagerAlgorithm = null;
 
   private String protocol = "TCP";
   
@@ -118,32 +134,60 @@ public class NetworkConnectorManager implements ConnectorManager {
     this.keyStorePath = keyStorePath;
   }
 
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.client.Client#getStorePassword()
+  /**
+   * @return the trustCertsStorePath
    */
-  public char[] getStorePassword() {
-    return storePassword;
+  public String getTrustCertsStorePath() {
+    return trustCertsStorePath;
   }
 
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.client.Client#setStorePassword(char[])
+  /**
+   * @param trustCertsStorePath the trustCertsStorePath to set
    */
-  public void setStorePassword(char[] storePassword) {
-    this.storePassword = storePassword;
+  public void setTrustCertsStorePath(String trustCertsStorePath) {
+    this.trustCertsStorePath = trustCertsStorePath;
   }
 
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.client.Client#getKeyPassword()
+  /**
+   * @return the trustCertsStorePassword
    */
-  public char[] getKeyPassword() {
-    return keyPassword;
+  public char[] getTrustCertsStorePassword() {
+    return trustCertsStorePassword;
   }
 
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.client.Client#setKeyPassword(char[])
+  /**
+   * @param trustCertsStorePassword the trustCertsStorePassword to set
    */
-  public void setKeyPassword(char[] keyPassword) {
-    this.keyPassword = keyPassword;
+  public void setTrustCertsStorePassword(char[] trustCertsStorePassword) {
+    this.trustCertsStorePassword = trustCertsStorePassword;
+  }
+
+  /**
+   * @return the keyStorePassword
+   */
+  public char[] getKeyStorePassword() {
+    return keyStorePassword;
+  }
+
+  /**
+   * @param keyStorePassword the keyStorePassword to set
+   */
+  public void setKeyStorePassword(char[] keyStorePassword) {
+    this.keyStorePassword = keyStorePassword;
+  }
+
+  /**
+   * @return the keyStoreKeyPassword
+   */
+  public char[] getKeyStoreKeyPassword() {
+    return keyStoreKeyPassword;
+  }
+
+  /**
+   * @param keyStoreKeyPassword the keyStoreKeyPassword to set
+   */
+  public void setKeyStoreKeyPassword(char[] keyStoreKeyPassword) {
+    this.keyStoreKeyPassword = keyStoreKeyPassword;
   }
 
   /* (non-Javadoc)

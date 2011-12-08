@@ -3,6 +3,7 @@
  */
 package com.ibm.tivoli.cmcc.server.utils;
 
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,8 +31,16 @@ public class Helper {
   }
 
   public static String generatorID() {
-    char[] chars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
     int len = 32;
+    return generateID(len);
+  }
+
+  /**
+   * @param len
+   * @return
+   */
+  public static String generateID(int len) {
+    char[] chars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
     StringBuffer buf = new StringBuffer();
     Random radom = new Random();
     for (int i = 0; i < len; i++) {
@@ -39,7 +48,7 @@ public class Helper {
     }
     return buf.toString();
   }
-  
+
   public static void validateArtifactID(String id) {
     if (id == null || id.length() < 32) {
        throw new RuntimeException("ArtifactID too short or empty, [" + id + "]");
@@ -51,4 +60,15 @@ public class Helper {
         }
     }
   }
+
+  /**
+   * Search in classpath or file system
+   * @return
+   */
+  public static InputStream getResourceAsStream(Class clazz, String path) {
+    // TODO
+    InputStream in = clazz.getResourceAsStream(path);
+    return in;
+  }
+
 }
