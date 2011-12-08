@@ -193,7 +193,7 @@ public class SSLProxyServer {
            this.keyManagerAlgorithm = "SunX509";
          }
       }
-      SSLContext sslContextFactory = SSLContextFactory.getServerInstance(protocol, keyManagerAlgorithm, storeIn, "JKS", storePassword, keyPassword);
+      SSLContext sslContextFactory = SSLContextFactory.getServerSSLContext(protocol, keyManagerAlgorithm, keyStorePath, "JKS", storePassword, keyPassword, keyStorePath, "JKS", storePassword);
       SSLHandshakeErrorFilter handeShakeFilter = new SSLHandshakeErrorFilter();
       cfg.getFilterChain().addLast("sslHandshakeErrorFilter", handeShakeFilter);
       SSLFilter sslFilter = new SSLFilter(sslContextFactory);

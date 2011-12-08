@@ -9,7 +9,6 @@ import java.security.Principal;
 
 import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,8 +29,8 @@ import com.ibm.tivoli.cmcc.request.AuthenRequest;
 import com.ibm.tivoli.cmcc.server.utils.Base64;
 import com.ibm.tivoli.cmcc.server.utils.CookieHelper;
 import com.ibm.tivoli.cmcc.session.Session;
-import com.ibm.tivoli.cmcc.session.SessionManagementException;
 import com.ibm.tivoli.cmcc.session.SessionManager;
+import com.ibm.tivoli.cmcc.spi.PersonDTO;
 
 /**
  * @author zhaodonglu
@@ -190,7 +189,7 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
              }
              Session session = dao.create(username, artifactID);
              // 刷新本地登录状态
-             updateSessionState(request, response, username, artifactID);
+             updateSessionState(request, response, username, artifactID, ((PersonDTOPrincipal)principal).getPersonDTO());
           }
         }
       }
@@ -232,8 +231,13 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
     if (StringUtils.isEmpty(username)) {
       throw new RuntimeException("Missing username!");
     }
+    PersonDTO person = null;
+    if (principal instanceof PersonDTOPrincipal) {
+      person = ((PersonDTOPrincipal)principal).getPersonDTO();
+    }
 
     SessionManager dao = (SessionManager) this.getApplicationContext().getBean("sessionManager");
+    // TODO 直接传入PersonDTO, 而不是Session内部再通过接口提取一次
     Session session = dao.create(username);
     String artifactID = session.getArtifactID();
     if (artifactID == null) {
@@ -241,15 +245,16 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
     }
 
     // 刷新本地登录状态
-    updateSessionState(request, response, username, artifactID);
+    updateSessionState(request, response, username, artifactID, person);
     return artifactID;
   }
 
-  private void updateSessionState(HttpServletRequest request, HttpServletResponse response, String username, String artifactID) {
+  private void updateSessionState(HttpServletRequest request, HttpServletResponse response, String username, String artifactID, PersonDTO person) {
     // Update Session state
     HttpSession httpSession = request.getSession(true);
     httpSession.setAttribute("username", username);
     httpSession.setAttribute("ARTIFACT_ID", artifactID);
+    httpSession.setAttribute("SESSION_PERSON", person);
 
     // Update to Cookies
     CookieHelper.saveArtifactIdIntoCookies(response, artifactID, this.cookieDomain);

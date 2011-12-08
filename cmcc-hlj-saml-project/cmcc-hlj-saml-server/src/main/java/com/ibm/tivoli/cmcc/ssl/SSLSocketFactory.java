@@ -88,7 +88,7 @@ public class SSLSocketFactory extends SocketFactory {
   private javax.net.ssl.SSLSocketFactory getSSLFactory(String protocol) {
     if (sslFactory == null) {
       try {
-        sslFactory = SSLContextFactory.getClientInstance(protocol).getSocketFactory();
+        sslFactory = SSLContextFactory.getClientSSLContext(protocol).getSocketFactory();
       } catch (GeneralSecurityException e) {
         throw new RuntimeException("could not create SSL socket", e);
       }
