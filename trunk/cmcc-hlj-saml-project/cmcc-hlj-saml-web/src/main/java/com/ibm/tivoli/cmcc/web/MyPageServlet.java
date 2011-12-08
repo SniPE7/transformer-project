@@ -8,10 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-
-import com.ibm.tivoli.cmcc.service.auth.AuthenRequestService;
 
 /**
  * 1. 接收来自应用的SAML认证请求
@@ -25,6 +21,8 @@ public class MyPageServlet extends HttpServlet {
    * 
    */
   private static final long serialVersionUID = -7812159369032202041L;
+
+  private String login_page_style = "cmcc_embed";
 
   /**
    * Constructor of the object.
@@ -57,7 +55,11 @@ public class MyPageServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     try {
-      this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/authen/mypage.jsp").forward(request, response);
+      String style = request.getParameter("login_page_style");
+      if (StringUtils.isEmpty(style)) {
+        style = this.login_page_style;
+      }
+      this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/authen/mypage_" + style + ".jsp").forward(request, response);
     } catch (RuntimeException e) {
       throw new ServletException(e);
     } catch (Exception e) {

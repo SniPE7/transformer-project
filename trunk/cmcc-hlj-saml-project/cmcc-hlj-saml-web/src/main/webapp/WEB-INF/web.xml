@@ -134,6 +134,10 @@
     <servlet-name>com.ibm.tivoli.cmcc.web.LoginFormServlet</servlet-name>
     <url-pattern>/service/authen/showlogin</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>com.ibm.tivoli.cmcc.web.LoginFormServlet</servlet-name>
+    <url-pattern>/loginbox</url-pattern>
+  </servlet-mapping>
 
   <servlet>
     <description>com.ibm.tivoli.cmcc.web.MyPageServlet</description>
@@ -145,6 +149,19 @@
   <servlet-mapping>
     <servlet-name>com.ibm.tivoli.cmcc.web.MyPageServlet</servlet-name>
     <url-pattern>/service/authen/mypage</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <description>
+    </description>
+    <display-name>com.ibm.tivoli.cmcc.web.LogoutServlet</display-name>
+    <servlet-name>com.ibm.tivoli.cmcc.web.LogoutServlet</servlet-name>
+    <servlet-class>com.ibm.tivoli.cmcc.web.LogoutServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>com.ibm.tivoli.cmcc.web.LogoutServlet</servlet-name>
+    <url-pattern>/service/authen/logout</url-pattern>
   </servlet-mapping>
 
   <!-- Only for testing -->
@@ -190,7 +207,6 @@
     <servlet-name>com.ibm.tivoli.cmcc.web.test.CreateSamlIDServlet</servlet-name>
     <servlet-class>com.ibm.tivoli.cmcc.web.test.CreateSamlIDServlet</servlet-class>
   </servlet>
-
   <servlet-mapping>
     <servlet-name>com.ibm.tivoli.cmcc.web.test.CreateSamlIDServlet</servlet-name>
     <url-pattern>/service/create</url-pattern>
