@@ -16,7 +16,7 @@
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
 </head>
-<body>
+<body onload="document.forms[0].submit();">
 	<form method="post" action="<c:out value="${ssoSAMLAuthRequestURL}"/>">
     RelayState :<input type="text" name="RelayState" value='<c:out value="${RelayState}"/>' /><br/>
     SALMRequest(Base64) : <textarea name="SAMLRequest" rows="8" cols="80"><c:out value="${SAMLRequest}"/></textarea><br/>
