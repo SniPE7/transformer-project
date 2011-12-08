@@ -21,6 +21,7 @@
 	<form method="post" action="<c:out value="${SAMLAuthenRequest.samlIssuer}" escapeXml="yes"/>">
 		<input type="hidden" name="SAMLart" value='<c:out value="${SAMLart}" escapeXml="yes"/>' />
 		<input type="hidden" name="RelayState" value='<c:out value="${param.RelayState}" escapeXml="yes"/>' />
+		<input type="submit" value="Return to App"/>
 	</form>
 
 </body>
