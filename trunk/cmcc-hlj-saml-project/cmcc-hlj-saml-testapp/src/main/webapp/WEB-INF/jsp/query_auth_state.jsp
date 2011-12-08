@@ -27,6 +27,7 @@
                    <option value="cmcc_embed" selected>CMCC_Embed</option>
                    <option value="simple">Simple</option>
                  </select><br/>
+    Challenge login by FSSO: <input type="checkbox" name="ChallengeLoginByApp" value="ture"/><br/>
 		<input type="submit"/>
 	</form>
 </body>
