@@ -175,6 +175,7 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
     try {
       boolean ok = loginModule.login();
       if (ok) {
+        loginModule.commit();
         log.debug(String.format("Federated login state is validate.!"));
         if (loginModule instanceof PrincipalAware) {
           Principal principal = ((PrincipalAware) loginModule).getPrincipal();
@@ -188,6 +189,8 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
                throw new IOException("Failure to get artifactID from cookies.");
              }
              Session session = dao.create(username, artifactID);
+             // 标记用户已经从总部登录， 为报活和全局注销提供支持.
+             session.setOringinal(false);
              // 刷新本地登录状态
              updateSessionState(request, response, username, artifactID, ((PersonDTOPrincipal)principal).getPersonDTO());
           }
