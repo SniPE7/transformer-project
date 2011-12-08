@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.ibm.cmcc.test.util.Base64;
 import com.ibm.cmcc.test.util.IDGenerator;
 import com.ibm.tivoli.cmcc.client.ArtifactResolvServiceClient;
 import com.ibm.tivoli.cmcc.client.ArtifactResolvServiceClientImpl;
@@ -20,7 +21,6 @@ import com.ibm.tivoli.cmcc.connector.NetworkConnectorManager;
 import com.ibm.tivoli.cmcc.connector.SimpleNetworkConnectorImpl;
 import com.ibm.tivoli.cmcc.response.ArtifactResolvResponse;
 import com.ibm.tivoli.cmcc.server.utils.Helper;
-import com.ibm.cmcc.test.util.Base64;
 
 /**
  * Servlet implementation class WelcomeServlet
@@ -90,7 +90,7 @@ public class WelcomeServlet extends HttpServlet {
               + Helper.formatDate4SAML(new Date()) + "\">\n" + "    <saml:Issuer>" + returnURL + "</saml:Issuer>\n" + "    <samlp:NameIDPolicy\n"
               + "        AllowCreate=\"true\"\n" + "        Format=\"urn:oasis:names:tc:SAML:2.0:nameid-format:transient\"/>\n" + "</samlp:AuthnRequest>\n";
           request.setAttribute("RelayState", relayState);
-          request.setAttribute("SAMLRequest", Base64.encode(xml.getBytes()));
+          request.setAttribute("SAMLRequest", new String(Base64.encode(xml.getBytes())));
           request.setAttribute("ssoSAMLAuthRequestURL", this.ssoSAMLAuthRequestURL);
           this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/query_auth_state.jsp").forward(request, response);
           return;
@@ -119,8 +119,22 @@ public class WelcomeServlet extends HttpServlet {
             String msisdn = samlResp.getAttributeByIndex(0);
             session = request.getSession(true);
             session.setAttribute("USER_UID", msisdn);
+            Person personDTO = new Person();
+            personDTO.setBrand(samlResp.getAttributeByIndex(3));
+            personDTO.setCommonName(samlResp.getAttributeByIndex(2));
+            personDTO.setCurrentPoint(samlResp.getAttributeByIndex(5));
+            personDTO.setFetionStatus(samlResp.getAttributeByIndex(8));
+            personDTO.setLastName(samlResp.getAttributeByIndex(2));
+            personDTO.setMail139Status(samlResp.getAttributeByIndex(7));
+            personDTO.setMsisdn(samlResp.getAttributeByIndex(0));
+            personDTO.setNickname(samlResp.getAttributeByIndex(6));
+            personDTO.setProvince(samlResp.getAttributeByIndex(1));
+            personDTO.setStatus(samlResp.getAttributeByIndex(4));
+            personDTO.setUserLevel(samlResp.getAttributeByIndex(9));
+            
+            session.setAttribute("SESSION_PERSON", personDTO);
             // Show login succes page
-            this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/mypage.jsp").forward(request, response);
+            this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/mypage_cmcc_embed.jsp").forward(request, response);
             return;
           }
         } catch (ClientException e) {
@@ -131,7 +145,7 @@ public class WelcomeServlet extends HttpServlet {
       response.sendRedirect(ssoLoginBoxURL);
       return;
     } else {
-      this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/mypage.jsp").forward(request, response);
+      this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/mypage_cmcc_embed.jsp").forward(request, response);
       return;
     }
   }
