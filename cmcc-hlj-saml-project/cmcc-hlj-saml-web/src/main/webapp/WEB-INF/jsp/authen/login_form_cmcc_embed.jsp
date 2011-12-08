@@ -231,6 +231,7 @@ function trim(inputStr) {
           <input type="hidden" name="SAMLRequest" value='<c:out value="${param.SAMLRequest}" escapeXml="false"/>' />
           <input type="hidden" name="RelayState" value='<c:out value="${param.RelayState}" escapeXml="false"/>' />
           <input type="hidden" name="login_page_style" value='<c:out value="${param.login_page_style}"/>'/>
+          <input type="hidden" name="continue" value='<c:out value="${param.continue}"/>'/>
           <table width="200" height="85" border="0" align="center"
             cellpadding="0" cellspacing="0">
             <tr>
