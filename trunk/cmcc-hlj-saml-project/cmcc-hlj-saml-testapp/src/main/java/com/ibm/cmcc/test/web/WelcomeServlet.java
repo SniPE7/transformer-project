@@ -133,6 +133,7 @@ public class WelcomeServlet extends HttpServlet {
             personDTO.setUserLevel(samlResp.getAttributeByIndex(9));
             
             session.setAttribute("SESSION_PERSON", personDTO);
+            session.setAttribute("ARTIFACT_ID", artifact);
             // Show login succes page
             this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/mypage_cmcc_embed.jsp").forward(request, response);
             return;
