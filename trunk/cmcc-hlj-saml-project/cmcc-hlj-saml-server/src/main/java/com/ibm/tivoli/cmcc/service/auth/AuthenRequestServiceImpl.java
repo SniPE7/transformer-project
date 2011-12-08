@@ -258,6 +258,8 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
 
     // Update to Cookies
     CookieHelper.saveArtifactIdIntoCookies(response, artifactID, this.cookieDomain);
+    // Save msisdn into cookie
+    CookieHelper.saveToCookies(response, this.cookieDomain, "UID", username);
   }
 
 }
