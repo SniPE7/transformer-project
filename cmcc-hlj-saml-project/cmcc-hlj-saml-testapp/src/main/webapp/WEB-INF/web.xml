@@ -41,6 +41,14 @@
       <param-name>SAML.client.key.store.store.password</param-name>
       <param-value>importkey</param-value>
     </init-param>
+    <init-param>
+      <param-name>SAML.client.trust.store.path</param-name>
+      <param-value>/certs/cmcc_ssl.jks</param-value>
+    </init-param>
+    <init-param>
+      <param-name>SAML.client.trust.store.password</param-name>
+      <param-value>importkey</param-value>
+    </init-param>
   </servlet>
   <servlet-mapping>
     <servlet-name>com.ibm.cmcc.test.web.WelcomeServlet</servlet-name>
