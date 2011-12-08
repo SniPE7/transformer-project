@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -18,6 +20,8 @@ import com.ibm.tivoli.cmcc.service.auth.AuthenRequestService;
  *
  */
 public class AuthenResponseServlet extends HttpServlet {
+  
+  private static Log log = LogFactory.getLog(AuthenResponseServlet.class);
 
   /**
    * 
@@ -50,22 +54,30 @@ public class AuthenResponseServlet extends HttpServlet {
    */
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     try {
+      String continueUrl = request.getParameter("continue");
+      
       ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
       AuthenRequestService service = (AuthenRequestService) context.getBean("authenRequestService", AuthenRequestService.class);
-      AuthenRequest samlRequest = service.parseRequest(request);
-      String relayState = service.getRelayState(request);
-      String artifactID = service.getCurrentArtifactID(request);
-      if (artifactID == null ) {
-        throw new RuntimeException("Invlidate SAMLAuthnRequest, could not found artifact");
+      AuthenRequest samlRequest = null;
+      String relayState = null;
+      try {
+        samlRequest = service.parseRequest(request);
+        relayState = service.getRelayState(request);
+      } catch (Exception e) {
+        log.warn(e.getMessage());
       }
-      if (samlRequest == null) {
+      String artifactID = service.getCurrentArtifactID(request);
+      if (samlRequest == null && continueUrl == null) {
         throw new RuntimeException("Invlidate SAMLAuthnRequest, could not found SAMLAuthnRequest");
       }
-      if (relayState == null) {
+      if (relayState == null && continueUrl == null) {
         throw new RuntimeException("Invlidate SAMLAuthnRequest, missing RelayState");
       }
       request.setAttribute("SAMLAuthenRequest", samlRequest);
-      request.setAttribute("SAMLart", artifactID);
+      if (artifactID != null ) {
+        //throw new RuntimeException("Invlidate SAMLAuthnRequest, could not found artifact");
+        request.setAttribute("SAMLart", artifactID);
+      }
       this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/authen/rtn_app_form.jsp").forward(request, response);
     } catch (RuntimeException e) {
       throw new ServletException(e);
