@@ -87,6 +87,11 @@
     <display-name>com.ibm.tivoli.cmcc.web.AuthenRequestServlet</display-name>
     <servlet-name>com.ibm.tivoli.cmcc.web.AuthenRequestServlet</servlet-name>
     <servlet-class>com.ibm.tivoli.cmcc.web.AuthenRequestServlet</servlet-class>
+    <init-param>
+      <!-- true or false, true - challenge login box by application, false - challenge login box by FSSO -->
+      <param-name>ChallengeLoginByApp</param-name>
+      <param-value>true</param-value>
+    </init-param>
   </servlet>
   <!-- Anonymous -->
   <servlet-mapping>
