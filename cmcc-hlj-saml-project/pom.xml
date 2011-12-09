@@ -19,10 +19,10 @@
     <module>cmcc-hlj-saml-soap</module>
     <module>cmcc-hlj-saml-boss-old</module>
     <module>cmcc-hlj-saml-testapp</module>
-    <!-- 
-    <module>cmcc-hlj-diameter</module>
+    <module>cmcc-hlj-diameter-api</module>
     <module>cmcc-hlj-diameter-impl</module>
-     -->
+    <module>cmcc-hlj-diameter-server</module>
+    <module>cmcc-hlj-diameter-assembly</module>
   </modules>
 
   <properties>
