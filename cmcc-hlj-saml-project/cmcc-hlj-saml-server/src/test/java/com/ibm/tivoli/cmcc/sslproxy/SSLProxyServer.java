@@ -404,10 +404,10 @@ public class SSLProxyServer implements Runnable {
     SSLProxyServer tcpSSLServer = new SSLProxyServer();
     tcpSSLServer.setTargetIP("10.110.21.58");
     tcpSSLServer.setTargetPort(8081);
-    tcpSSLServer.setServerPort(8443);
+    tcpSSLServer.setServerPort(8081);
 
-    tcpSSLServer.setServerProtocol("SSL");
-    tcpSSLServer.setTargetProtocol("TCP");
+    tcpSSLServer.setServerProtocol("TCP");
+    tcpSSLServer.setTargetProtocol("SSL");
     tcpSSLServer.setKeyStore("/certs/client_pwd_importkey.jks");
     tcpSSLServer.setKeyFilePass("importkey");
     tcpSSLServer.setKeyFilePass("importkey");
