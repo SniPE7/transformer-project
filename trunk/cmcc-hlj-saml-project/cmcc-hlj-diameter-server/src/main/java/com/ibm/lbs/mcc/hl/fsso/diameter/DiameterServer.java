@@ -98,16 +98,43 @@ public class DiameterServer {
 	}
 
 	public static final void main(String[] args) throws Exception {
-		SSLProxyServer tcpSSLServer = new SSLProxyServer();
-		tcpSSLServer.setTargetIP("localhost");
-		tcpSSLServer.setTargetPort(8081);
-		tcpSSLServer.setServerPort(8082);
+    int sslServicePort = 8443;
+    int tcpServicePort = 8081;
+    String serverProtocol = "SSL";
+    String targetProtocol = "TCP";
+    String serverKeyStore = "/certs/server_pwd_importkey.jks";
+    String keyPassword = "importkey";
+    
+    if (args != null && args.length > 0) {
+       for (int i = 0; i < args.length; i++) {
+           if (args[i].equals("-sslport")) {
+             sslServicePort = Integer.parseInt(args[i + 1]);
+           } else if (args[i].equals("-tcpport")) {
+             tcpServicePort = Integer.parseInt(args[i + 1]);
+           } else if (args[i].equals("-tcpport")) {
+             tcpServicePort = Integer.parseInt(args[i + 1]);
+           } else if (args[i].equals("-serverprotocol")) {
+             serverProtocol = args[i + 1];
+           } else if (args[i].equals("-targetprotocol")) {
+             targetProtocol = args[i + 1];
+           } else if (args[i].equals("-keystore")) {
+             serverKeyStore = args[i + 1];
+           } else if (args[i].equals("-keypassw0rd")) {
+             keyPassword = args[i + 1];
+           }
+       }
+    }
 
-		tcpSSLServer.setServerProtocol("SSL");
-		tcpSSLServer.setTargetProtocol("TCP");
-		tcpSSLServer.setKeyStore("/certs/server_pwd_importkey.jks");
-		tcpSSLServer.setKeyFilePass("importkey");
-		tcpSSLServer.setKeyFilePass("importkey");
+    SSLProxyServer tcpSSLServer = new SSLProxyServer();
+		tcpSSLServer.setTargetIP("localhost");
+		tcpSSLServer.setTargetPort(tcpServicePort);
+		tcpSSLServer.setServerPort(sslServicePort);
+
+		tcpSSLServer.setServerProtocol(serverProtocol);
+		tcpSSLServer.setTargetProtocol(targetProtocol);
+		tcpSSLServer.setKeyStore(serverKeyStore);
+		tcpSSLServer.setKeyFilePass(keyPassword);
+		tcpSSLServer.setKeyFilePass(keyPassword);
 
 		Thread t2 = new Thread(tcpSSLServer);
 		t2.start();
