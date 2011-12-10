@@ -130,7 +130,10 @@ public abstract class BaseServiceClient {
       }
       writer.close();
       in.close();
-      return responseXML.toString();
+      
+      String result = responseXML.toString(this.charset);
+      log.debug(String.format("Response from [%s], content; [%s]", connector, result));
+      return result;
     } catch (UnsupportedEncodingException e) {
       log.error(String.format("Failure to submit SAML message to connector: [%s], cause: %s", connector, e.getMessage()), e);
       throw new ClientException(e);
