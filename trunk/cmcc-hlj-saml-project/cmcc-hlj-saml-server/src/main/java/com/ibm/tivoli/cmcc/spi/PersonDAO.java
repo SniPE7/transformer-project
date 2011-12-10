@@ -34,6 +34,15 @@ public interface PersonDAO {
    * @return
    * @throws Exception 
    */
-  public boolean verifyPassword(String msisdn, String passwordType, char[] password) throws Exception;
+  //public boolean verifyPassword(String msisdn, String passwordType, char[] password) throws Exception;
   
+  /**
+   * 校验口令, 验证通过后，提取用户信息
+   * @param msisdn
+   * @param passwordType       1：互联网密码, 2：服务密码
+   * @param password
+   * @return 如果验证失败, 返回null
+   * @throws Exception
+   */
+  public PersonDTO verifyPasswordAndQueryUserInfo(String msisdn, String passwordType, char[] password) throws Exception;
 }

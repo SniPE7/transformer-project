@@ -43,6 +43,8 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
   private String cookieDomain = "ac.10086.cn";
   private ApplicationContext applicationContext;
 
+  private String defaultArtifactDomain = "hl1.ac.10086.cn";
+
   /**
    * 
    */
@@ -63,6 +65,20 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
    */
   public void setCookieDomain(String cookieDomain) {
     this.cookieDomain = cookieDomain;
+  }
+
+  /**
+   * @return the defaultArtifactDomain
+   */
+  public String getDefaultArtifactDomain() {
+    return defaultArtifactDomain;
+  }
+
+  /**
+   * @param defaultArtifactDomain the defaultArtifactDomain to set
+   */
+  public void setDefaultArtifactDomain(String defaultArtifactDomain) {
+    this.defaultArtifactDomain = defaultArtifactDomain;
   }
 
   /**
@@ -260,7 +276,13 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
     httpSession.setAttribute("SESSION_PERSON", person);
 
     // Update to Cookies
-    CookieHelper.saveArtifactIdIntoCookies(response, artifactID, this.cookieDomain);
+    String artifactDomain = this.defaultArtifactDomain;
+    if (StringUtils.isEmpty(artifactDomain)) {
+       log.debug("Missing parameter artifactDoamin, auto detect from HTTPServletRequest");
+       artifactDomain = request.getServerName();
+       log.info(String.format("Using artifact domain: [%s]", artifactDomain));
+    }
+    CookieHelper.saveArtifactIdIntoCookies(response, artifactID, artifactDomain, this.cookieDomain);
     // Save msisdn into cookie
     CookieHelper.saveToCookies(response, this.cookieDomain, "UID", username);
   }

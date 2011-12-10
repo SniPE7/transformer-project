@@ -208,14 +208,7 @@ public class LDAPPersonDAO implements PersonDAO {
     });
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * com.ibm.tivoli.cmcc.dao.SessionManager#checkMobileUserPassword(java.lang
-   * .String, java.lang.String, char[])
-   */
-  public boolean verifyPassword(String msisdn, String passwordType, char[] password) throws Exception {
+  private boolean verifyPassword(String msisdn, String passwordType, char[] password) throws Exception {
     log.debug(String.format("Check mobile user password, msisdn: [%s], passwordType: [%s]", msisdn, passwordType));
     DirContext ctx = null;
     try {
@@ -263,5 +256,16 @@ public class LDAPPersonDAO implements PersonDAO {
     } finally {
       LdapUtils.closeContext(ctx);
     }
+  }
+
+  /* (non-Javadoc)
+   * @see com.ibm.tivoli.cmcc.spi.PersonDAO#verifyPasswordAndQueryUserInfo(java.lang.String, java.lang.String, char[])
+   */
+  public PersonDTO verifyPasswordAndQueryUserInfo(String msisdn, String passwordType, char[] password) throws Exception {
+    log.debug(String.format("Check mobile user password, msisdn: [%s], passwordType: [%s]", msisdn, passwordType));
+    if (this.verifyPassword(msisdn, passwordType, password)) {
+       return this.getPersonByMsisdn(msisdn);
+    }
+    return null;
   }
 }

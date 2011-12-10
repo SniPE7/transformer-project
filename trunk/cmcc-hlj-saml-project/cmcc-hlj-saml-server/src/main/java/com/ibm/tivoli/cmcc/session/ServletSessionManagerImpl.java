@@ -4,8 +4,6 @@
 package com.ibm.tivoli.cmcc.session;
 
 import java.util.Date;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -33,8 +31,7 @@ public class ServletSessionManagerImpl implements SessionManager {
   
   private String provinceCode = null;
 
-  private Map<String, HttpSession> sessionMap = new ConcurrentHashMap<String, HttpSession>();
-
+  private SessionCache<HttpSession> sessionCache = new MapBasedSessionCache<HttpSession>();
   /**
    * Specifies the time, in seconds, between client requests before the servlet
    * container will invalidate this session.
@@ -92,6 +89,20 @@ public class ServletSessionManagerImpl implements SessionManager {
     this.personDAO = personDAO;
   }
 
+  /**
+   * @return the sessionCache
+   */
+  public SessionCache<HttpSession> getSessionCache() {
+    return sessionCache;
+  }
+
+  /**
+   * @param sessionCache the sessionCache to set
+   */
+  public void setSessionCache(SessionCache<HttpSession> sessionCache) {
+    this.sessionCache = sessionCache;
+  }
+
   /*
    * (non-Javadoc)
    * 
@@ -101,7 +112,6 @@ public class ServletSessionManagerImpl implements SessionManager {
    */
   public Session create(String msisdn) throws SessionManagementException {
     String artifactID = Helper.generatorID();
-
     return create(msisdn, artifactID);
   }
 
@@ -124,7 +134,7 @@ public class ServletSessionManagerImpl implements SessionManager {
           HttpSession hSession = request.getSession(true);
           hSession.setMaxInactiveInterval((int) this.maxInactiveInterval);
           hSession.setAttribute(SAML_SESSION_ATTR_NAME, session);
-          this.sessionMap.put(artifactID, hSession);
+          this.sessionCache.put(artifactID, hSession);
           return session;
       }
       throw new SessionManagementException(String.format("Failure to create session, cause: could not found user infor by msisdn: %s", msisdn));
@@ -134,6 +144,10 @@ public class ServletSessionManagerImpl implements SessionManager {
     }
   }
 
+  /**
+   * Get HttpServlet from thread context (maintainenced by Spring)
+   * @return
+   */
   private HttpServletRequest getHttpServletRequest() {
     ServletRequestAttributes srAttr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
     HttpServletRequest request = srAttr.getRequest();
@@ -149,7 +163,7 @@ public class ServletSessionManagerImpl implements SessionManager {
    */
   public boolean touch(String artifactID) throws SessionManagementException {
     log.debug(String.format("Touch session, artifactId: [%s]", artifactID));
-    HttpSession hSession = this.sessionMap.get(artifactID);
+    HttpSession hSession = this.sessionCache.get(artifactID);
     if (hSession != null) {
       log.debug(String.format("Before touching session, artifactID: [%s], Last access time: [%s]", artifactID, new Date(hSession.getLastAccessedTime())));
       hSession.setMaxInactiveInterval((int) (this.maxInactiveInterval + (System.currentTimeMillis() - hSession.getLastAccessedTime()) / 1000));
@@ -171,11 +185,9 @@ public class ServletSessionManagerImpl implements SessionManager {
    */
   public boolean destroy(String artifactID) throws SessionManagementException {
     log.debug(String.format("Destroy session, artifactId: [%s]", artifactID));
-    HttpSession hSession = this.sessionMap.get(artifactID);
+    HttpSession hSession = this.sessionCache.get(artifactID);
     if (hSession != null) {
-      if (this.sessionMap.containsKey(artifactID)) {
-        this.sessionMap.remove(artifactID);
-      }
+       this.sessionCache.remove(artifactID);
       hSession.invalidate();
     }
     return true;
@@ -188,7 +200,7 @@ public class ServletSessionManagerImpl implements SessionManager {
    */
   public Session get(String artifactId) throws SessionManagementException {
     log.debug(String.format("Destroy session, artifactId: [%s]", artifactId));
-    HttpSession hSession = this.sessionMap.get(artifactId);
+    HttpSession hSession = this.sessionCache.get(artifactId);
     if (hSession != null) {
       Session session = (Session) hSession.getAttribute(SAML_SESSION_ATTR_NAME);
       return session;

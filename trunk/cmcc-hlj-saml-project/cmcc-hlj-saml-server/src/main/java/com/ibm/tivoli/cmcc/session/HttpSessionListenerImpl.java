@@ -64,25 +64,15 @@ public class HttpSessionListenerImpl implements HttpSessionListener {
       if (session != null) {
         log.debug(String.format("Destroy SAML session: [%s]", session.toString()));
         String artifactID = session.getArtifactID();
-        boolean needToNotifyTopAuthenCenter = !session.isOringinal();
         ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(hSession.getServletContext());
-        SessionManager sm = (SessionManager) ctx.getBean("sessionManager");
-        try {
-          sm.destroy(artifactID);
-        } catch (SessionManagementException e) {
-          log.error(String.format("Failure to destroy session, artifactId: [%s]", artifactID), e);
-        }
+        // 销毁SAML Session 
+        destroySAMLSession(artifactID, ctx);
         // 判读是否需要向顶级发送LogoutRequest, 通知用户已经注销
+        boolean needToNotifyTopAuthenCenter = !session.isOringinal();
         if (needToNotifyTopAuthenCenter) {
-          LogoutServiceClient logoutClient = (LogoutServiceClient) ctx.getBean("logoutClient");
-          try {
-            log.debug(String.format("Propare to notify logout envent to top authen center, artifactId: [%s]", artifactID));
-            String resp = logoutClient.submit(artifactID);
-            log.debug(String.format("Received logout event reponse from top authen center, artifactId: [%s], response: [%s]", artifactID, resp));
-          } catch (ClientException e) {
-            log.error(String.format("Failure to notify top authen center, artifactId: [%s]", artifactID), e);
-          }
+          notifyFederedIDP(ctx, artifactID);
         }
+
         // 向已经登录的应用发送LogoutRequest, 通知应用用户已经注销
         // TODO 修改临时实现
         MyPropertyPlaceholderConfigurer propsCfg = (MyPropertyPlaceholderConfigurer) ctx.getBean("propertyPlaceholderConfigurer");
@@ -109,6 +99,34 @@ public class HttpSessionListenerImpl implements HttpSessionListener {
           }
         }
       }
+    }
+  }
+
+  /**
+   * @param ctx
+   * @param artifactID
+   */
+  private void notifyFederedIDP(ApplicationContext ctx, String artifactID) {
+    LogoutServiceClient logoutClient = (LogoutServiceClient) ctx.getBean("logoutClient");
+    try {
+      log.debug(String.format("Propare to notify logout envent to top authen center, artifactId: [%s]", artifactID));
+      String resp = logoutClient.submit(artifactID);
+      log.debug(String.format("Received logout event reponse from top authen center, artifactId: [%s], response: [%s]", artifactID, resp));
+    } catch (ClientException e) {
+      log.error(String.format("Failure to notify top authen center, artifactId: [%s]", artifactID), e);
+    }
+  }
+
+  /**
+   * @param artifactID
+   * @param ctx
+   */
+  private void destroySAMLSession(String artifactID, ApplicationContext ctx) {
+    SessionManager sm = (SessionManager) ctx.getBean("sessionManager");
+    try {
+      sm.destroy(artifactID);
+    } catch (SessionManagementException e) {
+      log.error(String.format("Failure to destroy session, artifactId: [%s]", artifactID), e);
     }
   }
 

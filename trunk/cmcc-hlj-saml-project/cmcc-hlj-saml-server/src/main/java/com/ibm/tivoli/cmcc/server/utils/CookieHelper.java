@@ -8,8 +8,8 @@ public class CookieHelper {
 
   private static final String CM_TOKENID = "cmtokenid";
 
-  public static void saveArtifactIdIntoCookies(HttpServletResponse response, String value, String cookieDomain) {
-    saveToCookies(response, cookieDomain, CM_TOKENID, value + "@" + cookieDomain);
+  public static void saveArtifactIdIntoCookies(HttpServletResponse response, String artifactID, String artifactDomain, String cookieDomain) {
+    saveToCookies(response, cookieDomain, CM_TOKENID, artifactID + "@" + artifactDomain);
   }
 
   /**
