@@ -38,6 +38,7 @@ public class CMCCLoginCallbackHandler implements CallbackHandler {
     this.httpRequest = request;
   }
 
+  
   /* (non-Javadoc)
    * @see javax.security.auth.callback.CallbackHandler#handle(javax.security.auth.callback.Callback[])
    */
