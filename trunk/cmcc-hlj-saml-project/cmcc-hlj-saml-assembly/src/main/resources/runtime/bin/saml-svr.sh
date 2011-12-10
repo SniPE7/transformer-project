@@ -2,8 +2,8 @@
 #
 # Please set JAVA_HOME and SAML_SVR_HOME
 #
-#export JAVA_HOME=
-#export SAML_SVR_HOME=/home/zhao/cmcc-hlj-saml-server
+export JAVA_HOME=/opt/IBM/WebSphere/AppServer/java
+export SAML_SVR_HOME=/home/saml/cmcc-hlj-saml-server
 
 #
 # Caution: DO NOT MODIFY THE FOLLOWING LINES!
