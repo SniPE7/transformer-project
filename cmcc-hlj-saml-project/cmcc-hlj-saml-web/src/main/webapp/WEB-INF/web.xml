@@ -46,6 +46,11 @@
     <session-timeout>30</session-timeout>
   </session-config>
 
+  <filter>
+    <filter-name>com.ibm.tivoli.cmcc.tools.MonitorFilter</filter-name>
+    <filter-class>com.ibm.tivoli.cmcc.tools.MonitorFilter</filter-class>
+  </filter>
+
   <servlet>
     <description>Home</description>
     <display-name>Home</display-name>
@@ -88,7 +93,8 @@
     <servlet-name>com.ibm.tivoli.cmcc.web.AuthenRequestServlet</servlet-name>
     <servlet-class>com.ibm.tivoli.cmcc.web.AuthenRequestServlet</servlet-class>
     <init-param>
-      <!-- true or false, true - challenge login box by application, false - challenge login box by FSSO -->
+      <!-- true or false, true - challenge login box by application, false 
+        - challenge login box by FSSO -->
       <param-name>ChallengeLoginByApp</param-name>
       <param-value>true</param-value>
     </init-param>
@@ -110,7 +116,7 @@
     <servlet-name>com.ibm.tivoli.cmcc.web.AuthenResponseServlet</servlet-name>
     <url-pattern>/service/authen/response</url-pattern>
   </servlet-mapping>
-  
+
   <servlet>
     <description>com.ibm.tivoli.cmcc.web.LoginServlet</description>
     <display-name>com.ibm.tivoli.cmcc.web.LoginServlet</display-name>
