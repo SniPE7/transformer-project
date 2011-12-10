@@ -52,6 +52,16 @@ public class PersonDAOBossWSImpl implements PersonDAO {
        return null;
     }
     PersonDTO person = new PersonDTO();
+    return fillPerson(msisdn, result, person);
+  }
+
+  /**
+   * @param msisdn
+   * @param result
+   * @param person
+   * @return
+   */
+  private PersonDTO fillPerson(String msisdn, Map<String, String> result, PersonDTO person) {
     person.setBrand(result.get("2"));
     person.setCommonName(result.get("9"));
     //person.setCurrentPoint(result.get(""));
@@ -86,6 +96,19 @@ public class PersonDAOBossWSImpl implements PersonDAO {
        return true;
     }
     return false;
+  }
+
+  public PersonDTO verifyPasswordAndQueryUserInfo(String msisdn, String passwordType, char[] password) throws Exception {
+    PersonDTO person = null;
+    Map<String, String> result = this.bossService.auth(msisdn, passwordType, new String(password));
+    if (result == null) {
+      return null;
+    }
+    String retCode = result.get("RetCode");
+    if ("000000".equals(retCode)) {
+      return fillPerson(msisdn, result, person);
+    }
+    return null;
   }
 
 }
