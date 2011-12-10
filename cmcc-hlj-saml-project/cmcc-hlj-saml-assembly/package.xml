@@ -67,14 +67,14 @@
     </dependencySet>
     <dependencySet>
       <outputDirectory>/webapps/sso/WEB-INF/classes</outputDirectory>
-      <unpack>true</unpack>
+      <unpack>false</unpack>
       <includes>
         <include>*saml-client:jar</include>
       </includes>
     </dependencySet>
     <dependencySet>
       <outputDirectory>/webapps/sso/WEB-INF/classes</outputDirectory>
-      <unpack>true</unpack>
+      <unpack>false</unpack>
       <includes>
         <include>*saml-server:jar</include>
       </includes>
@@ -90,7 +90,7 @@
     </dependencySet>
     <dependencySet>
       <outputDirectory>/webapps/testapp/WEB-INF/classes</outputDirectory>
-      <unpack>true</unpack>
+      <unpack>false</unpack>
       <includes>
         <include>*saml-client:jar</include>
       </includes>
