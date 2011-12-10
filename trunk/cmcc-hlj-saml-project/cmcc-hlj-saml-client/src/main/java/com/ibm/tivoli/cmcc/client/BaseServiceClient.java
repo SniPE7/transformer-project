@@ -132,34 +132,34 @@ public abstract class BaseServiceClient {
       in.close();
       return responseXML.toString();
     } catch (UnsupportedEncodingException e) {
-      log.error(e.getMessage(), e);
+      log.error(String.format("Failure to submit SAML message to connector: [%s], cause: %s", connector, e.getMessage()), e);
       throw new ClientException(e);
     } catch (IOException e) {
-      log.error(e.getMessage(), e);
+      log.error(String.format("Failure to submit SAML message to connector: [%s], cause: %s", connector, e.getMessage()), e);
       throw new ClientException(e);
     } catch (IllegalAccessException e) {
-      log.error(e.getMessage(), e);
+      log.error(String.format("Failure to submit SAML message to connector: [%s], cause: %s", connector, e.getMessage()), e);
       throw new ClientException(e);
     } catch (InvocationTargetException e) {
-      log.error(e.getMessage(), e);
+      log.error(String.format("Failure to submit SAML message to connector: [%s], cause: %s", connector, e.getMessage()), e);
       throw new ClientException(e);
     } catch (NoSuchMethodException e) {
-      log.error(e.getMessage(), e);
+      log.error(String.format("Failure to submit SAML message to connector: [%s], cause: %s", connector, e.getMessage()), e);
       throw new ClientException(e);
     } catch (KeyManagementException e) {
-      log.error(e.getMessage(), e);
+      log.error(String.format("Failure to submit SAML message to connector: [%s], cause: %s", connector, e.getMessage()), e);
       throw new ClientException(e);
     } catch (KeyStoreException e) {
-      log.error(e.getMessage(), e);
+      log.error(String.format("Failure to submit SAML message to connector: [%s], cause: %s", connector, e.getMessage()), e);
       throw new ClientException(e);
     } catch (NoSuchAlgorithmException e) {
-      log.error(e.getMessage(), e);
+      log.error(String.format("Failure to submit SAML message to connector: [%s], cause: %s", connector, e.getMessage()), e);
       throw new ClientException(e);
     } catch (CertificateException e) {
-      log.error(e.getMessage(), e);
+      log.error(String.format("Failure to submit SAML message to connector: [%s], cause: %s", connector, e.getMessage()), e);
       throw new ClientException(e);
     } catch (Exception e) {
-      log.error(e.getMessage(), e);
+      log.error(String.format("Failure to submit SAML message to connector: [%s], cause: %s", connector, e.getMessage()), e);
       throw new ClientException(e);
     } finally {
       if (connector != null) {
