@@ -1,6 +1,8 @@
 package com.ibm.cmcc.test.web;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.Properties;
 
@@ -29,6 +31,7 @@ public class WelcomeServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
   private String ssoSAMLAuthRequestURL;
   private String ssoLoginBoxURL;
+  private String ssoLoginReturnURL;
   private String keyStorePath;
   private char[] keyPassword;
   private String trustStorePath;
@@ -52,6 +55,7 @@ public class WelcomeServlet extends HttpServlet {
     super.init(config);
     this.ssoSAMLAuthRequestURL = config.getInitParameter("SsoSAMLAuthRequestURL");
     this.ssoLoginBoxURL = config.getInitParameter("SsoLoginBoxURL");
+    this.ssoLoginReturnURL = config.getInitParameter("SsoLoginReturnURL");
     this.samlServer = config.getInitParameter("SAML.server.hostname");
     this.samlPort = config.getInitParameter("SAML.server.port");
     this.samlProtocol = config.getInitParameter("SAML.server.protocol");
@@ -83,20 +87,19 @@ public class WelcomeServlet extends HttpServlet {
           // Generate RelayState
           relayState = IDGenerator.generateID(64);
           // Get return url
-          String returnURL = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/welcome";
           // Generate SAMLRequest XML
           String xml = "<samlp:AuthnRequest\n" + "    xmlns:samlp=\"urn:oasis:names:tc:SAML:2.0:protocol\"\n"
               + "    xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\"\n" + "    ID=\"id_1\"\n" + "    Version=\"2.0\"\n" + "    IssueInstant=\""
-              + Helper.formatDate4SAML(new Date()) + "\">\n" + "    <saml:Issuer>" + returnURL + "</saml:Issuer>\n" + "    <samlp:NameIDPolicy\n"
+              + Helper.formatDate4SAML(new Date()) + "\">\n" + "    <saml:Issuer>" + caculateURL(request, ssoLoginReturnURL) + "</saml:Issuer>\n" + "    <samlp:NameIDPolicy\n"
               + "        AllowCreate=\"true\"\n" + "        Format=\"urn:oasis:names:tc:SAML:2.0:nameid-format:transient\"/>\n" + "</samlp:AuthnRequest>\n";
           request.setAttribute("RelayState", relayState);
           request.setAttribute("SAMLRequest", new String(Base64.encode(xml.getBytes())));
-          request.setAttribute("ssoSAMLAuthRequestURL", this.ssoSAMLAuthRequestURL);
+          request.setAttribute("ssoSAMLAuthRequestURL", caculateURL(request, this.ssoSAMLAuthRequestURL));
           this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/query_auth_state.jsp").forward(request, response);
           return;
         } else {
           // Redirect to SSO loginbox url
-          response.sendRedirect(ssoLoginBoxURL);
+          response.sendRedirect(appendParameter(caculateURL(request, ssoLoginBoxURL), "continue", caculateURL(request, ssoLoginReturnURL)));
           return;
         }
       } else {
@@ -143,12 +146,50 @@ public class WelcomeServlet extends HttpServlet {
         }
       }
       // Redirect to SSO loginbox url
-      response.sendRedirect(ssoLoginBoxURL);
+      response.sendRedirect(appendParameter(caculateURL(request, ssoLoginBoxURL), "continue", caculateURL(request, ssoLoginReturnURL)));
       return;
     } else {
       this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/mypage_cmcc_embed.jsp").forward(request, response);
       return;
     }
+  }
+  
+  private String appendParameter(String url, String key, String value) throws UnsupportedEncodingException {
+    if (url == null) {
+       return null;
+    }
+    if (url.indexOf('?') > 0) {
+       return url + "&" + key + "=" + URLEncoder.encode(value, "UTF-8");
+    } else {
+      return url + "?" + key + "=" + URLEncoder.encode(value, "UTF-8");
+    }
+  }
+
+  /**
+   * @param request
+   * @return
+   */
+  private String getServerURL(HttpServletRequest request) {
+    String serverURL = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+    return serverURL;
+  }
+  
+  /**
+   * @param request
+   * @param url
+   * @return
+   */
+  private String caculateURL(HttpServletRequest request, String url) {
+    if (url != null && url.toLowerCase().startsWith("http")) {
+       return url;
+    }
+    if (url != null && url.toLowerCase().startsWith("/")) {
+       return this.getServerURL(request) + url;
+    }
+    if (url != null) {
+      return this.getServerURL(request) + request.getContextPath() + "/" + url;
+    }
+    return null;
   }
 
   /**
