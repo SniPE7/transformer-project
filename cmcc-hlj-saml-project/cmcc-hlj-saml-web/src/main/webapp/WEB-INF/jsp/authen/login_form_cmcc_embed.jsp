@@ -1,12 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="contextPath" value="${pageContext.request.contextPath }" />
+<%
+  String path = request.getContextPath();
+  String basePath = request.getScheme() + "://"
+          + request.getServerName() + ":" + request.getServerPort()
+          + path + "/";
+%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <base href="<c:out value="${contextPath}"/>"></base>
+    <base href="<%=basePath%>"></base>
     <title>黑龙江移动统一认证登录</title>
 
     <style type="text/css">
@@ -28,7 +33,7 @@ form{
 #login_top{
   border:0px;
   height:222px;
-  background:url(${contextPath }/images/login_bg.jpg);
+  background:url(./images/login_bg.jpg);
 }
 .login_top_title{
   font-weight:bold;
@@ -56,7 +61,7 @@ form{
 }
 .login_button{
   border:0px;   
-  background:url("${contextPath }/images/login_button.jpg") no-repeat;
+  background:url("./images/login_button.jpg") no-repeat;
   width:115px;
   height:24px;
   cursor:hand ; 
@@ -174,7 +179,7 @@ function logincheck1() {
 }
 function showVeriImage() {
   if (document.getElementById("veriImageDiv").style.display == "none") {
-    document.getElementById("veriImage").src = "${contextPath}/jsp/check_code_img.jsp";
+    document.getElementById("veriImage").src = "./jsp/check_code_img.jsp";
     document.getElementById("veriImageDiv").style.display = "block";
   }
 }
@@ -227,7 +232,7 @@ function trim(inputStr) {
   <body>
     <div id="unLogin_Area">
       <div id="login_top">
-        <form name="loginForm" action="${contextPath}/service/authen/login" method="post">
+        <form name="loginForm" action="./service/authen/login" method="post">
           <input type="hidden" name="SAMLRequest" value='<c:out value="${param.SAMLRequest}" escapeXml="false"/>' />
           <input type="hidden" name="RelayState" value='<c:out value="${param.RelayState}" escapeXml="false"/>' />
           <input type="hidden" name="login_page_style" value='<c:out value="${param.login_page_style}"/>'/>
@@ -309,7 +314,7 @@ function trim(inputStr) {
               </td>
               <td width="85" align="left">
                 <div id="veriImageDiv" style="display: none">
-                  <img id="veriImage" src="${contextPath}/jsp/check_code_img.jsp" />
+                  <img id="veriImage" src="./jsp/check_code_img.jsp" />
                 </div>
               </td>
             </tr>
@@ -348,7 +353,7 @@ function trim(inputStr) {
             </tr>
             <tr>
               <td height="10" align="center" valign="middle" colspan="3">
-                <img src="${contextPath}/images/line.jpg" width="184" height="1" />
+                <img src="./images/line.jpg" width="184" height="1" />
               </td>
             </tr>
           </table>
@@ -363,7 +368,7 @@ function trim(inputStr) {
               </td>
               <td width="87" align="left" valign="middle">
                 <a href="javascript:testlogin();"><img
-                    src="${contextPath }/images/reg_button.jpg" width="61" height="24" border="0" />
+                    src="./images/reg_button.jpg" width="61" height="24" border="0" />
                 </a>
               </td>
             </tr>
@@ -382,7 +387,7 @@ function trim(inputStr) {
         cellpadding="0" cellspacing="0">
         <tr>
           <td>
-            <img src="${contextPath }/images/bottom.jpg" width="200" height="7" /></td>
+            <img src="./images/bottom.jpg" width="200" height="7" /></td>
         </tr>
       </table>
     </div>
