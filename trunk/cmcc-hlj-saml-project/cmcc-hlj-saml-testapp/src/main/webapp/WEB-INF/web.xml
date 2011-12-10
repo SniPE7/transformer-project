@@ -17,16 +17,26 @@
     <servlet-name>com.ibm.cmcc.test.web.WelcomeServlet</servlet-name>
     <servlet-class>com.ibm.cmcc.test.web.WelcomeServlet</servlet-class>
     <init-param>
+      <!-- 三种形式: http(s)://
+                    /   - 表示相对于用户访问的服务器
+                        - 没有/的访问, 表示相对于当前应用的context -->
       <param-name>SsoSAMLAuthRequestURL</param-name>
+      <!--
       <param-value>https://hl1.ac.10086.cn/sso/service/authen/request</param-value>
+       -->
+      <param-value>/sso/service/authen/request</param-value>
     </init-param>
     <init-param>
       <param-name>SsoLoginBoxURL</param-name>
-      <param-value>https://hl1.ac.10086.cn/sso/service/authen/showlogin?continue=https://hl1.ac.10086.cn/testapp/welcome</param-value>
+      <param-value>/sso/service/authen/showlogin</param-value>
+    </init-param>
+    <init-param>
+      <param-name>SsoLoginReturnURL</param-name>
+      <param-value>./welcome</param-value>
     </init-param>
     <init-param>
       <param-name>SAML.server.protocol</param-name>
-      <param-value>TCP</param-value>
+      <param-value>SSL</param-value>
     </init-param>
     <init-param>
       <param-name>SAML.server.hostname</param-name>
