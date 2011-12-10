@@ -1,5 +1,8 @@
 package com.ibm.tivoli.cmcc.server.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,18 +36,19 @@ public class CookieHelper {
    * @param key
    * @return
    */
-  public static String getFromCookies(HttpServletRequest request, String key) {
+  public static String[] getFromCookies(HttpServletRequest request, String key) {
+    List<String> result = new ArrayList<String>();
     Cookie[] cookies = request.getCookies();
     if (cookies == null) {
-      return null;
+      return result.toArray(new String[0]);
     }
     for (Cookie cookie : cookies) {
       String name = cookie.getName();
       if (name.equals(key)) {
-        return cookie.getValue();
+        result.add(cookie.getValue());
       }
     }
-    return null;
+    return result.toArray(new String[0]);
   }
 
   /**
@@ -52,12 +56,16 @@ public class CookieHelper {
    * @return
    */
   public static String getArtifactIDFromCookies(HttpServletRequest request) {
-    String v = getFromCookies(request, CM_TOKENID);
-    if (v != null) {
-       int index = v.indexOf('@');
-       if (index > 0) {
+    String[] values = getFromCookies(request, CM_TOKENID);
+    if (values != null) {
+      for (String v : values) {
+        int index = v.indexOf('@');
+        if (index > 0) {
           return v.substring(0, index);
-       }
+        } else {
+          return v;
+        }
+      }
     }
     return null;
   }
