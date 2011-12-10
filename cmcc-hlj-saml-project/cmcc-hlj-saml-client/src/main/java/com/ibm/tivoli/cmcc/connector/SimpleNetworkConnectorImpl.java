@@ -268,7 +268,12 @@ public class SimpleNetworkConnectorImpl implements Connector {
    */
   public void open() throws Exception {
     // Create a socket with server
-    socket = getSocket();
+    try {
+      socket = getSocket();
+    } catch (Exception e) {
+      log.error(String.format("Failure to create a socket to: [%s, %s, %s", this.protocol, this.serverName, this.serverPort));
+      throw e;
+    }
   }
 
   /**
@@ -283,6 +288,7 @@ public class SimpleNetworkConnectorImpl implements Connector {
    */
   private Socket getSocket() throws UnknownHostException, IOException, KeyStoreException, NoSuchAlgorithmException, CertificateException,
       KeyManagementException, UnrecoverableKeyException {
+    log.info(String.format("Creating a socket to: [%s, %s, %s", this.protocol, this.serverName, this.serverPort));
     if (StringUtils.isEmpty(protocol) || protocol.equalsIgnoreCase("TCP")) {
       return getTCPSocket();
     } else if (protocol.equalsIgnoreCase("TLS") || protocol.equalsIgnoreCase("SSL")) {
@@ -406,7 +412,7 @@ public class SimpleNetworkConnectorImpl implements Connector {
     Socket socket = new Socket();
     // This method will block no more than timeoutMs.
     // If the timeout occurs, SocketTimeoutException is thrown.
-    socket.connect(sockaddr, timeOut);
+    socket.connect(sockaddr, timeOut * 1000);
     return socket;
   }
 
@@ -439,6 +445,35 @@ public class SimpleNetworkConnectorImpl implements Connector {
   public OutputStream getOutput() throws IOException {
     OutputStream out = socket.getOutputStream();
     return out;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    final int maxLen = 100;
+    return String
+        .format(
+            "SimpleNetworkConnectorImpl [protocol=%s, serverName=%s, serverPort=%s, trustCertsStorePath=%s, trustCertsStorePassword=%s, keyStorePath=%s, keyStorePassword=%s, keyStoreKeyPassword=%s, keyManagerAlgorithm=%s]",
+            protocol, serverName, serverPort, trustCertsStorePath,
+            trustCertsStorePassword != null ? arrayToString(trustCertsStorePassword, trustCertsStorePassword.length, maxLen) : null, keyStorePath,
+            keyStorePassword != null ? arrayToString(keyStorePassword, keyStorePassword.length, maxLen) : null,
+            keyStoreKeyPassword != null ? arrayToString(keyStoreKeyPassword, keyStoreKeyPassword.length, maxLen) : null, keyManagerAlgorithm);
+  }
+
+  private String arrayToString(Object array, int len, int maxLen) {
+    StringBuilder builder = new StringBuilder();
+    len = Math.min(len, maxLen);
+    builder.append("[");
+    for (int i = 0; i < len; i++) {
+      if (i > 0)
+        builder.append(", ");
+      if (array instanceof char[])
+        builder.append(((char[]) array)[i]);
+    }
+    builder.append("]");
+    return builder.toString();
   }
 
 }
