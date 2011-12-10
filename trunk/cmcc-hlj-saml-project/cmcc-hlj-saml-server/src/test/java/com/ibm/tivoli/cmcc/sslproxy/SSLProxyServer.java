@@ -408,6 +408,7 @@ public class SSLProxyServer implements Runnable {
 
     tcpSSLServer.setServerProtocol("TCP");
     tcpSSLServer.setTargetProtocol("SSL");
+    //tcpSSLServer.setKeyStore("/certs/cmcc_ssl.jks");
     tcpSSLServer.setKeyStore("/certs/client_pwd_importkey.jks");
     tcpSSLServer.setKeyFilePass("importkey");
     tcpSSLServer.setKeyFilePass("importkey");
