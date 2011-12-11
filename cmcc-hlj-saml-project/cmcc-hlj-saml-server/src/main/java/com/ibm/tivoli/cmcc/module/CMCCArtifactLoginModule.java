@@ -3,7 +3,6 @@
  */
 package com.ibm.tivoli.cmcc.module;
 
-
 import java.security.Principal;
 import java.util.Map;
 
@@ -14,17 +13,15 @@ import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.ibm.tivoli.cmcc.client.QueryAttributeServiceClient;
 import com.ibm.tivoli.cmcc.response.QueryAttributeResponse;
 import com.ibm.tivoli.cmcc.server.utils.Helper;
-import com.ibm.tivoli.cmcc.service.auth.NamePrincipal;
 import com.ibm.tivoli.cmcc.service.auth.PersonDTOPrincipal;
 import com.ibm.tivoli.cmcc.spi.PersonDTO;
-
-
 
 /**
  * @author zhaodonglu
@@ -39,12 +36,13 @@ public class CMCCArtifactLoginModule implements LoginModule, PrincipalAware {
   private boolean succeeded = false;
   private boolean commitSucceeded = false;
   private String artifactID;
-  
+
   private PersonDTOPrincipal userPrincipal;
   private String username = null;
   private PersonDTO personDTO = null;
-  
+
   private QueryAttributeServiceClient queryAttributeServiceClient = null;
+
   /**
    * 
    */
@@ -60,7 +58,8 @@ public class CMCCArtifactLoginModule implements LoginModule, PrincipalAware {
   }
 
   /**
-   * @param callbackHandler the callbackHandler to set
+   * @param callbackHandler
+   *          the callbackHandler to set
    */
   public void setCallbackHandler(CallbackHandler callbackHandler) {
     this.callbackHandler = callbackHandler;
@@ -74,13 +73,16 @@ public class CMCCArtifactLoginModule implements LoginModule, PrincipalAware {
   }
 
   /**
-   * @param debug the debug to set
+   * @param debug
+   *          the debug to set
    */
   public void setDebug(boolean debug) {
     this.debug = debug;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see com.ibm.tivoli.cmcc.module.PrincipalAware#getPrincipal()
    */
   public Principal getPrincipal() {
@@ -95,7 +97,8 @@ public class CMCCArtifactLoginModule implements LoginModule, PrincipalAware {
   }
 
   /**
-   * @param queryAttributeServiceClient the queryAttributeServiceClient to set
+   * @param queryAttributeServiceClient
+   *          the queryAttributeServiceClient to set
    */
   public void setQueryAttributeServiceClient(QueryAttributeServiceClient queryAttributeServiceClient) {
     this.queryAttributeServiceClient = queryAttributeServiceClient;
@@ -128,16 +131,16 @@ public class CMCCArtifactLoginModule implements LoginModule, PrincipalAware {
     } else {
       // add a Principal (authenticated identity)
       // to the Subject
-  
+
       // assume the user we authenticated is the NamePrincipal
       userPrincipal = new PersonDTOPrincipal(this.username, this.personDTO);
       if (!subject.getPrincipals().contains(userPrincipal))
         subject.getPrincipals().add(userPrincipal);
-  
+
       if (debug) {
         log.info("\t\t[UserPasswordLoginModule] " + "added NamePrincipal to Subject");
       }
-  
+
       // in any case, clean out state
       artifactID = null;
       commitSucceeded = true;
@@ -149,15 +152,19 @@ public class CMCCArtifactLoginModule implements LoginModule, PrincipalAware {
     // prompt for a user name and password
     if (callbackHandler == null)
       throw new LoginException("Error: no CallbackHandler available " + "to garner authentication information from the user");
-  
+
     Callback[] callbacks = new Callback[1];
     callbacks[0] = new CMCCArtifactIDCallback();
-  
+
     try {
       callbackHandler.handle(callbacks);
       artifactID = ((CMCCArtifactIDCallback) callbacks[0]).getArtifactID();
+      if (StringUtils.isEmpty(artifactID)) {
+        succeeded = false;
+        artifactID = null;
+        return false;
+      }
       Helper.validateArtifactID(artifactID);
-      
     } catch (java.io.IOException e) {
       log.error(e.getMessage(), e);
       throw new LoginException(e.toString());
@@ -165,12 +172,12 @@ public class CMCCArtifactLoginModule implements LoginModule, PrincipalAware {
       log.error(e.getMessage(), e);
       throw new LoginException("Error: " + e.getCallback().toString() + " not available to garner authentication information " + "from the user");
     }
-  
+
     // print debugging information
     if (debug) {
       log.info("Resolv artifactId from cookie: " + artifactID);
     }
-  
+
     // verify the artifactID/password
     boolean correct;
     try {
@@ -186,7 +193,7 @@ public class CMCCArtifactLoginModule implements LoginModule, PrincipalAware {
       succeeded = true;
       return true;
     } else {
-  
+
       // authentication failed -- clean out state
       if (debug)
         log.info("Invalidate artifactID: [" + artifactID + "]");
@@ -197,7 +204,7 @@ public class CMCCArtifactLoginModule implements LoginModule, PrincipalAware {
   }
 
   public boolean logout() throws LoginException {
-  
+
     subject.getPrincipals().remove(userPrincipal);
     succeeded = false;
     succeeded = commitSucceeded;
@@ -207,29 +214,33 @@ public class CMCCArtifactLoginModule implements LoginModule, PrincipalAware {
     return true;
   }
 
-  /* (non-Javadoc)
-   * @see com.ibm.tivoli.cmcc.module.AbstractMobileUserLoginModule#authenticate(java.lang.String, java.lang.String, char[])
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * com.ibm.tivoli.cmcc.module.AbstractMobileUserLoginModule#authenticate(java
+   * .lang.String, java.lang.String, char[])
    */
   protected boolean authenticate(String artifactID) throws Exception {
     QueryAttributeResponse resp = queryAttributeServiceClient.submitAndParse(artifactID);
     if (resp.getStatusCode() != null && resp.getStatusCode().equalsIgnoreCase("urn:oasis:names:tc:SAML:2.0:status:Success")) {
-       // Success
-       this.username  = resp.getAttributeByIndex(0);
-       if (this.username != null && this.username.trim().length() > 0) {
-          this.personDTO = new PersonDTO();
-          this.personDTO.setBrand(resp.getAttributeByIndex(3));
-          this.personDTO.setCommonName(resp.getAttributeByIndex(2));
-          this.personDTO.setCurrentPoint(resp.getAttributeByIndex(5));
-          this.personDTO.setFetionStatus(resp.getAttributeByIndex(8));
-          this.personDTO.setLastName(resp.getAttributeByIndex(2));
-          this.personDTO.setMail139Status(resp.getAttributeByIndex(7));
-          this.personDTO.setMsisdn(resp.getAttributeByIndex(0));
-          this.personDTO.setNickname(resp.getAttributeByIndex(6));
-          this.personDTO.setProvince(resp.getAttributeByIndex(1));
-          this.personDTO.setStatus(resp.getAttributeByIndex(4));
-          this.personDTO.setUserLevel(resp.getAttributeByIndex(9));
-          return true;
-       }
+      // Success
+      this.username = resp.getAttributeByIndex(0);
+      if (this.username != null && this.username.trim().length() > 0) {
+        this.personDTO = new PersonDTO();
+        this.personDTO.setBrand(resp.getAttributeByIndex(3));
+        this.personDTO.setCommonName(resp.getAttributeByIndex(2));
+        this.personDTO.setCurrentPoint(resp.getAttributeByIndex(5));
+        this.personDTO.setFetionStatus(resp.getAttributeByIndex(8));
+        this.personDTO.setLastName(resp.getAttributeByIndex(2));
+        this.personDTO.setMail139Status(resp.getAttributeByIndex(7));
+        this.personDTO.setMsisdn(resp.getAttributeByIndex(0));
+        this.personDTO.setNickname(resp.getAttributeByIndex(6));
+        this.personDTO.setProvince(resp.getAttributeByIndex(1));
+        this.personDTO.setStatus(resp.getAttributeByIndex(4));
+        this.personDTO.setUserLevel(resp.getAttributeByIndex(9));
+        return true;
+      }
     }
     return false;
   }
