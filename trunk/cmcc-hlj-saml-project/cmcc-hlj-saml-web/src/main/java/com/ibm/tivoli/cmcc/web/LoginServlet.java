@@ -113,7 +113,7 @@ public class LoginServlet extends HttpServlet {
           authenReq = service.parseRequest(request);
           relayState = service.getRelayState(request);
         } catch (Exception e) {
-          log.warn(e.getMessage(), e);
+          log.warn(e.getMessage());
         } finally {
           if ( StringUtils.isNotEmpty(continueURL) || authenReq != null && !StringUtils.isEmpty(relayState)) {
             // Return application

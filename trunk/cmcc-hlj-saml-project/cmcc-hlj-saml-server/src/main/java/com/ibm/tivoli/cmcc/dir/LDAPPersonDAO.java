@@ -16,6 +16,7 @@ import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.ModificationItem;
 import javax.naming.directory.SearchControls;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.dao.DataAccessException;
@@ -44,6 +45,10 @@ public class LDAPPersonDAO implements PersonDAO {
   private String userName = null;
   private String password = null;
   private String ldapCtxFactory = "com.sun.jndi.ldap.LdapCtxFactory";
+  /**
+   * 缺省的省分代码, 用于填充所有的人员对象
+   */
+  private String defaultProvinceCode = "451";
 
   private LdapTemplate ldapTemplate;
 
@@ -102,6 +107,20 @@ public class LDAPPersonDAO implements PersonDAO {
     return ldapTemplate;
   }
 
+  /**
+   * @return the defaultProvinceCode
+   */
+  public String getDefaultProvinceCode() {
+    return defaultProvinceCode;
+  }
+
+  /**
+   * @param defaultProvinceCode the defaultProvinceCode to set
+   */
+  public void setDefaultProvinceCode(String provinceCode) {
+    this.defaultProvinceCode = provinceCode;
+  }
+
   /*
    * (non-Javadoc)
    * 
@@ -114,6 +133,9 @@ public class LDAPPersonDAO implements PersonDAO {
     if (persons != null && persons.size() > 0) {
       PersonDTO personDTO = persons.get(0);
       log.debug(String.format("Got detail info: %s", personDTO.toString()));
+      if (personDTO != null && StringUtils.isEmpty(personDTO.getProvince())) {
+         personDTO.setProvince(this.defaultProvinceCode);
+      }
       return personDTO;
     }
     return null;

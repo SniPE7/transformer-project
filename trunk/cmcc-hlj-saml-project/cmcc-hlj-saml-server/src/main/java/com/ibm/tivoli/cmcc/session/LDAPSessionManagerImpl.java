@@ -120,12 +120,12 @@ public class LDAPSessionManagerImpl implements SessionManager {
    * com.ibm.tivoli.cmcc.dao.ContactDAO#updateContact(com.ibm.tivoli.cmcc.dao
    * .ContactDTO)
    */
-  public Session create(String msisdn) throws SessionManagementException {
+  public Session create(String msisdn, boolean original) throws SessionManagementException {
     String artifactID = Helper.generatorID();
-    return create(msisdn, artifactID);
+    return create(msisdn, artifactID, original);
    }
 
-  public Session create(String msisdn, String artifactID) throws SessionManagementException {
+  public Session create(String msisdn, String artifactID, boolean original) throws SessionManagementException {
     log.debug(String.format("Creating session, msisdn: [%s]", msisdn));
     /*
     ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
@@ -179,9 +179,8 @@ public class LDAPSessionManagerImpl implements SessionManager {
         List<PersonDTO> persons = ldapTemplate.search(base, filter , new PersonAttributeMapper());
         if (persons != null && persons.size() > 0) {
            PersonDTO personDTO  = persons.get(0);
-           personDTO.setProvince(this.getProvinceCode());
            log.debug(String.format("found ldap entity [uid=%s] artifactID: [%s], attrs:[%s]", personDTO.getMsisdn(), artifactID, personDTO.toString()));
-           return new Session(artifactID, personDTO.getMsisdn(), personDTO);
+           return new Session(artifactID, null, personDTO.getMsisdn(), personDTO, original);
         }
 
         return null;
@@ -355,9 +354,8 @@ public class LDAPSessionManagerImpl implements SessionManager {
       List<PersonDTO> persons = ldapTemplate.search(base, filter , new PersonAttributeMapper());
       if (persons != null && persons.size() > 0) {
          PersonDTO personDTO  = persons.get(0);
-         personDTO.setProvince(this.getProvinceCode());
          log.debug("found ldap entity [uid=" + personDTO.getMsisdn() + "] by samlID: " + artifactId);
-         return new Session(personDTO);
+         return new Session(artifactId, null, personDTO.getMsisdn(), personDTO);
       }
     } catch (Exception e) {
       throw new SessionManagementException(e);

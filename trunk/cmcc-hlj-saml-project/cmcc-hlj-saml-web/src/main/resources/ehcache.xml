@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd">
+  <!-- Auto discovery mode, set multicast address and port for discovery service-->
+  <cacheManagerPeerProviderFactory class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
+    properties="peerDiscovery=automatic, multicastGroupAddress=230.0.0.1,multicastGroupPort=4446, timeToLive=32" />
+
+  <!-- Set peer service port -->
+  <cacheManagerPeerListenerFactory class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"
+    properties="hostName=localhost, port=40001,socketTimeoutMillis=2000" />
+    
+  <defaultCache eternal="true" maxElementsInMemory="100" overflowToDisk="false" />
+  <!-- Local cache -->
+  <cache name="httpSessionCache" maxElementsInMemory="500000" eternal="true" overflowToDisk="false" />
+  <!-- Distribute cache -->
+  <cache name="samlID2HttpSessionIDCache" maxElementsInMemory="500000" eternal="true" overflowToDisk="false" timeToIdleSeconds="100" timeToLiveSeconds="100">
+    <cacheEventListenerFactory class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+      properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,replicateUpdatesViaCopy=false, replicateRemovals=true " />
+  </cache>
+  <!-- Distribute cache -->
+  <cache name="samlSessionCache" maxElementsInMemory="500000" eternal="true" overflowToDisk="false" timeToIdleSeconds="100" timeToLiveSeconds="100">
+    <cacheEventListenerFactory class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+      properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,replicateUpdatesViaCopy=false, replicateRemovals=true " />
+  </cache>
+</ehcache>

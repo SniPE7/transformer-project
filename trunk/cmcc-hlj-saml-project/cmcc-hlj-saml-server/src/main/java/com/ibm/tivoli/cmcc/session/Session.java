@@ -19,10 +19,28 @@ public class Session implements Serializable {
    */
   private static final long serialVersionUID = -1171871599242867847L;
   
+  /**
+   * SAML Session ID
+   */
   private String artifactID = Helper.generatorID();;
+  
+  /**
+   * Session create time
+   */
   private Date createTime = new Date();
+  
+  /**
+   * Session Last access time 
+   */
   private Date lastAccessTime = new Date();
+  /**
+   * User detail info
+   */
   private PersonDTO personDTO = null;
+
+  /**
+   * Login id
+   */
   private String uid = null;
   
   /**
@@ -31,6 +49,11 @@ public class Session implements Serializable {
    * false -- 表示总部先登录
    */
   private boolean oringinal = true;
+  
+  /**
+   * HttpSession ID
+   */
+  private String httpSessionId = null;
 
   /**
    * 
@@ -50,33 +73,33 @@ public class Session implements Serializable {
   }
 
   /**
-   * @param personDTO
-   */
-  public Session(PersonDTO personDTO) {
-    super();
-    this.personDTO = personDTO;
-  }
-
-  /**
    * @param artifactID
-   * @param personDTO
-   */
-  public Session(String artifactID, PersonDTO personDTO) {
-    super();
-    this.artifactID = artifactID;
-    this.personDTO = personDTO;
-  }
-
-  /**
-   * @param artifactID
+   * @param httpSessionId
    * @param uid
    * @param personDTO
    */
-  public Session(String artifactID, String uid, PersonDTO personDTO) {
+  public Session(String artifactID, String httpSessionId, String uid, PersonDTO personDTO) {
     super();
     this.artifactID = artifactID;
+    this.httpSessionId = httpSessionId;
     this.uid = uid;
     this.personDTO = personDTO;
+  }
+
+  /**
+   * @param artifactID
+   * @param httpSessionId
+   * @param uid
+   * @param personDTO
+   * @param oringinal
+   */
+  public Session(String artifactID, String httpSessionId, String uid, PersonDTO personDTO, boolean oringinal) {
+    super();
+    this.artifactID = artifactID;
+    this.httpSessionId = httpSessionId;
+    this.uid = uid;
+    this.personDTO = personDTO;
+    this.oringinal = oringinal;
   }
 
   /**
@@ -87,24 +110,10 @@ public class Session implements Serializable {
   }
 
   /**
-   * @param artifactID the artifactID to set
-   */
-  public void setArtifactID(String artifactID) {
-    this.artifactID = artifactID;
-  }
-
-  /**
    * @return the createTime
    */
   public Date getCreateTime() {
     return createTime;
-  }
-
-  /**
-   * @param createTime the createTime to set
-   */
-  public void setCreateTime(Date createTime) {
-    this.createTime = createTime;
   }
 
   /**
@@ -115,24 +124,10 @@ public class Session implements Serializable {
   }
 
   /**
-   * @param lastAccessTime the lastAccessTime to set
-   */
-  public void setLastAccessTime(Date lastAccessTime) {
-    this.lastAccessTime = lastAccessTime;
-  }
-
-  /**
    * @return the personDTO
    */
   public PersonDTO getPersonDTO() {
     return personDTO;
-  }
-
-  /**
-   * @param personDTO the personDTO to set
-   */
-  public void setPersonDTO(PersonDTO personDTO) {
-    this.personDTO = personDTO;
   }
 
   /**
@@ -143,17 +138,6 @@ public class Session implements Serializable {
   }
 
   /**
-   * @param uid the uid to set
-   */
-  public void setUid(String uid) {
-    this.uid = uid;
-  }
-
-  public void touch() {
-    this.lastAccessTime = new Date();    
-  }
-
-  /**
    * @return the oringinal
    */
   public boolean isOringinal() {
@@ -161,10 +145,14 @@ public class Session implements Serializable {
   }
 
   /**
-   * @param oringinal the oringinal to set
+   * @return the httpSessionId
    */
-  public void setOringinal(boolean original) {
-    this.oringinal = original;
+  public String getHttpSessionId() {
+    return httpSessionId;
+  }
+
+  public void touch() {
+    this.lastAccessTime = new Date();    
   }
 
   /* (non-Javadoc)
@@ -172,8 +160,9 @@ public class Session implements Serializable {
    */
   @Override
   public String toString() {
-    return String.format("Session [artifactID=%s, createTime=%s, lastAccessTime=%s, personDTO=%s, uid=%s, oringinal=%s]", artifactID, createTime, lastAccessTime, personDTO,
-        uid, this.oringinal);
+    return String.format("Session [artifactID=%s, httpSessionId=%s, uid=%s, createTime=%s, lastAccessTime=%s, oringinal=%s, personDTO=%s]", artifactID,
+        httpSessionId, uid, createTime, lastAccessTime, oringinal, personDTO);
   }
+
 
 }

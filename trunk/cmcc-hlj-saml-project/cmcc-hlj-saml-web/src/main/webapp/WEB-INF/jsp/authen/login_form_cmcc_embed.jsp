@@ -179,7 +179,7 @@ function logincheck1() {
 }
 function showVeriImage() {
   if (document.getElementById("veriImageDiv").style.display == "none") {
-    document.getElementById("veriImage").src = "./jsp/check_code_img.jsp";
+    document.getElementById("veriImage").src = "./check_code_img";
     document.getElementById("veriImageDiv").style.display = "block";
   }
 }
@@ -314,7 +314,7 @@ function trim(inputStr) {
               </td>
               <td width="85" align="left">
                 <div id="veriImageDiv" style="display: none">
-                  <img id="veriImage" src="./jsp/check_code_img.jsp" />
+                  <img id="veriImage" src="./check_code_img" />
                 </div>
               </td>
             </tr>

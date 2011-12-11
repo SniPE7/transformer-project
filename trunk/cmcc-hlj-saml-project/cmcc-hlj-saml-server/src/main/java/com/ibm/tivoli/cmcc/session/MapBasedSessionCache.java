@@ -10,9 +10,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author zhaodonglu
  * 
  */
-public class MapBasedSessionCache<HttpSession> implements SessionCache<HttpSession> {
+public class MapBasedSessionCache<V> implements SessionCache<V> {
 
-  private Map<String, HttpSession> sessionMap = new ConcurrentHashMap<String, HttpSession>();
+  private Map<String, V> sessionMap = new ConcurrentHashMap<String, V>();
 
   /**
    * 
@@ -21,11 +21,11 @@ public class MapBasedSessionCache<HttpSession> implements SessionCache<HttpSessi
     super();
   }
 
-  public void put(String artifactID, HttpSession value) {
+  public void put(String artifactID, V value) {
     this.sessionMap.put(artifactID, value);
   }
 
-  public HttpSession get(String artifactID) {
+  public V get(String artifactID) {
     return this.sessionMap.get(artifactID);
   }
 

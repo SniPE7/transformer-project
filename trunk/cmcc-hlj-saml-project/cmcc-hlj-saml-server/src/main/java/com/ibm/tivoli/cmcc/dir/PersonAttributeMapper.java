@@ -52,9 +52,6 @@ public class PersonAttributeMapper implements AttributesMapper {
     //if (uid != null)
     //  contactDTO.setMsisdn((String) uid.get());
     
-    // TODO Set fixed value for HLJ
-    contactDTO.setProvince("200");
-    
     for (String ldapAttrName: attributeMapping.keySet()) {
       Attribute attr = attributes.get(ldapAttrName);
       String propertyName = attributeMapping.get(ldapAttrName);

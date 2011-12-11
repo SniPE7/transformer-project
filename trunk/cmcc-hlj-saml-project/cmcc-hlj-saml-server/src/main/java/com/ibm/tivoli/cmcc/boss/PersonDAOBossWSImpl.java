@@ -5,6 +5,8 @@ package com.ibm.tivoli.cmcc.boss;
 
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.ibm.lbs.mcc.hl.fsso.boss.BossService;
 import com.ibm.tivoli.cmcc.spi.PersonDAO;
 import com.ibm.tivoli.cmcc.spi.PersonDTO;
@@ -16,6 +18,11 @@ import com.ibm.tivoli.cmcc.spi.PersonDTO;
 public class PersonDAOBossWSImpl implements PersonDAO {
 
   private BossService bossService = null;
+
+  /**
+   * 缺省的省分代码, 用于填充所有的人员对象
+   */
+  private String defaultProvinceCode = "451";
 
   /**
    * 
@@ -37,6 +44,20 @@ public class PersonDAOBossWSImpl implements PersonDAO {
    */
   public void setBossService(BossService bossService) {
     this.bossService = bossService;
+  }
+
+  /**
+   * @return the defaultProvinceCode
+   */
+  public String getDefaultProvinceCode() {
+    return defaultProvinceCode;
+  }
+
+  /**
+   * @param defaultProvinceCode the defaultProvinceCode to set
+   */
+  public void setDefaultProvinceCode(String defaultProvinceCode) {
+    this.defaultProvinceCode = defaultProvinceCode;
   }
 
   /* (non-Javadoc)
@@ -73,6 +94,10 @@ public class PersonDAOBossWSImpl implements PersonDAO {
     //person.setProvince(result.get(""));
     person.setStatus(result.get("5"));
     //person.setUserLevel(result.get(""));
+
+    if (person != null && StringUtils.isEmpty(person.getProvince())) {
+      person.setProvince(this.defaultProvinceCode);
+    }
     return person;
   }
 

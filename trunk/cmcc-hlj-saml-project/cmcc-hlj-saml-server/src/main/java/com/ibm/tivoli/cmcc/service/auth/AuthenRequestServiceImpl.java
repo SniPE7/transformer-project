@@ -199,14 +199,13 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
              String username = ((PersonDTOPrincipal)principal).getPersonDTO().getMsisdn();
              log.debug(String.format("Federated login state is validate, msisdn: [%s].", username));
              // Create session and update state
-             SessionManager dao = (SessionManager) this.getApplicationContext().getBean("sessionManager");
+             SessionManager sessionManager = (SessionManager) this.getApplicationContext().getBean("sessionManager");
              String artifactID = CookieHelper.getArtifactIDFromCookies(request);
              if (artifactID == null) {
                throw new IOException("Failure to get artifactID from cookies.");
              }
-             Session session = dao.create(username, artifactID);
              // 标记用户已经从总部登录， 为报活和全局注销提供支持.
-             session.setOringinal(false);
+             Session session = sessionManager.create(username, artifactID, false);
              // 刷新本地登录状态
              updateSessionState(request, response, username, artifactID, ((PersonDTOPrincipal)principal).getPersonDTO());
           }
@@ -257,7 +256,7 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
 
     SessionManager dao = (SessionManager) this.getApplicationContext().getBean("sessionManager");
     // TODO 直接传入PersonDTO, 而不是Session内部再通过接口提取一次
-    Session session = dao.create(username);
+    Session session = dao.create(username, true);
     String artifactID = session.getArtifactID();
     if (artifactID == null) {
       throw new IOException("failure to create or update ldap entry.");
