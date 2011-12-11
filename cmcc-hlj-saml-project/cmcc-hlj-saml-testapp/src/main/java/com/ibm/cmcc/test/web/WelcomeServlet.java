@@ -78,7 +78,10 @@ public class WelcomeServlet extends HttpServlet {
    */
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     HttpSession session = request.getSession(false);
-    if (session == null || session.getAttribute("USER_UID") == null) {
+    if (session != null && session.getAttribute("USER_UID") != null) {
+      this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/mypage_cmcc_embed.jsp").forward(request, response);
+      return;
+    } else {
       String artifact = request.getParameter("SAMLart");
       String relayState = request.getParameter("RelayState");
       if (artifact == null || artifact.trim().length() == 0) {
@@ -147,9 +150,6 @@ public class WelcomeServlet extends HttpServlet {
       }
       // Redirect to SSO loginbox url
       response.sendRedirect(appendParameter(caculateURL(request, ssoLoginBoxURL), "continue", caculateURL(request, ssoLoginReturnURL)));
-      return;
-    } else {
-      this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/mypage_cmcc_embed.jsp").forward(request, response);
       return;
     }
   }
