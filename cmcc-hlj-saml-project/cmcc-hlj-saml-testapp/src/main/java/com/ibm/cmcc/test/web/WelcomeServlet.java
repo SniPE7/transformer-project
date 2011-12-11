@@ -29,6 +29,7 @@ import com.ibm.tivoli.cmcc.server.utils.Helper;
  */
 public class WelcomeServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
+  
   private String ssoSAMLAuthRequestURL;
   private String ssoLoginBoxURL;
   private String ssoLoginReturnURL;
@@ -154,7 +155,7 @@ public class WelcomeServlet extends HttpServlet {
     }
   }
   
-  private String appendParameter(String url, String key, String value) throws UnsupportedEncodingException {
+  private static String appendParameter(String url, String key, String value) throws UnsupportedEncodingException {
     if (url == null) {
        return null;
     }
@@ -169,7 +170,7 @@ public class WelcomeServlet extends HttpServlet {
    * @param request
    * @return
    */
-  private String getServerURL(HttpServletRequest request) {
+  private static String getServerURL(HttpServletRequest request) {
     String serverURL = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
     return serverURL;
   }
@@ -179,15 +180,15 @@ public class WelcomeServlet extends HttpServlet {
    * @param url
    * @return
    */
-  private String caculateURL(HttpServletRequest request, String url) {
+  private static String caculateURL(HttpServletRequest request, String url) {
     if (url != null && url.toLowerCase().startsWith("http")) {
        return url;
     }
     if (url != null && url.toLowerCase().startsWith("/")) {
-       return this.getServerURL(request) + url;
+       return getServerURL(request) + url;
     }
     if (url != null) {
-      return this.getServerURL(request) + request.getContextPath() + "/" + url;
+      return getServerURL(request) + request.getContextPath() + "/" + url;
     }
     return null;
   }
