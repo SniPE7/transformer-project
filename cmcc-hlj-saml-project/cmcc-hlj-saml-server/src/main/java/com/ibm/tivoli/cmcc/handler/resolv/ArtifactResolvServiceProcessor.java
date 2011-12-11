@@ -78,7 +78,6 @@ public class ArtifactResolvServiceProcessor extends BaseProcessor implements Pro
       Session session = dao.get(req.getArtifact());
       if (session != null && session.getPersonDTO() != null) {
          this.personDTO  = session.getPersonDTO();
-         this.personDTO.setProvince(this.getProperties().getProperty("message.saml.province.code"));
          log.debug("found ldap entity [uid=" + this.personDTO.getMsisdn() + "] by samlID: " + req.getSamlId());
          
          resp.setNameId(this.personDTO.getMsisdn());

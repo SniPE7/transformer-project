@@ -18,7 +18,7 @@ public class PersonDTO implements Serializable {
   String commonName;
   String lastName;
   String msisdn;
-  String province;
+  String province = "451";
   String brand;
   String status;
   String currentPoint;
