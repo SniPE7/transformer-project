@@ -19,10 +19,11 @@ import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
-import javax.net.SocketFactory;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
@@ -87,7 +88,7 @@ public class SimpleNetworkConnectorImpl implements Connector {
   /**
    * In seconds
    */
-  private int timeOut = 60;
+  private int timeOut = 10;
 
   /**
    * 
@@ -271,7 +272,7 @@ public class SimpleNetworkConnectorImpl implements Connector {
     try {
       socket = getSocket();
     } catch (Exception e) {
-      log.error(String.format("Failure to create a socket to: [%s, %s, %s", this.protocol, this.serverName, this.serverPort));
+      log.error(String.format("Failure to create a socket to: [%s, %s, %s]", this.protocol, this.serverName, this.serverPort));
       throw e;
     }
   }
@@ -288,7 +289,7 @@ public class SimpleNetworkConnectorImpl implements Connector {
    */
   private Socket getSocket() throws UnknownHostException, IOException, KeyStoreException, NoSuchAlgorithmException, CertificateException,
       KeyManagementException, UnrecoverableKeyException {
-    log.info(String.format("Creating a socket to: [%s, %s, %s", this.protocol, this.serverName, this.serverPort));
+    log.info(String.format("Creating a socket to: [%s, %s, %s]", this.protocol, this.serverName, this.serverPort));
     if (StringUtils.isEmpty(protocol) || protocol.equalsIgnoreCase("TCP")) {
       return getTCPSocket();
     } else if (protocol.equalsIgnoreCase("TLS") || protocol.equalsIgnoreCase("SSL")) {
@@ -319,10 +320,12 @@ public class SimpleNetworkConnectorImpl implements Connector {
     context.init(keyManagers, trustManagers, null);
 
     // Get SSL socket factory
-    SocketFactory sf = context.getSocketFactory();
+    SSLSocketFactory sf = context.getSocketFactory();
 
     // Make socket connect with SSL server
-    Socket s = sf.createSocket(InetAddress.getByName(this.serverName), this.serverPort);
+    Socket s = sf.createSocket();
+    SocketAddress sockaddr = new InetSocketAddress(InetAddress.getByName(this.serverName), this.serverPort);
+    s.connect(sockaddr, this.timeOut * 1000);
     return s;
   }
 
