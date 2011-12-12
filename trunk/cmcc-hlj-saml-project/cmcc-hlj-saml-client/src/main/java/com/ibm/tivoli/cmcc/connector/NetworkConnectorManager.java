@@ -55,7 +55,7 @@ public class NetworkConnectorManager implements ConnectorManager {
   /**
    * In seconds
    */
-  private int timeOut = 60;
+  private int timeOut = 10;
 
   /**
    * 
