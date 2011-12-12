@@ -1,43 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-  xmlns:oxm="http://www.springframework.org/schema/oxm" xmlns:mvc="http://www.springframework.org/schema/mvc"
-  xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context" xmlns:oxm="http://www.springframework.org/schema/oxm"
+  xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"
   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
         http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
         http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.1.xsd">
-
-  <bean id="propertyPlaceholderConfigurer" class="com.ibm.tivoli.cmcc.server.utils.MyPropertyPlaceholderConfigurer">
-    <!--
-      Set how to check system properties: as fallback, as override, or never. The default is "fallback": If not being able to resolve a placeholder with the
-      specified properties, a system property will be tried. "override" will check for a system property first, before trying the specified properties. "never"
-      will not check system properties at all.
-    -->
-    <!-- 系统属性总是优先, 即: JVM "-Dkey=value"方式设置的属性信息总是优先于在配置文件的设置. -->
-    <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
-    <property name="ignoreResourceNotFound" value="true"></property>
-
-    <property name="locations">
-      <list>
-        <value>classpath:com/ibm/tivoli/cmcc/server/spring/saml-server-config.properties</value>
-        <value>file:${saml.server.home}/conf/saml-server-config.properties</value>
-        <value>file:${catalina.home}/conf/saml-server-config.properties</value>
-        <value>file:${user.home}/conf/saml-server-config.properties</value>
-      </list>
-    </property>
-  </bean>
-  <bean name="configProperties" class="com.ibm.tivoli.cmcc.server.utils.PropertiesWrapper">
-    <constructor-arg>
-      <ref bean="propertyPlaceholderConfigurer"/>
-    </constructor-arg>
-  </bean>
-
-  <!-- SAML Request Handler -->
-  <bean id="requestHandler" class="com.ibm.tivoli.cmcc.handler.SAMLRequestHanlder">
-    <property name="propertyPlaceholderConfigurer" ref="propertyPlaceholderConfigurer"></property>
-  </bean>
 
   <!-- LDAP Template -->
   <bean id="contextSourceTarget" class="org.springframework.ldap.core.support.LdapContextSource">
@@ -72,17 +41,13 @@
     </property>
     <property name="defaultProvinceCode" value="${message.saml.province.code}" />
   </bean>
-  <alias alias="personDao" name="personLDAPDao"/>
+  <alias alias="personDao" name="personLDAPDao" />
 
   <!-- LDAP Session Manager only for testing -->
   <!-- Define caches -->
-  <!-- 
-  <bean id="samlID2HttpSessionIDCache" class="com.ibm.tivoli.cmcc.session.MapBasedSessionCache"></bean>
-  <bean id="httpSessionCache" class="com.ibm.tivoli.cmcc.session.MapBasedSessionCache"></bean>
-  <bean id="samlSessionCache" class="com.ibm.tivoli.cmcc.session.MapBasedSessionCache"></bean>
-   -->
-  <bean id="cacheManager"
-    class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+  <!-- <bean id="samlID2HttpSessionIDCache" class="com.ibm.tivoli.cmcc.session.MapBasedSessionCache"></bean> <bean id="httpSessionCache" 
+    class="com.ibm.tivoli.cmcc.session.MapBasedSessionCache"></bean> <bean id="samlSessionCache" class="com.ibm.tivoli.cmcc.session.MapBasedSessionCache"></bean> -->
+  <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
     <!-- Re-implement this bean, now this class only use web resource path -->
     <property name="configLocation" value="/WEB-INF/ehcache.xml" />
   </bean>
@@ -103,12 +68,30 @@
     <property name="samlID2HttpSessionIDCache" ref="samlID2HttpSessionIDCache"></property>
     <property name="httpSessionCache" ref="httpSessionCache"></property>
     <property name="samlSessionCache" ref="samlSessionCache"></property>
+    <property name="sessionListener" ref="sessionListener"></property>
   </bean>
-
-  <!-- Authentication Service -->
-  <bean id="authenRequestService" class="com.ibm.tivoli.cmcc.service.auth.AuthenRequestServiceImpl">
-    <property name="cookieDomain"          value="${webapp.cookies.domain}"></property>
-    <property name="defaultArtifactDomain" value="${webapp.cookies.aritifact.domain}"></property>
+  <bean id="sessionListener" class="com.ibm.tivoli.cmcc.session.ChainSessionListener">
+    <property name="listeners">
+       <array>
+         <ref bean="idpActivateNotifySessionListener"/>
+         <ref bean="idpLogoutNotifySessionListener"/>
+         <ref bean="spLogoutNotifySessionListener"/>
+       </array>
+    </property>
+  </bean>
+  <!-- 侦听Session的活动, 按照指定的时间间隔发送报活信息到Federal IDP -->
+  <bean id="idpActivateNotifySessionListener" class="com.ibm.tivoli.cmcc.session.NotifyActiviate2FederationIDPSessionListener">
+    <property name="activiateClient" ref="activiateClient"></property>
+    <!-- In seconds -->
+    <property name="activiateNotifyInterval" value="${saml.client.notify.activiate.insterval}"></property>
+  </bean>
+  <!-- 侦听Session的活动, 发送Logout事件到Federal IDP -->
+  <bean id="idpLogoutNotifySessionListener" class="com.ibm.tivoli.cmcc.session.NotifyLogout2FederationIDPSessionListener">
+    <property name="logoutClient" ref="logoutClient"></property>
+  </bean>
+  <!-- 侦听Session的活动, 发送Logout事件到Federal SP -->
+  <bean id="spLogoutNotifySessionListener" class="com.ibm.tivoli.cmcc.session.NotifyLogout2FederationSpSessionListener">
+    <property name="logoutClient" ref="logoutClient"></property>
   </bean>
 
 </beans>
