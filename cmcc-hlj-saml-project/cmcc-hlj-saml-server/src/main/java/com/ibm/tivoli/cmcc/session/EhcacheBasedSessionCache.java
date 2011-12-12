@@ -32,7 +32,8 @@ public class EhcacheBasedSessionCache<V> implements SessionCache<V> {
   }
 
   /**
-   * @param cacheManager the cacheManager to set
+   * @param cacheManager
+   *          the cacheManager to set
    */
   public void setCacheManager(CacheManager cacheManager) {
     this.cacheManager = cacheManager;
@@ -46,7 +47,8 @@ public class EhcacheBasedSessionCache<V> implements SessionCache<V> {
   }
 
   /**
-   * @param cacheName the cacheName to set
+   * @param cacheName
+   *          the cacheName to set
    */
   public void setCacheName(String cacheName) {
     this.cacheName = cacheName;
@@ -80,12 +82,16 @@ public class EhcacheBasedSessionCache<V> implements SessionCache<V> {
   public V get(String key) {
     Cache cache = getCache();
     Element element = cache.get(key);
-    
-    V value = (V) element.getValue();
-    return value;
+    if (element != null) {
+      V value = (V) element.getValue();
+      return value;
+    }
+    return null;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see com.ibm.tivoli.cmcc.session.SessionCache#remove(java.lang.String)
    */
   public void remove(String key) {

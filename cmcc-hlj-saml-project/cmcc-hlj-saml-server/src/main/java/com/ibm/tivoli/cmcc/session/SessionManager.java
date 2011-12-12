@@ -10,6 +10,12 @@ package com.ibm.tivoli.cmcc.session;
  *
  */
 public interface SessionManager {
+  
+  /**
+   * Registe a SessionListener
+   * @param sessionListener
+   */
+  public void setSessionListener(SessionListener sessionListener);
 
   /**
    * Create a session with artifactID
@@ -19,7 +25,7 @@ public interface SessionManager {
    * @return
    * @throws SessionManagementException
    */
-  public Session create(String msisdn, String artifactID, boolean original) throws SessionManagementException;
+  public Session create(String msisdn, String artifactID, boolean original, String artifactDomain) throws SessionManagementException;
 
   /**
    * Create a session
@@ -28,7 +34,7 @@ public interface SessionManager {
    * @return
    * @throws SessionManagementException
    */
-  public Session create(String msisdn, boolean original) throws SessionManagementException;
+  public Session create(String msisdn, boolean original, String artifactDomain) throws SessionManagementException;
 
   /**
    * Touch and active a session
@@ -39,12 +45,14 @@ public interface SessionManager {
   
   /**
    * Destroy a Session
-   * @param base
-   * @param filter
-   * @param uniqueIdentifier
+   * @param artifactId
+   * @param broadcastToOtherIDPs  表示是否需要向其它的IDP广播通知这个销毁事件.
+   *          true - 表示需要通知其它IDP, 用户已经注销
+   *          false - 表示不需要通知其它IDP, 用户已经注销. 此情况多为接收到其它IDP的事件, 不需要再次广播, 避免造成回路.
    * @return
+   * @throws SessionManagementException
    */
-  public boolean destroy(String artifactId) throws SessionManagementException;
+  public boolean destroy(String artifactId, boolean broadcastToOtherIDPs) throws SessionManagementException;
   
   /**
    * Return a session object
@@ -52,6 +60,13 @@ public interface SessionManager {
    * @return
    */
   public Session get(String artifactId) throws SessionManagementException;
+
+  /**
+   * Update session and refresh session into cache
+   * @param session
+   * @throws SessionManagementException
+   */
+  public void update(Session session) throws SessionManagementException;
   
 }
 

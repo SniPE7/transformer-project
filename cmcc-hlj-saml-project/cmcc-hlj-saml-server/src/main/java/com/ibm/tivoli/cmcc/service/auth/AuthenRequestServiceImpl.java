@@ -201,11 +201,12 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
              // Create session and update state
              SessionManager sessionManager = (SessionManager) this.getApplicationContext().getBean("sessionManager");
              String artifactID = CookieHelper.getArtifactIDFromCookies(request);
+             String artifactDomain = CookieHelper.getArtifactIDFromCookies(request);
              if (artifactID == null) {
                throw new IOException("Failure to get artifactID from cookies.");
              }
              // 标记用户已经从总部登录， 为报活和全局注销提供支持.
-             Session session = sessionManager.create(username, artifactID, false);
+             Session session = sessionManager.create(username, artifactID, false, artifactDomain);
              // 刷新本地登录状态
              updateSessionState(request, response, username, artifactID, ((PersonDTOPrincipal)principal).getPersonDTO());
           }
@@ -256,7 +257,8 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
 
     SessionManager dao = (SessionManager) this.getApplicationContext().getBean("sessionManager");
     // TODO 直接传入PersonDTO, 而不是Session内部再通过接口提取一次
-    Session session = dao.create(username, true);
+    String artifactDomain = getCurrentArtifactDomain(request);
+    Session session = dao.create(username, true, artifactDomain);
     String artifactID = session.getArtifactID();
     if (artifactID == null) {
       throw new IOException("failure to create or update ldap entry.");
@@ -275,15 +277,24 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
     httpSession.setAttribute("SESSION_PERSON", person);
 
     // Update to Cookies
+    String artifactDomain = getCurrentArtifactDomain(request);
+    CookieHelper.saveArtifactIdIntoCookies(response, artifactID, artifactDomain, this.cookieDomain);
+    // Save msisdn into cookie
+    CookieHelper.saveToCookies(response, this.cookieDomain, "UID", username);
+  }
+
+  /**
+   * @param request
+   * @return
+   */
+  private String getCurrentArtifactDomain(HttpServletRequest request) {
     String artifactDomain = this.defaultArtifactDomain;
     if (StringUtils.isEmpty(artifactDomain)) {
        log.debug("Missing parameter artifactDoamin, auto detect from HTTPServletRequest");
        artifactDomain = request.getServerName();
        log.info(String.format("Using artifact domain: [%s]", artifactDomain));
     }
-    CookieHelper.saveArtifactIdIntoCookies(response, artifactID, artifactDomain, this.cookieDomain);
-    // Save msisdn into cookie
-    CookieHelper.saveToCookies(response, this.cookieDomain, "UID", username);
+    return artifactDomain;
   }
 
 }

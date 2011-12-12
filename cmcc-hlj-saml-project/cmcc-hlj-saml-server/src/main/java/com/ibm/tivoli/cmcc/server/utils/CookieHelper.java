@@ -87,4 +87,23 @@ public class CookieHelper {
     }
     return null;
   }
+
+  /**
+   * @param request
+   * @return
+   */
+  public static String getArtifactDomainFromCookies(HttpServletRequest request) {
+    String[] values = getFromCookies(request, CM_TOKENID);
+    if (values != null) {
+      for (String v : values) {
+        int index = v.indexOf('@');
+        if (index > 0) {
+          return v.substring(index + 1);
+        } else {
+          return null;
+        }
+      }
+    }
+    return null;
+  }
 }
