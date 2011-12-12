@@ -13,8 +13,8 @@
   <bean id="connectorManager" class="com.ibm.tivoli.cmcc.connector.NetworkConnectorManager">
     <property name="serverName" value="${remote.saml.server.hostname}"></property>
     <property name="serverPort" value="${remote.saml.server.port}"></property>
-    <!-- 60 seconds -->
-    <property name="timeOut" value="60"></property>
+    <!-- In seconds -->
+    <property name="timeOut" value="${remote.saml.server.timeout}"></property>
     <!-- SSl/TLS parameters -->
     <property name="protocol" value="${remote.saml.server.protocol}"></property>
     <property name="trustCertsStorePath" value="${saml.client.ssl.trust.store.path}"></property>
