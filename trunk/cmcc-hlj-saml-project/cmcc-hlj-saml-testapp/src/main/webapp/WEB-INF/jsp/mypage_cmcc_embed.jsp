@@ -45,7 +45,7 @@ input {
 </head>
 <body>
 <div id="login_successfull">
-	<div id="brand"><a href="https://hl1.ac.10086.cn/sso/service/authen/logout">退出</a></div>
+	<div id="brand"><a href="/sso/service/authen/logout">退出</a></div>
 	<div id="welcome">
 	<c:out value="${sessionScope.SESSION_PERSON.commonName}"/> 欢迎使用<b>测试应用!</b><br>
 	(<a href="javascript:void()"><c:out value="${sessionScope.SESSION_PERSON.msisdn}"/> 【黑龙江】</a>) 您好</div>
