@@ -57,7 +57,7 @@ public class CreateSamlIDServlet extends HttpServlet {
 
       ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
       SessionManager dao = (SessionManager)context.getBean("sessionManager");
-      Session session = dao.create(msisdn, true);
+      Session session = dao.create(msisdn, true, null);
       String uniqueIdentifier = session.getArtifactID();
       if (uniqueIdentifier == null) {
          throw new IOException("failure to create or update ldap entry.");
