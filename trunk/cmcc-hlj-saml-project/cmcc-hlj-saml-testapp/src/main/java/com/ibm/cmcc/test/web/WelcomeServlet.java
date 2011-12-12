@@ -99,6 +99,7 @@ public class WelcomeServlet extends HttpServlet {
           request.setAttribute("RelayState", relayState);
           request.setAttribute("SAMLRequest", new String(Base64.encode(xml.getBytes())));
           request.setAttribute("ssoSAMLAuthRequestURL", caculateURL(request, this.ssoSAMLAuthRequestURL));
+          request.setAttribute("saml_debug_mode", "true");
           this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/query_auth_state.jsp").forward(request, response);
           return;
         } else {
