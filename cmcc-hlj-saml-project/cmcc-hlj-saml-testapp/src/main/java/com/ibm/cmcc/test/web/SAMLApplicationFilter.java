@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Properties;
 
 import javax.servlet.Filter;
@@ -251,6 +252,20 @@ public class SAMLApplicationFilter implements Filter {
     return url;
   }
 
+  private static String appendAllRequestParameters(String url, HttpServletRequest request) throws UnsupportedEncodingException {
+    Enumeration<String> names = request.getParameterNames();
+    while (names.hasMoreElements()) {
+          String name = names.nextElement();
+          String[] values = request.getParameterValues(name);
+          if (values != null) {
+             for (String v: values) {
+               url = appendParameter(url, name, v);
+             }
+          }
+    }
+    return url;
+  }
+  
   private static String appendParameter(String url, String key, String value) throws UnsupportedEncodingException {
     if (url == null) {
       return null;
