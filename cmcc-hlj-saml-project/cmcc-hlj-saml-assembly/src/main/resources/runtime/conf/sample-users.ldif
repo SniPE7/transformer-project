@@ -1,10 +1,20 @@
-dn: cn=13804511234, cn=user, DC=HLJCMCC
+dn: DC=HLJCMCC
+dc: hljcmcc
+objectclass: domain
+objectclass: top
+
+dn: cn=user, DC=HLJCMCC
+objectclass: container
+objectclass: top
+cn: user
+
+dn: cn=13804511234,cn=user, DC=HLJCMCC
+erhljmccuserlevel: 04
 erhljmcccurrentpoint: 10000
-erhljmccuserlevel: 10
 erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13804511234
-userPassword:: MTExMQ==
+userPassword:: MTIzNDU2
 erhljmccbrand: 1
 displayName: test01
 objectclass: container
@@ -15,13 +25,35 @@ objectclass: organizationalPerson
 objectclass: person
 objectclass: CMCCMobileUser
 uid: 13804511234
+erhljmccServiceCode: 123456
 cn: 13804511234
+uniqueIdentifier: 5o3lj6fr7u5y2vfi2crxukfl8la6fahm
 erhljmccFetionStatus: 1
 
-dn: cn=13905511234, cn=user, DC=HLJCMCC
+dn: cn=13904511234,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13904511234
+userPassword:: MTIzNDU2Nzg=
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13904511234
+cn: 13904511234
+erhljmccFetionStatus: 1
+
+dn: cn=13905511234,cn=user, DC=HLJCMCC
 erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
 erhljmccstatus: 1
 sn: 13905511234
 erhljmccbrand: 1
@@ -37,10 +69,10 @@ uid: 13905511234
 cn: 13905511234
 erhljmccFetionStatus: 1
 
-dn: cn=13814511230, cn=user, DC=HLJCMCC
+dn: cn=13814511230,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13814511230
 erhljmccbrand: 1
@@ -56,10 +88,10 @@ uid: 13814511230
 cn: 13814511230
 erhljmccFetionStatus: 1
 
-dn: cn=13814511231, cn=user, DC=HLJCMCC
+dn: cn=13814511231,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13814511231
 erhljmccbrand: 1
@@ -75,10 +107,10 @@ uid: 13814511231
 cn: 13814511231
 erhljmccFetionStatus: 1
 
-dn: cn=13814511232, cn=user, DC=HLJCMCC
+dn: cn=13814511232,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13814511232
 erhljmccbrand: 1
@@ -94,10 +126,10 @@ uid: 13814511232
 cn: 13814511232
 erhljmccFetionStatus: 1
 
-dn: cn=13814511233, cn=user, DC=HLJCMCC
+dn: cn=13814511233,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13814511233
 erhljmccbrand: 1
@@ -113,10 +145,10 @@ uid: 13814511233
 cn: 13814511233
 erhljmccFetionStatus: 1
 
-dn: cn=13814511234, cn=user, DC=HLJCMCC
+dn: cn=13814511234,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13814511234
 erhljmccbrand: 1
@@ -132,10 +164,10 @@ uid: 13814511234
 cn: 13814511234
 erhljmccFetionStatus: 1
 
-dn: cn=13814511235, cn=user, DC=HLJCMCC
+dn: cn=13814511235,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13814511235
 erhljmccbrand: 1
@@ -151,10 +183,10 @@ uid: 13814511235
 cn: 13814511235
 erhljmccFetionStatus: 1
 
-dn: cn=13814511236, cn=user, DC=HLJCMCC
+dn: cn=13814511236,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13814511236
 erhljmccbrand: 1
@@ -170,10 +202,10 @@ uid: 13814511236
 cn: 13814511236
 erhljmccFetionStatus: 1
 
-dn: cn=13814511237, cn=user, DC=HLJCMCC
+dn: cn=13814511237,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13814511237
 erhljmccbrand: 1
@@ -189,10 +221,10 @@ uid: 13814511237
 cn: 13814511237
 erhljmccFetionStatus: 1
 
-dn: cn=13814511238, cn=user, DC=HLJCMCC
+dn: cn=13814511238,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13814511238
 erhljmccbrand: 1
@@ -208,10 +240,10 @@ uid: 13814511238
 cn: 13814511238
 erhljmccFetionStatus: 1
 
-dn: cn=13814511239, cn=user, DC=HLJCMCC
+dn: cn=13814511239,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13814511239
 erhljmccbrand: 1
@@ -227,10 +259,10 @@ uid: 13814511239
 cn: 13814511239
 erhljmccFetionStatus: 1
 
-dn: cn=13914511230, cn=user, DC=HLJCMCC
+dn: cn=13914511230,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13914511230
 erhljmccbrand: 1
@@ -246,10 +278,10 @@ uid: 13914511230
 cn: 13914511230
 erhljmccFetionStatus: 1
 
-dn: cn=13914511231, cn=user, DC=HLJCMCC
+dn: cn=13914511231,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13914511231
 erhljmccbrand: 1
@@ -265,10 +297,10 @@ uid: 13914511231
 cn: 13914511231
 erhljmccFetionStatus: 1
 
-dn: cn=13914511232, cn=user, DC=HLJCMCC
+dn: cn=13914511232,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13914511232
 erhljmccbrand: 1
@@ -284,10 +316,10 @@ uid: 13914511232
 cn: 13914511232
 erhljmccFetionStatus: 1
 
-dn: cn=13914511233, cn=user, DC=HLJCMCC
+dn: cn=13914511233,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13914511233
 erhljmccbrand: 1
@@ -303,10 +335,10 @@ uid: 13914511233
 cn: 13914511233
 erhljmccFetionStatus: 1
 
-dn: cn=13914511234, cn=user, DC=HLJCMCC
+dn: cn=13914511234,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13914511234
 erhljmccbrand: 1
@@ -322,10 +354,10 @@ uid: 13914511234
 cn: 13914511234
 erhljmccFetionStatus: 1
 
-dn: cn=13914511235, cn=user, DC=HLJCMCC
+dn: cn=13914511235,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13914511235
 erhljmccbrand: 1
@@ -341,10 +373,10 @@ uid: 13914511235
 cn: 13914511235
 erhljmccFetionStatus: 1
 
-dn: cn=13914511236, cn=user, DC=HLJCMCC
+dn: cn=13914511236,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13914511236
 erhljmccbrand: 1
@@ -360,10 +392,10 @@ uid: 13914511236
 cn: 13914511236
 erhljmccFetionStatus: 1
 
-dn: cn=13914511237, cn=user, DC=HLJCMCC
+dn: cn=13914511237,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13914511237
 erhljmccbrand: 1
@@ -379,10 +411,10 @@ uid: 13914511237
 cn: 13914511237
 erhljmccFetionStatus: 1
 
-dn: cn=13914511238, cn=user, DC=HLJCMCC
+dn: cn=13914511238,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13914511238
 erhljmccbrand: 1
@@ -398,10 +430,10 @@ uid: 13914511238
 cn: 13914511238
 erhljmccFetionStatus: 1
 
-dn: cn=13914511239, cn=user, DC=HLJCMCC
+dn: cn=13914511239,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13914511239
 erhljmccbrand: 1
@@ -417,10 +449,10 @@ uid: 13914511239
 cn: 13914511239
 erhljmccFetionStatus: 1
 
-dn: cn=13904511230, cn=user, DC=HLJCMCC
+dn: cn=13904511230,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13904511230
 erhljmccbrand: 1
@@ -436,10 +468,10 @@ uid: 13904511230
 cn: 13904511230
 erhljmccFetionStatus: 1
 
-dn: cn=13904511231, cn=user, DC=HLJCMCC
+dn: cn=13904511231,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13904511231
 erhljmccbrand: 1
@@ -455,10 +487,10 @@ uid: 13904511231
 cn: 13904511231
 erhljmccFetionStatus: 1
 
-dn: cn=13904511232, cn=user, DC=HLJCMCC
+dn: cn=13904511232,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13904511232
 erhljmccbrand: 1
@@ -474,10 +506,10 @@ uid: 13904511232
 cn: 13904511232
 erhljmccFetionStatus: 1
 
-dn: cn=13904511233, cn=user, DC=HLJCMCC
+dn: cn=13904511233,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13904511233
 erhljmccbrand: 1
@@ -493,29 +525,10 @@ uid: 13904511233
 cn: 13904511233
 erhljmccFetionStatus: 1
 
-dn: cn=13904511234, cn=user, DC=HLJCMCC
+dn: cn=13904511235,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
-erhljmccstatus: 1
-sn: 13904511234
-erhljmccbrand: 1
-displayName: test01
-objectclass: container
-objectclass: top
-objectclass: pilotObject
-objectclass: inetOrgPerson
-objectclass: organizationalPerson
-objectclass: person
-objectclass: CMCCMobileUser
-uid: 13904511234
-cn: 13904511234
-erhljmccFetionStatus: 1
-
-dn: cn=13904511235, cn=user, DC=HLJCMCC
-erhljmcccurrentpoint: 10000
-erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13904511235
 erhljmccbrand: 1
@@ -531,10 +544,10 @@ uid: 13904511235
 cn: 13904511235
 erhljmccFetionStatus: 1
 
-dn: cn=13904511236, cn=user, DC=HLJCMCC
+dn: cn=13904511236,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13904511236
 erhljmccbrand: 1
@@ -550,10 +563,10 @@ uid: 13904511236
 cn: 13904511236
 erhljmccFetionStatus: 1
 
-dn: cn=13904511237, cn=user, DC=HLJCMCC
+dn: cn=13904511237,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13904511237
 erhljmccbrand: 1
@@ -569,10 +582,10 @@ uid: 13904511237
 cn: 13904511237
 erhljmccFetionStatus: 1
 
-dn: cn=13904511238, cn=user, DC=HLJCMCC
+dn: cn=13904511238,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13904511238
 erhljmccbrand: 1
@@ -588,10 +601,10 @@ uid: 13904511238
 cn: 13904511238
 erhljmccFetionStatus: 1
 
-dn: cn=13904511239, cn=user, DC=HLJCMCC
+dn: cn=13904511239,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
 erhljmcccurrentpoint: 10000
 erhljmccuserlevel: 10
-erhljmcc139MailStatus: 1
 erhljmccstatus: 1
 sn: 13904511239
 erhljmccbrand: 1
@@ -605,4 +618,664 @@ objectclass: person
 objectclass: CMCCMobileUser
 uid: 13904511239
 cn: 13904511239
+
+dn: cn=13804512234,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13804512234
+userPassword:: MTExMQ==
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13804512234
+cn: 13804512234
 erhljmccFetionStatus: 1
+
+dn: cn=13814512230,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13814512230
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13814512230
+cn: 13814512230
+erhljmccFetionStatus: 1
+
+dn: cn=13814512231,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13814512231
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13814512231
+cn: 13814512231
+erhljmccFetionStatus: 1
+
+dn: cn=13814512232,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13814512232
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13814512232
+cn: 13814512232
+erhljmccFetionStatus: 1
+
+dn: cn=13814512233,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13814512233
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13814512233
+cn: 13814512233
+erhljmccFetionStatus: 1
+
+dn: cn=13814512234,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13814512234
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13814512234
+cn: 13814512234
+erhljmccFetionStatus: 1
+
+dn: cn=13814512235,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13814512235
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13814512235
+cn: 13814512235
+erhljmccFetionStatus: 1
+
+dn: cn=13814512236,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13814512236
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13814512236
+cn: 13814512236
+erhljmccFetionStatus: 1
+
+dn: cn=13814512237,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13814512237
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13814512237
+cn: 13814512237
+erhljmccFetionStatus: 1
+
+dn: cn=13814512238,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13814512238
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13814512238
+cn: 13814512238
+erhljmccFetionStatus: 1
+
+dn: cn=13814512239,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13814512239
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13814512239
+cn: 13814512239
+erhljmccFetionStatus: 1
+
+dn: cn=13914512230,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13914512230
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13914512230
+cn: 13914512230
+erhljmccFetionStatus: 1
+
+dn: cn=13914512231,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13914512231
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13914512231
+cn: 13914512231
+erhljmccFetionStatus: 1
+
+dn: cn=13914512232,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13914512232
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13914512232
+cn: 13914512232
+erhljmccFetionStatus: 1
+
+dn: cn=13914512233,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13914512233
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13914512233
+cn: 13914512233
+erhljmccFetionStatus: 1
+
+dn: cn=13914512234,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13914512234
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13914512234
+cn: 13914512234
+erhljmccFetionStatus: 1
+
+dn: cn=13914512235,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13914512235
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13914512235
+cn: 13914512235
+erhljmccFetionStatus: 1
+
+dn: cn=13914512236,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13914512236
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13914512236
+cn: 13914512236
+erhljmccFetionStatus: 1
+
+dn: cn=13914512237,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13914512237
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13914512237
+cn: 13914512237
+erhljmccFetionStatus: 1
+
+dn: cn=13914512238,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13914512238
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13914512238
+cn: 13914512238
+erhljmccFetionStatus: 1
+
+dn: cn=13914512239,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13914512239
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13914512239
+cn: 13914512239
+erhljmccFetionStatus: 1
+
+dn: cn=13904512230,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13904512230
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13904512230
+cn: 13904512230
+erhljmccFetionStatus: 1
+
+dn: cn=13904512231,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13904512231
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13904512231
+cn: 13904512231
+erhljmccFetionStatus: 1
+
+dn: cn=13904512232,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13904512232
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13904512232
+cn: 13904512232
+erhljmccFetionStatus: 1
+
+dn: cn=13904512233,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13904512233
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13904512233
+cn: 13904512233
+erhljmccFetionStatus: 1
+
+dn: cn=13904512234,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13904512234
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13904512234
+cn: 13904512234
+erhljmccFetionStatus: 1
+
+dn: cn=13904512235,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13904512235
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13904512235
+cn: 13904512235
+erhljmccFetionStatus: 1
+
+dn: cn=13904512236,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13904512236
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13904512236
+cn: 13904512236
+erhljmccFetionStatus: 1
+
+dn: cn=13904512237,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13904512237
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13904512237
+cn: 13904512237
+erhljmccFetionStatus: 1
+
+dn: cn=13904512238,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13904512238
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13904512238
+cn: 13904512238
+erhljmccFetionStatus: 1
+
+dn: cn=13904512239,cn=user, DC=HLJCMCC
+erhljmcc139MailStatus: 1
+erhljmcccurrentpoint: 10000
+erhljmccuserlevel: 10
+erhljmccstatus: 1
+sn: 13904512239
+erhljmccbrand: 1
+displayName: test01
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 13904512239
+cn: 13904512239
+
+dn: cn=15004604741,cn=user, DC=HLJCMCC
+erhljmcccurrentpoint: 0
+erhljmccuserlevel: 04
+erhljmcc139MailStatus: 1
+erhljmccstatus: 1
+sn: 15004604741
+userPassword:: MTAwODY2
+erhljmccbrand: 1
+displayName: tt
+erhljmccAuthThreshold: 300
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 15004604741
+cn: 15004604741
+erhljmccServiceCode: 921928
+uniqueIdentifier: i8p8y32jv98srcs2t5bky4saeqpqa3ew
+erhljmccAuthTimes:: MA==
+erhljmccFetionStatus: 1
+
+dn: cn=15904604742,cn=user, DC=HLJCMCC
+erhljmccstatus: 2
+erhljmcccurrentpoint: 0
+erhljmcc139MailStatus: 1
+erhljmccuserlevel: 04
+sn: 15904604742
+userPassword:: MTAwODY2
+erhljmccbrand: 2
+displayName: WERETRE
+erhljmccAuthThreshold: 300
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 15904604742
+cn: 15904604742
+erhljmccServiceCode: 290074
+uniqueIdentifier: qwuln6hy9upu29pz8u8oucrhbrpelo1i
+erhljmccAuthTimes:: MTE=
+erhljmccFetionStatus: 1
+
+dn: cn=15904604743,cn=user, DC=HLJCMCC
+erhljmccstatus: 3
+erhljmcccurrentpoint: 0
+erhljmccuserlevel: 04
+erhljmcc139MailStatus: 1
+sn: 15904604743
+userPassword:: MTAwODY2
+erhljmccbrand: 3
+displayName: 15904604743
+erhljmccAuthThreshold: 300
+objectclass: container
+objectclass: top
+objectclass: pilotObject
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: CMCCMobileUser
+uid: 15904604743
+cn: 15904604743
+erhljmccServiceCode: 509401
+uniqueIdentifier: 8qa2c333eydp4zqlllpxpqggj217ejc7
+erhljmccAuthTimes:: MQ==
+
