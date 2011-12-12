@@ -10,8 +10,8 @@
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>
-       classpath*:com/ibm/tivoli/cmcc/server/spring/*Bean.xml,
-       classpath*:com/ibm/tivoli/cmcc/web/*Bean.xml,
+       classpath*:com/ibm/tivoli/cmcc/server/spring/*Beans.xml,
+       classpath*:com/ibm/tivoli/cmcc/web/*Beans.xml,
     </param-value>
   </context-param>
   <context-param>
