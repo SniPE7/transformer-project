@@ -57,30 +57,6 @@ public class LogoutServiceProcessor extends BaseProcessor implements Processor {
     LogoutRequest req = (LogoutRequest)parseRequest(new LogoutRequest(), in);
     LogoutResponse resp = new LogoutResponse(req);
     
-    // Callback external command
-    /*
-    String cmd = this.getProperties().getProperty("cmd.global.logout", "/usr/sbin/saml_logout");
-    if (!StringUtils.isEmpty(cmd)) {
-      try {
-        String filterPattern = this.getProperties().getProperty("ldap.filter.query.attribute.service", "(uniqueIdentifier=%UID)");
-        String filter = StringUtils.replace(filterPattern, "%UID", req.getNameId());
-        PersonDAO dao = (PersonDAO) this.getApplicationContext().getBean("personDao");
-        List<PersonDTO> persons = dao.searchPerson(filter );
-        if (persons != null && persons.size() > 0) {
-           PersonDTO personDTO  = persons.get(0);
-           Runtime runtime = Runtime.getRuntime();
-           String arg = personDTO.getMsisdn();
-           String[] cmdarray = new String[]{cmd, arg};
-           Process proc = runtime.exec(cmdarray);
-           log.debug("execute external command for global logout, cmd: " + cmdarray);
-        }
-      } catch (Exception e) {
-        log.error(e.getMessage(), e);
-      }
-    } else {
-      log.debug("undefined logout notify (external command)");
-    }
-    */
     try {
       Helper.validateArtifactID(req.getNameId());
     } catch (Exception e) {
@@ -95,9 +71,8 @@ public class LogoutServiceProcessor extends BaseProcessor implements Processor {
     
     // Do business logic
     try {
-      SessionManager dao = (SessionManager) this.getApplicationContext().getBean("sessionManager");
-      dao.destroy(req.getNameId());
-      log.debug("");
+      SessionManager sessionManager = (SessionManager) this.getApplicationContext().getBean("sessionManager");
+      sessionManager.destroy(req.getNameId(), false);
     } catch (Exception e) {
       log.error(e.getMessage(), e);
     }

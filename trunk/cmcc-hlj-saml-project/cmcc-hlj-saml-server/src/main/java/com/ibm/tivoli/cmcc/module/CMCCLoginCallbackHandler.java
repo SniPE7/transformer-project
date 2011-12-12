@@ -56,7 +56,9 @@ public class CMCCLoginCallbackHandler implements CallbackHandler {
       } else if (callbacks[i] instanceof CMCCArtifactIDCallback) {
           CMCCArtifactIDCallback callback = (CMCCArtifactIDCallback) callbacks[i];
           String artifactID = CookieHelper.getArtifactIDFromCookies(this.httpRequest);
+          String artifactDomain = CookieHelper.getArtifactDomainFromCookies(this.httpRequest);
           callback.setArtifactID(artifactID);
+          callback.setArtifactDomain(artifactDomain);
           callback.setRemoteIPAddress(this.httpRequest.getRemoteAddr());
       } else {
         throw new UnsupportedCallbackException(callbacks[i], "Unrecognized Callback");

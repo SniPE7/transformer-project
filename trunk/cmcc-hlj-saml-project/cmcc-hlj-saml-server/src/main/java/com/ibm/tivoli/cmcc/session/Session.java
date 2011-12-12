@@ -5,6 +5,9 @@ package com.ibm.tivoli.cmcc.session;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import com.ibm.tivoli.cmcc.server.utils.Helper;
 import com.ibm.tivoli.cmcc.spi.PersonDTO;
@@ -23,6 +26,11 @@ public class Session implements Serializable {
    * SAML Session ID
    */
   private String artifactID = Helper.generatorID();;
+  
+  /**
+   * SAML Session Domain
+   */
+  private String artifactDomain = null;
   
   /**
    * Session create time
@@ -54,6 +62,8 @@ public class Session implements Serializable {
    * HttpSession ID
    */
   private String httpSessionId = null;
+  
+  private Map<String, Serializable> attributes = new HashMap<String, Serializable>();
 
   /**
    * 
@@ -63,22 +73,12 @@ public class Session implements Serializable {
   }
 
   /**
-   * @param createTime
-   * @param lastAccessTime
-   */
-  public Session(Date createTime, Date lastAccessTime) {
-    super();
-    this.createTime = createTime;
-    this.lastAccessTime = lastAccessTime;
-  }
-
-  /**
    * @param artifactID
    * @param httpSessionId
    * @param uid
    * @param personDTO
    */
-  public Session(String artifactID, String httpSessionId, String uid, PersonDTO personDTO) {
+  public Session(String artifactID, String artifactDomain, String httpSessionId, String uid, PersonDTO personDTO) {
     super();
     this.artifactID = artifactID;
     this.httpSessionId = httpSessionId;
@@ -93,7 +93,7 @@ public class Session implements Serializable {
    * @param personDTO
    * @param oringinal
    */
-  public Session(String artifactID, String httpSessionId, String uid, PersonDTO personDTO, boolean oringinal) {
+  public Session(String artifactID, String artifactDomain, String httpSessionId, String uid, PersonDTO personDTO, boolean oringinal) {
     super();
     this.artifactID = artifactID;
     this.httpSessionId = httpSessionId;
@@ -107,6 +107,13 @@ public class Session implements Serializable {
    */
   public String getArtifactID() {
     return artifactID;
+  }
+
+  /**
+   * @return the artifactDomain
+   */
+  public String getArtifactDomain() {
+    return artifactDomain;
   }
 
   /**
@@ -151,8 +158,26 @@ public class Session implements Serializable {
     return httpSessionId;
   }
 
-  public void touch() {
-    this.lastAccessTime = new Date();    
+  /**
+   * @return the attributes
+   */
+  public Set<String> getAttributeNames() {
+    return attributes.keySet();
+  }
+
+  /**
+   * @param attributes the attributes to set
+   */
+  public void setAttribute(String name, Serializable value) {
+    this.attributes.put(name, value);
+  }
+  
+  /**
+   * @param name
+   * @return
+   */
+  public Serializable getAttribute(String name) {
+    return this.attributes.get(name);
   }
 
   /* (non-Javadoc)
