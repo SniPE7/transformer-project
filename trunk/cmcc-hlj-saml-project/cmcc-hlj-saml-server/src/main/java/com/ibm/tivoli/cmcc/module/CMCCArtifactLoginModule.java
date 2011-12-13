@@ -36,6 +36,7 @@ public class CMCCArtifactLoginModule implements LoginModule, PrincipalAware {
   private boolean succeeded = false;
   private boolean commitSucceeded = false;
   private String artifactID;
+  private String artifactDomain;
 
   private PersonDTOPrincipal userPrincipal;
   private String username = null;
@@ -157,8 +158,9 @@ public class CMCCArtifactLoginModule implements LoginModule, PrincipalAware {
     callbacks[0] = new CMCCArtifactIDCallback();
 
     try {
-      callbackHandler.handle(callbacks);
-      artifactID = ((CMCCArtifactIDCallback) callbacks[0]).getArtifactID();
+      this.callbackHandler.handle(callbacks);
+      this.artifactID = ((CMCCArtifactIDCallback) callbacks[0]).getArtifactID();
+      this.artifactDomain = ((CMCCArtifactIDCallback) callbacks[0]).getArtifactDomain();
       if (StringUtils.isEmpty(artifactID)) {
         succeeded = false;
         artifactID = null;
@@ -181,7 +183,7 @@ public class CMCCArtifactLoginModule implements LoginModule, PrincipalAware {
     // verify the artifactID/password
     boolean correct;
     try {
-      correct = authenticate(artifactID);
+      correct = authenticate(artifactID, artifactDomain);
     } catch (Exception e) {
       log.error("Failure to check artifactID.", e);
       throw new LoginException(e.getMessage());
@@ -199,6 +201,7 @@ public class CMCCArtifactLoginModule implements LoginModule, PrincipalAware {
         log.info("Invalidate artifactID: [" + artifactID + "]");
       succeeded = false;
       artifactID = null;
+      artifactDomain = null;
       return false;
     }
   }
@@ -209,6 +212,7 @@ public class CMCCArtifactLoginModule implements LoginModule, PrincipalAware {
     succeeded = false;
     succeeded = commitSucceeded;
     artifactID = null;
+    artifactDomain = null;
     userPrincipal = null;
     username = null;
     return true;
@@ -221,7 +225,8 @@ public class CMCCArtifactLoginModule implements LoginModule, PrincipalAware {
    * com.ibm.tivoli.cmcc.module.AbstractMobileUserLoginModule#authenticate(java
    * .lang.String, java.lang.String, char[])
    */
-  protected boolean authenticate(String artifactID) throws Exception {
+  protected boolean authenticate(String artifactID, String artifactDoamin) throws Exception {
+    // TODO 根据artifactDomain来决定查询哪一个SAML服务器
     QueryAttributeResponse resp = queryAttributeServiceClient.submitAndParse(artifactID);
     if (resp.getStatusCode() != null && resp.getStatusCode().equalsIgnoreCase("urn:oasis:names:tc:SAML:2.0:status:Success")) {
       // Success
