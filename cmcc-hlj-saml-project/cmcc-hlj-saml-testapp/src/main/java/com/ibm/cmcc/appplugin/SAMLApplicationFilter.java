@@ -21,7 +21,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.ibm.cmcc.test.util.IDGenerator;
 import com.ibm.cmcc.test.web.Person;
 import com.ibm.tivoli.cmcc.client.ActiviateServiceClient;
 import com.ibm.tivoli.cmcc.client.ActiviateServiceClientImpl;

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.ibm.cmcc.test.util.IDGenerator;
+import com.ibm.cmcc.appplugin.IDGenerator;
 import com.ibm.tivoli.cmcc.client.ArtifactResolvServiceClient;
 import com.ibm.tivoli.cmcc.client.ArtifactResolvServiceClientImpl;
 import com.ibm.tivoli.cmcc.client.ClientException;
