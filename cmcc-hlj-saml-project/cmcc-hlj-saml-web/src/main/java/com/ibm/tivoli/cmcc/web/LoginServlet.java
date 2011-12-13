@@ -1,7 +1,10 @@
 package com.ibm.tivoli.cmcc.web;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.Principal;
+import java.util.Enumeration;
 
 import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
@@ -52,6 +55,37 @@ public class LoginServlet extends HttpServlet {
     super.destroy(); // Just puts "destroy" string in log
   }
 
+  /**
+   * 将所有的参数追加为URL queryString模式
+   * @param url
+   * @param request
+   * @return
+   * @throws UnsupportedEncodingException
+   */
+  public static String appendAllRequestParameters(String url, HttpServletRequest request) throws UnsupportedEncodingException {
+    Enumeration<String> names = request.getParameterNames();
+    while (names.hasMoreElements()) {
+          String name = names.nextElement();
+          String[] values = request.getParameterValues(name);
+          if (values != null) {
+             for (String v: values) {
+               url = appendParameter(url, name, v);
+             }
+          }
+    }
+    return url;
+  }
+  
+  public static String appendParameter(String url, String key, String value) throws UnsupportedEncodingException {
+    if (url == null) {
+      return null;
+    }
+    if (url.indexOf('?') > 0) {
+      return url + "&" + key + "=" + URLEncoder.encode(value, "UTF-8");
+    } else {
+      return url + "?" + key + "=" + URLEncoder.encode(value, "UTF-8");
+    }
+  }
   /**
    * The doGet method of the servlet. <br>
    * 
@@ -122,7 +156,8 @@ public class LoginServlet extends HttpServlet {
           }
         }
         // Show mypage for authenitcate user
-        this.getServletConfig().getServletContext().getRequestDispatcher("/service/authen/mypage").forward(request, response);
+        //this.getServletConfig().getServletContext().getRequestDispatcher("/service/authen/mypage").forward(request, response);
+        response.sendRedirect(appendParameter(request.getContextPath() + "/service/authen/mypage", "login_page_style", request.getParameter("login_page_style")));
         return;
       }
       // Login failure
