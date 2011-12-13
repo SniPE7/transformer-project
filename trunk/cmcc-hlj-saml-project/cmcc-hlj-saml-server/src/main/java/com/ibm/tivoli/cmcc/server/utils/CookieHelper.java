@@ -30,14 +30,16 @@ public class CookieHelper {
    */
   public static void saveToCookies(HttpServletResponse response, String cookieDomain, String key, String value) {
     Cookie cookie = new Cookie(key, value);
-    cookie.setDomain(cookieDomain);
+    if (StringUtils.isNotEmpty(cookieDomain)) {
+      cookie.setDomain(cookieDomain);
+    }
     cookie.setPath("/");
     response.addCookie(cookie);
   }
 
   /**
-   * 由于移动规范中定义的Cookie值中包含@特殊字符, 此字符不被Cookie允许, 所以造成Tomcat会为其增加一对", 为了克服此问题, 需绕过Tomcat的处理机制, 直接输出Cookie.
-   * WebSphere行为目前没有测试.
+   * 由于移动规范中定义的Cookie值中包含@特殊字符, 此字符不被Cookie允许, 所以造成Tomcat会为其增加一对", 为了克服此问题,
+   * 需绕过Tomcat的处理机制, 直接输出Cookie. WebSphere行为目前没有测试.
    * 
    * @param response
    * @param key
@@ -102,23 +104,23 @@ public class CookieHelper {
         }
       }
     }
-    //无法找到带@的cookie, 可能由于Cookie兼容性的问题, 由于, 自行通过Header中提取
+    // 无法找到带@的cookie, 可能由于Cookie兼容性的问题, 由于, 自行通过Header中提取
     String cookieStr = request.getHeader("Cookie");
     if (cookieStr == null) {
-       return null;
+      return null;
     }
     String[] items = StringUtils.split(cookieStr, ";");
     if (items == null) {
       return null;
     }
-    for (String s: items) {
+    for (String s : items) {
       String[] pair = StringUtils.split(s.trim(), "=");
       if (pair != null && pair.length == 2 && pair[0].equals(CM_TOKENID)) {
-         String v = pair[1];
-         int index = v.indexOf('@');
-         if (index > 0) {
-           return v.substring(index + 1);
-         }
+        String v = pair[1];
+        int index = v.indexOf('@');
+        if (index > 0) {
+          return v.substring(index + 1);
+        }
       }
     }
     return null;

@@ -6,6 +6,7 @@ package com.ibm.tivoli.cmcc.service.auth;
 import java.io.IOException;
 import java.io.StringReader;
 import java.security.Principal;
+import java.util.regex.Pattern;
 
 import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
@@ -40,7 +41,7 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
 
   private static Log log = LogFactory.getLog(AuthenRequestServiceImpl.class);
 
-  private String cookieDomain = "ac.10086.cn";
+  private String defaultCookieDomain = "ac.10086.cn";
   private ApplicationContext applicationContext;
 
   private String defaultArtifactDomain = "hl1.ac.10086.cn";
@@ -53,18 +54,18 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
   }
 
   /**
-   * @return the cookieDomain
+   * @return the defaultCookieDomain
    */
-  public String getCookieDomain() {
-    return cookieDomain;
+  public String getDefaultCookieDomain() {
+    return defaultCookieDomain;
   }
 
   /**
-   * @param cookieDomain
-   *          the cookieDomain to set
+   * @param defaultCookieDomain
+   *          the defaultCookieDomain to set
    */
-  public void setCookieDomain(String cookieDomain) {
-    this.cookieDomain = cookieDomain;
+  public void setDefaultCookieDomain(String cookieDomain) {
+    this.defaultCookieDomain = cookieDomain;
   }
 
   /**
@@ -75,7 +76,8 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
   }
 
   /**
-   * @param defaultArtifactDomain the defaultArtifactDomain to set
+   * @param defaultArtifactDomain
+   *          the defaultArtifactDomain to set
    */
   public void setDefaultArtifactDomain(String defaultArtifactDomain) {
     this.defaultArtifactDomain = defaultArtifactDomain;
@@ -196,19 +198,19 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
         if (loginModule instanceof PrincipalAware) {
           Principal principal = ((PrincipalAware) loginModule).getPrincipal();
           if (principal instanceof PersonDTOPrincipal) {
-             String username = ((PersonDTOPrincipal)principal).getPersonDTO().getMsisdn();
-             log.debug(String.format("Federated login state is validate, msisdn: [%s].", username));
-             // Create session and update state
-             SessionManager sessionManager = (SessionManager) this.getApplicationContext().getBean("sessionManager");
-             String artifactID = CookieHelper.getArtifactIDFromCookies(request);
-             String artifactDomain = CookieHelper.getArtifactIDFromCookies(request);
-             if (artifactID == null) {
-               throw new IOException("Failure to get artifactID from cookies.");
-             }
-             // 标记用户已经从总部登录， 为报活和全局注销提供支持.
-             Session session = sessionManager.create(username, artifactID, false, artifactDomain);
-             // 刷新本地登录状态
-             updateSessionState(request, response, username, artifactID, ((PersonDTOPrincipal)principal).getPersonDTO());
+            String username = ((PersonDTOPrincipal) principal).getPersonDTO().getMsisdn();
+            log.debug(String.format("Federated login state is validate, msisdn: [%s].", username));
+            // Create session and update state
+            SessionManager sessionManager = (SessionManager) this.getApplicationContext().getBean("sessionManager");
+            String artifactID = CookieHelper.getArtifactIDFromCookies(request);
+            String artifactDomain = CookieHelper.getArtifactIDFromCookies(request);
+            if (artifactID == null) {
+              throw new IOException("Failure to get artifactID from cookies.");
+            }
+            // 标记用户已经从总部登录， 为报活和全局注销提供支持.
+            Session session = sessionManager.create(username, artifactID, false, artifactDomain);
+            // 刷新本地登录状态
+            updateSessionState(request, response, username, artifactID, ((PersonDTOPrincipal) principal).getPersonDTO());
           }
         }
       }
@@ -252,7 +254,7 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
     }
     PersonDTO person = null;
     if (principal instanceof PersonDTOPrincipal) {
-      person = ((PersonDTOPrincipal)principal).getPersonDTO();
+      person = ((PersonDTOPrincipal) principal).getPersonDTO();
     }
 
     SessionManager dao = (SessionManager) this.getApplicationContext().getBean("sessionManager");
@@ -278,9 +280,28 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
 
     // Update to Cookies
     String artifactDomain = getCurrentArtifactDomain(request);
-    CookieHelper.saveArtifactIdIntoCookies(response, artifactID, artifactDomain, this.cookieDomain);
+    String cookieDomain = getCurrentCookieDomain(request);
+    CookieHelper.saveArtifactIdIntoCookies(response, artifactID, artifactDomain, cookieDomain);
     // Save msisdn into cookie
-    CookieHelper.saveToCookies(response, this.cookieDomain, "UID", username);
+    CookieHelper.saveToCookies(response, cookieDomain, "UID", username);
+  }
+
+  /**
+   * @return
+   */
+  private String getCurrentCookieDomain(HttpServletRequest request) {
+    if (StringUtils.isNotEmpty(this.defaultCookieDomain)) {
+      return this.defaultCookieDomain;
+    }
+    String serverName = request.getServerName();
+    if (!isIPAdress(serverName)) {
+      int index = serverName.indexOf('.');
+      if (index > 0) {
+        String cookieDomain = serverName.substring(index + 1);
+        return cookieDomain;
+      }
+    }
+    return null;
   }
 
   /**
@@ -290,11 +311,21 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
   private String getCurrentArtifactDomain(HttpServletRequest request) {
     String artifactDomain = this.defaultArtifactDomain;
     if (StringUtils.isEmpty(artifactDomain)) {
-       log.debug("Missing parameter artifactDoamin, auto detect from HTTPServletRequest");
-       artifactDomain = request.getServerName();
-       log.info(String.format("Using artifact domain: [%s]", artifactDomain));
+      log.debug("Missing parameter artifactDoamin, auto detect from HTTPServletRequest");
+      artifactDomain = request.getServerName();
+      log.info(String.format("Using artifact domain: [%s]", artifactDomain));
     }
     return artifactDomain;
   }
 
+  /**
+   * 判断是否是IP地址
+   * 
+   * @param str
+   * @return
+   */
+  private static boolean isIPAdress(String str) {
+    Pattern pattern = Pattern.compile("^((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]|[*])\\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]|[*])$");
+    return pattern.matcher(str).matches();
+  }
 }
