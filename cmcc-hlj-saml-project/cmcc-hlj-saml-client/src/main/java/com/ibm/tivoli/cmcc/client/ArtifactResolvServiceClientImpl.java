@@ -45,13 +45,14 @@ public class ArtifactResolvServiceClientImpl extends BaseServiceClient implement
   }
 
   public ArtifactResolvResponse submitAndParse(String artifact) throws ClientException {
+    String xmlContent = null;
     try {
-      String xmlContent = this.submit(artifact);
+      xmlContent = this.submit(artifact);
       return ArtifactResolvResponse.parseResponse(xmlContent);
-    } catch (IOException e) {
-      throw new ClientException("fail to send request, cause: " + e.getMessage(), e);
     } catch (SAXException e) {
-      throw new ClientException("fail to parse xml response, cause: " + e.getMessage(), e);
+      throw new ClientException(String.format("fail to parse xml response: [%s], cause: [%s]", xmlContent, e.getMessage()), e);
+    } catch (IOException e) {
+      throw new ClientException(String.format("fail to read xml response: [%s], cause: [%s]", xmlContent, e.getMessage()), e);
     }
   }
 
