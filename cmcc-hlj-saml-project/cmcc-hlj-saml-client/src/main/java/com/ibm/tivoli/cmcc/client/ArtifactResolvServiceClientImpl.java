@@ -12,7 +12,7 @@ import org.xml.sax.SAXException;
 import com.ibm.tivoli.cmcc.connector.ConnectorManager;
 import com.ibm.tivoli.cmcc.request.ArtifactResolvRequest;
 import com.ibm.tivoli.cmcc.response.ArtifactResolvResponse;
-import com.ibm.tivoli.cmcc.server.utils.Helper;
+import com.ibm.tivoli.cmcc.util.Helper;
 
 /**
  * @author Zhao Dong Lu
