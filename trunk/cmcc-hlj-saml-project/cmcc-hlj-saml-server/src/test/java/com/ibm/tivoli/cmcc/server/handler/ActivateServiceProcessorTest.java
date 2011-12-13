@@ -22,7 +22,7 @@ import com.ibm.tivoli.cmcc.handler.logout.LogoutServiceProcessor;
 import com.ibm.tivoli.cmcc.handler.query.QueryAttributeServiceProcessor;
 import com.ibm.tivoli.cmcc.request.ActiviateRequest;
 import com.ibm.tivoli.cmcc.request.LogoutRequest;
-import com.ibm.tivoli.cmcc.server.utils.Helper;
+import com.ibm.tivoli.cmcc.util.Helper;
 
 /**
  * @author Zhao Dong Lu

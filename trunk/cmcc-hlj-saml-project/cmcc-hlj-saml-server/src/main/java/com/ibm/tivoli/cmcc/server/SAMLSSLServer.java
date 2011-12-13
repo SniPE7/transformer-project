@@ -25,8 +25,8 @@ import org.apache.mina.transport.socket.nio.SocketAcceptorConfig;
 import com.ibm.tivoli.cmcc.handler.MyLoggingFilter;
 import com.ibm.tivoli.cmcc.handler.SAMLRequestHanlder;
 import com.ibm.tivoli.cmcc.handler.SSLHandshakeErrorFilter;
-import com.ibm.tivoli.cmcc.server.utils.Helper;
 import com.ibm.tivoli.cmcc.ssl.SSLContextFactory;
+import com.ibm.tivoli.cmcc.util.Helper;
 
 /**
  * @author Zhao Dong Lu

@@ -20,10 +20,10 @@ import com.ibm.tivoli.cmcc.handler.BaseProcessor;
 import com.ibm.tivoli.cmcc.handler.Processor;
 import com.ibm.tivoli.cmcc.request.QueryAttributeRequest;
 import com.ibm.tivoli.cmcc.response.QueryAttributeResponse;
-import com.ibm.tivoli.cmcc.server.utils.Helper;
 import com.ibm.tivoli.cmcc.session.Session;
 import com.ibm.tivoli.cmcc.session.SessionManager;
 import com.ibm.tivoli.cmcc.spi.PersonDTO;
+import com.ibm.tivoli.cmcc.util.Helper;
 
 /**
  * @author Zhao Dong Lu

@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import com.ibm.tivoli.cmcc.server.utils.Helper;
 import com.ibm.tivoli.cmcc.spi.PersonDTO;
+import com.ibm.tivoli.cmcc.util.Helper;
 
 /**
  * @author zhaodonglu

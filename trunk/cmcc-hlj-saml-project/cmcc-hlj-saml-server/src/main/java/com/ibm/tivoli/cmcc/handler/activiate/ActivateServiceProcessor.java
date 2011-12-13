@@ -17,8 +17,8 @@ import com.ibm.tivoli.cmcc.handler.BaseProcessor;
 import com.ibm.tivoli.cmcc.handler.Processor;
 import com.ibm.tivoli.cmcc.request.ActiviateRequest;
 import com.ibm.tivoli.cmcc.response.ActiviateResponse;
-import com.ibm.tivoli.cmcc.server.utils.Helper;
 import com.ibm.tivoli.cmcc.session.SessionManager;
+import com.ibm.tivoli.cmcc.util.Helper;
 
 /**
  * @author Zhao Dong Lu
