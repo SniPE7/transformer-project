@@ -111,8 +111,6 @@ public class DiameterServer {
              sslServicePort = Integer.parseInt(args[i + 1]);
            } else if (args[i].equals("-tcpport")) {
              tcpServicePort = Integer.parseInt(args[i + 1]);
-           } else if (args[i].equals("-tcpport")) {
-             tcpServicePort = Integer.parseInt(args[i + 1]);
            } else if (args[i].equals("-serverprotocol")) {
              serverProtocol = args[i + 1];
            } else if (args[i].equals("-targetprotocol")) {

@@ -19,9 +19,9 @@ import org.apache.commons.logging.LogFactory;
 
 import com.ibm.tivoli.cmcc.client.QueryAttributeServiceClient;
 import com.ibm.tivoli.cmcc.response.QueryAttributeResponse;
-import com.ibm.tivoli.cmcc.server.utils.Helper;
 import com.ibm.tivoli.cmcc.service.auth.PersonDTOPrincipal;
 import com.ibm.tivoli.cmcc.spi.PersonDTO;
+import com.ibm.tivoli.cmcc.util.Helper;
 
 /**
  * @author zhaodonglu

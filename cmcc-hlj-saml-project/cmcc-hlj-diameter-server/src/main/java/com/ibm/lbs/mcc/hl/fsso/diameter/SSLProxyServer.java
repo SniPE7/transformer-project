@@ -327,6 +327,7 @@ public class SSLProxyServer implements Runnable {
 	 * @throws IOException
 	 */
 	private Socket getTargetSocket() throws UnknownHostException, IOException {
+    log.info(String.format("Creating an remote %s socket: [%s, %s]", this.targetProtocol, this.targetIP, this.targetPort));
 		if (this.targetProtocol == null || this.targetProtocol.equals("TCP")) {
 			return this.getTargetTCPSocket();
 		} else {
@@ -370,16 +371,16 @@ public class SSLProxyServer implements Runnable {
 	}
 
 	private ServerSocket getServerTCPSocket() throws IOException {
-		log.info(String.format("Initliazing Server Socket, protocol [%s] ...",
-				this.serverProtocol));
+		log.info(String.format("Initliazing Server Socket, protocol [%s, %s] ...",
+				this.serverProtocol, this.serverPort));
 		return new ServerSocket(this.serverPort);
 	}
 
 	private SSLServerSocket getServerSecureSocket() throws IOException {
 		SSLContext sslc = getSSLContext(this.serverProtocol);
 
-		log.info(String.format("Initliazing Server Socket, protocol [%s] ...",
-				this.serverProtocol));
+		log.info(String.format("Initliazing Server Socket, protocol [%s, %s] ...",
+				this.serverProtocol, this.serverPort));
 		SSLServerSocketFactory sslssf = sslc.getServerSocketFactory();
 		SSLServerSocket sslsocket = (SSLServerSocket) sslssf
 				.createServerSocket(serverPort);
@@ -390,10 +391,9 @@ public class SSLProxyServer implements Runnable {
 	 * @return
 	 */
 	private SSLContext getSSLContext(String protocol) {
-		KeyStore ks;// 瀵嗛挜搴��
-		KeyManagerFactory kmf;// 瀵嗛挜绠＄悊宸ュ巶
-		SSLContext sslc = null;// 瀹夊叏杩炴帴鏂瑰紡
-		// 鍒濆鍖栧畨鍏ㄨ繛鎺ョ殑瀵嗛挜
+		KeyStore ks;
+		KeyManagerFactory kmf;
+		SSLContext sslc = null;
 		try {
 			ks = KeyStore.getInstance("JKS");
 			InputStream in = this.getClass().getResourceAsStream(keyStore);

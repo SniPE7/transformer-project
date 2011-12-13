@@ -26,11 +26,11 @@ import org.xml.sax.SAXException;
 import com.ibm.tivoli.cmcc.module.CMCCLoginCallbackHandler;
 import com.ibm.tivoli.cmcc.module.PrincipalAware;
 import com.ibm.tivoli.cmcc.request.AuthenRequest;
-import com.ibm.tivoli.cmcc.server.utils.Base64;
 import com.ibm.tivoli.cmcc.server.utils.CookieHelper;
 import com.ibm.tivoli.cmcc.session.Session;
 import com.ibm.tivoli.cmcc.session.SessionManager;
 import com.ibm.tivoli.cmcc.spi.PersonDTO;
+import com.ibm.tivoli.cmcc.util.Base64;
 
 /**
  * @author zhaodonglu
