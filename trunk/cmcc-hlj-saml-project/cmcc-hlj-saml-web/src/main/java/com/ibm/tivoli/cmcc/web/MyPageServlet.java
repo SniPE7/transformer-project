@@ -61,7 +61,7 @@ public class MyPageServlet extends HttpServlet {
     }
     try {
       HttpSession session = request.getSession(false);
-      if (session != null) {
+      if (session != null && session.getAttribute("SESSION_PERSON") != null) {
         this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/authen/mypage_" + style + ".jsp").forward(request, response);
         return;
       } else {
