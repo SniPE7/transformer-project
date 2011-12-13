@@ -1,4 +1,4 @@
-package com.ibm.cmcc.test.util;
+package com.ibm.cmcc.appplugin;
 
 import java.util.Random;
 
