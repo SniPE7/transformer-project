@@ -170,55 +170,6 @@
     <url-pattern>/service/authen/logout</url-pattern>
   </servlet-mapping>
 
-  <!-- Only for testing -->
-  <servlet>
-    <description>com.ibm.tivoli.cmcc.web.test.ActiviateServlet</description>
-    <display-name>com.ibm.tivoli.cmcc.web.test.ActiviateServlet</display-name>
-    <servlet-name>com.ibm.tivoli.cmcc.web.test.ActiviateServlet</servlet-name>
-    <servlet-class>com.ibm.tivoli.cmcc.web.test.ActiviateServlet</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>com.ibm.tivoli.cmcc.web.test.ActiviateServlet</servlet-name>
-    <url-pattern>/service/activiate</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <description>com.ibm.tivoli.cmcc.web.test.QueryAttributeServlet</description>
-    <display-name>com.ibm.tivoli.cmcc.web.test.QueryAttributeServlet</display-name>
-    <servlet-name>com.ibm.tivoli.cmcc.web.test.QueryAttributeServlet</servlet-name>
-    <servlet-class>com.ibm.tivoli.cmcc.web.test.QueryAttributeServlet</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>com.ibm.tivoli.cmcc.web.test.QueryAttributeServlet</servlet-name>
-    <url-pattern>/service/query</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <description>com.ibm.tivoli.cmcc.web.test.ArtifactResolvServlet</description>
-    <display-name>com.ibm.tivoli.cmcc.web.test.ArtifactResolvServlet</display-name>
-    <servlet-name>com.ibm.tivoli.cmcc.web.test.ArtifactResolvServlet</servlet-name>
-    <servlet-class>com.ibm.tivoli.cmcc.web.test.ArtifactResolvServlet</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>com.ibm.tivoli.cmcc.web.test.ArtifactResolvServlet</servlet-name>
-    <url-pattern>/service/resolv</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <description>com.ibm.tivoli.cmcc.web.test.CreateSamlIDServlet</description>
-    <display-name>com.ibm.tivoli.cmcc.web.test.CreateSamlIDServlet</display-name>
-    <servlet-name>com.ibm.tivoli.cmcc.web.test.CreateSamlIDServlet</servlet-name>
-    <servlet-class>com.ibm.tivoli.cmcc.web.test.CreateSamlIDServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>com.ibm.tivoli.cmcc.web.test.CreateSamlIDServlet</servlet-name>
-    <url-pattern>/service/create</url-pattern>
-  </servlet-mapping>
-
-
   <servlet>
   	<description>
   	</description>
