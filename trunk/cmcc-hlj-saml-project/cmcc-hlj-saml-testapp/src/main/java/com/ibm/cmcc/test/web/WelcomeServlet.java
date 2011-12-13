@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.ibm.cmcc.test.util.Base64;
 import com.ibm.cmcc.test.util.IDGenerator;
 import com.ibm.tivoli.cmcc.client.ArtifactResolvServiceClient;
 import com.ibm.tivoli.cmcc.client.ArtifactResolvServiceClientImpl;
@@ -22,7 +21,8 @@ import com.ibm.tivoli.cmcc.client.ClientException;
 import com.ibm.tivoli.cmcc.connector.NetworkConnectorManager;
 import com.ibm.tivoli.cmcc.connector.SimpleNetworkConnectorImpl;
 import com.ibm.tivoli.cmcc.response.ArtifactResolvResponse;
-import com.ibm.tivoli.cmcc.server.utils.Helper;
+import com.ibm.tivoli.cmcc.util.Base64;
+import com.ibm.tivoli.cmcc.util.Helper;
 
 /**
  * Servlet implementation class WelcomeServlet
