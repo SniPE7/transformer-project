@@ -54,6 +54,7 @@ public class WelcomeServlet extends HttpServlet {
    */
   public void init(ServletConfig config) throws ServletException {
     super.init(config);
+    /*
     this.ssoSAMLAuthRequestURL = config.getInitParameter("SsoSAMLAuthRequestURL");
     this.ssoLoginBoxURL = config.getInitParameter("SsoLoginBoxURL");
     this.ssoLoginReturnURL = config.getInitParameter("SsoLoginReturnURL");
@@ -65,6 +66,7 @@ public class WelcomeServlet extends HttpServlet {
     this.keyPassword =        config.getInitParameter("SAML.client.key.store.key.password").toCharArray();
     this.trustStorePath =     config.getInitParameter("SAML.client.trust.store.path");
     this.trustStorePassword = config.getInitParameter("SAML.client.trust.store.password").toCharArray();
+    */
   }
 
   /**
@@ -77,7 +79,7 @@ public class WelcomeServlet extends HttpServlet {
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
    *      response)
    */
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  public void unUseddoGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     HttpSession session = request.getSession(false);
     if (session != null && session.getAttribute("USER_UID") != null) {
       this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/mypage_cmcc_embed.jsp").forward(request, response);
@@ -194,6 +196,14 @@ public class WelcomeServlet extends HttpServlet {
     return null;
   }
 
+  /**
+   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+   *      response)
+   */
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    response.sendRedirect(request.getContextPath() + "/jsp/mypage.jsp");
+  }
+  
   /**
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
    *      response)
