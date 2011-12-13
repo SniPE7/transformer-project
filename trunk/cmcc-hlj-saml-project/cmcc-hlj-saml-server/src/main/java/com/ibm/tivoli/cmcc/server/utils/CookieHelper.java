@@ -99,9 +99,26 @@ public class CookieHelper {
         int index = v.indexOf('@');
         if (index > 0) {
           return v.substring(index + 1);
-        } else {
-          return null;
         }
+      }
+    }
+    //无法找到带@的cookie, 可能由于Cookie兼容性的问题, 由于, 自行通过Header中提取
+    String cookieStr = request.getHeader("Cookie");
+    if (cookieStr == null) {
+       return null;
+    }
+    String[] items = StringUtils.split(cookieStr, ";");
+    if (items == null) {
+      return null;
+    }
+    for (String s: items) {
+      String[] pair = StringUtils.split(s.trim(), "=");
+      if (pair != null && pair.length == 2 && pair[0].equals(CM_TOKENID)) {
+         String v = pair[1];
+         int index = v.indexOf('@');
+         if (index > 0) {
+           return v.substring(index + 1);
+         }
       }
     }
     return null;
