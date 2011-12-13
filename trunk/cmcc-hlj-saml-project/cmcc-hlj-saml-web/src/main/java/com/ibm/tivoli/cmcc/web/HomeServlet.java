@@ -47,11 +47,7 @@ public class HomeServlet extends HttpServlet {
    */
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     try {
-      ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
-      ConnectorManager connectionManager = (ConnectorManager)context.getBean("connectorManager4Test");;
-
-      request.setAttribute("connectionManager", connectionManager);
-      this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/test/form.jsp").forward(request, response);
+      this.getServletConfig().getServletContext().getRequestDispatcher("/service/authen/showlogin").forward(request, response);
     } catch (BeansException e) {
       throw new IOException(e.getMessage(), e);
     }
