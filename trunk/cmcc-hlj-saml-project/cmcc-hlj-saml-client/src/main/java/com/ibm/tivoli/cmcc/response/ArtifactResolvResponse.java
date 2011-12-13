@@ -12,7 +12,7 @@ import org.apache.commons.digester.Digester;
 import org.xml.sax.SAXException;
 
 import com.ibm.tivoli.cmcc.request.ArtifactResolvRequest;
-import com.ibm.tivoli.cmcc.server.utils.Helper;
+import com.ibm.tivoli.cmcc.util.Helper;
 
 public class ArtifactResolvResponse {
   private String samlId = Helper.generatorID();

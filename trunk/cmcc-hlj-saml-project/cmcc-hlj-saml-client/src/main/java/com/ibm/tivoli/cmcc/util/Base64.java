@@ -1,4 +1,4 @@
-package com.ibm.tivoli.cmcc.server.utils;
+package com.ibm.tivoli.cmcc.util;
 
 import java.io.File;
 import java.io.FileOutputStream;
