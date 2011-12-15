@@ -99,7 +99,7 @@
   <!-- Anonymous -->
   <servlet-mapping>
     <servlet-name>com.ibm.tivoli.cmcc.web.tool.HomeServlet</servlet-name>
-    <url-pattern>/tool*</url-pattern>
+    <url-pattern>/tool</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -139,15 +139,29 @@
   </servlet-mapping>
 
   <servlet>
-    <description>com.ibm.tivoli.cmcc.web.tool.CreateSamlIDServlet</description>
-    <display-name>com.ibm.tivoli.cmcc.web.tool.CreateSamlIDServlet</display-name>
-    <servlet-name>com.ibm.tivoli.cmcc.web.tool.CreateSamlIDServlet</servlet-name>
-    <servlet-class>com.ibm.tivoli.cmcc.web.tool.CreateSamlIDServlet</servlet-class>
+    <description>Global Logout</description>
+    <display-name>Global Logout</display-name>
+    <servlet-name>com.ibm.tivoli.cmcc.web.tool.LogoutServlet</servlet-name>
+    <servlet-class>com.ibm.tivoli.cmcc.web.tool.LogoutServlet</servlet-class>
   </servlet>
+  <!-- Anonymous or authenticated -->
   <servlet-mapping>
-    <servlet-name>com.ibm.tivoli.cmcc.web.tool.CreateSamlIDServlet</servlet-name>
-    <url-pattern>/service/create</url-pattern>
+    <servlet-name>com.ibm.tivoli.cmcc.web.tool.LogoutServlet</servlet-name>
+    <url-pattern>/service/logout</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <description>com.ibm.tivoli.cmcc.web.tool.PasswordResetServlet</description>
+    <display-name>com.ibm.tivoli.cmcc.web.tool.PasswordResetServlet</display-name>
+    <servlet-name>com.ibm.tivoli.cmcc.web.tool.PasswordResetServlet</servlet-name>
+    <servlet-class>com.ibm.tivoli.cmcc.web.tool.PasswordResetServlet</servlet-class>
+  </servlet>
+  <!-- Anonymous -->
+  <servlet-mapping>
+    <servlet-name>com.ibm.tivoli.cmcc.web.tool.PasswordResetServlet</servlet-name>
+    <url-pattern>/service/pwdreset</url-pattern>
+  </servlet-mapping>
+
 
   <error-page>
     <exception-type>java.lang.Throwable</exception-type>

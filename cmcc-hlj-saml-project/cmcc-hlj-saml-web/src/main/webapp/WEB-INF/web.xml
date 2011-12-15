@@ -64,30 +64,6 @@
   </servlet-mapping>
 
   <servlet>
-    <description>Global Logout</description>
-    <display-name>Global Logout</display-name>
-    <servlet-name>com.ibm.tivoli.cmcc.web.test.LogoutServlet</servlet-name>
-    <servlet-class>com.ibm.tivoli.cmcc.web.test.LogoutServlet</servlet-class>
-  </servlet>
-  <!-- Anonymous or authenticated -->
-  <servlet-mapping>
-    <servlet-name>com.ibm.tivoli.cmcc.web.test.LogoutServlet</servlet-name>
-    <url-pattern>/service/logout</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <description>com.ibm.tivoli.cmcc.web.PasswordResetServlet</description>
-    <display-name>com.ibm.tivoli.cmcc.web.PasswordResetServlet</display-name>
-    <servlet-name>com.ibm.tivoli.cmcc.web.PasswordResetServlet</servlet-name>
-    <servlet-class>com.ibm.tivoli.cmcc.web.PasswordResetServlet</servlet-class>
-  </servlet>
-  <!-- Anonymous -->
-  <servlet-mapping>
-    <servlet-name>com.ibm.tivoli.cmcc.web.PasswordResetServlet</servlet-name>
-    <url-pattern>/service/pwdreset</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
     <description>com.ibm.tivoli.cmcc.web.AuthenRequestServlet</description>
     <display-name>com.ibm.tivoli.cmcc.web.AuthenRequestServlet</display-name>
     <servlet-name>com.ibm.tivoli.cmcc.web.AuthenRequestServlet</servlet-name>

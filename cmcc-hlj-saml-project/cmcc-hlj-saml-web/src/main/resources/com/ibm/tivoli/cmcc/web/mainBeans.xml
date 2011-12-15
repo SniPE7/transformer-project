@@ -17,6 +17,7 @@
 
   <bean id="federalLoginModule" class="com.ibm.tivoli.cmcc.module.CMCCArtifactLoginModule" scope="prototype">
     <property name="debug" value="true"></property>
+    <property name="connectorManagerSupplier" ref="connectorManagerSupplier"></property>
     <property name="queryAttributeServiceClient" ref="queryAttributeClient"></property>
   </bean>      
 </beans>

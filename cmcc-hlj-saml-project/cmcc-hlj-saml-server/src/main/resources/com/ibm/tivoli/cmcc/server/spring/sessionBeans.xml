@@ -81,12 +81,14 @@
   </bean>
   <!-- 侦听Session的活动, 按照指定的时间间隔发送报活信息到Federal IDP -->
   <bean id="idpActivateNotifySessionListener" class="com.ibm.tivoli.cmcc.session.NotifyActiviate2FederationIDPSessionListener">
+    <property name="connectorManagerSupplier" ref="connectorManagerSupplier"></property>
     <property name="activiateClient" ref="activiateClient"></property>
     <!-- In seconds -->
     <property name="activiateNotifyInterval" value="${saml.client.notify.activiate.insterval}"></property>
   </bean>
   <!-- 侦听Session的活动, 发送Logout事件到Federal IDP -->
   <bean id="idpLogoutNotifySessionListener" class="com.ibm.tivoli.cmcc.session.NotifyLogout2FederationIDPSessionListener">
+    <property name="connectorManagerSupplier" ref="connectorManagerSupplier"></property>
     <property name="logoutClient" ref="logoutClient"></property>
   </bean>
   <!-- 侦听Session的活动, 发送Logout事件到Federal SP -->

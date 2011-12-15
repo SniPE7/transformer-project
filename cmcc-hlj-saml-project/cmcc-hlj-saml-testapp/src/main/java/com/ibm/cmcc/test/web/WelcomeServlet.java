@@ -121,9 +121,9 @@ public class WelcomeServlet extends HttpServlet {
         conMgr.setTrustCertsStorePath(this.trustStorePath);
         conMgr.setKeyStorePassword(this.trustStorePassword);
 
-        ArtifactResolvServiceClient client = new ArtifactResolvServiceClientImpl(conMgr, new Properties());
+        ArtifactResolvServiceClient client = new ArtifactResolvServiceClientImpl(new Properties());
         try {
-          ArtifactResolvResponse samlResp = client.submitAndParse(artifact);
+          ArtifactResolvResponse samlResp = client.submitAndParse(conMgr.getConnector(), artifact);
           if (samlResp != null && "urn:oasis:names:tc:SAML:2.0:status:Success".equals(samlResp.getStatusCode())) {
             // Already login
             String msisdn = samlResp.getAttributeByIndex(0);

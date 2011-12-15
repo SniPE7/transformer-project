@@ -63,7 +63,7 @@ public class ArtifactResolvServlet extends HttpServlet {
 
       Properties properties = ConfigHelper.getConfigProperties();
       NetworkConnectorManager connectionManager = ConfigHelper.getNetworkConnectorManager(properties);
-      ArtifactResolvServiceClient client = new ArtifactResolvServiceClientImpl(connectionManager, properties);
+      ArtifactResolvServiceClient client = new ArtifactResolvServiceClientImpl(properties);
       connectionManager.setProtocol(protocol);
       
       if (StringUtils.isNotEmpty(hostname)) {
@@ -74,7 +74,7 @@ public class ArtifactResolvServlet extends HttpServlet {
         connectionManager.setServerPort(Integer.parseInt(port));
       }
 
-      String responseXML = client.submit(samlId);
+      String responseXML = client.submit(connectionManager.getConnector(), samlId);
       //request.setAttribute("responseFormatXML", XMLFormat.formatXml(responseXML));
       
       responseXML = StringUtils.replace(responseXML, "<", "&lt;");

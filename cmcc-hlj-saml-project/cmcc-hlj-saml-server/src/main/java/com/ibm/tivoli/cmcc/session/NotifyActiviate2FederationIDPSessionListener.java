@@ -10,6 +10,8 @@ import org.apache.commons.logging.LogFactory;
 
 import com.ibm.tivoli.cmcc.client.ActiviateServiceClient;
 import com.ibm.tivoli.cmcc.client.ClientException;
+import com.ibm.tivoli.cmcc.connector.ConnectorManager;
+import com.ibm.tivoli.cmcc.server.connector.ConnectorManagerSupplier;
 
 /**
  * @author zhaodonglu
@@ -23,13 +25,31 @@ public class NotifyActiviate2FederationIDPSessionListener implements SessionList
    */
   private int activiateNotifyInterval =  180;
   
+  private ConnectorManagerSupplier connectorManagerSupplier = null;
+  
   private ActiviateServiceClient activiateClient = null;
+  
+  private String defaultIDPActiveService = null;
 
   /**
    * 
    */
   public NotifyActiviate2FederationIDPSessionListener() {
     super();
+  }
+
+  /**
+   * @return the defaultIDPActiveService
+   */
+  public String getDefaultIDPActiveService() {
+    return defaultIDPActiveService;
+  }
+
+  /**
+   * @param defaultIDPActiveService the defaultIDPActiveService to set
+   */
+  public void setDefaultIDPActiveService(String defaultIDPActiveService) {
+    this.defaultIDPActiveService = defaultIDPActiveService;
   }
 
   /**
@@ -58,6 +78,20 @@ public class NotifyActiviate2FederationIDPSessionListener implements SessionList
    */
   public void setActiviateClient(ActiviateServiceClient activiateClient) {
     this.activiateClient = activiateClient;
+  }
+
+  /**
+   * @return the connectorManagerSupplier
+   */
+  public ConnectorManagerSupplier getConnectorManagerSupplier() {
+    return connectorManagerSupplier;
+  }
+
+  /**
+   * @param connectorManagerSupplier the connectorManagerSupplier to set
+   */
+  public void setConnectorManagerSupplier(ConnectorManagerSupplier connectorManagerSupplier) {
+    this.connectorManagerSupplier = connectorManagerSupplier;
   }
 
   /* (non-Javadoc)
@@ -93,7 +127,10 @@ public class NotifyActiviate2FederationIDPSessionListener implements SessionList
        log.debug(String.format("SENT Activiate Request to Federation IDP, artifact: [%s]", session.getArtifactID()));
        if (activiateClient != null) {
          try {
-          activiateClient.submit(session.getArtifactID());
+          String artifactDomain = session.getArtifactDomain();
+          // TODO 目前会造成回路循环，造成死循环
+          ConnectorManager conMgr = this.connectorManagerSupplier.getConnectorManager(artifactDomain);
+          activiateClient.submit(conMgr.getConnector(), session.getArtifactID());
         } catch (ClientException e) {
           log.error(String.format("Failure to SENT Activiate Request to Federation IDP, artifact: [%s], cause: %s", session.getArtifactID(), e.getMessage()));
         }

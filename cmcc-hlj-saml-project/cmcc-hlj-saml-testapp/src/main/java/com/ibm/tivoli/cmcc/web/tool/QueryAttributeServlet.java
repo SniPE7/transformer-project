@@ -63,7 +63,7 @@ public class QueryAttributeServlet extends HttpServlet {
 
       Properties properties = ConfigHelper.getConfigProperties();
       NetworkConnectorManager connectionManager = ConfigHelper.getNetworkConnectorManager(properties);
-      QueryAttributeServiceClient client = new QueryAttributeServiceClientImpl(connectionManager, properties);
+      QueryAttributeServiceClient client = new QueryAttributeServiceClientImpl(properties);
       connectionManager.setProtocol(protocol);
       
       if (StringUtils.isNotEmpty(hostname)) {
@@ -74,7 +74,7 @@ public class QueryAttributeServlet extends HttpServlet {
         connectionManager.setServerPort(Integer.parseInt(port));
       }
 
-      String responseXML = client.submit(samlId);
+      String responseXML = client.submit(connectionManager.getConnector(), samlId);
       //request.setAttribute("responseFormatXML", XMLFormat.formatXml(responseXML));
       
       responseXML = StringUtils.replace(responseXML, "<", "&lt;");

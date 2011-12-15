@@ -8,6 +8,8 @@ import org.apache.commons.logging.LogFactory;
 
 import com.ibm.tivoli.cmcc.client.ClientException;
 import com.ibm.tivoli.cmcc.client.LogoutServiceClient;
+import com.ibm.tivoli.cmcc.connector.ConnectorManager;
+import com.ibm.tivoli.cmcc.server.connector.ConnectorManagerSupplier;
 
 /**
  * @author zhaodonglu
@@ -18,6 +20,7 @@ public class NotifyLogout2FederationIDPSessionListener implements SessionListene
 
   private LogoutServiceClient logoutClient = null;
 
+  private ConnectorManagerSupplier connectorManagerSupplier;
   /**
    * 
    */
@@ -38,6 +41,20 @@ public class NotifyLogout2FederationIDPSessionListener implements SessionListene
    */
   public void setLogoutClient(LogoutServiceClient logoutClient) {
     this.logoutClient = logoutClient;
+  }
+
+  /**
+   * @return the connectorManagerSupplier
+   */
+  public ConnectorManagerSupplier getConnectorManagerSupplier() {
+    return connectorManagerSupplier;
+  }
+
+  /**
+   * @param connectorManagerSupplier the connectorManagerSupplier to set
+   */
+  public void setConnectorManagerSupplier(ConnectorManagerSupplier connectorManagerSupplier) {
+    this.connectorManagerSupplier = connectorManagerSupplier;
   }
 
   /*
@@ -71,7 +88,9 @@ public class NotifyLogout2FederationIDPSessionListener implements SessionListene
         Boolean hasSent = (Boolean) session.getAttribute("HAS_SENT_SAML_LOGOUT_TO_IDP_FLAG");
         if (hasSent == null || !hasSent.booleanValue()) {
           log.debug(String.format("Propare to notify logout envent to top authen center, artifactId: [%s]", artifactID));
-          String resp = logoutClient.submit(artifactID);
+          String artifactDomain = session.getArtifactDomain();
+          ConnectorManager conMgr = this.connectorManagerSupplier.getConnectorManager(artifactDomain);
+          String resp = logoutClient.submit(conMgr.getConnector(), artifactID);
           log.debug(String.format("Received logout event reponse from top authen center, artifactId: [%s], response: [%s]", artifactID, resp));
           session.setAttribute("HAS_SENT_SAML_LOGOUT_TO_IDP_FLAG", true);
           event.getSessionManager().update(session);

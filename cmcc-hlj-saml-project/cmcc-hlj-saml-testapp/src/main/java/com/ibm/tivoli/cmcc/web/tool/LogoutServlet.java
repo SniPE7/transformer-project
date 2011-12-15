@@ -59,7 +59,7 @@ public class LogoutServlet extends HttpServlet {
 
       Properties properties = ConfigHelper.getConfigProperties();
       NetworkConnectorManager connectionManager = ConfigHelper.getNetworkConnectorManager(properties);
-      LogoutServiceClient client = new LogoutServiceClientImpl(connectionManager, properties);
+      LogoutServiceClient client = new LogoutServiceClientImpl(properties);
       connectionManager.setProtocol(protocol);
       
       if (StringUtils.isNotEmpty(hostname)) {
@@ -70,7 +70,7 @@ public class LogoutServlet extends HttpServlet {
         connectionManager.setServerPort(Integer.parseInt(port));
       }
       
-      String responseXML = client.submit(samlId);
+      String responseXML = client.submit(connectionManager.getConnector(), samlId);
       
       responseXML = StringUtils.replace(responseXML, "<", "&lt;");
       responseXML = StringUtils.replace(responseXML, ">", "&gt;");
