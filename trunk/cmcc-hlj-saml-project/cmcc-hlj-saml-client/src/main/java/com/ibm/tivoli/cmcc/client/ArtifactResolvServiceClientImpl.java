@@ -9,7 +9,7 @@ import java.util.Properties;
 
 import org.xml.sax.SAXException;
 
-import com.ibm.tivoli.cmcc.connector.ConnectorManager;
+import com.ibm.tivoli.cmcc.connector.Connector;
 import com.ibm.tivoli.cmcc.request.ArtifactResolvRequest;
 import com.ibm.tivoli.cmcc.response.ArtifactResolvResponse;
 import com.ibm.tivoli.cmcc.util.Helper;
@@ -27,8 +27,8 @@ public class ArtifactResolvServiceClientImpl extends BaseServiceClient implement
     super();
   }
 
-  public ArtifactResolvServiceClientImpl(ConnectorManager networkConnectorManager, Properties properties) {
-    super(networkConnectorManager, properties);
+  public ArtifactResolvServiceClientImpl(Properties properties) {
+    super(properties);
   }
 
   public Object doBusiness(String artifact) throws ClientException {
@@ -44,10 +44,10 @@ public class ArtifactResolvServiceClientImpl extends BaseServiceClient implement
     return this.getProperties().getProperty("messsage.template.artifactResolv.request", "classpath:/template/samlp.ArtifactResolv.request.template.xml");
   }
 
-  public ArtifactResolvResponse submitAndParse(String artifact) throws ClientException {
+  public ArtifactResolvResponse submitAndParse(Connector connector, String artifact) throws ClientException {
     String xmlContent = null;
     try {
-      xmlContent = this.submit(artifact);
+      xmlContent = this.submit(connector, artifact);
       return ArtifactResolvResponse.parseResponse(xmlContent);
     } catch (SAXException e) {
       throw new ClientException(String.format("fail to parse xml response: [%s], cause: [%s]", xmlContent, e.getMessage()), e);

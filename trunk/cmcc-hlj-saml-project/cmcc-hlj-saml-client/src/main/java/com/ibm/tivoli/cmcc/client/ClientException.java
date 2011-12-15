@@ -3,8 +3,6 @@
  */
 package com.ibm.tivoli.cmcc.client;
 
-import org.xml.sax.SAXException;
-
 import com.ibm.tivoli.cmcc.connector.Connector;
 
 /**

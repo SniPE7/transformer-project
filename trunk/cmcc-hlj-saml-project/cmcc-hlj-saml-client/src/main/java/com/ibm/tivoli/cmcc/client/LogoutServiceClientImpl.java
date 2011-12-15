@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
 
-import com.ibm.tivoli.cmcc.connector.ConnectorManager;
+import com.ibm.tivoli.cmcc.connector.Connector;
 import com.ibm.tivoli.cmcc.request.LogoutRequest;
 import com.ibm.tivoli.cmcc.util.Helper;
 
@@ -24,11 +24,11 @@ public class LogoutServiceClientImpl extends BaseServiceClient implements Logout
     super();
   }
 
-  public LogoutServiceClientImpl(ConnectorManager networkConnectorManager, Properties properties) {
-    super(networkConnectorManager, properties);
+  public LogoutServiceClientImpl(Properties properties) {
+    super(properties);
   }
 
-  public Object doBusiness(String id) throws ClientException {
+  protected Object doBusiness(String id) throws ClientException {
     LogoutRequest request = new LogoutRequest();
     request.setSamlId(Helper.generatorID());
     request.setNameId(id);

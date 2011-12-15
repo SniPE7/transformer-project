@@ -3,6 +3,7 @@
  */
 package com.ibm.tivoli.cmcc.client;
 
+import com.ibm.tivoli.cmcc.connector.Connector;
 import com.ibm.tivoli.cmcc.response.ArtifactResolvResponse;
 
 /**
@@ -11,7 +12,7 @@ import com.ibm.tivoli.cmcc.response.ArtifactResolvResponse;
  */
 public interface ArtifactResolvServiceClient {
   
-  public String submit(String samlId) throws ClientException;
+  public String submit(Connector connector, String samlId) throws ClientException;
 
   /**
    * Return a response object.
@@ -19,6 +20,6 @@ public interface ArtifactResolvServiceClient {
    * @return
    * @throws ClientException
    */
-  public ArtifactResolvResponse submitAndParse(String artifact) throws ClientException;
+  public ArtifactResolvResponse submitAndParse(Connector connector, String artifact) throws ClientException;
 
 }

@@ -3,6 +3,7 @@
  */
 package com.ibm.tivoli.cmcc.client;
 
+import com.ibm.tivoli.cmcc.connector.Connector;
 import com.ibm.tivoli.cmcc.response.QueryAttributeResponse;
 
 /**
@@ -17,7 +18,7 @@ public interface QueryAttributeServiceClient {
    * @return XML content
    * @throws ClientException
    */
-  public String submit(String samlId) throws ClientException;
+  public String submit(Connector connector, String samlId) throws ClientException;
   
   /**
    * Return a response object.
@@ -25,6 +26,6 @@ public interface QueryAttributeServiceClient {
    * @return
    * @throws ClientException
    */
-  public QueryAttributeResponse submitAndParse(String samlId) throws ClientException;
+  public QueryAttributeResponse submitAndParse(Connector connector, String samlId) throws ClientException;
 
 }
