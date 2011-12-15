@@ -3,6 +3,8 @@
  */
 package com.ibm.tivoli.cmcc.client;
 
+import com.ibm.tivoli.cmcc.connector.Connector;
+
 
 /**
  * @author Zhao Dong Lu
@@ -18,6 +20,6 @@ public interface PasswordResetClient {
    * @return
    * @throws ClientException
    */
-  public String submit(String userName, String serviceCode, String networkPassword) throws ClientException;
+  public String submit(Connector connector, String userName, String serviceCode, String networkPassword) throws ClientException;
 
 }

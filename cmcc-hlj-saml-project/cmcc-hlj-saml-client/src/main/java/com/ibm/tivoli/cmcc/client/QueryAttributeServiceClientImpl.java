@@ -9,7 +9,7 @@ import java.util.Properties;
 
 import org.xml.sax.SAXException;
 
-import com.ibm.tivoli.cmcc.connector.ConnectorManager;
+import com.ibm.tivoli.cmcc.connector.Connector;
 import com.ibm.tivoli.cmcc.request.QueryAttributeRequest;
 import com.ibm.tivoli.cmcc.response.QueryAttributeResponse;
 import com.ibm.tivoli.cmcc.util.Helper;
@@ -27,12 +27,12 @@ public class QueryAttributeServiceClientImpl extends BaseServiceClient implement
     super();
   }
 
-  public QueryAttributeServiceClientImpl(ConnectorManager networkConnectorManager, Properties properties) {
-    super(networkConnectorManager, properties);
+  public QueryAttributeServiceClientImpl(Properties properties) {
+    super(properties);
   }
 
 
-  public Object doBusiness(String id) throws ClientException {
+  protected Object doBusiness(String id) throws ClientException {
     QueryAttributeRequest request = new QueryAttributeRequest();
     request.setSamlId(Helper.generatorID());
     request.setNameId(id);
@@ -45,14 +45,14 @@ public class QueryAttributeServiceClientImpl extends BaseServiceClient implement
     return this.getProperties().getProperty("messsage.template.attributeQuery.request", "classpath:/template/samlp.AttributeQuery.request.template.xml");
   }
 
-  public QueryAttributeResponse submitAndParse(String samlId) throws ClientException {
+  public QueryAttributeResponse submitAndParse(Connector connector, String samlId) throws ClientException {
     try {
-      String xmlContent = this.submit(samlId);
+      String xmlContent = this.submit(connector, samlId);
       return QueryAttributeResponse.parseResponse(xmlContent);
     } catch (IOException e) {
-      throw new ClientException("fail to send request, cause: " + e.getMessage(), e);
+      throw new ClientException(String.format("fail to read xml response, connector: [%s], cause: [%s]", connector, e.getMessage()), e);
     } catch (SAXException e) {
-      throw new ClientException("fail to parse xml response, cause: " + e.getMessage(), e);
+      throw new ClientException(String.format("fail to parse xml response, connector: [%s], cause: [%s]", connector, e.getMessage()), e);
     }
   }
 

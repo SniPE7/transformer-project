@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
 
-import com.ibm.tivoli.cmcc.connector.ConnectorManager;
+import com.ibm.tivoli.cmcc.connector.Connector;
 import com.ibm.tivoli.cmcc.request.ActiviateRequest;
 import com.ibm.tivoli.cmcc.util.Helper;
 
@@ -24,11 +24,11 @@ public class ActiviateServiceClientImpl extends BaseServiceClient implements Act
     super();
   }
 
-  public ActiviateServiceClientImpl(ConnectorManager networkConnectorManager, Properties properties) {
-    super(networkConnectorManager, properties);
+  public ActiviateServiceClientImpl(Properties properties) {
+    super(properties);
   }
 
-  public Object doBusiness(String id) throws ClientException {
+  protected Object doBusiness(String id) throws ClientException {
     ActiviateRequest request = new ActiviateRequest();
     request.setSamlId(Helper.generatorID());
     request.setNameId(id);

@@ -27,7 +27,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.ibm.tivoli.cmcc.connector.Connector;
-import com.ibm.tivoli.cmcc.connector.ConnectorManager;
 
 public abstract class BaseServiceClient {
 
@@ -35,7 +34,6 @@ public abstract class BaseServiceClient {
 
   private String charset = "UTF-8";
 
-  private ConnectorManager networkConnectorManager;
   private Properties properties = new Properties();
 
 
@@ -43,23 +41,8 @@ public abstract class BaseServiceClient {
     super();
   }
 
-  protected BaseServiceClient(ConnectorManager networkConnectorManager, Properties properties) {
+  protected BaseServiceClient(Properties properties) {
     super();
-    this.networkConnectorManager = networkConnectorManager;
-  }
-
-  /**
-   * @return the networkConnectorManager
-   */
-  public ConnectorManager getConnectorManager() {
-    return networkConnectorManager;
-  }
-
-  /**
-   * @param networkConnectorManager the networkConnectorManager to set
-   */
-  public void setConnectorManager(ConnectorManager networkConnectorManager) {
-    this.networkConnectorManager = networkConnectorManager;
   }
 
   /* (non-Javadoc)
@@ -90,10 +73,8 @@ public abstract class BaseServiceClient {
     this.properties = properties;
   }
 
-  public String submit(String id) throws ClientException {
-    Connector connector = null;
+  public String submit(Connector connector, String id) throws ClientException {
     try {
-      connector = this.networkConnectorManager.getConnector();
       connector.open();
       OutputStream out = connector.getOutput();
       InputStream in = connector.getInput();
@@ -217,6 +198,6 @@ public abstract class BaseServiceClient {
 
   protected abstract String getTemplateFile() throws IOException;
 
-  public abstract Object doBusiness(String id) throws ClientException;
+  protected abstract Object doBusiness(String id) throws ClientException;
 
 }

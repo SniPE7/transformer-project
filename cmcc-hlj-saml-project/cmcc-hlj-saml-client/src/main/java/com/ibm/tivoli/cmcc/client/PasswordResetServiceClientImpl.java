@@ -21,7 +21,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.ibm.tivoli.cmcc.connector.Connector;
-import com.ibm.tivoli.cmcc.connector.ConnectorManager;
 import com.ibm.tivoli.cmcc.request.PasswordResetRequest;
 
 /**
@@ -38,8 +37,8 @@ public class PasswordResetServiceClientImpl extends BaseServiceClient implements
     super();
   }
 
-  public PasswordResetServiceClientImpl(ConnectorManager networkConnectorManager, Properties properties) {
-    super(networkConnectorManager, properties);
+  public PasswordResetServiceClientImpl(Properties properties) {
+    super(properties);
   }
 
 
@@ -47,10 +46,8 @@ public class PasswordResetServiceClientImpl extends BaseServiceClient implements
     return this.getProperties().getProperty("messsage.template.PasswordReset.request", "classpath:/template/samlp.PasswordResetRequest.template.xml");
   }
 
-  public String submit(String userName, String serviceCode, String networkPassword) throws ClientException {
-    Connector connector = null;
+  public String submit(Connector connector, String userName, String serviceCode, String networkPassword) throws ClientException {
     try {
-      connector = this.getConnectorManager().getConnector();
       connector.open();
       OutputStream out = connector.getOutput();
       InputStream in = connector.getInput();
