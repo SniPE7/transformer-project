@@ -21,6 +21,8 @@ public class NotifyLogout2FederationIDPSessionListener implements SessionListene
   private LogoutServiceClient logoutClient = null;
 
   private ConnectorManagerSupplier connectorManagerSupplier;
+  
+  private String defaultIDPActiveService = null;
   /**
    * 
    */
@@ -57,6 +59,20 @@ public class NotifyLogout2FederationIDPSessionListener implements SessionListene
     this.connectorManagerSupplier = connectorManagerSupplier;
   }
 
+  /**
+   * @return the defaultIDPActiveService
+   */
+  public String getDefaultIDPActiveService() {
+    return defaultIDPActiveService;
+  }
+
+  /**
+   * @param defaultIDPActiveService the defaultIDPActiveService to set
+   */
+  public void setDefaultIDPActiveService(String defaultIDPActiveService) {
+    this.defaultIDPActiveService = defaultIDPActiveService;
+  }
+
   /*
    * (non-Javadoc)
    * 
@@ -88,12 +104,21 @@ public class NotifyLogout2FederationIDPSessionListener implements SessionListene
         Boolean hasSent = (Boolean) session.getAttribute("HAS_SENT_SAML_LOGOUT_TO_IDP_FLAG");
         if (hasSent == null || !hasSent.booleanValue()) {
           log.debug(String.format("Propare to notify logout envent to top authen center, artifactId: [%s]", artifactID));
-          String artifactDomain = session.getArtifactDomain();
+          
+          // Update HAS_SENT_SAML_LOGOUT_TO_IDP_FLAG, 为了防止形成回路，在做提交之前，总是更新此参数，而不管是否后续能够通知成功.
+          session.setAttribute("HAS_SENT_SAML_LOGOUT_TO_IDP_FLAG", true);
+          event.getSessionManager().update(session);
+
+          String artifactDomain = this.defaultIDPActiveService;
+          /*
+          // TODO 目前可能会造成回路循环，造成死循环, 自动发现Notify对端的方式暂时取消, 需要重新设计
+          if (StringUtils.isEmpty(artifactDomain)) {
+            artifactDomain = session.getArtifactDomain();
+          }
+          */
           ConnectorManager conMgr = this.connectorManagerSupplier.getConnectorManager(artifactDomain);
           String resp = logoutClient.submit(conMgr.getConnector(), artifactID);
           log.debug(String.format("Received logout event reponse from top authen center, artifactId: [%s], response: [%s]", artifactID, resp));
-          session.setAttribute("HAS_SENT_SAML_LOGOUT_TO_IDP_FLAG", true);
-          event.getSessionManager().update(session);
         }
       }
     } catch (ClientException e) {

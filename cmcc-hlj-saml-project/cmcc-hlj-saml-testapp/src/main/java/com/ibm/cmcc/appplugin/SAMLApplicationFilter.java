@@ -101,7 +101,7 @@ public class SAMLApplicationFilter implements Filter {
     HttpServletResponse response = (HttpServletResponse) resp;
 
     HttpSession session = request.getSession(false);
-    if (session != null && session.getAttribute("USER_UID") != null) {
+    if (session != null && session.getAttribute("USER_UID") != null && session.getAttribute("SESSION_PERSON") != null) {
       // Authenticated and do filter
       String artifact = (String) session.getAttribute("ARTIFACT_ID");
       try {
