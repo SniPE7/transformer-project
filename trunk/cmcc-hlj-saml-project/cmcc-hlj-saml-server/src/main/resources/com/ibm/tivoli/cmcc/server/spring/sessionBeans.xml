@@ -85,11 +85,13 @@
     <property name="activiateClient" ref="activiateClient"></property>
     <!-- In seconds -->
     <property name="activiateNotifyInterval" value="${saml.client.notify.activiate.insterval}"></property>
+    <property name="defaultIDPActiveService" value="${remote.saml.server.hostname}"></property>
   </bean>
   <!-- 侦听Session的活动, 发送Logout事件到Federal IDP -->
   <bean id="idpLogoutNotifySessionListener" class="com.ibm.tivoli.cmcc.session.NotifyLogout2FederationIDPSessionListener">
     <property name="connectorManagerSupplier" ref="connectorManagerSupplier"></property>
     <property name="logoutClient" ref="logoutClient"></property>
+    <property name="defaultIDPActiveService" value="${remote.saml.server.hostname}"></property>
   </bean>
   <!-- 侦听Session的活动, 发送Logout事件到Federal SP -->
   <bean id="spLogoutNotifySessionListener" class="com.ibm.tivoli.cmcc.session.NotifyLogout2FederationSpSessionListener">
