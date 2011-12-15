@@ -284,7 +284,7 @@ public class ServletSessionManagerImpl implements SessionManager {
       }
       this.httpSessionCache.remove(hSession.getId());
     }
-    
+    // Remove everything
     this.samlID2HttpSessionIDCache.remove(artifactID);
     this.samlSessionCache.remove(artifactID);
     // Notify listener

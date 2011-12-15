@@ -1,4 +1,4 @@
-package com.ibm.tivoli.cmcc.web;
+package com.ibm.tivoli.cmcc.web.tool;
 
 import java.io.IOException;
 
@@ -82,7 +82,7 @@ public class PasswordResetServlet extends HttpServlet {
         connectionManager.setServerPort(Integer.parseInt(port));
       }
       
-      String responseXML = client.submit(userName, serviceCode, networkPassword);
+      String responseXML = client.submit(connectionManager.getConnector(), userName, serviceCode, networkPassword);
       
       responseXML = StringUtils.replace(responseXML, "<", "&lt;");
       responseXML = StringUtils.replace(responseXML, ">", "&gt;");

@@ -109,8 +109,8 @@ public class SAMLApplicationFilter implements Filter {
         ConnectorManager conMgr = getConnectorManager();
         Date lastActiviateTime = (Date) session.getAttribute("SAML_ACTIVIATE_TIME");
         if (lastActiviateTime == null || System.currentTimeMillis() - lastActiviateTime.getTime() > this.activiateInterval  * 1000) {
-          ActiviateServiceClient client = new ActiviateServiceClientImpl(conMgr, new Properties());
-          String respXML = client.submit(artifact);
+          ActiviateServiceClient client = new ActiviateServiceClientImpl(new Properties());
+          String respXML = client.submit(conMgr.getConnector(), artifact);
           session.setAttribute("SAML_ACTIVIATE_TIME", new Date());
         }
       } catch (Throwable t) {
@@ -168,8 +168,8 @@ public class SAMLApplicationFilter implements Filter {
   private Person receiveSAMLResponseAndResolvArtifact(String artifact) throws ClientException {
     Person personDTO = null;
     ConnectorManager conMgr = getConnectorManager();
-    ArtifactResolvServiceClient client = new ArtifactResolvServiceClientImpl(conMgr, new Properties());
-    ArtifactResolvResponse samlResp = client.submitAndParse(artifact);
+    ArtifactResolvServiceClient client = new ArtifactResolvServiceClientImpl(new Properties());
+    ArtifactResolvResponse samlResp = client.submitAndParse(conMgr.getConnector(), artifact);
     if (samlResp != null && "urn:oasis:names:tc:SAML:2.0:status:Success".equals(samlResp.getStatusCode())) {
       // Already login
       personDTO = new Person();

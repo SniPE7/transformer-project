@@ -18,7 +18,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.ibm.tivoli.cmcc.client.QueryAttributeServiceClient;
+import com.ibm.tivoli.cmcc.connector.Connector;
+import com.ibm.tivoli.cmcc.connector.ConnectorManager;
 import com.ibm.tivoli.cmcc.response.QueryAttributeResponse;
+import com.ibm.tivoli.cmcc.server.connector.ConnectorManagerSupplier;
 import com.ibm.tivoli.cmcc.service.auth.PersonDTOPrincipal;
 import com.ibm.tivoli.cmcc.spi.PersonDTO;
 import com.ibm.tivoli.cmcc.util.Helper;
@@ -42,6 +45,7 @@ public class CMCCArtifactLoginModule implements LoginModule, PrincipalAware {
   private String username = null;
   private PersonDTO personDTO = null;
 
+  private ConnectorManagerSupplier connectorManagerSupplier;
   private QueryAttributeServiceClient queryAttributeServiceClient = null;
 
   /**
@@ -103,6 +107,20 @@ public class CMCCArtifactLoginModule implements LoginModule, PrincipalAware {
    */
   public void setQueryAttributeServiceClient(QueryAttributeServiceClient queryAttributeServiceClient) {
     this.queryAttributeServiceClient = queryAttributeServiceClient;
+  }
+
+  /**
+   * @return the connectorManagerSupplier
+   */
+  public ConnectorManagerSupplier getConnectorManagerSupplier() {
+    return connectorManagerSupplier;
+  }
+
+  /**
+   * @param connectorManagerSupplier the connectorManagerSupplier to set
+   */
+  public void setConnectorManagerSupplier(ConnectorManagerSupplier connectorManagerSupplier) {
+    this.connectorManagerSupplier = connectorManagerSupplier;
   }
 
   public void initialize(Subject subject, CallbackHandler callbackHandler, Map<String, ?> arg2, Map<String, ?> arg3) {
@@ -227,7 +245,10 @@ public class CMCCArtifactLoginModule implements LoginModule, PrincipalAware {
    */
   protected boolean authenticate(String artifactID, String artifactDoamin) throws Exception {
     // TODO 根据artifactDomain来决定查询哪一个SAML服务器
-    QueryAttributeResponse resp = queryAttributeServiceClient.submitAndParse(artifactID);
+    Connector connector = null;
+    ConnectorManager conMgr = this.connectorManagerSupplier.getConnectorManager(artifactDomain);
+    connector = conMgr.getConnector();
+    QueryAttributeResponse resp = queryAttributeServiceClient.submitAndParse(connector, artifactID);
     if (resp.getStatusCode() != null && resp.getStatusCode().equalsIgnoreCase("urn:oasis:names:tc:SAML:2.0:status:Success")) {
       // Success
       this.username = resp.getAttributeByIndex(0);

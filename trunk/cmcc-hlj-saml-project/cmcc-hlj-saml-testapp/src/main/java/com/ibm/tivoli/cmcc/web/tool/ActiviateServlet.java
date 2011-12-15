@@ -58,7 +58,7 @@ public class ActiviateServlet extends HttpServlet {
 
       Properties properties = ConfigHelper.getConfigProperties();
       NetworkConnectorManager connectionManager = ConfigHelper.getNetworkConnectorManager(properties);
-      ActiviateServiceClient client = new ActiviateServiceClientImpl(connectionManager, properties);
+      ActiviateServiceClient client = new ActiviateServiceClientImpl(properties);
       connectionManager.setProtocol(protocol);
       if (StringUtils.isNotEmpty(hostname)) {
         connectionManager.setServerName(hostname);
@@ -68,7 +68,7 @@ public class ActiviateServlet extends HttpServlet {
         connectionManager.setServerPort(Integer.parseInt(port));
       }
       
-      String responseXML = client.submit(samlId);
+      String responseXML = client.submit(connectionManager.getConnector(), samlId);
       
       responseXML = StringUtils.replace(responseXML, "<", "&lt;");
       responseXML = StringUtils.replace(responseXML, ">", "&gt;");
