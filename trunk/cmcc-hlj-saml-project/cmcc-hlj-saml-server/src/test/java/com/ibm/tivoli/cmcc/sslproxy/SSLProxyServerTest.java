@@ -7,21 +7,25 @@ import junit.framework.TestCase;
 
 /**
  * @author zhaodonglu
- *
+ * 
  */
 public class SSLProxyServerTest extends TestCase {
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see junit.framework.TestCase#setUp()
    */
-  protected void setUp() throws Exception {
+  public void setUp() throws Exception {
     super.setUp();
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see junit.framework.TestCase#tearDown()
    */
-  protected void tearDown() throws Exception {
+  public void tearDown() throws Exception {
     super.tearDown();
   }
 
@@ -87,7 +91,7 @@ public class SSLProxyServerTest extends TestCase {
 
     Thread.sleep(10000000);
   }
-  
+
   /**
    * Test method for {@link com.ibm.tivoli.cmcc.sslproxy.SSLProxyServer#run()}.
    */
@@ -108,7 +112,7 @@ public class SSLProxyServerTest extends TestCase {
 
     Thread.sleep(10000000);
   }
-  
+
   /**
    * Test method for {@link com.ibm.tivoli.cmcc.sslproxy.SSLProxyServer#run()}.
    */
@@ -148,7 +152,5 @@ public class SSLProxyServerTest extends TestCase {
 
     Thread.sleep(10000000);
   }
-  
-  
 
 }

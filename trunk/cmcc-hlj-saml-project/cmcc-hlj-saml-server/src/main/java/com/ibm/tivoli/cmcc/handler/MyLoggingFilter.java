@@ -13,7 +13,6 @@ import org.apache.mina.common.IdleStatus;
 import org.apache.mina.common.IoFilterAdapter;
 import org.apache.mina.common.IoSession;
 import org.apache.mina.util.SessionLog;
-import org.slf4j.Logger;
 
 /**
  * Logs all MINA protocol events to {@link Logger}.

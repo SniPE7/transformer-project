@@ -105,7 +105,7 @@ public class CMCCArtifactLoginModule implements LoginModule, PrincipalAware {
    * @param queryAttributeServiceClient
    *          the queryAttributeServiceClient to set
    */
-  public void setQueryAttributeServiceClient(QueryAttributeServiceClient queryAttributeServiceClient) {
+  public void setQueryAttributeServiceClient(final QueryAttributeServiceClient queryAttributeServiceClient) {
     this.queryAttributeServiceClient = queryAttributeServiceClient;
   }
 

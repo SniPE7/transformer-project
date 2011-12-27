@@ -203,7 +203,7 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
             // Create session and update state
             SessionManager sessionManager = (SessionManager) this.getApplicationContext().getBean("sessionManager");
             String artifactID = CookieHelper.getArtifactIDFromCookies(request);
-            String artifactDomain = CookieHelper.getArtifactIDFromCookies(request);
+            String artifactDomain = CookieHelper.getArtifactDomainFromCookies(request);
             if (artifactID == null) {
               throw new IOException("Failure to get artifactID from cookies.");
             }

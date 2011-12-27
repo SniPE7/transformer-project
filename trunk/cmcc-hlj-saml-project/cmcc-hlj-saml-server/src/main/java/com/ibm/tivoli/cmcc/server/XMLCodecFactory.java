@@ -2,7 +2,6 @@ package com.ibm.tivoli.cmcc.server;
 
 import java.nio.charset.Charset;
 
-import org.apache.mina.common.BufferDataException;
 import org.apache.mina.filter.codec.ProtocolCodecFactory;
 import org.apache.mina.filter.codec.ProtocolDecoder;
 import org.apache.mina.filter.codec.ProtocolEncoder;

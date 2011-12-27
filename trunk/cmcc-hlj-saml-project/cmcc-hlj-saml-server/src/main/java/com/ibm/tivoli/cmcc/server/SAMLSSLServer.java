@@ -4,7 +4,6 @@
 package com.ibm.tivoli.cmcc.server;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.security.GeneralSecurityException;
 import java.security.Security;
@@ -26,7 +25,6 @@ import com.ibm.tivoli.cmcc.handler.MyLoggingFilter;
 import com.ibm.tivoli.cmcc.handler.SAMLRequestHanlder;
 import com.ibm.tivoli.cmcc.handler.SSLHandshakeErrorFilter;
 import com.ibm.tivoli.cmcc.ssl.SSLContextFactory;
-import com.ibm.tivoli.cmcc.util.Helper;
 
 /**
  * @author Zhao Dong Lu

@@ -46,7 +46,7 @@ public class RequestTypeDetectorProcessor extends AbstractProcessor implements P
       processor = new ArtifactResolvServiceProcessor(this.getProperties());
     } else if (in.indexOf("<PasswordReset") > 0) {
       processor = new PasswordResetServiceProcessor(this.getProperties());
-    } else if (in.indexOf("<SOAP-ENV:Envelope>cmcc-sso</SOAP-ENV:Envelope>") >=0 ) {
+    } else if (in.indexOf("<SOAP-ENV:Envelope>cmcc-sso</SOAP-ENV:Envelope>") >= 0 ) {
       log.debug("Get heartbeat, nothing to response.");
       return null;
     }

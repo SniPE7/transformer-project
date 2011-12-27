@@ -60,8 +60,7 @@ public class SSLProxyRequestHandler extends IoHandlerAdapter implements Applicat
 
   public void messageReceived(IoSession session, Object msg) throws Exception {
     String str = null;
-    if (msg instanceof String) {
-    } else if (msg instanceof ByteBuffer) {
+    if (msg instanceof ByteBuffer) {
       ByteBuffer byteBuf = (ByteBuffer) msg;
       int limit = byteBuf.limit();
       

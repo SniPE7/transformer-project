@@ -225,7 +225,6 @@ public class ServletSessionManagerImpl implements SessionManager {
       throw new SessionManagementException(String.format("Failure to create session, cause: could not found user infor by msisdn: %s", msisdn));
     } catch (Exception e) {
       throw new SessionManagementException(e);
-    } finally {
     }
   }
 
