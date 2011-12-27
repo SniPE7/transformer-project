@@ -3,8 +3,6 @@ package com.ibm.tivoli.cmcc.response;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.apache.jasper.tagplugins.jstl.core.Out;
-
 import junit.framework.TestCase;
 
 import com.ibm.tivoli.cmcc.connector.Connector;

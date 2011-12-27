@@ -36,8 +36,9 @@ import com.ibm.tivoli.cmcc.util.Helper;
 
 /**
  * 应用端认证和报活功能的Filter
+ * 
  * @author zhaodonglu
- *
+ * 
  */
 public class SAMLApplicationFilter implements Filter {
   private static Log log = LogFactory.getLog(SAMLApplicationFilter.class);
@@ -83,7 +84,7 @@ public class SAMLApplicationFilter implements Filter {
     this.keyPassword = filterConfig.getInitParameter("SAML.client.key.store.key.password").toCharArray();
     this.trustStorePath = filterConfig.getInitParameter("SAML.client.trust.store.path");
     this.trustStorePassword = filterConfig.getInitParameter("SAML.client.trust.store.password").toCharArray();
-    
+
     this.activiateInterval = Integer.parseInt(filterConfig.getInitParameter("SAML.activiate.interval.seconds"));
   }
 
@@ -108,7 +109,7 @@ public class SAMLApplicationFilter implements Filter {
         // Send activate to IDP
         ConnectorManager conMgr = getConnectorManager();
         Date lastActiviateTime = (Date) session.getAttribute("SAML_ACTIVIATE_TIME");
-        if (lastActiviateTime == null || System.currentTimeMillis() - lastActiviateTime.getTime() > this.activiateInterval  * 1000) {
+        if (lastActiviateTime == null || System.currentTimeMillis() - lastActiviateTime.getTime() > this.activiateInterval * 1000) {
           ActiviateServiceClient client = new ActiviateServiceClientImpl(new Properties());
           String respXML = client.submit(conMgr.getConnector(), artifact);
           session.setAttribute("SAML_ACTIVIATE_TIME", new Date());
@@ -120,7 +121,7 @@ public class SAMLApplicationFilter implements Filter {
       }
       return;
     }
-
+    
     // 未登录
     try {
 
@@ -137,17 +138,21 @@ public class SAMLApplicationFilter implements Filter {
         // 收到ArtifactID, 发送ArtifactResolv
         try {
           Person personDTO = receiveSAMLResponseAndResolvArtifact(artifact);
-          String msisdn = personDTO.getMsisdn();
-          if (msisdn != null && msisdn.trim().length() > 0) {
-            // 登录成功
-            session = request.getSession(true);
-            session.setAttribute("USER_UID", msisdn);
-            session.setAttribute("SESSION_PERSON", personDTO);
-            session.setAttribute("ARTIFACT_ID", artifact);
-            session.setAttribute("SAML_ACTIVIATE_TIME", new Date());
-            // Show login succes page
-            chain.doFilter(req, resp);
-            return;
+          if (personDTO != null) {
+            String msisdn = personDTO.getMsisdn();
+            if (msisdn != null && msisdn.trim().length() > 0) {
+              // 登录成功
+              session = request.getSession(true);
+              session.setAttribute("USER_UID", msisdn);
+              session.setAttribute("SESSION_PERSON", personDTO);
+              session.setAttribute("ARTIFACT_ID", artifact);
+              session.setAttribute("SAML_ACTIVIATE_TIME", new Date());
+              // Show login succes page
+              chain.doFilter(req, resp);
+              return;
+            }
+          } else {
+            log.warn(String.format("could not found PersonDTO by artifact: [%s]",artifact));
           }
         } catch (ClientException e) {
           throw new IOException(String.format("Failure to resolv artifact: [%s], cause: %s", artifact, e.getMessage()), e);
@@ -254,6 +259,7 @@ public class SAMLApplicationFilter implements Filter {
 
   /**
    * 将所有的参数追加为URL queryString模式
+   * 
    * @param url
    * @param request
    * @return
@@ -262,17 +268,17 @@ public class SAMLApplicationFilter implements Filter {
   public static String appendAllRequestParameters(String url, HttpServletRequest request) throws UnsupportedEncodingException {
     Enumeration<String> names = request.getParameterNames();
     while (names.hasMoreElements()) {
-          String name = names.nextElement();
-          String[] values = request.getParameterValues(name);
-          if (values != null) {
-             for (String v: values) {
-               url = appendParameter(url, name, v);
-             }
-          }
+      String name = names.nextElement();
+      String[] values = request.getParameterValues(name);
+      if (values != null) {
+        for (String v : values) {
+          url = appendParameter(url, name, v);
+        }
+      }
     }
     return url;
   }
-  
+
   public static String appendParameter(String url, String key, String value) throws UnsupportedEncodingException {
     if (url == null) {
       return null;

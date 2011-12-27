@@ -5,8 +5,6 @@ package com.ibm.tivoli.cmcc.session;
 
 import java.util.EventObject;
 
-import javax.servlet.http.HttpSession;
-
 /**
  * This is the class representing event notifications for changes to sessions
  * within a SAML Server.

@@ -1,6 +1,8 @@
 package com.ibm.tivoli.cmcc.server.connector;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
@@ -236,9 +238,24 @@ public class ConnectorManagerSupplierImpl implements ConnectorManagerSupplier {
     NetworkConnectorManager mgr = new NetworkConnectorManager();
     try {
       BeanUtils.copyProperties(mgr, this);
+      // All of Supplier  properties start with "default", so erase prefix "default"
+      Map<String, Object> map = BeanUtils.describe(this);
+      Map<String, Object> result = new HashMap<String, Object>(map);
+      for (String key: map.keySet()) {
+          if (key.startsWith("default")) {
+             String newKey = key.substring("default".length());
+             if (newKey.length() > 0) {
+                newKey = newKey.substring(0, 1).toLowerCase() + newKey.substring(1);
+             }
+             result.put(newKey, map.get(key));
+          }
+      }
+      BeanUtils.populate(mgr, result);
     } catch (IllegalAccessException e) {
       log.warn(e.getMessage(), e);
     } catch (InvocationTargetException e) {
+      log.warn(e.getMessage(), e);
+    } catch (NoSuchMethodException e) {
       log.warn(e.getMessage(), e);
     }
     if (!this.alwaysUseDefault || StringUtils.isEmpty(this.defaultServerName)) {

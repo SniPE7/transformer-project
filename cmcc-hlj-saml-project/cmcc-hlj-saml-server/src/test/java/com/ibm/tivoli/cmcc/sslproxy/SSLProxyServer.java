@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.ibm.tivoli.cmcc.sslproxy;
 
@@ -48,10 +48,11 @@ public class SSLProxyServer implements Runnable {
     private String name = null;
 
     /**
+     * @param name
      * @param source
      * @param target
      */
-    private Throtter(String name, Socket source, Socket target) {
+    private Throtter(final String name, final Socket source, final Socket target) {
       super();
       this.name = name;
       this.source = source;
@@ -181,7 +182,7 @@ public class SSLProxyServer implements Runnable {
    * @param serverPort
    *          the serverPort to set
    */
-  public void setServerPort(int port) {
+  public void setServerPort(final int port) {
     this.serverPort = port;
   }
 
@@ -196,7 +197,7 @@ public class SSLProxyServer implements Runnable {
    * @param targetIP
    *          the targetIP to set
    */
-  public void setTargetIP(String targetIP) {
+  public void setTargetIP(final String targetIP) {
     this.targetIP = targetIP;
   }
 
@@ -211,7 +212,7 @@ public class SSLProxyServer implements Runnable {
    * @param targetPort
    *          the targetPort to set
    */
-  public void setTargetPort(int targetPort) {
+  public void setTargetPort(final int targetPort) {
     this.targetPort = targetPort;
   }
 
@@ -226,7 +227,7 @@ public class SSLProxyServer implements Runnable {
    * @param keyFilePass
    *          the keyFilePass to set
    */
-  public void setKeyFilePass(String keyFilePass) {
+  public void setKeyFilePass(final String keyFilePass) {
     this.keyFilePass = keyFilePass;
   }
 
@@ -241,7 +242,7 @@ public class SSLProxyServer implements Runnable {
    * @param keyPass
    *          the keyPass to set
    */
-  public void setKeyPass(String keyPass) {
+  public void setKeyPass(final String keyPass) {
     this.keyPass = keyPass;
   }
 
@@ -256,7 +257,7 @@ public class SSLProxyServer implements Runnable {
    * @param keyStore
    *          the keyStore to set
    */
-  public void setKeyStore(String keyStore) {
+  public void setKeyStore(final String keyStore) {
     this.keyStore = keyStore;
   }
 
@@ -271,7 +272,7 @@ public class SSLProxyServer implements Runnable {
    * @param serverProtocol
    *          the serverProtocol to set
    */
-  public void setServerProtocol(String serverProtocol) {
+  public void setServerProtocol(final String serverProtocol) {
     this.serverProtocol = serverProtocol;
   }
 
@@ -286,7 +287,7 @@ public class SSLProxyServer implements Runnable {
    * @param targetProtocol
    *          the targetProtocol to set
    */
-  public void setTargetProtocol(String targetProtocol) {
+  public void setTargetProtocol(final String targetProtocol) {
     this.targetProtocol = targetProtocol;
   }
 
@@ -377,7 +378,7 @@ public class SSLProxyServer implements Runnable {
   /**
    * @return
    */
-  private SSLContext getSSLContext(String protocol) {
+  private SSLContext getSSLContext(final String protocol) {
     KeyStore ks;// 密钥库
     KeyManagerFactory kmf;// 密钥管理工厂
     SSLContext sslc = null;// 安全连接方式

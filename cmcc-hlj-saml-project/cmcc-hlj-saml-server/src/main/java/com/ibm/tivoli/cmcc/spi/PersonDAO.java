@@ -19,7 +19,7 @@ public interface PersonDAO {
   public PersonDTO getPersonByMsisdn(String msisdn);
   
   /**
-   * Verify service code , and update network password
+   * Verify service code , and update network password.
    * @param msisdn
    * @param password
    * @return
@@ -37,7 +37,7 @@ public interface PersonDAO {
   //public boolean verifyPassword(String msisdn, String passwordType, char[] password) throws Exception;
   
   /**
-   * 校验口令, 验证通过后，提取用户信息
+   * 校验口令, 验证通过后，提取用户信息.
    * @param msisdn
    * @param passwordType       1：互联网密码, 2：服务密码
    * @param password

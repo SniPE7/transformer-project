@@ -86,7 +86,7 @@ public class PasswordResetServlet extends HttpServlet {
       responseXML = StringUtils.replace(responseXML, "<", "&lt;");
       responseXML = StringUtils.replace(responseXML, ">", "&gt;");
       request.setAttribute("responseXML", responseXML);
-      this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/test/view_message.jsp").forward(request, response);
+      this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/test-tool/view_message.jsp").forward(request, response);
     } catch (ClientException e) {
       throw new ServletException(e);
     }

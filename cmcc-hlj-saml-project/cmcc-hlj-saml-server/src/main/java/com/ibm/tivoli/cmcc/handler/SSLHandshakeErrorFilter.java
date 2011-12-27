@@ -10,7 +10,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.mina.common.IdleStatus;
 import org.apache.mina.common.IoFilterAdapter;
 import org.apache.mina.common.IoSession;
-import org.apache.mina.util.SessionLog;
 
 /**
  * Detect handshake error, and reset connection.
