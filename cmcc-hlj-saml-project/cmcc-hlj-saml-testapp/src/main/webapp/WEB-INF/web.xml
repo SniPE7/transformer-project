@@ -44,11 +44,11 @@
     </init-param>
     <init-param>
       <param-name>SAML.client.trust.store.path</param-name>
-      <param-value>/certs/cmcc_ssl.jks</param-value>
+      <param-value></param-value>
     </init-param>
     <init-param>
       <param-name>SAML.client.trust.store.password</param-name>
-      <param-value>importkey</param-value>
+      <param-value></param-value>
     </init-param>
     <init-param>
       <param-name>SAML.activiate.interval.seconds</param-name>
