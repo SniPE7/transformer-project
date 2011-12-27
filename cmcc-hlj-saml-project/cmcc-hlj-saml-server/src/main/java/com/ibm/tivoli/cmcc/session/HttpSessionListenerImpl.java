@@ -13,15 +13,24 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
- * 用于侦听SSO Web模块销毁HttpSession的情况, 并将此行为传播到SAML Session Manager
+ * 用于侦听SSO Web模块销毁HttpSession的情况, 并将此行为传播到SAML Session Manager.
  * @author zhaodonglu
  * 
  */
 public class HttpSessionListenerImpl implements HttpSessionListener {
 
+  /**
+   * 
+   */
   private static Log log = LogFactory.getLog(HttpSessionListenerImpl.class);
   
+  /**
+   * 
+   */
   static final String SAML_SESSION_ID_ATTR_NAME = "SAML_SESSION_ID_ATTR_NAME";
+  /**
+   * 
+   */
   static final String NOT_NEED_TO_INVALIDATE = "NOT_NEED_TO_INVALIDATE";
 
 
@@ -32,24 +41,16 @@ public class HttpSessionListenerImpl implements HttpSessionListener {
     super();
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * javax.servlet.http.HttpSessionListener#sessionCreated(javax.servlet.http
-   * .HttpSessionEvent)
+  /* (non-Javadoc)
+   * @see javax.servlet.http.HttpSessionListener#sessionCreated(javax.servlet.http.HttpSessionEvent)
    */
-  public void sessionCreated(HttpSessionEvent se) {
+  public void sessionCreated(final HttpSessionEvent se) {
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * javax.servlet.http.HttpSessionListener#sessionDestroyed(javax.servlet.http
-   * .HttpSessionEvent)
+  /* (non-Javadoc)
+   * @see javax.servlet.http.HttpSessionListener#sessionDestroyed(javax.servlet.http.HttpSessionEvent)
    */
-  public void sessionDestroyed(HttpSessionEvent se) {
+  public void sessionDestroyed(final HttpSessionEvent se) {
     HttpSession hSession = se.getSession();
     if (hSession != null) {
       String samlSessionID = (String) hSession.getAttribute(SAML_SESSION_ID_ATTR_NAME);
