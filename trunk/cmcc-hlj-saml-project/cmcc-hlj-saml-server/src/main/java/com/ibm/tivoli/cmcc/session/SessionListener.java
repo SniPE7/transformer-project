@@ -9,10 +9,11 @@ package com.ibm.tivoli.cmcc.session;
  */
 public interface SessionListener {
   
+  
   /**
    * @param event
    */
-  public abstract void sessionCreated(SessionEvent event);
+  public abstract void afterSessionCreate(SessionEvent event);
 
   /**
    * @param event
@@ -34,5 +35,11 @@ public interface SessionListener {
    * Fired after a SAML session lastAccessTime is changed
    * @param event
    */
-  public abstract void sessionTouched(SessionEvent event);
+  public abstract void beforeSessionTouch(SessionEvent event);
+
+  /**
+   * Fired after a SAML session lastAccessTime is changed
+   * @param event
+   */
+  public abstract void afterSessionTouch(SessionEvent event);
 }

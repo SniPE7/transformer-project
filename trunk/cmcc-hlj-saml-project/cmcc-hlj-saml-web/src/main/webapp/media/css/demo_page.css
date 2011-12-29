@@ -1,0 +1,10 @@
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * General page setup
+ */
+#sessions_wrapper {
+  font: 75%/1.45em "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+

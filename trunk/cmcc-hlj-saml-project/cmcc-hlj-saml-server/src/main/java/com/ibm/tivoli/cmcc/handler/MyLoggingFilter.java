@@ -82,32 +82,38 @@ public class MyLoggingFilter extends IoFilterAdapter {
   }
 
   public void messageReceived(NextFilter nextFilter, IoSession session, Object message) {
-    if (log.isDebugEnabled()) {
-      log.debug(String.format("[%s] RECEIVED: [%s]", session, makeLineWrap(message)));
+    if (log.isTraceEnabled()) {
+      log.trace(String.format("[%s] RECEIVED: [%s]", session, makeLineWrap(message)));
     }
-    if (SessionLog.isInfoEnabled(session)) {
-      SessionLog.info(session, "RECEIVED: " + makeLineWrap(message));
+    /*
+    if (SessionLog.isTraceEnabled(session)) {
+      SessionLog.trace(session, "RECEIVED: " + makeLineWrap(message));
     }
+    */
     nextFilter.messageReceived(session, message);
   }
 
   public void messageSent(NextFilter nextFilter, IoSession session, Object message) {
-    if (log.isDebugEnabled()) {
-      log.debug(String.format("[%s] SENT: [%s]", session, makeLineWrap(message)));
+    if (log.isTraceEnabled()) {
+      log.trace(String.format("[%s] SENT: [%s]", session, makeLineWrap(message)));
     }
-    if (SessionLog.isInfoEnabled(session)) {
-      SessionLog.info(session, "SENT: " + makeLineWrap(message));
+    /*
+    if (SessionLog.isTraceEnabled(session)) {
+      SessionLog.trace(session, "SENT: " + makeLineWrap(message));
     }
+    */
     nextFilter.messageSent(session, message);
   }
 
   public void filterWrite(NextFilter nextFilter, IoSession session, WriteRequest writeRequest) {
-    if (log.isDebugEnabled()) {
-      log.debug(String.format("[%s] WRITE: [%s]", session, makeLineWrap(writeRequest)));
+    if (log.isTraceEnabled()) {
+      log.trace(String.format("[%s] WRITE: [%s]", session, makeLineWrap(writeRequest)));
     }
-    if (SessionLog.isInfoEnabled(session)) {
-      SessionLog.info(session, "WRITE: " + makeLineWrap(writeRequest));
+    /*
+    if (SessionLog.isTraceEnabled(session)) {
+      SessionLog.trace(session, "WRITE: " + makeLineWrap(writeRequest));
     }
+    */
     nextFilter.filterWrite(session, writeRequest);
   }
 

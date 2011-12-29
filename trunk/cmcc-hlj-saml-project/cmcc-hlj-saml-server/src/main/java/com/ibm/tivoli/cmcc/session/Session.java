@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 import com.ibm.tivoli.cmcc.spi.PersonDTO;
 import com.ibm.tivoli.cmcc.util.Helper;
 
@@ -119,6 +121,7 @@ public class Session implements Serializable {
   /**
    * @return the createTime
    */
+  @JsonSerialize(using=JsonDateSerializer.class)
   public Date getCreateTime() {
     return createTime;
   }
@@ -126,6 +129,7 @@ public class Session implements Serializable {
   /**
    * @return the lastAccessTime
    */
+  @JsonSerialize(using=JsonDateSerializer.class)
   public Date getLastAccessTime() {
     return lastAccessTime;
   }

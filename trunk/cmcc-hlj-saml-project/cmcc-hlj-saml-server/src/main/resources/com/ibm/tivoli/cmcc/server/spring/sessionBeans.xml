@@ -73,6 +73,7 @@
   <bean id="sessionListener" class="com.ibm.tivoli.cmcc.session.ChainSessionListener">
     <property name="listeners">
        <array>
+         <ref bean="sessionMonitor4WebAdmin"/>
          <ref bean="idpActivateNotifySessionListener"/>
          <ref bean="idpLogoutNotifySessionListener"/>
          <ref bean="spLogoutNotifySessionListener"/>
@@ -96,6 +97,10 @@
   <!-- 侦听Session的活动, 发送Logout事件到Federal SP -->
   <bean id="spLogoutNotifySessionListener" class="com.ibm.tivoli.cmcc.session.NotifyLogout2FederationSpSessionListener">
     <property name="logoutClient" ref="logoutClient"></property>
+  </bean>
+  
+  <bean id="sessionMonitor4WebAdmin" class="com.ibm.tivoli.cmcc.session.monitor.SessionListener4Monitor">
+    <property name="sessionManager" ref="sessionManager"></property>
   </bean>
 
 </beans>

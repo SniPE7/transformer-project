@@ -43,9 +43,9 @@ public class ChainSessionListener implements SessionListener {
    * com.ibm.tivoli.cmcc.session.SessionListener#sessionCreated(com.ibm.tivoli
    * .cmcc.session.SessionEvent)
    */
-  public void sessionCreated(SessionEvent event) {
+  public void afterSessionCreate(SessionEvent event) {
     for (SessionListener listener : this.listeners) {
-      listener.sessionCreated(event);
+      listener.afterSessionCreate(event);
     }
   }
 
@@ -82,9 +82,18 @@ public class ChainSessionListener implements SessionListener {
    * com.ibm.tivoli.cmcc.session.SessionListener#sessionTouched(com.ibm.tivoli
    * .cmcc.session.SessionEvent)
    */
-  public void sessionTouched(SessionEvent event) {
+  public void afterSessionTouch(SessionEvent event) {
     for (SessionListener listener : this.listeners) {
-      listener.sessionTouched(event);
+      listener.afterSessionTouch(event);
+    }
+  }
+
+  /* (non-Javadoc)
+   * @see com.ibm.tivoli.cmcc.session.SessionListener#beforeSessionTouch(com.ibm.tivoli.cmcc.session.SessionEvent)
+   */
+  public void beforeSessionTouch(SessionEvent event) {
+    for (SessionListener listener : this.listeners) {
+      listener.beforeSessionTouch(event);
     }
   }
 
