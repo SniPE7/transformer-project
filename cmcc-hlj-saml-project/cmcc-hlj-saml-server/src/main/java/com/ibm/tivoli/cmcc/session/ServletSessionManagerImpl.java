@@ -218,7 +218,7 @@ public class ServletSessionManagerImpl implements SessionManager {
 
         // Notify listener
         if (this.sessionListener != null) {
-          this.sessionListener.sessionCreated(new SessionEvent(this, session));
+          this.sessionListener.afterSessionCreate(new SessionEvent(this, session));
         }
         return session;
       }
@@ -242,14 +242,21 @@ public class ServletSessionManagerImpl implements SessionManager {
       log.debug(String.format("Before touching session, artifactID: [%s], Last access time: [%s]", artifactID, new Date(hSession.getLastAccessedTime())));
       hSession.setMaxInactiveInterval((int) (this.maxInactiveInterval + (System.currentTimeMillis() - hSession.getLastAccessedTime()) / 1000));
       Session session = this.get(artifactID);
+      
+      // Notify listener
+      if (this.sessionListener != null) {
+        this.sessionListener.afterSessionTouch(new SessionEvent(this, session));
+      }
+
       if (session != null) {
         // 由于使用Memory Cache的原因, 总是不能修改原有对象的lastAccessTime, 但可以创建一个新的来覆盖
         Session newSession = new Session(session.getArtifactID(), session.getArtifactDomain(), session.getHttpSessionId(), session.getUid(),
             session.getPersonDTO(), session.isOringinal());
         this.update(newSession);
+        
         // Notify listener
         if (this.sessionListener != null) {
-          this.sessionListener.sessionTouched(new SessionEvent(this, session));
+          this.sessionListener.afterSessionTouch(new SessionEvent(this, session));
         }
       }
       log.debug(String.format("After touching session, artifactID: [%s], Last access time: [%s]", artifactID, new Date(hSession.getLastAccessedTime())));

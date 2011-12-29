@@ -57,35 +57,38 @@ public class LoginServlet extends HttpServlet {
 
   /**
    * 将所有的参数追加为URL queryString模式
+   * 
    * @param url
    * @param request
    * @return
    * @throws UnsupportedEncodingException
    */
-  public static String appendAllRequestParameters(String url, HttpServletRequest request) throws UnsupportedEncodingException {
+  public static String appendAllRequestParameters(String url, HttpServletRequest request)
+      throws UnsupportedEncodingException {
     Enumeration<String> names = request.getParameterNames();
     while (names.hasMoreElements()) {
-          String name = names.nextElement();
-          String[] values = request.getParameterValues(name);
-          if (values != null) {
-             for (String v: values) {
-               url = appendParameter(url, name, v);
-             }
-          }
+      String name = names.nextElement();
+      String[] values = request.getParameterValues(name);
+      if (values != null) {
+        for (String v : values) {
+          url = appendParameter(url, name, v);
+        }
+      }
     }
     return url;
   }
-  
+
   public static String appendParameter(String url, String key, String value) throws UnsupportedEncodingException {
     if (url == null) {
       return null;
     }
     if (url.indexOf('?') > 0) {
-      return url + "&" + key + "=" + URLEncoder.encode(value, "UTF-8");
+      return url + "&" + key + "=" + URLEncoder.encode((value == null)?"":value, "UTF-8");
     } else {
-      return url + "?" + key + "=" + URLEncoder.encode(value, "UTF-8");
+      return url + "?" + key + "=" + URLEncoder.encode((value == null)?"":value, "UTF-8");
     }
   }
+
   /**
    * The doGet method of the servlet. <br>
    * 
@@ -101,7 +104,7 @@ public class LoginServlet extends HttpServlet {
    *           if an error occurred
    */
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    
+
     String username = request.getParameter("User-Name");
     try {
       if (StringUtils.isEmpty(username)) {
@@ -112,21 +115,22 @@ public class LoginServlet extends HttpServlet {
       if (StringUtils.isEmpty(password)) {
         throw new WebPageException("请输入登录密码!");
       }
-      
+
       // Verify check_code
       String checkCode = request.getParameter("check_code");
+      // Test only 
+      String disableCheckCode = request.getParameter("__disable_check_code");
       HttpSession hsession = request.getSession(false);
-      if (hsession == null || checkCode == null 
-          || (!checkCode.equals((String)hsession.getAttribute("check_code"))
-          // For testing
-          && !checkCode.equals("1105"))) {
-         throw new WebPageException("您输入的验证码有误,请重新输入!");
+      if (StringUtils.isEmpty(disableCheckCode)) {
+        if (hsession == null || checkCode == null || !(checkCode.equals((String) hsession.getAttribute("check_code")))) {
+          throw new WebPageException("您输入的验证码有误,请重新输入!");
+        }
       }
 
       CallbackHandler callbackHandler = new CMCCLoginCallbackHandler(request);
       ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
-      LoginModule loginModule = (LoginModule)context.getBean("localLoginModule");
-      loginModule.initialize(new Subject(), callbackHandler , null, null);
+      LoginModule loginModule = (LoginModule) context.getBean("localLoginModule");
+      loginModule.initialize(new Subject(), callbackHandler, null, null);
       boolean ok = loginModule.login();
 
       if (ok) {
@@ -134,11 +138,12 @@ public class LoginServlet extends HttpServlet {
         loginModule.commit();
         Principal userPrincipal = null;
         if (loginModule instanceof PrincipalAware) {
-           userPrincipal = ((PrincipalAware)loginModule).getPrincipal();
+          userPrincipal = ((PrincipalAware) loginModule).getPrincipal();
         }
-        AuthenRequestService service = (AuthenRequestService) context.getBean("authenRequestService", AuthenRequestService.class);
+        AuthenRequestService service = (AuthenRequestService) context.getBean("authenRequestService",
+            AuthenRequestService.class);
         String artifactID = service.generateAndSaveArtifactID(userPrincipal, request, response);
-        
+
         // Controll where url will be redirect
         String continueURL = request.getParameter("continue");
         AuthenRequest authenReq = null;
@@ -149,15 +154,18 @@ public class LoginServlet extends HttpServlet {
         } catch (Exception e) {
           log.warn(e.getMessage());
         } finally {
-          if ( StringUtils.isNotEmpty(continueURL) || authenReq != null && !StringUtils.isEmpty(relayState)) {
+          if (StringUtils.isNotEmpty(continueURL) || authenReq != null && !StringUtils.isEmpty(relayState)) {
             // Return application
-            this.getServletConfig().getServletContext().getRequestDispatcher("/service/authen/response").forward(request, response);
+            this.getServletConfig().getServletContext().getRequestDispatcher("/service/authen/response")
+                .forward(request, response);
             return;
           }
         }
         // Show mypage for authenitcate user
-        //this.getServletConfig().getServletContext().getRequestDispatcher("/service/authen/mypage").forward(request, response);
-        response.sendRedirect(appendParameter(request.getContextPath() + "/service/authen/mypage", "login_page_style", request.getParameter("login_page_style")));
+        // this.getServletConfig().getServletContext().getRequestDispatcher("/service/authen/mypage").forward(request,
+        // response);
+        response.sendRedirect(appendParameter(request.getContextPath() + "/service/authen/mypage", "login_page_style",
+            request.getParameter("login_page_style")));
         return;
       }
       // Login failure
@@ -166,7 +174,8 @@ public class LoginServlet extends HttpServlet {
     } catch (WebPageException e) {
       request.setAttribute("__ERROR_MESSAGE_SAML_WEB_MODULE__", e.getMessage());
       request.setAttribute("UserName", username);
-      this.getServletConfig().getServletContext().getRequestDispatcher("/service/authen/showlogin").forward(request, response);
+      this.getServletConfig().getServletContext().getRequestDispatcher("/service/authen/showlogin")
+          .forward(request, response);
       log.warn(e.getMessage(), e);
     } catch (BeansException e) {
       throw new ServletException(e);

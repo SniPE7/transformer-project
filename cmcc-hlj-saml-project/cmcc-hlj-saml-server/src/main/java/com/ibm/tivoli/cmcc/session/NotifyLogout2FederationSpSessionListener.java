@@ -69,13 +69,13 @@ public class NotifyLogout2FederationSpSessionListener implements SessionListener
   /* (non-Javadoc)
    * @see com.ibm.tivoli.cmcc.session.SessionListener#sessionCreated(com.ibm.tivoli.cmcc.session.SessionEvent)
    */
-  public void sessionCreated(SessionEvent event) {
+  public void afterSessionCreate(SessionEvent event) {
   }
 
   /* (non-Javadoc)
    * @see com.ibm.tivoli.cmcc.session.SessionListener#sessionTouched(com.ibm.tivoli.cmcc.session.SessionEvent)
    */
-  public void sessionTouched(SessionEvent event) {
+  public void afterSessionTouch(SessionEvent event) {
   }
 
   public void beforeSessionDestroyed(SessionEvent event, boolean broadcastToOtherIDPs) {
@@ -113,7 +113,16 @@ public class NotifyLogout2FederationSpSessionListener implements SessionListener
     }
   }
 
+  /* (non-Javadoc)
+   * @see com.ibm.tivoli.cmcc.session.SessionListener#afterSessionDestroyed(com.ibm.tivoli.cmcc.session.SessionEvent, boolean)
+   */
   public void afterSessionDestroyed(SessionEvent event, boolean broadcastToOtherIDPs) {
+  }
+
+  /* (non-Javadoc)
+   * @see com.ibm.tivoli.cmcc.session.SessionListener#beforeSessionTouch(com.ibm.tivoli.cmcc.session.SessionEvent)
+   */
+  public void beforeSessionTouch(SessionEvent event) {
   }
 
 }

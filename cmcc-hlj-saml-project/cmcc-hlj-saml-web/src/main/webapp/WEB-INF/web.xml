@@ -37,6 +37,7 @@
   <listener>
     <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
   </listener>
+  
   <!-- For SessionManager -->
   <listener>
     <listener-class>com.ibm.tivoli.cmcc.session.HttpSessionListenerImpl</listener-class>
@@ -51,6 +52,22 @@
     <filter-class>com.ibm.tivoli.cmcc.tools.MonitorFilter</filter-class>
   </filter>
 
+  <!-- Spring WebMVC -->
+  <servlet> 
+      <servlet-name>springMVC</servlet-name> 
+      <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class> 
+      <init-param> 
+          <param-name>contextConfigLocation</param-name> 
+          <param-value>classpath*:/springMVC.xml</param-value> 
+      </init-param> 
+      <load-on-startup>1</load-on-startup> 
+  </servlet> 
+  <servlet-mapping> 
+      <servlet-name>springMVC</servlet-name> 
+      <url-pattern>/admin/*</url-pattern> 
+  </servlet-mapping>
+  
+  <!--  Home Servlet -->
   <servlet>
     <description>Home</description>
     <display-name>Home</display-name>

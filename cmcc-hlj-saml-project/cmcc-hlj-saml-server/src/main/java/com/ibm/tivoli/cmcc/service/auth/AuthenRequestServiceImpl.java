@@ -29,6 +29,7 @@ import com.ibm.tivoli.cmcc.module.PrincipalAware;
 import com.ibm.tivoli.cmcc.request.AuthenRequest;
 import com.ibm.tivoli.cmcc.server.utils.CookieHelper;
 import com.ibm.tivoli.cmcc.session.Session;
+import com.ibm.tivoli.cmcc.session.SessionManagementException;
 import com.ibm.tivoli.cmcc.session.SessionManager;
 import com.ibm.tivoli.cmcc.spi.PersonDTO;
 import com.ibm.tivoli.cmcc.util.Base64;
@@ -198,19 +199,8 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
         if (loginModule instanceof PrincipalAware) {
           Principal principal = ((PrincipalAware) loginModule).getPrincipal();
           if (principal instanceof PersonDTOPrincipal) {
-            String username = ((PersonDTOPrincipal) principal).getPersonDTO().getMsisdn();
-            log.debug(String.format("Federated login state is validate, msisdn: [%s].", username));
-            // Create session and update state
-            SessionManager sessionManager = (SessionManager) this.getApplicationContext().getBean("sessionManager");
-            String artifactID = CookieHelper.getArtifactIDFromCookies(request);
-            String artifactDomain = CookieHelper.getArtifactDomainFromCookies(request);
-            if (artifactID == null) {
-              throw new IOException("Failure to get artifactID from cookies.");
-            }
-            // 标记用户已经从总部登录， 为报活和全局注销提供支持.
-            Session session = sessionManager.create(username, artifactID, false, artifactDomain);
-            // 刷新本地登录状态
-            updateSessionState(request, response, username, artifactID, ((PersonDTOPrincipal) principal).getPersonDTO());
+            // Build local session
+            buildLocalSession(request, response, principal);
           }
         }
       }
@@ -219,6 +209,29 @@ public class AuthenRequestServiceImpl implements ApplicationContextAware, Authen
       log.error("Failure to checking federated SSO state.", e);
     }
     return false;
+  }
+
+  /**
+   * @param request
+   * @param response
+   * @param principal
+   * @throws IOException
+   * @throws SessionManagementException
+   */
+  private void buildLocalSession(HttpServletRequest request, HttpServletResponse response, Principal principal) throws IOException, SessionManagementException {
+    String username = ((PersonDTOPrincipal) principal).getPersonDTO().getMsisdn();
+    log.debug(String.format("Federated login state is validate, msisdn: [%s].", username));
+    // Create session and update state
+    SessionManager sessionManager = (SessionManager) this.getApplicationContext().getBean("sessionManager");
+    String artifactID = CookieHelper.getArtifactIDFromCookies(request);
+    String artifactDomain = CookieHelper.getArtifactDomainFromCookies(request);
+    if (artifactID == null) {
+      throw new IOException("Failure to get artifactID from cookies.");
+    }
+    // 标记用户已经从总部登录， 为报活和全局注销提供支持.
+    Session session = sessionManager.create(username, artifactID, false, artifactDomain);
+    // 刷新本地登录状态
+    updateSessionState(request, response, username, artifactID, ((PersonDTOPrincipal) principal).getPersonDTO());
   }
 
   /*
