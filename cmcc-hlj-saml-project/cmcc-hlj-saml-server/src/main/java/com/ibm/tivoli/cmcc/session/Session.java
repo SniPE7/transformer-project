@@ -105,6 +105,24 @@ public class Session implements Serializable {
   }
 
   /**
+   * @param artifactID2
+   * @param artifactDomain2
+   * @param httpSessionId2
+   * @param uid2
+   * @param personDTO2
+   * @param oringinal2
+   * @param createTime2
+   */
+  public Session(String artifactID, String artifactDomain, String httpSessionId, String uid, PersonDTO personDTO, boolean oringinal, Date createTime) {
+    this.artifactID = artifactID;
+    this.httpSessionId = httpSessionId;
+    this.uid = uid;
+    this.personDTO = personDTO;
+    this.oringinal = oringinal;
+    this.createTime = createTime;
+  }
+
+  /**
    * @return the artifactID
    */
   public String getArtifactID() {
