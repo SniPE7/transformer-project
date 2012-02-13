@@ -8,6 +8,7 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -245,13 +246,13 @@ public class ServletSessionManagerImpl implements SessionManager {
       
       // Notify listener
       if (this.sessionListener != null) {
-        this.sessionListener.afterSessionTouch(new SessionEvent(this, session));
+        this.sessionListener.beforeSessionTouch(new SessionEvent(this, session));
       }
 
       if (session != null) {
         // 由于使用Memory Cache的原因, 总是不能修改原有对象的lastAccessTime, 但可以创建一个新的来覆盖
         Session newSession = new Session(session.getArtifactID(), session.getArtifactDomain(), session.getHttpSessionId(), session.getUid(),
-            session.getPersonDTO(), session.isOringinal());
+            session.getPersonDTO(), session.isOringinal(), session.getCreateTime());
         this.update(newSession);
         
         // Notify listener
