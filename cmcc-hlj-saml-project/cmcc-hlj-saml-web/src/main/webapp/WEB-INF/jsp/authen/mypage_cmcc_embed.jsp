@@ -61,6 +61,7 @@ input {
 	  </ul>
 	</div>
 	<div id="button" align="center"><a href="javascript:void()">网上营业厅</a></div>
+  <div id="button" align="center"><a href="./service/authen/mypage?edit_person=yes">修改信息（测试）</a></div>
 </div>
 
 </body>
