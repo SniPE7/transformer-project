@@ -140,6 +140,77 @@ public class LDAPPersonDAO implements PersonDAO {
     }
     return null;
   }
+  
+  /**
+   * @param person
+   * @return
+   */
+  public boolean update(String msisdn, String attributeName, String attributeValue) {
+    if (msisdn == null || msisdn.trim().length() == 0) {
+      // 检查密码策略
+      throw new RuntimeException("必须提供有效的Msisdn信息");
+    }
+    if (attributeName == null || msisdn.trim().length() == 0) {
+      // 检查密码策略
+      throw new RuntimeException("必须提供有效的attributeName信息");
+    }
+    Hashtable<String, String> env = new Hashtable<String, String>();
+
+    env.put(Context.INITIAL_CONTEXT_FACTORY, ldapCtxFactory);
+
+    env.put(Context.PROVIDER_URL, this.getUrl());
+    env.put(Context.SECURITY_AUTHENTICATION, "simple");
+    env.put(Context.SECURITY_PRINCIPAL, this.getUserName());
+    env.put(Context.SECURITY_CREDENTIALS, this.getPassword());
+
+    ModificationItem[] mods = new ModificationItem[1];
+    Attribute mod0 = new BasicAttribute(attributeName, attributeValue);
+    mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, mod0);
+
+    boolean success = false;
+    DirContext ctx = null;
+    try {
+      log.debug(String.format("Finding person, msisdn: [%s]", msisdn));
+      ctx = new InitialDirContext(env);
+      AndFilter filter = new AndFilter();
+      filter.and(new EqualsFilter("uid", msisdn));
+      filter.and(new EqualsFilter("objectclass", "inetOrgPerson"));
+      List<String> entities = ldapTemplate.search(base, filter.encode(), new ContextMapper() {
+
+        public Object mapFromContext(Object entity) {
+          DirContextAdapter context = (DirContextAdapter) entity;
+          String dn = context.getDn().toString();
+          return dn;
+        }
+      });
+      
+      if (entities == null || entities.size() == 0) {
+        throw new RuntimeException(String.format("用户不存在, filter: %s!", filter.toString()));
+      }
+
+      if (entities != null && entities.size() > 0) {
+        for (String dn : entities) {
+          try {
+            String targetDN = dn;
+            ctx.modifyAttributes(targetDN, mods);
+            success = true;
+            log.debug(String.format("Update person, msisdn: [%s], %s: [%s]", msisdn, attributeName, attributeValue));
+          } catch (NamingException e) {
+            log.error(e.getMessage(), e);
+          }
+        }
+      } else {
+        log.debug("could not found eniity for update, filter: [" + filter + "]");
+      }
+    } catch (DataAccessException e) {
+      log.error(e.getMessage(), e);
+    } catch (NamingException e) {
+      throw LdapUtils.convertLdapException(e);
+    } finally {
+      LdapUtils.closeContext(ctx);
+    }
+    return success;
+  }
 
   /*
    * (non-Javadoc)
