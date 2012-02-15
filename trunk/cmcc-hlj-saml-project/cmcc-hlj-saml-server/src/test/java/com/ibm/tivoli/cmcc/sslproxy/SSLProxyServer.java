@@ -12,11 +12,15 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.security.KeyStore;
+import java.security.cert.X509Certificate;
 
+import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -40,7 +44,7 @@ public class SSLProxyServer implements Runnable {
 
   private boolean stopFlag = false;
 
-  private String keyStore = "/certs/client_pwd_importkey.jks";
+  private String keyStore = null;
 
   public class Throtter implements Runnable {
     private Socket source = null;
@@ -380,20 +384,44 @@ public class SSLProxyServer implements Runnable {
    */
   private SSLContext getSSLContext(final String protocol) {
     KeyStore ks;// 密钥库
-    KeyManagerFactory kmf;// 密钥管理工厂
+    KeyManagerFactory kmf = null;// 密钥管理工厂
     SSLContext sslc = null;// 安全连接方式
     // 初始化安全连接的密钥
     try {
       ks = KeyStore.getInstance("JKS");
-      InputStream in = this.getClass().getResourceAsStream(keyStore);
-      if (in == null) {
-        throw new Exception(String.format("Could not load key store: %s", keyStore));
+      InputStream in = null;
+      try {
+        in = this.getClass().getResourceAsStream(keyStore);
+      } catch (Exception e) {
       }
-      ks.load(in, keyFilePass.toCharArray());
-      kmf = KeyManagerFactory.getInstance("SunX509");
-      kmf.init(ks, keyPass.toCharArray());
+      if (in != null) {
+        ks.load(in, keyFilePass.toCharArray());
+        kmf = KeyManagerFactory.getInstance("SunX509");
+        kmf.init(ks, keyPass.toCharArray());
+      }
+      
       sslc = SSLContext.getInstance(protocol);
-      sslc.init(kmf.getKeyManagers(), null, null);
+      TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+          return null;
+        }
+
+        public void checkClientTrusted(X509Certificate[] certs, String authType) {
+          log.debug(String.format("Client certs;[%s], authType: [%s]", certs,
+              authType));
+        }
+
+        public void checkServerTrusted(X509Certificate[] certs, String authType) {
+          log.debug(String.format("Client certs;[%s], authType: [%s]", certs,
+              authType));
+        }
+      } };
+
+      KeyManager[] keyManagers = null;
+      if (kmf != null) {
+        keyManagers = kmf.getKeyManagers();
+      }
+      sslc.init(keyManagers, trustAllCerts, null);
     } catch (Exception ex) {
       log.error(ex.getMessage(), ex);
     }
