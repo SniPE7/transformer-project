@@ -97,15 +97,15 @@ public class SSLProxyServerTest extends TestCase {
    */
   public void testTCP2SSLProxy() throws Exception {
     SSLProxyServer tcpSSLServer = new SSLProxyServer();
-    tcpSSLServer.setTargetIP("10.110.21.58");
+    tcpSSLServer.setTargetIP("hl1.ac.10086.cn");
     tcpSSLServer.setTargetPort(8081);
-    tcpSSLServer.setServerPort(8081);
-
-    tcpSSLServer.setServerProtocol("TCP");
     tcpSSLServer.setTargetProtocol("SSL");
-    tcpSSLServer.setKeyStore("/certs/client_pwd_importkey.jks");
-    tcpSSLServer.setKeyFilePass("importkey");
-    tcpSSLServer.setKeyFilePass("importkey");
+
+    tcpSSLServer.setServerPort(8082);
+    tcpSSLServer.setServerProtocol("TCP");
+    //tcpSSLServer.setKeyStore("/certs/ssl_channel.jks");
+    //tcpSSLServer.setKeyFilePass("importkey");
+    //tcpSSLServer.setKeyFilePass("importkey");
 
     Thread t2 = new Thread(tcpSSLServer);
     t2.start();
