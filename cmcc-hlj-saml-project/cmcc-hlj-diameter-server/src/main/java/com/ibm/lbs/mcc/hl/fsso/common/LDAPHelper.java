@@ -123,8 +123,8 @@ public class LDAPHelper {
 		log.debug(String.format("Register network password for [%s]", msisdn));
 		if (nickName == null || userPassword == null
 				|| userPassword.length() < 6) {
-			// ¼ì²éÃÜÂë²ßÂÔ
-			throw new RuntimeException("È±ÉÙêÇ³Æ¡¢ÃÜÂë»òÕßÃÜÂëÇ¿¶È²»×ã!");
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			throw new RuntimeException("È±ï¿½ï¿½ï¿½Ç³Æ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¿ï¿½È²ï¿½ï¿½ï¿½!");
 		}
 		DirContext ctx = null;
 		try {
@@ -153,8 +153,8 @@ public class LDAPHelper {
 	public boolean updatePassword(String msisdn, String networkPassword)
 			throws NamingException {
 		if (networkPassword == null || networkPassword.length() < 6) {
-			// ¼ì²éÃÜÂë²ßÂÔ
-			throw new RuntimeException("ÃÜÂëÇ¿¶È²»×ã!");
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			throw new RuntimeException("ï¿½ï¿½ï¿½ï¿½Ç¿ï¿½È²ï¿½ï¿½ï¿½!");
 		}
 		String attributeName = "userPassword";
 
@@ -200,7 +200,7 @@ public class LDAPHelper {
 	}
 
 	/**
-	 * ³ÌÐòÒì³£·µ»ØNULL
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½ï¿½ï¿½NULL
 	 * 
 	 * @param msisdn
 	 * @param userPassword
@@ -229,10 +229,10 @@ public class LDAPHelper {
 	}
 
 	/**
-	 * ²éÑ¯ÓÃ»§ÐÅÏ¢<br>
-	 * ²éÑ¯²»µ½ÓÃ»§·µ»ØKey_ResultCode=5002<br>
-	 * ÒÑ¾­Ëø¶¨Key_ResultCode=5003<br>
-	 * ³ÌÐòÒì³£·µ»ØNULL
+	 * ï¿½ï¿½Ñ¯ï¿½Ã»ï¿½ï¿½ï¿½Ï¢<br>
+	 * ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½Key_ResultCode=5002<br>
+	 * ï¿½Ñ¾ï¿½ï¿½ï¿½Key_ResultCode=5003<br>
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½ï¿½ï¿½NULL
 	 * 
 	 * @param msisdn
 	 * @return
@@ -258,9 +258,9 @@ public class LDAPHelper {
 	}
 
 	/**
-	 * ²éÑ¯ÓÃ»§ÐÅÏ¢<br>
-	 * ²éÑ¯²»µ½ÓÃ»§·µ»ØKey_ResultCode=5002<br>
-	 * ÒÑ¾­Ëø¶¨Key_ResultCode=5003
+	 * ï¿½ï¿½Ñ¯ï¿½Ã»ï¿½ï¿½ï¿½Ï¢<br>
+	 * ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½Key_ResultCode=5002<br>
+	 * ï¿½Ñ¾ï¿½ï¿½ï¿½Key_ResultCode=5003
 	 * 
 	 * @param ctx
 	 * @param msisdn
@@ -277,7 +277,7 @@ public class LDAPHelper {
 		NamingEnumeration<SearchResult> answer = ctx.search(base, filter, sc);
 		if (answer == null || !answer.hasMoreElements()) {
 			log.warn(String.format(" user (%s) not found! ", msisdn));
-			// ÓÃ»§²»´æÔÚ
+			// ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			bean.put(ConfigUtils.Key_ResultCode, "5002");
 		} else {
 			SearchResult sr = answer.next();
@@ -302,12 +302,30 @@ public class LDAPHelper {
 			strValue = attr.get().toString();
 			bean.put(ConfigUtils.Key_UserStatus, strValue);
 
-			int authTimes = Integer
+			// Add by ZDL for testing
+      attr = sr.getAttributes().get("erhljmccFetionStatus");
+      strValue = attr.get().toString();
+      bean.put("erhljmccFetionStatus", strValue);
+			
+      attr = sr.getAttributes().get("erhljmcc139MailStatus");
+      strValue = attr.get().toString();
+      bean.put("erhljmcc139MailStatus", strValue);
+
+      attr = sr.getAttributes().get("erhljmccuserlevel");
+      strValue = attr.get().toString();
+      bean.put("erhljmccuserlevel", strValue);
+      
+      attr = sr.getAttributes().get("erhljmccstatus");
+      strValue = attr.get().toString();
+      bean.put("erhljmccstatus", strValue);
+      
+
+      int authTimes = Integer
 					.valueOf(bean.get(ConfigUtils.Key_AuthTimes));
 			int authThreshold = Integer.valueOf(bean
 					.get(ConfigUtils.Key_AuthThreshold));
 			if (authTimes >= authThreshold) {
-				// ÒÑ¾­Ëø¶¨
+				// ï¿½Ñ¾ï¿½ï¿½ï¿½
 				bean.put(ConfigUtils.Key_ResultCode, "5003");
 			}
 			answer.close();
@@ -321,17 +339,17 @@ public class LDAPHelper {
 			NamingException {
 		// Verify network password
 		Map<String, String> bean = query(ctx, msisdn);
-		// 2001£ºÈÏÖ¤³É¹¦£¨Diameter_SUCCESS£©
-		// 4001£ºÃÜÂë´íÎó£¨Diameter_AUTHENTICATION_REJECTED£©
-		// 5002£ºÓÃ»§²»´æÔÚ£¨Diameter_UNKNOWN_SESSION_ID£©
-		// 5003£ºÓÃ»§ÎÞÈ¨µÇÂ¼DIAMETER_AUTHORIZATION_REJECTED
-		// 5004ÆäËü£ºÎ´Öª´íÎó
+		// 2001ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½É¹ï¿½ï¿½ï¿½Diameter_SUCCESSï¿½ï¿½
+		// 4001ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Diameter_AUTHENTICATION_REJECTEDï¿½ï¿½
+		// 5002ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½Diameter_UNKNOWN_SESSION_IDï¿½ï¿½
+		// 5003ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½È¨ï¿½ï¿½Â¼DIAMETER_AUTHORIZATION_REJECTED
+		// 5004ï¿½ï¿½ï¿½ï¿½Î´Öªï¿½ï¿½ï¿½ï¿½
 		if (bean.containsKey(ConfigUtils.Key_ResultCode)) {
 			return bean;
 		}
 		// if (bean == null) {
 		// bean = new LinkedHashMap<String, String>();
-		// // ÓÃ»§²»´æÔÚ
+		// // ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		// bean.put(ConfigUtils.Key_ResultCode, "5002");
 		// return bean;
 		// }
@@ -340,7 +358,7 @@ public class LDAPHelper {
 		int authThreshold = Integer.valueOf(bean
 				.get(ConfigUtils.Key_AuthThreshold));
 		// if (authTimes >= authThreshold) {
-		// // ÒÑ¾­Ëø¶¨
+		// // ï¿½Ñ¾ï¿½ï¿½ï¿½
 		// bean.put(ConfigUtils.Key_ResultCode, "5003");
 		// return bean;
 		// }
@@ -358,7 +376,7 @@ public class LDAPHelper {
 			}
 			return bean;
 		}
-		// ÃÜÂëÕýÈ·£¬ÐèÖØÖÃauthTimes
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½authTimes
 		if (authTimes > 0) {
 			Attributes attrs = new BasicAttributes();
 			attrs.put("erhljmccAuthTimes", "0");
