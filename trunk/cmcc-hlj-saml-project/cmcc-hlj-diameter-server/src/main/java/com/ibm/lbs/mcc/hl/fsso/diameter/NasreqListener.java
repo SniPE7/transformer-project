@@ -101,9 +101,12 @@ public class NasreqListener implements NetworkReqListener {
 		switch (operate) {
 		case 0: // 认证
 			if (passwordType == 1) {
-				answer = authNetworkPwd(request, userName, password);
+			  // Network Passwd
+				answer = authNetworkPwd(request, userName, password, ConfigUtils.Key_UserPassword);
 			} else {
-				answer = authServiceCode(request, userName, password);
+			  //ServiceCode
+        answer = authNetworkPwd(request, userName, password, ConfigUtils.Key_ServicePassword);
+				//answer = authServiceCode(request, userName, password);
 			}
 			break;
 		case 1: // 创建用户通行证
@@ -128,10 +131,10 @@ public class NasreqListener implements NetworkReqListener {
 	 * @return
 	 */
 	protected static Answer authNetworkPwd(Request request, String userName,
-			String password) {
+			String password, String passwdAttrName) {
 		// Map<String, String> map = Func.auth(userName, password);
 		Map<String, String> bean = new LDAPHelper().checkNetworkPassword(
-				userName, password);
+				userName, password, passwdAttrName);
 		if (bean == null) {
 			log.info("authNetworkPwd failed! ");
 			return populateAnswer(request, null);
