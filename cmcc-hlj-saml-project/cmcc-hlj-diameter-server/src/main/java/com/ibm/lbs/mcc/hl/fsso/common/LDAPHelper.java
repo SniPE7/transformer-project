@@ -123,8 +123,8 @@ public class LDAPHelper {
 		log.debug(String.format("Register network password for [%s]", msisdn));
 		if (nickName == null || userPassword == null
 				|| userPassword.length() < 6) {
-			// ����������
-			throw new RuntimeException("ȱ���ǳơ������������ǿ�Ȳ���!");
+			// 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷
+			throw new RuntimeException("缺锟斤拷锟角称★拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟角匡拷炔锟斤拷锟�");
 		}
 		DirContext ctx = null;
 		try {
@@ -153,8 +153,8 @@ public class LDAPHelper {
 	public boolean updatePassword(String msisdn, String networkPassword)
 			throws NamingException {
 		if (networkPassword == null || networkPassword.length() < 6) {
-			// ����������
-			throw new RuntimeException("����ǿ�Ȳ���!");
+			// 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷
+			throw new RuntimeException("锟斤拷锟斤拷强锟饺诧拷锟斤拷!");
 		}
 		String attributeName = "userPassword";
 
@@ -200,7 +200,7 @@ public class LDAPHelper {
 	}
 
 	/**
-	 * �����쳣����NULL
+	 * 锟斤拷锟斤拷锟届常锟斤拷锟斤拷NULL
 	 * 
 	 * @param msisdn
 	 * @param userPassword
@@ -208,12 +208,12 @@ public class LDAPHelper {
 	 * @throws Exception
 	 */
 	public Map<String, String> checkNetworkPassword(String msisdn,
-			String userPassword) {
+			String userPassword, String passwdAttrName) {
 		log.debug(String.format("Check network password for [%s]", msisdn));
 		DirContext ctx = null;
 		try {
 			ctx = new InitialDirContext(env);
-			return checkPassword(ctx, msisdn, userPassword);
+			return checkPassword(ctx, msisdn, userPassword, passwdAttrName);
 		} catch (Exception e) {
 			log.error("Check error!", e);
 		} finally {
@@ -229,10 +229,10 @@ public class LDAPHelper {
 	}
 
 	/**
-	 * ��ѯ�û���Ϣ<br>
-	 * ��ѯ�����û�����Key_ResultCode=5002<br>
-	 * �Ѿ���Key_ResultCode=5003<br>
-	 * �����쳣����NULL
+	 * 锟斤拷询锟矫伙拷锟斤拷息<br>
+	 * 锟斤拷询锟斤拷锟斤拷锟矫伙拷锟斤拷锟斤拷Key_ResultCode=5002<br>
+	 * 锟窖撅拷锟斤拷Key_ResultCode=5003<br>
+	 * 锟斤拷锟斤拷锟届常锟斤拷锟斤拷NULL
 	 * 
 	 * @param msisdn
 	 * @return
@@ -258,9 +258,9 @@ public class LDAPHelper {
 	}
 
 	/**
-	 * ��ѯ�û���Ϣ<br>
-	 * ��ѯ�����û�����Key_ResultCode=5002<br>
-	 * �Ѿ���Key_ResultCode=5003
+	 * 锟斤拷询锟矫伙拷锟斤拷息<br>
+	 * 锟斤拷询锟斤拷锟斤拷锟矫伙拷锟斤拷锟斤拷Key_ResultCode=5002<br>
+	 * 锟窖撅拷锟斤拷Key_ResultCode=5003
 	 * 
 	 * @param ctx
 	 * @param msisdn
@@ -277,7 +277,7 @@ public class LDAPHelper {
 		NamingEnumeration<SearchResult> answer = ctx.search(base, filter, sc);
 		if (answer == null || !answer.hasMoreElements()) {
 			log.warn(String.format(" user (%s) not found! ", msisdn));
-			// �û�������
+			// 锟矫伙拷锟斤拷锟斤拷锟斤拷
 			bean.put(ConfigUtils.Key_ResultCode, "5002");
 		} else {
 			SearchResult sr = answer.next();
@@ -297,6 +297,10 @@ public class LDAPHelper {
 			attr = sr.getAttributes().get("userPassword");
 			strValue = new String((byte[]) attr.get());
 			bean.put(ConfigUtils.Key_UserPassword, strValue);
+
+      attr = sr.getAttributes().get("erhljmccServiceCode");
+      strValue = (String) attr.get();
+      bean.put(ConfigUtils.Key_ServicePassword, strValue);
 
 			attr = sr.getAttributes().get("erhljmccStatus");
 			strValue = attr.get().toString();
@@ -325,7 +329,7 @@ public class LDAPHelper {
 			int authThreshold = Integer.valueOf(bean
 					.get(ConfigUtils.Key_AuthThreshold));
 			if (authTimes >= authThreshold) {
-				// �Ѿ���
+				// 锟窖撅拷锟斤拷
 				bean.put(ConfigUtils.Key_ResultCode, "5003");
 			}
 			answer.close();
@@ -335,21 +339,21 @@ public class LDAPHelper {
 	}
 
 	private Map<String, String> checkPassword(DirContext ctx, String msisdn,
-			String userPassword) throws UnsupportedEncodingException,
+			String userPassword, String passwdAttrName) throws UnsupportedEncodingException,
 			NamingException {
 		// Verify network password
 		Map<String, String> bean = query(ctx, msisdn);
-		// 2001����֤�ɹ���Diameter_SUCCESS��
-		// 4001���������Diameter_AUTHENTICATION_REJECTED��
-		// 5002���û������ڣ�Diameter_UNKNOWN_SESSION_ID��
-		// 5003���û���Ȩ��¼DIAMETER_AUTHORIZATION_REJECTED
-		// 5004����δ֪����
+		// 2001锟斤拷锟斤拷证锟缴癸拷锟斤拷Diameter_SUCCESS锟斤拷
+		// 4001锟斤拷锟斤拷锟斤拷锟斤拷锟紻iameter_AUTHENTICATION_REJECTED锟斤拷
+		// 5002锟斤拷锟矫伙拷锟斤拷锟斤拷锟节ｏ拷Diameter_UNKNOWN_SESSION_ID锟斤拷
+		// 5003锟斤拷锟矫伙拷锟斤拷权锟斤拷录DIAMETER_AUTHORIZATION_REJECTED
+		// 5004锟斤拷锟斤拷未知锟斤拷锟斤拷
 		if (bean.containsKey(ConfigUtils.Key_ResultCode)) {
 			return bean;
 		}
 		// if (bean == null) {
 		// bean = new LinkedHashMap<String, String>();
-		// // �û�������
+		// // 锟矫伙拷锟斤拷锟斤拷锟斤拷
 		// bean.put(ConfigUtils.Key_ResultCode, "5002");
 		// return bean;
 		// }
@@ -358,11 +362,11 @@ public class LDAPHelper {
 		int authThreshold = Integer.valueOf(bean
 				.get(ConfigUtils.Key_AuthThreshold));
 		// if (authTimes >= authThreshold) {
-		// // �Ѿ���
+		// // 锟窖撅拷锟斤拷
 		// bean.put(ConfigUtils.Key_ResultCode, "5003");
 		// return bean;
 		// }
-		if (!bean.get(ConfigUtils.Key_UserPassword).equals(userPassword)) {
+		if (!bean.get(passwdAttrName).equals(userPassword)) {
 			Attributes attrs = new BasicAttributes();
 			authTimes = authTimes + 1;
 			attrs.put("erhljmccAuthTimes", String.valueOf(authTimes));
@@ -376,7 +380,7 @@ public class LDAPHelper {
 			}
 			return bean;
 		}
-		// ������ȷ��������authTimes
+		// 锟斤拷锟斤拷锟斤拷确锟斤拷锟斤拷锟斤拷锟斤拷authTimes
 		if (authTimes > 0) {
 			Attributes attrs = new BasicAttributes();
 			attrs.put("erhljmccAuthTimes", "0");
@@ -415,9 +419,9 @@ public class LDAPHelper {
 		String pwd = "100866";
 		LDAPHelper ldap = new LDAPHelper();
 		System.out.println(ldap.query(uid));
-		System.out.println(ldap.checkNetworkPassword(uid, pwd));
+		System.out.println(ldap.checkNetworkPassword(uid, pwd, ConfigUtils.Key_UserPassword));
 		System.out.println(ldap.registerNetworkPassword(uid, "abc", "abc123"));
-		System.out.println(ldap.checkNetworkPassword(uid, "abc123"));
+		System.out.println(ldap.checkNetworkPassword(uid, "abc123", ConfigUtils.Key_UserPassword));
 		System.out.println(ldap.registerNetworkPassword(uid, nickName, pwd));
 	}
 }

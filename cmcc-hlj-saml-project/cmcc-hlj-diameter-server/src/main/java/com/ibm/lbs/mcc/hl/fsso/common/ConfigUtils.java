@@ -15,10 +15,12 @@ public class ConfigUtils {
 	public static final String Key_AuthThreshold = "AuthThreshold";
 	public static final String Key_NickName = "NickName";
 	/**
-	 * Í¨ÐÐÖ¤ÃÜÂë/»¥ÁªÍøÃÜÂë
+	 * Í¨ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	public static final String Key_UserPassword = "userPassword";
 	public static final String Key_UserStatus = "erhljmccStatus";
+
+  public static final String Key_ServicePassword = "erhljmccServiceCode";
 	
 
 	private static Configuration config;

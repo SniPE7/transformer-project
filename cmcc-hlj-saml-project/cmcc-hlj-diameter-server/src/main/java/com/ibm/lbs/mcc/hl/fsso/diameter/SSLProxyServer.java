@@ -12,11 +12,14 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.security.KeyStore;
+import java.security.cert.X509Certificate;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -414,7 +417,22 @@ public class SSLProxyServer implements Runnable {
 			kmf = KeyManagerFactory.getInstance(keyManagerAlgorithm);
 			kmf.init(ks, keyPass.toCharArray());
 			sslc = SSLContext.getInstance(protocol);
-			sslc.init(kmf.getKeyManagers(), null, null);
+      TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+          return null;
+        }
+
+        public void checkClientTrusted(X509Certificate[] certs, String authType) {
+          log.debug(String.format("Client certs;[%s], authType: [%s]", certs,
+              authType));
+        }
+
+        public void checkServerTrusted(X509Certificate[] certs, String authType) {
+          log.debug(String.format("Client certs;[%s], authType: [%s]", certs,
+              authType));
+        }
+      } };
+			sslc.init(kmf.getKeyManagers(), trustAllCerts, null);
 		} catch (Exception ex) {
 			log.error(ex.getMessage(), ex);
 		}
