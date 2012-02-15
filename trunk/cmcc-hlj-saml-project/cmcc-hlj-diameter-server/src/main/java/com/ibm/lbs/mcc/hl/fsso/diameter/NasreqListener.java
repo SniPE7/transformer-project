@@ -143,6 +143,11 @@ public class NasreqListener implements NetworkReqListener {
 		return populateAnswer(request, bean);
 	}
 
+	/**
+	 * @param request
+	 * @param map
+	 * @return
+	 */
 	protected static Answer makeAnswer(Request request, Map<String, String> map) {
 		Answer answer;
 		if (map != null) {
@@ -301,11 +306,51 @@ public class NasreqListener implements NetworkReqListener {
 		strValue = strValue == null ? "" : strValue;
 		answerAvps.addAvp(1868, strValue, true, false, false);
 		// User-Status
+		/*
 		strValue = bean.get(ConfigUtils.Key_UserStatus);
 		iValue = strValue == null ? 0 : Integer.valueOf(strValue);
 		answerAvps.addAvp(1864, iValue, true, false, true);
+		*/
+    strValue = bean.get("erhljmccstatus");
+    answerAvps.addAvp(1864, saftyConvert2Int(strValue, 1), true, false, true);
 	}
 
+/*	12:23.348 INFO  [FSM-aaa://localhost:8082-0] - **** receivedMessage *** 
+	  12:23.349 INFO  [FSM-aaa://localhost:8082-0] - ===============================
+	  12:23.350 INFO  [FSM-aaa://localhost:8082-0] - Answer Message : MessageImpl{commandCode=265, flags=0}
+	  12:23.350 INFO  [FSM-aaa://localhost:8082-0] - getVersion:??1??
+	  12:23.350 INFO  [FSM-aaa://localhost:8082-0] - getFlags:??0??
+	  12:23.350 INFO  [FSM-aaa://localhost:8082-0] - getCommandCode:??265??
+	  12:23.350 INFO  [FSM-aaa://localhost:8082-0] - getHeaderApplicationId:??1??
+	  12:23.350 INFO  [FSM-aaa://localhost:8082-0] - getSingleApplicationId:??AppId [Vendor-Id:0; Auth-Application-Id:1; Acct-Application-Id:0]??
+	  12:23.350 INFO  [FSM-aaa://localhost:8082-0] - getHopByHopIdentifier:??1227882498??
+	  12:23.350 INFO  [FSM-aaa://localhost:8082-0] - getEndToEndIdentifier:??2036948941??
+	  12:23.350 INFO  [FSM-aaa://localhost:8082-0] - Avp Size:??17??
+	  12:23.351 INFO  [FSM-aaa://localhost:8082-0] - SESSION_ID(263)=??10.110.5.11;309;2036948938??(10-0)
+	  12:23.351 INFO  [FSM-aaa://localhost:8082-0] - AUTH_APPLICATION_ID(258)=??1??(10-0)
+	  12:23.351 INFO  [FSM-aaa://localhost:8082-0] - ORIGIN_HOST(264)=??hl.ac.10086.cn??(10-0)
+	  12:23.351 INFO  [FSM-aaa://localhost:8082-0] - ORIGIN_REALM(296)=??hl.ac.10086.cn??(10-0)
+	  12:23.351 INFO  [FSM-aaa://localhost:8082-0] - RESULT_CODE(268)=??2001??(10-0)
+	  12:23.351 INFO  [FSM-aaa://localhost:8082-0] - USER_NAME(1)=??15904604742??(10-0)
+	  12:23.351 INFO  [FSM-aaa://localhost:8082-0] - AUTH_TIMES(1866)=??13??(10-0)
+	  12:23.351 INFO  [FSM-aaa://localhost:8082-0] - AuthThreshold(1867)=??300??(10-0)
+	  12:23.351 INFO  [FSM-aaa://localhost:8082-0] - NickName(1868)=??WERETRER??(10-0)
+	  12:23.351 INFO  [FSM-aaa://localhost:8082-0] - USER_STATUS(1864)=??1??(10-0)
+	  12:23.351 INFO  [FSM-aaa://localhost:8082-0] - USER_REALNAME(1861)=??各类新业务测试??(10-0)
+	  12:23.351 INFO  [FSM-aaa://localhost:8082-0] - USER_PROVINCE(1862)=??451??(10-0)
+	  12:23.352 INFO  [FSM-aaa://localhost:8082-0] - USER_BRAND(1863)=??2??(10-0)
+	  12:23.352 INFO  [FSM-aaa://localhost:8082-0] - XML_DATA(1865)=????(10-0)
+	  12:23.352 INFO  [FSM-aaa://localhost:8082-0] - FetionStatus(1869)=??0??(10-0)
+	  12:23.352 INFO  [FSM-aaa://localhost:8082-0] - 139MailStatus(1870)=??0??(10-0)
+	  12:23.352 INFO  [FSM-aaa://localhost:8082-0] - User_level(1872)=??4??(10-0)
+	  12:23.352 INFO  [FSM-aaa://localhost:8082-0] - ---------------------
+*/	    
+	    /**
+	 * 
+	 * @param request
+	 * @param bean
+	 * @return
+	 */
 	private static Answer populateAnswer(Request request,
 			Map<String, String> bean) {
 
@@ -363,16 +408,20 @@ public class NasreqListener implements NetworkReqListener {
 			// AuthTimes
 			// AuthThreshold
 			// NickName
+			
 			// FetionStatus
-			answerAvps.addAvp(1869, 0, true, false, true);
+      strValue = bean.get("erhljmccFetionStatus");
+			answerAvps.addAvp(1869, saftyConvert2Int(strValue, 1), true, false, true);
 			// 139MailStatus
-			answerAvps.addAvp(1870, 0, true, false, true);
+      strValue = bean.get("erhljmcc139MailStatus");
+			answerAvps.addAvp(1870, saftyConvert2Int(strValue, 1), true, false, true);
 			// User_level (1872) U32
 			// 01 钻卡用户
 			// 02 金卡用户
 			// 03 银卡用户
 			// 04 普通用户
-			answerAvps.addAvp(1872, 4, true, false, true);// TODO User_level
+      strValue = bean.get("erhljmccuserlevel");
+			answerAvps.addAvp(1872, saftyConvert2Int(strValue, 4), true, false, true);// TODO User_level
 			return answer;
 		}
 		if ("100100".equals(retCode)) {
@@ -408,6 +457,14 @@ public class NasreqListener implements NetworkReqListener {
 			return answer;
 		}
 		return request.createAnswer(ResultCode.AUTHENTICATION_REJECTED);
+	}
+	
+	private static int saftyConvert2Int(String s, int defaultValue) {
+	  try {
+      return Integer.parseInt(s);
+    } catch (NumberFormatException e) {
+      return defaultValue;
+    }
 	}
 
 	private static String getXMLData() {
