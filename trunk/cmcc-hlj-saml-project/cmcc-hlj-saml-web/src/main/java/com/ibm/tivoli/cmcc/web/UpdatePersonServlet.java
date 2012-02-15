@@ -6,9 +6,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang.StringUtils;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import com.ibm.tivoli.cmcc.dir.LDAPPersonDAO;
 
 /**
  * 1. 接收来自应用的SAML认证请求
@@ -16,7 +18,7 @@ import org.apache.commons.lang.StringUtils;
  * @author zhaodonglu
  * 
  */
-public class MyPageServlet extends HttpServlet {
+public class UpdatePersonServlet extends HttpServlet {
 
   /**
    * 
@@ -28,7 +30,7 @@ public class MyPageServlet extends HttpServlet {
   /**
    * Constructor of the object.
    */
-  public MyPageServlet() {
+  public UpdatePersonServlet() {
     super();
   }
 
@@ -55,26 +57,22 @@ public class MyPageServlet extends HttpServlet {
    */
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    String style = request.getParameter("login_page_style");
-    if (StringUtils.isEmpty(style)) {
-      style = this.login_page_style;
-    }
     try {
-      HttpSession session = request.getSession(false);
-      if (session != null && session.getAttribute("SESSION_PERSON") != null) {
-        if (request.getParameter("edit_person") != null) {
-          this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/authen/edit_person.jsp")
-              .forward(request, response);
-          return;
-        } else {
-          this.getServletConfig().getServletContext()
-              .getRequestDispatcher("/WEB-INF/jsp/authen/mypage_" + style + ".jsp").forward(request, response);
-          return;
-        }
-      } else {
-        this.getServletConfig().getServletContext().getRequestDispatcher("/service/authen/showlogin").forward(request, response);
-        return;
-      }
+      String msisdn = request.getParameter("msisdn");
+      ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
+      LDAPPersonDAO personDao = context.getBean("personDao", LDAPPersonDAO.class);
+      personDao.update(msisdn, "displayName", request.getParameter("displayName"));
+      personDao.update(msisdn, "cn", request.getParameter("cn"));
+      personDao.update(msisdn, "erhljmccstatus", request.getParameter("erhljmccstatus"));
+      personDao.update(msisdn, "erhljmccFetionStatus", request.getParameter("erhljmccFetionStatus"));
+      personDao.update(msisdn, "erhljmcc139MailStatus", request.getParameter("erhljmcc139MailStatus"));
+      personDao.update(msisdn, "erhljmccuserlevel", request.getParameter("erhljmccuserlevel"));
+      personDao.update(msisdn, "erhljmcccurrentpoint", request.getParameter("erhljmcccurrentpoint"));
+      personDao.update(msisdn, "erhljmccAuthThreshold", request.getParameter("erhljmcccurrentpoint"));
+      personDao.update(msisdn, "erhljmccAuthTimes", request.getParameter("erhljmccAuthTimes"));
+      
+      response.sendRedirect(request.getContextPath() + "/service/authen/mypage");
+      return;
     } catch (RuntimeException e) {
       throw new ServletException(e);
     } catch (Exception e) {

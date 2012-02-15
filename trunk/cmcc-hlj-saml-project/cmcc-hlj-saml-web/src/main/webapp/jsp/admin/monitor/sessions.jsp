@@ -22,6 +22,7 @@
 <script type="text/javascript" language="javascript" src="media/js/jquery.dataTables.js"></script>
 
 <script type="text/javascript">
+
 	$(document).ready(function() {
 		$('#sessions').dataTable({
 			"bProcessing" : true,
@@ -29,16 +30,20 @@
 			"sAjaxSource" : "./admin/monitor/sessions",
       "aoColumns": [
                      { "mDataProp": "artifactID" },
+                     { "mDataProp": "artifactID" },
                      { "mDataProp": "artifactDomain" },
                      { "mDataProp": "createTime" },
                      { "mDataProp": "lastAccessTime" },
-                     { "mDataProp": "personDTO" }
+                     { "mDataProp": "uid" },
+                     { "mDataProp": "oringinal" },
+                     { "mDataProp": "personDTO.commonName" }
                  ],
       "bPaginate": true,
       "sDom": 'R<"H"lfr>t<"F"ip<',
       "bJQueryUI": true,
       "iDisplayLength": 20,
       "sPaginationType": "full_numbers",
+      "aaSorting": [[ 1, 'asc' ]],
       "oLanguage": {                          //汉化  
          "sLengthMenu": "每页显示 _MENU_ 条记录",  
          "sZeroRecords": "没有检索到数据",  
@@ -51,7 +56,17 @@
              "sNext": "后页",  
              "sLast": "尾页"  
          }  
-       }       
+       },
+       "fnDrawCallback": function ( oSettings ) {
+           /* Need to redo the counters if filtered or sorted */
+           if ( oSettings.bSorted || oSettings.bFiltered )
+           {
+               for ( var i=0, iLen=oSettings.aiDisplay.length ; i<iLen ; i++ )
+               {
+                   $('td:eq(0)', oSettings.aoData[ oSettings.aiDisplay[i] ].nTr ).html( i+1 );
+               }
+           }
+       }
 		});
 	});
 </script>
@@ -60,10 +75,13 @@
 	<table cellpadding="0" cellspacing="0" border="0" class="display sessions_container" id="sessions">
 		<thead>
 			<tr>
+        <th width="5%">#</th>
 				<th width="20%">Session ID</th>
-				<th width="25%">Session Domain</th>
+				<th width="10%">Domain</th>
 				<th width="25%">Create Time(s)</th>
 				<th width="15%">Last Access Time</th>
+        <th width="5%">Username</th>
+        <th width="5%">Original</th>
 				<th width="15%">Person DTO</th>
 			</tr>
 		</thead>
@@ -75,10 +93,13 @@
 		</tbody>
 		<tfoot>
 			<tr>
+        <th>#</th>
         <th>Session ID</th>
-        <th>Session Domain</th>
+        <th>Domain</th>
         <th>Create Time(s)</th>
         <th>Last Access Time</th>
+        <th>Username</th>
+        <th>Original</th>
         <th>Person DTO</th>
 			</tr>
 		</tfoot>

@@ -151,6 +151,18 @@
   </servlet-mapping>
 
   <servlet>
+    <description>com.ibm.tivoli.cmcc.web.UpdatePersonServlet</description>
+    <display-name>com.ibm.tivoli.cmcc.web.UpdatePersonServlet</display-name>
+    <servlet-name>com.ibm.tivoli.cmcc.web.UpdatePersonServlet</servlet-name>
+    <servlet-class>com.ibm.tivoli.cmcc.web.UpdatePersonServlet</servlet-class>
+  </servlet>
+  <!-- Authenticated -->
+  <servlet-mapping>
+    <servlet-name>com.ibm.tivoli.cmcc.web.UpdatePersonServlet</servlet-name>
+    <url-pattern>/service/authen/updatePerson</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <description>
     </description>
     <display-name>com.ibm.tivoli.cmcc.web.LogoutServlet</display-name>
