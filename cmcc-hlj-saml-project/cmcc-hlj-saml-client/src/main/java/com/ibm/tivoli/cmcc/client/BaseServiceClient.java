@@ -109,8 +109,8 @@ public abstract class BaseServiceClient {
         }
         len = in.read(buf);
       }
-      writer.close();
-      in.close();
+      //writer.close();
+      //in.close();
       
       String result = responseXML.toString(this.charset);
       log.debug(String.format("Response from [%s], content; [%s]", connector, result));
@@ -119,6 +119,8 @@ public abstract class BaseServiceClient {
       log.error(String.format("Failure to submit SAML message to connector: [%s], cause: %s", connector, e.getMessage()), e);
       throw new ClientException(connector, e);
     } catch (IOException e) {
+      // TODO Restore connection
+      connector.reset();
       log.error(String.format("Failure to submit SAML message to connector: [%s], cause: %s", connector, e.getMessage()), e);
       throw new ClientException(connector, e);
     } catch (IllegalAccessException e) {

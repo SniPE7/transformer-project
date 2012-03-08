@@ -10,7 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.ibm.tivoli.cmcc.connector.ConnectorManager;
-import com.ibm.tivoli.cmcc.connector.NetworkConnectorManager;
+import com.ibm.tivoli.cmcc.connector.PooledNetworkConnectorManager;
 import com.ibm.tivoli.cmcc.connector.SimpleNetworkConnectorImpl;
 
 public class ConnectorManagerSupplierImpl implements ConnectorManagerSupplier {
@@ -235,7 +235,7 @@ public class ConnectorManagerSupplierImpl implements ConnectorManagerSupplier {
    * @see com.ibm.tivoli.cmcc.server.connector.ConnectorManagerSupplier#getConnectorManager(java.lang.String)
    */
   public ConnectorManager getConnectorManager(String artifactDomain) {
-    NetworkConnectorManager mgr = new NetworkConnectorManager();
+    PooledNetworkConnectorManager mgr = new PooledNetworkConnectorManager();
     try {
       BeanUtils.copyProperties(mgr, this);
       // All of Supplier  properties start with "default", so erase prefix "default"

@@ -17,6 +17,8 @@ public interface Connector {
   
   public void release();
   
+  public void reset();
+  
   public OutputStream getOutput() throws IOException;
   
   public InputStream getInput() throws IOException;

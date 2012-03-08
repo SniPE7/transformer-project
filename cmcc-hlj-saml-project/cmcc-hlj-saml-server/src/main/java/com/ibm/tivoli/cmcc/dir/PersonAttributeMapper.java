@@ -35,7 +35,12 @@ public class PersonAttributeMapper implements AttributesMapper {
     //attributeMapping.put("", "dataTraffice");
     //attributeMapping.put("", "businessStatus");  
     attributeMapping.put("erhljmcc139MailStatus", "mail139Status");  
-    attributeMapping.put("erhljmccFetionStatus", "fetionStatus");  
+    attributeMapping.put("erhljmccFetionStatus", "fetionStatus");
+
+    // Testing only
+    attributeMapping.put("erhljmccAuthTimes", "erhljmccAuthTimes");  
+    attributeMapping.put("erhljmccAuthThreshold", "erhljmccAuthThreshold");
+    
   }
 
   public Object mapFromAttributes(Attributes attributes) throws NamingException {
