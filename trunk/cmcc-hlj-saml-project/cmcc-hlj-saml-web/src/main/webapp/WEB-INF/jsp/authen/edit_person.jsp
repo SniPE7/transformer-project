@@ -30,8 +30,8 @@
         139Mail状态:<input type="text" name="erhljmcc139MailStatus" value='<c:out value="${sessionScope.SESSION_PERSON.mail139Status}"/>'> 0: 未开通, 1： 开通<br/>
         用户级别:<input type="text" name="erhljmccuserlevel" value='<c:out value="${sessionScope.SESSION_PERSON.userLevel}"/>'> 钻卡用户(01),金卡用户(02),银卡用户(03),普通用户(04)<br/>
        点数:<input type="text" name="erhljmcccurrentpoint" value='<c:out value="${sessionScope.SESSION_PERSON.currentPoint}"/>'><br/>
-       失败次数:<input type="text" name="erhljmccAuthTimes" value=''><br/>
-       失败阀值:<input type="text" name="erhljmccAuthThreshold" value=''><br/>
+       失败次数:<input type="text" name="erhljmccAuthTimes" value='<c:out value="${sessionScope.SESSION_PERSON.erhljmccAuthTimes}"/>'><br/>
+       失败阀值:<input type="text" name="erhljmccAuthThreshold" value='<c:out value="${sessionScope.SESSION_PERSON.erhljmccAuthThreshold}"/>'><br/>
        
        <input type="submit"/>
       </form>

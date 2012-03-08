@@ -28,6 +28,9 @@ public class PersonDTO implements Serializable {
   String mail139Status;
   String fetionStatus;
   String userLevel;
+  
+  int erhljmccAuthThreshold = 3;
+  int erhljmccAuthTimes = 0;
 
   public String getUserLevel() {
     return userLevel;
@@ -121,6 +124,34 @@ public class PersonDTO implements Serializable {
     this.fetionStatus = fetionStatus;
   }
 
+  /**
+   * @return the erhljmccAuthThreshold
+   */
+  public int getErhljmccAuthThreshold() {
+    return erhljmccAuthThreshold;
+  }
+
+  /**
+   * @param erhljmccAuthThreshold the erhljmccAuthThreshold to set
+   */
+  public void setErhljmccAuthThreshold(int erhljmccAuthThreshold) {
+    this.erhljmccAuthThreshold = erhljmccAuthThreshold;
+  }
+
+  /**
+   * @return the erhljmccAuthTimes
+   */
+  public int getErhljmccAuthTimes() {
+    return erhljmccAuthTimes;
+  }
+
+  /**
+   * @param erhljmccAuthTimes the erhljmccAuthTimes to set
+   */
+  public void setErhljmccAuthTimes(int erhljmccAuthTimes) {
+    this.erhljmccAuthTimes = erhljmccAuthTimes;
+  }
+
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
@@ -128,8 +159,9 @@ public class PersonDTO implements Serializable {
   public String toString() {
     return String
         .format(
-            "PersonDTO [commonName=%s, lastName=%s, msisdn=%s, province=%s, brand=%s, status=%s, currentPoint=%s, nickname=%s, mail139Status=%s, fetionStatus=%s, userLevel=%s]",
-            commonName, lastName, msisdn, province, brand, status, currentPoint, nickname, mail139Status, fetionStatus, userLevel);
+            "PersonDTO [commonName=%s, lastName=%s, msisdn=%s, province=%s, brand=%s, status=%s, currentPoint=%s, nickname=%s, mail139Status=%s, fetionStatus=%s, userLevel=%s, erhljmccAuthThreshold=%s, erhljmccAuthTimes=%s]",
+            commonName, lastName, msisdn, province, brand, status, currentPoint, nickname, mail139Status, fetionStatus, userLevel, erhljmccAuthThreshold,
+            erhljmccAuthTimes);
   }
 
 }

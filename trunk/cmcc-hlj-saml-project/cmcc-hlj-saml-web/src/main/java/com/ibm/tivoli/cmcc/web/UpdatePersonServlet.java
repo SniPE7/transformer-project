@@ -68,7 +68,7 @@ public class UpdatePersonServlet extends HttpServlet {
       personDao.update(msisdn, "erhljmcc139MailStatus", request.getParameter("erhljmcc139MailStatus"));
       personDao.update(msisdn, "erhljmccuserlevel", request.getParameter("erhljmccuserlevel"));
       personDao.update(msisdn, "erhljmcccurrentpoint", request.getParameter("erhljmcccurrentpoint"));
-      personDao.update(msisdn, "erhljmccAuthThreshold", request.getParameter("erhljmcccurrentpoint"));
+      personDao.update(msisdn, "erhljmccAuthThreshold", request.getParameter("erhljmccAuthThreshold"));
       personDao.update(msisdn, "erhljmccAuthTimes", request.getParameter("erhljmccAuthTimes"));
       
       response.sendRedirect(request.getContextPath() + "/service/authen/mypage");

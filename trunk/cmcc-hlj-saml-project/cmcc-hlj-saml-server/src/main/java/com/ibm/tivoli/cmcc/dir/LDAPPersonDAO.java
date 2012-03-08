@@ -357,7 +357,20 @@ public class LDAPPersonDAO implements PersonDAO {
   public PersonDTO verifyPasswordAndQueryUserInfo(String msisdn, String passwordType, char[] password) throws Exception {
     log.debug(String.format("Check mobile user password, msisdn: [%s], passwordType: [%s]", msisdn, passwordType));
     if (this.verifyPassword(msisdn, passwordType, password)) {
-       return this.getPersonByMsisdn(msisdn);
+       PersonDTO person = this.getPersonByMsisdn(msisdn);
+       // Reset failure counter
+       if (person.getErhljmccAuthTimes() > 0) {
+          this.update(msisdn, "erhljmccAuthTimes", "0");
+       }
+       person.setErhljmccAuthTimes(0);
+       return person;
+    } else {
+      // Increase failure counter
+      PersonDTO person = this.getPersonByMsisdn(msisdn);
+      if (person != null) {
+         int count = person.getErhljmccAuthTimes() + 1; 
+         this.update(msisdn, "erhljmccAuthTimes", Integer.toString(count));
+      }
     }
     return null;
   }

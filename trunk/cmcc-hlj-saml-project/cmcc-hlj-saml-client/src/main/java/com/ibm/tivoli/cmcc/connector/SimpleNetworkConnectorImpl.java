@@ -479,4 +479,12 @@ public class SimpleNetworkConnectorImpl implements Connector {
     return builder.toString();
   }
 
+  /* (non-Javadoc)
+   * @see com.ibm.tivoli.cmcc.connector.Connector#reset()
+   */
+  public void reset() {
+    // TODO Auto-generated method stub
+    
+  }
+
 }
