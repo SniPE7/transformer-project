@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/********************************************************************
+*  Licensed Materials - Property of IBM
+*  
+*  (c) Copyright IBM Corp.  2007 All Rights Reserved
+*  
+*  US Government Users Restricted Rights - Use, duplication or
+*  disclosure restricted by GSA ADP Schedule Contract with
+*  IBM Corp.
+********************************************************************/
+-->
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
+<web-app id="WebApp_ID">
+    <servlet>
+    	<servlet-name>selfReg</servlet-name>
+    	<display-name>selfReg</display-name>
+    	<jsp-file>/selfReg.jsp</jsp-file>
+    </servlet>
+    <servlet>
+    	<servlet-name>ValidateData</servlet-name>
+    	<display-name>ValidateData</display-name>
+    	<servlet-class>examples.selfregistration.ValidateData</servlet-class>
+    </servlet>
+    <servlet-mapping>
+    	<servlet-name>ValidateData</servlet-name>
+    	<url-pattern>/ValidateData</url-pattern>
+    </servlet-mapping>
+    <session-config>
+    	<session-timeout>60</session-timeout>
+    </session-config>
+    <welcome-file-list>
+    	<welcome-file>selfReg.jsp</welcome-file>
+    </welcome-file-list>
+    <error-page id="ErrorCodeErrorPage_1">
+        <error-code>404</error-code> 
+        <location>/app_error.html</location> 
+    </error-page>
+    <error-page id="ErrorCodeErrorPage_2">
+        <error-code>500</error-code> 
+        <location>/app_error.html</location> 
+    </error-page>
+    <error-page>
+    	<exception-type>java.lang.Exception</exception-type>
+    	<location>/app_error.html</location>
+    </error-page>    
+</web-app>
+
