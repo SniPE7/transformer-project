@@ -17,6 +17,9 @@
 <%-- I18N Formatting with EL --%>
 <%@ taglib uri="/WEB-INF/tld/fmt.tld" prefix="fmt" %>
 
+<%-- I18N Formatting with EL --%>
+<%@ taglib uri="/WEB-INF/tld/orgSelectorTag.tld" prefix="timext" %>
+
 <%@ page contentType="text/html; charset=UTF-8" %>
   	<title>Self Registration</title>
 	<link href="css/imperative.css" rel="stylesheet" type="text/css">
@@ -93,7 +96,7 @@
 				<div class="subheading-text">Corporate Information</div>
 				<div class="field">
 					<label class="text-normal"><img src="images/status_required.gif">Location</label>
-					<input class="entry-field-required" name="l" size="50" type="text" value="<c:out value="${param.l}" />">
+          <timext:orgSelector></timext:orgSelector>
 				</div>
 				<div class="field">			
 					<label class="text-normal">Room Number</label>				
