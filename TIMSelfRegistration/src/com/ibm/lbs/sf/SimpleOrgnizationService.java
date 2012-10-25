@@ -16,7 +16,7 @@ import com.ibm.xml.enc.dom.Base64;
  * @author Administrator
  *
  */
-public class SimpleOrgnizationService implements OrgnizationService {
+public class SimpleOrgnizationService implements OrganizationService {
   
   private static String text = "dn: erglobalid=5863252657375949336,ou=orgChart,erglobalid=00000000000000000000,ou=IBM,dc=tim,dc=com\n" +
       "l: Beijing\n" +

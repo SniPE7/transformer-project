@@ -9,6 +9,6 @@ import java.util.List;
  * @author Administrator
  *
  */
-public interface OrgnizationService {
+public interface OrganizationService {
   public List<Organization> getAllOrganization() throws Exception;
 }
