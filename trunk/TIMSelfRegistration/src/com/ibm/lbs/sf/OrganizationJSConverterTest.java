@@ -17,7 +17,7 @@ public class OrganizationJSConverterTest extends TestCase {
 
   public void testConvert() throws Exception {
     OrganizationJSConverter converter = new OrganizationJSConverter();
-    OrgnizationService service = new SimpleOrgnizationService();
+    OrganizationService service = new SimpleOrgnizationService();
     List<Organization> topNodes = service.getAllOrganization();
     
     StringWriter content = new StringWriter();

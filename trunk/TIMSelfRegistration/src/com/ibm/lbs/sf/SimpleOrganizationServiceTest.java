@@ -14,10 +14,21 @@ public class SimpleOrganizationServiceTest extends TestCase {
     super.tearDown();
   }
 
-  public void testGetAllOrganization() throws Exception {
-    OrgnizationService service = new SimpleOrgnizationService();
+  public void testSimpleOrganizationService() throws Exception {
+    OrganizationService service = new SimpleOrgnizationService();
     List<Organization> result = service.getAllOrganization();
     assertEquals(2, result.size());
   }
 
+  public void testOrganizationService() throws Exception {
+    OrganizationService service = new OrganizationServiceImpl();
+    List<Organization> result = service.getAllOrganization();
+    assertEquals(2, result.size());
+  }
+
+  public void testCachableOrgnizationService() throws Exception {
+    OrganizationService service = new CachableOrgnizationServiceImpl(new OrganizationServiceImpl());
+    List<Organization> result = service.getAllOrganization();
+    assertEquals(2, result.size());
+  }
 }
