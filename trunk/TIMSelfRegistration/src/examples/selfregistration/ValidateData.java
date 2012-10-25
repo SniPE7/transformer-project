@@ -55,14 +55,7 @@ public class ValidateData extends HttpServlet implements Servlet {
 			"roomnumber", "employeenumber", "title", "postaladdress", "mail",
 			"telephonenumber", "mobile", "pager", "homephone" };
 
-	/**
-	 * Max number of Attributes for this jsp example
-	 */
-	private static final int numofAttrs = 16;
 
-	private HttpServletRequest request;
-
-	private HttpServletResponse response;
 
 	/**
 	 * Main function where I call for a check on the attributes, I call for the
@@ -80,19 +73,17 @@ public class ValidateData extends HttpServlet implements Servlet {
 	 *      javax.servlet.http.HttpServletResponse)
 	 */
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) {
-		request = req;
-		response = resp;
 		
 		// check if last name and full name fields were completed
-		requiredFieldsCheck();
+		requiredFieldsCheck(req, resp);
 
-		PlatformContext platform = getPlatform();
+		PlatformContext platform = getPlatform(req, resp);
 
 		SelfRegistrationManager selfRegister = new SelfRegistrationManager(
 				platform);
 
 		// get attributes from the users input, and create a Person Object
-		Person person = getAllPersonData();
+		Person person = getAllPersonData(req, resp);
 		try {
 			// create the new person
 			selfRegister.createPerson(person);
@@ -100,22 +91,22 @@ public class ValidateData extends HttpServlet implements Servlet {
 			// if we make it here then the submission was successful
 			String statusValue = "Your submission has been made.";
 
-			forwardHelper("statusValue", statusValue, "/status.jsp");
+			forwardHelper(req, resp, "statusValue", statusValue, "/status.jsp");
 		} catch (RemoteException e) {
 			String errStatusValue = "createPerson RemoteException error because: \n"
 					+ e;
 			e.printStackTrace();
-			forwardHelper("statusValue", errStatusValue, "/status.jsp");
+			forwardHelper(req, resp, "statusValue", errStatusValue, "/status.jsp");
 		} catch (SchemaViolationException e) {
 			String errStatusValue = "createPerson SchemaViolationException error because: \n"
 					+ e;
 			e.printStackTrace();
-			forwardHelper("statusValue", errStatusValue, "/status.jsp");
+			forwardHelper(req, resp, "statusValue", errStatusValue, "/status.jsp");
 		} catch (ApplicationException e) {
 			String errStatusValue = "createPerson ApplicationException error because: \n"
 					+ e;
 			e.printStackTrace();
-			forwardHelper("statusValue", errStatusValue, "/status.jsp");
+			forwardHelper(req, resp, "statusValue", errStatusValue, "/status.jsp");
 		}
 	}
 
@@ -131,7 +122,7 @@ public class ValidateData extends HttpServlet implements Servlet {
 	 * @param jspName
 	 *            selfReg.jsp or status.jsp
 	 */
-	private void forwardHelper(String attrName, String attrValue, String jspName) {
+	private void forwardHelper(HttpServletRequest request, HttpServletResponse response, String attrName, String attrValue, String jspName) {
 		request.setAttribute(attrName, attrValue);
 		RequestDispatcher rd = request.getRequestDispatcher(jspName);
 		try {
@@ -148,13 +139,13 @@ public class ValidateData extends HttpServlet implements Servlet {
 	 * If the user failed to do this, then selfReg.jsp is called again and the
 	 * user is prompted to fill out all astrik fields.
 	 */
-	private void requiredFieldsCheck() {
+	private void requiredFieldsCheck(HttpServletRequest request, HttpServletResponse response) {
 		String sn = request.getParameter(attributeName[0]);
 		String cn = request.getParameter(attributeName[1]);
 		String l = request.getParameter(attributeName[6]);
 		if (sn.equals("") || cn.equals("") || l.equals("")) {
 			String missingValue = "Please specify a value for all asterisked fields.";
-			forwardHelper("missingValue", missingValue, "/selfReg.jsp");
+			forwardHelper(request, response, "missingValue", missingValue, "/selfReg.jsp");
 		}
 	}
 
@@ -164,16 +155,15 @@ public class ValidateData extends HttpServlet implements Servlet {
 	 * 
 	 * @return Newly created Person Object.
 	 */
-	private Person getAllPersonData() {
+	private Person getAllPersonData(HttpServletRequest request, HttpServletResponse response) {
 
 		AttributeValues attrValues = new AttributeValues();
 
-		for (int x = 0; x < numofAttrs; x++) {
+		for (int x = 0; x < attributeName.length; x++) {
 			String attributeValue = request.getParameter(attributeName[x]);
-			if (attributeValue.equals(""))
+			if (attributeValue == null || attributeValue.trim().length() == 0)
 				continue;
-			AttributeValue av = new AttributeValue(attributeName[x],
-					attributeValue);
+			AttributeValue av = new AttributeValue(attributeName[x], attributeValue);
 			attrValues.put(av);
 		}
 		Person thisPerson = new Person(PERSON_PROFILE);
@@ -187,7 +177,7 @@ public class ValidateData extends HttpServlet implements Servlet {
 	 * 
 	 * @return PlatformContext
 	 */
-	private PlatformContext getPlatform() {
+	private PlatformContext getPlatform(HttpServletRequest request, HttpServletResponse response) {
 		String platformContextFactory = null;
 		String ejbUser = null;
 		String appServerURL = null;
@@ -202,7 +192,7 @@ public class ValidateData extends HttpServlet implements Servlet {
 			String statusValue = "Failed to find the context because of a MissingResourceException : \n"
 					+ e;
 			e.printStackTrace();
-			forwardHelper("statusValue", statusValue, "/status.jsp");
+			forwardHelper(request, response, "statusValue", statusValue, "/status.jsp");
 		}
 
 		Hashtable<String, String> env = new Hashtable<String, String>();
@@ -218,13 +208,13 @@ public class ValidateData extends HttpServlet implements Servlet {
 			String statusValue = "Failed to create a new platform because of a RemoteException : \n"
 					+ e;
 			e.printStackTrace();
-			forwardHelper("statusValue", statusValue, "/status.jsp");
+			forwardHelper(request, response, "statusValue", statusValue, "/status.jsp");
 
 		} catch (ApplicationException e) {
 			String statusValue = "Failed to create a new platform because of an ApplicationException : \n"
 					+ e;
 			e.printStackTrace();
-			forwardHelper("statusValue", statusValue, "/status.jsp");
+			forwardHelper(request, response, "statusValue", statusValue, "/status.jsp");
 
 		}
 		return platform;
