@@ -17,8 +17,8 @@
 <%-- I18N Formatting with EL --%>
 <%@ taglib uri="/WEB-INF/tld/fmt.tld" prefix="fmt" %>
 
-<%-- I18N Formatting with EL --%>
-<%@ taglib uri="/WEB-INF/tld/orgSelectorTag.tld" prefix="timext" %>
+<%-- OrgSelector Tag --%>
+<%@ taglib uri="http://www.ibm.com/lbs/orgSelector" prefix="timext" %>
 
 <%@ page contentType="text/html; charset=UTF-8" %>
   	<title>Self Registration</title>
@@ -96,7 +96,15 @@
 				<div class="subheading-text">Corporate Information</div>
 				<div class="field">
 					<label class="text-normal"><img src="images/status_required.gif">Location</label>
-          <timext:orgSelector></timext:orgSelector>
+          <timext:orgSelector 
+            ldapUrl="ldap://127.0.0.1:3890"
+            ldapBaseDn="ou=jke, DC=ITIM"
+            ldapBindDn="cn=root"
+            ldapBindPassword="smartway"
+            cacheExpireInSeconds="3600"
+            showBoxResult="false"
+            deepth="5"
+            elementName="l"/>
 				</div>
 				<div class="field">			
 					<label class="text-normal">Room Number</label>				
