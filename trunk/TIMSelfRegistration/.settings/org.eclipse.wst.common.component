@@ -2,7 +2,7 @@
     <wb-module deploy-name="TIMSelfRegistration">
         <wb-resource deploy-path="/" source-path="/WebContent"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="context-root" value="self"/>
         <property name="java-output-path" value="/TIMSelfRegistration/build/classes"/>
+        <property name="context-root" value="sf"/>
     </wb-module>
 </project-modules>
