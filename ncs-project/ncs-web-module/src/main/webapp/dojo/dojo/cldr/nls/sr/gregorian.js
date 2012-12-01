@@ -1,0 +1,213 @@
+({
+	"field-dayperiod": "доба дана", 
+	"dateFormatItem-yyMMdd": "dd.MM.yy", 
+	"field-minute": "минут", 
+	"eraNames": [
+		"Пре нове ере", 
+		"Нове ере"
+	], 
+	"dateFormatItem-MMMEd": "E d. MMM", 
+	"field-weekday": "дан у недељи", 
+	"days-standAlone-wide": [
+		"недеља", 
+		"понедељак", 
+		"уторак", 
+		"среда", 
+		"четвртак", 
+		"петак", 
+		"субота"
+	], 
+	"patternChars": "GanjkHmsSEDFwWxhKzAeugXZvcL", 
+	"months-standAlone-narrow": [
+		"ј", 
+		"ф", 
+		"м", 
+		"а", 
+		"м", 
+		"ј", 
+		"ј", 
+		"а", 
+		"с", 
+		"о", 
+		"н", 
+		"д"
+	], 
+	"field-era": "ера", 
+	"field-hour": "час", 
+	"dateFormatItem-hhmm": "hh:mm a", 
+	"quarters-standAlone-abbr": [
+		"К1", 
+		"К2", 
+		"К3", 
+		"К4"
+	], 
+	"timeFormat-full": "HH.mm.ss v", 
+	"dateFormatItem-yyyy": "yyyy.", 
+	"months-standAlone-abbr": [
+		"јан", 
+		"феб", 
+		"мар", 
+		"апр", 
+		"мај", 
+		"јун", 
+		"јул", 
+		"авг", 
+		"сеп", 
+		"окт", 
+		"нов", 
+		"дец"
+	], 
+	"dateFormatItem-Ed": "E d.", 
+	"days-standAlone-narrow": [
+		"н", 
+		"п", 
+		"у", 
+		"с", 
+		"ч", 
+		"п", 
+		"с"
+	], 
+	"eraAbbr": [
+		"п. н. е.", 
+		"н. е"
+	], 
+	"dateFormat-long": "dd. MMMM yyyy.", 
+	"timeFormat-medium": "HH.mm.ss", 
+	"field-zone": "зона", 
+	"dateFormat-medium": "dd.MM.yyyy.", 
+	"dateFormatItem-yyQQQQ": "QQQQ yy", 
+	"quarters-standAlone-wide": [
+		"Прво тромесечје", 
+		"Друго тромесечје", 
+		"Треће тромесечје", 
+		"Четврто тромесечје"
+	], 
+	"dateTimeFormat": "{1} {0}", 
+	"field-year": "година", 
+	"dateFormatItem-yyMMMd": "d. MMM yy.", 
+	"field-week": "недеља", 
+	"months-standAlone-wide": [
+		"јануар", 
+		"фебруар", 
+		"март", 
+		"април", 
+		"мај", 
+		"јун", 
+		"јул", 
+		"август", 
+		"септембар", 
+		"октобар", 
+		"новембар", 
+		"децембар"
+	], 
+	"timeFormat-long": "HH.mm.ss z", 
+	"months-format-abbr": [
+		"јан", 
+		"феб", 
+		"мар", 
+		"апр", 
+		"мај", 
+		"јун", 
+		"јул", 
+		"авг", 
+		"сеп", 
+		"окт", 
+		"нов", 
+		"дец"
+	], 
+	"timeFormat-short": "HH.mm", 
+	"field-month": "месец", 
+	"dateFormatItem-MMMMd": "MMMM d.", 
+	"quarters-format-abbr": [
+		"К1", 
+		"К2", 
+		"К3", 
+		"К4"
+	], 
+	"days-format-abbr": [
+		"нед", 
+		"пон", 
+		"уто", 
+		"сре", 
+		"чет", 
+		"пет", 
+		"суб"
+	], 
+	"dateFormatItem-MMMMdd": "dd. MMMM", 
+	"pm": "поподне", 
+	"dateFormatItem-mmss": "mm:ss", 
+	"dateFormatItem-M": "L", 
+	"days-format-narrow": [
+		"н", 
+		"п", 
+		"у", 
+		"с", 
+		"ч", 
+		"п", 
+		"с"
+	], 
+	"field-second": "секунд", 
+	"field-day": "дан", 
+	"months-format-narrow": [
+		"ј", 
+		"ф", 
+		"м", 
+		"а", 
+		"м", 
+		"ј", 
+		"ј", 
+		"а", 
+		"с", 
+		"о", 
+		"н", 
+		"д"
+	], 
+	"dateFormatItem-hhmmss": "hh:mm:ss a", 
+	"am": "преподне", 
+	"days-standAlone-abbr": [
+		"нед", 
+		"пон", 
+		"уто", 
+		"сре", 
+		"чет", 
+		"пет", 
+		"суб"
+	], 
+	"dateFormat-short": "d.M.yy.", 
+	"dateFormat-full": "EEEE, dd. MMMM yyyy.", 
+	"dateFormatItem-yMEd": "EEE, d. M. yyyy.", 
+	"months-format-wide": [
+		"јануар", 
+		"фебруар", 
+		"март", 
+		"април", 
+		"мај", 
+		"јун", 
+		"јул", 
+		"август", 
+		"септембар", 
+		"октобар", 
+		"новембар", 
+		"децембар"
+	], 
+	"dateFormatItem-d": "d", 
+	"quarters-format-wide": [
+		"Прво тромесечје", 
+		"Друго тромесечје", 
+		"Треће тромесечје", 
+		"Четврто тромесечје"
+	], 
+	"days-format-wide": [
+		"недеља", 
+		"понедељак", 
+		"уторак", 
+		"среда", 
+		"четвртак", 
+		"петак", 
+		"субота"
+	], 
+	"eraNarrow": [
+		"п.н.е.", 
+		"н.е."
+	]
+})

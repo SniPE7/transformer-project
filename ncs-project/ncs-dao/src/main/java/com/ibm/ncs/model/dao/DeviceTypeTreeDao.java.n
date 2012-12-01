@@ -1,0 +1,21 @@
+package com.ibm.ncs.model.dao;
+
+import com.ibm.ncs.model.dao.DeviceTypeTreeDao;
+import com.ibm.ncs.model.dto.DeviceTypeTree;
+import com.ibm.ncs.model.exceptions.DeviceTypeTreeDaoException;
+import java.util.List;
+
+public interface DeviceTypeTreeDao
+{
+	/**
+	 * Method 'execute'
+	 * 
+	 * @param mrName
+	 * @param cateName
+	 * @param subCategory
+	 * @throws DeviceTypeTreeDaoException
+	 * @return List<DeviceTypeTree>
+	 */
+	public List<DeviceTypeTree> execute(java.lang.String mrName, java.lang.String cateName, java.lang.String subCategory) throws DeviceTypeTreeDaoException;
+
+}

@@ -1,0 +1,22 @@
+ncoadmin@NCBF1:/tmp>ssh-keygen -t rsa
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/ncoadmin/.ssh/id_rsa): 
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /home/ncoadmin/.ssh/id_rsa.
+Your public key has been saved in /home/ncoadmin/.ssh/id_rsa.pub.
+The key fingerprint is:
+e9:0a:8a:86:72:d7:85:0d:57:f7:39:3b:42:8e:6e:36 ncoadmin@NCBF1
+
+ncoadmin@NCBF1:~>ssh-copy-id -i /home/ncoadmin/.ssh/id_rsa.pub  ncoadmin@NCBF3
+30
+Password: 
+Now try logging into the machine, with "ssh 'ncoadmin@NCBF3'", and check in:
+
+  .ssh/authorized_keys
+
+to make sure we haven't added extra keys that you weren't expecting.
+
+
+ssh ncoadmin@NCBF3 '/opt/TIVOLI/ITM/li6263/is/bin/ism_startup.sh stop nco_m_snmp'
+ssh ncoadmin@NCBF3 '/opt/TIVOLI/ITM/li6263/is/bin/ism_startup.sh stop nco_m_icmp'

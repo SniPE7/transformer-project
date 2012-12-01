@@ -1,0 +1,170 @@
+ygsuse11-1:~/Desktop # snmpwalk -v2c -c public 10.10.10.88 1.3.6.1.2.1.2.1.0
+IF-MIB::ifNumber.0 = No Such Object available on this agent at this OID
+ygsuse11-1:~/Desktop # 
+ygsuse11-1:~/Desktop # 
+ygsuse11-1:~/Desktop # snmpwalk -v2c -c public 10.10.10.88 1.3.6.1.2.1.2.1.0
+IF-MIB::ifNumber.0 = No Such Object available on this agent at this OID
+ygsuse11-1:~/Desktop # snmpwalk -v2c -c public 10.10.10.86 1.3.6.1.2.1.2.1.0
+IF-MIB::ifNumber.0 = INTEGER: 2
+ygsuse11-1:~/Desktop # snmpwalk -v2c -c public 10.10.10.86 1.3.6.1.2.1.2.2.1.1.0 
+1.3.6.1.2.1.2.2.1.1.0: Unknown Object Identifier (Index out of range: 0 (ifIndex))
+ygsuse11-1:~/Desktop # snmpwalk -v2c -c public 10.10.10.86 1.3.6.1.2.1.2.2.1.1
+IF-MIB::ifIndex.1 = INTEGER: 1
+IF-MIB::ifIndex.2 = INTEGER: 2
+ygsuse11-1:~/Desktop # snmpwalk -v2c -c public 10.10.10.86 1.3.6.1.2.1.2.2.1.2
+IF-MIB::ifDescr.1 = STRING: lo
+IF-MIB::ifDescr.2 = STRING: eth0
+ygsuse11-1:~/Desktop # snmpwalk -v2c -c public 10.10.10.86 1.3.6.1.2.1.2.2.1.6
+IF-MIB::ifPhysAddress.1 = STRING: 
+IF-MIB::ifPhysAddress.2 = STRING: 0:c:29:10:ae:e4
+ygsuse11-1:~/Desktop # snmpwalk -v2c -c public 10.10.10.86 1.3.6.1.2.1.4.20.1.2
+IP-MIB::ipAdEntIfIndex.10.10.10.86 = INTEGER: 2
+IP-MIB::ipAdEntIfIndex.127.0.0.1 = INTEGER: 1
+IP-MIB::ipAdEntIfIndex.127.0.0.2 = INTEGER: 1
+ygsuse11-1:~/Desktop # snmpwalk -v2c -c public 10.10.10.86 1.3.6.1.2.1.4.20.1.1
+IP-MIB::ipAdEntAddr.10.10.10.86 = IpAddress: 10.10.10.86
+IP-MIB::ipAdEntAddr.127.0.0.1 = IpAddress: 127.0.0.1
+IP-MIB::ipAdEntAddr.127.0.0.2 = IpAddress: 127.0.0.2
+ygsuse11-1:~/Desktop # snmpwalk -v2c -c public 10.10.10.86 1.3.6.1.2.1.4.20.1.3
+IP-MIB::ipAdEntNetMask.10.10.10.86 = IpAddress: 255.255.255.0
+IP-MIB::ipAdEntNetMask.127.0.0.1 = IpAddress: 255.0.0.0
+IP-MIB::ipAdEntNetMask.127.0.0.2 = IpAddress: 255.0.0.0
+ygsuse11-1:~/Desktop # 
+==============================
+responsPdu[RESPONSE[requestID=288925082, errorStatus=Success(0), errorIndex=0, VBS[1.3.6.1.2.1.1.2.0 = 1.3.6.1.4.1.8072.3.2.10]]] ; variableBinding[1.3.6.1.2.1.1.2.0 = 1.3.6.1.4.1.8072.3.2.10] ; 
+Nov 24, 2010 3:56:26 AM com.ibm.ncs.util.SnmpManager snmpGet
+INFO: IP:10.10.10.86 resultStat:1.3.6.1.4.1.8072.3.2.10
+1.3.6.1.2.1.1.2.0=1.3.6.1.4.1.8072.3.2.10
+responsPdu[RESPONSE[requestID=298254332, errorStatus=Success(0), errorIndex=0, VBS[1.3.6.1.2.1.1.5.0 = ygsuse11-9]]] ; variableBinding[1.3.6.1.2.1.1.5.0 = ygsuse11-9] ; 
+Nov 24, 2010 3:56:26 AM com.ibm.ncs.util.SnmpManager snmpGet
+INFO: IP:10.10.10.86 resultStat:ygsuse11-9
+1.3.6.1.2.1.1.5.0=ygsuse11-9
+Nov 24, 2010 3:56:26 AM com.ibm.ncs.util.SnmpManager snmpGet
+INFO: IP:10.10.10.86 resultStat:Linux ygsuse11-9 2.6.27.19-5-pae #1 SMP 2009-02-28 04:40:21 +0100 i686
+responsPdu[RESPONSE[requestID=621326272, errorStatus=Success(0), errorIndex=0, VBS[1.3.6.1.2.1.1.1.0 = Linux ygsuse11-9 2.6.27.19-5-pae #1 SMP 2009-02-28 04:40:21 +0100 i686]]] ; variableBinding[1.3.6.1.2.1.1.1.0 = Linux ygsuse11-9 2.6.27.19-5-pae #1 SMP 2009-02-28 04:40:21 +0100 i686] ; 
+1.3.6.1.2.1.1.1.0=Linux ygsuse11-9 2.6.27.19-5-pae #1 SMP 2009-02-28 04:40:21 +0100 i686
+responsPdu[RESPONSE[requestID=2063455152, errorStatus=No such name(2), errorIndex=1, VBS[1.3.6.1.4.1.9.3.6.6.0 = Null]]] ; variableBinding[1.3.6.1.4.1.9.3.6.6.0 = Null] ; 
+Nov 24, 2010 3:56:26 AM com.ibm.ncs.util.SnmpManager snmpGet
+INFO: IP:10.10.10.86 resultStat:Null
+1.3.6.1.4.1.9.3.6.6.0=Null
+responsPdu[RESPONSE[requestID=276376269, errorStatus=No such name(2), errorIndex=1, VBS[1.3.6.1.4.1.9.3.6.7.0 = Null]]] ; variableBinding[1.3.6.1.4.1.9.3.6.7.0 = Null] ; 
+Nov 24, 2010 3:56:26 AM com.ibm.ncs.util.SnmpManager snmpGet
+INFO: IP:10.10.10.86 resultStat:Null
+1.3.6.1.4.1.9.3.6.7.0=Null
+responsPdu[RESPONSE[requestID=729499318, errorStatus=No such name(2), errorIndex=1, VBS[1.3.6.1.2.1.47.1.1.1.1.9.1 = Null]]] ; variableBinding[1.3.6.1.2.1.47.1.1.1.1.9.1 = Null] ; 
+Nov 24, 2010 3:56:26 AM com.ibm.ncs.util.SnmpManager snmpGet
+INFO: IP:10.10.10.86 resultStat:Null
+1.3.6.1.2.1.47.1.1.1.1.9.1=Null
+responsPdu[RESPONSE[requestID=2055600878, errorStatus=No such name(2), errorIndex=1, VBS[1.3.6.1.4.1.9.3.6.3.0 = Null]]] ; variableBinding[1.3.6.1.4.1.9.3.6.3.0 = Null] ; 
+Nov 24, 2010 3:56:26 AM com.ibm.ncs.util.SnmpManager snmpGet
+INFO: IP:10.10.10.86 resultStat:Null
+1.3.6.1.4.1.9.3.6.3.0=Null
+responsPdu[RESPONSE[requestID=50382901, errorStatus=Success(0), errorIndex=0, VBS[1.3.6.1.2.1.2.1.0 = 2]]] ; variableBinding[1.3.6.1.2.1.2.1.0 = 2] ; 
+1.3.6.1.2.1.2.1.0=2
+Nov 24, 2010 3:56:26 AM com.ibm.ncs.util.SnmpManager snmpGet
+INFO: IP:10.10.10.86 resultStat:2
+===================================
+10.10.10.86] ; responsPdu[RESPONSE[requestID=661883878, errorStatus=Success(0), errorIndex=0, VBS[1.3.6.1.2.1.1.2.0 = 1.3.6.1.4.1.8072.3.2.10]]] ; 
+Nov 24, 2010 7:47:33 AM com.ibm.ncs.util.SnmpManager snmpGet
+INFO: IP:10.10.10.86 resultStat:1.3.6.1.4.1.8072.3.2.10
+1.3.6.1.2.1.1.2.0=1.3.6.1.4.1.8072.3.2.10
+10.10.10.86] ; responsPdu[RESPONSE[requestID=561400684, errorStatus=Success(0), errorIndex=0, VBS[1.3.6.1.2.1.1.5.0 = ygsuse11-9]]] ; 
+Nov 24, 2010 7:47:34 AM com.ibm.ncs.util.SnmpManager snmpGet
+INFO: IP:10.10.10.86 resultStat:ygsuse11-9
+1.3.6.1.2.1.1.5.0=ygsuse11-9
+10.10.10.86] ; responsPdu[RESPONSE[requestID=274938273, errorStatus=Success(0), errorIndex=0, VBS[1.3.6.1.2.1.1.1.0 = Linux ygsuse11-9 2.6.27.19-5-pae #1 SMP 2009-02-28 04:40:21 +0100 i686]]] ; 
+Nov 24, 2010 7:47:34 AM com.ibm.ncs.util.SnmpManager snmpGet
+INFO: IP:10.10.10.86 resultStat:Linux ygsuse11-9 2.6.27.19-5-pae #1 SMP 2009-02-28 04:40:21 +0100 i686
+1.3.6.1.2.1.1.1.0=Linux ygsuse11-9 2.6.27.19-5-pae #1 SMP 2009-02-28 04:40:21 +0100 i686
+Nov 24, 2010 7:47:34 AM com.ibm.ncs.util.SnmpManager snmpGet
+INFO: 10.10.10.86: RESPONSE[requestID=1054499868, errorStatus=No such name(2), errorIndex=1, VBS[1.3.6.1.4.1.9.3.6.6.0 = Null]]
+10.10.10.86] ; responsPdu[RESPONSE[requestID=1054499868, errorStatus=No such name(2), errorIndex=1, VBS[1.3.6.1.4.1.9.3.6.6.0 = Null]]] ; 
+Nov 24, 2010 7:47:34 AM com.ibm.ncs.util.SnmpManager snmpGet
+INFO: IP:10.10.10.86 resultStat:Null
+1.3.6.1.4.1.9.3.6.6.0=Null
+Nov 24, 2010 7:47:34 AM com.ibm.ncs.util.SnmpManager snmpGet
+INFO: 10.10.10.86: RESPONSE[requestID=840515417, errorStatus=No such name(2), errorIndex=1, VBS[1.3.6.1.4.1.9.3.6.7.0 = Null]]
+10.10.10.86] ; responsPdu[RESPONSE[requestID=840515417, errorStatus=No such name(2), errorIndex=1, VBS[1.3.6.1.4.1.9.3.6.7.0 = Null]]] ; 
+Nov 24, 2010 7:47:34 AM com.ibm.ncs.util.SnmpManager snmpGet
+INFO: IP:10.10.10.86 resultStat:Null
+1.3.6.1.4.1.9.3.6.7.0=Null
+Nov 24, 2010 7:47:34 AM com.ibm.ncs.util.SnmpManager snmpGet
+INFO: 10.10.10.86: RESPONSE[requestID=484594806, errorStatus=No such name(2), errorIndex=1, VBS[1.3.6.1.2.1.47.1.1.1.1.9.1 = Null]]
+10.10.10.86] ; responsPdu[RESPONSE[requestID=484594806, errorStatus=No such name(2), errorIndex=1, VBS[1.3.6.1.2.1.47.1.1.1.1.9.1 = Null]]] ; 
+Nov 24, 2010 7:47:34 AM com.ibm.ncs.util.SnmpManager snmpGet
+INFO: IP:10.10.10.86 resultStat:Null
+1.3.6.1.2.1.47.1.1.1.1.9.1=Null
+Nov 24, 2010 7:47:34 AM com.ibm.ncs.util.SnmpManager snmpGet
+INFO: 10.10.10.86: RESPONSE[requestID=468921463, errorStatus=No such name(2), errorIndex=1, VBS[1.3.6.1.4.1.9.3.6.3.0 = Null]]
+10.10.10.86] ; responsPdu[RESPONSE[requestID=468921463, errorStatus=No such name(2), errorIndex=1, VBS[1.3.6.1.4.1.9.3.6.3.0 = Null]]] ; 
+Nov 24, 2010 7:47:34 AM com.ibm.ncs.util.SnmpManager snmpGet
+INFO: IP:10.10.10.86 resultStat:Null
+1.3.6.1.4.1.9.3.6.3.0=Null
+10.10.10.86] ; responsPdu[RESPONSE[requestID=1260244027, errorStatus=Success(0), errorIndex=0, VBS[1.3.6.1.2.1.2.1.0 = 2]]] ; 
+Nov 24, 2010 7:47:34 AM com.ibm.ncs.util.SnmpManager snmpGet
+INFO: IP:10.10.10.86 resultStat:2
+1.3.6.1.2.1.2.1.0=2
+-------------snmp version: V2c =1   -----------------
+10.10.10.86 : responsPdu[RESPONSE[requestID=438714228, errorStatus=Success(0), errorIndex=0, VBS[1.3.6.1.2.1.1.2.0 = 1.3.6.1.4.1.8072.3.2.10]]] ; 
+Nov 24, 2010 7:47:34 AM com.ibm.ncs.util.SnmpManager snmpGet
+INFO: IP:10.10.10.86 resultStat:1.3.6.1.4.1.8072.3.2.10
+1.3.6.1.2.1.1.2.0=1.3.6.1.4.1.8072.3.2.10
+10.10.10.86 : responsPdu[RESPONSE[requestID=1881758299, errorStatus=Success(0), errorIndex=0, VBS[1.3.6.1.2.1.1.5.0 = ygsuse11-9]]] ; 
+Nov 24, 2010 7:47:34 AM com.ibm.ncs.util.SnmpManager snmpGet
+INFO: IP:10.10.10.86 resultStat:ygsuse11-9
+1.3.6.1.2.1.1.5.0=ygsuse11-9
+10.10.10.86 : responsPdu[RESPONSE[requestID=316169576, errorStatus=Success(0), errorIndex=0, VBS[1.3.6.1.2.1.1.1.0 = Linux ygsuse11-9 2.6.27.19-5-pae #1 SMP 2009-02-28 04:40:21 +0100 i686]]] ; 
+Nov 24, 2010 7:47:34 AM com.ibm.ncs.util.SnmpManager snmpGet
+INFO: IP:10.10.10.86 resultStat:Linux ygsuse11-9 2.6.27.19-5-pae #1 SMP 2009-02-28 04:40:21 +0100 i686
+1.3.6.1.2.1.1.1.0=Linux ygsuse11-9 2.6.27.19-5-pae #1 SMP 2009-02-28 04:40:21 +0100 i686
+10.10.10.86 : responsPdu[RESPONSE[requestID=996707030, errorStatus=Success(0), errorIndex=0, VBS[1.3.6.1.4.1.9.3.6.6.0 = noSuchObject]]] ; 
+Nov 24, 2010 7:47:34 AM com.ibm.ncs.util.SnmpManager snmpGet
+INFO: IP:10.10.10.86 resultStat:noSuchObject
+1.3.6.1.4.1.9.3.6.6.0=noSuchObject
+10.10.10.86 : responsPdu[RESPONSE[requestID=1505263002, errorStatus=Success(0), errorIndex=0, VBS[1.3.6.1.4.1.9.3.6.7.0 = noSuchObject]]] ; 
+Nov 24, 2010 7:47:34 AM com.ibm.ncs.util.SnmpManager snmpGet
+INFO: IP:10.10.10.86 resultStat:noSuchObject
+1.3.6.1.4.1.9.3.6.7.0=noSuchObject
+10.10.10.86 : responsPdu[RESPONSE[requestID=648908903, errorStatus=Success(0), errorIndex=0, VBS[1.3.6.1.2.1.47.1.1.1.1.9.1 = noSuchObject]]] ; Nov 24, 2010 7:47:34 AM com.ibm.ncs.util.SnmpManager snmpGet
+INFO: IP:10.10.10.86 resultStat:noSuchObject
+
+1.3.6.1.2.1.47.1.1.1.1.9.1=noSuchObject
+Nov 24, 2010 7:47:34 AM com.ibm.ncs.util.SnmpManager snmpGet
+INFO: IP:10.10.10.86 resultStat:noSuchObject
+10.10.10.86 : responsPdu[RESPONSE[requestID=1835433558, errorStatus=Success(0), errorIndex=0, VBS[1.3.6.1.4.1.9.3.6.3.0 = noSuchObject]]] ; 
+1.3.6.1.4.1.9.3.6.3.0=noSuchObject
+10.10.10.86 : responsPdu[RESPONSE[requestID=1060742281, errorStatus=Success(0), errorIndex=0, VBS[1.3.6.1.2.1.2.1.0 = 2]]] ; 
+Nov 24, 2010 7:47:34 AM com.ibm.ncs.util.SnmpManager snmpGet
+INFO: IP:10.10.10.86 resultStat:2
+1.3.6.1.2.1.2.1.0=2
+-------------snmp version: V3 =3   -----------------
+com.ibm.ncs.util.AppException: Exception on SNMP get.
+	at com.ibm.ncs.util.SnmpManager.snmpGet(SnmpManager.java:183)
+	at ibm.com.ncs.util.SnmpManagerTest.testSnmpGet(SnmpManagerTest.java:86)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:79)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:618)
+	at junit.framework.TestCase.runTest(TestCase.java:164)
+	at junit.framework.TestCase.runBare(TestCase.java:130)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:120)
+	at junit.framework.TestSuite.runTest(TestSuite.java:230)
+	at junit.framework.TestSuite.run(TestSuite.java:225)
+	at org.eclipse.jdt.internal.junit.runner.junit3.JUnit3TestReference.run(JUnit3TestReference.java:130)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:460)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:673)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:386)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:196)
+Caused by: java.lang.IllegalArgumentException: MPv3 only accepts ScopedPDU instances as pdu parameter
+	at org.snmp4j.mp.MPv3.prepareOutgoingMessage(MPv3.java:663)
+	at org.snmp4j.MessageDispatcherImpl.sendPdu(MessageDispatcherImpl.java:444)
+	at org.snmp4j.Snmp.sendMessage(Snmp.java:1082)
+	at org.snmp4j.Snmp.send(Snmp.java:895)
+	at org.snmp4j.Snmp.send(Snmp.java:875)
+	at org.snmp4j.Snmp.send(Snmp.java:840)
+	at com.ibm.ncs.util.SnmpManager.snmpGet(SnmpManager.java:167)
+	... 19 more

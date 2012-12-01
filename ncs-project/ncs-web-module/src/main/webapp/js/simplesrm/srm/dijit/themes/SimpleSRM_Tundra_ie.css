@@ -1,0 +1,53 @@
+@charset "UTF-8";
+/******************************************************************
+ * IBM Confidential
+ * OCO Source Material
+ * 5724-W78
+ * (C) Copyright IBM Corp. 2009
+ * The source code for this program is not published or otherwise
+ * divested of its trade secrets, irrespective of what has been
+ * deposited with the U. S. Copyright Office.
+*******************************************************************/
+
+.vm {
+	display:inline;	/* ie doesn't do inline-block */
+}
+.srm_button {
+	border: 1px solid transparent;
+}
+.srm_button.Focused {
+	border: 1px dotted #a1a1a1; /* because ie doesn't do anything to a focused button */
+}
+html .hacktabopen, html .hacktabclosed {
+	top: 0px;
+}
+html .dateRange td.dijitCalendarDateTemplate  {
+	width: 25px !important;	/* em widths on TDs don't work in ie */ 
+}
+.tundra ul.bc_list li.first span.bc_marker {
+	display: none;
+}
+.tundra ul.bc_list li span.bc_marker {
+	padding-right: .5ex;
+	color: #777777;
+}
+.simplesrm.tundra .my_records_grid_header h2 {
+	color: #ffffff;
+}
+
+/* View request details & approval panel */
+html .tundra.simplesrm .templateddialog .approval {
+	border-bottom-width: 2px;
+	background-color: #DCE2E7;
+	height: 593px;
+	margin: 0;
+	padding: 0;
+	width: 250px;
+}
+
+html .tundra.simplesrm .templateddialog .approval .banner {
+	background-color:#C0CEDC;
+	border-color:#B0B5B8;
+	height:100px;
+	width:250px;
+}

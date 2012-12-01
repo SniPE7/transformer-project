@@ -1,0 +1,62 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd&#xA;http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+<!--  <bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">-->
+<!--    <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />-->
+<!--    <property name="url" value="jdbc:oracle:thin:@localhost:1521:ncc" />-->
+<!--    <property name="username" value="ncc" />-->
+<!--    <property name="password" value="ncc" />-->
+<!--  </bean>-->
+  <tx:annotation-driven xmlns:tx="http://www.springframework.org/schema/tx" transaction-manager="txManager" />
+  <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" />
+  <bean id="TCfgoidgroupTmpDao" class="com.ibm.ncs.model.dao.spring.TCfgoidgroupTmpDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="TEventsubtypeInfoInitDao" class="com.ibm.ncs.model.dao.spring.TEventsubtypeInfoInitDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="TEventtypeInfoInitDao" class="com.ibm.ncs.model.dao.spring.TEventtypeInfoInitDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="TPolicyBaseDao" class="com.ibm.ncs.model.dao.spring.TPolicyBaseDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="TPolicyDefaultDao" class="com.ibm.ncs.model.dao.spring.TPolicyDefaultDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="TPolicyDetailsDao" class="com.ibm.ncs.model.dao.spring.TPolicyDetailsDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="TPolicyPeriodDao" class="com.ibm.ncs.model.dao.spring.TPolicyPeriodDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+    <bean id="DeviceTypeTreeDao" class="com.ibm.ncs.model.dao.spring.DeviceTypeTreeDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  
+  <bean id="TCfgoidgroupNewDao" class="com.ibm.ncs.model.dao.spring.TCfgoidgroupNewDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="TDevpolMapDao" class="com.ibm.ncs.model.dao.spring.TDevpolMapDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="TLinepolMapDao" class="com.ibm.ncs.model.dao.spring.TLinepolMapDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="TModgrpMapDao" class="com.ibm.ncs.model.dao.spring.TModgrpMapDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="TPortlineMapDao" class="com.ibm.ncs.model.dao.spring.TPortlineMapDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="TTcpportpolMapDao" class="com.ibm.ncs.model.dao.spring.TTcpportpolMapDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="MaxNMSEQDao" class="com.ibm.ncs.model.dao.spring.MaxNMSEQDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="SequenceNMDao" class="com.ibm.ncs.model.dao.spring.SequenceNMDaoDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="ModuleEventTypeDao" class="com.ibm.ncs.model.dao.spring.ModuleEventTypeDao" scope="singleton">
+      <property name="dataSource" ref="myDataSource" />
+  </bean>
+</beans>

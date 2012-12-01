@@ -1,0 +1,1895 @@
+@charset "UTF-8";
+/******************************************************************
+ * IBM Confidential
+ * OCO Source Material
+ * 5724-W78
+ * (C) Copyright IBM Corp. 2009
+ * The source code for this program is not published or otherwise
+ * divested of its trade secrets, irrespective of what has been
+ * deposited with the U. S. Copyright Office.
+*******************************************************************/
+
+.clear {clear:both;width:0;height:0;border-style:none;}
+.invisible {visibility: hidden;}
+.vm {
+	display:inline-block;
+	vertical-align:middle;
+}
+.addInlineBlock {
+	display: inline-block;
+}
+.tundra.simplesrm .qf-textfield-label {
+	font-size: 1em;
+}
+/*in high contrast on IE: search input field has no borders*/
+.tundra.simplesrm.dijit_a11y .qf-textfield-label {
+	border: 1px solid black;
+}
+.nodisplay {
+	display:none;
+}
+.nowrap {
+	white-space: nowrap;
+}
+/* basic Tivoli style */
+
+body.tundra.simplesrm.dijit_a11y, 
+body.tundra.simplesrm.dijit_a11y #bkgnd {
+	background: none;	
+}
+html {
+	height: 100%;
+}
+body.tundra.simplesrm {
+	font: .9em Verdana;
+	font-weight: normal;
+	margin: 0;
+	background:  #EEf4FB url(../../../../../images/ge_background_grad.png) repeat-x scroll left top;
+	height: 100%;
+}
+body.tundra.simplesrm #bkgnd {
+	min-height:100%; /* gives layout 100% height */
+	background: transparent url(../../../../../images/ge1600_background.jpg) scroll no-repeat top left;
+	margin: 0;
+	padding:0;
+}
+body.tundra > div.simplesrm {
+	/* reset */
+	margin:.6em;
+	border:0;
+	padding:0;
+	line-height:normal;
+	font: inherit;
+	color: inherit;
+	vertical-align: baseline;
+	background-color: transparent;
+}
+body.simplesrm div.loading {
+	position: relative;
+	background: transparent url(../../../../../images/process_bkg_230x60.png) no-repeat scroll left top;
+	width: 230px;
+	height: 60px;
+	color: #333;
+	margin: 3em;
+	padding:17px 0 0 15px;
+}
+body.simplesrm div.loading span {
+	font-size: 16px;
+	margin-left:8px;
+}
+body.tundra.simplesrm.dijit_a11y div.loading {
+	color: #000;
+}
+
+.tundra.simplesrm table {
+	/* reset */
+/* messed up TIPMessageDialog styling.  go figure
+	border-collapse: collapse;
+	border-spacing: 0;
+*/
+}
+
+.tundra.simplesrm h1 {
+	font-size: 1.6em;
+	font-family: "Trebuchet MS", Tahoma, Verdana, Sans-serif;
+	font-weight: normal;
+	color: #4D85D3;
+}
+.tundra.simplesrm h2 {
+	font-size: 1em;
+	font-family: Verdana, Helvetica, Arial, Sans-serif;
+	font-weight: bold;
+	color: #4D85D3;
+}
+.tundra.simplesrm p, .tundra.simplesrm div, .tundra.simplesrm span {
+	font-size: 1em;
+	font-family: Verdana, Helvetica, Arial, Sans-serif;
+	color: #333333;
+}
+/*
+.tundra.simplesrm th {
+	font-size: 1em;
+	font-family: Arial, Sans-serif;
+	font-weight: bold;
+	color: #333333;
+}
+.tundra.simplesrm td {
+	font-size: 1em;
+	font-family: Arial, Sans-serif;
+	font-weight: normal;
+	color: #333333;
+}
+*/
+.tundra.simplesrm a {
+	color: #777777;
+}
+.tundra.simplesrm a:link, a:active, a:visited {
+	color: #0033cc;
+	text-decoration: none;
+}
+.tundra.simplesrm a:hover {
+	color: #3399cc;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.tundra.simplesrm.dijit_a11y a  {
+	color: #333333; 
+}
+ 
+  
+/*** the progress spinner ****/
+.tundra.simplesrm .srmspinner {
+}
+.tundra.simplesrm .srmspinner .srmspinnerlabel {
+	color: #1a1a1a;
+	font-size: 0.8em;
+	padding-left: .5em;
+}
+/* presentation with a translucent border */
+.tundra.simplesrm table.glass {
+	border: none;
+	margin:0;
+	padding:0;
+	border-collapse: collapse;
+	font-family: Arial;
+}
+.tundra.simplesrm table.glass td.glass {
+	margin: 0;
+	padding: 0;
+	border-width: 0px;
+	border-style: none;
+	position: relative;
+	font-size: 1em;
+	background-image: url(../images/glass_square_10.png);
+	background-color: transparent; /*rgb(255, 255, 255); /*rgb(168,191,218);*/
+	background-repeat: repeat;
+}
+.tundra.simplesrm table.glass td.glass.ul, .tundra.simplesrm table.glass td.glass.ur, 
+.tundra.simplesrm table.glass td.glass.ll, .tundra.simplesrm table.glass td.glass.lr {
+	width: 10px;
+	height: 10px;
+	background-image: url(../images/glass_circle_10.png);
+	background-repeat: no-repeat;
+}
+.tundra.simplesrm table.glass td.glass.ul {
+	background-position: left top;
+}
+.tundra.simplesrm table.glass td.glass.ur {
+	background-position: right top;
+}
+.tundra.simplesrm table.glass td.glass.lr {
+	background-position: right bottom;
+}
+.tundra.simplesrm table.glass td.glass.ll {
+	background-position: left bottom;
+}
+.tundra.simplesrm table.glass td.glass.um, .tundra.simplesrm table.glass td.glass.lm {
+	height: 10px;
+}
+.tundra.simplesrm table.glass td.glass.lt, .tundra.simplesrm table.glass td.glass.rt {
+	width: 10px;
+}
+table.glass td.glass.content {
+	vertical-align: top;
+}
+
+/****** Aboutbox ****/
+.aboutbox {
+	display: none;
+	border: 1px solid black;
+	background-image: url(../images/SAM.png);	
+	background-attachment: scroll;
+	background-position: top;
+	background-repeat: no-repeat;
+}
+
+.dijit_a11y .aboutbox {
+	background: white;
+}
+
+.hyperlink  span .dijitButtonNode{
+	cursor: pointer;
+	background-color: transparent;
+	background-image: none;	
+	border: none;	
+}
+.hyperlink  span .dijitButtonNode:hover {
+	text-decoration: underline;
+}
+
+/* buttons */
+
+.alternativeText {
+	display:none;	
+}
+
+.dijit_a11y .alternativeText {
+	display:inline;
+}
+
+.tundra.simplesrm .srmtoolbar .dijitToolbar .dijitButton,
+.tundra.simplesrm .srmtoolbar .dijitToolbar .dijitDropDownButton {
+	margin: 0 2px;
+}
+.tundra.simplesrm .srm_button {
+	width: 36px;
+	height: 34px;
+}
+.tundra.simplesrm.dijit_a11y .srm_button {
+	width: auto;
+	height: auto;
+}
+
+.tundra.simplesrm .srmtoolbar .dijitToolbar .dijitDropDownButton  {
+	height: 34px;
+}
+/*after disabling images button is to big*/
+.tundra.simplesrm.dijit_a11y .srmtoolbar .dijitToolbar .dijitDropDownButton {
+	width:auto;
+	height:auto;  
+}
+
+.tundra.simplesrm .srmtoolbar .dijitToolbar .dijitButton,
+.tundra.simplesrm .srmtoolbar .dijitToolbar .dijitButtonNode {
+	background-position: center center;
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-attachment: scroll;
+}
+.tundra.simplesrm .srmtoolbar .dijitToolbar .dijitDropDownButton {
+	width:56px;
+}
+.tundra.simplesrm .srmtoolbar .dijitToolbar .dijitDropDownButton .dijitButtonNode {
+	background-position: 4px center;
+	width: 54px;
+}
+.tundra.simplesrm  .srmtoolbar .dijitToolbar .dijitButtonHover,
+.tundra.simplesrm  .srmtoolbar .dijitToolbar .dijitButtonHover *,
+.tundra.simplesrm  .srmtoolbar .dijitToolbar .dijitDropDownButtonHover,
+.tundra.simplesrm  .srmtoolbar .dijitToolbar .dijitDropDownButtonHover *  {
+	border-color: transparent;
+	background-color: transparent;
+}
+.tundra.simplesrm  .srm_buttonHover, 
+.tundra.simplesrm  .dijitToolbar .dijitButtonHover .dijitButtonNode	 {
+	background-image: url(../images/tbutton_over.png);
+}
+.tundra.simplesrm .srm_button.Active,
+.tundra.simplesrm  .dijitToolbar .dijitButtonActive .dijitButtonNode	 { 
+	background-image: url(../images/tbutton_down.png);
+}
+.tundra.simplesrm .srmtoolbar .dijitToolbar .dijitDropDownButtonHover .dijitButtonNode	 {
+	background-image: url(../images/tbutton_over_wide.png);
+}
+.tundra.simplesrm .srmtoolbar .dijitToolbar .dijitDropDownButtonActive .dijitButtonNode	{
+	background-image: url(../images/tbutton_down_wide.png);
+}
+
+.tundra.simplesrm .srm_button.Focused {
+	background-image:  none;
+}
+.tundra.simplesrm .srm_button.Disabled {
+	color:graytext;
+	cursor:default;
+}
+.tundra.simplesrm .dijitToolbar .request_button {
+	width:22px;
+	height:22px;
+	padding: 6px;	/* .simple_srm is 34px wide */
+}
+/*button is to big: image is not being displayed but image node still occupies this place*/
+.tundra.simplesrm.dijit_a11y .dijitToolbar .request_button {
+	display: none;
+}
+
+.tundra.simplesrm .dijitMenuItemIcon.request_button img,
+.tundra.simplesrm .dijitToolbar .request_button  img {
+	width:22px;
+	height:22px;
+}
+.tundra.simplesrm .dijitMenuItemIcon.request_button {
+	width:22px;
+	height:22px;
+	padding: 2px;
+}
+.tundra.simplesrm .srmDropDownMenuItem.dijitMenuItemLabel td {
+	padding: 2px;
+}
+/**** UserValidation ***/
+.tundra.simplesrm .srmuservalidation {
+	border: 1px solid rgb(144, 156, 180);
+	background-color: #ffffff;
+	font-size: 0.8em;
+	padding: 5px;
+}
+.tundra.simplesrm .srmuservalidation table {
+	border: 1px solid #bcc3d3;
+}
+.tundra.simplesrm .srmuservalidation h2 {
+	font-weight: normal;
+	font-size: 1.3em;
+	margin: 0;
+	padding: 3px;
+}
+.tundra.simplesrm .srmuservalidation td.heading {
+	padding-top: 5px;
+}
+.tundra.simplesrm .srmuservalidation .srmusername,
+.tundra.simplesrm .srmuservalidation .srmpassword {
+	width: 18ex; 
+}
+/**** breadcrumbs ****/
+.tundra.simplesrm ul.bc_list span.highlight.breadcrumb_morsel {
+	color: #3399cc;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.tundra.simplesrm ul.bc_list {
+	font-size: .8em;
+	margin: 3px 0 0 3px;
+	padding-left: 0;
+	list-style: none;
+}
+.tundra.simplesrm ul.bc_list  li {
+	list-style: none;
+	display: inline;
+	padding-left: .5ex;
+}
+.tundra.simplesrm ul.bc_list li.first:before {
+	content: "";
+}
+.tundra.simplesrm ul.bc_list li:before {
+	content: "\00BB \0020";
+	color: #999999;
+}
+/**** the ListTree ****/
+.tundra.simplesrm div.ListTree {
+	position: relative;
+	padding: 0 3px;
+	left: 0;
+	top: 0;
+	height:100%;
+	overflow: auto;
+}
+.tundra.simplesrm .ListTree .highlight {
+	cursor: pointer;
+}
+.tundra.simplesrm table.ListTree {
+	display: block;
+	margin: 0;
+	padding: 5px;
+	width:100%;
+}
+.tundra.simplesrm table.ListTree td {
+	vertical-align: top;
+}
+
+.tundra.simplesrm table.ListTree td  div.ListItem {
+	border: 1px solid transparent;
+	font-size: 1em;
+	padding: 3px;
+	margin-bottom: 2px;
+}
+.tundra.simplesrm table.ListTree table {
+	width: 100%;
+}
+.tundra.simplesrm table.ListTree div.ListItem td.icon {
+}
+.tundra.simplesrm table.ListTree div.ListItem div.content {
+	position: relative;
+}
+.tundra.simplesrm table.ListTree div.ListItem p {
+	margin: 0;
+	padding-left: 1ex;
+}
+.tundra.simplesrm table.ListTree div.ListItem p.label {
+	color:  #1A1A1A;
+	font-weight: normal;
+}
+.tundra.simplesrm table.ListTree div.ListItem div.description {	/* this should be a <p>, but I can't put the <div class="more"> inside a <p> */
+	color: #595959;
+	padding-left: 1ex;
+	position: relative;
+}
+
+.tundra.simplesrm table.ListTree div.ListItem div.description div.more {
+	display: none;
+	position: absolute;
+	z-index: 5;
+	background-color: rgb(223, 232, 241);	/* about the middle blue in the background gradient */
+	border: 0px solid #a1a1a1;
+	color: #595959;
+	/* padding gets set in the code that displays this div */
+}	
+
+/* when shown as a child of the body */
+.tundra.simplesrm div.popupmore {
+	display: none;
+	position: absolute;
+	z-index: 50;
+	background-color: rgb(223, 232, 241);	/* about the middle blue in the background gradient */
+	border: 1px solid #a1a1a1;
+	color: #595959;	
+}
+
+.tundra.simplesrm table.ListTree div.ListItem.highlight {
+	background: #e1e9f2 url(../images/hover_bkgnd.gif) repeat-x scroll left top;
+	border: 1px solid #cbd9e8;
+}
+.tundra.simplesrm table.ListTree td.sprite {
+	width: 20px;
+	height: 20px;
+	vertical-align: middle;
+}
+.tundra.simplesrm div.sprite {
+	position: relative;
+	width: 20px;
+	height: 20px;
+}
+
+.tundra.simplesrm table.ListTree div.ListItem.branch div.sprite {
+	background: transparent url(../images/ac16_follow.png) no-repeat scroll center right;
+}
+.tundra.simplesrm table.ListTree div.ListItem.branch.highlight div.sprite {
+	background: transparent url(../images/ac16_follow_hover.png) no-repeat scroll right center;
+}
+
+.tundra.simplesrm table.ListTree div.ListItem.leaf div.sprite {
+	background: transparent url(../images/ac16_new_sprite.png) no-repeat scroll right center;
+}
+.tundra.simplesrm table.ListTree div.ListItem.leaf.highlight div.sprite {
+	background: transparent url(../images/ac16_new_sprite_hover.png) no-repeat scroll right center;
+}
+
+/**** SRM Navigator ****/
+
+.tundra.simplesrm .srmnavigator {
+	height: auto;
+	background-color: transparent;
+	color: black;
+	font-size: .9em;
+	font-family: Arial, sans;
+}
+.tundra.simplesrm .navigator_head {
+	background: #b2b2b2 url(../images/ge64_toolbar_top.png) repeat-x scroll left top;
+	border-top: 1px solid rgb(181, 181, 181);
+	border-right: 1px solid rgb(181, 181, 181);
+	border-left: 1px solid rgb(181, 181, 181);
+	padding: 0px 0 0 0;
+	height: 2.5em;
+	-moz-border-radius: 6px 6px 0px 0px;
+	border-radius:  6px 6px 0px 0px;
+}
+.tundra.simplesrm .navigator_body {
+	position: relative;
+	margin: 0px;
+	border: 1px solid #b5b5b5;
+	background: #fafafa url(../images/navigator_bg.png) repeat-x scroll left top;
+	min-height: 16em;
+	/*max-height: 16em;*/
+	overflow-x: visible;
+	overflow-y: auto;	
+	-moz-border-radius: 0px 0px 6px 6px;
+	border-radius: 0px 0px 6px 6px;
+}
+/* custom ListTree styles for the navigator */
+.tundra.simplesrm .srmnavigator table.ListTree > tbody > tr > td {
+	width: 50%;
+}
+
+.tundra.simplesrm table.ListTree.NavFrontPage.Waiting {
+	cursor: wait !important;
+}
+.tundra.simplesrm table.ListTree.NavFrontPage.Waiting div.ListItem.leaf div.sprite {
+	background: transparent url(../../../../tip/dijit/themes/images/buttons/processing-toolbar.gif) no-repeat scroll right center;
+}
+
+.tundra.simplesrm table.ListTree.NavFrontPage div.ListItem {
+	position: relative;
+	margin-top: 0ex;
+}
+/* while the navigator is loading */
+.tundra.simplesrm div.ListTree.NavFrontPage div.ListItem.leaf {
+	cursor: wait;
+}
+/* empty top-level navigator entries when do data is returned */
+.tundra.simplesrm div.ListTree div.ListItem.empty {
+	cursor: not-allowed;
+}
+.tundra.simplesrm div.ListTree div.ListItem.empty.highlight {
+	background-color: transparent;
+	background-image: none;
+	border: 1px solid transparent;
+}
+.tundra.simplesrm div.ListTree.NavFrontPage div.ListItem.disabled div.sprite {
+	background-image: none;
+}
+.tundra.simplesrm div.ListTree div.ListItem.empty p.label, 
+.tundra.simplesrm div.ListTree div.ListItem.empty div.description {
+	color: #a3a3a3;
+}
+
+.tundra.simplesrm .srm_button span .dijitButtonNode {
+	background: transparent none repeat scroll 0 0;	
+	border: 1px solid transparent;	
+}
+
+.tundra.simplesrm .navigator_home {
+	display: block;
+	background-image: url(../images/ac22_home_24.png);
+	background-repeat: no-repeat;
+	background-attachment: scroll;
+	background-position: center center;
+	width: 24px;
+	height: 24px;
+	margin: 2px  auto;	/* centers the button image in the button */
+}
+.tundra.simplesrm .srm_button.Disabled .navigator_home {
+	background-image: url(../images/ac22_home_disabled_24.png);	
+}
+
+.tundra.simplesrm.dijit_a11y .navigator_home,
+.tundra.simplesrm.dijit_a11y .show_details_btn {
+	display: none;	
+}
+
+/**** MyRecordsGrid ****/
+
+.tundra.simplesrm.dijit_a11y .tipTableRefreshButton,
+.tundra.simplesrm.dijit_a11y .tipTableRefreshButton .dijitButtonNode {
+	height: auto;
+	width: auto;
+}
+
+.tundra.simplesrm .tipTableRefreshButton .dijitButtonNode .dijitButtonText {
+	display: none; /*bug in TIP widget: label is not hidden because dojoattachpoint "iconNode" is not used */ 
+}
+
+.tundra.simplesrm.dijit_a11y button span img {
+	display: none; /*bug in TIP widget: image inside button should be disabled, "alt" text destroys layout*/
+}
+
+.tundra .dojoxGridRowOver .dojoxGridCell > div {
+	color: inherit;
+}
+
+.tundra.simplesrm .my_records_grid_header {
+	color: #ffffff;
+	background-color: #608fbf;
+	padding: 0;
+	margin: 0;
+	vertical-align: middle;
+}
+ .tundra.simplesrm h2.grid_heading {
+	margin: 0px;
+	padding:3px 0 3px 6px;
+	color: inherit;
+	font-family: "Trebuchet MS",Helvetica,Arial,Sans-serif;
+	float: left;
+}
+.tundra.simplesrm .my_records_grid_main_div table  {
+    font-family: Arial, sans;
+}
+.tundra.simplesrm .dojoxGrid .dojoxGridHeader th.dojoxGridCell {
+	padding-bottom: 3px;
+}
+.tundra.simplesrm .my_records_grid_container {
+	height: 200px;
+}
+.tundra.simplesrm .my_records_grid_main_div {
+	background-color: transparent;
+}
+.tundra.simplesrm .my_records_grid_main_div .footer {
+	background: #b2b2b2 url(../images/ge42_toolbar_bkgnd.png) repeat-x scroll top left;
+	border-top: 1px solid rgb(153, 153, 153);
+	padding: 4px 0px 5px 0px;
+	width: 100%;
+	-moz-border-radius: 0 0 5px 5px;
+	border-radius: 0 0 5px 5px;
+}
+.tundra.simplesrm .quick-filter .qf-textfield-label {
+	width: 100%;
+}
+/* showDetails button */
+.tundra.simplesrm .srm_button .show_details_btn {
+	background: transparent url(../images/action_show_details.gif) no-repeat scroll center center;
+	border: 1px solid transparent;
+	height: 25px;
+	width: 25px;
+	margin: 3px 1px 0px 1px !important;	
+}
+.tundra.simplesrm .srm_button.Disabled .show_details_btn {
+	background-image: url(../images/action_show_details_disabled.gif);
+}
+/* approveRequest button */
+.tundra.simplesrm .srm_button .approve_btn {
+	background: transparent url(../images/ac22_accept.gif) no-repeat scroll center center;
+	border: 1px solid transparent;
+	height: 20px;
+	width: 20px;
+	margin: 6px auto !important;
+}
+.tundra.simplesrm .srm_button.Disabled .approve_btn {
+	background-image: url(../images/ac22_accept_disabled.gif);
+}
+/* rejectRequest button */
+.tundra.simplesrm .srm_button .reject_btn {
+	background: transparent url(../images/ac22_reject.gif) no-repeat scroll center center;
+	border: 1px solid transparent;
+	height: 20px;
+	width: 20px;
+	margin: 6px auto !important;
+}
+.tundra.simplesrm .srm_button.Disabled .reject_btn {
+	background-image: url(../images/ac22_reject_disabled.gif);
+}
+/**** DateRange ****/
+.tundra .dateRange {
+	width: 60em;
+}
+.tundra .dateRange table {
+	border-collapse: collapse;
+}
+.tundra .dateRange table.dijitCalendarContainer {
+	font-size: .9em;
+	border-collapse: collapse;
+	width: 	auto;
+}
+.tundra .dateRange th.dijitCalendarControlContainer,
+.tundra .dateRange td.dijitCalendarControlContainer {
+	vertical-align: middle;
+	border-right: 1px solid #cccccc;
+	border-left: 1px solid #cccccc;
+	background-color: #dedede; /* to match bottom of background image */
+	width: 19px;
+}
+.tundra .dateRange td.timeSliderOverhang,
+.tundra .dateRange td.timeSliderOverhang div  {
+	min-width: 7.6em;
+	max-width: 7.6em;
+}
+
+.tundra .dateRange .timeSliderContainer {
+	height: 2.8em;
+}
+.tundra .dateRange .timeSliderTimeInput {
+	width: 6.5em; 
+	text-align:center;
+}
+.tundra .dateRange table.dijitCalendarContainer th.dijitCalendarMonthTemplate {
+  background: transparent url(../images/rs_table_hdr.png) repeat-x scroll left top;
+	border-right: 1px solid #cccccc;
+	padding:0.3em 0.3em 0.05em;
+	width: auto;	
+}
+.dateRange .dijitCalendarMonth {
+	height: 1.2em;	/* keep label from wrapping */
+	overflow: hidden;
+	font-weight: normal;
+}
+
+.tundra .dateRange .dijitCalendarIncrease {
+  background: transparent url(../images/ac12_cal_incr.png) no-repeat scroll right center;
+}
+.tundra .dateRange .dijitCalendarDecrease {
+  background: transparent url(../images/ac12_cal_dcr.png) no-repeat scroll left center;
+}
+.tundra .dateRange table.dijitCalendarContainer th.dijitCalendarDayLabelTemplate {
+	padding: 0.3em 0.3em 0.05em;
+	border-top: solid 1px #b0b0b0;
+	font-weight: normal;
+  	/*background-color: #e6e6e6;*/
+}
+.tundra .dateRange .dijitCalendarDateLabel {
+	width: 1.5em; 
+}
+.tundra .dateRange table.dijitCalendarContainer td.dijitCalendarDateTemplate {
+	width: 1.5em;
+	padding:  0.3em 0.3em 0.05em;
+	color: #808080;
+	font-weight: normal;
+}
+/* style the various date states */
+.tundra .dateRange .dijitCalendarCurrentDate {
+  	background-color: #e6e6e6 !important; /* dojo's tundra.css has !important on current month */
+	text-decoration: none;
+}
+.tundra .dateRange .dijitCalendarLastDayOfWeek {
+	border-right: 1px solid #cccccc;
+}
+
+.tundra .dateRange .dijitCalendarDateTemplate.dijitCalendarWeekend .dijitCalendarDateLabel {
+	color: #595959;
+}
+
+.tundra .dateRange td.dijitCalendarDateTemplate.dijitCalendarSelectedDate {
+	color: black !important;			/* !important in dojo's tundra.css */
+	background-color: #cedeed !important;
+	font-weight: normal;
+}
+.tundra .dateRange .dijitCalendarCurrentDate.dijitCalendarUnavailableDate {
+	background-color: #ffffff !important;
+}
+
+.tundra .dateRange .dijitCalendarContainer  td.dijitCalendarDateTemplate.dijitCalendarUnavailableDate,
+.tundra .dateRange .dijitCalendarContainer  td.dijitCalendarUnavailableDate .dijitCalendarDateLabel,
+.tundra .dateRange .dijitCalendarContainer  td.dijitCalendarDateTemplate.dijitCalendarUnavailableDate.srmReservationAvailStartDate,
+.tundra .dateRange .dijitCalendarContainer  td.dijitCalendarDateTemplate.dijitCalendarUnavailableDate.srmReservationAvailStartDate .dijitCalendarDateLabel
+{
+	background-color: #ffffff !important;	/* dojo's tundra.css uses an !important, and that ripples forever */
+	color: #dddddd;
+	font-weight: normal;
+	cursor: default;
+}
+
+.tundra .dateRange .dijitCalendarContainer td.dijitCalendarDateTemplate.srmReservationAvailStartDate,
+.tundra .dateRange .dijitCalendarContainer td.dijitCalendarDateTemplate.srmReservationAvailStartDate.dijitCalendarSelectedDate {
+	font-weight: bold;
+	color: black;
+} 
+
+/* time slider */
+.tundra .dateRange .timeSlider {
+	width: auto;
+}
+.tundra .timeSlider table.dijitCalendarContainer {
+	background: #D3D3D3 url(/mum/js/dojo1.3.1/dijit/themes/tundra/images/titleBar.png) repeat-x scroll center top;
+}
+.tundra .timeSlider .dijitValidationIcon {
+	display:none;
+}
+.tundra .timeSlider .dijitTimeTextOnlyBox input {
+	text-align: center;
+}
+
+.tundra .dateRange.timeSlider tr.dijitCalendarDateContainer td.dijitCalendarControlContainer,
+.tundra .dateRange.timeSlider tr.dijitCalendarDateContainer th.dijitCalendarMonthTemplate {
+	border-left-style: none;
+	border-right-style: none;
+	background: transparent url(/mum/js/dojo1.3.1/dijit/themes/tundra/images/titleBar.png) repeat-x scroll left top; 
+}
+/* the time shifting buttons */
+.tundra .timeSlider .dijitCalendarIncrease {
+  background: transparent url(../images/rs15_time_plus.png) no-repeat scroll right center;
+}
+.tundra .timeSlider .dijitCalendarIncrease.hover {
+  background: transparent url(../images/rs15_time_plus_over.png) no-repeat scroll right center;
+}
+.tundra .timeSlider .dijitCalendarIncrease.down {
+  background: transparent url(../images/rs15_time_plus_down.png) no-repeat scroll right center;
+}
+.tundra .timeSlider .dijitCalendarIncrease.dijitDisabled {
+  background: transparent url(../images/rs15_time_plus_disabled.png) no-repeat scroll right center;
+  cursor: default;
+}
+
+.tundra .timeSlider .dijitCalendarDecrease {
+  background: transparent url(../images/rs15_time_minus.png) no-repeat scroll  right center;
+}
+.tundra .timeSlider .dijitCalendarDecrease.hover {
+  background: transparent url(../images/rs15_time_minus_over.png) no-repeat scroll  right center;
+}
+.tundra .timeSlider .dijitCalendarDecrease.down {
+  background: transparent url(../images/rs15_time_minus_down.png) no-repeat scroll  right center;
+}
+.tundra .timeSlider .dijitCalendarDecrease.dijitDisabled {
+  background: transparent url(../images/rs15_time_minus_disabled.png) no-repeat scroll  right center;
+    cursor: default;
+}
+
+/**** DateRange2 ****/
+.dateRange2 .date_mode_row {
+}
+.dateRange2 .date_mode_row label.modeLabel {
+	display:inline !important;
+	margin-left:5px;
+}
+.dateRange2 .date_value_row {
+	margin-bottom: 0em;
+}
+.dateRange2 .indent_row {
+	margin-left: 21px;	/* radio =16 + label margin-left=5 */
+}
+.tundra.simplesrm  .dijitCalendarDateTemplate {
+	font-weight:normal;
+}
+.tundra.simplesrm  .dijitCalendarCurrentDate {
+	text-decoration: none;
+	outline: 1px dotted red;
+}
+.tundra.simplesrm .dijitCalendarSelectedDate {
+	outline: 1px solid black;
+} 
+.tundra.simplesrm .dijitCalendarDisabledDate.dijitCalendarDateTemplate,
+.tundra.simplesrm .dijitCalendarDisabledDate.dijitCalendarDateTemplate .dijitCalendarDateLabel {
+	color: #aaaaaa !important;
+}
+
+/**** popup dialog ****/
+
+.tundra .dijitDialogHelpIcon {	
+	background: transparent url("../images/help.png") no-repeat scroll right top;
+	position: absolute;
+	vertical-align: middle;
+	right: 20px;
+	top: 4px;
+	height: 15px;
+	width: 15px;
+	cursor: pointer;
+}
+
+
+.tundra .dijitDialogHelpIcon-hover {
+	background: transparent url("../images/help_hover.png") no-repeat scroll right top;
+}
+body.tundra  .dijitDialogUnderlay {
+	background: #333333 none repeat scroll 0 0 ;
+}
+.tundra.simplesrm .dijitDialog.popupCreator {
+	color: #a1a1a1;
+}
+.tundra.simplesrm .dijitDialog.popupCreator  .dijitDialogTitleBar {
+	background:#B2B2B2 url(../images/ge42_toolbar_bkgnd.png) repeat-x scroll left top;
+}
+.tundra.simplesrm .dijitDialog.popupCreator .dijitDialogTitle {
+	font-weight: normal;
+}
+.tundra.simplesrm .dijitDialog.popupCreator .footer {
+	background:#B2B2B2 url(../images/ge42_toolbar_bkgnd.png) repeat-x scroll left top;
+	border-top:1px solid #B5B5B5;
+}
+.tundra.simplesrm .dijitDialog.popupCreator .footer button {
+	font-size: .8em;
+}
+/* the banner is the blue area at the top w/ the icon and offering description */
+.tundra.simplesrm .dijitDialog.popupCreator .banner {
+    border-top: 1px solid #b3b3b3;
+    border-bottom: 1px solid #b3b3b3;
+	background-color: rgb(184, 200, 217);
+	font-size: .75em;
+	padding: 10px;
+	border-bottom: 1px solid #909CB4; /* inherit doesn't work as the color value here?! */
+	overflow: hidden;
+	/*max-width: 700px;*/
+}
+.tundra.simplesrm .dijitDialog.popupCreator .banner .icon {
+	float: left;
+}
+.tundra.simplesrm .dijitDialog.popupCreator .banner img {
+	margin: auto auto;
+	height: 50px;
+	width: 50px;
+}
+.tundra.simplesrm .dijitDialog.popupCreator .banner .description {
+	padding-left: 55px;
+}
+.tundra.simplesrm .dijitDialog.popupCreator .dijitDialogPaneContent {
+	/*overflow: auto;*/
+	border-width: 1px 0 0 0;
+	border-color: inherit; 
+	padding: 0px;
+}
+
+.tundra.simplesrm .dijitDialog.popupCreator .dijitDialogPaneContent {
+	background-color: #DAE0E5;	/* sometimes the content overflows the .content_wrapper */
+}
+
+/**** the creator *****/
+.tundra.simplesrm .createcatalogrequest { /* the request object */
+	color: #a1a1a1;
+}
+.tundra.simplesrm .createcatalogrequest .content_wrapper { /* area that holds the input form */
+	background-color: #dae0e5;
+	font-size: 10pt;
+}
+.tundra.simplesrm .createcatalogrequest form {	/* the actual input form */
+	margin: 0;
+	padding: 10px;
+}
+.tundra.simplesrm .createcatalogrequest div.offering_readonly { /* when using a div to show read-only data */
+	border-style: none;
+	width: 100%;
+	color: black;
+	background-color: transparent;
+	height: 1.2em;
+	border: 1px solid #a1a1a1;
+	padding: 0 2px;
+}
+.tundra.simplesrm .createcatalogrequest fieldset {
+	border-style: none;
+	padding: 0;
+} 
+.tundra.simplesrm .createcatalogrequest fieldset legend {
+	font-weight: bold;
+	font-size: 1em;
+}
+.tundra.simplesrm .createcatalogrequest h2.group_heading {
+	color: #000000;
+}
+.tundra.simplesrm .createcatalogrequest h3 {
+	font-weight: bold;
+	font-size: 0.85em;
+	color: black;
+}
+
+.tundra.simplesrm .createcatalogrequest .plusbutton{
+	background-image: url(../images/icons/ge20_plus_btn.png);
+	background-attachment: scroll;
+	background-position: top;
+	background-repeat: no-repeat;
+	width:20px;
+	height:20px;
+}
+
+.tundra.simplesrm .createcatalogrequest .plusbuttondown{
+	background-image: url(../images/icons/ge20_plus_btn_down.png);
+	background-attachment: scroll;
+	background-position: top;
+	background-repeat: no-repeat;
+	width:20px;
+	height:20px;
+}
+
+.tundra.simplesrm .createcatalogrequest .plusbuttonover{
+	background-image: url(../images/icons/ge20_plus_btn_over.png);
+	background-attachment: scroll;
+	background-position: top;
+	background-repeat: no-repeat;
+	width:20px;
+	height:20px;
+}
+
+.tundra.simplesrm .createcatalogrequest .minusbutton{
+	background-image: url(../images/icons/ge20_minus_btn.png);
+	background-attachment: scroll;
+	background-position: top;
+	background-repeat: no-repeat;
+	margin:0;
+	padding:0;
+	border-collapse: collapse;
+	width:20px;
+	height:20px;
+}
+
+.tundra.simplesrm .createcatalogrequest .minusbuttonover{
+	background-image: url(../images/icons/ge20_minus_btn_over.png);
+	background-attachment: scroll;
+	background-position: top;
+	background-repeat: no-repeat;
+	margin:0;
+	padding:0;
+	border-collapse: collapse;
+	width:20px;
+	height:20px;
+}
+
+.tundra.simplesrm .createcatalogrequest .minusbuttondown{
+	background-image: url(../images/icons/ge20_minus_down.png);
+	background-attachment: scroll;
+	background-position: top;
+	background-repeat: no-repeat;
+	margin:0;
+	padding:0;
+	border-collapse: collapse;
+	width:20px;
+	height:20px;
+}
+
+/* Styles that apply to the form layout */
+.input_row {
+	clear: both;
+	margin: 0 0 1em 0;
+}
+.input_row.first {
+	margin-top: 0;
+}
+.input_field {
+	float: left;
+	margin: 0em 1em 0 0;
+}
+.input_row.input_field { 	/* when there's one field in the row */
+	float: none;
+}
+.input_row_short {
+	clear: both;
+	margin: 0 0 0.5em 0;
+}
+.input_row_short.first {
+	margin-top: 0;
+}
+.input_field_short {
+	float: left;
+	margin: 0em 0.5em 0 0;
+}
+.input_row_short.input_field { 	/* when there's one field in the row */
+	float: none;
+}
+.tundra.simplesrm .createcatalogrequest table.form_table {
+	border-collapse: collapse;
+	white-space: nowrap;
+	empty-cells: show;
+}
+/*
+.tundra.simplesrm .createcatalogrequest table.form_table td {
+	vertical-align: middle;
+	padding-top: 2px;
+	white-space: nowrap;
+}
+*/
+/*.tundra.simplesrm .createcatalogrequest table.form_table label {*/
+.tundra.simplesrm .createcatalogrequest label {
+	padding-right: .5em;
+	display:block;
+	white-space: nowrap;
+	
+}
+.tundra.simplesrm .createcatalogrequest label_tall {
+	padding-right: .5em;
+	display:block;
+	white-space: nowrap;
+	margin-top: 10px;
+}
+
+.tundra.simplesrm .createcatalogrequest label.inline {
+	display:inline;	
+}
+
+.tundra.simplesrm .createcatalogrequest table.form_table td.spacer {
+	height: 10px;
+}
+
+.tundra.simplesrm .createcatalogrequest div.label, .createcatalogrequest label {
+	margin: 0px;
+	font-family: Arial, Verdana, Sans;
+	padding-top: 3px;
+}
+.tundra.simplesrm .createcatalogrequest div.label, .createcatalogrequest .label_tall {
+	margin: 0px;
+	font-family: Arial, Verdana, Sans;
+	margin-top: 10px;
+}
+.tundra.simplesrm .createcatalogrequest label.required {
+	padding-left: 10px;
+	background: transparent url(../images/asterisk.gif) no-repeat scroll left center;
+}
+.tundra.simplesrm .createcatalogrequest label_tall.required {
+	padding-left: 10px;
+	background: transparent url(../images/asterisk.gif) no-repeat scroll left center;
+}
+.tundra.simplesrm .createcatalogrequest .value.required {
+	background-color: rgb(255,255,230);
+	background-image: none;
+}
+/* the image doesn't reach the bottom of its div */
+.tundra.simplesrm .dijitDownArrowButton {
+	background-color: #e2e2e2;
+}
+/* tweak the drop-down select */
+.tundra.simplesrm .dojoxDropDownSelectLabel {
+	padding: 0 3px;
+}
+.tundra.simplesrm .dojoxDropDownSelect .dijitButtonNode {
+	padding: 0;
+}
+.tundra.simplesrm .dojoxDropDownSelectTableContent {
+	text-align: left;
+}
+.tundra.simplesrm .dojoxDropDownSelectMenu  .dijitMenuItem td .dijitMenuItemIcon {
+	width: 0;
+}
+.tundra .createcatalogrequest .dojoxDropDownSelect .dijitButtonNode {
+	background-image:url(/SimpleSRM/js/simplesrm/srm/dijit/themes/tfn_m.gif);
+}
+.tundra .createcatalogrequest .dojoxDropDownSelectTableButton {
+    width: 20px; 
+}
+.tundra   .dojoxDropDownSelectSelectedOption * {
+	background-color: #c1d5f5;
+	font-weight: bold;
+}
+.tundra .dojoxDropDownSelectSelectedOption {
+	outline-style: none;
+}
+.tundra .dojoxDropDownSelectMenu .dijitMenuItemHover {
+	background-color: #e3e3e3 !important;	
+	color: black;
+}
+/* the tivoli_tundra style messes up some rendering */
+.tundra.simplesrm .dijitA11yDownArrow, 
+.tundra.simplesrm .dijitDownArrowButton, 
+.tundra.simplesrm .dijitUpArrowButton {
+	font-size: 1em;
+}
+
+.tundra.simplesrm.dijit_a11y .dijitSpinnerButtonContainer{
+	width:1.5em;
+	height: 1.5em;
+}
+
+.tundra.simplesrm.dijit_a11y .dijitSpinnerButtonContainer .dijitArrowButtonChar{
+		font-size: 0.6em;
+} 
+.tundra.simplesrm .dijitSpinner {
+	padding: 0;
+}
+.tundra.simplesrm .dijitInputField,
+.tundra.simplesrm .dijitButtonText {
+	font-size: 1em;
+}
+/**** Deployment details ****/
+.tundra.simplesrm .dijitDialog.detailsPopup {
+	color: #a1a1a1;
+	padding: 0;
+}
+.tundra.simplesrm .dijitDialog.detailsPopup .dijitDialogTitleBar {
+	background:#B2B2B2 url(../images/ge42_toolbar_bkgnd.png) repeat-x scroll left top;
+}
+.tundra.simplesrm .dijitDialog.detailsPopup .banner {
+    border-top: 1px solid #b3b3b3;
+	background-color: rgb(184, 200, 217);
+	font-size: .75em;
+	padding: 10px;
+	border-bottom: 1px solid #909CB4; /* inherit doesn't work as the color value here?! */
+	overflow: hidden;
+}
+.tundra.simplesrm .deployment_detail.content_wrapper {
+	background-color: #DAE0E5;
+	border-top: 1px solid #B3B3B3;
+	overflow: auto;
+}
+
+.tundra.simplesrm .dijitDialog.detailsPopup .footer {
+	background:#B2B2B2 url(../images/ge42_toolbar_bkgnd.png) repeat-x scroll left top;
+	border-top:1px solid #B5B5B5;
+}
+.tundra.simplesrm  .dijitDialog.detailsPopup .dijitDialogPaneContent {
+	max-width: 60em;
+	overflow: auto;
+	border-width: 1px 0 0 0;
+	border-color: inherit; 
+	padding: 0px;
+}
+.tundra.simplesrm .deployment_detail.content_wrapper div.deployment_details {
+	margin:1ex;
+	font-family: Verdana; 
+	font-size: 0.75em;
+	color: #333;
+	 
+}
+.tundra.simplesrm .deployment_detail table.deployment_details,
+.tundra.simplesrm .deployment_detail table.server_details {
+	margin: 1ex 0;
+	border-collapse: collapse;
+	background: url(../images/ge_tbl_sep_bkgnd_12.png) repeat-x;
+	border: #999 solid 1px;
+}
+.tundra.simplesrm .deployment_detail table.deployment_details td.label, 
+.tundra.simplesrm .deployment_detail table.server_details td.label {
+	font-weight: bold;
+}
+.test{
+	background: url(../images/ge_dialog_section.png) repeat-x #FFF;
+}
+.tundra.simplesrm .deployment_detail td, 
+.tundra.simplesrm .server_details td {
+	background-color: rgb(224,229,233);
+	padding: 3px;
+	text-align: left;
+	border-bottom: #dae0e6 1px solid;
+}
+.tundra.simplesrm .deployment_detail th, 
+.tundra.simplesrm .server_details th {
+	background: url(../images/ge_dialog_section.png) repeat-x #FFF;
+	border: 1px solid #b3b3b3;
+	padding: 3px;
+	font-weight: bold;
+	border-bottom: #dae0e6 1px solid
+}
+/**** ItemChooserGrid ****/
+.tundra .ItemChooserGrid .tableToolbar, .tundra .ItemChooserGrid .TIPTableSearchFieldArea {
+	height: auto;
+}
+.ItemChooserGrid .quick-filter {
+	padding: 0;
+	margin-right: 3px;
+}
+.ItemChooserGrid {
+	outline: 1px solid #B2B2B2;
+}
+.ItemChooserGrid .toolbar {
+	background:#B2B2B2 url(../images/ge42_toolbar_bkgnd.png) repeat-x scroll left top;
+}
+td.dojoxGridCell.numeric {
+	text-align: right;
+}
+.dojoxGridCell.center {
+	text-align: center;
+}
+.ItemChooserGrid dojoxGrid th.dojoxGridCell {
+	font-weight: bold;
+}
+
+/**** overview pods ****/
+
+/*borders for pods. applies to table below main div*/
+.tundra.simplesrm.dijit_a11y .pod {	
+	border: 1px solid #b5b5b5;
+	background: #fafafa;		
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+}
+/* enable the same background as navigator*/
+.tundra.simplesrm.dijit_a11y table.pod .lt, 
+.tundra.simplesrm.dijit_a11y table.pod .rt,
+.tundra.simplesrm.dijit_a11y table.pod .ctr,
+.tundra.simplesrm.dijit_a11y table.pod .top-ctr,
+.tundra.simplesrm.dijit_a11y table.pod .bot-ctr {
+	background: #fafafa;
+}
+
+
+.tundra.simplesrm .overviewPodButton {
+	float: right;
+}
+.tundra.simplesrm .overviewPodButton .dijitButtonNode { 
+	background-color: transparent;
+	background-image: none;
+	border-width: 0;
+}
+.tundra.simplesrm .helpDetailsIcon {
+	width: 12px;
+	height: 12px;
+	background: transparent url(../images/ge12_help.png) no-repeat scroll center center;
+}
+.tundra.simplesrm .dijitButtonHover .helpDetailsIcon {
+	background-image: url(../images/ge12_help_over.png);
+}
+.tundra.simplesrm .closeDetailsIcon {
+	width: 12px;
+	height: 12px;
+	background: transparent url(../images/ge12_close.png) no-repeat scroll center center;
+}
+.tundra.simplesrm .dijitButtonHover .closeDetailsIcon {
+	background-image: url(../images/ge12_close_over.png);
+}
+.tundra.simplesrm .overview_content {
+	background-color: #c0cedc;
+	border:1px solid #6B8299;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	font-size: 10pt;
+}
+.tundra.simplesrm .overview_content > .my_records_grid_header {
+	-moz-border-radius: 5px 5px 0 0;
+	border-radius: 5px 5px 0 0;
+}
+.tundra.simplesrm .my_records_grid_main_div .my_records_grid_header {
+	display: none;
+}
+.tundra.simplesrm table.pod {
+	border: 0;
+	margin: 1em 0 0 0;
+}
+.tundra.simplesrm td.glass div:first-child table.pod {
+    margin-top: 0em;
+}
+.tundra.simplesrm table.pod .top-lt, .pod .top-rt, .pod .bot-lt, .pod .bot.rt {
+	width: 9px;
+	height: 9px;
+	background-repeat: no-repeat;
+	background-color: 	transparent;
+}
+.tundra.simplesrm table.pod .top-lt {
+	background-image: url(../images/ge_pod_top_lt.png);
+	background-position: top left;
+}
+.tundra.simplesrm table.pod .top-rt {
+	background-image: url(../images/ge_pod_top_rt.png);
+	background-position: bottom right;
+}
+.tundra.simplesrm table.pod .bot-lt {
+	background-image: url(../images/ge_pod_bot_lt.png);
+	background-position: bottom left;
+}
+.tundra.simplesrm table.pod .bot-rt {
+	background-image: url(../images/ge_pod_bot_rt.png);
+	background-position: bottom right;
+}
+.tundra.simplesrm table.pod .top-ctr {
+  background: #e5eef6 url("../images/ge_pod_top_ctr.png") repeat-x scroll left top;
+	height: 9px;
+}
+.tundra.simplesrm table.pod .lt {
+  background: #e5eef6 url("../images/ge_pod_ctr_lt.png") no-repeat scroll left top;
+	width: 9px;
+	height: 100%;
+}
+.tundra.simplesrm table.pod .rt {
+  background: #e5eef6 url("../images/ge_pod_ctr_rt.png") no-repeat scroll right top;
+	width: 9px;
+	height: 100%;
+}
+.tundra.simplesrm table.pod .ctr {
+  background: #e5eef6 url("../images/ge_pod_ctr_ctr.png") repeat-x scroll left top;
+}
+.tundra.simplesrm table.pod .bot-ctr {
+  background: #e5eef6 url("../images/ge_pod_bot_ctr.png") repeat-x scroll left bottom;
+	height: 9px;
+}
+.tundra.simplesrm .OverviewPod {
+	background-color: transparent;
+	width: 380px;
+	padding: 0px;
+}
+.tundra.simplesrm .OverviewPod * {
+	font-family: Verdana, Helvetica, Arial, Sans-serif;
+}
+.tundra.simplesrm .OverviewPod h2, 
+.tundra.simplesrm .OverviewPod caption,
+.tundra.simplesrm .OverviewPod .footer a {
+	font-family:"Trebuchet MS",Helvetica,Arial,Sans-serif;
+}
+.tundra.simplesrm .OverviewPod h2.title {
+	font-weight: bold;
+	color: #333333;
+	margin: 0;
+}
+.tundra.simplesrm .OverviewPod .footer {
+	text-align: right;
+	font-size: .7em;
+}
+.tundra.simplesrm .OverviewPod table.OverviewPodDataTable {
+	width: 100%;
+	margin-bottom: 10px;
+	font-size: .7em;
+}
+.tundra.simplesrm .OverviewPod table.OverviewPodDataTable td.left {
+	padding-left: 1em;
+	vertical-align: top;
+}
+.tundra.simplesrm .OverviewPod table.OverviewPodDataTable td.right {
+	vertical-align: top;
+}
+.tundra.simplesrm .OverviewPod table.OverviewPodDataTable caption {
+	font-weight: bold;
+}
+.tundra.simplsrm div.glass {
+	background: transparent url(../images/glass_square_10.png) repeat scroll left top;
+}
+
+
+
+
+
+/*
+.tundra.simplesrm .project_detail table.project_details {
+	margin: 1ex 0;
+	border-collapse: collapse;
+	background: url(../images/ge_dialog_section.png) repeat-x #FFF;	
+}
+.tundra.simplesrm .project_detail table.project_details td.label {
+	padding-right: 100px;
+}
+
+.tundra.simplesrm .project_detail td {
+	border: collapse;
+	padding: 3px;
+	text-align: left;
+	border-bottom: #dae0e6 1px solid;
+}
+.tundra.simplesrm .project_detail th {
+	background: url(../images/ge_dialog_section.png) repeat-x #FFF;
+	border: 1px solid #b3b3b3;
+	padding: 3px;
+	font-weight: bold;
+}
+*/
+
+.tundra.simplesrm .createcatalogrequest .project_content_wrapper { /* area that holds the project view details*/
+	overflow-y: auto;
+	overflow-x: auto;
+	background-color: #dae0e5;
+	border-top: 1px solid #b3b3b3;
+	font-size: .7em;
+	padding-bottom:1em;
+	font-family: Verdana, Helvetica, Arial, Sans-serif;
+	color: #333333;
+}
+/* resource sliders and surrounding markup */
+.tundra.simplesrm table.resource_selection {
+	width:auto;
+	margin:0 5px 0 0;
+}
+.tundra.simplesrm table.resource_selection td.resource_cell {
+	vertical-align:top; 
+	background-color:#fff;
+	border-right:5px solid #DAE0E5;
+}
+.tundra.simplesrm  div.resource_selection .resource_row {
+	margin-top: 4px;
+	font-size: .8em;
+}
+
+.tundra.simplesrm div.resource_selection {
+	background: #FFF url(../images/ge_preview_section.png) top left repeat-x;
+	padding: 3px;
+	/*margin-right: 10px;*/
+	/*height: 75px;*/
+	height:100%;
+	vertical-align: top;
+}
+
+.tundra.simplesrm.dijit_a11y .dijitPopup,
+.tundra.simplesrm.dijit_a11y  .sliderpopup
+ {
+	border-color: black;
+	border-style:solid;
+	border-width:1px;
+}
+
+.tundra.simplesrm.dijit_a11y .sliderbutton{
+	display:none;
+}
+
+.tundra.simplesrm .project_details, .tundra.simplesrm .sliderpopup {
+  background: #FFF url(../images/ge_dialog_section.png) top left repeat-x;
+  width: 95%;
+  margin: 10px 0px 0px 10px;  /* You might not need this in the dialog but it was necessary for the prototype */
+  border: none;
+  border-spacing: 0px; /* Does not appear IE 7 support this so using cellspacing=0 instead */
+}
+.tundra.simplesrm .project_content_wrapper .server_preview{
+	background-color: #c0cedc;
+	border: #999 solid 1px;
+	width: 95%;
+  	margin: 10px 0px 0px 10px;  /* You might not need this in the dialog but it was necessary for the prototype */
+}
+
+.tundra.simplesrm .project_details tr.stroke td, .tundra.simplesrm .sliderpopup tr.stroke td {
+    border-bottom: 1px solid #dae0e6;
+	border-left: 0px;
+	border-right: 0px;
+}
+
+.tundra.simplesrm .project_details td, .tundra.simplesrm .sliderpopup td{
+  padding: 3px;
+}
+
+.tundra.simplesrm .project_details .title, .tundra.simplesrm .sliderpopup .title, .resource_selection .title {
+  font-weight: bold;
+}
+
+.tundra.simplesrm .sliderpopup, resource_selection .title {
+  text-align: center;
+}
+
+.tundra.simplesrm .status_table {
+  width: 100%;
+  border: none;
+  border-spacing: 0px; /* Does not appear IE 7 support this so using cellspacing=0 instead */
+}
+
+.tundra.simplesrm .project_details .status, .tundra.simplesrm .status_table .status { 
+  text-align: right;
+}
+
+.tundra.simplesrm .server_list {
+	width:95%; 
+	margin: 10px 0px 0px 10px;
+}
+
+.tundra.simplesrm .project_list {
+	width:800px; 
+	margin: 10px 0px 0px 10px;
+}
+
+.tundra.simplesrm .preview_section {
+  width: 100%;
+  border: none;
+  border-spacing: 0px; /* Does not appear IE 7 support this so using cellspacing=0 instead */
+  vertical-align: top;
+  empty-cells: show;
+}
+
+/* ========================================================================================== */
+/*       Preview Table Layout Styles                                                          */
+/* ========================================================================================== */
+
+/*.tundra.simplesrm .preview_section*/ 
+.sect_handle {
+  width: 100%;
+	height: 12px;
+	background: url(../images/ge_tbl_sep_bkgnd_12.png) top left repeat-x;
+	border: 1px solid #999;
+}
+ 
+.sect_button_open{
+    float: left;
+	margin-left: 49%;
+    width: 50px;
+	height: 12px;
+	background: url(../images/ge_tbl_preview_open_12.png) center center no-repeat;
+	border-right: 1px solid #999;
+	border-left: 1px solid #999;
+ } 
+ 
+.sect_button_open:hover{
+	background: url(../images/ge_tbl_preview_open_over.png) center center no-repeat;
+	border-right: 1px solid #6690cc;
+	border-left: 1px solid #6690cc;
+} 
+ 
+.sect_button_close{
+    float: left;
+	margin-left: 49%;
+    width: 50px;
+	height: 12px;
+	background: url(../images/ge_tbl_preview_close_12.png) center center no-repeat;
+	border-right: 1px solid #999;
+	border-left: 1px solid #999;
+
+ } 
+ 
+/*.tundra.simplesrm .preview_section*/ 
+/* .sect_button_close:hover{
+		background: url(../images/ge_tbl_preview_close_over.png) center center no-repeat;
+		border-right: 1px solid #6690cc;
+		border-left: 1px solid #6690cc;
+ } */
+
+.tundra.simplesrm .preview_section tr.stroke td{
+  border-bottom: 1px solid #c0cedc;
+}
+
+.tundra.simplesrm .preview_section tr.stroke td.none{
+  border-bottom: 1px solid #FFF;
+	width: 3px;
+}
+
+.tundra.simplesrm .preview_section tr.stroke td.none-num{
+  border-bottom: 1px solid #FFF;
+	text-align:right;
+}
+.tundra.simplesrm .preview_section tr.stroke td.none-str{
+  border-bottom: 1px solid #FFF;
+}
+
+.tundra.simplesrm .preview_section td{
+  padding: 3px;
+}
+
+.tundra.simplesrm .preview_section td.num{
+  text-align: right;
+}
+
+.tundra.simplesrm .preview_section .title{
+  font-weight: bold;
+}
+
+.tundra.simplesrm .preview_section .status{ 
+  text-align: right;
+}
+
+.server_left_section{
+  	background: #FFF url(../images/ge_preview_section.png) repeat-x top left;
+	float:left; 
+	width: 48%;
+	margin-left: 1%;
+	padding-bottom: 3px;
+}
+
+.server_right_section{
+  	background: #FFF url(../images/ge_preview_section.png) repeat-x top left;
+	float: left; 
+	width: 48%;
+	margin-left: 2%;
+	padding-bottom: 3px;
+}
+
+.server_bottom_section{
+	float: left;
+	background: #FFF url(../images/ge_preview_section.png) repeat-x top left;
+	margin-top: 5px;
+	width:100%;
+	padding-bottom: 3px;
+}
+
+#preview {
+  margin: 10px;
+}
+.plusbutton{
+	background-image: url("/SimpleSRM/js/simplesrm/srm/dijit/themes/ge20_plus_btn.png");
+	background-attachment: scroll;
+	background-position: top left;
+	background-repeat: no-repeat;
+	width:20px;
+	height:20px;
+
+}
+
+.tundra.simplesrm.dijit_a11y .createcatalogrequest .plusbutton,
+.tundra.simplesrm.dijit_a11y .createcatalogrequest .plusbuttonover,
+.tundra.simplesrm.dijit_a11y .createcatalogrequest .plusbuttondown,
+.tundra.simplesrm.dijit_a11y .plusbutton{
+	display: none;
+	width:20px;
+	height:20px;
+}
+
+.tundra.simplesrm.dijit_a11y .createcatalogrequest .minusbutton,
+.tundra.simplesrm.dijit_a11y .createcatalogrequest .minusbuttonover,
+.tundra.simplesrm.dijit_a11y .createcatalogrequest .minusbuttondown,
+.tundra.simplesrm.dijit_a11y .minusbutton{
+	display: none;
+}
+
+.tundra.simplesrm.dijit_a11y .plus-minus-button button{
+	width: 20px; 
+}
+
+.tundra.simplesrm.dijit_a11y .tf-r img {
+	display:none;
+}
+
+.tundra.simplesrm.dijit_a11y .tf {
+	border-color: black;
+	border-style:solid;
+	border-width:1px;
+}
+
+.minusbutton{
+	background-image: url("/SimpleSRM/js/simplesrm/srm/dijit/themes/ge20_minus_btn.png");
+ 	background-attachment: scroll;
+	background-position: top;
+	background-repeat: no-repeat;
+	margin:0;
+	padding:0;
+	border-collapse: collapse;
+	width:20px;
+	height:20px;
+}
+.plusbuttonover{
+	background-image: url("/SimpleSRM/js/simplesrm/srm/dijit/themes/ge20_plus_btn_over.png");
+	background-attachment: scroll;
+	background-position: top;
+	background-repeat: no-repeat;
+	width:20px;
+	height:20px;
+}
+.minusbuttonover{
+	background-image: url("/SimpleSRM/js/simplesrm/srm/dijit/themes/ge20_minus_btn_over.png");
+	background-attachment: scroll;
+	background-position: top;
+	background-repeat: no-repeat;
+	width:20px;
+	height:20px;
+}
+
+.plusbuttondown{
+	background-image: url("/SimpleSRM/js/simplesrm/srm/dijit/themes/ge20_plus_btn_down.png");
+	background-attachment: scroll;
+	background-position: top;
+	background-repeat: no-repeat;
+	width:20px;
+	height:20px;
+}
+
+.minusbuttondown{
+	background-image: url("/SimpleSRM/js/simplesrm/srm/dijit/themes/ge20_minus_down.png");
+	background-attachment: scroll;
+	background-position: top;
+	background-repeat: no-repeat;
+	width:20px;
+	height:20px;
+}
+
+.sliderbutton{
+	background-image: url("/SimpleSRM/js/simplesrm/srm/dijit/images/ac22_properties_24.png");
+	background-attachment: scroll;
+	background-position: top;
+	background-repeat: no-repeat;
+	margin:0;
+	padding:0;
+	border-collapse: collapse;	
+	width:22px;
+	height:22px;
+}
+
+/* Inline messages */
+.infoicon{
+	background:  url("../../../../tip/dijit/themes/images/i_message_info_30.png") no-repeat scroll left top;
+	width:30px;
+	height:30px;
+	float:left;
+}
+
+.wrnicon{
+	background:  url("../../../../tip/dijit/themes/images/i_message_warning_30.png") no-repeat scroll left top;
+	width:30px;
+	height:30px;
+	float:left;
+}
+
+.erricon{
+	background:  url("../../../../tip/dijit/themes/images/i_message_critical_30.png") no-repeat scroll left top;
+	width:30px;
+	height:30px;
+}
+
+.tundra.simplesrm span.monitoronline {
+	background: transparent url("/SimpleSRM/js/simplesrm/srm/dijit/images/icons/st18normal_shad.png") no-repeat center left;
+	width: 18px;
+	height: 18px;
+	padding-left: 20px;
+	padding-top: 4px;
+	padding-bottom: 5px;
+}
+
+.tundra.simplesrm span.monitoroffline {
+	background:  url("/SimpleSRM/js/simplesrm/srm/dijit/images/icons/st18critical_shad.png") no-repeat center left;
+	width: 18px;
+	height: 18px;
+	padding-left: 20px;
+	padding-top: 4px;
+	padding-bottom: 5px;
+}
+
+.tundra.simplesrm span.monitornotconfigured {
+	background:  url("/SimpleSRM/js/simplesrm/srm/dijit/images/icons/st18undefined_shad.png") no-repeat center left;
+	width: 18px;
+	height: 18px;
+	padding-left: 20px;
+	padding-top: 4px;
+	padding-bottom: 5px;
+}
+
+.tundra.simplesrm span.monitortoobusy {
+	background:  url("/SimpleSRM/js/simplesrm/srm/dijit/images/icons/st18unknown_shad.png") no-repeat center left;
+	width: 18px;
+	height: 18px;
+	padding-left: 20px;
+	padding-top: 4px;
+	padding-bottom: 5px;
+}
+
+.tundra.simplesrm span.monitornoagent {
+	width: 18px;
+	height: 18px;
+	padding-left: 20px;
+}
+
+/* Temporary CSS for View Requests */
+
+.tundra.simplesrm .templateddialog .mydialog {
+	width:900px;
+	height:730px;
+	padding: 0px;
+	background-color: #000000;
+}
+
+.tundra.simplesrm .templateddialog .banner {
+	background-color:#C0CEDC;
+	border-color:#B0B5B8;
+	border-width: 5px;
+	height:70px;
+}
+
+.tundra.simplesrm .templateddialog .commloggrid {
+	/*width:580px;*/
+	width:90%;
+	height:200px;
+	margin:10px;
+	overflow:auto;
+}
+
+.tundra.simplesrm .templateddialog .dijitContentPane .dijitTabContainerTop-tabs,
+.tundra.simplesrm .templateddialog .paneltop {
+	background: #B2B2B2 url(/SimpleSRM/js/simplesrm/srm/dijit/images/ge64_toolbar_top.png) repeat-x scroll left top;
+}
+
+.tundra.simplesrm .templateddialog .dijitContentPane .dijitTabContainerTop-tabs .dijitTabChecked {
+	border-bottom-color: #C0CEDC;
+}
+
+.tundra.simplesrm .templateddialog .dijitSplitterV, .tundra.simplesrm .templateddialog .dijitGutterV {
+	width: 0;
+}
+
+.tundra.simplesrm .templateddialog .dijitSplitterH, .tundra.simplesrm .templateddialog .dijitGutterH {
+	height: 0;
+}
+
+.tundra.simplesrm .templateddialog .dijitTabChecked .dijitTabInnerDiv {
+	background-color:#C0CEDC;
+}
+
+.tundra.simplesrm .templateddialog .mydialog .dijitDialogPaneContent {
+	background: #dae0e6;
+	width: 95%;
+	margin: 10px 0px 0px 10px;  /* You might not need this in the dialog but it was necessary for the prototype */
+	border: none;
+	border-spacing: 0px; /* Does not appear IE 7 support this so using cellspacing=0 instead */
+}
+
+.tundra.simplesrm .templateddialog .infotable {
+	background: #FFFFFF url(/SimpleSRM/js/simplesrm/srm/dijit/images/ge_dialog_section.png) top left repeat-x;
+	margin: 10px;
+	width: 90%;
+}
+
+.tundra.simplesrm .templateddialog .infotable tr.stroke td {
+  	border-bottom: 1px solid #dae0e6;
+	border-left: 0px;
+	border-right: 0px;
+}
+
+.tundra.simplesrm .templateddialog .infotable td {
+	padding: 3px;
+}
+
+.tundra.simplesrm .templateddialog .infotable .title {
+	font-weight: bold;
+}
+
+.tundra.simplesrm .templateddialog .infotable .status {
+	text-align: right;
+}
+
+.tundra.simplesrm .templateddialog .approval {
+	border-bottom-width: 2px;
+	background-color: #DCE2E7;
+	height: 590px;
+	margin: 0;
+	padding: 0;
+	width: 250px;
+}
+
+.tundra.simplesrm .templateddialog .approval .banner {
+	background-color:#C0CEDC;
+	border-color:#B0B5B8;
+	height:101px;
+	width:250px;
+}
+
+.srmAccordion .dijitAccordionTitle {
+	background:#fafafa url("../images/soriaAccordionOff.gif") repeat-x bottom left;
+	border-top: 1px solid #bfbfbf;
+	padding: 4px 4px 4px 18px;
+	cursor:pointer;
+}
+
+.srmAccordion .dijitAccordionTitle-hover  {
+	background: #f8fafd url("../images/soriaAccordionOver.gif") repeat-x bottom left;
+	padding: 4px 4px 4px 18px;
+}
+
+.srmAccordion .dijitAccordionTitle-selected {
+	background:#F9F9F9 url("../images/soriaAccordionSelected2.gif") repeat-x bottom left;
+	border-bottom:1px solid #BFBFBF;
+	border-top:1px solid #AAAAAA;
+	cursor:default;
+	font-weight:bold;
+	padding: 4px 4px 4px 18px;
+}	

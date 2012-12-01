@@ -1,0 +1,233 @@
+({
+	"dateFormatItem-yM": "M/yyyy", 
+	"field-dayperiod": "পূর্বাহ্ণ/অপরাহ্ণ", 
+	"dateFormatItem-yQ": "Q yyyy", 
+	"field-minute": "মিনিট", 
+	"eraNames": [
+		"খৃষ্টপূর্ব", 
+		"খৃষ্টাব্দ"
+	], 
+	"dateFormatItem-MMMEd": "E d MMM", 
+	"dateFormatItem-MMdd": "dd-MM", 
+	"dateFormatItem-yQQQ": "QQQ yyyy", 
+	"field-weekday": "সপ্তাহের দিন", 
+	"days-standAlone-wide": [
+		"রবিবার", 
+		"সোমবার", 
+		"মঙ্গলবার", 
+		"বুধবার", 
+		"বৃহষ্পতিবার", 
+		"শুক্রবার", 
+		"শনিবার"
+	], 
+	"dateFormatItem-MMM": "LLL", 
+	"months-standAlone-narrow": [
+		"জা", 
+		"ফে", 
+		"মা", 
+		"এ", 
+		"মে", 
+		"জুন", 
+		"জু", 
+		"আ", 
+		"সে", 
+		"অ", 
+		"ন", 
+		"ডি"
+	], 
+	"field-era": "যুগ", 
+	"field-hour": "ঘন্টা", 
+	"quarters-standAlone-abbr": [
+		"চতুর্থাংশ ১", 
+		"চতুর্থাংশ ২", 
+		"চতুর্থাংশ ৩", 
+		"চতুর্থাংশ ৪"
+	], 
+	"dateFormatItem-y": "yyyy", 
+	"timeFormat-full": "h:mm:ss a v", 
+	"months-standAlone-abbr": [
+		"জানুয়ারী", 
+		"ফেব্রুয়ারী", 
+		"মার্চ", 
+		"এপ্রিল", 
+		"মে", 
+		"জুন", 
+		"জুলাই", 
+		"আগস্ট", 
+		"সেপ্টেম্বর", 
+		"অক্টোবর", 
+		"নভেম্বর", 
+		"ডিসেম্বর"
+	], 
+	"dateFormatItem-yMMM": "MMM yyyy", 
+	"days-standAlone-narrow": [
+		"র", 
+		"সো", 
+		"ম", 
+		"বু", 
+		"বৃ", 
+		"শু", 
+		"শ"
+	], 
+	"eraAbbr": [
+		"খৃষ্টপূর্ব", 
+		"খৃষ্টাব্দ"
+	], 
+	"dateFormatItem-yyyyMM": "MM-yyyy", 
+	"dateFormatItem-yyyyMMMM": "MMMM yyyy", 
+	"dateFormat-long": "d MMMM, yyyy", 
+	"timeFormat-medium": "h:mm:ss a", 
+	"field-zone": "এলাকা", 
+	"dateFormatItem-Hm": "HH:mm", 
+	"dateFormat-medium": "d MMM, yyyy", 
+	"quarters-standAlone-wide": [
+		"প্রথম চতুর্থাংশ", 
+		"দ্বিতীয় চতুর্থাংশ", 
+		"তৃতীয় চতুর্থাংশ", 
+		"চতুর্থ চতুর্থাংশ"
+	], 
+	"dateTimeFormat": "{1} {0}", 
+	"dateFormatItem-yMMMM": "MMMM yyyy", 
+	"dateFormatItem-ms": "mm:ss", 
+	"field-year": "বছর", 
+	"quarters-standAlone-narrow": [
+		"১", 
+		"২", 
+		"৩", 
+		"৪"
+	], 
+	"field-week": "সপ্তাহ", 
+	"months-standAlone-wide": [
+		"জানুয়ারী", 
+		"ফেব্রুয়ারী", 
+		"মার্চ", 
+		"এপ্রিল", 
+		"মে", 
+		"জুন", 
+		"জুলাই", 
+		"আগস্ট", 
+		"সেপ্টেম্বর", 
+		"অক্টোবর", 
+		"নভেম্বর", 
+		"ডিসেম্বর"
+	], 
+	"dateFormatItem-MMMMEd": "E d MMMM", 
+	"dateFormatItem-MMMd": "d MMM", 
+	"quarters-format-narrow": [
+		"১", 
+		"২", 
+		"৩", 
+		"৪"
+	], 
+	"dateFormatItem-yyQ": "Q yy", 
+	"timeFormat-long": "h:mm:ss a z", 
+	"months-format-abbr": [
+		"জানুয়ারী", 
+		"ফেব্রুয়ারী", 
+		"মার্চ", 
+		"এপ্রিল", 
+		"মে", 
+		"জুন", 
+		"জুলাই", 
+		"আগস্ট", 
+		"সেপ্টেম্বর", 
+		"অক্টোবর", 
+		"নভেম্বর", 
+		"ডিসেম্বর"
+	], 
+	"timeFormat-short": "h:mm a", 
+	"field-month": "মাস", 
+	"dateFormatItem-MMMMd": "d MMMM", 
+	"quarters-format-abbr": [
+		"চতুর্থাংশ ১", 
+		"চতুর্থাংশ ২", 
+		"চতুর্থাংশ ৩", 
+		"চতুর্থাংশ ৪"
+	], 
+	"days-format-abbr": [
+		"রবি", 
+		"সোম", 
+		"মঙ্গল", 
+		"বুধ", 
+		"বৃহস্পতি", 
+		"শুক্র", 
+		"শনি"
+	], 
+	"pm": "অপরাহ্ণ", 
+	"dateFormatItem-M": "L", 
+	"days-format-narrow": [
+		"র", 
+		"সো", 
+		"ম", 
+		"বু", 
+		"বৃ", 
+		"শু", 
+		"শ"
+	], 
+	"field-second": "সেকেন্ড", 
+	"field-day": "দিন", 
+	"dateFormatItem-MEd": "E, d-M", 
+	"months-format-narrow": [
+		"জা", 
+		"ফে", 
+		"মা", 
+		"এ", 
+		"মে", 
+		"জুন", 
+		"জু", 
+		"আ", 
+		"সে", 
+		"অ", 
+		"ন", 
+		"ডি"
+	], 
+	"am": "পূর্বাহ্ণ", 
+	"days-standAlone-abbr": [
+		"রবি", 
+		"সোম", 
+		"মঙ্গল", 
+		"বুধ", 
+		"বৃহস্পতি", 
+		"শুক্র", 
+		"শনি"
+	], 
+	"dateFormat-short": "d/M/yy", 
+	"dateFormatItem-yMMMEd": "EEE, d MMM, yyyy", 
+	"dateFormat-full": "EEEE, d MMMM, yyyy", 
+	"dateFormatItem-Md": "d/M", 
+	"dateFormatItem-yMEd": "EEE, d/M/yyy", 
+	"months-format-wide": [
+		"জানুয়ারী", 
+		"ফেব্রুয়ারী", 
+		"মার্চ", 
+		"এপ্রিল", 
+		"মে", 
+		"জুন", 
+		"জুলাই", 
+		"আগস্ট", 
+		"সেপ্টেম্বর", 
+		"অক্টোবর", 
+		"নভেম্বর", 
+		"ডিসেম্বর"
+	], 
+	"dateFormatItem-d": "d", 
+	"quarters-format-wide": [
+		"প্রথম চতুর্থাংশ", 
+		"দ্বিতীয় চতুর্থাংশ", 
+		"তৃতীয় চতুর্থাংশ", 
+		"চতুর্থ চতুর্থাংশ"
+	], 
+	"days-format-wide": [
+		"রবিবার", 
+		"সোমবার", 
+		"মঙ্গলবার", 
+		"বুধবার", 
+		"বৃহষ্পতিবার", 
+		"শুক্রবার", 
+		"শনিবার"
+	], 
+	"eraNarrow": [
+		"খৃষ্টপূর্ব", 
+		"খৃষ্টাব্দ"
+	]
+})

@@ -1,0 +1,61 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd&#xA;http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+<!--  <bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">-->
+<!--    <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />-->
+<!--    <property name="url" value="jdbc:oracle:thin:@localhost:1521:ncc" />-->
+<!--    <property name="username" value="ncc" />-->
+<!--    <property name="password" value="ncc" />-->
+<!--  </bean>-->
+<!--  <tx:annotation-driven xmlns:tx="http://www.springframework.org/schema/tx" transaction-manager="txManager" />-->
+<!--  <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" />-->
+  <bean id="TCategoryMapInitDao" class="com.ibm.ncs.model.dao.spring.TCategoryMapInitDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="TDeviceInfoDao" class="com.ibm.ncs.model.dao.spring.TDeviceInfoDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="TDeviceTypeInitDao" class="com.ibm.ncs.model.dao.spring.TDeviceTypeInitDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="TEventOidInitDao" class="com.ibm.ncs.model.dao.spring.TEventOidInitDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="TEventTypeInitDao" class="com.ibm.ncs.model.dao.spring.TEventTypeInitDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="TGrpNetDao" class="com.ibm.ncs.model.dao.spring.TGrpNetDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="TGrpOrgDao" class="com.ibm.ncs.model.dao.spring.TGrpOrgDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="TLineInfoDao" class="com.ibm.ncs.model.dao.spring.TLineInfoDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="TListIpDao" class="com.ibm.ncs.model.dao.spring.TListIpDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="TManufacturerInfoInitDao" class="com.ibm.ncs.model.dao.spring.TManufacturerInfoInitDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="TModuleInfoInitDao" class="com.ibm.ncs.model.dao.spring.TModuleInfoInitDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="TOidgroupDetailsInitDao" class="com.ibm.ncs.model.dao.spring.TOidgroupDetailsInitDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="TOidgroupInfoInitDao" class="com.ibm.ncs.model.dao.spring.TOidgroupInfoInitDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="TPortlineMapDao" class="com.ibm.ncs.model.dao.spring.TPortlineMapDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="TPortInfoDao" class="com.ibm.ncs.model.dao.spring.TPortInfoDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="TServerInfoDao" class="com.ibm.ncs.model.dao.spring.TServerInfoDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="TSvrmodMapDao" class="com.ibm.ncs.model.dao.spring.TSvrmodMapDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+</beans>

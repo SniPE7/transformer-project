@@ -1,0 +1,75 @@
+package com.ibm.ncs.model.dao.spring;
+
+import com.ibm.ncs.model.dao.DeviceTypeTreeDao;
+import com.ibm.ncs.model.dto.DeviceTypeTree;
+import com.ibm.ncs.model.exceptions.DeviceTypeTreeDaoException;
+import java.util.List;
+import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
+import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
+import org.springframework.transaction.annotation.Transactional;
+
+public class DeviceTypeTreeDaoImpl extends AbstractDAO implements ParameterizedRowMapper<DeviceTypeTree>, DeviceTypeTreeDao
+{
+	protected SimpleJdbcTemplate jdbcTemplate;
+
+	protected DataSource dataSource;
+
+	/**
+	 * Method 'setDataSource'
+	 * 
+	 * @param dataSource
+	 */
+	public void setDataSource(DataSource dataSource)
+	{
+		this.dataSource = dataSource;
+		jdbcTemplate = new SimpleJdbcTemplate(dataSource);
+	}
+
+	/**
+	 * Method 'execute'
+	 * 
+	 * @param mrName
+	 * @param cateName
+	 * @param subCategory
+	 * @throws DeviceTypeTreeDaoException
+	 * @return List<DeviceTypeTree>
+	 */
+	public List<DeviceTypeTree> execute(java.lang.String mrName, java.lang.String cateName, java.lang.String subCategory) throws DeviceTypeTreeDaoException
+	{
+		try {
+			return jdbcTemplate.query("select c.mrid,a.dtid,a.category,c.mrname,a.name,a.subcategory , a.model,a.objectid,a.logo,a.description  from t_manufacturer_info_init c   left join (select * from t_device_type_init d,t_category_map_init b where d.category=b.id) a   on a.mrid=c.mrid   where mrname=? and    a.name=?  and    a.subCategory=?", this,mrName,cateName,subCategory);
+		}
+		catch (Exception e) {
+			throw new DeviceTypeTreeDaoException("Query failed", e);
+		}
+		
+	}
+
+	/**
+	 * Method 'mapRow'
+	 * 
+	 * @param rs
+	 * @param row
+	 * @throws SQLException
+	 * @return DeviceTypeTree
+	 */
+	public DeviceTypeTree mapRow(ResultSet rs, int row) throws SQLException
+	{
+		DeviceTypeTree dto = new DeviceTypeTree();
+		dto.setMrid( rs.getLong( 1 ) );
+		dto.setDtid( rs.getLong( 2 ) );
+		dto.setCategory( rs.getLong( 3 ) );
+		dto.setMrName( rs.getString( 4 ) );
+		dto.setCateName( rs.getString( 5 ) );
+		dto.setSubCategory( rs.getString( 6 ) );
+		dto.setModel( rs.getString( 7 ) );
+		dto.setObjectid( rs.getString( 8 ) );
+		dto.setLogo( rs.getString( 9 ) );
+		dto.setDescription( rs.getString( 10 ) );
+		return dto;
+	}
+
+}

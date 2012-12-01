@@ -1,0 +1,94 @@
+({
+	"months-format-abbr": [
+		"urt", 
+		"ots", 
+		"mar", 
+		"api", 
+		"mai", 
+		"eka", 
+		"uzt", 
+		"abu", 
+		"ira", 
+		"urr", 
+		"aza", 
+		"abe"
+	], 
+	"months-format-wide": [
+		"urtarrila", 
+		"otsaila", 
+		"martxoa", 
+		"apirila", 
+		"maiatza", 
+		"ekaina", 
+		"uztaila", 
+		"abuztua", 
+		"iraila", 
+		"urria", 
+		"azaroa", 
+		"abendua"
+	], 
+	"days-format-abbr": [
+		"ig", 
+		"al", 
+		"as", 
+		"az", 
+		"og", 
+		"or", 
+		"lr"
+	], 
+	"days-format-wide": [
+		"igandea", 
+		"astelehena", 
+		"asteartea", 
+		"asteazkena", 
+		"osteguna", 
+		"ostirala", 
+		"larunbata"
+	], 
+	"months-standAlone-abbr": [
+		"urt", 
+		"ots", 
+		"mar", 
+		"api", 
+		"mai", 
+		"eka", 
+		"uzt", 
+		"abu", 
+		"ira", 
+		"urr", 
+		"aza", 
+		"abe"
+	], 
+	"months-standAlone-wide": [
+		"urtarrila", 
+		"otsaila", 
+		"martxoa", 
+		"apirila", 
+		"maiatza", 
+		"ekaina", 
+		"uztaila", 
+		"abuztua", 
+		"iraila", 
+		"urria", 
+		"azaroa", 
+		"abendua"
+	], 
+	"days-standAlone-abbr": [
+		"ig", 
+		"al", 
+		"as", 
+		"az", 
+		"og", 
+		"or", 
+		"lr"
+	], 
+	"days-standAlone-wide": [
+		"igandea", 
+		"astelehena", 
+		"asteartea", 
+		"asteazkena", 
+		"osteguna", 
+		"ostirala", 
+		"larunbata"
+	]
+})

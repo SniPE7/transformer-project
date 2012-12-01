@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<script type="text/javascript" src="dojo/dojo/dojo.js"
+	djConfig="isDebug: false, parseOnLoad: true"></script>
+<style type="text/css">
+@import "<%=request.getContextPath()%>/dojo/dojo/resources/dojo.css";
+
+@import "<%=request.getContextPath()%>/dojo/dijit/themes/noir/noir.css";
+
+@import "<%=request.getContextPath()%>/dojo/dijit/themes/dijit.css";
+</style>
+<title>main</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+</head>
+<html>
+<frameset name="NCSMAIN" rows="32,1*"   frameborder="1" border="1" resize="yes" >
+   
+   <FRAME title='Banner frame' src="include/banner.jsp" name="header"  scrolling="no"  marginwidth="0" marginheight="0" >
+
+   <frameset cols="32%,1*"  resize="yes" >
+	   <frameset rows="92,1*"  resize="yes" >
+	   	  <FRAME title='Menutab frame'  src="include/menutab.jsp" name="menutab" resize="yes"  >
+	      <FRAME title='Navigation frame'  src="naviframe.jsp" name="navigator"  style="border-right: 1px solid #d7d7d7;" resize="yes" marginwidth="10" marginheight="10"  >
+	   </frameset>   
+      <FRAME title='Content frame' src="contentframe.jsp" name="detail" resize="yes" marginwidth="0" marginheight="0">
+     
+
+   </frameset>
+
+</frameset>
+
+<noframes>
+You must use a browser that supports frames for the  Administrative Console.
+</noframes> 
+</html>

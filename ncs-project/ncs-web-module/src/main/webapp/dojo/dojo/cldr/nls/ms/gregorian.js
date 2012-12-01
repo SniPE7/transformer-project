@@ -1,0 +1,94 @@
+({
+	"months-format-abbr": [
+		"Jan", 
+		"Feb", 
+		"Mac", 
+		"Apr", 
+		"Mei", 
+		"Jun", 
+		"Jul", 
+		"Ogos", 
+		"Sep", 
+		"Okt", 
+		"Nov", 
+		"Dis"
+	], 
+	"months-format-wide": [
+		"Januari", 
+		"Februari", 
+		"Mac", 
+		"April", 
+		"Mei", 
+		"Jun", 
+		"Julai", 
+		"Ogos", 
+		"September", 
+		"Oktober", 
+		"November", 
+		"Disember"
+	], 
+	"days-format-abbr": [
+		"Ahd", 
+		"Isn", 
+		"Sel", 
+		"Rab", 
+		"Kha", 
+		"Jum", 
+		"Sab"
+	], 
+	"days-format-wide": [
+		"Ahad", 
+		"Isnin", 
+		"Selasa", 
+		"Rabu", 
+		"Khamis", 
+		"Jumaat", 
+		"Sabtu"
+	], 
+	"months-standAlone-abbr": [
+		"Jan", 
+		"Feb", 
+		"Mac", 
+		"Apr", 
+		"Mei", 
+		"Jun", 
+		"Jul", 
+		"Ogos", 
+		"Sep", 
+		"Okt", 
+		"Nov", 
+		"Dis"
+	], 
+	"months-standAlone-wide": [
+		"Januari", 
+		"Februari", 
+		"Mac", 
+		"April", 
+		"Mei", 
+		"Jun", 
+		"Julai", 
+		"Ogos", 
+		"September", 
+		"Oktober", 
+		"November", 
+		"Disember"
+	], 
+	"days-standAlone-abbr": [
+		"Ahd", 
+		"Isn", 
+		"Sel", 
+		"Rab", 
+		"Kha", 
+		"Jum", 
+		"Sab"
+	], 
+	"days-standAlone-wide": [
+		"Ahad", 
+		"Isnin", 
+		"Selasa", 
+		"Rabu", 
+		"Khamis", 
+		"Jumaat", 
+		"Sabtu"
+	]
+})

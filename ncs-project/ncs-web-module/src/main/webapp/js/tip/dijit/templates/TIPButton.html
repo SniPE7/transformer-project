@@ -1,0 +1,23 @@
+<div class="dijit dijitLeft dijitInline dijitButton"
+	dojoAttachEvent="onclick:_onButtonClick,onmouseenter:_onMouse,onmouseleave:_onMouse,onmousedown:_onMouse"
+	><div class='dijitRight'
+		><button class="dijitStretch dijitButtonNode dijitButtonContents" dojoAttachPoint="focusNode,titleNode"
+			type="${type}" waiRole="button" waiState="labelledby-${id}_label"
+			>
+			<div dojoAttachPoint="buttonDiv">
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+               <tr>
+                <td style="white-space: nowrap;">
+				  <div align="center">
+					<span class="dijitInline ${iconClass}" dojoAttachPoint="iconNode">
+	 					<span class="dijitToggleButtonIconChar">&#10003</span>
+ 					</span>
+					<span class="dijitButtonText" id="${id}_label" dojoAttachPoint="containerNode">${label}</span>
+				  </div>
+				</td>
+               </tr>
+              </table>
+             </div>			
+		</button>
+	</div>
+</div>

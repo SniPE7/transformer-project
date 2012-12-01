@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.4" 
+		xmlns="http://java.sun.com/xml/ns/j2ee" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+		http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<display-name>ncc</display-name>
+	<filter>
+		<description>
+		</description>
+		<display-name>encodingFilter</display-name>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>com.ibm.ncs.web.EncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter>
+		<description>
+		</description>
+		<display-name>SignonFilter</display-name>
+		<filter-name>SignonFilter</filter-name>
+		<filter-class>com.ibm.ncs.web.signon.SignonFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>SignonFilter</filter-name>
+		<url-pattern>/secure/*</url-pattern>		
+	</filter-mapping>
+	<filter>
+		<display-name>springFilter</display-name>
+		<filter-name>springFilter</filter-name>
+		<filter-class>org.springframework.web.filter.RequestContextFilter</filter-class>
+	</filter>	
+	<filter-mapping>
+		<filter-name>springFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<listener> 
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.ibm.ncs.web.HttpSessionList</listener-class>
+	</listener>
+	   <context-param>  
+	     <param-name>contextConfigLocation</param-name>  
+		<param-value>/WEB-INF/applicationContext*.xml /WEB-INF/dao-beans-*.xml</param-value>	
+	 </context-param>
+	<servlet>
+		<servlet-name>ncsapp</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet>
+		<servlet-name>ProxyServlet</servlet-name>
+		<servlet-class>com.ibm.ws.ajaxproxy.servlet.ProxyServlet</servlet-class>
+	</servlet>
+<!--  <servlet>-->
+<!--		<description>-->
+<!--		</description>-->
+<!--		<display-name>ExcelTODB</display-name>-->
+<!--		<servlet-name>ExcelTODB</servlet-name>-->
+<!--		<servlet-class>	com.ibm.ncs.util.excel.ExcelTODB</servlet-class>-->
+<!--	</servlet>-->
+<!--	<servlet-mapping>-->
+<!--		<servlet-name>ExcelTODB</servlet-name>-->
+<!--		<url-pattern>/ExcelTODB</url-pattern>-->
+<!--	</servlet-mapping>-->
+
+
+
+	<servlet-mapping>
+		<servlet-name>ncsapp</servlet-name>
+		<url-pattern>*.wss</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ProxyServlet</servlet-name>
+		<url-pattern>/proxy/*</url-pattern>
+	</servlet-mapping>
+	<!-- 
+	<resource-ref id="ResourceRef_1290983551395">
+		<res-ref-name>jdbc/nccDS</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+		<res-sharing-scope>Shareable</res-sharing-scope>
+	</resource-ref>
+	 -->
+	<session-config>
+		<session-timeout>180</session-timeout>
+	</session-config>
+
+	<welcome-file-list>
+<!--		<welcome-file>login.jsp</welcome-file>-->
+		 <welcome-file>main.html</welcome-file>
+	</welcome-file-list>
+	<jsp-config>
+		<taglib>
+			<taglib-uri>/spring</taglib-uri>
+			<taglib-location>/WEB-INF/tld/spring-form.tld</taglib-location>
+		</taglib>
+	</jsp-config>
+	
+	<servlet>
+		<servlet-name>log4j-init</servlet-name>
+		<servlet-class>com.ibm.ncs.util.Log4jInit</servlet-class>
+		<init-param>
+			<param-name>log4j</param-name>
+			<param-value>/WEB-INF/log4j.properties</param-value>
+		</init-param>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+</web-app>

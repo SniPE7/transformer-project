@@ -1,0 +1,19 @@
+<div
+	class='inlineMessage ${_messageClass}'
+	><div
+		dojoAttachEvent='onclick: onCloseClick'
+		class='closeMessage'
+		tabindex="0"
+	></div
+	><img
+		align="left"
+		alt="${_iconDesc}"
+		title="${_iconDesc}"
+		src="${_iconSource}"
+		dojoAttachPoint="_iconNode"
+		tabindex="0"
+	/><div
+		class='messageId' tabindex="0">${code}</div
+	><div
+		class='messageBody' tabindex="0">${text}</div
+></div>
