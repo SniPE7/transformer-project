@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<bean id="nccDS" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="jdbc/nccDS" />
+		<property name="lookupOnStartup" value="false" />
+		<property name="cache" value="true" />
+		<property name="proxyInterface" value="javax.sql.DataSource" />
+	</bean>
+<alias name="nccDS" alias="myDataSource"/>
+	<bean id="transactionManager"
+		class="org.springframework.transaction.jta.JtaTransactionManager">
+		<property name="autodetectTransactionManager" value="false" />
+	</bean>
+<!--	<bean id="transactionManager"-->
+<!--		class="org.springframework.transaction.jta.webSphereUowTransactionManager">-->
+<!--		<property name="autodetectTransactionManager" value="false" />-->
+<!--	</bean>-->
+<!--	<tx:advice id="txAdvice" transaction-manager="transactionManager">-->
+<!--		<tx:attributes>-->
+<!--			<tx:method name="get*" propagation="REQUIRED" read-only="true" />-->
+<!--			<tx:method name="set*" propagation="REQUIRES_NEW" />-->
+<!--			<tx:method name="save*" />-->
+<!--			<tx:method name="*" read-only="true" />-->
+<!--		</tx:attributes>-->
+<!--	</tx:advice>-->
+<!--	<aop:config>-->
+<!--		<aop:pointcut id="ncsServiceOperation" expression="execution(* com.ibm.ncs.sevice.NcsService.*(..))" />-->
+<!--		<aop:advisor advice-ref="txAdvice" pointcut-ref="ncsServiceOperation" />-->
+<!--	</aop:config>-->
+	
+<!--	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"-->
+<!--		destroy-method="close">-->
+<!--		<property name="driverClassName" value="${jdbc.driverClassName}" />-->
+<!--		<property name="url" value="${jdbc.url}" />-->
+<!--		<property name="username" value="${jdbc.username}" />-->
+<!--		<property name="password" value="${jdbc.password}" />-->
+<!--	</bean>-->
+<!---->
+<!--	<bean id="propertyConfigurer"-->
+<!--		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
+<!--		<property name="locations">-->
+<!--			<list>-->
+<!--				<value>classpath:jdbc.properties</value>-->
+<!--			</list>-->
+<!--		</property>-->
+<!--	</bean>-->
+
+</beans>

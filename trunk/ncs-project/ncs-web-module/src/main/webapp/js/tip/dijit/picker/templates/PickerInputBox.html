@@ -1,0 +1,20 @@
+<span
+    class="picker"
+    ><span 
+        tabindex="${tabindex}"
+        dojoType="ibm.tivoli.tip.dijit.TextInputBox"
+        dojoAttachPoint="_textNode,_focusNode"
+        required="${required}"
+        minLength="${textMinLength}"
+        maxLength="${textMaxLength}"
+        regExp="${textRegExp}"
+        regExpMessage="${textRegExpMessage}"
+    ></span
+    ><img 
+        tabindex="${tabindex}"
+        src="${pickerIcon}"
+        dojoAttachPoint="_pickerButtonNode"
+        dojoAttachEvent="onclick:_onClick,onkeyup:_onKeyUp"
+        class="pickerButton"
+/></span>
+   

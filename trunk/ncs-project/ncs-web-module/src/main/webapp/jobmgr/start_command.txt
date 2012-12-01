@@ -1,0 +1,22 @@
+NCXX1 使用ncoadmin 登陆机器
+1 SrcType 文件存放目录/opt/netcool/omnibus/lookuptables
+
+2 重启命令，使用ncoadmin执行：
+/opt/netcool/omnibus/bin/nco_pa_stop -server NCXX1_PA -process SYSLOG
+/opt/netcool/omnibus/bin/nco_pa_start -server NCXX1_PA -process SYSLOG
+
+
+NCXX3 使用ncoadmin 登陆机器
+3 icmp.xml snmp.xml文件存放目录：/opt/TIVOLI/ITM/li6263/is/profiles/active
+4 重启命令，使用ncoadmin执行：
+/opt/TIVOLI/ITM/li6263/is/bin/ism_startup.sh stop nco_m_icmp
+/opt/TIVOLI/ITM/li6263/is/bin/ism_startup.sh stop nco_m_snmp
+/opt/TIVOLI/ITM/li6263/is/bin/ism_startup.sh stop nco_m_bridge
+/opt/TIVOLI/ITM/li6263/is/bin/ism_startup.sh start nco_m_bridge 
+/opt/TIVOLI/ITM/li6263/is/bin/ism_startup.sh start nco_m_icmp
+/opt/TIVOLI/ITM/li6263/is/bin/ism_startup.sh start nco_m_snmp
+
+
+ssh-keygen
+
+ssh-copy-id user@host

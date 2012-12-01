@@ -1,0 +1,85 @@
+<div class="dateRange2">
+<!--
+ * Licensed Materials - Property of IBM
+ * 5724-W78
+ * (C) Copyright IBM Corp. 2009
+ * All Rights Reserved
+ * US Government Users Restricted Rights - Use, duplication or
+ * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+-->
+<table border=0>
+	<tr>
+		<td valign="top">
+
+		<div class="date_value_row"><label class="label required"
+			for="${id}_startDate">${_stringTable.StartDateLabel}</label> <input
+			id="${id}_startDate" name="${startName}" value="${valueStart}"
+			type="text" dojoType="ibm.tivoli.simplesrm.srm.dijit.DateTextBox"
+			invalidMessage="${_stringTable.InvalidDateMessage}" required="true"
+			dojoAttachEvent="onChange:_onChangeStart"></div>
+		</td>
+		<td valign="top" style="padding-left: 1em;"><label class="label required">${_stringTable.EndDateLabel}</label>
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>&nbsp;</td>
+				<td valign="top">
+				<select
+					id="${id}_modeDropDown" dojoType="dojox.form.DropDownSelect"
+					dojoAttachEvent="onChange: _onChangeModeDropDown">
+					<option value="forever" selected="true"><label
+						for="${id}_modeForever" class="modeLabel">${_stringTable.ForeverLabel}</label></option>
+					<option value="duration"><label for="${id}_modeDuration"
+						class="modeLabel">${_stringTable.DurationLabel}</label></option>
+					<option value="until"><label for="${id}_modeUntil"
+						class="modeLabel">${_stringTable.UntilLabel}</label></option>
+				</select> 
+
+
+				</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td valign="top">
+
+				<div id="${id}_divDuration" style="display: none;">
+				<div class="date_value_row">
+				<div class="dateRangeDurationInput" dojoAttachPoint="durationInput">
+				<table>
+					<tr>
+						<td valign="middle"><input type="text"
+							id="${id}_durationValue" dojoType="dijit.form.RangeBoundTextBox"
+							constraints="{min:1}" required="false"
+							invalidMessage="${_stringTable.InvalidDurationMessage}"
+							regExp="[1-9]\d*"
+							dojoAttachEvent="onKeyPress:_onDurationKeyPress,onChange:_onDurationValueChange"
+							style="width: 6em; margin-left: 0;"></td>
+						<td valign="middle" style="padding-left: 3px;"><select
+							id="${id}_durationUnits" dojoType="dojox.form.DropDownSelect"
+							dojoAttachEvent="onChange: _onDurationUnitChange">
+							<option value="day" selected="true">${_stringTable.DaysLabel}</option>
+							<option value="week">${_stringTable.WeeksLabel}</option>
+							<option value="month">${_stringTable.MonthsLabel}</option>
+						</select></td>
+					</tr>
+				</table>
+				</div>
+				</div>
+				</div>
+
+				<div id="${id}_divUntil" style="display: none;">
+
+				<div class="date_value_row"><input id="${id}_endDate"
+					value="${valueEnd}" type="text"
+					dojoType="ibm.tivoli.simplesrm.srm.dijit.DateTextBox"
+					invalidMessage="${_stringTable.InvalidDateMessage}"
+					dojoAttachEvent="onChange:_onChangeEnd"></div>
+				</div>
+				</td>
+			</tr>
+		</table>
+
+		<input name="${endName}" type="hidden" dojoAttachPoint="endDateValue">
+		</td>
+	</tr>
+</table>
+</div>

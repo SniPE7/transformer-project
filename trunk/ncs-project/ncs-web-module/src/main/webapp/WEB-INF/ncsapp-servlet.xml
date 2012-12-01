@@ -1,0 +1,1464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+<!-- 
+	<bean name="/login.wss" class="com.mvc.rest.web.SpringappController" >
+		<property name="productManager" ref="prodMan"/>
+	</bean>
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView"></property>
+		<property name="prefix" value="/secure/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+-->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename">
+			<value>messages</value>
+		</property>
+	</bean>
+
+	<bean id="tCategoryMapInitDao" class="com.ibm.ncs.model.dao.spring.TCategoryMapInitDaoImpl">
+		<property name="dataSource" ref="nccDS" />
+	</bean>
+
+	<bean name="GenPkNumber" class="com.ibm.ncs.util.GenPkNumber" >
+		<property name="maxNMSEQDao" ref = "MaxNMSEQDao" />
+		<property name="sequenceNMDao" ref="SequenceNMDao"   />
+		<property name="seqTaskDao" ref="SeqTaskDao"   />
+	</bean>
+	<bean id="tCategoryMapInitManager" class="com.ibm.ncs.service.TCategoryMapInitManager" >
+		<property name="TCategoryMapInitDao" ref="tCategoryMapInitDao" />
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />
+	</bean>
+	
+	<bean name="/login.wss" class="com.ibm.ncs.web.signon.TUsersController" >
+		<property name="TUserDao" ref="TUserDao" />
+		<property name="pageView" value="main.html"></property>
+		<property name="action" value="login"></property>
+	</bean>
+	
+	<bean name="/logout.wss" class="com.ibm.ncs.web.signon.TUsersController" >
+		<property name="pageView" value="lgoin.jsp"></property>
+		<property name="TUserDao" ref="TUserDao" />
+		<property name="action" value="logout"></property>
+	</bean>
+	
+	<bean name="/secure/categorytest.wss" class="com.ibm.ncs.web.TCategoryMapInitController" >
+		<property name="TCategoryMapInitManager" ref="tCategoryMapInitManager" />
+	</bean>
+	
+	<bean name="/secure/baseinfo/manufacturertest.wss" class="com.ibm.ncs.web.baseinfo.ManufacturerController" >
+		<property name="TCategoryMapInitManager" ref="tCategoryMapInitManager" />
+	</bean>
+	<bean name="baseInfoService" class="com.ibm.ncs.service.BaseInfoServices">
+		<property name="deviceTypeTreeDao" ref="DeviceTypeTreeDao" />
+		<property name="TCategoryMapInitDao" ref="TCategoryMapInitDao" />
+		<property name="TDeviceTypeInitDao"  ref="TDeviceTypeInitDao" />
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />
+	</bean>
+	<bean name="/secure/baseinfo/naviManufacture.wss" class="com.ibm.ncs.web.NaviManufactureController"> 
+		<property name="baseInfoService" ref="baseInfoService" />
+	</bean>
+		<bean name="/secure/baseinfo/naviSpecification.wss" class="com.ibm.ncs.web.NaviSpecificationController"> 
+		<property name="baseInfoService" ref="baseInfoService" />
+	</bean>
+	<bean name="/secure/baseinfo/manufecturers.wss" class="com.ibm.ncs.web.baseinfo.ManufacturerController" >
+		<property name="TCategoryMapInitManager" ref="tCategoryMapInitManager" />
+	</bean>
+	<bean name="/secure/baseinfo/deviceCategory.wss" class="com.ibm.ncs.web.baseinfo.CategoryMapInitController">
+		<property name="TCategoryMapInitDao" ref="tCategoryMapInitDao" />
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />
+	</bean>
+	<bean name="/secure/baseinfo/devicetypelist.wss" class="com.ibm.ncs.web.baseinfo.DeviceTypeTreeController">
+		<property name="baseInfoService" ref="baseInfoService" />
+		<property name="TPortInfoDao" ref="TPortInfoDao" />
+		<property name="predefmibInfoDao" ref="PredefmibInfoDao" />
+		<property name="TDeviceInfoDao" ref="TDeviceInfoDao" />
+		<property name="pageView" value="/secure/baseinfo/devicetypelist.jsp"/>
+	</bean>
+	
+	<bean name="/secure/baseinfo/showdetailDevicetypelist.wss" class="com.ibm.ncs.web.baseinfo.ShowDetailDeviceTypeTreeController">
+		<property name="baseInfoService" ref="baseInfoService" />
+		<property name="pageView" value="/secure/baseinfo/showdetailDevicetypelist.jsp"/>
+	</bean>	
+	
+	
+	<bean name="/secure/baseinfo/newDevicetypelist.wss" class="com.ibm.ncs.web.baseinfo.NewDeviceTypeTreeController">
+		<property name="baseInfoService" ref="baseInfoService" />
+		<property name="TCategoryMapInitDao" ref="TCategoryMapInitDao" />
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />
+		<property name="TDeviceTypeInitDao" ref="TDeviceTypeInitDao" />
+		<property name="genPkNumber" ref="GenPkNumber" />
+		<property name="pageView" value="/secure/baseinfo/newDevicetypelist.jsp"/>
+		<property name="errorView" value="/secure/baseinfo/newDevicetypelist.jsp"/>
+	</bean>	
+	
+	<bean name="/secure/baseinfo/searchDevicetypelist.wss" class="com.ibm.ncs.web.baseinfo.SearchDeviceTypeTreeController">
+		<property name="deviceTypeTreeDao" ref="DeviceTypeTreeDao" />
+		<property name="pageView" value="/secure/baseinfo/searchresult.jsp"/>
+	</bean>	
+	
+	<bean name="/secure/baseinfo/saveDevicetypelist.wss" class="com.ibm.ncs.web.baseinfo.SaveDeviceTypeTreeController">
+		<property name="baseInfoService" ref="baseInfoService" />
+		<property name="TCategoryMapInitDao" ref="TCategoryMapInitDao" />
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />
+		<property name="TDeviceTypeInitDao" ref="TDeviceTypeInitDao" />
+		<property name="genPkNumber" ref="GenPkNumber" />
+		<property name="pageView" value="/secure/baseinfo/devicetypelist.jsp"/>
+		<property name="errorView" value="/secure/baseinfo/newDevicetypelist.jsp"/>
+	</bean>	
+	
+	
+	<bean name="/secure/baseinfo/oidgroup.wss" class="com.ibm.ncs.web.baseinfo.OidGroupsController">
+		<property name="TOidgroupInfoInitDao" ref="TOidgroupInfoInitDao" />
+		<property name="pageView" value="/secure/baseinfo/oidgroups.jsp" />
+	</bean>
+	<bean name="/secure/baseinfo/deviceoid.wss" class="com.ibm.ncs.web.baseinfo.DeviceOidGroupsController">
+		<property name="TOidgroupInfoInitDao" ref="TOidgroupInfoInitDao" /><!--  -->
+		<property name="TEventOidInitDao" ref="TEventOidInitDao" />
+		<property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
+		<property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />
+		<property name="TDeviceInfoDao" ref="TDeviceInfoDao" />
+		<property name="TDevpolMapDao" ref="TDevpolMapDao" />
+		<property name="pageView" value="/secure/baseinfo/deviceOid.jsp" />
+	</bean>
+	<bean name="/secure/baseinfo/linePortOid.wss" class="com.ibm.ncs.web.baseinfo.LinePortOidGroupsController">
+		<property name="TOidgroupInfoInitDao" ref="TOidgroupInfoInitDao" /><!--  -->
+		<property name="TEventOidInitDao" ref="TEventOidInitDao" />
+		<property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
+		<property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />
+		
+		<property name="TLinepolMapDao" ref="TLinepolMapDao" />
+		<property name="TDeviceInfoDao" ref="TDeviceInfoDao" />
+		<property name="TPortInfoDao" ref="TPortInfoDao" />
+		<property name="pageView" value="/secure/baseinfo/linePortOid.jsp" />
+	</bean>
+	<bean name="/secure/baseinfo/preDefinedMibIndexOid.wss" class="com.ibm.ncs.web.baseinfo.PreDefMibOidGroupsController">
+		<property name="TOidgroupInfoInitDao" ref="TOidgroupInfoInitDao" /><!--  -->
+		<property name="TEventOidInitDao" ref="TEventOidInitDao" />
+		<property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
+		<property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />
+		
+		<property name="predefmibPolMapDao" ref="PredefmibPolMapDao" />
+		<property name="predefmibInfoDao" ref="PredefmibInfoDao" />
+		<property name="TDeviceInfoDao" ref="TDeviceInfoDao" />
+		<property name="pageView" value="/secure/baseinfo/preDefMibOid.jsp" />
+	</bean>
+	
+	
+			
+	<bean name="/secure/policyapply/policyPreDefMIBDefinition.wss" class="com.ibm.ncs.web.policyapply.PreDefMIBDefinitionController" >
+	</bean>	
+	<!-- new dev oid -->	
+	<bean name="/secure/baseinfo/newdevoid.wss" class="com.ibm.ncs.web.baseinfo.NewDevOidController" >
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />
+		<property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+		<property name="pageView" value="/secure/baseinfo/newdevoid.jsp" />
+	</bean>		
+	<bean name="/secure/baseinfo/savenewdevoid.wss" class="com.ibm.ncs.web.baseinfo.SaveNewDevOidController" >
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />
+		<property name="TOidgroupInfoInitDao" ref="TOidgroupInfoInitDao" />
+		<property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+		<property name="genPkNumber" ref="GenPkNumber" />
+		<property name="pageView" value="/secure/baseinfo/newdevoid.jsp" />
+	</bean>		
+	
+	<!-- 20101228 -->
+	<bean name="/secure/baseinfo/savenewdevoiddetails.wss" class="com.ibm.ncs.web.baseinfo.SaveDevOidGroupDetailsController" >
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />
+		<property name="TOidgroupInfoInitDao" ref="TOidgroupInfoInitDao"></property>
+		<property name="TOidgroupDetailsInitDao" ref="TOidgroupDetailsInitDao" />
+		<property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+		<property name="pageView" value="/secure/baseinfo/editdevoid.jsp" />
+	</bean>	
+	<!--end of 20101228-->
+		
+	<bean name="/secure/baseinfo/deletedevoiddetails.wss" class="com.ibm.ncs.web.baseinfo.DeleteDevOidGroupDetailsController" >
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />
+		<property name="TOidgroupDetailsInitDao" ref="TOidgroupDetailsInitDao" />
+		<property name="TOidgroupInfoInitDao" ref="TOidgroupInfoInitDao" />
+		<property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+		<property name="pageView" value="/secure/baseinfo/editdevoid.jsp" />
+	</bean>	
+	
+	<bean name="/secure/baseinfo/editdevoid.wss" class="com.ibm.ncs.web.baseinfo.EditDevOidController" >
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />
+		<property name="TOidgroupInfoInitDao" ref="TOidgroupInfoInitDao" />		
+		<property name="TOidgroupDetailsInitDao" ref="TOidgroupDetailsInitDao" />
+		<property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+		<property name="genPkNumber" ref="GenPkNumber" />
+		<property name="TEventOidInitDao" ref="TEventOidInitDao" />
+		<property name="pageView" value="/secure/baseinfo/editdevoid.jsp" />
+	</bean>	
+	<bean name="/secure/baseinfo/savedevoid.wss" class="com.ibm.ncs.web.baseinfo.SaveDevOidController" >
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />
+		<property name="TOidgroupInfoInitDao" ref="TOidgroupInfoInitDao" />
+		<property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+		<property name="genPkNumber" ref="GenPkNumber" />
+		<property name="pageView" value="/secure/baseinfo/deviceoid.wss" />
+	</bean>		
+	
+	<bean name="/secure/baseinfo/deletedevoid.wss" class="com.ibm.ncs.web.baseinfo.DeleteDevOidController" >
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />
+		<property name="TOidgroupInfoInitDao" ref="TOidgroupInfoInitDao" />
+		<property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+		<property name="TOidgroupDetailsInitDao" ref="TOidgroupDetailsInitDao" />
+		<property name="TEventOidInitDao" ref="TEventOidInitDao" />
+		<property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
+		<property name="TDevpolMapDao" ref="TDevpolMapDao" />
+		<property name="TDeviceInfoDao" ref="TDeviceInfoDao" />
+		
+		<property name="genPkNumber" ref="GenPkNumber" />
+		<property name="pageView" value="/secure/baseinfo/deviceOid.jsp" />
+	</bean>		
+	<bean name="/secure/baseinfo/deletelineportoidoid.wss" class="com.ibm.ncs.web.baseinfo.DeleteLineportOidController" >
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />
+		<property name="TOidgroupInfoInitDao" ref="TOidgroupInfoInitDao" />
+		<property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+		<property name="TOidgroupDetailsInitDao" ref="TOidgroupDetailsInitDao" />
+		<property name="TEventOidInitDao" ref="TEventOidInitDao" />
+		<property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
+		<property name="genPkNumber" ref="GenPkNumber" />
+		<property name="pageView" value="/secure/baseinfo/linePortOid.jsp" />
+	</bean>		
+	<bean name="/secure/baseinfo/deletePreDefMibOid.wss" class="com.ibm.ncs.web.baseinfo.DeletePreDefMibOidController" >
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />
+		<property name="TOidgroupInfoInitDao" ref="TOidgroupInfoInitDao" />
+		<property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+		<property name="TOidgroupDetailsInitDao" ref="TOidgroupDetailsInitDao" />
+		<property name="TEventOidInitDao" ref="TEventOidInitDao" />
+		<property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
+		
+		<property name="predefmibPolMapDao" ref="PredefmibPolMapDao" />
+		<property name="predefmibInfoDao" ref="PredefmibInfoDao" />
+		<property name="TDeviceInfoDao" ref="TDeviceInfoDao" />
+		<property name="genPkNumber" ref="GenPkNumber" />
+		<property name="pageView" value="/secure/baseinfo/preDefMibOid.jsp" />
+	</bean>		
+	<!-- new line port oid -->	
+	<bean name="/secure/baseinfo/newlineportoid.wss" class="com.ibm.ncs.web.baseinfo.NewLinePortOidController" >
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />
+		<property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+		<property name="pageView" value="/secure/baseinfo/newlineportoid.jsp" />
+	</bean>		
+	<bean name="/secure/baseinfo/savenewlineportoid.wss" class="com.ibm.ncs.web.baseinfo.SaveNewLineportOidController" >
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />
+		<property name="TOidgroupInfoInitDao" ref="TOidgroupInfoInitDao" />
+		<property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+		<property name="genPkNumber" ref="GenPkNumber" />
+		<property name="pageView" value="/secure/baseinfo/newlineportoid.jsp" />
+	</bean>		
+	<bean name="/secure/baseinfo/savenewlineportoiddetails.wss" class="com.ibm.ncs.web.baseinfo.SaveLineportOidGroupDetailsController" >
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />
+		<property name="TOidgroupInfoInitDao" ref="TOidgroupInfoInitDao"></property>
+		<property name="TOidgroupDetailsInitDao" ref="TOidgroupDetailsInitDao" />
+		<property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+		<property name="pageView" value="/secure/baseinfo/editlineportoid.jsp" />
+	</bean>		
+	<bean name="/secure/baseinfo/deletelineportoiddetails.wss" class="com.ibm.ncs.web.baseinfo.DeleteLineportOidGroupDetailsController" >
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />
+		<property name="TOidgroupDetailsInitDao" ref="TOidgroupDetailsInitDao" />
+		<property name="TOidgroupInfoInitDao" ref="TOidgroupInfoInitDao" />
+		<property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+		<property name="pageView" value="/secure/baseinfo/editlineportoid.jsp" />
+	</bean>	
+	
+	<bean name="/secure/baseinfo/editlineportoid.wss" class="com.ibm.ncs.web.baseinfo.EditLinePortOidController" >
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />
+		<property name="TOidgroupInfoInitDao" ref="TOidgroupInfoInitDao" />		
+		<property name="TOidgroupDetailsInitDao" ref="TOidgroupDetailsInitDao" />
+		<property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+		<property name="genPkNumber" ref="GenPkNumber" />
+		<property name="TEventOidInitDao" ref="TEventOidInitDao" />
+		<property name="pageView" value="/secure/baseinfo/editlineportoid.jsp" />
+	</bean>	
+	<bean name="/secure/baseinfo/savelineportoid.wss" class="com.ibm.ncs.web.baseinfo.SaveLinePortOidController" >
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />
+		<property name="TOidgroupInfoInitDao" ref="TOidgroupInfoInitDao" />
+		<property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+		<property name="genPkNumber" ref="GenPkNumber" />
+		<property name="pageView" value="/secure/baseinfo/linePortOid.wss" />
+	</bean>		
+	
+	<!-- new pre def mib oid -->	
+	<bean name="/secure/baseinfo/newPreDefMiboid.wss" class="com.ibm.ncs.web.baseinfo.NewPreDefMibOidController" >
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />
+		<property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+		<property name="pageView" value="/secure/baseinfo/newPreDefMibOid.jsp" />
+	</bean>		
+	<bean name="/secure/baseinfo/saveNewPreDefMiboid.wss" class="com.ibm.ncs.web.baseinfo.SaveNewPreDefMibOidController" >
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />
+		<property name="TOidgroupInfoInitDao" ref="TOidgroupInfoInitDao" />
+		<property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+		<property name="genPkNumber" ref="GenPkNumber" />
+		<property name="pageView" value="/secure/baseinfo/newPreDefMibOid.jsp" />
+	</bean>		
+	<bean name="/secure/baseinfo/savenewPreDefMiboiddetails.wss" class="com.ibm.ncs.web.baseinfo.SavePreDefMibOidGroupDetailsController" >
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />
+		<property name="TOidgroupInfoInitDao" ref="TOidgroupInfoInitDao"></property>
+		<property name="TOidgroupDetailsInitDao" ref="TOidgroupDetailsInitDao" />
+		<property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+		<property name="pageView" value="/secure/baseinfo/editPreDefMibOid.jsp" />
+	</bean>		
+	<bean name="/secure/baseinfo/deletePreDefMiboiddetails.wss" class="com.ibm.ncs.web.baseinfo.DeletePreDefMibOidGroupDetailsController" >
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />
+		<property name="TOidgroupDetailsInitDao" ref="TOidgroupDetailsInitDao" />
+		<property name="TOidgroupInfoInitDao" ref="TOidgroupInfoInitDao" />
+		<property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+		<property name="pageView" value="/secure/baseinfo/editPreDefMibOid.jsp" />
+	</bean>	
+	
+	<bean name="/secure/baseinfo/editPreDefMibOid.wss" class="com.ibm.ncs.web.baseinfo.EditPreDefMibOidController" >
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />
+		<property name="TOidgroupInfoInitDao" ref="TOidgroupInfoInitDao" />		
+		<property name="TOidgroupDetailsInitDao" ref="TOidgroupDetailsInitDao" />
+		<property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+		<property name="genPkNumber" ref="GenPkNumber" />
+		<property name="TEventOidInitDao" ref="TEventOidInitDao" />
+		<property name="pageView" value="/secure/baseinfo/editPreDefMibOid.jsp" />
+	</bean>	
+	<bean name="/secure/baseinfo/savePreDefMibOid.wss" class="com.ibm.ncs.web.baseinfo.SavePreDefMibOidController" >
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />
+		<property name="TOidgroupInfoInitDao" ref="TOidgroupInfoInitDao" />
+		<property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+		<property name="genPkNumber" ref="GenPkNumber" />
+		<property name="pageView" value="/secure/baseinfo/preDefinedMibIndexOid.wss" />
+	</bean>		
+	<!-- new pre def mib oid end -->	
+	<bean name="/secure/resourceman/naviNetworkAdmin.wss" class="com.ibm.ncs.web.resourceman.NaviNetworkAdminController">
+		<property name="TServerInfoDao" ref="TServerInfoDao" />
+		<property name="TSvrmodMapDao" ref="TSvrmodMapDao" />
+		<property name="TModuleInfoInitDao" ref="TModuleInfoInitDao" />
+		<property name="pageView" value="/secure/resourceman/naviNetworkAdmin.jsp" />
+	</bean>
+	
+		<!-- 2010-12-24 modyfied 
+	<bean name="/secure/resourceman/listServerModule.wss" class="com.ibm.ncs.web.resourceman.ListNetworkAdminController">
+		<property name="TServerInfoDao" ref="TServerInfoDao" />
+		<property name="TSvrmodMapDao" ref="TSvrmodMapDao" />
+		<property name="TModuleInfoInitDao" ref="TModuleInfoInitDao"></property>
+		<property name="pageView" value="/secure/resourceman/serverModulelist.jsp" />
+	</bean-->
+	
+	
+	
+	<bean name="/secure/baseinfo/newPreDefMibOid.wss" class="com.ibm.ncs.web.baseinfo.NewPreDefMibOidController" >
+		<property name="pageView" value="/secure/baseinfo/newPreDefMibOid.jsp" />
+	</bean>			
+	
+	<!-- snmp Param -->
+	<bean name="/secure/baseinfo/ICMPParam.wss" class="com.ibm.ncs.web.baseinfo.ICMPParamController">
+	     <property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+	     <property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />
+	     <property name="pageView" value="/secure/baseinfo/icmpParam.jsp" />
+	</bean> 
+	
+	<bean name="/secure/baseinfo/deviceSnmpParam.wss" class="com.ibm.ncs.web.baseinfo.DeviceSnmpParamController">
+		<property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+		<property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />
+		<property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
+		<property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
+		<property name="pageView" value="/secure/baseinfo/deviceSnmpParam.jsp" />
+	</bean>
+	<bean name="/secure/baseinfo/linePortSnmpParam.wss" class="com.ibm.ncs.web.baseinfo.LinePortSnmpParamGroupsController">
+		<property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+		<property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />
+		<property name="pageView" value="/secure/baseinfo/linePortSnmpParam.jsp" />
+	</bean>
+	<bean name="/secure/baseinfo/preDefinedMibIndexSnmpParam.wss" class="com.ibm.ncs.web.baseinfo.PreDefMibSnmpParamGroupsController">
+		<property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+		<property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />
+		<property name="pageView" value="/secure/baseinfo/preDefMibSnmpParam.jsp" />
+	</bean>
+<!--  SNMP Param lvl 2 New -->	
+<bean name="/secure/baseinfo/newIcmpParam.wss" class="com.ibm.ncs.web.baseinfo.NewIcmpParamGroupsController">
+		<property name="pageView" value="/secure/baseinfo/ICMPParam.wss" />
+		<property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
+		<property name="TModuleInfoInitDao" ref="TModuleInfoInitDao" />
+		<property name="genPkNumber" ref="GenPkNumber" />
+	</bean>
+	<bean name="/secure/baseinfo/newDeviceSnmpParam.wss" class="com.ibm.ncs.web.baseinfo.NewDeviceSnmpParamGroupsController">
+		<property name="pageView" value="/secure/baseinfo/deviceSnmpParam.wss" />
+		<property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
+		<property name="TModuleInfoInitDao" ref="TModuleInfoInitDao" />
+		<property name="genPkNumber" ref="GenPkNumber" />
+	</bean>
+	<bean name="/secure/baseinfo/newLinePortSnmpParam.wss" class="com.ibm.ncs.web.baseinfo.NewLinePortSnmpParamGroupsController">
+		<property name="pageView" value="/secure/baseinfo/linePortSnmpParam.wss" />
+		<property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
+		<property name="TModuleInfoInitDao" ref="TModuleInfoInitDao" />
+		<property name="genPkNumber" ref="GenPkNumber" />
+	</bean>
+	<bean name="/secure/baseinfo/newPreDefinedMibIndexSnmpParam.wss" class="com.ibm.ncs.web.baseinfo.NewPreDefMibSnmpParamGroupsController">
+		<property name="pageView" value="/secure/baseinfo/preDefinedMibIndexSnmpParam.wss" />
+		<property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
+		<property name="TModuleInfoInitDao" ref="TModuleInfoInitDao" />
+		<property name="genPkNumber" ref="GenPkNumber" />
+	</bean>
+	<!-- SNMP param lvl 2 delete -->
+	
+	<bean name="/secure/baseinfo/deleteIcmpParam.wss" class="com.ibm.ncs.web.baseinfo.DeleteIcmpParamGroupsController">
+		<property name="pageView" value="/secure/baseinfo/icmpParam.jsp" />
+		<property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
+		<property name="TModuleInfoInitDao" ref="TModuleInfoInitDao" />
+		<property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+		<property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />
+		<property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
+		<property name="genPkNumber" ref="GenPkNumber" />
+	</bean>	
+	<bean name="/secure/baseinfo/deleteDeviceSnmpParam.wss" class="com.ibm.ncs.web.baseinfo.DeleteDeviceSnmpParamGroupsController">
+		<property name="pageView" value="/secure/baseinfo/deviceSnmpParam.jsp" />
+		<property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
+		<property name="TModuleInfoInitDao" ref="TModuleInfoInitDao" />
+		<property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+		<property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />
+		<property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
+		<property name="genPkNumber" ref="GenPkNumber" />
+	</bean>	
+	<bean name="/secure/baseinfo/deleteLinePortSnmpParam.wss" class="com.ibm.ncs.web.baseinfo.DeleteLinePortSnmpParamGroupsController">
+		<property name="pageView" value="/secure/baseinfo/linePortSnmpParam.jsp" />
+		<property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
+		<property name="TModuleInfoInitDao" ref="TModuleInfoInitDao" />
+		<property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+		<property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />
+		<property name="genPkNumber" ref="GenPkNumber" />
+	</bean>	
+	<bean name="/secure/baseinfo/deletePreDefMibSnmpParam.wss" class="com.ibm.ncs.web.baseinfo.DeletePreDefMibSnmpParamGroupsController">
+		<property name="pageView" value="/secure/baseinfo/preDefMibSnmpParam.jsp" />
+		<property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
+		<property name="TModuleInfoInitDao" ref="TModuleInfoInitDao" />
+		<property name="moduleEventTypeDao" ref="ModuleEventTypeDao" />
+		<property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />
+		<property name="genPkNumber" ref="GenPkNumber" />
+	</bean>
+	<!-- SNMP param lvl 2 update -->
+	
+	
+	<bean name="/secure/baseinfo/updateIcmpParam.wss" class="com.ibm.ncs.web.baseinfo.UpdateIcmpParamGroupsController">
+		<property name="pageView" value="/secure/baseinfo/ICMPParam.wss" />
+		<property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
+		<property name="TModuleInfoInitDao" ref="TModuleInfoInitDao" />
+		<property name="genPkNumber" ref="GenPkNumber" />
+	</bean>	
+		<bean name="/secure/baseinfo/updateDeviceSnmpParam.wss" class="com.ibm.ncs.web.baseinfo.UpdateDeviceSnmpParamGroupsController">
+		<property name="pageView" value="/secure/baseinfo/deviceSnmpParam.wss" />
+		<property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
+		<property name="TModuleInfoInitDao" ref="TModuleInfoInitDao" />
+		<property name="genPkNumber" ref="GenPkNumber" />
+	</bean>	
+	<bean name="/secure/baseinfo/updateLinePortSnmpParam.wss" class="com.ibm.ncs.web.baseinfo.UpdateLinePortSnmpParamGroupsController">
+		<property name="pageView" value="/secure/baseinfo/linePortSnmpParam.wss" />
+		<property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
+		<property name="TModuleInfoInitDao" ref="TModuleInfoInitDao" />
+		<property name="genPkNumber" ref="GenPkNumber" />
+	</bean>	
+	<bean name="/secure/baseinfo/updatePreDefMibSnmpParam.wss" class="com.ibm.ncs.web.baseinfo.UpdatePreDefMibSnmpParamGroupsController">
+		<property name="pageView" value="/secure/baseinfo/preDefinedMibIndexSnmpParam.wss" />
+		<property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
+		<property name="TModuleInfoInitDao" ref="TModuleInfoInitDao" />
+		<property name="genPkNumber" ref="GenPkNumber" />
+	</bean>
+	
+	<bean name="/secure/baseinfo/newPerparamsPare.wss" class="com.ibm.ncs.web.baseinfo.NewFuncSpecPareController">
+	    <property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
+		<property name="TOidgroupInfoInitDao" ref="TOidgroupInfoInitDao" />
+		<property name="pageView" value="/secure/baseinfo/newParam.jsp" />
+	</bean>
+	
+	<bean name="/secure/baseinfo/saveParam.wss" class="com.ibm.ncs.web.baseinfo.SaveParamController">	    
+	    <property name="TEventOidInitDao" ref="TEventOidInitDao" />
+		<property name="pageView" value="/secure/baseinfo/showfuncspec.wss" />
+	</bean>
+	
+	
+	<bean name="/secure/baseinfo/syslogEventSubType.wss" class="com.ibm.ncs.web.baseinfo.SyslogEventSubTypeController" >
+		<property name="TEventsubtypeInfoInitDao" ref="TEventsubtypeInfoInitDao" />
+	</bean>
+	<bean name="/secure/baseinfo/syslogEventType.wss" class="com.ibm.ncs.web.baseinfo.SyslogEventTypeController" >
+		<property name="TEventtypeInfoInitDao" ref="TEventtypeInfoInitDao" />
+	</bean>
+	<bean name="/secure/baseinfo/timeFrameDefaultPolicy.wss" class="com.ibm.ncs.web.baseinfo.TimeFrameDefaultPolicyController">
+		<property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />
+	</bean>
+	<bean name="/secure/resourceman/naviipnet.wss" class="com.ibm.ncs.web.resourceman.NaviIPnetController" > 
+		<property name="TGrpNetDao" ref="TGrpNetDao"/>
+	</bean>
+	<bean name="/secure/resourceman/naviDevice.wss" class="com.ibm.ncs.web.resourceman.NaviDeviceController">
+		<property name="TGrpNetDao" ref="TGrpNetDao"/>
+	</bean>	
+	<bean name="/secure/resourceman/deviceInfoOfGid.wss" class="com.ibm.ncs.web.resourceman.DeviceInfoOfGidController">
+		<property name="TDeviceInfoDao" ref="TDeviceInfoDao" />
+		<property name="pageView" value="/secure/resourceman/deviceInfoOfGid.jsp" />
+		<property name="TListIpDao" ref="TListIpDao" />
+	    <property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />
+		<property name="TDeviceTypeInitDao" ref="TDeviceTypeInitDao" />
+		<property name="TCategoryMapInitDao" ref="TCategoryMapInitDao" />
+		<property name="TGrpNetDao" ref="TGrpNetDao"/>
+		<property name="policyAppServices" ref="PolicyAppServices" />
+	</bean>
+	<bean name="/secure/resourceman/ipnetOfGid.wss" class="com.ibm.ncs.web.resourceman.IpnetOfGidController" >
+		<property name="TDeviceInfoDao" ref="TDeviceInfoDao" />
+		<property name="TListIpDao" ref="TListIpDao" />
+		<property name="TGrpNetDao" ref="TGrpNetDao"/>
+		<property name="genPkNumber" ref="GenPkNumber" />
+		<property name="verifyIPAddressRange" ref="VerifyIPAddressRange" />
+		<property name="pageView" value="/secure/resourceman/ipnetOfGid.jsp" />
+	</bean>
+	<bean name="VerifyIPAddressRange" class="com.ibm.ncs.web.resourceman.VerifyIPAddressRange">
+		<property name="ipAddrRangeCheckDao" ref="IpAddrRangeCheckDao" />
+		<property name="TGrpNetDao" ref="TGrpNetDao" />
+	</bean>
+	<bean name="/secure/resourceman/newipnetOfGid.wss" class="com.ibm.ncs.web.resourceman.NewIpnetOfGidController" >
+		<property name="TDeviceInfoDao" ref="TDeviceInfoDao" />
+		<property name="TListIpDao" ref="TListIpDao" />
+		<property name="TGrpNetDao" ref="TGrpNetDao"/>
+		<property name="genPkNumber" ref="GenPkNumber" />
+		<property name="pageView" value="/secure/resourceman/ipnetOfGid.jsp" />
+	</bean>		
+	<bean name="/secure/resourceman/saveipnetOfGid.wss" class="com.ibm.ncs.web.resourceman.SaveIpnetOfGidController" >
+		<property name="TDeviceInfoDao" ref="TDeviceInfoDao" />
+		<property name="TListIpDao" ref="TListIpDao" />
+		<property name="TGrpNetDao" ref="TGrpNetDao"/>
+		<property name="genPkNumber" ref="GenPkNumber" />
+		<property name="pageView" value="/secure/resourceman/ipnetOfGid.jsp" />
+	</bean>	
+	<bean name="/secure/resourceman/deleteipnetOfGid.wss" class="com.ibm.ncs.web.resourceman.DeleteIpnetOfGidController" >
+		<property name="TDeviceInfoDao" ref="TDeviceInfoDao" />
+		<property name="TListIpDao" ref="TListIpDao" />
+		<property name="TGrpNetDao" ref="TGrpNetDao"/>
+		<property name="genPkNumber" ref="GenPkNumber" />
+		<property name="pageView" value="/secure/resourceman/ipnetOfGid.jsp" />
+	</bean>		
+	<bean name="/secure/resourceman/nodelist.wss" class="com.ibm.ncs.web.resourceman.NodeListController">
+		<property name="TDeviceInfoDao" ref="TDeviceInfoDao" />
+		<property name="TListIpDao" ref="TListIpDao" />
+	</bean>
+	<bean name="/secure/resourceman/editdeviceInfo.wss" class="com.ibm.ncs.web.resourceman.EditDeviceInfoController">
+		<!-- property name="sessionForm" value="true" />
+		<property name="commandName" value="deviceinfoform" />
+		<property name="commandClass" value="com.ibm.ncs.web.resourceman.bean.DeviceInfoFormBean" / -->
+<!--		<property name="pollsnmp" ref="/secure/resourceman/pollsnmp.wss"></property>-->
+		<!-- property name="formView" value="/secure/resourceman/newdeviceInfo.wss" />
+		<property name="successView" value="/secure/resourceman/newdeviceInfo.jsp" / -->
+<!--		<property name="resourceManServices" ref="ResourceManServices" />-->
+		<property name="TDeviceInfoDao" ref="TDeviceInfoDao" />
+		<property name="deviceTypeTreeDao" ref="DeviceTypeTreeDao" />		
+		<property name="TDeviceTypeInitDao" ref="TDeviceTypeInitDao" />
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />
+		<property name="TPortInfoDao" ref="TPortInfoDao" />
+<!--	 	<property name="TListIpDao" ref="TListIpDao" />-->
+	 	<property name="pageView" value="/secure/resourceman/editdeviceInfo.jsp" />	 	
+		<property name="TCategoryMapInitDao" ref="TCategoryMapInitDao"></property>
+		<property name="defMibGrpDao" ref="DefMibGrpDao" />
+		<property name="predefmibInfoDao" ref="PredefmibInfoDao" />
+	</bean>
+	<bean name="/secure/resourceman/newdeviceInfo.wss" class="com.ibm.ncs.web.resourceman.NewDeviceInfoController">
+		<property name="pageView" value="/secure/resourceman/deviceInfoOfGid.wss" />
+		<!--	<property name="form"	value="com.ibm.ncs.web.resourceman.bean.DeviceInfoFormBean" />		-->
+		<property name="TPortInfoDao" ref="TPortInfoDao" />
+		<property name="TDeviceInfoDao" ref="TDeviceInfoDao" />
+		<property name="predefmibInfoDao" ref="PredefmibInfoDao" />
+		<!--		<property name="TListIpDao" ref="TListIpDao" />-->
+		<property name="genPkNumber" ref="GenPkNumber" />
+		<property name="verifyIPAddressRange" ref="VerifyIPAddressRange" />
+		<property name="defMibGrpDao" ref="DefMibGrpDao" />
+		<property name="fallback" value="/secure/resourceman/adddeviceInfo.jsp" />
+	</bean>		
+	<bean name="/secure/resourceman/deletedeviceInfo.wss" class="com.ibm.ncs.web.resourceman.DeleteDeviceInfoController" >
+<!--		<property name="baseInfoService" ref="baseInfoService"  />-->
+<!--		<property name="deviceTypeTreeDao" ref="DeviceTypeTreeDao" />-->
+		<property name="TDeviceInfoDao" ref="TDeviceInfoDao" />
+		<property name="TPortInfoDao" ref="TPortInfoDao" />
+		<property name="predefmibInfoDao" ref="PredefmibInfoDao" />
+		<property name="pageView" value="/secure/resourceman/deviceInfoOfGid.wss" />
+	</bean>	
+	<bean name="/secure/resourceman/exportDevInfo.wss" class="com.ibm.ncs.web.resourceman.ExportDevInfoController">
+	   <property name="policyAppServices" ref="PolicyAppServices" />
+	   <property name="TDeviceInfoDao" ref="TDeviceInfoDao" />
+		<property name="TPortInfoDao" ref="TPortInfoDao" />
+		<property name="predefmibInfoDao" ref="PredefmibInfoDao" />
+		<property name="defMibGrpDao" ref="DefMibGrpDao" />
+		<property name="TManufacturerInfoInitDao"  ref="TManufacturerInfoInitDao" />
+		<property name="TCategoryMapInitDao"  ref="TCategoryMapInitDao" />
+		<property name="TDeviceTypeInitDao"  ref="TDeviceTypeInitDao" />
+		<property name="TGrpNetDao"  ref="TGrpNetDao" />
+		<property name="pageView" value="/secure/resourceman/deviceInfoOfGid.jsp" />
+	</bean>
+	
+	<bean name="/secure/resourceman/importDevInfo.wss" class="com.ibm.ncs.web.resourceman.ImportDevInfoController">
+	   <property name="TDeviceInfoDao" ref="TDeviceInfoDao" />
+		<property name="TPortInfoDao" ref="TPortInfoDao" />
+		<property name="predefmibInfoDao" ref="PredefmibInfoDao" />
+		<property name="defMibGrpDao" ref="DefMibGrpDao" />
+		<property name="genPkNumber" ref="GenPkNumber" />
+		<property name="datasource" ref="myDataSource"></property>
+		<property name="TManufacturerInfoInitDao"  ref="TManufacturerInfoInitDao" />
+		<property name="TCategoryMapInitDao"  ref="TCategoryMapInitDao" />
+		<property name="TDeviceTypeInitDao"  ref="TDeviceTypeInitDao" />	
+		<property name="pageView" value="/secure/resourceman/importDevInfo.jsp" />
+	</bean>
+	
+	<bean name="ResourceManServices" class="com.ibm.ncs.service.ResourceManServices" >
+		<property name="TGrpNetDao" ref="TGrpNetDao" />
+		<property name="TListIpDao" ref="TListIpDao" />
+		<property name="deviceTypeTreeDao" ref="DeviceTypeTreeDao" />
+	</bean>
+	<bean name="/secure/resourceman/savingdeviceInfo.wss" class="com.ibm.ncs.web.resourceman.SavingDeviceInfoController">
+		<property name="TManufacturerInfoInitDao"  ref="TManufacturerInfoInitDao" />
+		<property name="genPkNumber" ref="GenPkNumber" />
+		<property name="TDeviceInfoDao" ref="TDeviceInfoDao" />
+		<property name="TPortInfoDao" ref="TPortInfoDao" />
+		<property name="predefmibInfoDao" ref="PredefmibInfoDao" />
+		<property name="verifyIPAddressRange" ref="VerifyIPAddressRange" />
+		<property name="defMibGrpDao" ref="DefMibGrpDao" />
+		<property name="pageView" value="/secure/resourceman/deviceInfoOfGid.wss" />
+	</bean>
+	<bean name="/secure/resourceman/chooseDevicetype.wss" class="com.ibm.ncs.web.resourceman.ChooseDeviceTypeController" >
+		<property name="baseInfoService"  ref="baseInfoService" />
+		<property name="defMibGrpDao"  ref="DefMibGrpDao" />
+	</bean>			
+	<bean name="/secure/resourceman/snmptest.wss" class="com.ibm.ncs.web.resourceman.SnmpTestController" >
+	</bean>
+	<bean name="/secure/resourceman/pollsnmp.wss" class="com.ibm.ncs.web.resourceman.SnmpPollController" >
+		<property name="baseInfoService" ref="baseInfoService"  />
+		<property name="deviceTypeTreeDao" ref="DeviceTypeTreeDao" />	
+		<property name="addView" value="/secure/resourceman/adddeviceInfo.jsp" />
+		<property name="editView" value="/secure/resourceman/editdeviceInfo.jsp" />	
+		<property name="defMibGrpDao" ref="DefMibGrpDao" />
+		<property name="predefmibInfoDao" ref="PredefmibInfoDao" />
+	</bean>
+	<bean name="/secure/policyapply/naviPolicyApply.wss" class="com.ibm.ncs.web.policyapply.NaviPolicyApplyController" >
+		<property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
+		<property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />
+	</bean>
+	<bean name="/secure/policyapply/naviPolicyDefinition.wss" class="com.ibm.ncs.web.policyapply.NaviPolicyDefinitionController" >
+		<property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
+		<property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />
+	</bean>
+	<bean name="/secure/policyapply/policyDefinition.wss" class="com.ibm.ncs.web.policyapply.PolicyDefinitionController" >
+		<property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
+		<property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />
+		<property name="TDevpolMapDao" ref="TDevpolMapDao" />
+		<property name="TLinepolMapDao" ref="TLinepolMapDao" />
+		<property name="predefmibPolMapDao" ref="PredefmibPolMapDao" />
+			<property name="genPkNumber" ref="GenPkNumber" />
+			<property name="pageView" value="/secure/policyapply/policyDefinition.jsp" />
+	</bean>
+	<bean name="/secure/policyapply/policyPeriodDef.wss" class="com.ibm.ncs.web.policyapply.PolicyPeriodDefController" >
+		<property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
+		<property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />
+		<property name="pageView" value="/secure/policyapply/policyPeriodDef.jsp" />
+	</bean>
+	<bean name="/secure/policyapply/defaultPolicyPeriodDef.wss" class="com.ibm.ncs.web.policyapply.DefaultPolicyPeriodDefController" >
+		<property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
+		<property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />
+		<property name="genPkNumber" ref="GenPkNumber"></property>
+		<property name="pageView" value="/secure/policyapply/defaultPolicyPeriodDef.jsp" />
+	</bean>	
+	<bean name="/secure/policyapply/savePolicyPeriodDef.wss" class="com.ibm.ncs.web.policyapply.SavePolicyPeriodDefController" >
+		<property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
+		<property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />
+		<property name="genPkNumber" ref="GenPkNumber"></property>
+		<property name="pageView" value="/secure/policyapply/policyPeriodDef.jsp" />
+		<property name="defaultView" value="/secure/policyapply/defaultPolicyPeriodDef.jsp" />
+	</bean>		
+	<bean name="/secure/policyapply/deletePolicyPeriodDef.wss" class="com.ibm.ncs.web.policyapply.DeletePolicyPeriodDefController" >
+		<property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
+		<property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />
+		<property name="TDevpolMapDao" ref="TDevpolMapDao" />
+		<property name="TLinepolMapDao" ref="TLinepolMapDao" />
+		<property name="predefmibPolMapDao" ref="PredefmibPolMapDao" />
+		<property name="pageView" value="/secure/policyapply/policyPeriodDef.jsp" />
+	</bean>	
+	<bean name="/secure/policyapply/newPolicyPeriodDef.wss" class="com.ibm.ncs.web.policyapply.NewPolicyPeriodDefController" >
+		<property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
+		<property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />
+		<property name="genPkNumber" ref="GenPkNumber" />
+		<property name="pageView" value="/secure/policyapply/policyPeriodDef.jsp" />
+	</bean>		
+	<bean name="PolicyAppServices" class="com.ibm.ncs.service.PolicyAppServices">
+		<property name="TGrpNetDao" ref="TGrpNetDao" />	
+		<property name="TDeviceInfoDao" ref="TDeviceInfoDao" />	
+		<property name="TListIpDao" ref="TListIpDao" />
+		<property name="TPolicyBaseDao" ref="TPolicyBaseDao" />	
+		<property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />	
+		<property name="TDevpolMapDao" ref="TDevpolMapDao" />	
+		<property name="TLinepolMapDao" ref="TLinepolMapDao" />	
+		<property name="TPortlineMapDao" ref="TPortlineMapDao" />	
+		<property name="TTcpportpolMapDao" ref="TTcpportpolMapDao" />	
+		<property name="TPortInfoDao" ref="TPortInfoDao" />	
+		<property name="ipAddrRangeCheckDao" ref="IpAddrRangeCheckDao" />
+	</bean>
+	<bean name="/secure/policyapply/policyApply.wss" class="com.ibm.ncs.web.policyapply.PolicyApplyController" >
+		<property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
+		<property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />
+		<property name="TDevpolMapDao" ref="TDevpolMapDao"></property>
+		<property name="TLinepolMapDao" ref="TLinepolMapDao"></property>
+		<property name="TDeviceInfoDao" ref="TDeviceInfoDao"></property>
+		<property name="TGrpNetDao" ref="TGrpNetDao" />
+		<property name="TPortInfoDao" ref="TPortInfoDao"></property>
+		<property name="policyAppServices" ref="PolicyAppServices" />
+		<property name="pageView" value="/secure/policyapply/policyApply.jsp" />
+	    <property name="predefmibInfoDao" ref="PredefmibInfoDao" />
+		<property name="predefmibPolMapDao" ref="PredefmibPolMapDao" />
+	</bean>
+
+	<bean name="/secure/policyapply/snmppolicydetails.wss" class="com.ibm.ncs.web.policyapply.ListSnmpPolicyDetailsController" >
+		<property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
+		<property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />
+		<property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />
+		<property name="TModuleInfoInitDao" ref="TModuleInfoInitDao" />
+		<property name="TGrpNetDao" ref="TGrpNetDao" />
+		<property name="pageView" value="/secure/policyapply/policydetails.jsp" />
+	</bean>	
+	<bean name="/secure/policyapply/policydetails.wss" class="com.ibm.ncs.web.policyapply.PolicyDetailsController" >
+		<property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
+		<property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />
+		<property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />
+		<property name="TModuleInfoInitDao" ref="TModuleInfoInitDao" />
+		<property name="TGrpNetDao" ref="TGrpNetDao" />
+		<property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"/>
+		<property name="dspSyslogEventsDao" ref="DspSyslogEventsDao"/>		
+		<property name="polDetailDspDao" ref="PolDetailDspDao" />		
+		<property name="policySyslogDao" ref="PolicySyslogDao" />		
+		<property name="dspEventsFromPolicySyslogDao" ref="DspEventsFromPolicySyslogDao" />
+		<property name="pageView" value="/secure/policyapply/policydetails.jsp" />
+	</bean>	
+	<bean name="/secure/policyapply/policydetailsPDM.wss" class="com.ibm.ncs.web.policyapply.PolicyDetailsPDMController" >
+		<property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
+		<property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />
+		<property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />
+		<property name="TModuleInfoInitDao" ref="TModuleInfoInitDao" />
+		<property name="TGrpNetDao" ref="TGrpNetDao" />
+		<property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"/>
+		<property name="dspSyslogEventsDao" ref="DspSyslogEventsDao"/>		
+		<property name="polDetailDspDao" ref="PolDetailDspDao" />		
+		<property name="policySyslogDao" ref="PolicySyslogDao" />		
+		<property name="dspEventsFromPolicySyslogDao" ref="DspEventsFromPolicySyslogDao" />
+		<property name="pageView" value="/secure/policyapply/policydetailsPDM.jsp" />
+	</bean>
+		<bean name="/secure/policyapply/savepolicydetailsPDM.wss" class="com.ibm.ncs.web.policyapply.SavePolicyDetailsPDMController" >
+		<property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />
+		<property name="TGrpNetDao" ref="TGrpNetDao" />
+			<property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
+		<property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />
+		<property name="TModuleInfoInitDao" ref="TModuleInfoInitDao" />
+		<property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
+		<property name="polDetailDspDao" ref="PolDetailDspDao" />
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"/>
+		<property name="dspSyslogEventsDao" ref="DspSyslogEventsDao"/>	
+		<property name="policySyslogDao" ref="PolicySyslogDao" />		
+		<property name="dspEventsFromPolicySyslogDao" ref="DspEventsFromPolicySyslogDao" />
+		<property name="genPkNumber" ref="GenPkNumber"></property>
+		<property name="pageView" value="/secure/policyapply/policydetailsPDM.jsp" />
+	</bean>
+	<bean name="/secure/policyapply/savepolicydetails.wss" class="com.ibm.ncs.web.policyapply.SavePolicyDetailsController" >
+		<property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />
+		<property name="TGrpNetDao" ref="TGrpNetDao" />
+			<property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
+		<property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />
+		<property name="TModuleInfoInitDao" ref="TModuleInfoInitDao" />
+		<property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
+		<property name="polDetailDspDao" ref="PolDetailDspDao" />
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"/>
+		<property name="dspSyslogEventsDao" ref="DspSyslogEventsDao"/>	
+		<property name="policySyslogDao" ref="PolicySyslogDao" />		
+		<property name="dspEventsFromPolicySyslogDao" ref="DspEventsFromPolicySyslogDao" />
+		<property name="genPkNumber" ref="GenPkNumber"></property>
+		<property name="pageView" value="/secure/policyapply/policydetails.jsp" />
+	</bean>
+<!--		<bean name="/secure/policyapply/getsyslog.wss" class="com.ibm.ncs.web.policyapply.SavePolicyDetailsController" >-->
+<!--		<property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />-->
+<!--		<property name="TGrpNetDao" ref="TGrpNetDao" />-->
+<!--		<property name="pageView" value="/secure/policyapply/policydetails.wss" />-->
+<!--	</bean>-->
+<!--		<bean name="/secure/policyapply/getsnmp.wss" class="com.ibm.ncs.web.policyapply.SavePolicyDetailsController" >-->
+<!--		<property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />-->
+<!--		<property name="TGrpNetDao" ref="TGrpNetDao" />-->
+<!--		<property name="pageView" value="/secure/policyapply/policydetails.wss" />-->
+<!--	</bean>-->
+<!--		<bean name="/secure/policyapply/geticmp.wss" class="com.ibm.ncs.web.policyapply.SavePolicyDetailsController" >-->
+<!--		<property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />-->
+<!--		<property name="TGrpNetDao" ref="TGrpNetDao" />-->
+<!--		<property name="pageView" value="/secure/policyapply/policydetails.wss" />-->
+<!--	</bean>-->
+<!-- ============  -->
+	
+	<!--  -->
+	<bean name="/secure/baseinfo/newManufactures.wss" class="com.ibm.ncs.web.baseinfo.NewManufacturesController">
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"></property>
+		<property name="genPkNumber" ref="GenPkNumber"></property>
+		<property name="pageView" value="/secure/baseinfo/manufecturers.wss"></property>
+		<property name="errorView" value="/secure/baseinfo/newManufactures.jsp"></property>
+	</bean>
+	
+	<bean name="/secure/baseinfo/updateToDevicetypelist.wss" class="com.ibm.ncs.web.baseinfo.UpdateToDeviceTypeController">
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"></property>
+		<property name="TCategoryMapInitDao" ref="TCategoryMapInitDao"></property>
+		<property name="TDeviceTypeInitDao" ref="TDeviceTypeInitDao"></property>
+		<property name="genPkNumber" ref="GenPkNumber"></property>
+		<property name="pageView" value="/secure/baseinfo/updateDevicetype.jsp"/>
+	</bean>
+	
+	<bean name="/secure/baseinfo/updateDevicetypelist.wss" class="com.ibm.ncs.web.baseinfo.UpdateDeviceTypeController">
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"></property>
+		<property name="TCategoryMapInitDao" ref="TCategoryMapInitDao"></property>
+		<property name="TDeviceTypeInitDao" ref="TDeviceTypeInitDao"></property>
+		<property name="baseInfoService" ref="baseInfoService" />
+		<property name="genPkNumber" ref="GenPkNumber"></property>
+		<property name="pageView" value="/secure/baseinfo/devicetypelist.jsp"/>
+	</bean>
+	
+	
+	<bean name="/secure/baseinfo/updateToManufactures.wss" class="com.ibm.ncs.web.baseinfo.UpdateToManufaturesController">
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"></property>
+		<property name="TCategoryMapInitDao" ref="TCategoryMapInitDao"></property>
+		<property name="TDeviceTypeInitDao" ref="TDeviceTypeInitDao"></property>
+		<property name="genPkNumber" ref="GenPkNumber"></property>
+		<property name="baseInfoService" ref="baseInfoService" />
+		<property name="pageView" value="/secure/baseinfo/updateManufactures.jsp"/>
+	</bean>
+	
+	<bean name="/secure/baseinfo/updateManufactureslist.wss" class="com.ibm.ncs.web.baseinfo.UpdateManufacturesController">
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"></property>
+		<property name="TCategoryMapInitDao" ref="TCategoryMapInitDao"></property>
+		<property name="TDeviceTypeInitDao" ref="TDeviceTypeInitDao"></property>
+		<property name="baseInfoService" ref="baseInfoService" />
+		<property name="genPkNumber" ref="GenPkNumber"></property>
+		<property name="pageView" value="/secure/baseinfo/manufacturers.jsp"/>
+	</bean>
+	
+	<!-- bean name="/secure/baseinfo/deletePreManufactureslist.wss" class="com.ibm.ncs.web.baseinfo.DeletePreManufactureController">
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"></property>
+		<property name="TCategoryMapInitManager" ref="tCategoryMapInitManager" />
+		<property name="baseInfoService" ref="baseInfoService" />
+		<property name="genPkNumber" ref="GenPkNumber"></property>
+		<property name="pageView" value="/secure/baseinfo/manufacturers.jsp"/>
+	</bean -->
+	<bean name="/secure/baseinfo/deleteManufactureslist.wss" class="com.ibm.ncs.web.baseinfo.DeleteManufactureController">
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"></property>
+		<property name="TCategoryMapInitManager" ref="tCategoryMapInitManager" />
+		<property name="genPkNumber" ref="GenPkNumber"></property>
+		<property name="TDeviceTypeInitDao" ref="TDeviceTypeInitDao"></property>
+		<property name="pageView" value="/secure/baseinfo/manufacturers.jsp"/>
+	</bean>
+	
+	<bean name="/secure/baseinfo/deleteDevicetypelist.wss" class="com.ibm.ncs.web.baseinfo.DeleteDeviceTypeController">
+		<property name="baseInfoService" ref="baseInfoService" />
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"></property>
+		<property name="TDeviceTypeInitDao" ref="TDeviceTypeInitDao"></property>
+		<property name="TCategoryMapInitDao" ref="TCategoryMapInitDao"></property>
+		<property name="TPortInfoDao" ref="TPortInfoDao" />
+		<property name="predefmibInfoDao" ref="PredefmibInfoDao" />
+		<property name="TDeviceInfoDao" ref="TDeviceInfoDao" />
+		<property name="pageView" value="/secure/baseinfo/devicetypelist.jsp"/>
+	</bean>
+	
+	
+<!--	< bean name="/secure/baseinfo/deleteSearchDevicetypelist.wss" class="com.ibm.ncs.web.baseinfo.DeleteSearchDeviceTypeController">
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"></property>
+		<property name="TDeviceTypeInitDao" ref="TDeviceTypeInitDao"></property>
+		<property name="TPortInfoDao" ref="TPortInfoDao" />
+		<property name="predefmibInfoDao" ref="PredefmibInfoDao" />
+		<property name="TDeviceInfoDao" ref="TDeviceInfoDao" />
+		<property name="deviceTypeTreeDao" ref="DeviceTypeTreeDao" />
+		<property name="pageView" value="/secure/baseinfo/searchresult.jsp"/>
+	</bean>    -->
+	
+	<bean name="/secure/resourceman/toNewPage.wss" class="com.ibm.ncs.web.resourceman.toNewPageController">
+	    <property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"></property>
+	    <property name="TCategoryMapInitDao" ref="TCategoryMapInitDao"></property>
+	     <property name="defMibGrpDao" ref="DefMibGrpDao"></property>
+		<property name="pageView" value="/secure/resourceman/adddeviceInfo.jsp"/>
+	</bean>
+	
+	<bean name="/secure/baseinfo/updateToDeviceCategory.wss" class="com.ibm.ncs.web.baseinfo.UpdateToDeviceCategoryController">
+		<property name="TCategoryMapInitDao" ref="TCategoryMapInitDao"></property>
+		<property name="TDeviceTypeInitDao" ref="TDeviceTypeInitDao"></property>
+		<property name="genPkNumber" ref="GenPkNumber"></property>
+		<property name="pageView" value="/secure/baseinfo/updateDeviceCategory.jsp"/>
+	</bean>
+	
+	
+
+	
+	<bean name="/secure/baseinfo/newDeviceType.wss" class="com.ibm.ncs.web.baseinfo.NewDeviceTypeController">
+		<property name="TCategoryMapInitDao" ref="TCategoryMapInitDao"></property>
+		<property name="genPkNumber" ref="GenPkNumber"></property>
+		<property name="pageView" value="/secure/baseinfo/deviceCategory.wss"></property>
+		<property name="errorView" value="/secure/baseinfo/newDeviceType.jsp"></property>
+	</bean>
+	
+	<bean name="/secure/baseinfo/updateDeviceCategory.wss" class="com.ibm.ncs.web.baseinfo.UpdateDeviceCategoryController">
+		<property name="TCategoryMapInitDao" ref="TCategoryMapInitDao"></property>
+		<property name="baseInfoService" ref="baseInfoService" />
+		<property name="genPkNumber" ref="GenPkNumber"></property>
+		<property name="pageView" value="/secure/baseinfo/categorys.jsp"/>
+	</bean>
+	
+	<bean name="/secure/baseinfo/deleteDeviceCategory.wss" class="com.ibm.ncs.web.baseinfo.DeleteDeviceCategoryController">
+		<property name="TCategoryMapInitDao" ref="TCategoryMapInitDao"></property>
+		<property name="TCategoryMapInitManager" ref="tCategoryMapInitManager" />
+		<property name="TDeviceTypeInitDao" ref="TDeviceTypeInitDao"></property>
+		<property name="genPkNumber" ref="GenPkNumber"></property>
+		<property name="pageView" value="/secure/baseinfo/categorys.jsp"/>
+	</bean>
+	
+	<bean name="/secure/policyapply/exportxmlfile.wss" class="com.ibm.ncs.web.policyapply.ExportXMLFileController" >
+		<property name="datasource" ref="nccDS" />
+		<property name="pageView" value="/secure/policyapply/exportxmlfile.jsp" />	
+	 		<property name="takeEffectProcess" ref="TakeEffectProcess" />
+
+	</bean>	
+
+	<!-- 2010-12-23 modyfied -->
+	
+	<bean name="/secure/baseinfo/defaultPolicyPreDefMibIndexDef.wss" class="com.ibm.ncs.web.baseinfo.DefaultPolicyPreDefMIBDefinitionController" >
+		<property name="defMibGrpDao" ref="DefMibGrpDao"></property>
+		<property name="predefmibInfoDao" ref="PredefmibInfoDao"></property>
+		<property name="TDeviceInfoDao" ref="TDeviceInfoDao"></property>
+		<property name="genPkNumber" ref="GenPkNumber"></property>
+		<property name="pageView" value="/secure/baseinfo/defaultPolicyPreDefMibIndexDef.jsp" />
+	</bean>	
+		
+	<!--function 2010-12-23 modified-->
+	
+	<bean name="/secure/baseinfo/funcspec.wss" class="com.ibm.ncs.web.baseinfo.FuncSpecController">
+		<property name="baseInfoService" ref="baseInfoService" />
+		<property name="pageView" value="/secure/baseinfo/funcspec.jsp" />
+	</bean>
+	
+	<bean name="/secure/baseinfo/showfuncspec.wss" class="com.ibm.ncs.web.baseinfo.ShowFuncSpecController">
+		<property name="performParaDao" ref="PerformParaDao" />
+		<property name="pageView" value="/secure/baseinfo/paramlist.jsp" />
+	</bean>
+	
+	<bean name="/secure/baseinfo/newParamPre.wss" class="com.ibm.ncs.web.baseinfo.NewFuncSpecPreController">
+		<property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
+	    <property name="TOidgroupInfoInitDao" ref="TOidgroupInfoInitDao" />
+	    <property name="TEventOidInitDao" ref="TEventOidInitDao" />
+	    <property name="performParaDao" ref="PerformParaDao" />
+		<property name="pageView" value="/secure/baseinfo/newParam.jsp" />
+	</bean>
+	
+	<bean name="/secure/baseinfo/updatefuncspecpare.wss" class="com.ibm.ncs.web.baseinfo.UpdateFuncsSpecpareController">
+	<property name="TEventOidInitDao" ref="TEventOidInitDao" />
+	<property name="TOidgroupInfoInitDao" ref="TOidgroupInfoInitDao" />
+	<property name="performParaDao" ref="PerformParaDao" />
+	<property name="pageView" value="/secure/baseinfo/showfuncspec.wss" />
+	</bean>
+	
+	<bean name="/secure/resourceman/serverManagement.wss" class="com.ibm.ncs.web.resourceman.ServerManagementController">
+  <property name="TServerInfoDao" ref="TServerInfoDao" /> 
+  <property name="TSvrmodMapDao" ref="TSvrmodMapDao" /> 
+  <property name="TModuleInfoInitDao" ref="TModuleInfoInitDao" /> 
+  <property name="genPkNumber" ref="GenPkNumber"></property>
+  <property name="pageView" value="/secure/resourceman/serverManagement.jsp" /> 
+  </bean>
+  
+	<bean name="/secure/resourceman/servermanagementsave.wss" class="com.ibm.ncs.web.resourceman.ServerManagementSaveController">
+  <property name="TServerInfoDao" ref="TServerInfoDao" /> 
+  <property name="TSvrmodMapDao" ref="TSvrmodMapDao" /> 
+  <property name="TModuleInfoInitDao" ref="TModuleInfoInitDao" /> 
+  <property name="genPkNumber" ref="GenPkNumber"></property>
+  <property name="pageView" value="/secure/resourceman/showserverManagement.jsp" /> 
+  </bean>
+  
+  <bean name="/secure/resourceman/serverManagementdelete.wss" class="com.ibm.ncs.web.resourceman.ServerManagementDeleteController">
+  <property name="TServerInfoDao" ref="TServerInfoDao" /> 
+  <property name="genPkNumber" ref="GenPkNumber"></property>
+  <property name="pageView" value="/secure/resourceman/serverManagement.jsp" /> 
+  </bean>
+  
+  <bean name="/secure/resourceman/serversoft.wss" class="com.ibm.ncs.web.resourceman.ServerSoftController">
+	   <property name="TSvrmodMapDao" ref="TSvrmodMapDao"></property>
+	    <property name="TServerInfoDao" ref="TServerInfoDao"></property>
+	     <property name="TModuleInfoInitDao" ref="TModuleInfoInitDao"></property>
+	   <property name="pageView" value="/secure/resourceman/serversoft.jsp" />
+	</bean>
+	
+	
+	<bean name="/secure/resourceman/editServerSoftPre.wss" class="com.ibm.ncs.web.resourceman.EditServerSoftController">
+	   <property name="TSvrmodMapDao" ref="TSvrmodMapDao"></property>
+	    <property name="TServerInfoDao" ref="TServerInfoDao"></property>
+	     <property name="TModuleInfoInitDao" ref="TModuleInfoInitDao"></property>
+	     <property name="genPkNumber" ref="GenPkNumber"></property>
+	   <property name="pageView" value="/secure/resourceman/serversoft.jsp" />
+	</bean>
+	
+	<bean name="/secure/resourceman/deleteServerSoft.wss" class="com.ibm.ncs.web.resourceman.DeleteServerSoftController">
+	   <property name="TSvrmodMapDao" ref="TSvrmodMapDao"></property>
+	    <property name="TServerInfoDao" ref="TServerInfoDao"></property>
+	     <property name="TModuleInfoInitDao" ref="TModuleInfoInitDao"></property>
+	     <property name="genPkNumber" ref="GenPkNumber"></property>
+	   <property name="pageView" value="/secure/resourceman/serversoft.jsp" />
+	</bean>
+  
+	
+	<bean name="/secure/resourceman/editServerInfoPre.wss" class="com.ibm.ncs.web.resourceman.EditServerInfoPreController">
+	   <property name="TServerInfoDao" ref="TServerInfoDao"></property>
+	   <property name="pageView" value="/secure/resourceman/showserverManagement.jsp" />
+	</bean>
+
+	<bean name="/secure/excel/excel2db.wss" class="com.ibm.ncs.util.excel.Excel2DbController">
+	    <property name="datasource" ref="myDataSource"></property>
+	    <property name="snmpEventsProcessDao" ref="SnmpEventsProcessDao"></property>
+	    <property name="syslogEventsProcessDao" ref="syslogEventsProcessDao"></property>
+	    <property name="syslogEventsProcessNsDao" ref="syslogEventsProcessNsDao"></property>
+	    
+		<property name="pageView" value="/secure/excel/upload.jsp"/>
+	</bean>
+	
+	<bean name="/secure/excel/excel2dball.wss" class="com.ibm.ncs.util.excel.Excel2DbAllController">
+	    <property name="datasource" ref="myDataSource"></property>
+	    <property name="snmpEventsProcessDao" ref="SnmpEventsProcessDao"></property>
+	    <property name="bkSnmpEventsProcessDao" ref="BkSnmpEventsProcessDao"></property>
+	    <property name="genPkNumber" ref="GenPkNumber"></property>
+		<property name="pageView" value="/secure/excel/upload.jsp"/>
+	</bean>
+	
+	<bean name="/secure/excel/excel2dballsyslog.wss" class="com.ibm.ncs.util.excel.Excel2DbAllSyslogController">
+	    <property name="datasource" ref="myDataSource"></property>
+	    <property name="syslogEventsProcessDao" ref="syslogEventsProcessDao"></property>
+	    <property name="syslogEventsProcessNsDao" ref="syslogEventsProcessNsDao"></property>
+	    <property name="bkSyslogEventsProcessDao" ref="BkSyslogEventsProcessDao"></property>
+	    <property name="bkSyslogEventsProcessNsDao" ref="BkSyslogEventsProcessNsDao"></property>
+	    <property name="genPkNumber" ref="GenPkNumber"></property>
+		<property name="pageView" value="/secure/excel/uploadsyslog.jsp"/>
+	</bean>
+	
+	<bean name="/secure/excel/backup.wss" class="com.ibm.ncs.util.excel.BackUpController">
+	    <property name="snmpEventsProcessDao" ref="SnmpEventsProcessDao"></property>
+	    <property name="bkSnmpEventsProcessDao" ref="BkSnmpEventsProcessDao"></property>
+	    <property name="genPkNumber" ref="GenPkNumber"></property>
+		<property name="pageView" value="/secure/excel/upload.jsp"/>
+	</bean>
+	
+	<bean name="/secure/excel/backupsyslog.wss" class="com.ibm.ncs.util.excel.BackUpSyslogController">
+	    <property name="syslogEventsProcessDao" ref="syslogEventsProcessDao"></property>
+	    <property name="syslogEventsProcessNsDao" ref="syslogEventsProcessNsDao"></property>
+	    <property name="bkSyslogEventsProcessDao" ref="BkSyslogEventsProcessDao"></property>
+	    <property name="bkSyslogEventsProcessNsDao" ref="BkSyslogEventsProcessNsDao"></property>
+	    <property name="genPkNumber" ref="GenPkNumber"></property>
+		<property name="pageView" value="/secure/excel/uploadsyslog.jsp"/>
+	</bean>
+	
+	<bean name="/secure/excel/restorepre.wss" class="com.ibm.ncs.util.excel.RestorePreController">
+	    <property name="bkSnmpEventsProcessDao" ref="BkSnmpEventsProcessDao"></property>
+		<property name="pageView" value="/secure/excel/chooseversion.jsp"/>
+	</bean>
+	
+	<bean name="/secure/excel/restoresyslogpre.wss" class="com.ibm.ncs.util.excel.RestoreSyslogPreController">
+	    <property name="bkSyslogEventsProcessDao" ref="BkSyslogEventsProcessDao"></property>
+	    <property name="bkSyslogEventsProcessNsDao" ref="BkSyslogEventsProcessNsDao"></property>
+		<property name="pageView" value="/secure/excel/choosesyslogversion.jsp"/>
+	</bean>
+	
+	<bean name="/secure/excel/deleteversion.wss" class="com.ibm.ncs.util.excel.DeleteVersionController">
+	    <property name="bkSnmpEventsProcessDao" ref="BkSnmpEventsProcessDao"></property>
+	    <property name="pageView" value="/secure/excel/chooseversion.jsp"/>
+	</bean>
+	
+	<bean name="/secure/excel/deletesyslogversion.wss" class="com.ibm.ncs.util.excel.DeleteSyslogVersionController">
+	    <property name="bkSyslogEventsProcessDao" ref="BkSyslogEventsProcessDao"></property>
+	    <property name="bkSyslogEventsProcessNsDao" ref="BkSyslogEventsProcessNsDao"></property>
+	    <property name="pageView" value="/secure/excel/choosesyslogversion.jsp"/>
+	</bean>
+	
+	<bean name="/secure/excel/deleteversionmul.wss" class="com.ibm.ncs.util.excel.DeleteVersionMulController">
+	    <property name="bkSnmpEventsProcessDao" ref="BkSnmpEventsProcessDao"></property>
+	    <property name="pageView" value="/secure/excel/chooseversion.jsp"/>
+	</bean>
+	
+	<bean name="/secure/excel/deletesyslogversionmul.wss" class="com.ibm.ncs.util.excel.DeleteSyslogVersionMulController">
+	    <property name="bkSyslogEventsProcessDao" ref="BkSyslogEventsProcessDao"></property>
+	    <property name="bkSyslogEventsProcessNsDao" ref="BkSyslogEventsProcessNsDao"></property>
+	    <property name="pageView" value="/secure/excel/choosesyslogversion.jsp"/>
+	</bean>
+	
+	<bean name="/secure/excel/restore.wss" class="com.ibm.ncs.util.excel.RestoreController">
+	    <property name="snmpEventsProcessDao" ref="SnmpEventsProcessDao"></property>
+	    <property name="bkSnmpEventsProcessDao" ref="BkSnmpEventsProcessDao"></property>
+		<property name="pageView" value="/secure/excel/upload.jsp"/>
+	</bean>
+	
+	<bean name="/secure/excel/restoresyslog.wss" class="com.ibm.ncs.util.excel.RestoreSyslogController">
+	    <property name="syslogEventsProcessDao" ref="syslogEventsProcessDao"></property>
+	    <property name="syslogEventsProcessNsDao" ref="syslogEventsProcessNsDao"></property>
+	    <property name="bkSyslogEventsProcessDao" ref="BkSyslogEventsProcessDao"></property>
+	    <property name="bkSyslogEventsProcessNsDao" ref="BkSyslogEventsProcessNsDao"></property>
+		<property name="pageView" value="/secure/excel/uploadsyslog.jsp"/>
+	</bean>
+	
+	<bean name="/secure/excel/upload.wss" class="com.ibm.ncs.util.excel.UploadController">
+		<property name="pageView" value="/secure/excel/upload.jsp"/>
+	</bean>
+	
+	<bean name="/secure/resourceman/toEditDeviceInfo.wss" class="com.ibm.ncs.web.resourceman.ToEditDeviceInfoController">
+		<property name="TDeviceTypeInitDao" ref="TDeviceTypeInitDao"></property>
+				<property name="defMibGrpDao" ref="DefMibGrpDao"></property>
+		<property name="pageView" value="/secure/resourceman/adddeviceInfo.jsp"/>
+	</bean>
+
+	<!-- syslog event process table related -->
+	<bean name="/secure/syslog/syslogEventsProcess.wss" class="com.ibm.ncs.web.syslog.SyslogEventProcessController">
+		<property name="syslogEventsProcessDao" ref="syslogEventsProcessDao"></property>
+		<property name="pageView" value="/secure/syslog/syslogEventsProcess.jsp"/>
+	</bean>
+	<bean name="/secure/syslog/syslogEventsProcess_NS.wss" class="com.ibm.ncs.web.syslog.SyslogEventProcessNSController">
+		<property name="syslogEventsProcessNsDao" ref="syslogEventsProcessNsDao"></property>
+		<property name="pageView" value="/secure/syslog/syslogEventsProcess_NS.jsp"/>
+	</bean>
+	
+	
+	
+	<bean name="/secure/syslog/syslog.wss" class="com.ibm.ncs.web.snmp.SnmpEventController">
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"></property>
+		<property name="pageView" value="/secure/syslog/syslog.jsp"/>
+	</bean>
+	
+	<bean name="/secure/syslog/syslogns.wss" class="com.ibm.ncs.web.snmp.SnmpEventController">
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"></property>
+		<property name="pageView" value="/secure/syslog/syslogns.jsp"/>
+	</bean>
+	
+	<bean name="/secure/syslog/newsyslog.wss" class="com.ibm.ncs.web.syslog.NewSyslogController">
+		<property name="syslogEventsProcessDao" ref="syslogEventsProcessDao"></property>
+		
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"></property>
+		<property name="pageView" value="/secure/syslog/syslogEventsProcess.jsp"/>
+	</bean>
+	
+	<bean name="/secure/syslog/updateToSyslogEventProcess.wss" class="com.ibm.ncs.web.syslog.UpdateToSyslogController">
+		<property name="syslogEventsProcessDao" ref="syslogEventsProcessDao"></property>
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"></property>
+		<property name="pageView" value="/secure/syslog/syslog.jsp"/>
+	</bean>
+	<bean name="/secure/syslog/updatesyslog.wss" class="com.ibm.ncs.web.syslog.UpdateSyslogController">
+		<property name="syslogEventsProcessDao" ref="syslogEventsProcessDao"></property>
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"></property>
+		<property name="pageView" value="/secure/syslog/syslogEventsProcess.jsp"/>
+	</bean>
+	<bean name="/secure/syslog/deletesyslog.wss" class="com.ibm.ncs.web.syslog.DeleteSyslogController">
+		<property name="syslogEventsProcessDao" ref="syslogEventsProcessDao"></property>
+		<property name="pageView" value="/secure/syslog/syslogEventsProcess.jsp"/>
+	</bean>
+	
+	<bean name="/secure/syslog/newsyslogns.wss" class="com.ibm.ncs.web.syslog.NewSyslogNSController">
+		<property name="syslogEventsProcessNsDao" ref="syslogEventsProcessNsDao"></property>		
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"></property>
+		<property name="pageView" value="/secure/syslog/syslogEventsProcess_NS.jsp"/>
+	</bean>
+	
+	
+	<bean name="/secure/syslog/updateToSyslogEventProcessNS.wss" class="com.ibm.ncs.web.syslog.UpdateToSyslogNSController">
+		<property name="syslogEventsProcessNsDao" ref="syslogEventsProcessNsDao"></property>
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"></property>
+		<property name="pageView" value="/secure/syslog/syslogns.jsp"/>
+	</bean>
+	
+	<bean name="/secure/syslog/updatesyslogns.wss" class="com.ibm.ncs.web.syslog.UpdateSyslogNSController">
+		<property name="syslogEventsProcessNsDao" ref="syslogEventsProcessNsDao"></property>
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"></property>
+		<property name="pageView" value="/secure/syslog/syslogEventsProcess_NS.jsp"/>
+	</bean>
+	
+	<bean name="/secure/syslog/deletesyslogns.wss" class="com.ibm.ncs.web.syslog.DeleteSyslogNSController">
+		<property name="syslogEventsProcessNsDao" ref="syslogEventsProcessNsDao"></property>
+		<property name="pageView" value="/secure/syslog/syslogEventsProcess_NS.jsp"/>
+	</bean>
+	
+	
+		<bean name="/secure/syslog/linesEventsNotcare.wss" class="com.ibm.ncs.web.syslog.LinesNotCareController">
+		<property name="linesEventsNotcareDao" ref="LinesEventsNotcareDao"></property>
+		<property name="pageView" value="/secure/syslog/LinesEventsNotcare.jsp"/>
+		</bean>
+		
+		
+		<bean name="/secure/syslog/newlinesnotcare.wss" class="com.ibm.ncs.web.syslog.NewLinesNotCareController">
+		<property name="linesEventsNotcareDao" ref="LinesEventsNotcareDao"></property>
+		<property name="pageView" value="/secure/syslog/LinesEventsNotcare.jsp"/>
+		</bean>
+	
+		
+		<bean name="/secure/syslog/	updateToLinesNotCare.wss" class="com.ibm.ncs.web.syslog.UpdateToLinesNotCareController">
+		<property name="linesEventsNotcareDao" ref="LinesEventsNotcareDao"></property>
+		<property name="pageView" value="/secure/syslog/linesnotcare.jsp"/>
+		</bean>
+		
+		<bean name="/secure/syslog/updatelinesnotcare.wss" class="com.ibm.ncs.web.syslog.UpdateLinesNotCareController">
+		<property name="linesEventsNotcareDao" ref="LinesEventsNotcareDao"></property>
+		<property name="pageView" value="/secure/syslog/LinesEventsNotcare.jsp"/>
+		</bean>
+		
+		
+		<bean name="/secure/syslog/deletelinesnotcare.wss" class="com.ibm.ncs.web.syslog.DeleteLinesNotCareController">
+		<property name="linesEventsNotcareDao" ref="LinesEventsNotcareDao"></property>
+		<property name="pageView" value="/secure/syslog/LinesEventsNotcare.jsp"/>
+		</bean>
+		
+	
+		<bean name="/secure/syslog/eventsAttention.wss" class="com.ibm.ncs.web.syslog.EventsAttentionController">
+		<property name="eventsAttentionDao" ref="EventsAttentionDao"></property>
+		<property name="pageView" value="/secure/syslog/EventsAttentions.jsp"/>
+		</bean>
+		
+		<bean name="/secure/syslog/newEventsAttention.wss" class="com.ibm.ncs.web.syslog.NewEventsAttentionController">
+		<property name="eventsAttentionDao" ref="EventsAttentionDao"></property>
+		<property name="pageView" value="/secure/syslog/EventsAttentions.jsp"/>
+		</bean>
+		
+		<bean name="/secure/syslog/updateToEventsAttention.wss" class="com.ibm.ncs.web.syslog.UpdateToEventsAttentionController">
+		<property name="eventsAttentionDao" ref="EventsAttentionDao"></property>
+		<property name="pageView" value="/secure/syslog/eventsAttention.jsp"/>
+		</bean>
+		
+		<bean name="/secure/syslog/updateEventsAttention.wss" class="com.ibm.ncs.web.syslog.UpdateEventsAttentionController">
+		<property name="eventsAttentionDao" ref="EventsAttentionDao"></property>
+		<property name="pageView" value="/secure/syslog/EventsAttentions.jsp"/>
+		</bean>
+		
+		<bean name="/secure/syslog/deleteEventsAttention.wss" class="com.ibm.ncs.web.syslog.DeleteEventsAttentionController">
+		<property name="eventsAttentionDao" ref="EventsAttentionDao"></property>
+		<property name="pageView" value="/secure/syslog/EventsAttentions.jsp"/>
+		</bean>
+
+	
+	
+	
+	<!--snmp event  process -->
+	<bean name="/secure/snmp/snmpEventProcess.wss" class="com.ibm.ncs.web.snmp.SNMPEventProcessController">
+		<property name="snmpEventsProcessDao" ref="SnmpEventsProcessDao"></property>
+		<property name="pageView" value="/secure/snmp/snmpEventProcess.jsp"/>
+	</bean >
+	
+	<bean name="/secure/snmp/snmpevent.wss" class="com.ibm.ncs.web.snmp.SnmpEventController">
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"></property>
+		<property name="pageView" value="/secure/snmp/snmpevent.jsp"/>
+	</bean >
+	
+	
+	<bean name="/secure/snmp/newsnmpevent.wss" class="com.ibm.ncs.web.snmp.NewSnmpEventController">
+		<property name="snmpEventsProcessDao" ref="SnmpEventsProcessDao"></property>
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"></property>
+		<property name="pageView" value="/secure/snmp/snmpEventProcess.jsp"/>
+	</bean>
+	<bean name="/secure/snmp/updateToSnmpEventProcess.wss" class="com.ibm.ncs.web.snmp.UpdateToSnmpEventController">
+		<property name="snmpEventsProcessDao" ref="SnmpEventsProcessDao"></property>
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"></property>
+		<property name="pageView" value="/secure/snmp/snmpevent.jsp"/>
+	</bean>
+	
+	<bean name="/secure/snmp/updateSnmpEventProcess.wss" class="com.ibm.ncs.web.snmp.UpdateSnmpEventController">
+		<property name="snmpEventsProcessDao" ref="SnmpEventsProcessDao"></property>
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"></property>
+		<property name="pageView" value="/secure/snmp/snmpEventProcess.jsp"/>
+	</bean>
+	
+	<bean name="/secure/snmp/deletesnmpeventprocess.wss" class="com.ibm.ncs.web.snmp.DeleteSnmpEventController">
+		<property name="snmpEventsProcessDao" ref="SnmpEventsProcessDao"></property>
+		<property name="pageView" value="/secure/snmp/snmpEventProcess.jsp"/>
+	</bean>
+	
+	<!-- snmp thresholds -->
+	
+	<bean name="/secure/snmp/snmpThresholds.wss" class="com.ibm.ncs.web.snmp.SNMPThresholdController">
+		<property name="snmpThresholdsDao" ref="SnmpThresholdsDao"></property>
+		<property name="pageView" value="/secure/snmp/snmpThresholds.jsp"/>
+	</bean >
+	
+	<bean name="/secure/snmp/newsnmpthreshold.wss" class="com.ibm.ncs.web.snmp.NewSnmpThresholdController">
+		<property name="snmpThresholdsDao" ref="SnmpThresholdsDao"></property>
+		<property name="pageView" value="/secure/snmp/snmpThresholds.jsp"/>
+	</bean>
+	
+	
+	<bean name="/secure/snmp/updateToSnmpThresholdProcess.wss" class="com.ibm.ncs.web.snmp.UpdateToSnmpThresholdsController">
+		<property name="snmpThresholdsDao" ref="SnmpThresholdsDao"></property>
+		<property name="pageView" value="/secure/snmp/snmpthreshold.jsp"/>
+	</bean>
+	<bean name="/secure/snmp/updatethreshold.wss" class="com.ibm.ncs.web.snmp.UpdateSnmpThresholdsController">
+		<property name="snmpThresholdsDao" ref="SnmpThresholdsDao"></property>
+		<property name="pageView" value="/secure/snmp/snmpThresholds.jsp"/>
+	</bean>
+	
+	<bean name="/secure/snmp/deletesnmpthreshold.wss" class="com.ibm.ncs.web.snmp.DeleteThresholdsController">
+		<property name="snmpThresholdsDao" ref="SnmpThresholdsDao"></property>
+		<property name="pageView" value="/secure/snmp/snmpThresholds.jsp"/>
+	</bean>
+	
+	<!-- icmp -->
+	
+	<bean name="/secure/icmp/icmpThresholds.wss" class="com.ibm.ncs.web.icmp.ICMPTHRESHOLDSController">
+		<property name="icmpThresholdsDao" ref="IcmpThresholdsDao"></property>
+		<property name="pageView" value="/secure/icmp/icmpThresholds.jsp"/>
+	</bean >
+	
+	<bean name="/secure/icmp/newicmp.wss" class="com.ibm.ncs.web.icmp.NewIcmpController">
+		<property name="icmpThresholdsDao" ref="IcmpThresholdsDao"></property>
+		<property name="pageView" value="/secure/icmp/icmpThresholds.jsp"/>
+	</bean>
+	
+	<bean name="/secure/icmp/updateToIcmpThreshold.wss" class="com.ibm.ncs.web.icmp.UpdateToIcmpController">
+		<property name="icmpThresholdsDao" ref="IcmpThresholdsDao"></property>
+		<property name="pageView" value="/secure/icmp/icmpthreshold.jsp"/>
+	</bean>
+	
+	<bean name="/secure/icmp/updateicmp.wss" class="com.ibm.ncs.web.icmp.UpdateIcmpController">
+		<property name="icmpThresholdsDao" ref="IcmpThresholdsDao"></property>
+		<property name="pageView" value="/secure/icmp/icmpThresholds.jsp"/>
+	</bean>
+	
+	<bean name="/secure/icmp/deleteicmpthreshold.wss" class="com.ibm.ncs.web.icmp.DeleteIcmpController">
+		<property name="icmpThresholdsDao" ref="IcmpThresholdsDao"></property>
+		<property name="pageView" value="/secure/icmp/icmpThresholds.jsp"/>
+	</bean>
+	
+	
+	
+	<!-- bean name="/secure/syslog/deletePreManufactureslist.wss" class="com.ibm.ncs.web.syslog.DeletePreManufacturelistController">
+		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"></property>
+		<property name="TCategoryMapInitDao" ref="TCategoryMapInitDao"></property>
+		<property name="TDeviceTypeInitDao" ref="TDeviceTypeInitDao"></property>
+		<property name="genPkNumber" ref="GenPkNumber"></property>
+		<property name="baseInfoService" ref="baseInfoService" />
+		<property name="pageView" value="/secure/baseinfo/updateManufactures.jsp"/>
+	</bean -->
+	
+	<bean name="/secure/policyapply/exportPolicy.wss" class="com.ibm.ncs.web.policyapply.ExportPolicyController">
+	 		<property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
+	 		<property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />
+	 		<property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />
+	 		<property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
+			<property name="policySyslogDao" ref="PolicySyslogDao" />			
+	 		<property name="TModuleInfoInitDao" ref="TModuleInfoInitDao" />	 		
+	 		<property name="pageView" value="/secure/policyapply/policyExport.jsp"/>
+	</bean>
+	
+	<bean name="/secure/policyapply/importPolicy.wss" class="com.ibm.ncs.web.policyapply.ImportPolicyController">
+	 		<property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
+	 		<property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />
+	 		<property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />
+	 		<property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
+	 		<property name="TModuleInfoInitDao" ref="TModuleInfoInitDao" />	 		
+	 		<property name="pageView" value="/secure/policyapply/importPolicy.jsp"/>
+	 		<property name="policySyslogDao" ref="PolicySyslogDao" />	
+	 		<property name="genPkNumber" ref="GenPkNumber"></property>
+	 		<property name="datasource" ref="myDataSource"></property>	
+	</bean>
+	<bean name="/secure/output/stateprocess.wss" class="com.ibm.ncs.web.policytakeeffect.StateProgessController">
+		<property name="takeEffectProcess" ref="TakeEffectProcess"></property>
+		<property name="pageView" value="/secure/output/stateprocess.jsp"/>
+	</bean>
+	
+	 <bean name="/secure/baseinfo/exportBaseInfo.wss" class="com.ibm.ncs.web.baseinfo.ExportBaseInfoController"> 		
+	 		<property name="pageView" value="/secure/baseinfo/exportBaseInfo.jsp"/>
+	 		<property name="VMfCateDevtypeDao" ref="VMfCateDevtypeDao" />	
+	 		<property name="VOidGroupDao" ref="VOidGroupDao" />	
+	 		<property name="VEventTypeDao" ref="VEventTypeDao" />	
+	 		<property name="VPerformParamDao" ref="VPerformParamDao" />	
+	 		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />	
+	 		<property name="TCategoryMapInitDao" ref="TCategoryMapInitDao" />	
+	 		<property name="defMibGrpDao" ref="DefMibGrpDao" />	
+	 		<property name="TOidgroupInfoInitDao" ref="TOidgroupInfoInitDao" />	
+	 		<property name="TModuleInfoInitDao" ref="TModuleInfoInitDao" />	
+	 		<property name="syslogEventsProcessNsDao" ref="SyslogEventsProcessNsDao" />	
+	 		<property name="syslogEventsProcessDao" ref="SyslogEventsProcessDao" />	
+	 		<property name="snmpEventsProcessDao" ref="SnmpEventsProcessDao" />	
+	 		<property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />	
+	 		<property name="datasource" ref="myDataSource"></property>	
+	</bean>
+	
+	<bean name="/secure/baseinfo/importBaseInfo.wss" class="com.ibm.ncs.web.baseinfo.ImportBaseInfoController"> 		
+	 		<property name="pageView" value="/secure/baseinfo/importBaseInfo.jsp"/>
+	 		<property name="VMfCateDevtypeDao" ref="VMfCateDevtypeDao" />	
+	 		<property name="VOidGroupDao" ref="VOidGroupDao" />	
+	 		<property name="VEventTypeDao" ref="VEventTypeDao" />	
+	 		<property name="VPerformParamDao" ref="VPerformParamDao" />	
+	 		<property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao" />	
+	 		<property name="TCategoryMapInitDao" ref="TCategoryMapInitDao" />
+	 		<property name="TModuleInfoInitDao" ref="TModuleInfoInitDao" />
+			<property name="TDeviceTypeInitDao" ref="TDeviceTypeInitDao" />
+			<property name="TEventtypeInfoInitDao" ref="TEventtypeInfoInitDao" />
+	 		<property name="TOidgroupInfoInitDao" ref="TOidgroupInfoInitDao" />
+	 		<property name="TOidgroupDetailsInitDao" ref="TOidgroupDetailsInitDao" />
+			<property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
+			<property name="TEventOidInitDao" ref="TEventOidInitDao" />
+	 		<property name="defMibGrpDao" ref="DefMibGrpDao" />	
+	 		<property name="syslogEventsProcessNsDao" ref="SyslogEventsProcessNsDao" />	
+	 		<property name="syslogEventsProcessDao" ref="SyslogEventsProcessDao" />	
+	 		<property name="snmpEventsProcessDao" ref="SnmpEventsProcessDao" />	
+	 		<property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />	
+	 		<property name="datasource" ref="myDataSource"></property>	
+	</bean>
+	
+	 <bean name="TakeEffectProcess" class="com.ibm.ncs.web.policytakeeffect.TakeEffectProcess" >
+	 		<property name="syslogEventsProcessDao" ref="SyslogEventsProcessDao" />	
+	 		<property name="syslogEventsProcessNsDao" ref="SyslogEventsProcessNsDao" />	
+	 		<property name="eventsAttentionDao" ref="EventsAttentionDao" />	
+	 		<property name="timeframeConverter" ref="timeframeConverter" />	
+	 		<property name="snmpThresholdsDao" ref="SnmpThresholdsDao" />	
+	 		<property name="icmpThresholdsDao" ref="IcmpThresholdsDao" />	
+	 		<property name="linesEventsNotcareDao" ref="LinesEventsNotcareDao" />	
+	 		<property name="policySyslogDao" ref="PolicySyslogDao" />
+	 		<property name="TServerInfoDao" ref="TServerInfoDao"/>
+		<property name="TDevpolMapDao" ref="TDevpolMapDao"/>
+		<property name="TLinepolMapDao" ref="TLinepolMapDao"/>
+		<property name="TPpDevDao" ref="TPpDevDao"/>
+		<property name="TPpPortDao" ref="TPpPortDao"/>
+		<property name="predefmibPolMapDao" ref="PredefmibPolMapDao" />	 		
+	 		<property name="datasource" ref="myDataSource"></property>
+	 </bean>
+	 <bean name="/secure/policyapply/effectgenerator.wss" class="com.ibm.ncs.web.policytakeeffect.EffectGeneratorController" >
+	 		<property name="syslogEventsProcessDao" ref="SyslogEventsProcessDao" />	
+	 		<property name="syslogEventsProcessNsDao" ref="SyslogEventsProcessNsDao" />	
+	 		<property name="eventsAttentionDao" ref="EventsAttentionDao" />	
+	 		<property name="timeframeConverter" ref="timeframeConverter" />	
+	 		<property name="snmpThresholdsDao" ref="SnmpThresholdsDao" />	
+	 		<property name="icmpThresholdsDao" ref="IcmpThresholdsDao" />	
+	 		<property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />		
+	 		<property name="takeEffectProcess" ref="TakeEffectProcess" />
+	 		<property name="datasource" ref="myDataSource"></property>
+	 		<property name="pageView" value="/secure/policyapply/exportxmlfile.jsp" />
+	 </bean>	 
+	 <bean name="timeframeConverter" class="com.ibm.ncs.web.policytakeeffect.TimeFrameConverter" >
+	 		<property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />	
+	 </bean>
+	 <bean name="/secure/maintain/dbmaintain.wss" class="com.ibm.ncs.util.db.DbMaintainController" >
+	 		<property name="dbBackup" ref="DbBackup" />
+	 		<property name="dbRestore" ref="DbRestore" />	
+	 		<property name="pageView" value="/secure/maintain/maintaindb.jsp" />
+	 </bean>	 
+	 <bean name="DbBackup" class="com.ibm.ncs.util.db.DbBackup" >
+	 		<property name="dataSource" ref="myDataSource"></property>
+	 </bean>
+	 <bean name="DbRestore" class="com.ibm.ncs.util.db.DbRestore" >
+	 		<property name="dataSource" ref="myDataSource"></property>
+	 </bean>
+	 <bean name="ExeShellProcess" class="com.ibm.ncs.web.policytakeeffect.ExeShellProcess" >
+	 		<property name="TServerInfoDao" ref="TServerInfoDao"/>
+	 		<property name="TSvrmodMapDao" ref="TSvrmodMapDao"/>
+	 </bean>	 
+	 	<bean name="/secure/policyapply/exeshell.wss" class="com.ibm.ncs.web.policyapply.ExeShellController" >
+		<property name="datasource" ref="nccDS" />
+		<property name="pageView" value="/secure/policyapply/exeshell.jsp" />	
+	 	<property name="exeShellProcess" ref="ExeShellProcess" />
+	</bean>	
+	<bean name="/secure/output/stateexeshell.wss" class="com.ibm.ncs.web.policytakeeffect.StateExeShellController">
+		<property name="exeShellProcess" ref="ExeShellProcess"></property>
+		<property name="pageView" value="/secure/output/stateprocess.jsp"/>
+	</bean>	
+	<bean name="/secure/maintain/statedbrestore.wss" class="com.ibm.ncs.util.db.StatDbRestoreProcessController">
+		<property name="dbRestore" ref="DbRestore"></property>
+		<property name="pageView" value="/secure/maintain/dbrestoreprocess.jsp"/>
+	</bean>		
+</beans>  
