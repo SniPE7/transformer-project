@@ -8,12 +8,14 @@
   <description>NCS Project</description>
   
   <properties>
-    <spring.version>3.1.0.RELEASE</spring.version>
+    <spring.version>2.5.6</spring.version>
+<!--     <spring.version>3.1.0.RELEASE</spring.version> -->
   </properties>
 
   <modules>
   	<module>ncs-web-module</module>
   	<module>ncs-dao</module>
+  	<module>ncs-ear-module</module>
   </modules>
   
   <dependencies>
