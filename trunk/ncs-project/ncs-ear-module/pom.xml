@@ -23,7 +23,7 @@
 							<groupId>com.ibm.tivoli.ncs</groupId>
 							<artifactId>ncs-web-module</artifactId>
 							<contextRoot>/ncsWeb</contextRoot>
-							<generateModuleId>true</generateModuleId>
+<!-- 							<generateModuleId>true</generateModuleId> -->
 							<bundleFileName>nccWeb.war</bundleFileName>
 						</webModule>
 					</modules>
