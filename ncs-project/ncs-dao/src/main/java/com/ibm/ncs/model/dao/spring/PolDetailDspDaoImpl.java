@@ -43,7 +43,7 @@ public class PolDetailDspDaoImpl extends AbstractDAO implements ParameterizedRow
 	public List<PolDetailDsp> execute(long mpid, long modid, long general, long ecode, long mcode, java.lang.String mname) throws PolDetailDspDaoException
 	{
 		try {
-			return jdbcTemplate.query("select * from  ( select a.MPID ,	MODID ,	a.EVEID ,	POLL, 	VALUE_1, 	 SEVERITY_1, 	FILter_A, 	VALUE_2, 	SEVERITY_2 ,	FILter_B, 	 SEVERITY_A ,	SEVERITY_B, 	OIDGROUP ,	OGFlag ,	VALUE_1_LOW ,	VALUE_2_LOW,  V1L_SEVERITY_1, 	V1L_SEVERITY_A, 	V2L_SEVERITY_2 ,	V2L_SEVERITY_B, CompareType, b.major,b.ecode,b.general ,c.mname, c.mcode   from t_policy_details a left join t_event_type_init b on a.modid=b.modid and a.eveid=b.eveid  left join t_module_info_init c on a.modid=c.modid) x  where mpid=? and modid=? and general=? and ecode=? and mcode=? and mname=? ", this,mpid,modid,general,ecode,mcode,mname);
+			return jdbcTemplate.query("select * from  ( select a.MPID ,	a.MODID ,	a.EVEID ,	POLL, 	VALUE_1, 	 SEVERITY_1, 	FILter_A, 	VALUE_2, 	SEVERITY_2 ,	FILter_B, 	 SEVERITY_A ,	SEVERITY_B, 	OIDGROUP ,	OGFlag ,	VALUE_1_LOW ,	VALUE_2_LOW,  V1L_SEVERITY_1, 	V1L_SEVERITY_A, 	V2L_SEVERITY_2 ,	V2L_SEVERITY_B, CompareType, b.major,b.ecode,b.general ,c.mname, c.mcode   from t_policy_details a left join t_event_type_init b on a.modid=b.modid and a.eveid=b.eveid  left join t_module_info_init c on a.modid=c.modid) x  where mpid=? and modid=? and general=? and ecode=? and mcode=? and mname=? ", this,mpid,modid,general,ecode,mcode,mname);
 		}
 		catch (Exception e) {
 			throw new PolDetailDspDaoException("Query failed", e);
@@ -62,7 +62,7 @@ public class PolDetailDspDaoImpl extends AbstractDAO implements ParameterizedRow
 	public List<PolDetailDsp> findByMpid(long mpid) throws PolDetailDspDaoException
 	{
 		try {
-			return jdbcTemplate.query("select * from  ( select a.MPID ,	MODID ,	a.EVEID ,	POLL, 	VALUE_1, 	 SEVERITY_1, 	FILter_A, 	VALUE_2, 	SEVERITY_2 ,	FILter_B, 	 SEVERITY_A ,	SEVERITY_B, 	OIDGROUP ,	OGFlag ,	VALUE_1_LOW ,	VALUE_2_LOW,  V1L_SEVERITY_1, 	V1L_SEVERITY_A, 	V2L_SEVERITY_2 ,	V2L_SEVERITY_B, CompareType, b.major,b.ecode,b.general ,c.mname, c.mcode   from t_policy_details a left join t_event_type_init b on a.modid=b.modid and a.eveid=b.eveid  left join t_module_info_init c on a.modid=c.modid) x  where mpid=? ", this,mpid);
+			return jdbcTemplate.query("select * from  ( select a.MPID ,	a.MODID ,	a.EVEID ,	POLL, 	VALUE_1, 	 SEVERITY_1, 	FILter_A, 	VALUE_2, 	SEVERITY_2 ,	FILter_B, 	 SEVERITY_A ,	SEVERITY_B, 	OIDGROUP ,	OGFlag ,	VALUE_1_LOW ,	VALUE_2_LOW,  V1L_SEVERITY_1, 	V1L_SEVERITY_A, 	V2L_SEVERITY_2 ,	V2L_SEVERITY_B, CompareType, b.major,b.ecode,b.general ,c.mname, c.mcode   from t_policy_details a left join t_event_type_init b on a.modid=b.modid and a.eveid=b.eveid  left join t_module_info_init c on a.modid=c.modid) x  where mpid=? ", this,mpid);
 		}
 		catch (Exception e) {
 			throw new PolDetailDspDaoException("Query failed", e);
@@ -81,7 +81,7 @@ public class PolDetailDspDaoImpl extends AbstractDAO implements ParameterizedRow
 	public List<PolDetailDsp> findByMpidMcode(long mpid,  long mcode) throws PolDetailDspDaoException
 	{
 		try {
-			return jdbcTemplate.query("select * from  ( select a.MPID ,	MODID ,	a.EVEID ,	POLL, 	VALUE_1, 	 SEVERITY_1, 	FILter_A, 	VALUE_2, 	SEVERITY_2 ,	FILter_B, 	 SEVERITY_A ,	SEVERITY_B, 	OIDGROUP ,	OGFlag ,	VALUE_1_LOW ,	VALUE_2_LOW,  V1L_SEVERITY_1, 	V1L_SEVERITY_A, 	V2L_SEVERITY_2 ,	V2L_SEVERITY_B, CompareType,  b.major,b.ecode,b.general ,c.mname, c.mcode   from t_policy_details a left join t_event_type_init b on a.modid=b.modid and a.eveid=b.eveid  left join t_module_info_init c on a.modid=c.modid) x  where mpid=? and mcode=?", this,mpid,mcode);
+			return jdbcTemplate.query("select * from  ( select a.MPID ,	a.MODID ,	a.EVEID ,	POLL, 	VALUE_1, 	 SEVERITY_1, 	FILter_A, 	VALUE_2, 	SEVERITY_2 ,	FILter_B, 	 SEVERITY_A ,	SEVERITY_B, 	OIDGROUP ,	OGFlag ,	VALUE_1_LOW ,	VALUE_2_LOW,  V1L_SEVERITY_1, 	V1L_SEVERITY_A, 	V2L_SEVERITY_2 ,	V2L_SEVERITY_B, CompareType,  b.major,b.ecode,b.general ,c.mname, c.mcode   from t_policy_details a left join t_event_type_init b on a.modid=b.modid and a.eveid=b.eveid  left join t_module_info_init c on a.modid=c.modid) x  where mpid=? and mcode=?", this,mpid,mcode);
 		}
 		catch (Exception e) {
 			throw new PolDetailDspDaoException("Query failed", e);
