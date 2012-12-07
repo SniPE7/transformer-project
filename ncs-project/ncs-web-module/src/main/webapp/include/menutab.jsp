@@ -50,6 +50,12 @@ function loadNetworkMgrmt(){
 	window.close();
 }
 
+function loadPollicyTemplateDef(){
+    window.open("<%=request.getContextPath() %>/secure/policytemplateapply/naviPolicyDefinition.wss", "navigator");
+    window.open("<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1", "detail");
+    window.close();
+}
+
 function loadPollicyDef(){
 	window.open("<%=request.getContextPath() %>/secure/policyapply/naviPolicyDefinition.wss", "navigator");
 	window.open("<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=1", "detail");
@@ -140,6 +146,11 @@ function onTabChange(){
 <div dojotype="dijit.layout.ContentPane" id="policyapplymenu" title="策略管理" style='background-color: transparent;'>
                 <div id="policyapptab">
                 
+                <span class="wpsToolbarBannerBackground" onClick="loadPollicyTemplateDef();">
+                  <a  href="#">策略模板定义</a>
+                    <!--<a href="" target="navigator">监控策略定义</a>-->
+                 </span>
+                &nbsp;|&nbsp;
                 <span class="wpsToolbarBannerBackground" onClick="loadPollicyDef();">
                 	<a  href="#">监控策略定义</a>
                     <!--<a href="" target="navigator">监控策略定义</a>-->
