@@ -94,7 +94,18 @@ public interface PolicySyslogDao
 	 */
 	public PolicySyslog findByPrimaryKey(PolicySyslogPk pk) throws PolicySyslogDaoException;
 
+	/**
+	 * Returns all rows from the POLICY_SYSLOG table that syslog belongs table T_devpol_map.
+	 * @return
+	 * @throws PolicySyslogDaoException
+	 */
 	public List<PolicySyslog> findDeviceEvents() throws PolicySyslogDaoException;
+	
+	/**
+	 * Returns all rows from the POLICY_SYSLOG table that  syslog belongs table T_linepol_map.
+	 * @return
+	 * @throws PolicySyslogDaoException
+	 */
 	public List<PolicySyslog> findPortEvents() throws PolicySyslogDaoException;
 	
 }
