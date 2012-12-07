@@ -166,8 +166,17 @@ public interface SyslogEventsProcessDao
 	 */
 	
 	public void update(SyslogEventsProcess dto);
+	
+	/**
+	 * Update SYSLOG_EVENTS_PROCESS set ATTENTIONFLAG=0 where ATTENTIONFLAG=1
+	 * @return
+	 */
 	public int resetAllAttentionFlags();
 	
+	/**
+	 * Update SYSLOG_EVENTS_PROCESS set NOTCAREFLAG=0 where NOTCAREFLAG=1
+	 * @return
+	 */
 	public int resetAllNotCareFlags();
 	
 	public int deleteAll() throws SyslogEventsProcessDaoException;
