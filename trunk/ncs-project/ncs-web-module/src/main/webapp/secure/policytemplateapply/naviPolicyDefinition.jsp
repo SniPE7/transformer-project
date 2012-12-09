@@ -197,7 +197,7 @@ function initAll()
 {
 base=new String("N");
 //var txt="";
-for (i=1; i<4; i++) 
+for (i=1; i<100; i++) 
  {
 	try{
 	Collapse(i);
@@ -251,222 +251,374 @@ window.onload =  function (){
 
 <body onLoad="initAll();" class="navtree" style="background-color:#FFFFFF;"  leftmargin="0" topmargin="0" marginwidth="0" marginheight="0"  >
 
-<table height="26" width="100%" cellspacing="0" cellpadding="0"
-	style="background-color: #FFFFFF;">
+<table height="26" width="100%" cellspacing="0" cellpadding="0"	style="background-color: #FFFFFF; margin-bottom: 10;">
 
 	<tr>
-		<td align="left" colspan="2" class="navtree"
-			style="background-color: #FFFFFF">
-		<!-- title of the navi welcome page -->
-		<ul class='nav-child' dir='ltr'>
-			<li class='navigation-bullet'>监控策略定义</li>
-		</ul>
-		<!--<a style='color: #000000; text-decoration: none;' 	
-				onclick="javascript:CollapseAll();"			
-				href="javascript:CollapseAll();"
-				dir="ltr" title="Collapse All">
-				<img src='<%=request.getContextPath() %>/images/arrow_expanded.gif' 
-				title='+' alt='+' id='I<%=nodei %>' border='0' align='absmiddle'>  				
-				展开所有</a>-->
-<%--
-<div class="wpsGpFilter" valign="center" height="26" align="left" width="100%" style="border-left: 1px solid #3970B1;background-image:url(<%=request.getContextPath() %>/images/grpfilter_background.gif);background-repeat: repeat-x;">
- <form id="navifilter" name="navFilter" method="GET" action="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss" target="detail">
-<input type="text" id="categorypatterns" name="category_patterns"  value="filter" style="width:38px;color:gray" onclick="this.value='';" 
-onkeypress="return;" onmouseup="return" onkeyup="filtery(this.value,navifilter.navpolicy)" onchange="filtery(this.value,navifilter.navpolicy)" />
-                      
-        <select name="navpolicy"  style="width:280px;" id="mfcate" > 
-        	<option value="0:0">Select an item</option>
-            
-            <c:forEach items="${model.navitree}" var="cate" >    
-            <c:forEach items="${cate.value}" var="devpol" >                                
-            <option value="${cate.key}||${devpol.key }||${cate.value[devpol.key].mpname }" >
-          	${cate.key}...${devpol.key }...${cate.value[devpol.key].mpname }
-            </option>  
-            </c:forEach>
-            </c:forEach>
-            
-			<c:forEach  items="${model.period}" var="thePe" >	
-				<option value="16||${model.period[thePe.key].ppid }||${model.period[thePe.key].ppname }">
-				16...${model.period[thePe.key].ppid }...${model.period[thePe.key].ppname }
-				</option>
-			</c:forEach>
-
-
-        </select> 
-        <input class="ibm-btn-arrow-sec" name="imbProgCty" type="submit" value="->" />
-</form></div>
---%>		
-		</td></tr><tr><td>
-<!--	Policy in a category	-->
-
-<% nodei++ ;%>
-<div nowrap class='main-task' style='margin-left: 0.3em;'>			
-            <a style='color: #000000; text-decoration: none;'
-				href="javascript:expandCollapse('<%=nodei %>');" 
-				title=""> 
-			<img src='<%=request.getContextPath() %>/images/arrow_expanded.gif' title='+' alt='+' id='I<%=nodei %>' border='0' align='absmiddle'>
-			</a>
-            <a style='color: #000000; text-decoration: none;'
-            	onClick="javascript:expandCollapse('<%=nodei %>');" 
-				href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=1" 
-				title="设备策略"
-                target="detail" dir="ltr">设备策略&nbsp;&nbsp;</a>
-</div>
-<div class='nav-child-container'
-			style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
-	
-		<c:forEach  items="${model.mtree_Device}" var="dev">	
-		<ul class='nav-child' dir='ltr'>
-			<li class='navigation-bullet'>
-				<a style='text-decoration: none'
-				href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=1&mpid=${dev.mpid }"
-				target="detail" dir="ltr"
-				title="${dev.mpname}(...${dev.mpid})">
-				${dev.mpname }
-				</a></li>
-		</ul>
-	
-		</c:forEach>
-</div>
-
-<% nodei++ ;%>
-<div nowrap class='main-task' style='margin-left: 0.3em;'>			
-            <a style='color: #000000; text-decoration: none;'
-				href="javascript:expandCollapse('<%=nodei %>');" 
-				title=""> 
-			<img src='<%=request.getContextPath() %>/images/arrow_expanded.gif' title='+' alt='+' id='I<%=nodei %>' border='0' align='absmiddle'>
-			</a>
-            <a style='color: #000000; text-decoration: none;'
-            	onClick="javascript:expandCollapse('<%=nodei %>');" 
-				href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=4" 
-				title="端口策略"
-                target="detail" dir="ltr">端口策略&nbsp;&nbsp;</a>
-</div>
-<div class='nav-child-container'
-			style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
-		<c:forEach  items="${model.mtree_Port}" var="dev">	
-		<ul class='nav-child' dir='ltr'>
-			<li class='navigation-bullet'>
-				<a style='text-decoration: none'
-				href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=4&mpid=${dev.mpid }"
-				target="detail" dir="ltr"
-				title="${dev.mpname}(...${dev.mpid})">
-				${dev.mpname }
-				</a></li>
-		</ul>
-	
-		</c:forEach>
-</div>
-            
-<% nodei++ ;%>
-		<div nowrap class='main-task' style='margin-left: 0.3em;'>
-			<a style='color: #000000; text-decoration: none;'
-				href="javascript:expandCollapse('<%=nodei %>');" 
-				title=""> 
-			<img src='<%=request.getContextPath() %>/images/arrow_expanded.gif' title='+' alt='+' id='I<%=nodei %>' border='0' align='absmiddle'>
-			</a>
-            <a style='color: #000000; text-decoration: none;'
-            	onClick="javascript:expandCollapse('<%=nodei %>');" 
-				href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=9" 
-				title="私有MIB策略&"
-                target="detail" dir="ltr">私有MIB策略&nbsp;&nbsp;</a>
-         </div>
-
-		<div class='nav-child-container'
-			style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
-		<c:forEach  items="${model.mtree_MIB}" var="dev">	        
-		<ul class='nav-child' dir='ltr'>
-			<li class='navigation-bullet'>
-				<a style='text-decoration: none'
-				href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=9&mpid=${dev.mpid }"
-				target="detail" dir="ltr"
-				title="${dev.mpname}(...${dev.mpid})">
-				${dev.mpname }
-				</a></li>
-		</ul>
-	
-		</c:forEach>
-</div>
-            
-
-<!-- period policy -->
-<% nodei++ ;%>
-		<div nowrap class='main-task' style='margin-left: 0.3em;'>
-			<a style='color: #000000; text-decoration: none;'
-				href="javascript:expandCollapse('<%=nodei %>');" 
-				title="TimeFrame ..."> 
-			<img src='<%=request.getContextPath() %>/images/arrow_expanded.gif' title='+' alt='+' id='I<%=nodei %>' border='0' align='absmiddle'>			
-            </a>
-            <a style='color: #000000; text-decoration: none;'            	
-            	onClick="javascript:expandCollapse('<%=nodei %>');" 
-				href="<%=request.getContextPath() %>/secure/policyapply/newPolicyPeriodDef.jsp" 
-				target="detail"
-				title="TimeFrame ...">时间段策略</a>
-         </div>
-
-		<div class='nav-child-container'
-			style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
-		<c:catch var="ex2">	
-		
-		<c:forEach  items="${model.period}" var="theP" begin="0" step="1" varStatus="idx">	
-
-		<ul class='nav-child' dir='ltr'>
-			<li class='navigation-bullet'>
-				<a style='text-decoration: none'
-				href="<%=request.getContextPath() %>/secure/policyapply/policyPeriodDef.wss?cate=16&ppid=${theP.key}&ppname=${model.period[theP.key].ppname }"
-				target="detail" dir="ltr"
-				title="${model.period[theP.key].ppname }(...${theP.key })">
-				${model.period[theP.key].ppname }
-				</a></li>
-		</ul>
-	
-		</c:forEach>
-		</c:catch>
-</div>
-        
-        
-        
-        
-<c:forEach items="${model.navitree}" var="theCate">
-<% nodei++ ;%>
-		<div nowrap class='main-task' style='margin-left: 0.3em;'>
-			
-            <a style='color: #000000; text-decoration: none;'
-				href="javascript:expandCollapse('<%=nodei %>');" 
-				title=""> 
-			<img src='<%=request.getContextPath() %>/images/arrow_expanded.gif' title='+' alt='+' id='I<%=nodei %>' border='0' align='absmiddle'>
-			</a>
-            <a style='color: #000000; text-decoration: none;'
-				href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=${theCate.key}" 
-				title="${theCate.key} ..."
-                target="detail" dir="ltr">
-                <fmt:message key="${model.cateNameDef[theCate.key]}" />  &nbsp;&nbsp;:${theCate.key}  
-            </a>
-			</div>
-		<div class='nav-child-container'
-			style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
-			
-		<c:catch var="ex1">	
-		<c:forEach  items="${theCate.value}" var="thePol" >	
-		
-		<ul class='nav-child' dir='ltr'>
-			<li class='navigation-bullet'>
-				<a style='text-decoration: none'
-				href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=${theCate.key}&mpid=${thePol.key }"
-				target="detail" dir="ltr"
-				title="${theCate.value[thePol.key].mpname}">
-				${theCate.key}...${thePol.key}...${theCate.value[thePol.key].mpname }
-				</a></li>
-		</ul>
-		
-		</c:forEach>
-		</c:catch>
+		<td align="left" colspan="2" class="navtree" style="background-color: #FFFFFF">
+			<!-- title of the navi welcome page -->
+			<ul class='nav-child' dir='ltr'>
+				<li class='navigation-bullet'>在用策略模板集</li>
+			</ul>
+		</td>
+  </tr>
+  <tr>
+    <td>
+		<!--	Policy in a category	-->
+		<% nodei++ ;%>
+		<div nowrap class='main-task' style='margin-left: 0.3em;'>			
+		            <a style='color: #000000; text-decoration: none;'
+						href="javascript:expandCollapse('<%=nodei %>');" 
+						title=""> 
+					<img src='<%=request.getContextPath() %>/images/arrow_expanded.gif' title='+' alt='+' id='I<%=nodei %>' border='0' align='absmiddle'>
+					</a>
+		            <a style='color: #000000; text-decoration: none;'
+		            	onClick="javascript:expandCollapse('<%=nodei %>');" 
+						href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=1" 
+						title="设备策略"
+		                target="detail" dir="ltr">设备策略模板&nbsp;&nbsp;</a>
 		</div>
-</c:forEach>
-
-
-
+		<div class='nav-child-container'
+					style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
+			
+				<c:forEach  items="${model.mtree_Device}" var="dev">	
+				<ul class='nav-child' dir='ltr'>
+					<li class='navigation-bullet'>
+						<a style='text-decoration: none'
+						href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=1&mpid=${dev.mpid }"
+						target="detail" dir="ltr"
+						title="${dev.mpname}(...${dev.mpid})">
+						${dev.mpname }
+						</a></li>
+				</ul>
+			
+				</c:forEach>
+		</div>
 		
-</td></tr></table>		
+		<% nodei++ ;%>
+		<div nowrap class='main-task' style='margin-left: 0.3em;'>			
+		            <a style='color: #000000; text-decoration: none;'
+						href="javascript:expandCollapse('<%=nodei %>');" 
+						title=""> 
+					<img src='<%=request.getContextPath() %>/images/arrow_expanded.gif' title='+' alt='+' id='I<%=nodei %>' border='0' align='absmiddle'>
+					</a>
+		            <a style='color: #000000; text-decoration: none;'
+		            	onClick="javascript:expandCollapse('<%=nodei %>');" 
+						href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=4" 
+						title="端口策略"
+		                target="detail" dir="ltr">端口策略模板&nbsp;&nbsp;</a>
+		</div>
+		<div class='nav-child-container'
+					style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
+				<c:forEach  items="${model.mtree_Port}" var="dev">	
+				<ul class='nav-child' dir='ltr'>
+					<li class='navigation-bullet'>
+						<a style='text-decoration: none'
+						href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=4&mpid=${dev.mpid }"
+						target="detail" dir="ltr"
+						title="${dev.mpname}(...${dev.mpid})">
+						${dev.mpname }
+						</a></li>
+				</ul>
+			
+				</c:forEach>
+		</div>
+		            
+		<% nodei++ ;%>
+				<div nowrap class='main-task' style='margin-left: 0.3em;'>
+					<a style='color: #000000; text-decoration: none;'
+						href="javascript:expandCollapse('<%=nodei %>');" 
+						title=""> 
+					<img src='<%=request.getContextPath() %>/images/arrow_expanded.gif' title='+' alt='+' id='I<%=nodei %>' border='0' align='absmiddle'>
+					</a>
+		            <a style='color: #000000; text-decoration: none;'
+		            	onClick="javascript:expandCollapse('<%=nodei %>');" 
+						href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=9" 
+						title="私有MIB策略&"
+		                target="detail" dir="ltr">私有MIB策略模板&nbsp;&nbsp;</a>
+		         </div>
+		
+				<div class='nav-child-container'
+					style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
+				<c:forEach  items="${model.mtree_MIB}" var="dev">	        
+				<ul class='nav-child' dir='ltr'>
+					<li class='navigation-bullet'>
+						<a style='text-decoration: none'
+						href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=9&mpid=${dev.mpid }"
+						target="detail" dir="ltr"
+						title="${dev.mpname}(...${dev.mpid})">
+						${dev.mpname }
+						</a></li>
+				</ul>
+			
+				</c:forEach>
+		</div>
+    </td>
+  </tr>
+</table>
+
+
+
+
+<table height="26" width="100%" cellspacing="0" cellpadding="0" style="background-color: #FFFFFF; margin-bottom: 10;">
+
+  <tr>
+    <td align="left" colspan="2" class="navtree" style="background-color: #FFFFFF">
+      <!-- title of the navi welcome page -->
+      <ul class='nav-child' dir='ltr'>
+        <li class='navigation-bullet'>编写中的策略模板集</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    <!--  Create and initialize Draft Policy Template  -->
+    <c:if test="${model.draftVersionPolicyPublishInfo == null}">
+    <% nodei++ ;%>
+    <div nowrap class='main-task' style='margin-left: 0.3em;'>      
+                <a style='color: #000000; text-decoration: none;'
+            href="javascript:expandCollapse('<%=nodei %>');" 
+            title=""> 
+          <img src='<%=request.getContextPath() %>/images/arrow_expanded.gif' title='+' alt='+' id='I<%=nodei %>' border='0' align='absmiddle'>
+          </a>
+                <a style='color: #000000; text-decoration: none;'
+                  onClick="javascript:expandCollapse('<%=nodei %>');" 
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyPublishInfoDefinition.wss?formAction=showCreationForm" 
+            title="设备策略"
+                    target="detail" dir="ltr">创建策略模板集&nbsp;&nbsp;</a>
+    </div>
+    </c:if>
+    <c:if test="${model.draftVersionPolicyPublishInfo != null}">
+    <!--  Policy in a category  -->
+    <% nodei++ ;%>
+    <div nowrap class='main-task' style='margin-left: 0.3em;'>      
+                <a style='color: #000000; text-decoration: none;'
+            href="javascript:expandCollapse('<%=nodei %>');" 
+            title=""> 
+          <img src='<%=request.getContextPath() %>/images/arrow_expanded.gif' title='+' alt='+' id='I<%=nodei %>' border='0' align='absmiddle'>
+          </a>
+                <a style='color: #000000; text-decoration: none;'
+                  onClick="javascript:expandCollapse('<%=nodei %>');" 
+            href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=1" 
+            title="设备策略"
+                    target="detail" dir="ltr">设备策略模板&nbsp;&nbsp;</a>
+    </div>
+    <div class='nav-child-container'
+          style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
+      
+        <c:forEach  items="${model.mtree_Device}" var="dev">  
+        <ul class='nav-child' dir='ltr'>
+          <li class='navigation-bullet'>
+            <a style='text-decoration: none'
+            href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=1&mpid=${dev.mpid }"
+            target="detail" dir="ltr"
+            title="${dev.mpname}(...${dev.mpid})">
+            ${dev.mpname }
+            </a></li>
+        </ul>
+      
+        </c:forEach>
+    </div>
+    
+    <% nodei++ ;%>
+    <div nowrap class='main-task' style='margin-left: 0.3em;'>      
+                <a style='color: #000000; text-decoration: none;'
+            href="javascript:expandCollapse('<%=nodei %>');" 
+            title=""> 
+          <img src='<%=request.getContextPath() %>/images/arrow_expanded.gif' title='+' alt='+' id='I<%=nodei %>' border='0' align='absmiddle'>
+          </a>
+                <a style='color: #000000; text-decoration: none;'
+                  onClick="javascript:expandCollapse('<%=nodei %>');" 
+            href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=4" 
+            title="端口策略"
+                    target="detail" dir="ltr">端口策略模板&nbsp;&nbsp;</a>
+    </div>
+    <div class='nav-child-container'
+          style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
+        <c:forEach  items="${model.mtree_Port}" var="dev">  
+        <ul class='nav-child' dir='ltr'>
+          <li class='navigation-bullet'>
+            <a style='text-decoration: none'
+            href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=4&mpid=${dev.mpid }"
+            target="detail" dir="ltr"
+            title="${dev.mpname}(...${dev.mpid})">
+            ${dev.mpname }
+            </a></li>
+        </ul>
+      
+        </c:forEach>
+    </div>
+                
+    <% nodei++ ;%>
+        <div nowrap class='main-task' style='margin-left: 0.3em;'>
+          <a style='color: #000000; text-decoration: none;'
+            href="javascript:expandCollapse('<%=nodei %>');" 
+            title=""> 
+          <img src='<%=request.getContextPath() %>/images/arrow_expanded.gif' title='+' alt='+' id='I<%=nodei %>' border='0' align='absmiddle'>
+          </a>
+                <a style='color: #000000; text-decoration: none;'
+                  onClick="javascript:expandCollapse('<%=nodei %>');" 
+            href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=9" 
+            title="私有MIB策略&"
+                    target="detail" dir="ltr">私有MIB策略模板&nbsp;&nbsp;</a>
+             </div>
+    
+        <div class='nav-child-container'
+          style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
+        <c:forEach  items="${model.mtree_MIB}" var="dev">         
+        <ul class='nav-child' dir='ltr'>
+          <li class='navigation-bullet'>
+            <a style='text-decoration: none'
+            href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=9&mpid=${dev.mpid }"
+            target="detail" dir="ltr"
+            title="${dev.mpname}(...${dev.mpid})">
+            ${dev.mpname }
+            </a></li>
+        </ul>
+      
+        </c:forEach>
+    </div>
+            
+
+    <!-- period policy -->
+    <% nodei++ ;%>
+    <div nowrap class='main-task' style='margin-left: 0.3em;'>
+      <a style='color: #000000; text-decoration: none;'
+        href="javascript:expandCollapse('<%=nodei %>');" 
+        title="TimeFrame ..."> 
+      <img src='<%=request.getContextPath() %>/images/arrow_expanded.gif' title='+' alt='+' id='I<%=nodei %>' border='0' align='absmiddle'>     
+            </a>
+            <a style='color: #000000; text-decoration: none;'             
+              onClick="javascript:expandCollapse('<%=nodei %>');" 
+        href="<%=request.getContextPath() %>/secure/policyapply/newPolicyPeriodDef.jsp" 
+        target="detail"
+        title="TimeFrame ...">发布策略模板</a>
+         </div>
+
+    <div class='nav-child-container' style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
+        <c:catch var="ex2"> 
+        <ul class='nav-child' dir='ltr'>
+          <li class='navigation-bullet'>
+            <a style='text-decoration: none'
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyPublishInfoDefinition.wss?formAction=showModifyForm&ppiid=${model.draftVersionPolicyPublishInfo.ppiid}"
+            target="detail" dir="ltr"
+            title="${model.draftVersionPolicyPublishInfo.versionTag}(...${model.draftVersionPolicyPublishInfo.version})">
+                                          版本: ${model.draftVersionPolicyPublishInfo.version} - [${model.draftVersionPolicyPublishInfo.versionTag}]
+            </a></li>
+        </ul>
+        </c:catch>
+    </div>
+    </c:if>
+            
+  </td>
+  </tr>
+</table>
+
+<table height="26" width="100%" cellspacing="0" cellpadding="0" style="background-color: #FFFFFF; margin-bottom: 10;">
+
+  <tr>
+    <td align="left" colspan="2" class="navtree" style="background-color: #FFFFFF">
+      <!-- title of the navi welcome page -->
+      <ul class='nav-child' dir='ltr'>
+        <li class='navigation-bullet'>历史策略模板集</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    <!--  Policy in a category  -->
+    <% nodei++ ;%>
+    <div nowrap class='main-task' style='margin-left: 0.3em;'>      
+                <a style='color: #000000; text-decoration: none;'
+            href="javascript:expandCollapse('<%=nodei %>');" 
+            title=""> 
+          <img src='<%=request.getContextPath() %>/images/arrow_expanded.gif' title='+' alt='+' id='I<%=nodei %>' border='0' align='absmiddle'>
+          </a>
+                <a style='color: #000000; text-decoration: none;'
+                  onClick="javascript:expandCollapse('<%=nodei %>');" 
+            href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=1" 
+            title="设备策略"
+                    target="detail" dir="ltr">设备策略模板&nbsp;&nbsp;</a>
+    </div>
+    <div class='nav-child-container'
+          style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
+      
+        <c:forEach  items="${model.mtree_Device}" var="dev">  
+        <ul class='nav-child' dir='ltr'>
+          <li class='navigation-bullet'>
+            <a style='text-decoration: none'
+            href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=1&mpid=${dev.mpid }"
+            target="detail" dir="ltr"
+            title="${dev.mpname}(...${dev.mpid})">
+            ${dev.mpname }
+            </a></li>
+        </ul>
+      
+        </c:forEach>
+    </div>
+    
+    <% nodei++ ;%>
+    <div nowrap class='main-task' style='margin-left: 0.3em;'>      
+                <a style='color: #000000; text-decoration: none;'
+            href="javascript:expandCollapse('<%=nodei %>');" 
+            title=""> 
+          <img src='<%=request.getContextPath() %>/images/arrow_expanded.gif' title='+' alt='+' id='I<%=nodei %>' border='0' align='absmiddle'>
+          </a>
+                <a style='color: #000000; text-decoration: none;'
+                  onClick="javascript:expandCollapse('<%=nodei %>');" 
+            href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=4" 
+            title="端口策略"
+                    target="detail" dir="ltr">端口策略模板&nbsp;&nbsp;</a>
+    </div>
+    <div class='nav-child-container'
+          style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
+        <c:forEach  items="${model.mtree_Port}" var="dev">  
+        <ul class='nav-child' dir='ltr'>
+          <li class='navigation-bullet'>
+            <a style='text-decoration: none'
+            href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=4&mpid=${dev.mpid }"
+            target="detail" dir="ltr"
+            title="${dev.mpname}(...${dev.mpid})">
+            ${dev.mpname }
+            </a></li>
+        </ul>
+      
+        </c:forEach>
+    </div>
+                
+    <% nodei++ ;%>
+        <div nowrap class='main-task' style='margin-left: 0.3em;'>
+          <a style='color: #000000; text-decoration: none;'
+            href="javascript:expandCollapse('<%=nodei %>');" 
+            title=""> 
+          <img src='<%=request.getContextPath() %>/images/arrow_expanded.gif' title='+' alt='+' id='I<%=nodei %>' border='0' align='absmiddle'>
+          </a>
+                <a style='color: #000000; text-decoration: none;'
+                  onClick="javascript:expandCollapse('<%=nodei %>');" 
+            href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=9" 
+            title="私有MIB策略&"
+                    target="detail" dir="ltr">私有MIB策略模板&nbsp;&nbsp;</a>
+             </div>
+    
+        <div class='nav-child-container'
+          style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
+        <c:forEach  items="${model.mtree_MIB}" var="dev">         
+        <ul class='nav-child' dir='ltr'>
+          <li class='navigation-bullet'>
+            <a style='text-decoration: none'
+            href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=9&mpid=${dev.mpid }"
+            target="detail" dir="ltr"
+            title="${dev.mpname}(...${dev.mpid})">
+            ${dev.mpname }
+            </a></li>
+        </ul>
+      
+        </c:forEach>
+    </div>
+    </td>
+  </tr>
+</table>
+
+
 </body>
+
 </html>

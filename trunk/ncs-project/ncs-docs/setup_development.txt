@@ -1,0 +1,12 @@
+
+Setup Tomcat 6 Runtime
+===================================================================================
+1. Edit tomcat/conf/context.xml, add following resource definition into <Context>:
+
+    <Resource name="jdbc/nccDS" auth="Container" type="javax.sql.DataSource" 
+     maxActive="10" maxIdle="5" maxWait="10000" username="ncs" password="ncs" driverClassName="oracle.jdbc.OracleDriver" 
+     url="jdbc:oracle:thin:@192.168.2.100:1521:ncc"/>
+
+2. Copy Oralce JDBC driver into TOMCAT/lib
+
+     
