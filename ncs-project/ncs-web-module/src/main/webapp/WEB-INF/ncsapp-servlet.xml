@@ -1460,5 +1460,32 @@
 	<bean name="/secure/maintain/statedbrestore.wss" class="com.ibm.ncs.util.db.StatDbRestoreProcessController">
 		<property name="dbRestore" ref="DbRestore"></property>
 		<property name="pageView" value="/secure/maintain/dbrestoreprocess.jsp"/>
-	</bean>		
+	</bean>
+	
+	
+	<!-- Policy Publish Info -->
+	<bean name="/secure/policytemplateapply/naviPolicyDefinition.wss"
+    class="com.ibm.ncs.web.policytemplateapply.NaviPolicyDefinitionController">
+    <property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
+    <property name="policyPublishInfoDao" ref="policyPublishInfoDao" />
+  </bean>
+  <bean name="/secure/policytemplateapply/policyPublishInfoDefinition.wss"
+    class="com.ibm.ncs.web.policytemplateapply.PolicyPublishInfoDefinitionController">
+    <property name="policyPublishInfoDao" ref="policyPublishInfoDao" />
+    <property name="genPkNumber" ref="GenPkNumber" />
+    <property name="pageView" value="/secure/policytemplateapply/policyPublishInfoDefinition.jsp"/>
+  </bean>
+  
+  <!-- Unused -->
+  <bean name="/secure/policytemplateapply/policyDefinition.wss"
+    class="com.ibm.ncs.web.policytemplateapply.PolicyDefinitionController">
+    <property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
+    <property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />
+    <property name="TDevpolMapDao" ref="TDevpolMapDao" />
+    <property name="TLinepolMapDao" ref="TLinepolMapDao" />
+    <property name="predefmibPolMapDao" ref="PredefmibPolMapDao" />
+    <property name="genPkNumber" ref="GenPkNumber" />
+    <property name="pageView" value="/secure/policyapply/policyDefinition.jsp" />
+  </bean>
+	
 </beans>  

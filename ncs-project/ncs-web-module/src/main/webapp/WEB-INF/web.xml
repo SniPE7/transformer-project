@@ -84,14 +84,14 @@
 		<servlet-name>ProxyServlet</servlet-name>
 		<url-pattern>/proxy/*</url-pattern>
 	</servlet-mapping>
-	<!-- 
+	
 	<resource-ref id="ResourceRef_1290983551395">
 		<res-ref-name>jdbc/nccDS</res-ref-name>
 		<res-type>javax.sql.DataSource</res-type>
 		<res-auth>Container</res-auth>
 		<res-sharing-scope>Shareable</res-sharing-scope>
 	</resource-ref>
-	 -->
+	
 	<session-config>
 		<session-timeout>180</session-timeout>
 	</session-config>

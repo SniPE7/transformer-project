@@ -13,4 +13,5 @@
 		<property name="policyAppServices" ref="PolicyAppServices" />
 		<property name="pageView" value="/secure/policyapply/policydetails.jsp" />
 	</bean>
+
 </beans>  
