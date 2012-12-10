@@ -556,19 +556,18 @@ window.onload =  function (){
     <!--  Policy in a category  -->
     <% nodei++ ;%>
     <div nowrap class='main-task' style='margin-left: 0.3em;'>      
-                <a style='color: #000000; text-decoration: none;'
+      <a style='color: #000000; text-decoration: none;'
             href="javascript:expandCollapse('<%=nodei %>');" 
             title=""> 
           <img src='<%=request.getContextPath() %>/images/arrow_expanded.gif' title='+' alt='+' id='I<%=nodei %>' border='0' align='absmiddle'>
-          </a>
-                <a style='color: #000000; text-decoration: none;'
-                  onClick="javascript:expandCollapse('<%=nodei %>');" 
-            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1" 
-            title="设备策略"
-                    target="detail" dir="ltr">设备策略模板&nbsp;&nbsp;</a>
+      </a>
+      <a style='color: #000000; text-decoration: none;'
+         onClick="javascript:expandCollapse('<%=nodei %>');" 
+         href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1" 
+         title="设备策略"
+         target="detail" dir="ltr">设备策略模板&nbsp;&nbsp;</a>
     </div>
-    <div class='nav-child-container'
-          style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
+    <div class='nav-child-container' style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
       
         <c:forEach  items="${model.mtree_Device}" var="dev">  
         <ul class='nav-child' dir='ltr'>
@@ -580,7 +579,6 @@ window.onload =  function (){
             ${dev.mpname }
             </a></li>
         </ul>
-      
         </c:forEach>
     </div>
     

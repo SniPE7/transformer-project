@@ -1,10 +1,8 @@
 package com.ibm.ncs.web.policytemplateapply;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,9 +17,7 @@ import com.ibm.ncs.model.dao.TPolicyTemplateDao;
 import com.ibm.ncs.model.dao.TPolicyTemplateVerDao;
 import com.ibm.ncs.model.dto.PolicyTemplate;
 import com.ibm.ncs.model.dto.PolicyTemplateVer;
-import com.ibm.ncs.model.dto.TPolicyBase;
 import com.ibm.ncs.util.Log4jInit;
-import com.ibm.ncs.util.SortList;
 
 public class NaviPolicyDefinitionController implements Controller {
 
@@ -29,7 +25,7 @@ public class NaviPolicyDefinitionController implements Controller {
 	private TPolicyTemplateDao policyTemplateDao;
 	private TPolicyTemplateVerDao policyTemplateVerDao;
 
-	TPolicyBaseDao TPolicyBaseDao;
+	private TPolicyBaseDao TPolicyBaseDao;
 
 	public void setTPolicyBaseDao(TPolicyBaseDao policyBaseDao) {
 		TPolicyBaseDao = policyBaseDao;
@@ -92,17 +88,22 @@ public class NaviPolicyDefinitionController implements Controller {
 				 }
 			}
 
+			
 			List<PolicyPublishInfo> historyVersionPolicyPublishInfos = this.policyPublishInfoDao.getHistoryVersions();
 			model.put("historyVersionPolicyPublishInfos", historyVersionPolicyPublishInfos);
+			Map<Long, List<PolicyTemplateVer>> ppiidToPolicyTemplateVerMap = new HashMap<Long, List<PolicyTemplateVer>>();
+			model.put("ppiidToPolicyTemplateVerMap", ppiidToPolicyTemplateVerMap);
 			for (PolicyPublishInfo ppi: historyVersionPolicyPublishInfos) {
 				 List<PolicyTemplateVer> releasedPolicies = this.policyTemplateVerDao.findByPublishInfoId(Long.toString(ppi.getPpiid()));
-				 //model.put("releasedPolicies", releasedPolicies);
+				 ppiidToPolicyTemplateVerMap.put(ppi.getPpiid(), releasedPolicies);
+
 				 for (PolicyTemplateVer tv: releasedPolicies) {
 					 PolicyTemplate pt = this.policyTemplateDao.findById(Long.toString(tv.getPtid()));
 					 policyTemplateMap.put(pt.getPtid(), pt);
 					 policyPublishInfoMap.put(ppi.getPpiid(), this.policyPublishInfoDao.findById(Long.toString(tv.getPpiid())));
 				 }
 			}
+			
 			
 			Map<Long, String> cateNameDef = new HashMap<Long, String>();
 			cateNameDef.put(new Long(1), "policy.catename.device");
