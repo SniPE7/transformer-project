@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ibm.ncs.model.dao.PolicyPublishInfo;
 import com.ibm.ncs.model.dao.TPolicyPublishInfoDao;
 import com.ibm.ncs.model.exceptions.TPolicyBaseDaoException;
+import com.ibm.ncs.model.exceptions.TPolicyPublishInfoDaoException;
 
 /**
  * @author zhaodonglu
@@ -74,6 +75,26 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 		}
 	}
 
+	public PolicyPublishInfo getReleasedVersion() throws TPolicyPublishInfoDaoException {
+		try {
+			List<PolicyPublishInfo> items = jdbcTemplate.query("SELECT PPIID, VERSION, VERSION_TAG, DESCRIPTION, PUBLISH_TIME, CREATE_TIME, UPDATE_TIME FROM " + getTableName() + " WHERE PUBLISH_TIME is not null ORDER BY PUBLISH_TIME DESC", this);
+			if (items != null && items.size() > 0) {
+				return items.get(0);
+			}
+			return null;
+		} catch (Exception e) {
+			throw new TPolicyPublishInfoDaoException("Query failed", e);
+		}
+  }
+
+	public List<PolicyPublishInfo> getHistoryVersions() throws TPolicyPublishInfoDaoException {
+		List<PolicyPublishInfo> items = this.getAllHistoryAndReleasedVersion();
+		if (items != null && items.size() > 0) {
+			 items.remove(0);
+		}
+	  return items;
+  }
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -83,7 +104,7 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 	 */
 	public List<PolicyPublishInfo> getAllHistoryAndReleasedVersion() throws TPolicyPublishInfoDaoException {
 		try {
-			return jdbcTemplate.query("SELECT PPIID, VERSION, VERSION_TAG, DESCRIPTION, PUBLISH_TIME, CREATE_TIME, UPDATE_TIME FROM " + getTableName() + " WHERE PUBLISH_TIME is not null ORDER BY VERSION ASC",
+			return jdbcTemplate.query("SELECT PPIID, VERSION, VERSION_TAG, DESCRIPTION, PUBLISH_TIME, CREATE_TIME, UPDATE_TIME FROM " + getTableName() + " WHERE PUBLISH_TIME is not null ORDER BY PUBLISH_TIME DESC",
 			    this);
 		} catch (Exception e) {
 			throw new TPolicyPublishInfoDaoException("Query failed", e);
@@ -131,6 +152,27 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 				return items.get(0);
 			}
 			return null;
+		} catch (Exception e) {
+			throw new TPolicyPublishInfoDaoException("Query failed", e);
+		}
+  }
+
+	@Transactional
+	public void copyAllPolicyTemplateVer(long srcPpiid, long destPpiid) throws TPolicyPublishInfoDaoException {
+		try {
+			String sql = 
+					"insert into T_POLICY_TEMPLATE_VER(PTVID, PT_VERSION, PTID, PPIID, STATUS, DESCRIPTION) " +
+				  "select  " +
+			    "NM_SEQ.NEXTVAL,  " +
+			    "TO_CHAR(TO_NUMBER(PT_VERSION) + 1),  " +
+			    "ptv.PTID,  " +
+			    "?,  " +
+			    "'D',  " +
+			    "PT.DESCRIPTION " +
+			  "from  " +
+			    "T_POLICY_TEMPLATE_VER ptv left join T_POLICY_TEMPLATE pt on ptv.ptid=pt.ptid  " +
+			  "where ppiid=? ";
+			int ret = jdbcTemplate.update(sql, destPpiid, srcPpiid);
 		} catch (Exception e) {
 			throw new TPolicyPublishInfoDaoException("Query failed", e);
 		}

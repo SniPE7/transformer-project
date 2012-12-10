@@ -9,8 +9,7 @@ response.setDateHeader("Expires",-1);
 %>
 <html>
 <head>
-<script type="text/javascript" src="../../dojo/dojo/dojo.js"
-	djConfig="isDebug: false, parseOnLoad: true"></script>
+<script type="text/javascript" src="../../dojo/dojo/dojo.js" djConfig="isDebug: false, parseOnLoad: true"></script>
 <style type="text/css">
 @import "../../dojo/dojo/resources/dojo.css";
 
@@ -273,24 +272,25 @@ window.onload =  function (){
 					</a>
 		            <a style='color: #000000; text-decoration: none;'
 		            	onClick="javascript:expandCollapse('<%=nodei %>');" 
-						href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=1" 
+						href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1" 
 						title="设备策略"
 		                target="detail" dir="ltr">设备策略模板&nbsp;&nbsp;</a>
 		</div>
 		<div class='nav-child-container'
 					style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
 			
-				<c:forEach  items="${model.mtree_Device}" var="dev">	
+        <c:forEach  items="${model.releasedPolicies}" var="dev">
+        <c:if test='${model.policyTemplateMap[dev.ptid].category == "1"}'>
 				<ul class='nav-child' dir='ltr'>
 					<li class='navigation-bullet'>
 						<a style='text-decoration: none'
-						href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=1&mpid=${dev.mpid }"
-						target="detail" dir="ltr"
-						title="${dev.mpname}(...${dev.mpid})">
-						${dev.mpname }
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1&ppiid=${model.draftVersionPolicyPublishInfo.ppiid}&ptvid=${dev.ptvid }"
+            target="detail" dir="ltr"
+            title="${model.policyTemplateMap[dev.ptid].mpname}(...${dev.ptvid})">
+            ${model.policyTemplateMap[dev.ptid].mpname}
 						</a></li>
 				</ul>
-			
+			  </c:if>
 				</c:forEach>
 		</div>
 		
@@ -303,24 +303,25 @@ window.onload =  function (){
 					</a>
 		            <a style='color: #000000; text-decoration: none;'
 		            	onClick="javascript:expandCollapse('<%=nodei %>');" 
-						href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=4" 
+						href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=4" 
 						title="端口策略"
 		                target="detail" dir="ltr">端口策略模板&nbsp;&nbsp;</a>
 		</div>
 		<div class='nav-child-container'
 					style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
-				<c:forEach  items="${model.mtree_Port}" var="dev">	
+        <c:forEach  items="${model.releasedPolicies}" var="dev">
+        <c:if test='${model.policyTemplateMap[dev.ptid].category == "4"}'>
 				<ul class='nav-child' dir='ltr'>
 					<li class='navigation-bullet'>
 						<a style='text-decoration: none'
-						href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=4&mpid=${dev.mpid }"
-						target="detail" dir="ltr"
-						title="${dev.mpname}(...${dev.mpid})">
-						${dev.mpname }
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=4&ppiid=${model.draftVersionPolicyPublishInfo.ppiid}&ptvid=${dev.ptvid }"
+            target="detail" dir="ltr"
+            title="${model.policyTemplateMap[dev.ptid].mpname}(...${dev.ptvid})">
+            ${model.policyTemplateMap[dev.ptid].mpname}
 						</a></li>
 				</ul>
-			
-				</c:forEach>
+        </c:if>
+        </c:forEach>
 		</div>
 		            
 		<% nodei++ ;%>
@@ -332,24 +333,25 @@ window.onload =  function (){
 					</a>
 		            <a style='color: #000000; text-decoration: none;'
 		            	onClick="javascript:expandCollapse('<%=nodei %>');" 
-						href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=9" 
+						href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=9" 
 						title="私有MIB策略&"
 		                target="detail" dir="ltr">私有MIB策略模板&nbsp;&nbsp;</a>
 		         </div>
 		
 				<div class='nav-child-container'
 					style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
-				<c:forEach  items="${model.mtree_MIB}" var="dev">	        
+        <c:forEach  items="${model.releasedPolicies}" var="dev">
+        <c:if test='${model.policyTemplateMap[dev.ptid].category == "9"}'>
 				<ul class='nav-child' dir='ltr'>
 					<li class='navigation-bullet'>
 						<a style='text-decoration: none'
-						href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=9&mpid=${dev.mpid }"
-						target="detail" dir="ltr"
-						title="${dev.mpname}(...${dev.mpid})">
-						${dev.mpname }
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=9&ppiid=${model.draftVersionPolicyPublishInfo.ppiid}&ptvid=${dev.ptvid }"
+            target="detail" dir="ltr"
+            title="${model.policyTemplateMap[dev.ptid].mpname}(...${dev.ptvid})">
+            ${model.policyTemplateMap[dev.ptid].mpname}
 						</a></li>
 				</ul>
-			
+			  </c:if>
 				</c:forEach>
 		</div>
     </td>
@@ -398,24 +400,33 @@ window.onload =  function (){
           </a>
                 <a style='color: #000000; text-decoration: none;'
                   onClick="javascript:expandCollapse('<%=nodei %>');" 
-            href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=1" 
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1" 
             title="设备策略"
                     target="detail" dir="ltr">设备策略模板&nbsp;&nbsp;</a>
     </div>
     <div class='nav-child-container'
           style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
-      
-        <c:forEach  items="${model.mtree_Device}" var="dev">  
         <ul class='nav-child' dir='ltr'>
           <li class='navigation-bullet'>
             <a style='text-decoration: none'
-            href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=1&mpid=${dev.mpid }"
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1&ppiid=${model.draftVersionPolicyPublishInfo.ppiid}"
             target="detail" dir="ltr"
-            title="${dev.mpname}(...${dev.mpid})">
-            ${dev.mpname }
+            title="新建策略 ...">
+            新建策略 ...
             </a></li>
         </ul>
-      
+        <c:forEach  items="${model.draftPolicies}" var="dev">
+        <c:if test='${model.policyTemplateMap[dev.ptid].category == "1"}'>
+        <ul class='nav-child' dir='ltr'>
+          <li class='navigation-bullet'>
+            <a style='text-decoration: none'
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1&ppiid=${model.draftVersionPolicyPublishInfo.ppiid}&ptvid=${dev.ptvid }"
+            target="detail" dir="ltr"
+            title="${model.policyTemplateMap[dev.ptid].mpname}(...${dev.ptvid})">
+            ${model.policyTemplateMap[dev.ptid].mpname}
+            </a></li>
+        </ul>
+        </c:if>
         </c:forEach>
     </div>
     
@@ -428,23 +439,33 @@ window.onload =  function (){
           </a>
                 <a style='color: #000000; text-decoration: none;'
                   onClick="javascript:expandCollapse('<%=nodei %>');" 
-            href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=4" 
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=4" 
             title="端口策略"
                     target="detail" dir="ltr">端口策略模板&nbsp;&nbsp;</a>
     </div>
     <div class='nav-child-container'
           style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
-        <c:forEach  items="${model.mtree_Port}" var="dev">  
         <ul class='nav-child' dir='ltr'>
           <li class='navigation-bullet'>
             <a style='text-decoration: none'
-            href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=4&mpid=${dev.mpid }"
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=4&ppiid=${model.draftVersionPolicyPublishInfo.ppiid}"
             target="detail" dir="ltr"
-            title="${dev.mpname}(...${dev.mpid})">
-            ${dev.mpname }
+            title="新建策略 ...">
+            新建策略 ...
             </a></li>
         </ul>
-      
+        <c:forEach  items="${model.draftPolicies}" var="dev">
+        <c:if test='${model.policyTemplateMap[dev.ptid].category == "4"}'>
+        <ul class='nav-child' dir='ltr'>
+          <li class='navigation-bullet'>
+            <a style='text-decoration: none'
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=4&ppiid=${model.draftVersionPolicyPublishInfo.ppiid}&ptvid=${dev.ptvid }"
+            target="detail" dir="ltr"
+            title="${model.policyTemplateMap[dev.ptid].mpname}(...${dev.ptvid})">
+            ${model.policyTemplateMap[dev.ptid].mpname}
+            </a></li>
+        </ul>
+        </c:if>
         </c:forEach>
     </div>
                 
@@ -457,29 +478,39 @@ window.onload =  function (){
           </a>
                 <a style='color: #000000; text-decoration: none;'
                   onClick="javascript:expandCollapse('<%=nodei %>');" 
-            href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=9" 
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=9" 
             title="私有MIB策略&"
                     target="detail" dir="ltr">私有MIB策略模板&nbsp;&nbsp;</a>
              </div>
     
         <div class='nav-child-container'
           style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
-        <c:forEach  items="${model.mtree_MIB}" var="dev">         
         <ul class='nav-child' dir='ltr'>
           <li class='navigation-bullet'>
             <a style='text-decoration: none'
-            href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=9&mpid=${dev.mpid }"
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=9&ppiid=${model.draftVersionPolicyPublishInfo.ppiid}"
             target="detail" dir="ltr"
-            title="${dev.mpname}(...${dev.mpid})">
-            ${dev.mpname }
+            title="新建策略 ...">
+            新建策略 ...
             </a></li>
         </ul>
-      
+        <c:forEach  items="${model.draftPolicies}" var="dev">
+        <c:if test='${model.policyTemplateMap[dev.ptid].category == "9"}'>
+        <ul class='nav-child' dir='ltr'>
+          <li class='navigation-bullet'>
+            <a style='text-decoration: none'
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=9&ppiid=${model.draftVersionPolicyPublishInfo.ppiid}&ptvid=${dev.ptvid }"
+            target="detail" dir="ltr"
+            title="${model.policyTemplateMap[dev.ptid].mpname}(...${dev.ptvid})">
+            ${model.policyTemplateMap[dev.ptid].mpname}
+            </a></li>
+        </ul>
+        </c:if>
         </c:forEach>
     </div>
             
 
-    <!-- period policy -->
+    <!-- release policy -->
     <% nodei++ ;%>
     <div nowrap class='main-task' style='margin-left: 0.3em;'>
       <a style='color: #000000; text-decoration: none;'
@@ -488,10 +519,7 @@ window.onload =  function (){
       <img src='<%=request.getContextPath() %>/images/arrow_expanded.gif' title='+' alt='+' id='I<%=nodei %>' border='0' align='absmiddle'>     
             </a>
             <a style='color: #000000; text-decoration: none;'             
-              onClick="javascript:expandCollapse('<%=nodei %>');" 
-        href="<%=request.getContextPath() %>/secure/policyapply/newPolicyPeriodDef.jsp" 
-        target="detail"
-        title="TimeFrame ...">发布策略模板</a>
+              href="javascript:expandCollapse('<%=nodei %>');">发布策略模板</a>
          </div>
 
     <div class='nav-child-container' style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
@@ -499,7 +527,7 @@ window.onload =  function (){
         <ul class='nav-child' dir='ltr'>
           <li class='navigation-bullet'>
             <a style='text-decoration: none'
-            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyPublishInfoDefinition.wss?formAction=showModifyForm&ppiid=${model.draftVersionPolicyPublishInfo.ppiid}"
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/showPolicyPublishInfoView4Release.wss?formAction=showm&ppiid=${model.draftVersionPolicyPublishInfo.ppiid}"
             target="detail" dir="ltr"
             title="${model.draftVersionPolicyPublishInfo.versionTag}(...${model.draftVersionPolicyPublishInfo.version})">
                                           版本: ${model.draftVersionPolicyPublishInfo.version} - [${model.draftVersionPolicyPublishInfo.versionTag}]
@@ -535,7 +563,7 @@ window.onload =  function (){
           </a>
                 <a style='color: #000000; text-decoration: none;'
                   onClick="javascript:expandCollapse('<%=nodei %>');" 
-            href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=1" 
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1" 
             title="设备策略"
                     target="detail" dir="ltr">设备策略模板&nbsp;&nbsp;</a>
     </div>
@@ -546,7 +574,7 @@ window.onload =  function (){
         <ul class='nav-child' dir='ltr'>
           <li class='navigation-bullet'>
             <a style='text-decoration: none'
-            href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=1&mpid=${dev.mpid }"
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1&mpid=${dev.mpid }"
             target="detail" dir="ltr"
             title="${dev.mpname}(...${dev.mpid})">
             ${dev.mpname }
@@ -565,7 +593,7 @@ window.onload =  function (){
           </a>
                 <a style='color: #000000; text-decoration: none;'
                   onClick="javascript:expandCollapse('<%=nodei %>');" 
-            href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=4" 
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=4" 
             title="端口策略"
                     target="detail" dir="ltr">端口策略模板&nbsp;&nbsp;</a>
     </div>
@@ -575,7 +603,7 @@ window.onload =  function (){
         <ul class='nav-child' dir='ltr'>
           <li class='navigation-bullet'>
             <a style='text-decoration: none'
-            href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=4&mpid=${dev.mpid }"
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=4&mpid=${dev.mpid }"
             target="detail" dir="ltr"
             title="${dev.mpname}(...${dev.mpid})">
             ${dev.mpname }
@@ -594,7 +622,7 @@ window.onload =  function (){
           </a>
                 <a style='color: #000000; text-decoration: none;'
                   onClick="javascript:expandCollapse('<%=nodei %>');" 
-            href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=9" 
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=9" 
             title="私有MIB策略&"
                     target="detail" dir="ltr">私有MIB策略模板&nbsp;&nbsp;</a>
              </div>
@@ -605,7 +633,7 @@ window.onload =  function (){
         <ul class='nav-child' dir='ltr'>
           <li class='navigation-bullet'>
             <a style='text-decoration: none'
-            href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=9&mpid=${dev.mpid }"
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=9&mpid=${dev.mpid }"
             target="detail" dir="ltr"
             title="${dev.mpname}(...${dev.mpid})">
             ${dev.mpname }
