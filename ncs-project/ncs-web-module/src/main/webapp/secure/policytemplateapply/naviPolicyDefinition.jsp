@@ -569,17 +569,63 @@ window.onload =  function (){
          target="detail" dir="ltr">${historyPPI.versionTag}</a>
     </div>
     <div class='nav-child-container' style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
-      <c:forEach  items="${model.ppiidToPolicyTemplateVerMap[historyPPI.ppiid]}" var="dev">  
         <ul class='nav-child' dir='ltr'>
           <li class='navigation-bullet'>
-            <a style='text-decoration: none'
-            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1&ppiid=${historyPPI.ppiid}&ptvid=${dev.ptvid }"
-            target="detail" dir="ltr"
-            title="${model.policyTemplateMap[dev.ptid].mpname}(...${dev.ptvid})">
-            ${model.policyTemplateMap[dev.ptid].mpname}
-            </a></li>
-        </ul>
-      </c:forEach>
+                                    设备策略
+			      <c:forEach  items="${model.ppiidToPolicyTemplateVerMap[historyPPI.ppiid]}" var="dev">
+			        <c:if test='${model.policyTemplateMap[dev.ptid].category == "1"}'>
+			        <ul class='nav-child' dir='ltr'>
+			          <li class='navigation-bullet'>
+			            <a style='text-decoration: none'
+			            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1&ppiid=${historyPPI.ppiid}&ptvid=${dev.ptvid }"
+			            target="detail" dir="ltr"
+			            title="${model.policyTemplateMap[dev.ptid].mpname}(...${dev.ptvid})">
+			            ${model.policyTemplateMap[dev.ptid].mpname}
+			            </a></li>
+			        </ul>
+			        </c:if>
+			      </c:forEach>
+      
+         </li>
+         </ul>
+        <ul class='nav-child' dir='ltr'>
+          <li class='navigation-bullet'>
+                                    端口策略
+            <c:forEach  items="${model.ppiidToPolicyTemplateVerMap[historyPPI.ppiid]}" var="dev">
+              <c:if test='${model.policyTemplateMap[dev.ptid].category == "4"}'>
+              <ul class='nav-child' dir='ltr'>
+                <li class='navigation-bullet'>
+                  <a style='text-decoration: none'
+                  href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1&ppiid=${historyPPI.ppiid}&ptvid=${dev.ptvid }"
+                  target="detail" dir="ltr"
+                  title="${model.policyTemplateMap[dev.ptid].mpname}(...${dev.ptvid})">
+                  ${model.policyTemplateMap[dev.ptid].mpname}
+                  </a></li>
+              </ul>
+              </c:if>
+            </c:forEach>
+      
+         </li>
+         </ul>
+        <ul class='nav-child' dir='ltr'>
+          <li class='navigation-bullet'>
+                                    私有MIB策略
+            <c:forEach  items="${model.ppiidToPolicyTemplateVerMap[historyPPI.ppiid]}" var="dev">
+              <c:if test='${model.policyTemplateMap[dev.ptid].category == "9"}'>
+              <ul class='nav-child' dir='ltr'>
+                <li class='navigation-bullet'>
+                  <a style='text-decoration: none'
+                  href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1&ppiid=${historyPPI.ppiid}&ptvid=${dev.ptvid }"
+                  target="detail" dir="ltr"
+                  title="${model.policyTemplateMap[dev.ptid].mpname}(...${dev.ptvid})">
+                  ${model.policyTemplateMap[dev.ptid].mpname}
+                  </a></li>
+              </ul>
+              </c:if>
+            </c:forEach>
+      
+         </li>
+         </ul>
     </div>
     </td>
   </tr>
