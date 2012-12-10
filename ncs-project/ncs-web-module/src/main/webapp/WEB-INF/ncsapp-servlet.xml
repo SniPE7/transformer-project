@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-	
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
 		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
@@ -1468,6 +1467,8 @@
     class="com.ibm.ncs.web.policytemplateapply.NaviPolicyDefinitionController">
     <property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
     <property name="policyPublishInfoDao" ref="policyPublishInfoDao" />
+    <property name="policyTemplateDao" ref="policyTemplateDao" />
+    <property name="policyTemplateVerDao" ref="policyTemplateVerDao" />
   </bean>
   <bean name="/secure/policytemplateapply/policyPublishInfoDefinition.wss"
     class="com.ibm.ncs.web.policytemplateapply.PolicyPublishInfoDefinitionController">
@@ -1475,17 +1476,36 @@
     <property name="genPkNumber" ref="GenPkNumber" />
     <property name="pageView" value="/secure/policytemplateapply/policyPublishInfoDefinition.jsp"/>
   </bean>
-  
-  <!-- Unused -->
   <bean name="/secure/policytemplateapply/policyDefinition.wss"
     class="com.ibm.ncs.web.policytemplateapply.PolicyDefinitionController">
+    <property name="policyPublishInfoDao" ref="policyPublishInfoDao" />
+    <property name="policyTemplateDao" ref="policyTemplateDao" />
+    <property name="policyTemplateVerDao" ref="policyTemplateVerDao" />
+    
     <property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
     <property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />
     <property name="TDevpolMapDao" ref="TDevpolMapDao" />
     <property name="TLinepolMapDao" ref="TLinepolMapDao" />
     <property name="predefmibPolMapDao" ref="PredefmibPolMapDao" />
+    
     <property name="genPkNumber" ref="GenPkNumber" />
-    <property name="pageView" value="/secure/policyapply/policyDefinition.jsp" />
+    <property name="pageView" value="/secure/policytemplateapply/policyDefinition.jsp" />
+  </bean>
+  <!-- 视图入口: 发布下发策略模板集 -->
+  <bean name="/secure/policytemplateapply/showPolicyPublishInfoView4Release.wss"
+    class="com.ibm.ncs.web.policytemplateapply.ShowPolicyPublishInfoView4ReleaseController">
+    <property name="policyPublishInfoDao" ref="policyPublishInfoDao" />
+    <property name="policyTemplateDao" ref="policyTemplateDao" />
+    <property name="policyTemplateVerDao" ref="policyTemplateVerDao" />
+    <property name="pageView" value="/secure/policytemplateapply/view4ReleasePolicyPublishInfo.jsp"/>
+  </bean>
+  <!-- 操作: 发布下发策略模板集 -->
+  <bean name="/secure/policytemplateapply/releasePolicyPublishInfoController.wss"
+    class="com.ibm.ncs.web.policytemplateapply.ReleasePolicyPublishInfoController">
+    <property name="policyPublishInfoDao" ref="policyPublishInfoDao" />
+    <property name="policyTemplateDao" ref="policyTemplateDao" />
+    <property name="policyTemplateVerDao" ref="policyTemplateVerDao" />
+    <property name="pageView" value="/secure/policytemplateapply/view4ReleasePolicyPublishInfo.jsp"/>
   </bean>
 	
 </beans>  

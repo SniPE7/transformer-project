@@ -5,7 +5,7 @@
 <Workspace>
 	<Local Expanded="Yes">
 		<Model Expanded="Yes" ID="{7D82D5D4-F7AC-4DFB-8C18-1D4AFCC26E0A}" Loaded="No" Name="NCSPhysicalDataModel" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="NCSPhysicalDataModel.pdm"/>
-		<Model Expanded="Yes" ID="{73712749-0B74-4F67-88D3-FDF75FBB6891}" Name="NCS_ICBC_PhysicalDataModel" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="NCS_ICBC_PhysicalDataModel.pdm"/>
+		<Model Expanded="Yes" ID="{73712749-0B74-4F67-88D3-FDF75FBB6891}" Name="NCS_ICBC_PhysicalDataModel" Selected="Yes" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="NCS_ICBC_PhysicalDataModel.pdm"/>
 		<Model Expanded="Yes" ID="{2AA556C4-7BE4-4012-B8F3-00BA0A0D4500}" Loaded="No" Name="nccALLinONE" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="/Zhao/Projects/ICBC/NetCool Web Config Tool/Schema/nccALLinONE.pdm"/>
 	</Local>
 	<BrowserModule Name="Repository"/>

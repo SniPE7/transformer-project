@@ -19,11 +19,11 @@
 <script language="JavaScript" type="text/javascript">
 
 function saveform1(){
-	  if(document.getElementsByName("version").item(0).value == ""){
-	    alert("版本标记不能为空！");
+	  if(document.getElementsByName("ppiid").item(0).value == ""){
+	    alert("版本不能为空！");
 	    return false;
 	  }
-	  form1.action = "<%=request.getContextPath() %>/secure/policytemplateapply/policyPublishInfoDefinition.wss";
+	  form1.action = "<%=request.getContextPath() %>/secure/policytemplateapply/releasePolicyPublishInfoController.wss";
 	  this.form1.submit();
 	}
 
@@ -34,7 +34,7 @@ function reloadNavi(){
 <body <c:if test="${definition.refresh eq 'true'}">onLoad="reloadNavi()"</c:if> class="navtree" style="background-color: #FFFFFF;" leftmargin="0" topmargin="0" marginwidth="0"
 	marginheight="0">
 	<form action="" method="post" id="form1" name="form1">
-    <input type="hidden" name="formAction" value="${definition.formAction}" />
+	  <input type="hidden" name="ppiid" value="${definition.policyPublishInfo.ppiid}">
 		<TABLE WIDTH="98%" CELLPADDING="0" CELLSPACING="0" BORDER="0" class="portalPage">
 			<TR>
 				<TD CLASS="pageTitle">策略管理</TD>
@@ -48,19 +48,19 @@ function reloadNavi(){
 
 					<TABLE WIDTH="98%" CELLPADDING="0" CELLSPACING="0" BORDER="0" CLASS="wasPortlet">
 						<TR>
-							<TH class="wpsPortletTitle" width="100%">创建新策略模板集</TH>
+							<TH class="wpsPortletTitle" width="100%">发布下发策略模板集</TH>
 						</TR>
 						<TR>
 							<TD CLASS="wpsPortletArea" COLSPAN="3"><a name="important"></a>
 
-								<h1 id="title-bread-crumb">策略</h1>
+								<h1 id="title-bread-crumb">策略模板集</h1>
 								<table border="0" cellpadding="3" cellspacing="0" valign="top" width="100%" summary="Framing Table" class="button-section">
 
 									<tr valign="top">
 										<td class="table-button-section" nowrap>
 											<table style="display: inline; font-size: 95%;" cellspacing="0" cellpadding="0" border="0">
 												<tr>
-													<td><input type="button" name="button_update" value="保存" class="buttons" onClick="saveform1()" id="functions" /></td>
+													<td><input type="button" name="button_update" value="发布" class="buttons" onClick="saveform1()" id="functions" /></td>
 												</tr>
 											</table> 
 										</td>
@@ -83,30 +83,17 @@ function reloadNavi(){
 												</tr>
                         <tr>
                           <td>版本<font color="red">*</font></td>
-                          <td>&nbsp;${definition.newVersion4Draft}<input type="hidden" name="version" value="${definition.newVersion4Draft}" style="width: 245px" readonly="readonly"/>
+                          <td>&nbsp;${definition.policyPublishInfo.version}
                           </td>
                         </tr>
-                        <c:if test="${definition.formAction == 'create' }">
-                        <tr>
-                          <td>创建方式<font color="red">*</font></td>
-                          <td>
-                          <select name="creationMode">
-                            <option>基于空白内容</option>
-                            <c:forEach  items="${definition.historyAndReleasedPolicyPublishInfos}" var="historyAndReleasedPolicyPublishInfo">  
-                            <option value="${historyAndReleasedPolicyPublishInfo.ppiid}">复制版本[${historyAndReleasedPolicyPublishInfo.version}] - [${historyAndReleasedPolicyPublishInfo.versionTag}]</option>
-                            </c:forEach>
-                          </select>
-                          </td>
-                        </tr>
-                        </c:if>
                         <tr>
                           <td>版本标记<font color="red">*</font></td>
-                          <td>&nbsp;<input type="text" name="versionTag" value="${definition.versionTag}" style="width: 245px"/>
+                          <td>&nbsp;${definition.policyPublishInfo.versionTag}
                           </td>
                         </tr>
 												<tr>
 													<td>备注</td>
-													<td><textarea rows="4" cols="20" name="description" style="width: 445px">${definition.description}</textarea></td>
+													<td><textarea rows="4" cols="20" name="description" style="width: 445px">${definition.policyPublishInfo.description}</textarea></td>
 												</tr>
 											</table>
 

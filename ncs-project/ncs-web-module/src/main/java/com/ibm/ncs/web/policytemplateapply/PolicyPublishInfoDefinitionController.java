@@ -48,7 +48,8 @@ public class PolicyPublishInfoDefinitionController implements Controller {
 	}
 
 	/**
-	 * @param genPkNumber the genPkNumber to set
+	 * @param genPkNumber
+	 *          the genPkNumber to set
 	 */
 	public void setGenPkNumber(GenPkNumber genPkNumber) {
 		this.genPkNumber = genPkNumber;
@@ -74,6 +75,7 @@ public class PolicyPublishInfoDefinitionController implements Controller {
 		message = "";
 		Map<String, Object> model = new HashMap<String, Object>();
 		String formAction = request.getParameter("formAction");
+		String creationMode = request.getParameter("creationMode");
 		try {
 
 			if (formAction != null && formAction.equalsIgnoreCase("showCreationForm")) {
@@ -93,6 +95,17 @@ public class PolicyPublishInfoDefinitionController implements Controller {
 				policyPublishInfo.setVersionTag(request.getParameter("versionTag"));
 				policyPublishInfo.setDescription(request.getParameter("description"));
 				policyPublishInfoDao.insert(policyPublishInfo);
+
+				if (creationMode != null && creationMode.trim().length() > 0) {
+					// Copy all policyTemplateVer
+					PolicyPublishInfo ppi = this.policyPublishInfoDao.findById(creationMode);
+					if (ppi != null) {
+						this.policyPublishInfoDao.copyAllPolicyTemplateVer(Long.parseLong(creationMode), policyPublishInfo.getPpiid());
+					}
+					// Copy all scopes
+
+					// Copy all event polices
+				}
 				model.put("message", "message.common.create.success");
 				model.put("refresh", "true");
 			} else if (formAction != null && formAction.equalsIgnoreCase("showModifyForm")) {
@@ -105,7 +118,7 @@ public class PolicyPublishInfoDefinitionController implements Controller {
 				return new ModelAndView(getPageView(), "definition", model);
 			} else if (formAction != null && formAction.equalsIgnoreCase("update")) {
 				PolicyPublishInfo policyPublishInfo = new PolicyPublishInfo();
-				//policyPublishInfo.setVersion(request.getParameter("version"));
+				// policyPublishInfo.setVersion(request.getParameter("version"));
 				policyPublishInfo.setUpdateTime(new Date());
 				policyPublishInfo.setVersionTag(request.getParameter("versionTag"));
 				policyPublishInfo.setDescription(request.getParameter("description"));
@@ -114,11 +127,11 @@ public class PolicyPublishInfoDefinitionController implements Controller {
 				model.put("refresh", "true");
 			}
 		} catch (UncategorizedSQLException ue) {
-			if (formAction.equalsIgnoreCase("create")) { 
+			if (formAction.equalsIgnoreCase("create")) {
 				message = "policyDefinitionController.delete.error";
-			} else if (formAction.equalsIgnoreCase("save") ) {
+			} else if (formAction.equalsIgnoreCase("save")) {
 				message = "policyDefinitionController.save.error";
-			} else if (formAction.equalsIgnoreCase("add") ) {
+			} else if (formAction.equalsIgnoreCase("add")) {
 				message = "policyDefinitionController.add.error";
 			}
 			model.put("message", message);

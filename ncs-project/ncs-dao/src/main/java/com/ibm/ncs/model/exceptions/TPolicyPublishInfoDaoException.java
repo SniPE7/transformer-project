@@ -1,6 +1,5 @@
-package com.ibm.ncs.model.dao.spring;
+package com.ibm.ncs.model.exceptions;
 
-import com.ibm.ncs.model.exceptions.DaoException;
 
 public class TPolicyPublishInfoDaoException  extends DaoException
 {

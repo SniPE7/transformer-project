@@ -3,4 +3,12 @@
   <bean id="policyPublishInfoDao" class="com.ibm.ncs.model.dao.spring.TPolicyPublishInfoDaoImpl" scope="singleton">
     <property name="dataSource" ref="myDataSource" />
   </bean>
+
+  <bean id="policyTemplateDao" class="com.ibm.ncs.model.dao.spring.TPolicyTemplateDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+
+  <bean id="policyTemplateVerDao" class="com.ibm.ncs.model.dao.spring.TPolicyTemplateVerDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
 </beans>
