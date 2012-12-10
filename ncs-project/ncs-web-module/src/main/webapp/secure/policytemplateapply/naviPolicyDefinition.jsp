@@ -494,7 +494,7 @@ window.onload =  function (){
             新建策略 ...
             </a></li>
         </ul>
-        <c:forEach  items="${model.draftPolicies}" var="dev">
+        <c:forEach items="${model.draftPolicies}" var="dev">
         <c:if test='${model.policyTemplateMap[dev.ptid].category == "9"}'>
         <ul class='nav-child' dir='ltr'>
           <li class='navigation-bullet'>
@@ -551,6 +551,7 @@ window.onload =  function (){
       </ul>
     </td>
   </tr>
+  <c:forEach items="${model.historyVersionPolicyPublishInfos}" var="historyPPI">
   <tr>
     <td>
     <!--  Policy in a category  -->
@@ -565,23 +566,24 @@ window.onload =  function (){
          onClick="javascript:expandCollapse('<%=nodei %>');" 
          href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1" 
          title="设备策略"
-         target="detail" dir="ltr">设备策略模板&nbsp;&nbsp;</a>
+         target="detail" dir="ltr">${historyPPI.versionTag}</a>
     </div>
     <div class='nav-child-container' style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
-      <c:forEach  items="${model.mtree_Device}" var="dev">  
+      <c:forEach  items="${model.ppiidToPolicyTemplateVerMap[historyPPI.ppiid]}" var="dev">  
         <ul class='nav-child' dir='ltr'>
           <li class='navigation-bullet'>
             <a style='text-decoration: none'
-            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1&mpid=${dev.mpid }"
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1&ppiid=${model.draftVersionPolicyPublishInfo.ppiid}&ptvid=${dev.ptvid }"
             target="detail" dir="ltr"
-            title="${dev.mpname}(...${dev.mpid})">
-            ${dev.mpname }
+            title="${model.policyTemplateMap[dev.ptid].mpname}(...${dev.ptvid})">
+            ${model.policyTemplateMap[dev.ptid].mpname}
             </a></li>
         </ul>
       </c:forEach>
     </div>
     </td>
   </tr>
+  </c:forEach>
 </table>
 
 
