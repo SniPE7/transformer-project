@@ -573,7 +573,7 @@ window.onload =  function (){
         <ul class='nav-child' dir='ltr'>
           <li class='navigation-bullet'>
             <a style='text-decoration: none'
-            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1&ppiid=${model.draftVersionPolicyPublishInfo.ppiid}&ptvid=${dev.ptvid }"
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1&ppiid=${historyPPI.ppiid}&ptvid=${dev.ptvid }"
             target="detail" dir="ltr"
             title="${model.policyTemplateMap[dev.ptid].mpname}(...${dev.ptvid})">
             ${model.policyTemplateMap[dev.ptid].mpname}
