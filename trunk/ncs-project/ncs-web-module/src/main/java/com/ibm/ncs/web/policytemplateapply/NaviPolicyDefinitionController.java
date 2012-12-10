@@ -96,7 +96,7 @@ public class NaviPolicyDefinitionController implements Controller {
 			model.put("historyVersionPolicyPublishInfos", historyVersionPolicyPublishInfos);
 			for (PolicyPublishInfo ppi: historyVersionPolicyPublishInfos) {
 				 List<PolicyTemplateVer> releasedPolicies = this.policyTemplateVerDao.findByPublishInfoId(Long.toString(ppi.getPpiid()));
-				 model.put("releasedPolicies", releasedPolicies);
+				 //model.put("releasedPolicies", releasedPolicies);
 				 for (PolicyTemplateVer tv: releasedPolicies) {
 					 PolicyTemplate pt = this.policyTemplateDao.findById(Long.toString(tv.getPtid()));
 					 policyTemplateMap.put(pt.getPtid(), pt);
