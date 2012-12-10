@@ -187,7 +187,7 @@ function reloadNavi(){
 												<td>策略名称<font color="red">*</font></td>
 												<td>&nbsp; 
 												  <c:if test="${definition.ptvid == null}">
-												  <input type="text" name="mpname" value="${definition.mpname}" style="width: 245px" />
+												    <input type="text" name="mpname" value="${definition.mpname}" style="width: 245px" />
 												  </c:if>
                           <c:if test="${definition.ptvid != null}">
                           ${definition.mpname}
@@ -228,7 +228,7 @@ function reloadNavi(){
 		</TABLE>
 	</form>
 	<script type="text/javascript">
-	if (document.getElementByName("mpid").item(0).value == "") {
+	if (document.getElementsByName("ptvid").item(0).value == "") {
 		document.getElementsByName("button_new").item(0).disabled = true;
 		document.getElementsByName("button_bind").item(0).disabled = true;
 	}
