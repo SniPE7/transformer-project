@@ -1,10 +1,8 @@
 package com.ibm.ncs.model.dto;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
 
-public class DeviceTypeTree implements Serializable
+public class DeviceTypeTree implements Serializable, Comparable<DeviceTypeTree>
 {
 	protected long mrid;
 
@@ -297,6 +295,28 @@ public class DeviceTypeTree implements Serializable
 		this.description = description;
 	}
 
+	@Override
+  public int hashCode() {
+	  final int prime = 31;
+	  int result = 1;
+	  result = prime * result + (int) (dtid ^ (dtid >>> 32));
+	  return result;
+  }
+
+	@Override
+  public boolean equals(Object obj) {
+	  if (this == obj)
+		  return true;
+	  if (obj == null)
+		  return false;
+	  if (getClass() != obj.getClass())
+		  return false;
+	  DeviceTypeTree other = (DeviceTypeTree) obj;
+	  if (dtid != other.dtid)
+		  return false;
+	  return true;
+  }
+
 	/**
 	 * Method 'toString'
 	 * 
@@ -318,5 +338,27 @@ public class DeviceTypeTree implements Serializable
 		ret.append( ", description=" + description );
 		return ret.toString();
 	}
+
+	public int compareTo(DeviceTypeTree o) {
+		if (o == null) {
+			 return 1;
+		}
+		if (this.mrName == null || o.getMrName() == null) {
+			 return -1;
+		}
+		if (this.model == null) {
+			if (o.getModel() != null) {
+				 return -1;
+			} else {
+				return 0;
+			}
+		}
+		
+		if (this.mrName.equalsIgnoreCase(o.getMrName())) {
+			return this.model.compareToIgnoreCase(o.getModel());
+		} else {
+			return this.mrName.compareToIgnoreCase(o.getMrName());
+		}
+  }
 
 }

@@ -3,8 +3,11 @@
  */
 package com.ibm.ncs.web.policytemplateapply;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,17 +16,24 @@ import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
+import com.ibm.ncs.model.dao.DeviceTypeTreeDao;
 import com.ibm.ncs.model.dao.PolicyPublishInfo;
 import com.ibm.ncs.model.dao.PredefmibPolMapDao;
 import com.ibm.ncs.model.dao.TDevpolMapDao;
 import com.ibm.ncs.model.dao.TLinepolMapDao;
+import com.ibm.ncs.model.dao.TManufacturerInfoInitDao;
 import com.ibm.ncs.model.dao.TPolicyBaseDao;
 import com.ibm.ncs.model.dao.TPolicyPeriodDao;
 import com.ibm.ncs.model.dao.TPolicyPublishInfoDao;
 import com.ibm.ncs.model.dao.TPolicyTemplateDao;
+import com.ibm.ncs.model.dao.TPolicyTemplateScopeDao;
 import com.ibm.ncs.model.dao.TPolicyTemplateVerDao;
+import com.ibm.ncs.model.dao.spring.DeviceTypeTreeDaoImpl;
+import com.ibm.ncs.model.dto.DeviceTypeTree;
 import com.ibm.ncs.model.dto.PolicyTemplate;
+import com.ibm.ncs.model.dto.PolicyTemplateScope;
 import com.ibm.ncs.model.dto.PolicyTemplateVer;
+import com.ibm.ncs.model.dto.TManufacturerInfoInit;
 import com.ibm.ncs.util.GenPkNumber;
 import com.ibm.ncs.util.Log4jInit;
 
@@ -35,7 +45,10 @@ public class PolicyDefinitionController implements Controller {
 
 	private TPolicyPublishInfoDao policyPublishInfoDao;
 	private TPolicyTemplateDao policyTemplateDao;
+	private TPolicyTemplateScopeDao policyTemplateScopeDao;
 	private TPolicyTemplateVerDao policyTemplateVerDao;
+	private DeviceTypeTreeDao deviceTypeTreeDao;
+	private TManufacturerInfoInitDao manufacturerInfoDao;
 
 	TPolicyBaseDao TPolicyBaseDao;
 	TPolicyPeriodDao TPolicyPeriodDao;
@@ -45,6 +58,14 @@ public class PolicyDefinitionController implements Controller {
 	GenPkNumber genPkNumber;
 	String pageView;
 	String message = "";
+
+	public void setManufacturerInfoDao(TManufacturerInfoInitDao manufacturerInfoDao) {
+		this.manufacturerInfoDao = manufacturerInfoDao;
+	}
+
+	public void setDeviceTypeTreeDao(DeviceTypeTreeDaoImpl deviceTypeTreeDao) {
+		this.deviceTypeTreeDao = deviceTypeTreeDao;
+	}
 
 	public void setTPolicyBaseDao(TPolicyBaseDao policyBaseDao) {
 		TPolicyBaseDao = policyBaseDao;
@@ -64,6 +85,10 @@ public class PolicyDefinitionController implements Controller {
 
 	public void setPredefmibPolMapDao(PredefmibPolMapDao predefmibPolMapDao) {
 		this.predefmibPolMapDao = predefmibPolMapDao;
+	}
+
+	public void setPolicyTemplateScopeDao(TPolicyTemplateScopeDao policyTemplateScopeDao) {
+		this.policyTemplateScopeDao = policyTemplateScopeDao;
 	}
 
 	/**
@@ -150,6 +175,18 @@ public class PolicyDefinitionController implements Controller {
 
 						this.policyTemplateVerDao.update(Long.parseLong(ptvid), policyTemplateVer);
 						Log4jInit.ncsLog.info(this.getClass().getName() + " updated to TPolicyTemplateVerDao: pk= " + ptvid + "\tdto=" + policyTemplateVer.toString());
+						
+						this.policyTemplateScopeDao.deleteAllByPtvid(Long.parseLong(ptvid));
+						String[] selectedDeviceTypeIDs = request.getParameterValues("selected_device_type_list");
+						if (selectedDeviceTypeIDs != null && selectedDeviceTypeIDs.length > 0) {
+							for (String dtid : selectedDeviceTypeIDs) {
+								PolicyTemplateScope policyTemplateScope = new PolicyTemplateScope();
+								policyTemplateScope.setPtvid(Long.parseLong(ptvid));
+								policyTemplateScope.setDtid(Long.parseLong(dtid));
+								this.policyTemplateScopeDao.insert(policyTemplateScope);
+							}
+						}
+						
 						model.put("message", "message.common.update.success");
 
 					} else if (formAction.equalsIgnoreCase("add") || mpid == null) {
@@ -186,6 +223,16 @@ public class PolicyDefinitionController implements Controller {
 						this.policyTemplateDao.insert(template);
 						this.policyTemplateVerDao.insert(templateVer);
 
+						String[] selectedDeviceTypeIDs = request.getParameterValues("selected_device_type_list");
+						if (selectedDeviceTypeIDs != null && selectedDeviceTypeIDs.length > 0) {
+							PolicyTemplateScope policyTemplateScope = new PolicyTemplateScope();
+							for (String dtid : selectedDeviceTypeIDs) {
+								policyTemplateScope.setPtvid(Long.parseLong(ptvid));
+								policyTemplateScope.setDtid(Long.parseLong(dtid));
+								this.policyTemplateScopeDao.insert(policyTemplateScope);
+							}
+						}
+
 						model.put("message", "message.common.create.success");
 						model.put("refresh", "true");
 						Log4jInit.ncsLog.info(this.getClass().getName() + " inserted to TPolicyTemplateDao: " + template.toString());
@@ -212,16 +259,36 @@ public class PolicyDefinitionController implements Controller {
 				e.printStackTrace();
 			}
 
+			List<DeviceTypeTree> selectedDeviceTypes = new ArrayList<DeviceTypeTree>();
 			try {
 				if (ptvid != null) {
 					PolicyTemplateVer policyTemplateVer = null;
 					policyTemplateVer = this.policyTemplateVerDao.findById(ptvid);
 					if (policyTemplateVer != null) {
-   					PolicyTemplate policyTempalte = this.policyTemplateDao.findById(Long.toString(policyTemplateVer.getPtid()));
+						PolicyTemplate policyTempalte = this.policyTemplateDao.findById(Long.toString(policyTemplateVer.getPtid()));
 						model.put("policyTemplateVer", policyTemplateVer);
 						model.put("mpname", policyTempalte.getMpname());
+
+						List<PolicyTemplateScope> policyTemplateScopes = this.policyTemplateScopeDao.findByPtvd(ptvid);
+						for (PolicyTemplateScope scope : policyTemplateScopes) {
+							if (scope.getDtid() > 0) {
+								DeviceTypeTree deviceType = this.deviceTypeTreeDao.findByDtid(scope.getDtid());
+								if (deviceType != null) {
+									selectedDeviceTypes.add(deviceType);
+								}
+							}
+						}
+						model.put("selectedDeviceTypes", new TreeSet<DeviceTypeTree>(selectedDeviceTypes));
 					}
 				}
+				// Load all device type and manufacturers
+				List<DeviceTypeTree> deviceTypes = this.deviceTypeTreeDao.findDeviceTypeByWhereClause("");
+				deviceTypes.removeAll(selectedDeviceTypes);
+				model.put("deviceTypes", deviceTypes);
+
+				List<TManufacturerInfoInit> manufacturers = this.manufacturerInfoDao.findAll();
+				model.put("manufacturers", manufacturers);
+
 				return new ModelAndView(this.getPageView(), "definition", model);
 			} catch (Exception e) {
 				message = "policyDefinitionController.error";
