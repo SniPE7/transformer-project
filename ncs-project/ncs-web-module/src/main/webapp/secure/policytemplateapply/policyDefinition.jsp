@@ -48,6 +48,8 @@ function addform1(){
 	document.getElementsByName("button_new").item(0).disabled = true;	
 	document.getElementsByName("button_bind").item(0).disabled = true;
 }
+
+
 function saveform1(){
 		
 //alert("in policyDefinition save **form.action" + form1.action);
@@ -72,6 +74,12 @@ function saveform1(){
 		return false;
 	}
 	document.getElementsByName("insertOrUpdate").item(0).value="true";
+
+	for (var i = 0; i < document.getElementsByName("selected_device_type_list").item(0).options.length; i++)	{
+		document.getElementsByName("selected_device_type_list").item(0).options[i].selected = true;
+	}
+	
+	
 	form1.action = "<%=request.getContextPath()%>/secure/policytemplateapply/policyDefinition.wss";
 	this.form1.submit();
 	document.getElementsByName("button_new").item(0).disabled = false;
@@ -98,14 +106,26 @@ function deleteform1(){
 		document.getElementsByName("button_bind").item(0).disabled = true;
 }
 function reloadNavi(){
-
-	
 	window.parent.frames[2].location.reload();
-	//alert("in policyDefinition **form.action" + form1.action);
-	
 }
 
+function doSelect(srcName, destName) {
+	source = document.getElementsByName(srcName).item(0);
+  target = document.getElementsByName(destName).item(0);
+	while (source.selectedIndex >= 0) {
+     target.options[target.options.length] = new Option(source.options[source.selectedIndex].label, source.options[source.selectedIndex].value);
+     source.options.remove(source.selectedIndex);
+	}
+}
 
+function doSelectAll(srcName, destName) {
+	  source = document.getElementsByName(srcName).item(0);
+    target = document.getElementsByName(destName).item(0);
+	  while ( source.options.length > 0) {
+	     target.options[target.options.length] = new Option(source.options[0].label, source.options[0].value);
+	     source.options.remove(0);
+	  }
+	}
 </script>
 
 
@@ -199,6 +219,52 @@ function reloadNavi(){
 													type="hidden" name="insertOrUpdate" value="false" />
 												</td>
 												</tr>
+                        <tr>
+                          <td>适用的设备类型</td>
+                          <td>&nbsp;
+                            <table>
+                              <thead>
+                                <tr>
+                                  <td colspan="3">
+                                    <select name="manufacturer_list">
+                                      <c:forEach var="manufacturer" items="${definition.manufacturers}">
+                                      <option value="${manufacturer.mrid}">${manufacturer.mrname}</option>
+                                      </c:forEach>
+                                    </select>
+                                    &nbsp;
+                                    <input type="text" name="deveiceTypeSearchText" style="width: 120px">
+                                    &nbsp;
+                                    <input type="button" value="查询">
+                                  </td>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    <select multiple="multiple" size="12" name="device_type_list" style="width: 240px">
+                                      <c:forEach var="devType" items="${definition.deviceTypes}">
+                                      <option value="${devType.dtid}">${devType.mrName} - ${devType.model}</option>
+                                      </c:forEach>
+                                    </select>
+                                  </td>
+                                  <td>
+                                    <input type="button" value="  >  " onclick="doSelect('device_type_list', 'selected_device_type_list');"><br/>
+                                    <input type="button" value="  <  " onclick="doSelect('selected_device_type_list', 'device_type_list');"><br/>
+                                    <input type="button" value=" >>  " onclick="doSelectAll('device_type_list', 'selected_device_type_list');"><br/>
+                                    <input type="button" value=" <<  " onclick="doSelectAll('selected_device_type_list', 'device_type_list');"><br/>
+                                  </td>
+                                  <td>
+                                    <select multiple="multiple" size="12" name="selected_device_type_list" style="width: 240px">
+                                      <c:forEach var="devType" items="${definition.selectedDeviceTypes}">
+                                      <option value="${devType.dtid}">${devType.mrName} - ${devType.model}</option>
+                                      </c:forEach>
+                                    </select>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
 												<tr>
 													<td>备注</td>
 													<td><textarea rows="4" cols="20" name="description" style="width: 245px">${definition.policyTemplateVer.description}</textarea></td>

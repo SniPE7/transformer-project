@@ -111,7 +111,7 @@ public class TManufacturerInfoInitDaoImpl extends AbstractDAO implements Paramet
 	public List<TManufacturerInfoInit> findAll() throws TManufacturerInfoInitDaoException
 	{
 		try {
-			return jdbcTemplate.query("SELECT MRID, MRNAME, OBJECTID, DESCRIPTION FROM " + getTableName() + " ORDER BY MRID", this);
+			return jdbcTemplate.query("SELECT MRID, MRNAME, OBJECTID, DESCRIPTION FROM " + getTableName() + " ORDER BY UPPER(MRNAME)", this);
 		}
 		catch (Exception e) {
 			throw new TManufacturerInfoInitDaoException("Query failed", e);

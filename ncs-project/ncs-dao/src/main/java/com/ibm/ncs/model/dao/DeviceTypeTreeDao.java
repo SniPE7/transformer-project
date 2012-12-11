@@ -20,6 +20,7 @@ public interface DeviceTypeTreeDao
 	public List<DeviceTypeTree> findDeviceTypeByManufacture(String mrName) throws DeviceTypeTreeDaoException;
 	public List<DeviceTypeTree> findDeviceTypeByWhere(String mrName, String cateName) throws DeviceTypeTreeDaoException;
 	public List<DeviceTypeTree> findDeviceTypeByWhere(String mrName, String cateCate, String subCategory) throws DeviceTypeTreeDaoException;
+	public List<DeviceTypeTree> findDeviceTypeByWhereClause(String whereClause) throws DeviceTypeTreeDaoException;
 	
 	/**
 	 * Method 'findDeviceTypeByObjectID'
