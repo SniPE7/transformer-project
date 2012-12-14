@@ -16,17 +16,11 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import com.ibm.ncs.model.dao.DspEventsFromPolicySyslogDao;
-import com.ibm.ncs.model.dao.DspSyslogEventsDao;
 import com.ibm.ncs.model.dao.PolDetailDspDao;
-import com.ibm.ncs.model.dao.PolicySyslogDao;
 import com.ibm.ncs.model.dao.TEventTypeInitDao;
-import com.ibm.ncs.model.dao.TGrpNetDao;
 import com.ibm.ncs.model.dao.TManufacturerInfoInitDao;
 import com.ibm.ncs.model.dao.TModuleInfoInitDao;
-import com.ibm.ncs.model.dao.TPolicyBaseDao;
 import com.ibm.ncs.model.dao.TPolicyDetailsWithRuleDao;
-import com.ibm.ncs.model.dao.TPolicyPeriodDao;
 import com.ibm.ncs.model.dto.DspEventsFromPolicySyslog;
 import com.ibm.ncs.model.dto.DspSyslogEvents;
 import com.ibm.ncs.model.dto.PolDetailDsp;
@@ -47,28 +41,14 @@ public class SavePolicyDetailsController implements Controller {
 
 	TPolicyDetailsWithRuleDao policyDetailsWithRuleDao;
 
-	TGrpNetDao TGrpNetDao;
-	TPolicyBaseDao TPolicyBaseDao;
-	TPolicyPeriodDao TPolicyPeriodDao;
-
 	TModuleInfoInitDao TModuleInfoInitDao;
 	PolDetailDspDao PolDetailDspDao;
 	TEventTypeInitDao TEventTypeInitDao;
 	TManufacturerInfoInitDao TManufacturerInfoInitDao;
-	DspSyslogEventsDao dspSyslogEventsDao;
-	PolicySyslogDao policySyslogDao;
-	DspEventsFromPolicySyslogDao DspEventsFromPolicySyslogDao;
+
 	GenPkNumber genPkNumber;
 	String message;
 	String pageView;
-
-	public void setTPolicyBaseDao(TPolicyBaseDao policyBaseDao) {
-		TPolicyBaseDao = policyBaseDao;
-	}
-
-	public void setTPolicyPeriodDao(TPolicyPeriodDao policyPeriodDao) {
-		TPolicyPeriodDao = policyPeriodDao;
-	}
 
 	public String getMessage() {
 		return message;
@@ -919,15 +899,6 @@ public class SavePolicyDetailsController implements Controller {
 	public void setPolicyDetailsWithRuleDao(TPolicyDetailsWithRuleDao policyDetailsWithRuleDao) {
 		this.policyDetailsWithRuleDao = policyDetailsWithRuleDao;
 	}
-
-	public TPolicyBaseDao getTPolicyBaseDao() {
-		return TPolicyBaseDao;
-	}
-
-	public TPolicyPeriodDao getTPolicyPeriodDao() {
-		return TPolicyPeriodDao;
-	}
-
 	public String getPageView() {
 		return pageView;
 	}
@@ -942,14 +913,6 @@ public class SavePolicyDetailsController implements Controller {
 
 	public void setTModuleInfoInitDao(TModuleInfoInitDao moduleInfoInitDao) {
 		TModuleInfoInitDao = moduleInfoInitDao;
-	}
-
-	public TGrpNetDao getTGrpNetDao() {
-		return TGrpNetDao;
-	}
-
-	public void setTGrpNetDao(TGrpNetDao grpNetDao) {
-		TGrpNetDao = grpNetDao;
 	}
 
 	public PolDetailDspDao getPolDetailDspDao() {
@@ -976,36 +939,12 @@ public class SavePolicyDetailsController implements Controller {
 		TManufacturerInfoInitDao = manufacturerInfoInitDao;
 	}
 
-	public DspSyslogEventsDao getDspSyslogEventsDao() {
-		return dspSyslogEventsDao;
-	}
-
-	public void setDspSyslogEventsDao(DspSyslogEventsDao dspSyslogEventsDao) {
-		this.dspSyslogEventsDao = dspSyslogEventsDao;
-	}
-
-	public PolicySyslogDao getPolicySyslogDao() {
-		return policySyslogDao;
-	}
-
-	public void setPolicySyslogDao(PolicySyslogDao policySyslogDao) {
-		this.policySyslogDao = policySyslogDao;
-	}
-
 	public GenPkNumber getGenPkNumber() {
 		return genPkNumber;
 	}
 
 	public void setGenPkNumber(GenPkNumber genPkNumber) {
 		this.genPkNumber = genPkNumber;
-	}
-
-	public DspEventsFromPolicySyslogDao getDspEventsFromPolicySyslogDao() {
-		return DspEventsFromPolicySyslogDao;
-	}
-
-	public void setDspEventsFromPolicySyslogDao(DspEventsFromPolicySyslogDao dspEventsFromPolicySyslogDao) {
-		DspEventsFromPolicySyslogDao = dspEventsFromPolicySyslogDao;
 	}
 
 }
