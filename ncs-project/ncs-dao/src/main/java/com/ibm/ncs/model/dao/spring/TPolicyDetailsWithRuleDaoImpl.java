@@ -41,12 +41,12 @@ public class TPolicyDetailsWithRuleDaoImpl extends AbstractDAO implements Parame
 		    .update(
 		        "INSERT INTO "
 		            + getTableName()
-		            + " ( PTVID, MODID, EVEID, POLL, VALUE_1, SEVERITY_1, FILTER_A, VALUE_2, SEVERITY_2, FILTER_B, SEVERITY_A, SEVERITY_B, OIDGROUP, OGFLAG, VALUE_1_LOW, VALUE_2_LOW, V1L_SEVERITY_1, V1L_SEVERITY_A, V2L_SEVERITY_2, V2L_SEVERITY_B, COMPARETYPE ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )",
+		            + " ( PTVID, MODID, EVEID, POLL, VALUE_1, SEVERITY_1, FILTER_A, VALUE_2, SEVERITY_2, FILTER_B, SEVERITY_A, SEVERITY_B, OIDGROUP, OGFLAG, VALUE_1_LOW, VALUE_2_LOW, V1L_SEVERITY_1, V1L_SEVERITY_A, V2L_SEVERITY_2, V2L_SEVERITY_B, COMPARETYPE, VALUE_1_RULE, VALUE_2_RULE, VALUE_1_LOW_RULE, VALUE_2_LOW_RULE ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )",
 		        dto.getPtvid(), dto.getModid(), dto.getEveid(), dto.isPollNull() ? null : dto.getPoll(), dto.getValue1(), dto.isSeverity1Null() ? null : dto.getSeverity1(),
 		        dto.getFilterA(), dto.getValue2(), dto.isSeverity2Null() ? null : dto.getSeverity2(), dto.getFilterB(), dto.isSeverityANull() ? null : dto.getSeverityA(),
 		        dto.isSeverityBNull() ? null : dto.getSeverityB(), dto.getOidgroup(), dto.getOgflag(), dto.getValue1Low(), dto.getValue2Low(),
 		        dto.isV1lSeverity1Null() ? null : dto.getV1lSeverity1(), dto.isV1lSeverityANull() ? null : dto.getV1lSeverityA(),
-		        dto.isV2lSeverity2Null() ? null : dto.getV2lSeverity2(), dto.isV2lSeverityBNull() ? null : dto.getV2lSeverityB(), dto.getComparetype());
+		        dto.isV2lSeverity2Null() ? null : dto.getV2lSeverity2(), dto.isV2lSeverityBNull() ? null : dto.getV2lSeverityB(), dto.getComparetype(), dto.getValue1Rule(), dto.getValue2Rule(), dto.getValue1LowRule(), dto.getValue2LowRule());
 		return dto.createPk();
 	}
 
@@ -59,12 +59,12 @@ public class TPolicyDetailsWithRuleDaoImpl extends AbstractDAO implements Parame
 		    .update(
 		        "UPDATE "
 		            + getTableName()
-		            + " SET PTVID = ?, MODID = ?, EVEID = ?, POLL = ?, VALUE_1 = ?, SEVERITY_1 = ?, FILTER_A = ?, VALUE_2 = ?, SEVERITY_2 = ?, FILTER_B = ?, SEVERITY_A = ?, SEVERITY_B = ?, OIDGROUP = ?, OGFLAG = ?, VALUE_1_LOW = ?, VALUE_2_LOW = ?, V1L_SEVERITY_1 = ?, V1L_SEVERITY_A = ?, V2L_SEVERITY_2 = ?, V2L_SEVERITY_B = ?, COMPARETYPE = ? WHERE PTVID = ? AND MODID = ? AND EVEID = ?",
+		            + " SET PTVID = ?, MODID = ?, EVEID = ?, POLL = ?, VALUE_1 = ?, SEVERITY_1 = ?, FILTER_A = ?, VALUE_2 = ?, SEVERITY_2 = ?, FILTER_B = ?, SEVERITY_A = ?, SEVERITY_B = ?, OIDGROUP = ?, OGFLAG = ?, VALUE_1_LOW = ?, VALUE_2_LOW = ?, V1L_SEVERITY_1 = ?, V1L_SEVERITY_A = ?, V2L_SEVERITY_2 = ?, V2L_SEVERITY_B = ?, COMPARETYPE = ?, VALUE_1_RULE=?, VALUE_2_RULE=?, VALUE_1_LOW_RULE=?, VALUE_2_LOW_RULE=? WHERE PTVID = ? AND MODID = ? AND EVEID = ?",
 		        dto.getPtvid(), dto.getModid(), dto.getEveid(), dto.isPollNull() ? null : dto.getPoll(), dto.getValue1(), dto.isSeverity1Null() ? null : dto.getSeverity1(),
 		        dto.getFilterA(), dto.getValue2(), dto.isSeverity2Null() ? null : dto.getSeverity2(), dto.getFilterB(), dto.isSeverityANull() ? null : dto.getSeverityA(),
 		        dto.isSeverityBNull() ? null : dto.getSeverityB(), dto.getOidgroup(), dto.getOgflag(), dto.getValue1Low(), dto.getValue2Low(),
 		        dto.isV1lSeverity1Null() ? null : dto.getV1lSeverity1(), dto.isV1lSeverityANull() ? null : dto.getV1lSeverityA(),
-		        dto.isV2lSeverity2Null() ? null : dto.getV2lSeverity2(), dto.isV2lSeverityBNull() ? null : dto.getV2lSeverityB(), dto.getComparetype(), pk.getPtvid(), pk.getModid(),
+		        dto.isV2lSeverity2Null() ? null : dto.getV2lSeverity2(), dto.isV2lSeverityBNull() ? null : dto.getV2lSeverityB(), dto.getComparetype(), dto.getValue1Rule(), dto.getValue2Rule(), dto.getValue1LowRule(), dto.getValue2LowRule(), pk.getPtvid(), pk.getModid(),
 		        pk.getEveid());
 	}
 
