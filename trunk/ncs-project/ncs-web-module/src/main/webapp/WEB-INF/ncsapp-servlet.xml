@@ -1512,64 +1512,42 @@
   </bean>
   
   <bean name="/secure/policytemplateapply/policydetails.wss" class="com.ibm.ncs.web.policytemplateapply.PolicyDetailsController" >
-    <property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
-    <property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />
-    <property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />
     <property name="TModuleInfoInitDao" ref="TModuleInfoInitDao" />
-    <property name="TGrpNetDao" ref="TGrpNetDao" />
     <property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
     <property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"/>
-    <property name="dspSyslogEventsDao" ref="DspSyslogEventsDao"/>    
     <property name="polDetailDspDao" ref="PolDetailDspDao" />   
-    <property name="policySyslogDao" ref="PolicySyslogDao" />   
-    <property name="dspEventsFromPolicySyslogDao" ref="DspEventsFromPolicySyslogDao" />
     <property name="pageView" value="/secure/policytemplateapply/policydetails.jsp" />
   </bean> 
   <bean name="/secure/policytemplateapply/savepolicydetails.wss" class="com.ibm.ncs.web.policytemplateapply.SavePolicyDetailsController" >
     <property name="policyDetailsWithRuleDao" ref="policyDetailsWithRuleDao" />
-    <property name="TGrpNetDao" ref="TGrpNetDao" />
-    <property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
-    <property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />
+
     <property name="TModuleInfoInitDao" ref="TModuleInfoInitDao" />
     <property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
     <property name="polDetailDspDao" ref="PolDetailDspDao" />
     <property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"/>
-    <property name="dspSyslogEventsDao" ref="DspSyslogEventsDao"/>  
-    <property name="policySyslogDao" ref="PolicySyslogDao" />   
-    <property name="dspEventsFromPolicySyslogDao" ref="DspEventsFromPolicySyslogDao" />
+
     <property name="genPkNumber" ref="GenPkNumber"></property>
     <property name="pageView" value="/secure/policytemplateapply/policydetails.jsp" />
   </bean>
-<!--   
-  <bean name="/secure/policyapply/policydetailsPDM.wss" class="com.ibm.ncs.web.policyapply.PolicyDetailsPDMController" >
-    <property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
-    <property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />
-    <property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />
+  
+  <bean name="/secure/policytemplateapply/policydetailsPDM.wss" class="com.ibm.ncs.web.policytemplateapply.PolicyDetailsPDMController" >
     <property name="TModuleInfoInitDao" ref="TModuleInfoInitDao" />
-    <property name="TGrpNetDao" ref="TGrpNetDao" />
     <property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
     <property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"/>
-    <property name="dspSyslogEventsDao" ref="DspSyslogEventsDao"/>    
     <property name="polDetailDspDao" ref="PolDetailDspDao" />   
-    <property name="policySyslogDao" ref="PolicySyslogDao" />   
-    <property name="dspEventsFromPolicySyslogDao" ref="DspEventsFromPolicySyslogDao" />
-    <property name="pageView" value="/secure/policyapply/policydetailsPDM.jsp" />
+
+    <property name="pageView" value="/secure/policytemplateapply/policydetailsPDM.jsp" />
   </bean>
-    <bean name="/secure/policyapply/savepolicydetailsPDM.wss" class="com.ibm.ncs.web.policyapply.SavePolicyDetailsPDMController" >
-    <property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />
-    <property name="TGrpNetDao" ref="TGrpNetDao" />
-      <property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
-    <property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />
+  
+  <bean name="/secure/policytemplateapply/savepolicydetailsPDM.wss" class="com.ibm.ncs.web.policytemplateapply.SavePolicyDetailsPDMController" >
+    <property name="policyDetailsWithRuleDao" ref="policyDetailsWithRuleDao" />
     <property name="TModuleInfoInitDao" ref="TModuleInfoInitDao" />
     <property name="TEventTypeInitDao" ref="TEventTypeInitDao" />
     <property name="polDetailDspDao" ref="PolDetailDspDao" />
     <property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"/>
-    <property name="dspSyslogEventsDao" ref="DspSyslogEventsDao"/>  
-    <property name="policySyslogDao" ref="PolicySyslogDao" />   
-    <property name="dspEventsFromPolicySyslogDao" ref="DspEventsFromPolicySyslogDao" />
+
     <property name="genPkNumber" ref="GenPkNumber"></property>
-    <property name="pageView" value="/secure/policyapply/policydetailsPDM.jsp" />
+    <property name="pageView" value="/secure/policytemplateapply/policydetailsPDM.jsp" />
   </bean>
- -->  
 	
 </beans>  
