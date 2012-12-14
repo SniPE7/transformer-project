@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/jquery-ui-1.9.2.custom/css/ui-lightness/jquery-ui-1.9.2.custom.min.css" />
     <script src="<%=request.getContextPath()%>/jquery-ui-1.9.2.custom/js/jquery-1.8.3.js"></script>
     <script src="<%=request.getContextPath()%>/jquery-ui-1.9.2.custom/js/jquery-ui-1.9.2.custom.min.js"></script>
+    
+    <script src="<%=request.getContextPath()%>/js/policy_rule_dialog.js"></script>
 
 <script type="text/javascript">
 function addform1(){
@@ -84,114 +86,6 @@ function toICMP(){
 	}
 </script>
 
-<script>
-$(function() {
-    var fixedValue = $( "#fixedValue" ),
-    defaultValue = $( "#defaultValue" ),
-    expressionOperation1 = $( "#expressionOperation1" ),
-    expressionValue1 = $( "#expressionValue1" ),
-    expressionLogic1 = $( "#expressionLogic1" ),
-    expressionOperation2 = $( "#expressionOperation2" ),
-    expressionValue2 = $( "#expressionValue2" ),
-    expressionLogic2 = $( "#expressionLogic2" ),
-    allFields = $( [] ).add( fixedValue ).add( defaultValue ).add( expressionOperation1 ).add( expressionValue1 ).add( expressionLogic1 ).add( expressionOperation2 ).add( expressionValue2 ).add( expressionLogic2 ),
-    tips = $( ".validateTips" );
-
-    function updateTips( t ) {
-        tips
-            .text( t )
-            .addClass( "ui-state-highlight" );
-        setTimeout(function() {
-            tips.removeClass( "ui-state-highlight", 1500 );
-        }, 500 );
-    }
-
-    function checkEmpty( o, n ) {
-        if ( o.val().length < 1 ) {
-            o.addClass( "ui-state-error" );
-            updateTips( "必须设置" + n );
-            return false;
-        } else {
-            return true;
-        }
-    }
-    
-    $( "#dialog-form" ).dialog({
-        autoOpen: false,
-        height: 360,
-        width: 580,
-        modal: true,
-        buttons: {
-            "确定": function() {
-                var bValid = true;
-                allFields.removeClass( "ui-state-error" );
-                var ruleMode = "";
-                $("[name='ruleMode']:checked").each(function(){ 
-                	ruleMode+=$(this).val(); 
-                });
-                
-                if (ruleMode == "fixed") {
-                    bValid = bValid && checkEmpty( fixedValue, "fixedValue");
-                } else if (ruleMode == "expression") {
-                  bValid = bValid && checkEmpty( expressionOperation1, "expressionOperation1");
-                  bValid = bValid && checkEmpty( expressionValue1, "expressionValue1");
-                } else {
-                	updateTips( "必须设置阀值规则!" );
-                	bValid = false;
-                }
-                
-                var setDefaultValue = false;
-                $("[name='setDefaultValue']:checked").each(function(){ 
-                	setDefaultValue = true; 
-                  });
-                if (setDefaultValue) {
-                	bValid = bValid && checkEmpty( defaultValue, "defaultValue");
-                }	 else {
-                	if (ruleMode == "expression") {
-                		updateTips( "由于使用了表达式规则, 必须设置缺省取值!" );
-                    bValid = false;
-                	}
-                }
-                if ( bValid ) {
-                   ruleCheckboxIndex = document.getElementById("rule_checkbox_index").value;
-                   prefix = document.getElementById("rule_checkbox_elementPrefixelementPrefix").value;
-                	 var ruleString = "";
-                	 if (ruleMode == "fixed")  {
-                		  ruleString = "rule:{fixed=" + fixedValue.val() + "}";
-                      $("#" + prefix +"_Rule_" + ruleCheckboxIndex)[0].value = ruleString;
-                      $("#" + prefix +"_" + ruleCheckboxIndex)[0].value = fixedValue.val();
-                      $("#value1").value = fixedValue.val();
-                	 } else {
-                		 ruleString = "rule:{expression:''}";
-                     $("#" + prefix +"_Rule_" + ruleCheckboxIndex)[0].value = ruleString;
-                     $("#" + prefix +"_" + ruleCheckboxIndex)[0].value = defaultValue.val();
-                     $("#" + prefix)[parseInt(ruleCheckboxIndex)].value = defaultValue.val();
-                	 }
-                	 $( this ).dialog( "close" );
-                }
-            },
-            "取消": function() {
-                $( this ).dialog( "close" );
-            }
-        },
-        close: function() {
-            allFields.val( "" ).removeClass( "ui-state-error" );
-        }
-    });
-
-    $( "#define-rule" )
-        .button()
-        .click(function() {
-            
-        });
-});
-
-function openRuleDialog(rule_checkbox_index, elementPrefix) {
-	document.getElementById("rule_checkbox_index").value = rule_checkbox_index;
-	document.getElementById("rule_checkbox_elementPrefixelementPrefix").value = elementPrefix;
-	$( "#dialog-form" ).dialog( "open" );
-}
-</script>
 
 </head>
 <body>
@@ -335,7 +229,7 @@ function openRuleDialog(rule_checkbox_index, elementPrefix) {
 																	<c:forEach items="${model.details}" var="c1">
 																		<tr class="table-row">
 																			<td VALIGN="middle" class="collection-table-text" align="center"><input type="checkbox" name="sel"
-																				value="<%=countChecked %>|${c1.modid}|${c1.eveid}|${c1.mpid}" checked="checked" /> <input type="hidden" name="pre" value="${c1.mpid}|${c1.modid}|${c1.eveid}" />
+																				value="<%=countChecked %>|${c1.modid}|${c1.eveid}|${c1.ptvid}" checked="checked" /> <input type="hidden" name="pre" value="${c1.ptvid}|${c1.modid}|${c1.eveid}" />
 																				<input type="hidden" name="modid" size="5" value="${c1.modid}" /> <input type="hidden" name="eveid" size="5" value="${c1.eveid}" /></td>
 																			<td VALIGN="middle" class="collection-table-text">${c1.major}</td>
 																			<td VALIGN="middle" class="collection-table-text">内<br />外
@@ -552,7 +446,7 @@ function openRuleDialog(rule_checkbox_index, elementPrefix) {
 																			<c:forEach items="${model.details}" var="c1">
 																				<tr class="table-row">
 																					<td VALIGN="middle" class="collection-table-text" align="center" rowspan="2"><input type="checkbox" name="sel"
-																						value="<%=countChecked %>|${c1.modid}|${c1.eveid}|${c1.mpid}" checked="checked" /> <input type="hidden" name="pre" value="${c1.mpid}|${c1.modid}|${c1.eveid}" />
+																						value="<%=countChecked %>|${c1.modid}|${c1.eveid}|${c1.ptvid}" checked="checked" /> <input type="hidden" name="pre" value="${c1.ptvid}|${c1.modid}|${c1.eveid}" />
 																						<input type="hidden" name="modid" size="5" value="${c1.modid}" /> <input type="hidden" name="eveid" size="5" value="${c1.eveid}" /></td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.major}</td>
 																					<td VALIGN="middle" class="collection-table-text">内</td>
@@ -773,7 +667,7 @@ function openRuleDialog(rule_checkbox_index, elementPrefix) {
 																			<c:forEach items="${model.details}" var="c1">
 																				<tr class="table-row">
 																					<td VALIGN="middle" class="collection-table-text" align="center" rowspan="2"><input type="checkbox" name="sel"
-																						value="<%=countChecked %>|${c1.modid}|${c1.eveid}|${c1.mpid}" checked="checked" /> <input type="hidden" name="pre" value="${c1.mpid}|${c1.modid}|${c1.eveid}" />
+																						value="<%=countChecked %>|${c1.modid}|${c1.eveid}|${c1.ptvid}" checked="checked" /> <input type="hidden" name="pre" value="${c1.ptvid}|${c1.modid}|${c1.eveid}" />
 																						<input type="hidden" name="modid" size="5" value="${c1.modid}" /> <input type="hidden" name="eveid" size="5" value="${c1.eveid}" /></td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.major}</td>
 																					<td VALIGN="middle" class="collection-table-text">内</td>
@@ -936,51 +830,6 @@ function openRuleDialog(rule_checkbox_index, elementPrefix) {
 							</TD>
 						</TR>
 				</TABLE>
-				
-				
-
-<div id="dialog-form" title="阀值规则设置">
-  <p class="validateTips">请设置取值规则或固定取值, 如果设置取值规则, 则需要同时设置缺省值.</p>
-
-  <form>
-    <input type="radio" name="ruleMode" id="roleMode" class="text ui-widget-content ui-corner-all" value="expression" ><label for="name">设置取值规则: </label>
-    <fieldset title="设置取值规则" style="margin-bottom: 20px;">
-      阀值
-      <select name="expressionOperation1" id="expressionOperation1" size="1" class="text ui-widget-content ui-corner-all">
-        <option value="<">&lt;</option>
-        <option value="<=">&lt;=</option>
-        <option value=">">&gt;</option>
-        <option value=">=">&gt;=</option>
-        <option value="==">==</option>
-      </select>
-      <input type="text" name="expressionValue1" id="expressionValue1" style="width: 40px;"/>
-      <select name="expressionLogic1" id="expressionLogic1" size="1" class="text ui-widget-content ui-corner-all">
-        <option value="&&">AND</option>
-        <option value="||">OR</option>
-      </select>
-      <br/>
-     阀值
-      <select name="expressionOperation2" id="expressionOperation2" size="1" class="text ui-widget-content ui-corner-all">
-        <option value="<">&lt;</option>
-        <option value="<=">&lt;=</option>
-        <option value=">">&gt;</option>
-        <option value=">=">&gt;=</option>
-        <option value="==">==</option>
-      </select>
-      <input type="text" name="expressionValue2" id="expressionValue2" style="width: 40px;"/>
-      <select name="expressionLogic2" id="expressionLogic2" size="1" class="text ui-widget-content ui-corner-all">
-        <option value="&&">AND</option>
-        <option value="||">OR</option>
-      </select>
-    </fieldset>
-    
-    <input type="radio" name="ruleMode" id="roleMode" class="text ui-widget-content ui-corner-all" value="fixed" ><label for="name">设置固定取值: </label>
-    <input type="text" name="fixedValue" id="fixedValue" class="text ui-widget-content ui-corner-all" style="margin-bottom: 20px;width: 40px;"/>
-    <br/>
-    <input type="radio" name="setDefaultValue" id="setDefaultValue" class="text ui-widget-content ui-corner-all" value="default" ><label for="name">设置缺省取值: </label>
-    <input type="text" name="defaultValue" id="defaultValue" class="text ui-widget-content ui-corner-all" style="width: 40px;"/>
-  </form>
-</div>
-
+<%@ include file="/secure/policytemplateapply/rule_setup_dialog.jsp"%>
 </body>
 </html>
