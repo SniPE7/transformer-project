@@ -154,7 +154,20 @@ $(function() {
                 }
                 if ( bValid ) {
                    ruleCheckboxIndex = document.getElementById("rule_checkbox_index").value;
-                   $( this ).dialog( "close" );
+                   prefix = document.getElementById("rule_checkbox_elementPrefixelementPrefix").value;
+                	 var ruleString = "";
+                	 if (ruleMode == "fixed")  {
+                		  ruleString = "rule:{fixed=" + fixedValue.val() + "}";
+                      $("#" + prefix +"_Rule_" + ruleCheckboxIndex)[0].value = ruleString;
+                      $("#" + prefix +"_" + ruleCheckboxIndex)[0].value = fixedValue.val();
+                      $("#value1").value = fixedValue.val();
+                	 } else {
+                		 ruleString = "rule:{expression:''}";
+                     $("#" + prefix +"_Rule_" + ruleCheckboxIndex)[0].value = ruleString;
+                     $("#" + prefix +"_" + ruleCheckboxIndex)[0].value = defaultValue.val();
+                     $("#" + prefix)[parseInt(ruleCheckboxIndex)].value = defaultValue.val();
+                	 }
+                	 $( this ).dialog( "close" );
                 }
             },
             "取消": function() {
@@ -173,8 +186,9 @@ $(function() {
         });
 });
 
-function openRuleDialog(rule_checkbox_index) {
+function openRuleDialog(rule_checkbox_index, elementPrefix) {
 	document.getElementById("rule_checkbox_index").value = rule_checkbox_index;
+	document.getElementById("rule_checkbox_elementPrefixelementPrefix").value = elementPrefix;
 	$( "#dialog-form" ).dialog( "open" );
 }
 </script>
@@ -211,7 +225,8 @@ function openRuleDialog(rule_checkbox_index) {
 							<TD CLASS="wpsPortletArea" COLSPAN="3">
 
 								<form action="<%=request.getContextPath()%>/secure/policytemplateapply/savepolicydetails.wss" method="post" name="form1">
-								  <input type="text" id="rule_checkbox_index" value="">
+								  <input type="hidden" id="rule_checkbox_index" value="">
+                  <input type="hidden" id="rule_checkbox_elementPrefixelementPrefix" value="">
 									<a name="important"></a>
 									<h1 id="title-bread-crumb">
 										策略定制--策略名称<input type="hidden" name="mpname" value="${model.mpname}" /> ${model.mpname}
@@ -345,7 +360,9 @@ function openRuleDialog(rule_checkbox_index) {
 																			  </select>
 																			</td>
 																			<td VALIGN="middle" class="collection-table-text">
-																			  <input type="text" name="value1" size="5" value="${c1.value1}"  style="width: 30px;"/> 
+																			  <input type="text" name="value1" id="value1_<%=countChecked %>" size="5" value="${c1.value1}"  style="width: 30px;"/> 
+                                        <input type="text" name="value1Rule" id="value1_Rule_<%=countChecked %>" value="${c1.value1Rule}" style="width: 30px;"/>
+                                        <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value1');" class="text">定义规则</a>
 																			</td>
 																			<td VALIGN="middle" class="collection-table-text">
 																			  <input type="text" name="severity1" size="5" value="<c:if test="${c1.severity1Null == false}" >${c1.severity1}</c:if>"  style="width: 30px;"/><br />
@@ -356,7 +373,11 @@ function openRuleDialog(rule_checkbox_index) {
 																					<option value="var1" <c:if test="${c1.value2low=='var1'}">selected="selected"</c:if>>Ping丢包数目</option>
 																					<option value="var2" <c:if test="${c1.value2low=='var2'}">selected="selected"</c:if>>RTT时间</option>
 																			</select></td>
-																			<td VALIGN="middle" class="collection-table-text"><input type="text" name="value2" size="5" value="${c1.value2}"  style="width: 30px;"/></td>
+																			<td VALIGN="middle" class="collection-table-text">
+																			  <input type="text" name="value2" id="value2_<%=countChecked %>" size="5" value="${c1.value2}"  style="width: 30px;"/>
+                                        <input type="text" name="value2Rule" id="value2_Rule_<%=countChecked %>" value="${c1.value2Rule}" style="width: 30px;"/>
+                                        <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value2');" class="text">定义规则</a>
+																			</td>
 																			<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity2" size="5"
 																				value="<c:if test="${c1.severity2Null == false}" >${c1.severity2}</c:if>"  style="width: 30px;"/><br /> <input type="text" name="severityB" size="5"
 																				value="<c:if test="${c1.severityBNull == false}" >${c1.severityB}</c:if>"  style="width: 30px;"/></td>
@@ -382,21 +403,14 @@ function openRuleDialog(rule_checkbox_index) {
 																			<%
 																				countChecked++;
 																			%>
-																		
 																	</c:forEach>
 																</table>
 
-
 																<TABLE class="paging-table" BORDER="0" CELLPADDING="5" CELLSPACING="0" WIDTH="100%" SUMMARY="Table for displaying paging function" id="selCountTab">
-
 																	<TR>
-
-
 																		<TD CLASS="table-totals" VALIGN="baseline">Total Selected ${fn:length(model.details)} &nbsp;&nbsp;&nbsp;</TD>
 																	</TR>
-
 																</TABLE>
-
 
 																<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" WIDTH="100%" SUMMARY="List layout table" id="unselTab">
 
@@ -451,10 +465,9 @@ function openRuleDialog(rule_checkbox_index) {
 																									<option value="var2">RTT时间</option>
 																							</select></td>
 																							<td VALIGN="middle" class="collection-table-text">
-																							  <input type="text" name="value1" size="5" value="" style="width: 30px;"/>
-                                                <input type="text" name="value1_Rule<%=countChecked %>" value=""/>
-                                                <input type="text" name="value1_<%=countChecked %>" value=""/>
-																							  <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>');" class="text ui-widget-content ui-corner-all">定义规则</a>
+																							  <input type="text" name="value1" id="value1_<%=countChecked %>" size="5" value="" style="width: 30px;"/>
+                                                <input type="text" name="value1Rule" id="value1_Rule_<%=countChecked %>" value="" style="width: 30px;"/>
+																							  <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value1');" class="text">定义规则</a>
 																							</td>
 																							<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity1" size="5" value="" style="width: 30px;"/><br /> <input type="text" name="severityA"
 																								size="5" value="" style="width: 30px;"/></td>
@@ -463,7 +476,11 @@ function openRuleDialog(rule_checkbox_index) {
 																									<option value="var1">Ping丢包数目</option>
 																									<option value="var2">RTT时间</option>
 																							</select></td>
-																							<td VALIGN="middle" class="collection-table-text"><input type="text" name="value2" size="5" value="" style="width: 30px;"/></td>
+																							<td VALIGN="middle" class="collection-table-text">
+																							  <input type="text" name="value2" id="value2_<%=countChecked %>" size="5" value="" style="width: 30px;"/>
+                                                <input type="text" name="value2Rule" id="value2_Rule_<%=countChecked %>" value="" style="width: 30px;"/>
+                                                <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value2');" class="text">定义规则</a>
+																							</td>
 																							<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity2" size="5" value="" style="width: 30px;"/><br />
 																							<input type="text" name="severityB" size="5" value="" style="width: 30px;"/></td>
 																							<td VALIGN="middle" class="collection-table-text"><select name="compareType" id="compare_Type">
@@ -481,16 +498,11 @@ function openRuleDialog(rule_checkbox_index) {
 																							<td VALIGN="middle" class="collection-table-text" width="3"><input type="checkbox" name="oidgroupSel" value="<%=countChecked%>" /></td>
 																							<td VALIGN="middle" class="collection-table-text"><input type="text" name="oidgroup" size="5" value="" /></td>
 																						</tr>
-
-
-
 																						<%
 																							countChecked++;
 																						%>
 																					</c:forEach>
 																				</table>
-
-
 
 																				<TABLE class="paging-table" BORDER="0" CELLPADDING="5" CELLSPACING="0" WIDTH="100%" SUMMARY="Table for displaying paging function" id="unselCountTab">
 
