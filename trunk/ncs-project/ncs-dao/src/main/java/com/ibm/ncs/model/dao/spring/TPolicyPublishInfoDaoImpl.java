@@ -159,6 +159,9 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 
 	@Transactional
 	public void copyAllPolicyTemplateVer(long srcPpiid, long destPpiid) throws TPolicyPublishInfoDaoException {
+		if (srcPpiid == destPpiid) {
+			 throw new TPolicyPublishInfoDaoException(String.format("Src[%s] PPIID equal Dest[%s] PPIID!", srcPpiid, destPpiid));
+		}
 		try {
 			String copyPTVsql = 
 					"insert into T_POLICY_TEMPLATE_VER(PTVID, PT_VERSION, PTID, PPIID, STATUS, DESCRIPTION) " +
