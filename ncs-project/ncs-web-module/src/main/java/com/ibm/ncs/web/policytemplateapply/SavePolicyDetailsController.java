@@ -111,10 +111,12 @@ public class SavePolicyDetailsController implements Controller {
 				String[] modidStr = request.getParameterValues("modid");
 				String[] pollstr = request.getParameterValues("poll");
 				String[] value1 = request.getParameterValues("value1");
+				String[] value1Rule = request.getParameterValues("value1Rule");
 				String[] severity1Str = request.getParameterValues("severity1");
 				String[] severityAStr = request.getParameterValues("severityA");
 				String[] filterAStr = request.getParameterValues("filterA");
 				String[] value2 = request.getParameterValues("value2");
+				String[] value2Rule = request.getParameterValues("value2Rule");
 				String[] severity2Str = request.getParameterValues("severity2");
 				String[] severityBStr = request.getParameterValues("severityB");
 				String[] filterBStr = request.getParameterValues("filterB");
@@ -123,8 +125,10 @@ public class SavePolicyDetailsController implements Controller {
 				String[] oidgroupSelStr = request.getParameterValues("oidgroupSel");
 				// for port policy
 				String[] value1lowStr = request.getParameterValues("value1low");
+				String[] value1lowRuleStr = request.getParameterValues("value1lowRule");
 				String[] v1lseverityAStr = request.getParameterValues("v1lseverityA");
 				String[] value2lowStr = request.getParameterValues("value2low");
+				String[] value2lowRuleStr = request.getParameterValues("value2lowRule");
 				String[] v2lseverityBStr = request.getParameterValues("v2lseverityB");
 				String[] v1lseverity1Str = request.getParameterValues("v1lseverity1");
 				String[] v2lseverity2Str = request.getParameterValues("v2lseverity2");
@@ -161,14 +165,21 @@ public class SavePolicyDetailsController implements Controller {
 						long v1lseverityA = 0;
 						long v2lseverityB = 0;
 						String value1Tmp = value1[selIndex];
+						String value1RuleTmp = value1Rule[selIndex];
 						String value2Tmp = value2[selIndex];
+						String value2RuleTmp = value2Rule[selIndex];
 						String comparTypeTmp = compareTypeStr[selIndex];
 						String value1lowTmp = null, value2lowTmp = null;
+						String value1lowRuleTmp = null, value2lowRuleTmp = null;
 						if (category.equals("4")) {
-							if (value1lowStr != null)
+							if (value1lowStr != null) {
 								value1lowTmp = value1lowStr[selIndex];
-							if (value2lowStr != null)
+							  value1lowRuleTmp = value1lowRuleStr[selIndex];
+							}
+							if (value2lowStr != null) {
 								value2lowTmp = value2lowStr[selIndex];
+								value2lowRuleTmp = value2lowRuleStr[selIndex];
+							}
 						}
 						try {
 							ptvidTmp = Long.parseLong(ptvidStr);
@@ -342,6 +353,7 @@ public class SavePolicyDetailsController implements Controller {
 							dto.setPoll(pollTmp);
 
 						dto.setValue1(value1Tmp);
+						dto.setValue1Rule(value1RuleTmp);
 						if (severity1Str[selIndex] == null || severity1Str[selIndex].equals("")) {
 							dto.setSeverity1Null(true);
 						} else
@@ -355,6 +367,7 @@ public class SavePolicyDetailsController implements Controller {
 						dto.setFilterA(filterAStr[selIndex]);
 						dto.setFilterB(filterBStr[selIndex]);
 						dto.setValue2(value2Tmp);
+						dto.setValue2Rule(value2RuleTmp);
 						if (severity2Str == null || severity2Str[selIndex] == null || severity2Str[selIndex].equals("")) {
 							dto.setSeverity2Null(true);
 						} else
@@ -390,7 +403,9 @@ public class SavePolicyDetailsController implements Controller {
 								dto.setV2lSeverityB(v2lseverityB);
 
 							dto.setValue1Low(value1lowTmp);
+							dto.setValue1LowRule(value1lowRuleTmp);
 							dto.setValue2Low(value2lowTmp);
+							dto.setValue2LowRule(value2lowRuleTmp);
 						}
 						// if check box for OID group is checked, then save the input
 						if (oidgroupSelStr != null) {

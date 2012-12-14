@@ -561,16 +561,35 @@ function openRuleDialog(rule_checkbox_index, elementPrefix) {
 																							<option value="0" <c:if test="${c1.filterA==0}">selected="selected"</c:if>>否</option>
 																					</select></td>
 
-																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="value1" size="5" value="${c1.value1}" style="width: 30px;"/></td>
-																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity1" size="5"
-																						value="<c:if test="${c1.severity1Null == false}" >${c1.severity1}</c:if>" style="width: 30px;"/>
-																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="value1low" size="5" value="${c1.value1low}" style="width: 30px;"/></td>
-																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="v1lseverity1" size="5"
-																						value="<c:if test="${c1.v1lseverity1Null == false}" >${c1.v1lseverity1}</c:if>" style="width: 30px;"/></td>
-																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="value2" size="5" value="${c1.value2}" style="width: 30px;"/></td>
-																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity2" size="5"
-																						value="<c:if test="${c1.severity2Null == false}" >${c1.severity2}</c:if>" style="width: 30px;"/></td>
-																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="value2low" size="5" value="${c1.value2low}" style="width: 30px;"/></td>
+																					<td VALIGN="middle" class="collection-table-text" rowspan="2">
+																					  <input type="text" name="value1" id="value1_<%=countChecked %>" size="5" value="${c1.value1}" style="width: 30px;"/>
+                                            <input type="text" name="value1Rule" id="value1_Rule_<%=countChecked %>" value="${c1.value1Rule}" style="width: 30px;"/>
+                                            <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value1');" class="text">定义规则</a>
+																					</td>
+																					<td VALIGN="middle" class="collection-table-text">
+																					  <input type="text" name="severity1" size="5" value="<c:if test="${c1.severity1Null == false}" >${c1.severity1}</c:if>" style="width: 30px;" style="width: 30px;"/>
+																					</td>
+																					<td VALIGN="middle" class="collection-table-text" rowspan="2">
+																					  <input type="text" name="value1low" id="value1low_<%=countChecked %>" size="5" value="${c1.value1low}" style="width: 30px;"/>
+                                            <input type="text" name="value1lowRule" id="value1low_Rule_<%=countChecked %>" value="${c1.value1LowRule}" style="width: 30px;"/>
+                                            <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value1low');" class="text">定义规则</a>
+																					</td>
+																					<td VALIGN="middle" class="collection-table-text">
+																					  <input type="text" name="v1lseverity1" size="5"	value="<c:if test="${c1.v1lseverity1Null == false}" >${c1.v1lseverity1}</c:if>" style="width: 30px;" style="width: 30px;"/>
+																					</td>
+																					<td VALIGN="middle" class="collection-table-text" rowspan="2">
+																					  <input type="text" name="value2" id="value2_<%=countChecked %>" size="5" value="${c1.value2}" style="width: 30px;"/>
+                                            <input type="text" name="value2Rule" id="value2_Rule_<%=countChecked %>" value="${c1.value2Rule}" style="width: 30px;"/>
+                                            <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value2');" class="text">定义规则</a>
+																					</td>
+																					<td VALIGN="middle" class="collection-table-text">
+																					  <input type="text" name="severity2" size="5"value="<c:if test="${c1.severity2Null == false}" >${c1.severity2}</c:if>" style="width: 30px;"/>
+																				  </td>
+																					<td VALIGN="middle" class="collection-table-text" rowspan="2">
+																					  <input type="text" name="value2low" id="value2low_<%=countChecked %>" size="5" value="${c1.value2low}" style="width: 30px;"/>
+                                            <input type="text" name="value2lowRule" id="value2low_Rule_<%=countChecked %>" value="${c1.value2LowRule}" style="width: 30px;"/>
+                                            <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value2low');" class="text">定义规则</a>
+																					</td>
 																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="v2lseverity2" size="5"
 																						value="<c:if test="${c1.v2lseverity2Null == false}" >${c1.v2lseverity2}</c:if>" style="width: 30px;"/></td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><select name="compareType" id="compare_Type">
@@ -614,18 +633,11 @@ function openRuleDialog(rule_checkbox_index, elementPrefix) {
 
 
 																		<TABLE class="paging-table" BORDER="0" CELLPADDING="5" CELLSPACING="0" WIDTH="100%" SUMMARY="Table for displaying paging function" id="selCountTab">
-
 																			<TR>
-
-
 																				<TD CLASS="table-totals" VALIGN="baseline">Total Selected ${fn:length(model.details)} &nbsp;&nbsp;&nbsp;</TD>
 																			</TR>
-
 																		</TABLE>
-
-
 																		<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" WIDTH="100%" SUMMARY="List layout table" id="unselTab">
-
 																			<TBODY>
 																				<TR>
 																					<TD CLASS="layout-manager" id="notabs">
@@ -636,8 +648,6 @@ function openRuleDialog(rule_checkbox_index, elementPrefix) {
 																									<th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="3%">选中</th>
 																									<!--<th NOWRAP VALIGN="middle" CLASS="column-head-name" SCOPE="col" >Mode</th>-->
 																									<th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col">事件名称</th>
-																									<!--<th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" >MODID</th>
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" >EVEID</th>-->
 																									<th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="5%">监控时段</th>
 																									<th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="6%">是否过滤</th>
 																									<th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="2%">阈值In1</th>
@@ -664,13 +674,29 @@ function openRuleDialog(rule_checkbox_index, elementPrefix) {
 																											<option value="0">否</option>
 																											<option value="1">是</option>
 																									</select></td>
-																									<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="value1" size="5" value="" /></td>
+																									<td VALIGN="middle" class="collection-table-text" rowspan="2">
+																									  <input type="text" name="value1" id="value1_<%=countChecked %>" size="5" value="" />
+                                                    <input type="text" name="value1Rule" id="value1_Rule_<%=countChecked %>" value="" style="width: 30px;"/>
+                                                    <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value1');" class="text">定义规则</a>
+																									</td>
 																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity1" size="5" value="" /></td>
-																									<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="value1low" size="5" value="" /></td>
+																									<td VALIGN="middle" class="collection-table-text" rowspan="2">
+																									  <input type="text" name="value1low" id="value1low_<%=countChecked %>" size="5" value="" />
+                                                    <input type="text" name="value1lowRule" id="value1low_Rule_<%=countChecked %>" value="" style="width: 30px;"/>
+                                                    <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value1low');" class="text">定义规则</a>
+																									</td>
 																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="v1lseverity1" size="5" value="" /></td>
-																									<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="value2" size="5" value="" /></td>
+																									<td VALIGN="middle" class="collection-table-text" rowspan="2">
+																									  <input type="text" name="value2" id="value2_<%=countChecked %>" size="5" value="" />
+                                                    <input type="text" name="value2Rule" id="value2_Rule_<%=countChecked %>" value="" style="width: 30px;"/>
+                                                    <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value2');" class="text">定义规则</a>
+																									</td>
 																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity2" size="5" value="" /></td>
-																									<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="value2low" size="5" value="" /></td>
+																									<td VALIGN="middle" class="collection-table-text" rowspan="2">
+																									  <input type="text" name="value2low" id="value2low_<%=countChecked %>" size="5" value="" />
+                                                    <input type="text" name="value2lowRule" id="value2low_Rule_<%=countChecked %>" value="" style="width: 30px;"/>
+                                                    <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value2low');" class="text">定义规则</a>
+																									</td>
 																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="v2lseverity2" size="5" value="" /></td>
 																									<td VALIGN="middle" class="collection-table-text" rowspan="2"><select name="compareType" id="compare_Type">
 																											<option value="null">-请选择-</option>
@@ -707,13 +733,8 @@ function openRuleDialog(rule_checkbox_index, elementPrefix) {
 																							</c:forEach>
 																						</table>
 
-
-
 																						<TABLE class="paging-table" BORDER="0" CELLPADDING="5" CELLSPACING="0" WIDTH="100%" SUMMARY="Table for displaying paging function" id="unselCountTab">
-
 																							<TR>
-
-
 																								<TD CLASS="table-totals" VALIGN="baseline">Total Unselected ${fn:length(model.unselected)} &nbsp;&nbsp;&nbsp;</TD>
 																							</TR>
 
@@ -761,10 +782,18 @@ function openRuleDialog(rule_checkbox_index, elementPrefix) {
 																							<option value="0" <c:if test="${c1.filterA==0}">selected="selected"</c:if>>否</option>
 																					</select></td>
 
-																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="value1" size="5" value="${c1.value1}" style="width: 30px;"/></td>
+																					<td VALIGN="middle" class="collection-table-text" rowspan="2">
+																					  <input type="text" name="value1" id="value1_<%=countChecked %>" size="5" value="${c1.value1}" style="width: 30px;"/>
+                                            <input type="text" name="value1Rule" id="value1_Rule_<%=countChecked %>" value="${c1.value1Rule}" style="width: 30px;"/>
+                                            <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value1');" class="text">定义规则</a>
+																					</td>
 																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity1" size="5"
 																						value="<c:if test="${c1.severity1Null == false}" >${c1.severity1}</c:if>" style="width: 30px;"/>
-																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="value2" size="5" value="${c1.value2}" style="width: 30px;"/></td>
+																					<td VALIGN="middle" class="collection-table-text" rowspan="2">
+																					  <input type="text" name="value2" id="value2_<%=countChecked %>" size="5" value="${c1.value2}" style="width: 30px;"/>
+                                            <input type="text" name="value2Rule" id="value2_Rule_<%=countChecked %>" value="${c1.value2Rule}" style="width: 30px;"/>
+                                            <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value2');" class="text">定义规则</a>
+																					</td>
 																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity2" size="5"
 																						value="<c:if test="${c1.severity2Null == false}" >${c1.severity2}</c:if>" style="width: 30px;"/></td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><select name="compareType" id="compare_Type">
@@ -801,25 +830,15 @@ function openRuleDialog(rule_checkbox_index, elementPrefix) {
 																				%>
 																			</c:forEach>
 																		</table>
-
-
 																		<TABLE class="paging-table" BORDER="0" CELLPADDING="5" CELLSPACING="0" WIDTH="100%" SUMMARY="Table for displaying paging function" id="selCountTab">
-
 																			<TR>
-
-
 																				<TD CLASS="table-totals" VALIGN="baseline">Total Selected ${fn:length(model.details)} &nbsp;&nbsp;&nbsp;</TD>
 																			</TR>
-
 																		</TABLE>
-
-
 																		<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" WIDTH="100%" SUMMARY="List layout table" id="unselTab">
-
 																			<TBODY>
 																				<TR>
 																					<TD CLASS="layout-manager" id="notabs">
-
 																						<table BORDER="0" CELLPADDING="0" CELLSPACING="0" WIDTH="100%" SUMMARY="List table" CLASS=" framing-table">
 																							<thead>
 																								<tr>
@@ -848,9 +867,17 @@ function openRuleDialog(rule_checkbox_index, elementPrefix) {
 																											<option value="0">否</option>
 																											<option value="1">是</option>
 																									</select></td>
-																									<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="value1" size="5" value="" /></td>
+																									<td VALIGN="middle" class="collection-table-text" rowspan="2">
+																									  <input type="text" name="value1" id="value1_<%=countChecked %>" size="5" value="" />
+                                                    <input type="text" name="value1Rule" id="value1_Rule_<%=countChecked %>" value="" style="width: 30px;"/>
+                                                    <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value1');" class="text">定义规则</a>
+																									</td>
 																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity1" size="5" value="" /></td>
-																									<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="value2" size="5" value="" /></td>
+																									<td VALIGN="middle" class="collection-table-text" rowspan="2">
+																									  <input type="text" name="value2" id="value2_<%=countChecked %>" size="5" value="" />
+                                                    <input type="text" name="value2Rule" id="value2_Rule_<%=countChecked %>" value="" style="width: 30px;"/>
+                                                    <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value2');" class="text">定义规则</a>
+																									</td>
 																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity2" size="5" value="" /></td>
 																									<td VALIGN="middle" class="collection-table-text" rowspan="2"><select name="compareType" id="compare_Type">
 																											<option value="null">-请选择-</option>
@@ -886,16 +913,10 @@ function openRuleDialog(rule_checkbox_index, elementPrefix) {
 																							</c:forEach>
 																						</table>
 
-
-
 																						<TABLE class="paging-table" BORDER="0" CELLPADDING="5" CELLSPACING="0" WIDTH="100%" SUMMARY="Table for displaying paging function" id="unselCountTab">
-
 																							<TR>
-
-
 																								<TD CLASS="table-totals" VALIGN="baseline">Total Unselected ${fn:length(model.unselected)} &nbsp;&nbsp;&nbsp;</TD>
 																							</TR>
-
 																						</TABLE>
 																					</TD>
 																				</TR>
@@ -907,173 +928,6 @@ function openRuleDialog(rule_checkbox_index, elementPrefix) {
 																</c:otherwise>
 															</c:choose>
 														</c:when>
-														<c:otherwise>
-
-															<div>
-
-																<c:forEach var="u1" begin="1" end="8" step="1">
-
-																	<table BORDER="0" CELLPADDING="3" CELLSPACING="1" WIDTH="100%" SUMMARY="List table" CLASS="framing-table" id="syslogSection${u1}">
-																		<tbody>
-																			<tr>
-																				<td><c:choose>
-																						<c:when test="${model.cate == 4 and ( u1 == 1 or u1 ==2 )}">
-																							<strong>事件类型：<c:out value="${model.eventType[u1]}" /></strong>Total Selected ${fn:length(model.details[u1])}, Total Unselected ${fn:length(model.unselected[u1])}
-            </c:when>
-																						<c:when test="${(model.cate == 1) and  (u1 != 1) and (u1 !=2)}">
-																							<strong>事件类型：<c:out value="${model.eventType[u1]}" /></strong>Total Selected ${fn:length(model.details[u1])}, Total Unselected ${fn:length(model.unselected[u1])}
-            </c:when>
-																					</c:choose></td>
-																			</tr>
-																			<tr>
-																				<td>
-																					<%
-																						countChecked = 0;
-																					%> <c:choose>
-																						<c:when test="${model.details[u1] != null}">
-																							<table BORDER="0" CELLPADDING="0" CELLSPACING="0" WIDTH="100%" SUMMARY="List table" CLASS=" framing-table" id="selTab">
-																								<thead>
-																									<tr>
-																										<th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="3%">选中</th>
-																										<th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col">事件名称</th>
-																										<th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="15%">监控时段</th>
-																										<th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="15%">级别</th>
-																										<th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="15%">是否过滤</th>
-																									</tr>
-																								</thead>
-																								<c:forEach items="${model.details[u1]}" var="c1">
-																									<tr class="table-row">
-																										<td VALIGN="middle" class="collection-table-text" align="center" rowspan="2"><input type="checkbox" name="sel${u1}"
-																											value="<%=countChecked %>|${c1.spid}" checked="checked" /> <input type="hidden" name="pre${u1}" value="${c1.spid}|${c1.mpid}" /></td>
-																										<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="hidden" name="mark${u1}" value="<c:out value='${c1.mark}'/>" />${c1.events}
-																											<input type="hidden" name="eventtype${u1}" value="${u1}" /></td>
-																										<td VALIGN="middle" class="collection-table-text">内</td>
-
-
-																										<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity1${u1}" size="5"
-																											value='<c:if test="${c1.severity1Null == false}" >${c1.severity1}</c:if>' /></td>
-																										<td VALIGN="middle" class="collection-table-text"><select name="filterA${u1}" id="filter_A">
-																												<option value="1" <c:if test="${c1.filterflag1==1}">selected="selected"</c:if>>是</option>
-																												<option value="0" <c:if test="${c1.filterflag1==0}">selected="selected"</c:if>>否</option>
-																										</select></td>
-
-																									</tr>
-
-																									<tr class="table-row">
-																										<td VALIGN="middle" class="collection-table-text">外</td>
-
-																										<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity2${u1}" size="5"
-																											value='<c:if test="${c1.severity2Null == false}" >${c1.severity2}</c:if>' /></td>
-																										<td VALIGN="middle" class="collection-table-text"><select name="filterB${u1}" id="filter_B">
-																												<option value="1" <c:if test="${c1.filterflag2==1}">selected="selected"</c:if>>是</option>
-																												<option value="0" <c:if test="${c1.filterflag2==0}">selected="selected"</c:if>>否</option>
-																										</select></td>
-																									</tr>
-																									<%
-																										countChecked++;
-																									%>
-																								</c:forEach>
-																							</table>
-
-																							<TABLE class="paging-table" BORDER="0" CELLPADDING="5" CELLSPACING="0" WIDTH="100%" SUMMARY="Table for displaying paging function" id="selCountTab">
-
-																								<TR>
-
-
-																									<TD CLASS="table-totals" VALIGN="baseline">Total Selected ${fn:length(model.details[u1])} &nbsp;&nbsp;&nbsp;</TD>
-																								</TR>
-
-																							</TABLE>
-																						</c:when>
-																					</c:choose> <c:choose>
-																						<c:when test="${model.unselected[u1] != null}">
-																							<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" WIDTH="100%" SUMMARY="List layout table" id="unselTab">
-																								<TBODY>
-																									<tr>
-																										<td>
-
-																											<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" WIDTH="100%" SUMMARY="List layout table">
-																												<TBODY>
-																													<!--<tr>
-        	<th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col"><strong>事件类型：<c:out value="${model.eventType[u1]}"/></strong></th>
-        </tr>-->
-																													<TR>
-																														<TD CLASS="layout-manager" id="notabs">
-
-																															<table BORDER="0" CELLPADDING="0" CELLSPACING="0" WIDTH="100%" SUMMARY="List table" CLASS=" framing-table">
-																																<thead>
-																																	<tr>
-																																		<th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="3%">选中</th>
-																																		<!--<th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" >Mode</th>-->
-																																		<th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col">事件名称</th>
-																																		<th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="15%">监控时段</th>
-																																		<th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="15%">级别</th>
-																																		<th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="15%">是否过滤</th>
-																																	</tr>
-																																</thead>
-																																<c:forEach items="${model.unselected[u1]}" var="d1">
-
-																																	<tr class="table-row">
-																																		<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="checkbox" name="sel${u1}"
-																																			value="<%=countChecked %>|<c:out value='${d1.mark}'/>" /></td>
-																																		<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="hidden" name="mark${u1}" value="<c:out value='${d1.mark}'/>" />
-																																			${d1.events} <input type="hidden" name="eventtype${u1}" value="${u1}" /></td>
-																																		<td VALIGN="middle" class="collection-table-text">内</td>
-																																		<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity1${u1}" size="5" value="" /></td>
-																																		<td VALIGN="middle" class="collection-table-text"><select name="filterA${u1}" id="filter_A">
-																																				<option value="0">否</option>
-																																				<option value="1">是</option>
-																																		</select></td>
-																																	</tr>
-
-																																	<tr class="table-row">
-																																		<td VALIGN="middle" class="collection-table-text">外</td>
-
-																																		<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity2${u1}" size="5" value="" /></td>
-																																		<td VALIGN="middle" class="collection-table-text"><select name="filterB${u1}" id="filter_B">
-																																				<option value="1">是</option>
-																																				<option value="0">否</option>
-																																		</select></td>
-																																	</tr>
-
-																																	<%
-																																		countChecked++;
-																																	%>
-																																</c:forEach>
-																															</table>
-
-
-
-																															<TABLE class="paging-table" BORDER="0" CELLPADDING="5" CELLSPACING="0" WIDTH="100%" SUMMARY="Table for displaying paging function" id="unselCountTab">
-
-																																<TR>
-
-
-																																	<TD CLASS="table-totals" VALIGN="baseline">Total Unselected ${fn:length(model.unselected[u1])} &nbsp;&nbsp;&nbsp;</TD>
-																																</TR>
-
-																															</TABLE>
-																														</TD>
-																													</TR>
-																												</TBODY>
-																											</TABLE>
-																										</td>
-																									</tr>
-																								</TBODY>
-
-																							</TABLE>
-																						</c:when>
-																						<c:otherwise>
-																						</c:otherwise>
-																					</c:choose>
-																				</td>
-																			</tr>
-																		</tbody>
-																	</table>
-																	<!--end of syslog section u1-->
-																</c:forEach>
-															</div>
-														</c:otherwise>
 													</c:choose></TD>
 											</TR>
 										</TBODY>
