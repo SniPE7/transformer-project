@@ -1,10 +1,6 @@
 package com.ibm.ncs.model.dto;
 
-import com.ibm.ncs.model.dao.*;
-import com.ibm.ncs.model.factory.*;
-import com.ibm.ncs.model.exceptions.*;
 import java.io.Serializable;
-import java.util.*;
 
 public class TPolicyDetails implements Serializable
 {

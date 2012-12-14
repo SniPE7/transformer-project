@@ -22,4 +22,6 @@ public interface PolDetailDspDao
 	public List<PolDetailDsp> execute(long mpid, long modid, long general, long ecode, long mcode, java.lang.String mname) throws PolDetailDspDaoException;
 	public List<PolDetailDsp> findByMpidMcode(long mpid,  long mcode) throws PolDetailDspDaoException;
 	public List<PolDetailDsp> findByMpid(long mpid) throws PolDetailDspDaoException;
+	
+	public List<PolDetailDsp> findByPtvid(long ptvid) throws PolDetailDspDaoException;
 }

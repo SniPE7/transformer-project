@@ -534,4 +534,79 @@ public class TEventTypeInitDaoImpl extends AbstractDAO implements ParameterizedR
 	}
 	
 	
+	public List<TEventTypeInit> listForDeviceSnmpRule(long ptvid ) throws TEventTypeInitDaoException
+	{
+		try {
+			return jdbcTemplate.query("select * from ("+
+					"SELECT ETID, MODID, EVEID, ESTID, EVEOTHERNAME, ECODE, GENERAL, MAJOR, MINOR, OTHER, DESCRIPTION, USEFLAG FROM " + getTableName() + 
+					" WHERE  ecode=1  and modid in (select modid from t_module_info_init where lower(mname)=lower('snmp')) " +
+					") where eveid not in (select eveid from T_POLICY_EVENT_RULE where ptvid=?)"+
+					" ORDER BY modid , eveid,estid", this, ptvid);
+		}
+		catch (Exception e) {
+			throw new TEventTypeInitDaoException("Query failed", e);
+		}
+		
+	}	
+
+	public List<TEventTypeInit> listForPortSnmpRule(long ptvid ) throws TEventTypeInitDaoException
+	{
+		try {
+			return jdbcTemplate.query("select * from ("+
+					"SELECT ETID, MODID, EVEID, ESTID, EVEOTHERNAME, ECODE, GENERAL, MAJOR, MINOR, OTHER, DESCRIPTION, USEFLAG FROM " + getTableName() + 
+					" WHERE   ecode=6  and modid in (select modid from t_module_info_init where lower(mname)=lower('snmp')) " +
+					") where eveid not in (select eveid from T_POLICY_EVENT_RULE where ptvid=?)"+
+					" ORDER BY modid , eveid,estid", this, ptvid);
+		}
+		catch (Exception e) {
+			throw new TEventTypeInitDaoException("Query failed", e);
+		}
+		
+	}
+
+	public List<TEventTypeInit> listForPreDefMibSnmpRule(long ptvid ) throws TEventTypeInitDaoException
+	{
+		try {
+			return jdbcTemplate.query("select * from ("+
+					"SELECT ETID, MODID, EVEID, ESTID, EVEOTHERNAME, ECODE, GENERAL, MAJOR, MINOR, OTHER, DESCRIPTION, USEFLAG FROM " + getTableName() + 
+					" WHERE  ecode=9  and modid in (select modid from t_module_info_init where lower(mname)=lower('snmp')) " +
+					") where eveid not in (select eveid from T_POLICY_EVENT_RULE where ptvid=?)"+
+					" ORDER BY modid , eveid,estid", this, ptvid);
+		}
+		catch (Exception e) {
+			throw new TEventTypeInitDaoException("Query failed", e);
+		}
+		
+	}
+	
+
+	public List<TEventTypeInit> listForDeviceIcmpRule(long ptvid) throws TEventTypeInitDaoException
+	{
+		try {
+			return jdbcTemplate.query("select * from ("+
+					"SELECT ETID, MODID, EVEID, ESTID, EVEOTHERNAME, ECODE, GENERAL, MAJOR, MINOR, OTHER, DESCRIPTION, USEFLAG FROM " + getTableName() + 
+					" WHERE  modid in (select modid from t_module_info_init where lower(mname)=lower('icmp')) " +
+					") where eveid not in (select eveid from T_POLICY_EVENT_RULE where ptvid=?)"+
+					" ORDER BY modid , eveid,estid", this,ptvid);
+		}
+		catch (Exception e) {
+			throw new TEventTypeInitDaoException("Query failed", e);
+		}
+		
+	}	
+
+	public List<TEventTypeInit> listForPortIcmpRule(long ptvid ) throws TEventTypeInitDaoException
+	{
+		try {
+			return jdbcTemplate.query(" select * from ("+
+					"SELECT ETID, MODID, EVEID, ESTID, EVEOTHERNAME, ECODE, GENERAL, MAJOR, MINOR, OTHER, DESCRIPTION, USEFLAG FROM " + getTableName() + 
+					" WHERE  modid in (select modid from t_module_info_init where lower(mname)=lower('icmp')) " +
+					") where eveid not in (select eveid from T_POLICY_EVENT_RULE where ptvid=?)"+
+					" ORDER BY modid , eveid,estid", this, ptvid);
+		}
+		catch (Exception e) {
+			throw new TEventTypeInitDaoException("Query failed", e);
+		}
+		
+	}
 }

@@ -149,6 +149,16 @@ public interface TEventTypeInitDao
 	@Transactional
 	public List<TEventTypeInit> listForPortIcmp(long mpid  ) throws TEventTypeInitDaoException;
 	
-	public List listMajor() throws TEventTypeInitDaoException;
+	public List<TEventTypeInit> listMajor() throws TEventTypeInitDaoException;
+	
+	public List<TEventTypeInit> listForDeviceSnmpRule(long ptvid ) throws TEventTypeInitDaoException;
 
+	public List<TEventTypeInit> listForPortSnmpRule(long ptvid ) throws TEventTypeInitDaoException;
+
+	public List<TEventTypeInit> listForPreDefMibSnmpRule(long ptvid ) throws TEventTypeInitDaoException;
+	
+
+	public List<TEventTypeInit> listForDeviceIcmpRule(long ptvid) throws TEventTypeInitDaoException;
+
+	public List<TEventTypeInit> listForPortIcmpRule(long ptvid ) throws TEventTypeInitDaoException;
 }

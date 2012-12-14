@@ -7,6 +7,7 @@ import java.util.Date;
 public class PolDetailDsp implements Serializable
 {
 	protected long mpid;
+	protected long ptvid;
 
 	/** 
 	 * This attribute represents whether the primitive attribute mpid is null.
@@ -132,6 +133,11 @@ public class PolDetailDsp implements Serializable
 	protected boolean mcodeNull = true;
 
 	protected java.lang.String compareType;
+	
+	private String value1Rule;
+	private String value2Rule;
+	private String value1LowRule;
+	private String value2LowRule;
 	/**
 	 * Method 'PolDetailDsp'
 	 * 
@@ -895,6 +901,46 @@ public class PolDetailDsp implements Serializable
 
 	public void setCompareType(java.lang.String compareType) {
 		this.compareType = compareType;
+	}
+
+	public long getPtvid() {
+		return ptvid;
+	}
+
+	public void setPtvid(long ptvid) {
+		this.ptvid = ptvid;
+	}
+
+	public String getValue1Rule() {
+		return value1Rule;
+	}
+
+	public void setValue1Rule(String value1Rule) {
+		this.value1Rule = value1Rule;
+	}
+
+	public String getValue2Rule() {
+		return value2Rule;
+	}
+
+	public void setValue2Rule(String value2Rule) {
+		this.value2Rule = value2Rule;
+	}
+
+	public String getValue1LowRule() {
+		return value1LowRule;
+	}
+
+	public void setValue1LowRule(String value1LowRule) {
+		this.value1LowRule = value1LowRule;
+	}
+
+	public String getValue2LowRule() {
+		return value2LowRule;
+	}
+
+	public void setValue2LowRule(String value2LowRule) {
+		this.value2LowRule = value2LowRule;
 	}
 
 	/**
