@@ -60,7 +60,7 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 	 * @see com.ibm.ncs.model.dao.TPolicyPublishInfoDao#getNewVersion4Draft()
 	 */
 	public String getNewVersion4Draft() {
-		return Integer.toString(this.jdbcTemplate.queryForInt("SELECT MAX(VERSION) FROM "  + getTableName()) + 1);
+		return Integer.toString(this.jdbcTemplate.queryForInt("SELECT MAX(TO_NUMBER(VERSION)) FROM "  + getTableName()) + 1);
 	}
 	
 	public PolicyPublishInfo getDraftVersion() throws TPolicyPublishInfoDaoException {

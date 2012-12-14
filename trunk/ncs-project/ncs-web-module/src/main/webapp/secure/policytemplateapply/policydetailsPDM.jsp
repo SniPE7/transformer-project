@@ -9,9 +9,7 @@
 <head>
 <title>index</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="GENERATOR" content="Rational® Application Developer™ for WebSphere® Software">
 <link href='<%=request.getContextPath()%>/include/wasimp.css' rel="styleSheet" type="text/css">
-<link href='<%=request.getContextPath()%>/login.css' rel="styleSheet" type="text/css">
 <script type="text/javascript" src="<%=request.getContextPath()%>/include/table.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/include/table.css" media="all">
 
@@ -110,7 +108,7 @@
 										</tr>
 										<tr VALIGN="middle">
 											<td class="table-button-section" nowrap>
-												<table style="display: inline; font-size: 95%;" cellspacing="0" cellpadding="0" border="0" align="center">
+												<table style="display: inline; font-size: 95%;" cellspacing="0" cellpadding="0" border="0" align="left">
 													<tr>
 														<td><input type="button" name="button.snmp" value="SNMP" onClick="toSNMP();" class="buttons" id="functions" />&nbsp;</td>
 														<td><input type="submit" name="button.new" value="保存" class="buttons" id="functions" />&nbsp;</td>

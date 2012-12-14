@@ -10,6 +10,9 @@
 <head>
 <link href='<%=request.getContextPath()%>/include/wasimp.css' rel="styleSheet" type="text/css">
 <link href='<%=request.getContextPath()%>/login.css' rel="styleSheet" type="text/css">
+
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/jquery-ui-1.9.2.custom/css/ui-lightness/jquery-ui-1.9.2.custom.min.css" />
+
 <title>baseinfonavi</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
@@ -113,7 +116,7 @@ function doSelect(srcName, destName) {
 	source = document.getElementsByName(srcName).item(0);
   target = document.getElementsByName(destName).item(0);
 	while (source.selectedIndex >= 0) {
-     target.options[target.options.length] = new Option(source.options[source.selectedIndex].label, source.options[source.selectedIndex].value);
+     target.options[target.options.length] = new Option(source.options[source.selectedIndex].text, source.options[source.selectedIndex].value);
      source.options.remove(source.selectedIndex);
 	}
 }
@@ -122,7 +125,7 @@ function doSelectAll(srcName, destName) {
 	  source = document.getElementsByName(srcName).item(0);
     target = document.getElementsByName(destName).item(0);
 	  while ( source.options.length > 0) {
-	     target.options[target.options.length] = new Option(source.options[0].label, source.options[0].value);
+	     target.options[target.options.length] = new Option(source.options[0].text, source.options[0].value);
 	     source.options.remove(0);
 	  }
 	}
@@ -227,7 +230,7 @@ function doSelectAll(srcName, destName) {
                               <thead>
                                 <tr>
                                   <td colspan="3">
-                                    <select name="manufacturer_list">
+                                    <select name="manufacturer_list" style="font-size: x-small;">
                                       <c:forEach var="manufacturer" items="${definition.manufacturers}">
                                       <option value="${manufacturer.mrid}">${manufacturer.mrname}</option>
                                       </c:forEach>
@@ -238,7 +241,7 @@ function doSelectAll(srcName, destName) {
                                     <input type="button" value="查询">
                                   </td>
                                 </tr>
-                                <tr>
+                                <tr class="table-row">
                                   <td>&nbsp;待选设备类型:</td>
                                   <td></td>
                                   <td>&nbsp;策略影响的设备类型:</td>
@@ -247,20 +250,20 @@ function doSelectAll(srcName, destName) {
                               <tbody>
                                 <tr>
                                   <td>
-                                    <select multiple="multiple" size="12" name="device_type_list" style="width: 240px">
+                                    <select multiple="multiple" size="12" name="device_type_list" style="width: 240px; font-size: x-small;">
                                       <c:forEach var="devType" items="${definition.deviceTypes}">
                                       <option value="${devType.dtid}">${devType.mrName} - ${devType.model}</option>
                                       </c:forEach>
                                     </select>
                                   </td>
                                   <td>
-                                    <input type="button" value="  >  " onclick="doSelect('device_type_list', 'selected_device_type_list');"><br/>
-                                    <input type="button" value="  <  " onclick="doSelect('selected_device_type_list', 'device_type_list');"><br/>
-                                    <input type="button" value=" >>  " onclick="doSelectAll('device_type_list', 'selected_device_type_list');"><br/>
-                                    <input type="button" value=" <<  " onclick="doSelectAll('selected_device_type_list', 'device_type_list');"><br/>
+                                    <input type="button" value="  >  " onclick="doSelect('device_type_list', 'selected_device_type_list');" style="width: 40px; font-size: x-small;"><br/>
+                                    <input type="button" value="  <  " onclick="doSelect('selected_device_type_list', 'device_type_list');" style="width: 40px; font-size: x-small;"><br/>
+                                    <input type="button" value=" >>  " onclick="doSelectAll('device_type_list', 'selected_device_type_list');" style="width: 40px; font-size: x-small;"><br/>
+                                    <input type="button" value=" <<  " onclick="doSelectAll('selected_device_type_list', 'device_type_list');" style="width: 40px; font-size: x-small;"><br/>
                                   </td>
                                   <td>
-                                    <select multiple="multiple" size="12" name="selected_device_type_list" style="width: 240px">
+                                    <select multiple="multiple" size="12" name="selected_device_type_list" style="width: 240px; font-size: x-small;">
                                       <c:forEach var="devType" items="${definition.selectedDeviceTypes}">
                                       <option value="${devType.dtid}">${devType.mrName} - ${devType.model}</option>
                                       </c:forEach>

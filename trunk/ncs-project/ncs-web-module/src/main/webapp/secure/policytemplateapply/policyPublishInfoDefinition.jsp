@@ -91,7 +91,7 @@ function reloadNavi(){
                           <td>创建方式<font color="red">*</font></td>
                           <td>
                           <select name="creationMode">
-                            <option>基于空白内容</option>
+                            <option value="0">基于空白内容</option>
                             <c:forEach  items="${definition.historyAndReleasedPolicyPublishInfos}" var="historyAndReleasedPolicyPublishInfo">  
                             <option value="${historyAndReleasedPolicyPublishInfo.ppiid}">复制版本[${historyAndReleasedPolicyPublishInfo.version}] - [${historyAndReleasedPolicyPublishInfo.versionTag}]</option>
                             </c:forEach>
