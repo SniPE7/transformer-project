@@ -160,7 +160,7 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 	@Transactional
 	public void copyAllPolicyTemplateVer(long srcPpiid, long destPpiid) throws TPolicyPublishInfoDaoException {
 		try {
-			String sql = 
+			String copyPTVsql = 
 					"insert into T_POLICY_TEMPLATE_VER(PTVID, PT_VERSION, PTID, PPIID, STATUS, DESCRIPTION) " +
 				  "select  " +
 			    "NM_SEQ.NEXTVAL,  " +
@@ -172,7 +172,77 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 			  "from  " +
 			    "T_POLICY_TEMPLATE_VER ptv left join T_POLICY_TEMPLATE pt on ptv.ptid=pt.ptid  " +
 			  "where ppiid=? ";
-			int ret = jdbcTemplate.update(sql, destPpiid, srcPpiid);
+			int ret = jdbcTemplate.update(copyPTVsql, destPpiid, srcPpiid);
+			
+			String copyPTScope = "insert into T_POLICY_TEMPLATE_SCOPE(PTVID, DTID, MRID) " +
+					" select  " +
+					"   (select ptvid from T_POLICY_TEMPLATE_VER dptv where dptv.ppiid=? and dptv.ptid=ptv.ptid), " +
+					"   pts.dtid, " +
+					"   pts.mrid " +
+					" from " +
+					"   T_POLICY_TEMPLATE_SCOPE pts inner join T_POLICY_TEMPLATE_VER ptv on ptv.ptvid=pts.ptvid " +
+					"                               inner join T_POLICY_PUBLISH_INFO ppi on ptv.ppiid=ppi.ppiid " +
+					" where " +
+					"   ptv.ppiid=?"; 
+			ret = jdbcTemplate.update(copyPTScope, destPpiid, srcPpiid);
+			
+			String copyRule = "insert into T_POLICY_EVENT_RULE(PTVID, " +
+					"   MODID, " +
+					"   EVEID, " +
+					"   POLL, " +
+					"   VALUE_1, " +
+					"   VALUE_1_RULE, " +
+					"   SEVERITY_1, " +
+					"   FILTER_A, " +
+					"   VALUE_2, " +
+					"   VALUE_2_RULE, " +
+					"   SEVERITY_2, " +
+					"   FILTER_B, " +
+					"   SEVERITY_A, " +
+					"   SEVERITY_B, " +
+					"   OIDGROUP, " +
+					"   OGFLAG, " +
+					"   VALUE_1_LOW, " +
+					"   VALUE_1_LOW_RULE, " +
+					"   VALUE_2_LOW, " +
+					"   VALUE_2_LOW_RULE, " +
+					"   V1L_SEVERITY_1, " +
+					"   V1L_SEVERITY_A, " +
+					"   V2L_SEVERITY_2, " +
+					"   V2L_SEVERITY_B, " +
+					"   COMPARETYPE) " +
+					" select  " +
+					"   (select ptvid from T_POLICY_TEMPLATE_VER dptv where dptv.ppiid=? and dptv.ptid=ptv.ptid), " +
+					"   per.MODID, " +
+					"   per.EVEID, " +
+					"   per.POLL, " +
+					"   per.VALUE_1, " +
+					"   per.VALUE_1_RULE, " +
+					"   per.SEVERITY_1, " +
+					"   per.FILTER_A, " +
+					"   per.VALUE_2, " +
+					"   per.VALUE_2_RULE, " +
+					"   per.SEVERITY_2, " +
+					"   per.FILTER_B, " +
+					"   per.SEVERITY_A, " +
+					"   per.SEVERITY_B, " +
+					"   per.OIDGROUP, " +
+					"   per.OGFLAG, " +
+					"   per.VALUE_1_LOW, " +
+					"   per.VALUE_1_LOW_RULE, " +
+					"   per.VALUE_2_LOW, " +
+					"   per.VALUE_2_LOW_RULE, " +
+					"   per.V1L_SEVERITY_1, " +
+					"   per.V1L_SEVERITY_A, " +
+					"   per.V2L_SEVERITY_2, " +
+					"   per.V2L_SEVERITY_B, " +
+					"   per.COMPARETYPE " +
+					" from " +
+					"   T_POLICY_EVENT_RULE per inner join T_POLICY_TEMPLATE_VER ptv on per.ptvid=ptv.ptvid " +
+					"                               inner join T_POLICY_PUBLISH_INFO ppi on ppi.ppiid=ptv.ppiid " +
+					" where " +
+					"   ptv.ppiid=? ";
+			ret = jdbcTemplate.update(copyRule, destPpiid, srcPpiid);
 		} catch (Exception e) {
 			throw new TPolicyPublishInfoDaoException("Query failed", e);
 		}

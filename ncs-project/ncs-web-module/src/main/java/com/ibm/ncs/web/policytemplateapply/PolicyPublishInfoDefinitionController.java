@@ -102,9 +102,6 @@ public class PolicyPublishInfoDefinitionController implements Controller {
 					if (ppi != null) {
 						this.policyPublishInfoDao.copyAllPolicyTemplateVer(Long.parseLong(creationMode), policyPublishInfo.getPpiid());
 					}
-					// Copy all scopes
-
-					// Copy all event polices
 				}
 				model.put("message", "message.common.create.success");
 				model.put("refresh", "true");
