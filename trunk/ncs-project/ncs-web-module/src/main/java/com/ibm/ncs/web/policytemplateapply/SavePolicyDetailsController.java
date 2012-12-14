@@ -502,10 +502,12 @@ public class SavePolicyDetailsController implements Controller {
 		String[] modidStr = request.getParameterValues("modid");
 		String[] pollstr = request.getParameterValues("poll");
 		String[] value1 = request.getParameterValues("value1");
+		String[] value1Rule = request.getParameterValues("value1Rule");
 		String[] severity1Str = request.getParameterValues("severity1");
 		String[] severityAStr = request.getParameterValues("severityA");
 		String[] filterAStr = request.getParameterValues("filterA");
 		String[] value2 = request.getParameterValues("value2");
+		String[] value2Rule = request.getParameterValues("value2Rule");
 		String[] severity2Str = request.getParameterValues("severity2");
 		String[] severityBStr = request.getParameterValues("severityB");
 		String[] filterBStr = request.getParameterValues("filterB");
@@ -550,7 +552,9 @@ public class SavePolicyDetailsController implements Controller {
 				long v1lseverityA = 0;
 				long v2lseverityB = 0;
 				String value1Tmp = value1[selIndex];
+				String value1RuleTmp = value1Rule[selIndex];
 				String value2Tmp = value2[selIndex];
+				String value2RuleTmp = value2Rule[selIndex];
 				String comparTypeTmp = compareTypeStr[selIndex];
 				String value1lowTmp = null, value2lowTmp = null;
 				// if(category.equals("4")){
@@ -641,6 +645,7 @@ public class SavePolicyDetailsController implements Controller {
 					dto.setPoll(pollTmp);
 
 				dto.setValue1(value1Tmp);
+				dto.setValue1Rule(value1RuleTmp);
 				if (severity1Str[selIndex] == null || severity1Str[selIndex].equals("")) {
 					dto.setSeverity1Null(true);
 				} else
@@ -654,6 +659,7 @@ public class SavePolicyDetailsController implements Controller {
 				dto.setFilterA(filterAStr[selIndex]);
 				dto.setFilterB(filterBStr[selIndex]);
 				dto.setValue2(value2Tmp);
+				dto.setValue2Rule(value2RuleTmp);
 				if (severity2Str == null || severity2Str[selIndex] == null || severity2Str[selIndex].equals("")) {
 					dto.setSeverity2Null(true);
 				} else
