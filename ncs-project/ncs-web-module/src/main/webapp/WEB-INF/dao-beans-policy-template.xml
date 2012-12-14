@@ -15,4 +15,9 @@
   <bean id="policyTemplateScopeDao" class="com.ibm.ncs.model.dao.spring.TPolicyTemplateScopeDaoImpl" scope="singleton">
     <property name="dataSource" ref="myDataSource" />
   </bean>
+
+  <bean id="policyDetailsWithRuleDao" class="com.ibm.ncs.model.dao.spring.TPolicyDetailsWithRuleDaoImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+
 </beans>

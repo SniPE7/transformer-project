@@ -77,8 +77,8 @@ public class PolicyDetailsController implements Controller {
 		Map<String, Object> model = new HashMap<String, Object>();
 		try {
 			message = request.getParameter("message");
-			String mpidstr = request.getParameter("mpid");
-			long mpid = Long.parseLong(mpidstr);
+			String ptvidStr = request.getParameter("ptvid");
+			long ptvid = Long.parseLong(ptvidStr);
 
 			String mpname = request.getParameter("mpname");
 
@@ -101,154 +101,55 @@ public class PolicyDetailsController implements Controller {
 			SortList<TManufacturerInfoInit> sortmanu = new SortList<TManufacturerInfoInit>();
 			sortmanu.Sort(tmflist, "getMrname", null);
 			model.put("mflist", tmflist);
-			if (mode.equalsIgnoreCase("syslog")) {
-				List<DspSyslogEvents> sysloglst = null; /* */
-				sysloglst = dspSyslogEventsDao.listSyslogEventsOnMpid(mpid);
-				SortList<DspSyslogEvents> sort0002 = new SortList<DspSyslogEvents>();
-				sort0002.Sort(sysloglst, "getEvents", null);
-				for (DspSyslogEvents sdto : sysloglst) {
-					String themark = sdto.getMark();
-					String themanufacture = sdto.getManufacture();
-					if (!themanufacture.equalsIgnoreCase(manufacture))
-						continue;
-					Long theeventtype = sdto.getEventtype();
-					if (theeventtype == null || theeventtype <= 0 || theeventtype > 8)
-						theeventtype = (long) 8;
-					// if(!category.equalsIgnoreCase("4") && (theeventtype==2 ||
-					// theeventtype==1)) //do not display port event for non port policy
-					// continue;
-					if (category.equalsIgnoreCase("1") && (theeventtype == 2 || theeventtype == 1)) // device
-					{
-						continue;
-					}
-					if (category.equalsIgnoreCase("4") && !(theeventtype == 2 || theeventtype == 1)) // port
-																																													 // events
-																																													 // only
-																																													 // ...ignore
-																																													 // others
-																																													 // except
-																																													 // 1wan&2lan
-					{
-						continue;
-					}
-					if (category.equalsIgnoreCase("9") && !(theeventtype == 2 || theeventtype == 1)) // predefmib
-																																													 // work
-																																													 // as
-																																													 // port
-																																													 // events
-																																													 // ??
-					{
-						continue;
-					}
-					// System.out.println("Begin For:\n\t****event type is:" +
-					// theeventtype);
-					Map<Integer, List<DspSyslogEvents>> theMFsyslog = null;
-					try {
-						theMFsyslog = DspSyslogMap.get(themanufacture.toUpperCase());
-					} catch (Exception e) {
-					}
-					if (theMFsyslog == null) {
-						theMFsyslog = new TreeMap<Integer, List<DspSyslogEvents>>();
-						// System.out.println("\tthe MFsyslog is null");
-					}
 
-					List<DspSyslogEvents> sysloglstdsp = null;
-					try {
-						sysloglstdsp = theMFsyslog.get(Integer.parseInt(String.valueOf(theeventtype)));
-					} catch (Exception e) {
-					}
-					if (sysloglstdsp == null) {
-						sysloglstdsp = new ArrayList<DspSyslogEvents>();
-						// System.out.println("\tthe sysloglstdsp is null");
-					}
-					sysloglstdsp.add(sdto);
-					SortList<DspSyslogEvents> sortunselect = new SortList<DspSyslogEvents>();
-					sortunselect.Sort(sysloglstdsp, "getEvents", null);
-
-					// System.out.println("\tsyslog length=" + sysloglstdsp.size());
-					theMFsyslog.put(Integer.parseInt(String.valueOf(theeventtype)), sysloglstdsp);
-					DspSyslogMap.put(themanufacture.toUpperCase(), theMFsyslog);
-					// System.out.println("End of for\n");
-				}
-				// ---
-				unselectedSyslog = DspSyslogMap.get(manufacture.toUpperCase());
-
-				// System.out.println("unselectedSyslog:" + unselectedSyslog + "\n" +
-				// "DspSyslogMap"+DspSyslogMap);
-			}
-
-			List<PolDetailDsp> details = new ArrayList<PolDetailDsp>();
 			Map<String, Object> detailMap = new HashMap<String, Object>();
 			Map<Integer, Object> syslogdetailMap = new HashMap<Integer, Object>();
 			// List<PolicySyslog> syslogDetails = new ArrayList<PolicySyslog>();
 			List<DspEventsFromPolicySyslog> eventsSyslogDetails = new ArrayList<DspEventsFromPolicySyslog>();
 			Map<String, Object> eventsDictionary = new HashMap<String, Object>();
-			if (!mode.equalsIgnoreCase("syslog")) {
-				details = PolDetailDspDao.findByMpid(mpid);
-				SortList<PolDetailDsp> sortpdd = new SortList<PolDetailDsp>();
-				sortpdd.Sort(details, "getMajor", null);
 
-				for (PolDetailDsp dto : details) {
-					String key = dto.getMname();
-					key = (key == null) ? "" : key;
-					List<PolDetailDsp> templst = null;
-					if (detailMap.containsKey(key)) {
-						templst = (List<PolDetailDsp>) detailMap.get(key);
-					} else {
-						templst = new ArrayList<PolDetailDsp>();
-					}
-					templst.add(dto);
-					detailMap.put(key, templst);
+			List<PolDetailDsp> details = PolDetailDspDao.findByPtvid(ptvid);
+			SortList<PolDetailDsp> sortpdd = new SortList<PolDetailDsp>();
+			sortpdd.Sort(details, "getMajor", null);
 
+			for (PolDetailDsp dto : details) {
+				String key = dto.getMname();
+				key = (key == null) ? "" : key;
+				List<PolDetailDsp> templst = null;
+				if (detailMap.containsKey(key)) {
+					templst = (List<PolDetailDsp>) detailMap.get(key);
+				} else {
+					templst = new ArrayList<PolDetailDsp>();
 				}
-				// System.out.println("detailMap="+detailMap);
-				details = (List<PolDetailDsp>) detailMap.get(mode.toLowerCase());
+				templst.add(dto);
+				detailMap.put(key, templst);
 
-			} else { // syslog policies
-				try {
-					eventsSyslogDetails = DspEventsFromPolicySyslogDao.findDspEventsByManufactureAndMpid(manufacture, mpid);
-					SortList<DspEventsFromPolicySyslog> sortpol = new SortList<DspEventsFromPolicySyslog>();
-					sortpol.Sort(eventsSyslogDetails, "getEvents", null);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				for (DspEventsFromPolicySyslog dto : eventsSyslogDetails) {
-					int key = Integer.parseInt(String.valueOf(dto.getEventtype()));
-					List<DspEventsFromPolicySyslog> templst = null;
-					if (syslogdetailMap.containsKey(key)) {
-						templst = (List<DspEventsFromPolicySyslog>) syslogdetailMap.get(key);
-					} else {
-						templst = new ArrayList<DspEventsFromPolicySyslog>();
-					}
-					templst.add(dto);
-					syslogdetailMap.put(key, templst);
-
-				}
 			}
+			// System.out.println("detailMap="+detailMap);
+			details = (List<PolDetailDsp>) detailMap.get(mode.toLowerCase());
 
 			List<TModuleInfoInit> module = TModuleInfoInitDao.findAll();
 
 			List<TEventTypeInit> unselected = null; /* */
 			List<TEventTypeInit> snmplst = null; /* */
 			if (category.equals("1")) { // cate=1 as DEVECE policy
-				snmplst = TEventTypeInitDao.listForDeviceSnmp(mpid);
+				snmplst = TEventTypeInitDao.listForDeviceSnmpRule(ptvid);
 			} else if (category.equals("4")) // treated as PORT policy
 			{
-				snmplst = TEventTypeInitDao.listForPortSnmp(mpid);
+				snmplst = TEventTypeInitDao.listForPortSnmpRule(ptvid);
 			} else if (category.equals("9")) // treated as PreDefMib policy
 			{
-				snmplst = TEventTypeInitDao.listForPreDefMibSnmp(mpid);
+				snmplst = TEventTypeInitDao.listForPreDefMibSnmpRule(ptvid);
 			}
 			List<TEventTypeInit> icmplst = null; /* */
 			if (category.equals("1")) { // cate=1 as DEVECE policy
-				icmplst = TEventTypeInitDao.listForDeviceIcmp(mpid);
+				icmplst = TEventTypeInitDao.listForDeviceIcmpRule(ptvid);
 			} else if (category.equals("4")) // treated as PORT policy
 			{
-				icmplst = TEventTypeInitDao.listForPortIcmp(mpid);
+				icmplst = TEventTypeInitDao.listForPortIcmpRule(ptvid);
 			} else if (category.equals("9")) // treated as PreDefMib policy
 			{
-				icmplst = TEventTypeInitDao.listForPortIcmp(mpid);
+				icmplst = TEventTypeInitDao.listForPortIcmpRule(ptvid);
 			}
 			SortList<TEventTypeInit> sort0001 = new SortList<TEventTypeInit>();
 			sort0001.Sort(snmplst, "getMajor", null);
@@ -265,7 +166,7 @@ public class PolicyDetailsController implements Controller {
 				model.put("details", details);
 				model.put("unselected", unselected);
 			}
-			model.put("mpid", mpidstr);
+			model.put("ptvid", ptvidStr);
 			model.put("mpname", mpname);
 			model.put("displayOption", displayOption);
 			model.put("selectedEveType", selectedEveType);

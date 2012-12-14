@@ -133,7 +133,8 @@ function doSelectAll(srcName, destName) {
 <body <c:if test="${definition.refresh eq 'true'}">onLoad="reloadNavi()"</c:if> class="navtree" style="background-color: #FFFFFF;" leftmargin="0" topmargin="0" marginwidth="0"
 	marginheight="0">
 	<form action="" method="post" id="form1" name="form1">
-    <input type="hidden" name="ppiid" value="${definition.ppiid}" />
+    <input type="hidden" name="ppiid" value="${definition.ppiid}"/>
+    <input type="hidden" name="ptvid" value="${definition.ptvid}"/>
     <input type="hidden" name="formAction" value="test" />
 		<TABLE WIDTH="98%" CELLPADDING="0" CELLSPACING="0" BORDER="0" class="portalPage">
 			<TR>
@@ -236,6 +237,11 @@ function doSelectAll(srcName, destName) {
                                     &nbsp;
                                     <input type="button" value="查询">
                                   </td>
+                                </tr>
+                                <tr>
+                                  <td>&nbsp;待选设备类型:</td>
+                                  <td></td>
+                                  <td>&nbsp;策略影响的设备类型:</td>
                                 </tr>
                               </thead>
                               <tbody>
