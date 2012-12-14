@@ -87,6 +87,8 @@ create table T_POLICY_EVENT_RULE  (
    FILTER_B             VARCHAR2(1),
    SEVERITY_A           NUMBER,
    SEVERITY_B           NUMBER,
+   OIDGROUP             VARCHAR2(255),
+   OGFLAG               VARCHAR2(1)                    default '0',
    VALUE_1_LOW          VARCHAR2(32)                   default '0',
    VALUE_1_LOW_RULE     VARCHAR2(1024)                 default '0',
    VALUE_2_LOW          VARCHAR2(32)                   default '0',
