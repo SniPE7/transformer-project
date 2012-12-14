@@ -62,6 +62,12 @@ function loadPollicyDef(){
 	window.close();
 }
 
+function loadPollicyTemplateDef(){
+	  window.open("<%=request.getContextPath() %>/secure/policytemplateapply/naviPolicyDefinition.wss", "navigator");
+	  window.open("<%=request.getContextPath() %>/secure/policytemaplteapply/policyDefinition.wss?cate=1", "detail");
+	  window.close();
+	}
+
 function loadPolicyApply(){
 	window.open("<%=request.getContextPath() %>/secure/policyapply/naviPolicyApply.wss", "navigator");
 	window.open("<%=request.getContextPath() %>/secure/policyapply/policyApplyWel.jsp", "detail");
@@ -85,7 +91,8 @@ function onTabChange(){
 		   loadIPAddr();
 		}
 		if(child.id == 'policyapplymenu'){
-		   loadPollicyDef();
+		   //loadPollicyDef();
+		   loadPollicyTemplateDef();
 		}
 		if(child.id == 'maintainmenu'){
 		   loadMaintainDb();

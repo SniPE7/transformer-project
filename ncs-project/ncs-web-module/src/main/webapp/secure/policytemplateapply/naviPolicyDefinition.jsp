@@ -256,7 +256,7 @@ window.onload =  function (){
 		<td align="left" colspan="2" class="navtree" style="background-color: #FFFFFF">
 			<!-- title of the navi welcome page -->
 			<ul class='nav-child' dir='ltr'>
-				<li class='navigation-bullet'>在用策略模板集</li>
+				<li class='navigation-bullet' style="font: x-small; ">在用策略模板集  - [${model.releasedVersionPolicyPublishInfo.versionTag}] - V[${model.releasedVersionPolicyPublishInfo.version}]</li>
 			</ul>
 		</td>
   </tr>
@@ -284,7 +284,7 @@ window.onload =  function (){
 				<ul class='nav-child' dir='ltr'>
 					<li class='navigation-bullet'>
 						<a style='text-decoration: none'
-            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1&ppiid=${model.draftVersionPolicyPublishInfo.ppiid}&ptvid=${dev.ptvid }"
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1&ppiid=${model.releasedVersionPolicyPublishInfo.ppiid}&ptvid=${dev.ptvid }"
             target="detail" dir="ltr"
             title="${model.policyTemplateMap[dev.ptid].mpname}(...${dev.ptvid})">
             ${model.policyTemplateMap[dev.ptid].mpname}
@@ -314,7 +314,7 @@ window.onload =  function (){
 				<ul class='nav-child' dir='ltr'>
 					<li class='navigation-bullet'>
 						<a style='text-decoration: none'
-            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=4&ppiid=${model.draftVersionPolicyPublishInfo.ppiid}&ptvid=${dev.ptvid }"
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=4&ppiid=${model.releasedVersionPolicyPublishInfo.ppiid}&ptvid=${dev.ptvid }"
             target="detail" dir="ltr"
             title="${model.policyTemplateMap[dev.ptid].mpname}(...${dev.ptvid})">
             ${model.policyTemplateMap[dev.ptid].mpname}
@@ -345,7 +345,7 @@ window.onload =  function (){
 				<ul class='nav-child' dir='ltr'>
 					<li class='navigation-bullet'>
 						<a style='text-decoration: none'
-            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=9&ppiid=${model.draftVersionPolicyPublishInfo.ppiid}&ptvid=${dev.ptvid }"
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=9&ppiid=${model.releasedVersionPolicyPublishInfo.ppiid}&ptvid=${dev.ptvid }"
             target="detail" dir="ltr"
             title="${model.policyTemplateMap[dev.ptid].mpname}(...${dev.ptvid})">
             ${model.policyTemplateMap[dev.ptid].mpname}
@@ -367,7 +367,7 @@ window.onload =  function (){
     <td align="left" colspan="2" class="navtree" style="background-color: #FFFFFF">
       <!-- title of the navi welcome page -->
       <ul class='nav-child' dir='ltr'>
-        <li class='navigation-bullet'>编写中的策略模板集</li>
+        <li class='navigation-bullet' style="font: x-small; ">编写中的策略模板集  - [${model.draftVersionPolicyPublishInfo.versionTag}] - V[${model.draftVersionPolicyPublishInfo.version}]</li>
       </ul>
     </td>
   </tr>
@@ -547,7 +547,7 @@ window.onload =  function (){
     <td align="left" colspan="2" class="navtree" style="background-color: #FFFFFF">
       <!-- title of the navi welcome page -->
       <ul class='nav-child' dir='ltr'>
-        <li class='navigation-bullet'>历史策略模板集</li>
+        <li class='navigation-bullet' style="font: x-small; ">历史策略模板集</li>
       </ul>
     </td>
   </tr>
@@ -566,7 +566,7 @@ window.onload =  function (){
          onClick="javascript:expandCollapse('<%=nodei %>');" 
          href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1" 
          title="设备策略"
-         target="detail" dir="ltr">${historyPPI.versionTag}</a>
+         target="detail" dir="ltr">${historyPPI.versionTag} - V[${historyPPI.version}]</a>
     </div>
     <div class='nav-child-container' style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
         <ul class='nav-child' dir='ltr'>
