@@ -284,7 +284,7 @@ window.onload =  function (){
 				<ul class='nav-child' dir='ltr'>
 					<li class='navigation-bullet'>
 						<a style='text-decoration: none'
-            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1&ppiid=${model.releasedVersionPolicyPublishInfo.ppiid}&ptvid=${dev.ptvid }"
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1&ppiid=${model.releasedVersionPolicyPublishInfo.ppiid}&ptvid=${dev.ptvid }&formAction=view"
             target="detail" dir="ltr"
             title="${model.policyTemplateMap[dev.ptid].mpname}(...${dev.ptvid})">
             ${model.policyTemplateMap[dev.ptid].mpname}
@@ -314,7 +314,7 @@ window.onload =  function (){
 				<ul class='nav-child' dir='ltr'>
 					<li class='navigation-bullet'>
 						<a style='text-decoration: none'
-            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=4&ppiid=${model.releasedVersionPolicyPublishInfo.ppiid}&ptvid=${dev.ptvid }"
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=4&ppiid=${model.releasedVersionPolicyPublishInfo.ppiid}&ptvid=${dev.ptvid }&formAction=view"
             target="detail" dir="ltr"
             title="${model.policyTemplateMap[dev.ptid].mpname}(...${dev.ptvid})">
             ${model.policyTemplateMap[dev.ptid].mpname}
@@ -345,7 +345,7 @@ window.onload =  function (){
 				<ul class='nav-child' dir='ltr'>
 					<li class='navigation-bullet'>
 						<a style='text-decoration: none'
-            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=9&ppiid=${model.releasedVersionPolicyPublishInfo.ppiid}&ptvid=${dev.ptvid }"
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=9&ppiid=${model.releasedVersionPolicyPublishInfo.ppiid}&ptvid=${dev.ptvid }&formAction=view"
             target="detail" dir="ltr"
             title="${model.policyTemplateMap[dev.ptid].mpname}(...${dev.ptvid})">
             ${model.policyTemplateMap[dev.ptid].mpname}
@@ -353,7 +353,22 @@ window.onload =  function (){
 				</ul>
 			  </c:if>
 				</c:forEach>
-		</div>
+		    </div>
+		    
+    <% nodei++ ;%>
+        <div nowrap class='main-task' style='margin-left: 0.3em;'>
+          <a style='color: #000000; text-decoration: none;'
+            href="javascript:expandCollapse('<%=nodei %>');" 
+            title=""> 
+          <img src='<%=request.getContextPath() %>/images/arrow_expanded.gif' title='+' alt='+' id='I<%=nodei %>' border='0' align='absmiddle'>
+          </a>
+                <a style='color: #000000; text-decoration: none;'
+                  onClick="javascript:expandCollapse('<%=nodei %>');" 
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=9" 
+            title="私有MIB策略&"
+                    target="detail" dir="ltr">策略应用明细&nbsp;&nbsp;</a>
+             </div>
+		    
     </td>
   </tr>
 </table>
@@ -577,7 +592,7 @@ window.onload =  function (){
 			        <ul class='nav-child' dir='ltr'>
 			          <li class='navigation-bullet'>
 			            <a style='text-decoration: none'
-			            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1&ppiid=${historyPPI.ppiid}&ptvid=${dev.ptvid }"
+			            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1&ppiid=${historyPPI.ppiid}&ptvid=${dev.ptvid }&formAction=view"
 			            target="detail" dir="ltr"
 			            title="${model.policyTemplateMap[dev.ptid].mpname}(...${dev.ptvid})">
 			            ${model.policyTemplateMap[dev.ptid].mpname}
@@ -596,7 +611,7 @@ window.onload =  function (){
               <ul class='nav-child' dir='ltr'>
                 <li class='navigation-bullet'>
                   <a style='text-decoration: none'
-                  href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1&ppiid=${historyPPI.ppiid}&ptvid=${dev.ptvid }"
+                  href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1&ppiid=${historyPPI.ppiid}&ptvid=${dev.ptvid }&formAction=view"
                   target="detail" dir="ltr"
                   title="${model.policyTemplateMap[dev.ptid].mpname}(...${dev.ptvid})">
                   ${model.policyTemplateMap[dev.ptid].mpname}
@@ -615,7 +630,7 @@ window.onload =  function (){
               <ul class='nav-child' dir='ltr'>
                 <li class='navigation-bullet'>
                   <a style='text-decoration: none'
-                  href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1&ppiid=${historyPPI.ppiid}&ptvid=${dev.ptvid }"
+                  href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1&ppiid=${historyPPI.ppiid}&ptvid=${dev.ptvid }&formAction=view"
                   target="detail" dir="ltr"
                   title="${model.policyTemplateMap[dev.ptid].mpname}(...${dev.ptvid})">
                   ${model.policyTemplateMap[dev.ptid].mpname}

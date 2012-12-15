@@ -57,6 +57,7 @@ public class PolicyDefinitionController implements Controller {
 	PredefmibPolMapDao predefmibPolMapDao;
 	GenPkNumber genPkNumber;
 	String pageView;
+	String pageView4ReadOnly;
 	String message = "";
 
 	public void setManufacturerInfoDao(TManufacturerInfoInitDao manufacturerInfoDao) {
@@ -175,7 +176,7 @@ public class PolicyDefinitionController implements Controller {
 
 						this.policyTemplateVerDao.update(Long.parseLong(ptvid), policyTemplateVer);
 						Log4jInit.ncsLog.info(this.getClass().getName() + " updated to TPolicyTemplateVerDao: pk= " + ptvid + "\tdto=" + policyTemplateVer.toString());
-						
+
 						this.policyTemplateScopeDao.deleteAllByPtvid(Long.parseLong(ptvid));
 						String[] selectedDeviceTypeIDs = request.getParameterValues("selected_device_type_list");
 						if (selectedDeviceTypeIDs != null && selectedDeviceTypeIDs.length > 0) {
@@ -186,10 +187,10 @@ public class PolicyDefinitionController implements Controller {
 								this.policyTemplateScopeDao.insert(policyTemplateScope);
 							}
 						}
-						
+
 						model.put("message", "message.common.update.success");
 
-					} else if (formAction.equalsIgnoreCase("add") || mpid == null) {
+					} else if (formAction.equalsIgnoreCase("add")) {
 						PolicyTemplate template = new PolicyTemplate();
 						PolicyTemplateVer templateVer = new PolicyTemplateVer();
 						String category = cate;
@@ -289,7 +290,11 @@ public class PolicyDefinitionController implements Controller {
 				List<TManufacturerInfoInit> manufacturers = this.manufacturerInfoDao.findAll();
 				model.put("manufacturers", manufacturers);
 
-				return new ModelAndView(this.getPageView(), "definition", model);
+				if (formAction != null && formAction.equalsIgnoreCase("view")) {
+          return new ModelAndView(this.getPageView4ReadOnly(), "definition", model);
+				} else {
+					return new ModelAndView(getPageView(), "definition", model);
+				}
 			} catch (Exception e) {
 				message = "policyDefinitionController.error";
 				model.put("message", message);
@@ -328,6 +333,14 @@ public class PolicyDefinitionController implements Controller {
 
 	public void setPageView(String pageView) {
 		this.pageView = pageView;
+	}
+
+	public String getPageView4ReadOnly() {
+		return pageView4ReadOnly;
+	}
+
+	public void setPageView4ReadOnly(String pageView4ReadOnly) {
+		this.pageView4ReadOnly = pageView4ReadOnly;
 	}
 
 }
