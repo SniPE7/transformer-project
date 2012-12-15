@@ -40,6 +40,7 @@ public class PolicyDetailsPDMController implements Controller {
 	TManufacturerInfoInitDao TManufacturerInfoInitDao;
 	
 	String pageView;
+	String pageView4ReadOnly;
 	String message;
 
 	/* (non-Javadoc)
@@ -156,8 +157,12 @@ public class PolicyDetailsPDMController implements Controller {
 			Log4jInit.ncsLog.error(this.getClass().getName() + " Error occured:\n" + e.getMessage());
 			e.printStackTrace();
 		}
-		
-		return new ModelAndView(getPageView(),	"model", model);
+		String readOnly = request.getParameter("readOnly");
+		if (readOnly != null && readOnly.equalsIgnoreCase("true")) {
+			return new ModelAndView(getPageView4ReadOnly(), "model", model);
+		} else {
+			return new ModelAndView(getPageView(), "model", model);
+		}
 	}
 	
 
@@ -229,6 +234,18 @@ public class PolicyDetailsPDMController implements Controller {
 	public void setTManufacturerInfoInitDao(
 			TManufacturerInfoInitDao manufacturerInfoInitDao) {
 		TManufacturerInfoInitDao = manufacturerInfoInitDao;
+	}
+
+
+
+	public String getPageView4ReadOnly() {
+		return pageView4ReadOnly;
+	}
+
+
+
+	public void setPageView4ReadOnly(String pageView4ReadOnly) {
+		this.pageView4ReadOnly = pageView4ReadOnly;
 	}
 
 }

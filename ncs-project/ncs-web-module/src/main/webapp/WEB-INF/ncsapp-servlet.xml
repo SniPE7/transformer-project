@@ -1493,6 +1493,7 @@
     
     <property name="genPkNumber" ref="GenPkNumber" />
     <property name="pageView" value="/secure/policytemplateapply/policyDefinition.jsp" />
+    <property name="pageView4ReadOnly" value="/secure/policytemplateapply/policyDefinition4ReadOnly.jsp" />
   </bean>
   <!-- 视图入口: 发布下发策略模板集 -->
   <bean name="/secure/policytemplateapply/showPolicyPublishInfoView4Release.wss"
@@ -1517,6 +1518,7 @@
     <property name="TManufacturerInfoInitDao" ref="TManufacturerInfoInitDao"/>
     <property name="polDetailDspDao" ref="PolDetailDspDao" />   
     <property name="pageView" value="/secure/policytemplateapply/policydetails.jsp" />
+    <property name="pageView4ReadOnly" value="/secure/policytemplateapply/policydetails4ReadOnly.jsp" />
   </bean> 
   <bean name="/secure/policytemplateapply/savepolicydetails.wss" class="com.ibm.ncs.web.policytemplateapply.SavePolicyDetailsController" >
     <property name="policyDetailsWithRuleDao" ref="policyDetailsWithRuleDao" />
@@ -1537,6 +1539,7 @@
     <property name="polDetailDspDao" ref="PolDetailDspDao" />   
 
     <property name="pageView" value="/secure/policytemplateapply/policydetailsPDM.jsp" />
+    <property name="pageView4ReadOnly" value="/secure/policytemplateapply/policydetailsPDM4ReadOnly.jsp" />
   </bean>
   
   <bean name="/secure/policytemplateapply/savepolicydetailsPDM.wss" class="com.ibm.ncs.web.policytemplateapply.SavePolicyDetailsPDMController" >
