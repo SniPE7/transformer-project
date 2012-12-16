@@ -39,6 +39,7 @@
 	
 	<bean name="/login.wss" class="com.ibm.ncs.web.signon.TUsersController" >
 		<property name="TUserDao" ref="TUserDao" />
+		<property name="roleAndServerNodeDao" ref="roleAndServerNodeDao"></property>
 		<property name="pageView" value="main.html"></property>
 		<property name="action" value="login"></property>
 	</bean>
