@@ -1,44 +1,64 @@
 package com.ibm.ncs.model.dto;
 
-import com.ibm.ncs.model.dao.*;
-import com.ibm.ncs.model.factory.*;
-import com.ibm.ncs.model.exceptions.*;
 import java.io.Serializable;
-import java.util.*;
 
-public class TUser implements Serializable
-{
-	/** 
+public class TUser implements Serializable {
+	/**
+	 * 
+	 */
+  private static final long serialVersionUID = 5377233385220560792L;
+
+	/**
 	 * This attribute maps to the column USID in the T_USER table.
 	 */
 	protected long usid;
 
-	/** 
+	/**
 	 * This attribute maps to the column UNAME in the T_USER table.
 	 */
 	protected String uname;
 
-	/** 
+	/**
 	 * This attribute maps to the column PASSWORD in the T_USER table.
 	 */
 	protected String password;
 
-	/** 
+	/**
 	 * This attribute maps to the column STATUS in the T_USER table.
 	 */
 	protected String status;
 
-	/** 
+	/**
 	 * This attribute maps to the column DESCRIPTION in the T_USER table.
 	 */
 	protected String description;
+	
+	private String fullname;
+	
+	private String email;
+	
 
 	/**
 	 * Method 'TUser'
 	 * 
 	 */
-	public TUser()
-	{
+	public TUser() {
+	}
+
+	public String getFullname() {
+		return fullname;
+	}
+
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	/**
@@ -46,8 +66,7 @@ public class TUser implements Serializable
 	 * 
 	 * @return long
 	 */
-	public long getUsid()
-	{
+	public long getUsid() {
 		return usid;
 	}
 
@@ -56,8 +75,7 @@ public class TUser implements Serializable
 	 * 
 	 * @param usid
 	 */
-	public void setUsid(long usid)
-	{
+	public void setUsid(long usid) {
 		this.usid = usid;
 	}
 
@@ -66,8 +84,7 @@ public class TUser implements Serializable
 	 * 
 	 * @return String
 	 */
-	public String getUname()
-	{
+	public String getUname() {
 		return uname;
 	}
 
@@ -76,8 +93,7 @@ public class TUser implements Serializable
 	 * 
 	 * @param uname
 	 */
-	public void setUname(String uname)
-	{
+	public void setUname(String uname) {
 		this.uname = uname;
 	}
 
@@ -86,8 +102,7 @@ public class TUser implements Serializable
 	 * 
 	 * @return String
 	 */
-	public String getPassword()
-	{
+	public String getPassword() {
 		return password;
 	}
 
@@ -96,8 +111,7 @@ public class TUser implements Serializable
 	 * 
 	 * @param password
 	 */
-	public void setPassword(String password)
-	{
+	public void setPassword(String password) {
 		this.password = password;
 	}
 
@@ -106,8 +120,7 @@ public class TUser implements Serializable
 	 * 
 	 * @return String
 	 */
-	public String getStatus()
-	{
+	public String getStatus() {
 		return status;
 	}
 
@@ -116,8 +129,7 @@ public class TUser implements Serializable
 	 * 
 	 * @param status
 	 */
-	public void setStatus(String status)
-	{
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
@@ -126,8 +138,7 @@ public class TUser implements Serializable
 	 * 
 	 * @return String
 	 */
-	public String getDescription()
-	{
+	public String getDescription() {
 		return description;
 	}
 
@@ -136,8 +147,7 @@ public class TUser implements Serializable
 	 * 
 	 * @param description
 	 */
-	public void setDescription(String description)
-	{
+	public void setDescription(String description) {
 		this.description = description;
 	}
 
@@ -147,41 +157,40 @@ public class TUser implements Serializable
 	 * @param _other
 	 * @return boolean
 	 */
-	public boolean equals(Object _other)
-	{
+	public boolean equals(Object _other) {
 		if (_other == null) {
 			return false;
 		}
-		
+
 		if (_other == this) {
 			return true;
 		}
-		
+
 		if (!(_other instanceof TUser)) {
 			return false;
 		}
-		
+
 		final TUser _cast = (TUser) _other;
 		if (usid != _cast.usid) {
 			return false;
 		}
-		
-		if (uname == null ? _cast.uname != uname : !uname.equals( _cast.uname )) {
+
+		if (uname == null ? _cast.uname != uname : !uname.equals(_cast.uname)) {
 			return false;
 		}
-		
-		if (password == null ? _cast.password != password : !password.equals( _cast.password )) {
+
+		if (password == null ? _cast.password != password : !password.equals(_cast.password)) {
 			return false;
 		}
-		
-		if (status == null ? _cast.status != status : !status.equals( _cast.status )) {
+
+		if (status == null ? _cast.status != status : !status.equals(_cast.status)) {
 			return false;
 		}
-		
-		if (description == null ? _cast.description != description : !description.equals( _cast.description )) {
+
+		if (description == null ? _cast.description != description : !description.equals(_cast.description)) {
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -190,26 +199,25 @@ public class TUser implements Serializable
 	 * 
 	 * @return int
 	 */
-	public int hashCode()
-	{
+	public int hashCode() {
 		int _hashCode = 0;
 		_hashCode = 29 * _hashCode + (int) (usid ^ (usid >>> 32));
 		if (uname != null) {
 			_hashCode = 29 * _hashCode + uname.hashCode();
 		}
-		
+
 		if (password != null) {
 			_hashCode = 29 * _hashCode + password.hashCode();
 		}
-		
+
 		if (status != null) {
 			_hashCode = 29 * _hashCode + status.hashCode();
 		}
-		
+
 		if (description != null) {
 			_hashCode = 29 * _hashCode + description.hashCode();
 		}
-		
+
 		return _hashCode;
 	}
 
@@ -218,8 +226,7 @@ public class TUser implements Serializable
 	 * 
 	 * @return TUserPk
 	 */
-	public TUserPk createPk()
-	{
+	public TUserPk createPk() {
 		return new TUserPk(usid);
 	}
 
@@ -228,15 +235,14 @@ public class TUser implements Serializable
 	 * 
 	 * @return String
 	 */
-	public String toString()
-	{
+	public String toString() {
 		StringBuffer ret = new StringBuffer();
-		ret.append( "com.ibm.ncs.model.dto.TUser: " );
-		ret.append( "usid=" + usid );
-		ret.append( ", uname=" + uname );
-		ret.append( ", password=" + password );
-		ret.append( ", status=" + status );
-		ret.append( ", description=" + description );
+		ret.append("com.ibm.ncs.model.dto.TUser: ");
+		ret.append("usid=" + usid);
+		ret.append(", uname=" + uname);
+		ret.append(", password=" + password);
+		ret.append(", status=" + status);
+		ret.append(", description=" + description);
 		return ret.toString();
 	}
 

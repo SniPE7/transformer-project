@@ -38,7 +38,7 @@ public class TUserDaoImpl extends AbstractDAO implements ParameterizedRowMapper<
 	@Transactional
 	public TUserPk insert(TUser dto)
 	{
-		jdbcTemplate.update("INSERT INTO " + getTableName() + " ( USID, UNAME, PASSWORD, STATUS, DESCRIPTION ) VALUES ( ?, ?, ?, ?, ? )",dto.getUsid(),dto.getUname(),dto.getPassword(),dto.getStatus(),dto.getDescription());
+		jdbcTemplate.update("INSERT INTO " + getTableName() + " ( USID, UNAME, PASSWORD, STATUS, DESCRIPTION, FULLNAME, EMAIL ) VALUES ( ?, ?, ?, ?, ?, ?, ? )",dto.getUsid(),dto.getUname(),dto.getPassword(),dto.getStatus(),dto.getDescription(),dto.getFullname(),dto.getEmail());
 		return dto.createPk();
 	}
 
@@ -48,7 +48,7 @@ public class TUserDaoImpl extends AbstractDAO implements ParameterizedRowMapper<
 	@Transactional
 	public void update(TUserPk pk, TUser dto) throws TUserDaoException
 	{
-		jdbcTemplate.update("UPDATE " + getTableName() + " SET USID = ?, UNAME = ?, PASSWORD = ?, STATUS = ?, DESCRIPTION = ? WHERE USID = ?",dto.getUsid(),dto.getUname(),dto.getPassword(),dto.getStatus(),dto.getDescription(),pk.getUsid());
+		jdbcTemplate.update("UPDATE " + getTableName() + " SET USID = ?, UNAME = ?, PASSWORD = ?, STATUS = ?, DESCRIPTION = ?, FULLNAME = ?, EMAIL = ? WHERE USID = ?",dto.getUsid(),dto.getUname(),dto.getPassword(),dto.getStatus(),dto.getDescription(),dto.getFullname(), dto.getEmail(), pk.getUsid());
 	}
 
 	/** 
@@ -76,6 +76,8 @@ public class TUserDaoImpl extends AbstractDAO implements ParameterizedRowMapper<
 		dto.setPassword( rs.getString( 3 ) );
 		dto.setStatus( rs.getString( 4 ) );
 		dto.setDescription( rs.getString( 5 ) );
+		dto.setFullname(rs.getString(6));
+		dto.setEmail(rs.getString(7));
 		return dto;
 	}
 
@@ -96,7 +98,7 @@ public class TUserDaoImpl extends AbstractDAO implements ParameterizedRowMapper<
 	public TUser findByPrimaryKey(long usid) throws TUserDaoException
 	{
 		try {
-			List<TUser> list = jdbcTemplate.query("SELECT USID, UNAME, PASSWORD, STATUS, DESCRIPTION FROM " + getTableName() + " WHERE USID = ?", this,usid);
+			List<TUser> list = jdbcTemplate.query("SELECT USID, UNAME, PASSWORD, STATUS, DESCRIPTION, FULLNAME, EMAIL FROM " + getTableName() + " WHERE USID = ?", this,usid);
 			return list.size() == 0 ? null : list.get(0);
 		}
 		catch (Exception e) {
@@ -112,7 +114,7 @@ public class TUserDaoImpl extends AbstractDAO implements ParameterizedRowMapper<
 	public List<TUser> findAll() throws TUserDaoException
 	{
 		try {
-			return jdbcTemplate.query("SELECT USID, UNAME, PASSWORD, STATUS, DESCRIPTION FROM " + getTableName() + " ORDER BY USID", this);
+			return jdbcTemplate.query("SELECT USID, UNAME, PASSWORD, STATUS, DESCRIPTION, FULLNAME, EMAIL FROM " + getTableName() + " ORDER BY USID", this);
 		}
 		catch (Exception e) {
 			throw new TUserDaoException("Query failed", e);
@@ -127,7 +129,7 @@ public class TUserDaoImpl extends AbstractDAO implements ParameterizedRowMapper<
 	public List<TUser> findWhereUsidEquals(long usid) throws TUserDaoException
 	{
 		try {
-			return jdbcTemplate.query("SELECT USID, UNAME, PASSWORD, STATUS, DESCRIPTION FROM " + getTableName() + " WHERE USID = ? ORDER BY USID", this,usid);
+			return jdbcTemplate.query("SELECT USID, UNAME, PASSWORD, STATUS, DESCRIPTION, FULLNAME, EMAIL FROM " + getTableName() + " WHERE USID = ? ORDER BY USID", this,usid);
 		}
 		catch (Exception e) {
 			throw new TUserDaoException("Query failed", e);
@@ -142,7 +144,7 @@ public class TUserDaoImpl extends AbstractDAO implements ParameterizedRowMapper<
 	public List<TUser> findWhereUnameEquals(String uname) throws TUserDaoException
 	{
 		try {
-			return jdbcTemplate.query("SELECT USID, UNAME, PASSWORD, STATUS, DESCRIPTION FROM " + getTableName() + " WHERE UNAME = ? ORDER BY UNAME", this,uname);
+			return jdbcTemplate.query("SELECT USID, UNAME, PASSWORD, STATUS, DESCRIPTION, FULLNAME, EMAIL FROM " + getTableName() + " WHERE UNAME = ? ORDER BY UNAME", this,uname);
 		}
 		catch (Exception e) {
 			throw new TUserDaoException("Query failed", e);
@@ -157,7 +159,7 @@ public class TUserDaoImpl extends AbstractDAO implements ParameterizedRowMapper<
 	public List<TUser> findWherePasswordEquals(String password) throws TUserDaoException
 	{
 		try {
-			return jdbcTemplate.query("SELECT USID, UNAME, PASSWORD, STATUS, DESCRIPTION FROM " + getTableName() + " WHERE PASSWORD = ? ORDER BY PASSWORD", this,password);
+			return jdbcTemplate.query("SELECT USID, UNAME, PASSWORD, STATUS, DESCRIPTION, FULLNAME, EMAIL FROM " + getTableName() + " WHERE PASSWORD = ? ORDER BY PASSWORD", this,password);
 		}
 		catch (Exception e) {
 			throw new TUserDaoException("Query failed", e);
@@ -172,7 +174,7 @@ public class TUserDaoImpl extends AbstractDAO implements ParameterizedRowMapper<
 	public List<TUser> findWhereStatusEquals(String status) throws TUserDaoException
 	{
 		try {
-			return jdbcTemplate.query("SELECT USID, UNAME, PASSWORD, STATUS, DESCRIPTION FROM " + getTableName() + " WHERE STATUS = ? ORDER BY STATUS", this,status);
+			return jdbcTemplate.query("SELECT USID, UNAME, PASSWORD, STATUS, DESCRIPTION, FULLNAME, EMAIL FROM " + getTableName() + " WHERE STATUS = ? ORDER BY STATUS", this,status);
 		}
 		catch (Exception e) {
 			throw new TUserDaoException("Query failed", e);
@@ -187,7 +189,7 @@ public class TUserDaoImpl extends AbstractDAO implements ParameterizedRowMapper<
 	public List<TUser> findWhereDescriptionEquals(String description) throws TUserDaoException
 	{
 		try {
-			return jdbcTemplate.query("SELECT USID, UNAME, PASSWORD, STATUS, DESCRIPTION FROM " + getTableName() + " WHERE DESCRIPTION = ? ORDER BY DESCRIPTION", this,description);
+			return jdbcTemplate.query("SELECT USID, UNAME, PASSWORD, STATUS, DESCRIPTION, FULLNAME, EMAIL FROM " + getTableName() + " WHERE DESCRIPTION = ? ORDER BY DESCRIPTION", this,description);
 		}
 		catch (Exception e) {
 			throw new TUserDaoException("Query failed", e);
