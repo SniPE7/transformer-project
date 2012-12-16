@@ -8,19 +8,24 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSessionListener;
 
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
+import com.ibm.ncs.model.dao.TRoleAndServerNodeDao;
 import com.ibm.ncs.model.dao.TUserDao;
-import com.ibm.ncs.model.dto.*;
-import com.ibm.ncs.util.*;
+import com.ibm.ncs.model.dto.TRoleAndServerNode;
+import com.ibm.ncs.model.dto.TUser;
+import com.ibm.ncs.model.dto.TUserPk;
+import com.ibm.ncs.util.Base64Encode;
+import com.ibm.ncs.util.Log4jInit;
 import com.ibm.ncs.web.HttpSessionList;
 
 public class TUsersController implements Controller {
 
 	private TUserDao TUserDao;
+	private TRoleAndServerNodeDao roleAndServerNodeDao;
+	
 	String pageView;
 	String action;
 	public String message = "";
@@ -54,7 +59,6 @@ public class TUsersController implements Controller {
 				model.put("password", password);
 
 				signOnFlag.put("username", username);
-				signOnFlag.put("role", "all");// not used
 
 				if (password != null)
 					password = bencode.encode(password.getBytes());
@@ -118,6 +122,7 @@ public class TUsersController implements Controller {
 						}
 
 						// check status
+						/*
 						if (dto.get(0).getStatus().equals("1")) {
 							return new ModelAndView("/forceLogin.jsp", "model", model);
 						} else {
@@ -127,6 +132,11 @@ public class TUsersController implements Controller {
 								TUserDao.update(pk, dto.get(0));
 							}
 						}
+						*/
+						// Set roles into Session
+						List<TRoleAndServerNode> roles = this.roleAndServerNodeDao.findByUsername(username);
+						request.getSession(true).setAttribute("roles", roles);
+						//signOnFlag.put("role", "all");// not used
 					}
 				}
 			} catch (Exception e) {
@@ -179,6 +189,14 @@ public class TUsersController implements Controller {
 
 	public void setTUserDao(TUserDao userDao) {
 		TUserDao = userDao;
+	}
+
+	public TRoleAndServerNodeDao getRoleAndServerNodeDao() {
+		return roleAndServerNodeDao;
+	}
+
+	public void setRoleAndServerNodeDao(TRoleAndServerNodeDao roleAndServerNodeDao) {
+		this.roleAndServerNodeDao = roleAndServerNodeDao;
 	}
 
 	public String getPageView() {
