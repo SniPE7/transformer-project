@@ -25,6 +25,7 @@ import com.ibm.ncs.model.dao.TManufacturerInfoInitDao;
 import com.ibm.ncs.model.dao.TModuleInfoInitDao;
 import com.ibm.ncs.model.dao.TPolicyBaseDao;
 import com.ibm.ncs.model.dao.TPolicyDetailsDao;
+import com.ibm.ncs.model.dao.TPolicyDetailsWithRuleDao;
 import com.ibm.ncs.model.dao.TPolicyPeriodDao;
 import com.ibm.ncs.model.dto.DspEventsFromPolicySyslog;
 import com.ibm.ncs.model.dto.DspSyslogEvents;
@@ -32,7 +33,7 @@ import com.ibm.ncs.model.dto.PolDetailDsp;
 import com.ibm.ncs.model.dto.TEventTypeInit;
 import com.ibm.ncs.model.dto.TManufacturerInfoInit;
 import com.ibm.ncs.model.dto.TModuleInfoInit;
-import com.ibm.ncs.model.dto.PolicySyslog;
+import com.ibm.ncs.model.dto.TPolicyDetailsWithRule;
 import com.ibm.ncs.util.Log4jInit;
 import com.ibm.ncs.util.SortList;
 
@@ -42,6 +43,7 @@ import com.ibm.ncs.util.SortList;
  */
 public class PolicyDetailsController implements Controller {
 
+	TPolicyDetailsWithRuleDao policyDetailsWithRuleDao;
 	TGrpNetDao TGrpNetDao;
 	TPolicyBaseDao TPolicyBaseDao;
 	TPolicyPeriodDao TPolicyPeriodDao;
@@ -66,6 +68,14 @@ public class PolicyDetailsController implements Controller {
 	}
 
 	
+	public TPolicyDetailsWithRuleDao getPolicyDetailsWithRuleDao() {
+		return policyDetailsWithRuleDao;
+	}
+
+	public void setPolicyDetailsWithRuleDao(TPolicyDetailsWithRuleDao policyDetailsWithRuleDao) {
+		this.policyDetailsWithRuleDao = policyDetailsWithRuleDao;
+	}
+
 	/* (non-Javadoc)
 	 * @see org.springframework.web.servlet.mvc.Controller#handleRequest(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
@@ -271,6 +281,10 @@ public class PolicyDetailsController implements Controller {
 				model.put("details", syslogdetailMap);
 				model.put("unselected", unselectedSyslog);
 			}else{
+				for (PolDetailDsp pdd: details) {
+					TPolicyDetailsWithRule policyDetailsWithRule = this.policyDetailsWithRuleDao.findByEveidAndModid(pdd.getEveid(), pdd.getModid());
+					pdd.setPolicyDetailsWithRule(policyDetailsWithRule);
+				}
 				model.put("details", details);
 				model.put("unselected", unselected);
 			}

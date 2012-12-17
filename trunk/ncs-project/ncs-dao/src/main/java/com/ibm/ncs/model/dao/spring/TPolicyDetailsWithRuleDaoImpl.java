@@ -2,6 +2,7 @@ package com.ibm.ncs.model.dao.spring;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -29,6 +30,22 @@ public class TPolicyDetailsWithRuleDaoImpl extends AbstractDAO implements Parame
 		jdbcTemplate = new SimpleJdbcTemplate(dataSource);
 	}
 
+
+	public TPolicyDetailsWithRule findByEveidAndModid(long eveid, long modid) throws TPolicyDetailsWithRuleDaoException {
+		try {
+			List<TPolicyDetailsWithRule> result = jdbcTemplate
+			    .query(
+			        "select PTVID, MODID, EVEID, POLL, VALUE_1, SEVERITY_1, FILTER_A, VALUE_2, SEVERITY_2, FILTER_B, SEVERITY_A, SEVERITY_B, OIDGROUP, OGFLAG, VALUE_1_LOW, VALUE_2_LOW, V1L_SEVERITY_1, V1L_SEVERITY_A, V2L_SEVERITY_2, V2L_SEVERITY_B, COMPARETYPE, VALUE_1_RULE, VALUE_2_RULE, VALUE_1_LOW_RULE, VALUE_2_LOW_RULE from " + this.getTableName() + " where eveid=? and modid=? ",
+			        this, eveid, modid);
+			if (!result.isEmpty()) {
+				 return result.get(0);
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			throw new TPolicyDetailsWithRuleDaoException("Query failed", e);
+		}
+  }
 	/**
 	 * Method 'insert'
 	 * 
@@ -151,6 +168,11 @@ public class TPolicyDetailsWithRuleDaoImpl extends AbstractDAO implements Parame
 		}
 
 		dto.setComparetype(rs.getString(21));
+		
+		dto.setValue1Rule(rs.getString(22));
+		dto.setValue2Rule(rs.getString(23));
+		dto.setValue1LowRule(rs.getString(24));
+		dto.setValue2LowRule(rs.getString(25));
 		return dto;
 	}
 
