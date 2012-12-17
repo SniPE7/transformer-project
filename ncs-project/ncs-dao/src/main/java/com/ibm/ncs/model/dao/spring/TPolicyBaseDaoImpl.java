@@ -38,7 +38,7 @@ public class TPolicyBaseDaoImpl extends AbstractDAO implements ParameterizedRowM
 	@Transactional
 	public TPolicyBasePk insert(TPolicyBase dto)
 	{
-		jdbcTemplate.update("INSERT INTO " + getTableName() + " ( MPID, MPNAME, CATEGORY, DESCRIPTION ) VALUES ( ?, ?, ?, ? )",dto.getMpid(),dto.getMpname(),dto.getCategory(),dto.getDescription());
+		jdbcTemplate.update("INSERT INTO " + getTableName() + " ( MPID, PTVID, MPNAME, CATEGORY, DESCRIPTION ) VALUES ( ?, ?, ?, ?, ? )",dto.getMpid(),(dto.getPtvid()==0)?null:dto.getPtvid(), dto.getMpname(),dto.getCategory(),dto.getDescription());
 		return dto.createPk();
 	}
 
@@ -48,7 +48,7 @@ public class TPolicyBaseDaoImpl extends AbstractDAO implements ParameterizedRowM
 	@Transactional
 	public void update(TPolicyBasePk pk, TPolicyBase dto) throws TPolicyBaseDaoException
 	{
-		jdbcTemplate.update("UPDATE " + getTableName() + " SET MPID = ?, MPNAME = ?, CATEGORY = ?, DESCRIPTION = ? WHERE MPID = ?",dto.getMpid(),dto.getMpname(),dto.getCategory(),dto.getDescription(),pk.getMpid());
+		jdbcTemplate.update("UPDATE " + getTableName() + " SET MPID = ?, PTVID = ?, MPNAME = ?, CATEGORY = ?, DESCRIPTION = ? WHERE MPID = ?",dto.getMpid(),dto.getPtvid(), dto.getMpname(),dto.getCategory(),dto.getDescription(),pk.getMpid());
 	}
 
 	/** 
@@ -72,9 +72,10 @@ public class TPolicyBaseDaoImpl extends AbstractDAO implements ParameterizedRowM
 	{
 		TPolicyBase dto = new TPolicyBase();
 		dto.setMpid( rs.getLong( 1 ) );
-		dto.setMpname( rs.getString( 2 ) );
-		dto.setCategory( rs.getLong( 3 ) );
-		dto.setDescription( rs.getString( 4 ) );
+		dto.setPtvid(rs.getLong(2));
+		dto.setMpname( rs.getString( 3 ) );
+		dto.setCategory( rs.getLong( 4 ) );
+		dto.setDescription( rs.getString( 5 ) );
 		return dto;
 	}
 
@@ -95,7 +96,7 @@ public class TPolicyBaseDaoImpl extends AbstractDAO implements ParameterizedRowM
 	public TPolicyBase findByPrimaryKey(long mpid) throws TPolicyBaseDaoException
 	{
 		try {
-			List<TPolicyBase> list = jdbcTemplate.query("SELECT MPID, MPNAME, CATEGORY, DESCRIPTION FROM " + getTableName() + " WHERE MPID = ?", this,mpid);
+			List<TPolicyBase> list = jdbcTemplate.query("SELECT MPID, PTVID, MPNAME, CATEGORY, DESCRIPTION FROM " + getTableName() + " WHERE MPID = ?", this,mpid);
 			return list.size() == 0 ? null : list.get(0);
 		}
 		catch (Exception e) {
@@ -111,7 +112,7 @@ public class TPolicyBaseDaoImpl extends AbstractDAO implements ParameterizedRowM
 	public List<TPolicyBase> findAll() throws TPolicyBaseDaoException
 	{
 		try {
-			return jdbcTemplate.query("SELECT MPID, MPNAME, CATEGORY, DESCRIPTION FROM " + getTableName() + " ORDER BY MPID", this);
+			return jdbcTemplate.query("SELECT MPID, PTVID, MPNAME, CATEGORY, DESCRIPTION FROM " + getTableName() + " ORDER BY MPID", this);
 		}
 		catch (Exception e) {
 			throw new TPolicyBaseDaoException("Query failed", e);
@@ -126,7 +127,7 @@ public class TPolicyBaseDaoImpl extends AbstractDAO implements ParameterizedRowM
 	public List<TPolicyBase> findAllOrderBy(String orderbyCol) throws TPolicyBaseDaoException
 	{
 		try {
-			return jdbcTemplate.query("SELECT MPID, MPNAME, CATEGORY, DESCRIPTION FROM " + getTableName() + " ORDER BY ?", this,orderbyCol);
+			return jdbcTemplate.query("SELECT MPID, PTVID, MPNAME, CATEGORY, DESCRIPTION FROM " + getTableName() + " ORDER BY ?", this,orderbyCol);
 		}
 		catch (Exception e) {
 			throw new TPolicyBaseDaoException("Query failed", e);
@@ -141,7 +142,7 @@ public class TPolicyBaseDaoImpl extends AbstractDAO implements ParameterizedRowM
 	public List<TPolicyBase> findWhereMpidEquals(long mpid) throws TPolicyBaseDaoException
 	{
 		try {
-			return jdbcTemplate.query("SELECT MPID, MPNAME, CATEGORY, DESCRIPTION FROM " + getTableName() + " WHERE MPID = ? ORDER BY MPID", this,mpid);
+			return jdbcTemplate.query("SELECT MPID, PTVID, MPNAME, CATEGORY, DESCRIPTION FROM " + getTableName() + " WHERE MPID = ? ORDER BY MPID", this,mpid);
 		}
 		catch (Exception e) {
 			throw new TPolicyBaseDaoException("Query failed", e);
@@ -156,7 +157,7 @@ public class TPolicyBaseDaoImpl extends AbstractDAO implements ParameterizedRowM
 	public List<TPolicyBase> findWhereMpnameEquals(String mpname) throws TPolicyBaseDaoException
 	{
 		try {
-			return jdbcTemplate.query("SELECT MPID, MPNAME, CATEGORY, DESCRIPTION FROM " + getTableName() + " WHERE MPNAME = ? ORDER BY MPNAME", this,mpname);
+			return jdbcTemplate.query("SELECT MPID, PTVID, MPNAME, CATEGORY, DESCRIPTION FROM " + getTableName() + " WHERE MPNAME = ? ORDER BY MPNAME", this,mpname);
 		}
 		catch (Exception e) {
 			throw new TPolicyBaseDaoException("Query failed", e);
@@ -171,7 +172,7 @@ public class TPolicyBaseDaoImpl extends AbstractDAO implements ParameterizedRowM
 	public List<TPolicyBase> findWhereCategoryEquals(long category) throws TPolicyBaseDaoException
 	{
 		try {
-			return jdbcTemplate.query("SELECT MPID, MPNAME, CATEGORY, DESCRIPTION FROM " + getTableName() + " WHERE CATEGORY = ? ORDER BY CATEGORY", this,category);
+			return jdbcTemplate.query("SELECT MPID, PTVID, MPNAME, CATEGORY, DESCRIPTION FROM " + getTableName() + " WHERE CATEGORY = ? ORDER BY CATEGORY", this,category);
 		}
 		catch (Exception e) {
 			throw new TPolicyBaseDaoException("Query failed", e);
@@ -186,7 +187,7 @@ public class TPolicyBaseDaoImpl extends AbstractDAO implements ParameterizedRowM
 	public List<TPolicyBase> findWhereDescriptionEquals(String description) throws TPolicyBaseDaoException
 	{
 		try {
-			return jdbcTemplate.query("SELECT MPID, MPNAME, CATEGORY, DESCRIPTION FROM " + getTableName() + " WHERE DESCRIPTION = ? ORDER BY DESCRIPTION", this,description);
+			return jdbcTemplate.query("SELECT MPID, PTVID, MPNAME, CATEGORY, DESCRIPTION FROM " + getTableName() + " WHERE DESCRIPTION = ? ORDER BY DESCRIPTION", this,description);
 		}
 		catch (Exception e) {
 			throw new TPolicyBaseDaoException("Query failed", e);

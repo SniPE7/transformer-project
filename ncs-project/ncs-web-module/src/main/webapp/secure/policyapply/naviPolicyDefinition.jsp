@@ -315,6 +315,15 @@ onkeypress="return;" onmouseup="return" onkeyup="filtery(this.value,navifilter.n
 <div class='nav-child-container'
 			style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
 	
+    <ul class='nav-child' dir='ltr'>
+      <li class='navigation-bullet'>
+        <a style='text-decoration: none'
+        href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=1"
+        target="detail" dir="ltr"
+        title="新建策略 ...">
+        新建策略 ...
+        </a></li>
+    </ul>
 		<c:forEach  items="${model.mtree_Device}" var="dev">	
 		<ul class='nav-child' dir='ltr'>
 			<li class='navigation-bullet'>
@@ -323,6 +332,9 @@ onkeypress="return;" onmouseup="return" onkeyup="filtery(this.value,navifilter.n
 				target="detail" dir="ltr"
 				title="${dev.mpname}(...${dev.mpid})">
 				${dev.mpname }
+				  <c:if test="${dev.polictTemplateVer != null}"> 
+				  - [${dev.polictTemplateVer.policyPublishInfo.versionTag}] V[${dev.polictTemplateVer.policyPublishInfo.version}]
+				  </c:if>
 				</a></li>
 		</ul>
 	
@@ -344,6 +356,15 @@ onkeypress="return;" onmouseup="return" onkeyup="filtery(this.value,navifilter.n
 </div>
 <div class='nav-child-container'
 			style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
+    <ul class='nav-child' dir='ltr'>
+      <li class='navigation-bullet'>
+        <a style='text-decoration: none'
+        href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=4"
+        target="detail" dir="ltr"
+        title="新建策略 ...">
+        新建策略 ...
+        </a></li>
+    </ul>
 		<c:forEach  items="${model.mtree_Port}" var="dev">	
 		<ul class='nav-child' dir='ltr'>
 			<li class='navigation-bullet'>
@@ -351,7 +372,10 @@ onkeypress="return;" onmouseup="return" onkeyup="filtery(this.value,navifilter.n
 				href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=4&mpid=${dev.mpid }"
 				target="detail" dir="ltr"
 				title="${dev.mpname}(...${dev.mpid})">
-				${dev.mpname }
+				${dev.mpname } 
+				<c:if test="${dev.polictTemplateVer != null}"> 
+				- [${dev.polictTemplateVer.policyPublishInfo.versionTag}] V[${dev.polictTemplateVer.policyPublishInfo.version}]
+				</c:if>
 				</a></li>
 		</ul>
 	
@@ -374,6 +398,15 @@ onkeypress="return;" onmouseup="return" onkeyup="filtery(this.value,navifilter.n
 
 		<div class='nav-child-container'
 			style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
+    <ul class='nav-child' dir='ltr'>
+      <li class='navigation-bullet'>
+        <a style='text-decoration: none'
+        href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=9"
+        target="detail" dir="ltr"
+        title="新建策略 ...">
+        新建策略 ...
+        </a></li>
+    </ul>
 		<c:forEach  items="${model.mtree_MIB}" var="dev">	        
 		<ul class='nav-child' dir='ltr'>
 			<li class='navigation-bullet'>
@@ -381,7 +414,10 @@ onkeypress="return;" onmouseup="return" onkeyup="filtery(this.value,navifilter.n
 				href="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss?cate=9&mpid=${dev.mpid }"
 				target="detail" dir="ltr"
 				title="${dev.mpname}(...${dev.mpid})">
-				${dev.mpname }
+				${dev.mpname } 
+        <c:if test="${dev.polictTemplateVer != null}"> 
+				- [${dev.polictTemplateVer.policyPublishInfo.versionTag}] V[${dev.polictTemplateVer.policyPublishInfo.version}]
+				</c:if>
 				</a></li>
 		</ul>
 	

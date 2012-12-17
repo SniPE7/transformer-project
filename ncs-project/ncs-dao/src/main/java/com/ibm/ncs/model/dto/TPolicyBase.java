@@ -12,6 +12,8 @@ public class TPolicyBase implements Serializable {
 	 * This attribute maps to the column MPID in the T_POLICY_BASE table.
 	 */
 	protected long mpid;
+	
+	private long ptvid;
 
 	/**
 	 * This attribute maps to the column MPNAME in the T_POLICY_BASE table.
@@ -27,6 +29,8 @@ public class TPolicyBase implements Serializable {
 	 * This attribute maps to the column DESCRIPTION in the T_POLICY_BASE table.
 	 */
 	protected String description;
+	
+	private PolicyTemplateVer polictTemplateVer = null;
 
 	/**
 	 * Method 'TPolicyBase'
@@ -51,6 +55,14 @@ public class TPolicyBase implements Serializable {
 	 */
 	public void setMpid(long mpid) {
 		this.mpid = mpid;
+	}
+
+	public long getPtvid() {
+		return ptvid;
+	}
+
+	public void setPtvid(long ptvid) {
+		this.ptvid = ptvid;
 	}
 
 	/**
@@ -105,6 +117,14 @@ public class TPolicyBase implements Serializable {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public PolicyTemplateVer getPolictTemplateVer() {
+		return polictTemplateVer;
+	}
+
+	public void setPolictTemplateVer(PolicyTemplateVer polictTemplateVer) {
+		this.polictTemplateVer = polictTemplateVer;
 	}
 
 	/**
