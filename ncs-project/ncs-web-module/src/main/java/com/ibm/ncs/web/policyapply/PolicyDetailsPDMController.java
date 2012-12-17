@@ -222,7 +222,7 @@ public class PolicyDetailsPDMController implements Controller {
 				model.put("unselected", unselectedSyslog);
 			}else{
 				for (PolDetailDsp pdd: details) {
-					TPolicyDetailsWithRule policyDetailsWithRule = this.policyDetailsWithRuleDao.findByEveidAndModid(pdd.getEveid(), pdd.getModid());
+					TPolicyDetailsWithRule policyDetailsWithRule = this.policyDetailsWithRuleDao.findByEveidAndModid(pdd.getPtvid(), pdd.getEveid(), pdd.getModid());
 					pdd.setPolicyDetailsWithRule(policyDetailsWithRule);
 				}
 				model.put("details", details);
