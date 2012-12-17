@@ -72,5 +72,10 @@ insert into t_policy_template_scope(ptvid, dtid)
  select ptv.ptvid, dt.dtid from T_POLICY_TEMPLATE_VER ptv, t_device_type_init dt where ptv.ptvid is not null and dt.dtid is not null
 ;
 
+-- 设置为发布状态
+update t_policy_publish_info set status='R', publish_time=sysdate where ppiid='10001';
+
+-- 修改原有策略, 引用到发布集
+update t_policy_base set ptvid=mpid;
 
 commit;

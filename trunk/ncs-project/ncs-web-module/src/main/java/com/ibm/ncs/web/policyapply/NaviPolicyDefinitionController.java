@@ -2,11 +2,9 @@ package com.ibm.ncs.web.policyapply;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,22 +13,26 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import com.ibm.ncs.model.dao.TGrpNetDao;
+import com.ibm.ncs.model.dao.PolicyPublishInfo;
 import com.ibm.ncs.model.dao.TPolicyBaseDao;
 import com.ibm.ncs.model.dao.TPolicyPeriodDao;
-import com.ibm.ncs.model.dto.TCategoryMapInit;
-import com.ibm.ncs.model.dto.TGrpNet;
+import com.ibm.ncs.model.dao.TPolicyPublishInfoDao;
+import com.ibm.ncs.model.dao.TPolicyTemplateDao;
+import com.ibm.ncs.model.dao.TPolicyTemplateVerDao;
+import com.ibm.ncs.model.dto.PolicyTemplateVer;
 import com.ibm.ncs.model.dto.TPolicyBase;
 import com.ibm.ncs.model.dto.TPolicyPeriod;
 import com.ibm.ncs.util.Log4jInit;
 import com.ibm.ncs.util.SortList;
-import com.ibm.ncs.util.SortMap;
 
 public class NaviPolicyDefinitionController implements Controller {
 
 	TPolicyBaseDao TPolicyBaseDao;
 	TPolicyPeriodDao TPolicyPeriodDao;
-
+	private TPolicyPublishInfoDao policyPublishInfoDao;
+	private TPolicyTemplateDao policyTemplateDao;
+  private TPolicyTemplateVerDao policyTemplateVerDao;
+  
 	public void setTPolicyBaseDao(TPolicyBaseDao policyBaseDao) {
 		TPolicyBaseDao = policyBaseDao;
 	}
@@ -39,6 +41,30 @@ public class NaviPolicyDefinitionController implements Controller {
 		TPolicyPeriodDao = policyPeriodDao;
 	}
 
+
+	public TPolicyPublishInfoDao getPolicyPublishInfoDao() {
+		return policyPublishInfoDao;
+	}
+
+	public void setPolicyPublishInfoDao(TPolicyPublishInfoDao policyPublishInfoDao) {
+		this.policyPublishInfoDao = policyPublishInfoDao;
+	}
+
+	public TPolicyTemplateDao getPolicyTemplateDao() {
+		return policyTemplateDao;
+	}
+
+	public void setPolicyTemplateDao(TPolicyTemplateDao policyTemplateDao) {
+		this.policyTemplateDao = policyTemplateDao;
+	}
+
+	public TPolicyTemplateVerDao getPolicyTemplateVerDao() {
+		return policyTemplateVerDao;
+	}
+
+	public void setPolicyTemplateVerDao(TPolicyTemplateVerDao policyTemplateVerDao) {
+		this.policyTemplateVerDao = policyTemplateVerDao;
+	}
 
 	public ModelAndView handleRequest(HttpServletRequest request,
 			HttpServletResponse arg1) throws Exception {
@@ -64,6 +90,16 @@ public class NaviPolicyDefinitionController implements Controller {
 					mibDto.add(dto);
 				}else{
 					othersDto.add(dto);
+				}
+				
+				long ptvid = dto.getPtvid();
+				if (ptvid > 0) {
+					PolicyTemplateVer ptv = this.policyTemplateVerDao.findById(Long.toString(ptvid));
+					dto.setPolictTemplateVer(ptv);
+					if (ptv != null) {
+						 PolicyPublishInfo ppi = this.policyPublishInfoDao.findById(Long.toString(ptv.getPpiid()));
+						 ptv.setPolicyPublishInfo(ppi);
+					}
 				}
 			}
 			SortList<TPolicyBase> sorting = new SortList<TPolicyBase>();

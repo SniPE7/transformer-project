@@ -2,6 +2,8 @@ package com.ibm.ncs.model.dto;
 
 import java.io.Serializable;
 
+import com.ibm.ncs.model.dao.PolicyPublishInfo;
+
 
 public class PolicyTemplateVer implements Serializable {
 	private long ptvid;
@@ -11,6 +13,8 @@ public class PolicyTemplateVer implements Serializable {
 	private String status;
 	private String description;
 
+	private PolicyPublishInfo policyPublishInfo = null;
+	
 	/**
 	 * 
 	 */
@@ -102,6 +106,14 @@ public class PolicyTemplateVer implements Serializable {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public PolicyPublishInfo getPolicyPublishInfo() {
+		return policyPublishInfo;
+	}
+
+	public void setPolicyPublishInfo(PolicyPublishInfo policyPublishInfo) {
+		this.policyPublishInfo = policyPublishInfo;
 	}
 
 	/**
