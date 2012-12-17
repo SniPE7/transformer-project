@@ -252,6 +252,7 @@ window.onload =  function (){
 
 <table height="26" width="100%" cellspacing="0" cellpadding="0"	style="background-color: #FFFFFF; margin-bottom: 10;">
 
+  <c:if test="${model.releasedVersionPolicyPublishInfo != null}">
 	<tr>
 		<td align="left" colspan="2" class="navtree" style="background-color: #FFFFFF">
 			<!-- title of the navi welcome page -->
@@ -372,7 +373,7 @@ window.onload =  function (){
     </td>
   </tr>
 </table>
-
+</c:if>
 
 
 
@@ -382,7 +383,10 @@ window.onload =  function (){
     <td align="left" colspan="2" class="navtree" style="background-color: #FFFFFF">
       <!-- title of the navi welcome page -->
       <ul class='nav-child' dir='ltr'>
-        <li class='navigation-bullet' style="font: x-small; ">编写中的策略模板集  - [${model.draftVersionPolicyPublishInfo.versionTag}] - V[${model.draftVersionPolicyPublishInfo.version}]</li>
+        <li class='navigation-bullet' style="font: x-small; ">编写中的策略模板集
+        <c:if test="${ model.draftVersionPolicyPublishInfo != null }">  
+        - [${model.draftVersionPolicyPublishInfo.versionTag}] - V[${model.draftVersionPolicyPublishInfo.version}]
+        </c:if></li>
       </ul>
     </td>
   </tr>

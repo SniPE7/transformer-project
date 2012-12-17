@@ -353,6 +353,9 @@ public class DeviceTypeTree implements Serializable, Comparable<DeviceTypeTree>
 				return 0;
 			}
 		}
+		if (o.getModel() == null) {
+			 return -1;
+		}
 		
 		if (this.mrName.equalsIgnoreCase(o.getMrName())) {
 			return this.model.compareToIgnoreCase(o.getModel());

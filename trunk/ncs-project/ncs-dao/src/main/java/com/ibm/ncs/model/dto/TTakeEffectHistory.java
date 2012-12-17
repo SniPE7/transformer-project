@@ -12,7 +12,7 @@ public class TTakeEffectHistory implements Serializable {
   private long teId;
   private long usid;
   private long ppiid;
-  private long server_id;
+  private long serverId;
   private Date generedTime = null;
   private String srcTypeFile;
   private String icmpXMLFile;
@@ -49,12 +49,12 @@ public class TTakeEffectHistory implements Serializable {
 		this.ppiid = ppiid;
 	}
 
-	public long getServer_id() {
-		return server_id;
+	public long getServerId() {
+		return serverId;
 	}
 
-	public void setServer_id(long server_id) {
-		this.server_id = server_id;
+	public void setServerId(long server_id) {
+		this.serverId = server_id;
 	}
 
 	public Date getGeneredTime() {
@@ -145,7 +145,7 @@ public class TTakeEffectHistory implements Serializable {
 
 	@Override
   public String toString() {
-	  return "TTakeEffectHistory [teId=" + teId + ", usid=" + usid + ", ppiid=" + ppiid + ", server_id=" + server_id + ", generedTime=" + generedTime + ", srcTypeFile="
+	  return "TTakeEffectHistory [teId=" + teId + ", usid=" + usid + ", ppiid=" + ppiid + ", server_id=" + serverId + ", generedTime=" + generedTime + ", srcTypeFile="
 	      + srcTypeFile + ", icmpXMLFile=" + icmpXMLFile + ", snmpXMLFile=" + snmpXMLFile + ", icmpThreshold=" + icmpThreshold + ", snmpThreshold=" + snmpThreshold + ", effectTime="
 	      + effectTime + ", effectStatus=" + effectStatus + "]";
   }
