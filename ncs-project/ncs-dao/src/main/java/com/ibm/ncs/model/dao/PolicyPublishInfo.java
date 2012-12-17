@@ -22,6 +22,8 @@ public class PolicyPublishInfo implements Serializable {
 	 * This attribute maps to the column VERSION_TAG in the T_POLICY_PUBLISH_INFO table.
 	 */
 	private String versionTag = null;
+	
+	private String status = null;
 	/** 
 	 * This attribute maps to the column DESCRIPTION in the T_POLICY_PUBLISH_INFO table.
 	 */
@@ -113,6 +115,14 @@ public class PolicyPublishInfo implements Serializable {
 		this.updateTime = updateTime;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -153,6 +163,8 @@ public class PolicyPublishInfo implements Serializable {
 	  builder.append(version);
 	  builder.append(", versionTag=");
 	  builder.append(versionTag);
+	  builder.append(", status=");
+	  builder.append(status);
 	  builder.append(", description=");
 	  builder.append(description);
 	  builder.append(", publishTime=");

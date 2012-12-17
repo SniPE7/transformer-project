@@ -4,14 +4,8 @@
 /*==============================================================*/
 
 
-alter table T_POLICY_BASE
-   drop constraint FK_T_POLICY_REFERENCE_T_POLIC2;
-
 alter table T_POLICY_EVENT_RULE
    drop constraint FK_T_POLICY_REFERENCE_T_POLIC6;
-
-alter table T_POLICY_EVENT_RULE
-   drop constraint FK_T_POLICY_REFERENCE_T_EVENT_;
 
 alter table T_POLICY_TEMPLATE_SCOPE
    drop constraint FK_T_POLICY_REFERENCE_T_POLIC5;
@@ -100,29 +94,23 @@ create table T_POLICY_EVENT_RULE  (
    COMPARETYPE          VARCHAR2(20)
 );
 
-comment on column T_POLICY_EVENT_RULE.MODID is
-'????????????????????????eveid????????????????????????SNMP, SysLog????';
-
-comment on column T_POLICY_EVENT_RULE.POLL is
-'Poll??????????';
-
 comment on column T_POLICY_EVENT_RULE.VALUE_1 is
-'????1';
+'阀值1';
 
 comment on column T_POLICY_EVENT_RULE.VALUE_1_RULE is
-'????1';
+'阀值1规则';
 
 comment on column T_POLICY_EVENT_RULE.SEVERITY_1 is
-'????1????????';
+'阀值1告警级别';
 
 comment on column T_POLICY_EVENT_RULE.VALUE_2 is
-'????2';
+'阀值2';
 
 comment on column T_POLICY_EVENT_RULE.VALUE_2_RULE is
-'????2';
+'阀值2规则';
 
 comment on column T_POLICY_EVENT_RULE.SEVERITY_2 is
-'????2????????';
+'阀值2告警级别';
 
 /*==============================================================*/
 /* Table: T_POLICY_PUBLISH_INFO                                 */
@@ -131,6 +119,7 @@ create table T_POLICY_PUBLISH_INFO  (
    PPIID                NUMBER                          not null,
    VERSION              VARCHAR2(64 BYTE)               not null,
    VERSION_TAG          VARCHAR2(128 BYTE)              not null,
+   STATUS               VARCHAR(32),
    DESCRIPTION          VARCHAR2(512 BYTE),
    PUBLISH_TIME         TIMESTAMP,
    CREATE_TIME         TIMESTAMP                       not null,
@@ -168,12 +157,9 @@ comment on column T_POLICY_TEMPLATE.CATEGORY is
 /* Table: T_POLICY_TEMPLATE_SCOPE                               */
 /*==============================================================*/
 create table T_POLICY_TEMPLATE_SCOPE  (
-   PTID                 NUMBER                          not null,
-   PT_VERSION           VARCHAR(64)                     not null,
-   DTID                 NUMBER                          not null,
-   MRID                 NUMBER,
-   PTVID                NUMBER,
-   constraint PK_T_POLICY_TEMPLATE_SCOPE primary key (PTID, PT_VERSION, DTID)
+   PTVID                NUMBER                          not null,
+   DTID                 NUMBER,
+   MRID                 NUMBER
 );
 
 /*==============================================================*/
@@ -241,11 +227,11 @@ create table T_TAKE_EFFECT_HISTORY  (
    PPIID                NUMBER,
    SERVER_ID            NUMBER,
    GENERED_TIME         TIMESTAMP,
-   SRC_TYPE_FILE        BLOB,
-   ICMP_XML_FILE        BLOB,
-   SNMP_XML_FILE        BLOB,
-   ICMP_THRESHOLD       BLOB,
-   SNML_THRESHOLD       BLOB,
+   SRC_TYPE_FILE        CLOB,
+   ICMP_XML_FILE        CLOB,
+   SNMP_XML_FILE        CLOB,
+   ICMP_THRESHOLD       CLOB,
+   SNMP_THRESHOLD       CLOB,
    EFFECT_TIME          TIMESTAMP,
    EFFECT_STATUS        VARCHAR2(256 BYTE),
    constraint PK_T_TAKE_EFFECT_HISTORY primary key (TEID)
@@ -263,10 +249,6 @@ create table T_USER_ROLE_MAP  (
 alter table T_POLICY_EVENT_RULE
    add constraint FK_T_POLICY_REFERENCE_T_POLIC6 foreign key (PTVID)
       references T_POLICY_TEMPLATE_VER (PTVID);
-
-alter table T_POLICY_EVENT_RULE
-   add constraint FK_T_POLICY_REFERENCE_T_EVENT_ foreign key (EVEID)
-      references T_EVENT_TYPE_INIT (EVEID);
 
 alter table T_POLICY_TEMPLATE_SCOPE
    add constraint FK_T_POLICY_REFERENCE_T_POLIC5 foreign key (PTVID)

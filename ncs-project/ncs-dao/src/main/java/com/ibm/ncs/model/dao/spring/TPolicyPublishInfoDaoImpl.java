@@ -65,7 +65,7 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 	
 	public PolicyPublishInfo getDraftVersion() throws TPolicyPublishInfoDaoException {
 		try {
-			List<PolicyPublishInfo> items = jdbcTemplate.query("SELECT PPIID, VERSION, VERSION_TAG, DESCRIPTION, PUBLISH_TIME, CREATE_TIME, UPDATE_TIME FROM " + getTableName() + " WHERE PUBLISH_TIME is null ORDER BY VERSION DESC", this);
+			List<PolicyPublishInfo> items = jdbcTemplate.query("SELECT PPIID, VERSION, VERSION_TAG, STATUS, DESCRIPTION, PUBLISH_TIME, CREATE_TIME, UPDATE_TIME FROM " + getTableName() + " WHERE PUBLISH_TIME is null ORDER BY VERSION DESC", this);
 			if (items != null && items.size() > 0) {
 				return items.get(0);
 			}
@@ -77,7 +77,7 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 
 	public PolicyPublishInfo getReleasedVersion() throws TPolicyPublishInfoDaoException {
 		try {
-			List<PolicyPublishInfo> items = jdbcTemplate.query("SELECT PPIID, VERSION, VERSION_TAG, DESCRIPTION, PUBLISH_TIME, CREATE_TIME, UPDATE_TIME FROM " + getTableName() + " WHERE PUBLISH_TIME is not null ORDER BY PUBLISH_TIME DESC", this);
+			List<PolicyPublishInfo> items = jdbcTemplate.query("SELECT PPIID, VERSION, VERSION_TAG, STATUS, DESCRIPTION, PUBLISH_TIME, CREATE_TIME, UPDATE_TIME FROM " + getTableName() + " WHERE PUBLISH_TIME is not null ORDER BY PUBLISH_TIME DESC", this);
 			if (items != null && items.size() > 0) {
 				return items.get(0);
 			}
@@ -104,7 +104,7 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 	 */
 	public List<PolicyPublishInfo> getAllHistoryAndReleasedVersion() throws TPolicyPublishInfoDaoException {
 		try {
-			return jdbcTemplate.query("SELECT PPIID, VERSION, VERSION_TAG, DESCRIPTION, PUBLISH_TIME, CREATE_TIME, UPDATE_TIME FROM " + getTableName() + " WHERE PUBLISH_TIME is not null ORDER BY PUBLISH_TIME DESC",
+			return jdbcTemplate.query("SELECT PPIID, VERSION, VERSION_TAG, STATUS, DESCRIPTION, PUBLISH_TIME, CREATE_TIME, UPDATE_TIME FROM " + getTableName() + " WHERE PUBLISH_TIME is not null ORDER BY PUBLISH_TIME DESC",
 			    this);
 		} catch (Exception e) {
 			throw new TPolicyPublishInfoDaoException("Query failed", e);
@@ -116,16 +116,17 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 		dto.setPpiid(rs.getLong(1));
 		dto.setVersion(rs.getString(2));
 		dto.setVersionTag(rs.getString(3));
-		dto.setDescription(rs.getString(4));
-		dto.setPublishTime(rs.getTime(5));
-		dto.setCreateTime(rs.getTime(6));
-		dto.setUpdateTime(rs.getTime(7));
+		dto.setStatus(rs.getString(4));
+		dto.setDescription(rs.getString(5));
+		dto.setPublishTime(rs.getTime(6));
+		dto.setCreateTime(rs.getTime(7));
+		dto.setUpdateTime(rs.getTime(8));
 		return dto;
 	}
 
 	@Transactional
 	public void insert(PolicyPublishInfo dto) throws TPolicyPublishInfoDaoException {
-		jdbcTemplate.update("INSERT INTO " + getTableName() + " ( PPIID, VERSION, VERSION_TAG, DESCRIPTION, PUBLISH_TIME, CREATE_TIME, UPDATE_TIME ) VALUES ( ?, ?, ?, ?, ?, ?, ? )", dto.getPpiid(), dto.getVersion(), dto.getVersionTag(),
+		jdbcTemplate.update("INSERT INTO " + getTableName() + " ( PPIID, VERSION, VERSION_TAG, STATUS, DESCRIPTION, PUBLISH_TIME, CREATE_TIME, UPDATE_TIME ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ? )", dto.getPpiid(), dto.getVersion(), dto.getVersionTag(), dto.getStatus(),
 		    dto.getDescription(), dto.getPublishTime(), dto.getCreateTime(), dto.getUpdateTime());
 	}
 
@@ -134,7 +135,7 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 	 */
 	@Transactional
 	public void update(long ppiid, PolicyPublishInfo dto) throws TPolicyBaseDaoException {
-		jdbcTemplate.update("UPDATE " + getTableName() + " SET VERSION_TAG = ?, DESCRIPTION = ?, PUBLISH_TIME = ?, UPDATE_TIME = ? WHERE PPIID = ?", dto.getVersionTag(), dto.getDescription(), dto.getPublishTime(), dto.getUpdateTime(), dto.getPpiid());
+		jdbcTemplate.update("UPDATE " + getTableName() + " SET VERSION_TAG = ?, STATUS=?, DESCRIPTION = ?, PUBLISH_TIME = ?, UPDATE_TIME = ? WHERE PPIID = ?", dto.getVersionTag(), dto.getStatus(), dto.getDescription(), dto.getPublishTime(), dto.getUpdateTime(), dto.getPpiid());
 	}
 
 	/**
@@ -147,7 +148,7 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 
 	public PolicyPublishInfo findById(String ppiid) throws TPolicyPublishInfoDaoException {
 		try {
-			List<PolicyPublishInfo> items = jdbcTemplate.query("SELECT PPIID, VERSION, VERSION_TAG, DESCRIPTION, PUBLISH_TIME, CREATE_TIME, UPDATE_TIME FROM " + getTableName() + " WHERE PPIID=?", this, ppiid);
+			List<PolicyPublishInfo> items = jdbcTemplate.query("SELECT PPIID, VERSION, VERSION_TAG, STATUS, DESCRIPTION, PUBLISH_TIME, CREATE_TIME, UPDATE_TIME FROM " + getTableName() + " WHERE PPIID=?", this, ppiid);
 			if (items != null && items.size() > 0) {
 				return items.get(0);
 			}
