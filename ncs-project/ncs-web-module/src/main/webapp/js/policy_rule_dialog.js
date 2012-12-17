@@ -67,20 +67,26 @@ $(function() {
                 }
                 if ( bValid ) {
                    ruleCheckboxIndex = document.getElementById("rule_checkbox_index").value;
+              	   var ruleString = "";
                    prefix = document.getElementById("rule_checkbox_elementPrefixelementPrefix").value;
-                	 var ruleString = "";
                 	 if (ruleMode == "fixed")  {
-                		  ruleString = "rule:{fixed=" + fixedValue.val() + "}";
-                      $("#" + prefix +"_Rule_" + ruleCheckboxIndex)[0].value = ruleString;
-                      $("#" + prefix +"_" + ruleCheckboxIndex)[0].value = fixedValue.val();
-                      $("#value1").value = fixedValue.val();
+                		ruleString = "rule:{fixed=" + fixedValue.val() + "}";
+                        $("#" + prefix +"_Rule_" + ruleCheckboxIndex)[0].value = ruleString;
+                        $("#" + prefix +"_" + ruleCheckboxIndex)[0].value = fixedValue.val();
+                        $("#" + prefix).value = fixedValue.val();
                 	 } else {
-                		 ruleString = "rule:{expression:''}";
-                     $("#" + prefix +"_Rule_" + ruleCheckboxIndex)[0].value = ruleString;
-                     $("#" + prefix +"_" + ruleCheckboxIndex)[0].value = defaultValue.val();
-                     $("#" + prefix)[parseInt(ruleCheckboxIndex)].value = defaultValue.val();
+                	   ruleString = "threshold " + expressionOperation1.val() + " " + expressionValue1.val();
+                	   if (expressionLogic1.length > 0) {
+                		   ruleString += expressionLogic1.val() + " threshold " + expressionOperation2.val() + " " + expressionValue2.val();
+                	   }
+                	   ruleString = "rule:{expression:'" + ruleString + "', display='" + ruleString + "'}";
+                       $("#" + prefix +"_Rule_" + ruleCheckboxIndex)[0].value = ruleString;
+                       $("#" + prefix +"_" + ruleCheckboxIndex)[0].value = defaultValue.val();
+                       $("#" + prefix).value = defaultValue.val();
                 	 }
                 	 $( this ).dialog( "close" );
+                	 $("#" + prefix +"_Icon_" + ruleCheckboxIndex).attr("title", ruleString);
+                	 //alert($("#" + prefix +"_Icon_" + ruleCheckboxIndex).attr("alt"));
                 }
             },
             "取消": function() {

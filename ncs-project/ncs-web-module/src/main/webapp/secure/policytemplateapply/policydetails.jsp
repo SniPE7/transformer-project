@@ -136,10 +136,7 @@ function toICMP(){
 													<tr>
 														<td><input type="button" name="button.snmp" value="SNMP" onClick="toSNMP();" class="buttons" id="functions" />&nbsp;</td>
 														<td><input type="button" name="button.icmp" value="ICMP" onClick="toICMP();" class="buttons" id="functions" />&nbsp;</td>
-
 														<td><input type="submit" name="button.new" value="保存" class="buttons" id="functions" />&nbsp;</td>
-
-														<input type="submit" name="hiddenButton1290018101908118000" value="hiddenButton" style="display: none" class="buttons" id="hiddenButton1290018101908118000" />
 													</tr>
 												</table> <br /> <br /> <c:if test="${model.message != null &&  model.message != ''}">
 													<div id="errmsg">
@@ -181,12 +178,8 @@ function toICMP(){
 										</tr>
 									</table>
 
-
-
 									<!-- Data Table -->
-
 									<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" WIDTH="100%" SUMMARY="List layout table">
-
 										<TBODY>
 											<TR>
 												<TD CLASS="layout-manager" id="notabs"><c:choose>
@@ -245,9 +238,9 @@ function toICMP(){
 																			  </select>
 																			</td>
 																			<td VALIGN="middle" class="collection-table-text">
-																			  <input type="text" name="value1" id="value1_<%=countChecked %>" size="5" value="${c1.value1}"  style="width: 30px;"/> 
-                                        <input type="text" name="value1Rule" id="value1_Rule_<%=countChecked %>" value="${c1.value1Rule}" style="width: 30px;"/>
-                                        <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value1');" class="text">定义规则</a>
+																			  <img id="value1_Icon_<%=countChecked %>" title="${c1.value1Rule}" src="<%=request.getContextPath()%>/images/ruleedit.png" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value1');">
+																			  <input type="hidden" name="value1" id="value1_<%=countChecked %>" size="5" value="${c1.value1}"  style="width: 30px;"/> 
+                                        <input type="hidden" name="value1Rule" id="value1_Rule_<%=countChecked %>" value="${c1.value1Rule}" style="width: 30px;"/>
 																			</td>
 																			<td VALIGN="middle" class="collection-table-text">
 																			  <input type="text" name="severity1" size="5" value="<c:if test="${c1.severity1Null == false}" >${c1.severity1}</c:if>"  style="width: 30px;"/><br />
@@ -259,9 +252,9 @@ function toICMP(){
 																					<option value="var2" <c:if test="${c1.value2low=='var2'}">selected="selected"</c:if>>RTT时间</option>
 																			</select></td>
 																			<td VALIGN="middle" class="collection-table-text">
-																			  <input type="text" name="value2" id="value2_<%=countChecked %>" size="5" value="${c1.value2}"  style="width: 30px;"/>
-                                        <input type="text" name="value2Rule" id="value2_Rule_<%=countChecked %>" value="${c1.value2Rule}" style="width: 30px;"/>
-                                        <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value2');" class="text">定义规则</a>
+                                        <img id="value2_Icon_<%=countChecked %>" title="${c1.value2Rule}" src="<%=request.getContextPath()%>/images/ruleedit.png" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value2');">
+																			  <input type="hidden" name="value2" id="value2_<%=countChecked %>" size="5" value="${c1.value2}"  style="width: 30px;"/>
+                                        <input type="hidden" name="value2Rule" id="value2_Rule_<%=countChecked %>" value="${c1.value2Rule}" style="width: 30px;"/>
 																			</td>
 																			<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity2" size="5"
 																				value="<c:if test="${c1.severity2Null == false}" >${c1.severity2}</c:if>"  style="width: 30px;"/><br /> <input type="text" name="severityB" size="5"
@@ -350,9 +343,9 @@ function toICMP(){
 																									<option value="var2">RTT时间</option>
 																							</select></td>
 																							<td VALIGN="middle" class="collection-table-text">
-																							  <input type="text" name="value1" id="value1_<%=countChecked %>" size="5" value="" style="width: 30px;"/>
-                                                <input type="text" name="value1Rule" id="value1_Rule_<%=countChecked %>" value="" style="width: 30px;"/>
-																							  <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value1');" class="text">定义规则</a>
+                                                <img id="value1_Icon_<%=countChecked %>" title="定义规则" src="<%=request.getContextPath()%>/images/ruleedit.png" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value1');">
+																							  <input type="hidden" name="value1" id="value1_<%=countChecked %>" size="5" value="" style="width: 30px;"/>
+                                                <input type="hidden" name="value1Rule" id="value1_Rule_<%=countChecked %>" value="" style="width: 30px;"/>
 																							</td>
 																							<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity1" size="5" value="" style="width: 30px;"/><br /> <input type="text" name="severityA"
 																								size="5" value="" style="width: 30px;"/></td>
@@ -362,9 +355,9 @@ function toICMP(){
 																									<option value="var2">RTT时间</option>
 																							</select></td>
 																							<td VALIGN="middle" class="collection-table-text">
-																							  <input type="text" name="value2" id="value2_<%=countChecked %>" size="5" value="" style="width: 30px;"/>
-                                                <input type="text" name="value2Rule" id="value2_Rule_<%=countChecked %>" value="" style="width: 30px;"/>
-                                                <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value2');" class="text">定义规则</a>
+                                                <img id="value2_Icon_<%=countChecked %>" title="定义规则" src="<%=request.getContextPath()%>/images/ruleedit.png" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value2');">
+																							  <input type="hidden" name="value2" id="value2_<%=countChecked %>" size="5" value="" style="width: 30px;"/>
+                                                <input type="hidden" name="value2Rule" id="value2_Rule_<%=countChecked %>" value="" style="width: 30px;"/>
 																							</td>
 																							<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity2" size="5" value="" style="width: 30px;"/><br />
 																							<input type="text" name="severityB" size="5" value="" style="width: 30px;"/></td>
@@ -390,10 +383,7 @@ function toICMP(){
 																				</table>
 
 																				<TABLE class="paging-table" BORDER="0" CELLPADDING="5" CELLSPACING="0" WIDTH="100%" SUMMARY="Table for displaying paging function" id="unselCountTab">
-
 																					<TR>
-
-
 																						<TD CLASS="table-totals" VALIGN="baseline">Total Unselected ${fn:length(model.unselected)} &nbsp;&nbsp;&nbsp;</TD>
 																					</TR>
 
@@ -447,33 +437,33 @@ function toICMP(){
 																					</select></td>
 
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2">
-																					  <input type="text" name="value1" id="value1_<%=countChecked %>" size="5" value="${c1.value1}" style="width: 30px;"/>
-                                            <input type="text" name="value1Rule" id="value1_Rule_<%=countChecked %>" value="${c1.value1Rule}" style="width: 30px;"/>
-                                            <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value1');" class="text">定义规则</a>
+                                            <img id="value1_Icon_<%=countChecked %>" title="${c1.value1Rule}" src="<%=request.getContextPath()%>/images/ruleedit.png" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value1');">
+																					  <input type="hidden" name="value1" id="value1_<%=countChecked %>" size="5" value="${c1.value1}" style="width: 30px;"/>
+                                            <input type="hidden" name="value1Rule" id="value1_Rule_<%=countChecked %>" value="${c1.value1Rule}" style="width: 30px;"/>
 																					</td>
 																					<td VALIGN="middle" class="collection-table-text">
 																					  <input type="text" name="severity1" size="5" value="<c:if test="${c1.severity1Null == false}" >${c1.severity1}</c:if>" style="width: 30px;" style="width: 30px;"/>
 																					</td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2">
-																					  <input type="text" name="value1low" id="value1low_<%=countChecked %>" size="5" value="${c1.value1low}" style="width: 30px;"/>
-                                            <input type="text" name="value1lowRule" id="value1low_Rule_<%=countChecked %>" value="${c1.value1LowRule}" style="width: 30px;"/>
-                                            <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value1low');" class="text">定义规则</a>
+                                            <img id="value1low_Icon_<%=countChecked %>" title="${c1.value1LowRule}" src="<%=request.getContextPath()%>/images/ruleedit.png" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value1low');">
+																					  <input type="hidden" name="value1low" id="value1low_<%=countChecked %>" size="5" value="${c1.value1low}" style="width: 30px;"/>
+                                            <input type="hidden" name="value1lowRule" id="value1low_Rule_<%=countChecked %>" value="${c1.value1LowRule}" style="width: 30px;"/>
 																					</td>
 																					<td VALIGN="middle" class="collection-table-text">
 																					  <input type="text" name="v1lseverity1" size="5"	value="<c:if test="${c1.v1lseverity1Null == false}" >${c1.v1lseverity1}</c:if>" style="width: 30px;" style="width: 30px;"/>
 																					</td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2">
-																					  <input type="text" name="value2" id="value2_<%=countChecked %>" size="5" value="${c1.value2}" style="width: 30px;"/>
-                                            <input type="text" name="value2Rule" id="value2_Rule_<%=countChecked %>" value="${c1.value2Rule}" style="width: 30px;"/>
-                                            <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value2');" class="text">定义规则</a>
+                                            <img id="value2_Icon_<%=countChecked %>" title="${c1.value2Rule}" src="<%=request.getContextPath()%>/images/ruleedit.png" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value2');">
+																					  <input type="hidden" name="value2" id="value2_<%=countChecked %>" size="5" value="${c1.value2}" style="width: 30px;"/>
+                                            <input type="hidden" name="value2Rule" id="value2_Rule_<%=countChecked %>" value="${c1.value2Rule}" style="width: 30px;"/>
 																					</td>
 																					<td VALIGN="middle" class="collection-table-text">
 																					  <input type="text" name="severity2" size="5"value="<c:if test="${c1.severity2Null == false}" >${c1.severity2}</c:if>" style="width: 30px;"/>
 																				  </td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2">
-																					  <input type="text" name="value2low" id="value2low_<%=countChecked %>" size="5" value="${c1.value2low}" style="width: 30px;"/>
-                                            <input type="text" name="value2lowRule" id="value2low_Rule_<%=countChecked %>" value="${c1.value2LowRule}" style="width: 30px;"/>
-                                            <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value2low');" class="text">定义规则</a>
+                                            <img id="value2low_Icon_<%=countChecked %>" title="${c1.value2LowRule}" src="<%=request.getContextPath()%>/images/ruleedit.png" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value2low');">
+																					  <input type="hidden" name="value2low" id="value2low_<%=countChecked %>" size="5" value="${c1.value2low}" style="width: 30px;"/>
+                                            <input type="hidden" name="value2lowRule" id="value2low_Rule_<%=countChecked %>" value="${c1.value2LowRule}" style="width: 30px;"/>
 																					</td>
 																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="v2lseverity2" size="5"
 																						value="<c:if test="${c1.v2lseverity2Null == false}" >${c1.v2lseverity2}</c:if>" style="width: 30px;"/></td>
@@ -560,27 +550,27 @@ function toICMP(){
 																											<option value="1">是</option>
 																									</select></td>
 																									<td VALIGN="middle" class="collection-table-text" rowspan="2">
-																									  <input type="text" name="value1" id="value1_<%=countChecked %>" size="5" value="" />
-                                                    <input type="text" name="value1Rule" id="value1_Rule_<%=countChecked %>" value="" style="width: 30px;"/>
-                                                    <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value1');" class="text">定义规则</a>
+                                                    <img id="value1_Icon_<%=countChecked %>" title="定义规则" src="<%=request.getContextPath()%>/images/ruleedit.png" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value1');">
+																									  <input type="hidden" name="value1" id="value1_<%=countChecked %>" size="5" value="" />
+                                                    <input type="hidden" name="value1Rule" id="value1_Rule_<%=countChecked %>" value="" style="width: 30px;"/>
 																									</td>
 																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity1" size="5" value="" /></td>
 																									<td VALIGN="middle" class="collection-table-text" rowspan="2">
-																									  <input type="text" name="value1low" id="value1low_<%=countChecked %>" size="5" value="" />
-                                                    <input type="text" name="value1lowRule" id="value1low_Rule_<%=countChecked %>" value="" style="width: 30px;"/>
-                                                    <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value1low');" class="text">定义规则</a>
+                                                    <img id="value1low_Icon_<%=countChecked %>" title="定义规则" src="<%=request.getContextPath()%>/images/ruleedit.png" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value1low');">
+																									  <input type="hidden" name="value1low" id="value1low_<%=countChecked %>" size="5" value="" />
+                                                    <input type="hidden" name="value1lowRule" id="value1low_Rule_<%=countChecked %>" value="" style="width: 30px;"/>
 																									</td>
 																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="v1lseverity1" size="5" value="" /></td>
 																									<td VALIGN="middle" class="collection-table-text" rowspan="2">
-																									  <input type="text" name="value2" id="value2_<%=countChecked %>" size="5" value="" />
-                                                    <input type="text" name="value2Rule" id="value2_Rule_<%=countChecked %>" value="" style="width: 30px;"/>
-                                                    <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value2');" class="text">定义规则</a>
+                                                    <img id="value2_Icon_<%=countChecked %>" title="定义规则" src="<%=request.getContextPath()%>/images/ruleedit.png" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value2');">
+																									  <input type="hidden" name="value2" id="value2_<%=countChecked %>" size="5" value="" />
+                                                    <input type="hidden" name="value2Rule" id="value2_Rule_<%=countChecked %>" value="" style="width: 30px;"/>
 																									</td>
 																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity2" size="5" value="" /></td>
 																									<td VALIGN="middle" class="collection-table-text" rowspan="2">
-																									  <input type="text" name="value2low" id="value2low_<%=countChecked %>" size="5" value="" />
-                                                    <input type="text" name="value2lowRule" id="value2low_Rule_<%=countChecked %>" value="" style="width: 30px;"/>
-                                                    <a id="define-rule" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value2low');" class="text">定义规则</a>
+                                                    <img id="value2low_Icon_<%=countChecked %>" title="定义规则" src="<%=request.getContextPath()%>/images/ruleedit.png" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value2low');">
+																									  <input type="hidden" name="value2low" id="value2low_<%=countChecked %>" size="5" value="" />
+                                                    <input type="hidden" name="value2lowRule" id="value2low_Rule_<%=countChecked %>" value="" style="width: 30px;"/>
 																									</td>
 																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="v2lseverity2" size="5" value="" /></td>
 																									<td VALIGN="middle" class="collection-table-text" rowspan="2"><select name="compareType" id="compare_Type">
