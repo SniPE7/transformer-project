@@ -33,5 +33,5 @@ public interface TPolicyDetailsWithRuleDao
 	 */
 	public String getTableName();
 
-	public TPolicyDetailsWithRule findByEveidAndModid(long eveid, long modid) throws TPolicyDetailsWithRuleDaoException;
+	public TPolicyDetailsWithRule findByEveidAndModid(long ptvid, long eveid, long modid) throws TPolicyDetailsWithRuleDaoException;
 }

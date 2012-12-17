@@ -31,12 +31,12 @@ public class TPolicyDetailsWithRuleDaoImpl extends AbstractDAO implements Parame
 	}
 
 
-	public TPolicyDetailsWithRule findByEveidAndModid(long eveid, long modid) throws TPolicyDetailsWithRuleDaoException {
+	public TPolicyDetailsWithRule findByEveidAndModid(long ptvid, long eveid, long modid) throws TPolicyDetailsWithRuleDaoException {
 		try {
 			List<TPolicyDetailsWithRule> result = jdbcTemplate
 			    .query(
-			        "select PTVID, MODID, EVEID, POLL, VALUE_1, SEVERITY_1, FILTER_A, VALUE_2, SEVERITY_2, FILTER_B, SEVERITY_A, SEVERITY_B, OIDGROUP, OGFLAG, VALUE_1_LOW, VALUE_2_LOW, V1L_SEVERITY_1, V1L_SEVERITY_A, V2L_SEVERITY_2, V2L_SEVERITY_B, COMPARETYPE, VALUE_1_RULE, VALUE_2_RULE, VALUE_1_LOW_RULE, VALUE_2_LOW_RULE from " + this.getTableName() + " where eveid=? and modid=? ",
-			        this, eveid, modid);
+			        "select PTVID, MODID, EVEID, POLL, VALUE_1, SEVERITY_1, FILTER_A, VALUE_2, SEVERITY_2, FILTER_B, SEVERITY_A, SEVERITY_B, OIDGROUP, OGFLAG, VALUE_1_LOW, VALUE_2_LOW, V1L_SEVERITY_1, V1L_SEVERITY_A, V2L_SEVERITY_2, V2L_SEVERITY_B, COMPARETYPE, VALUE_1_RULE, VALUE_2_RULE, VALUE_1_LOW_RULE, VALUE_2_LOW_RULE from " + this.getTableName() + " where ptvid=? and eveid=? and modid=? ",
+			        this, ptvid, eveid, modid);
 			if (!result.isEmpty()) {
 				 return result.get(0);
 			} else {
