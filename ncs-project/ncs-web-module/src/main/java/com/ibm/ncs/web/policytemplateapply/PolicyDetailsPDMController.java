@@ -19,12 +19,14 @@ import com.ibm.ncs.model.dao.PolDetailDspDao;
 import com.ibm.ncs.model.dao.TEventTypeInitDao;
 import com.ibm.ncs.model.dao.TManufacturerInfoInitDao;
 import com.ibm.ncs.model.dao.TModuleInfoInitDao;
+import com.ibm.ncs.model.dao.TPolicyDetailsWithRuleDao;
 import com.ibm.ncs.model.dto.DspEventsFromPolicySyslog;
 import com.ibm.ncs.model.dto.DspSyslogEvents;
 import com.ibm.ncs.model.dto.PolDetailDsp;
 import com.ibm.ncs.model.dto.TEventTypeInit;
 import com.ibm.ncs.model.dto.TManufacturerInfoInit;
 import com.ibm.ncs.model.dto.TModuleInfoInit;
+import com.ibm.ncs.model.dto.TPolicyDetailsWithRule;
 import com.ibm.ncs.util.Log4jInit;
 import com.ibm.ncs.util.SortList;
 
@@ -33,6 +35,7 @@ import com.ibm.ncs.util.SortList;
  *
  */
 public class PolicyDetailsPDMController implements Controller {
+
 
 	TModuleInfoInitDao  TModuleInfoInitDao;
 	TEventTypeInitDao  TEventTypeInitDao;
@@ -235,8 +238,6 @@ public class PolicyDetailsPDMController implements Controller {
 			TManufacturerInfoInitDao manufacturerInfoInitDao) {
 		TManufacturerInfoInitDao = manufacturerInfoInitDao;
 	}
-
-
 
 	public String getPageView4ReadOnly() {
 		return pageView4ReadOnly;
