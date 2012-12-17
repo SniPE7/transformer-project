@@ -749,8 +749,70 @@ public class TPolicyDetailsWithRule implements Serializable {
 		return value2LowRule;
 	}
 
+	
 	public void setValue2LowRule(String value2LowRule) {
 		this.value2LowRule = value2LowRule;
+	}
+	
+	public static String getRuleExpression(String rule) {
+		if (rule == null) {
+			 return "";
+		}
+		if (rule.startsWith("rule:{expression:")) {
+			 int endIndex = rule.indexOf("rule:{expression:".length(), ',');
+			 if (endIndex > 0) {
+					String s = rule.substring("rule:{expression:".length(), endIndex );
+					return s;
+			 }
+		}
+		return rule;
+	}
+
+	public static String getRuleDisplayInfo(String rule) {
+		if (rule == null) {
+			 return "";
+		}
+		if (rule.startsWith("rule:{expression:")) {
+			 int endIndex = rule.indexOf('}');
+			 if (endIndex > 0) {
+  		    String s = rule.substring(rule.indexOf("display:") + "display:".length(), endIndex );
+			    return s;
+			 }
+		}
+		return rule;
+	}
+
+
+	public String getValue1RuleExpression() {
+		return getRuleExpression(value1Rule);
+	}
+
+	public String getValue1RuleDisplayInfo() {
+		return getRuleDisplayInfo(value1Rule);
+	}
+
+	public String getValue2RuleExpression() {
+		return getRuleExpression(value2Rule);
+	}
+
+	public String getValue2RuleDisplayInfo() {
+		return getRuleDisplayInfo(value2Rule);
+	}
+
+	public String getValue1LowRuleExpression() {
+		return getRuleExpression(value1LowRule);
+	}
+
+	public String getValue1LowRuleDisplayInfo() {
+		return getRuleDisplayInfo(value1LowRule);
+	}
+
+	public String getValue2LowRuleExpression() {
+		return getRuleExpression(value2LowRule);
+	}
+
+	public String getValue2LowRuleDisplayInfo() {
+		return getRuleDisplayInfo(value2LowRule);
 	}
 
 	@Override
