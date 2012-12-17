@@ -70,7 +70,7 @@ $(function() {
               	   var ruleString = "";
                    prefix = document.getElementById("rule_checkbox_elementPrefixelementPrefix").value;
                 	 if (ruleMode == "fixed")  {
-                		ruleString = "rule:{fixed=" + fixedValue.val() + "}";
+                		ruleString = "rule:{expression:threshold==" + fixedValue.val() + ", display:阀值必须为" + fixedValue.val() + "}";
                         $("#" + prefix +"_Rule_" + ruleCheckboxIndex)[0].value = ruleString;
                         $("#" + prefix +"_" + ruleCheckboxIndex)[0].value = fixedValue.val();
                         $("#" + prefix).value = fixedValue.val();
@@ -79,7 +79,7 @@ $(function() {
                 	   if (expressionLogic1.length > 0) {
                 		   ruleString += expressionLogic1.val() + " threshold " + expressionOperation2.val() + " " + expressionValue2.val();
                 	   }
-                	   ruleString = "rule:{expression:'" + ruleString + "', display='" + ruleString + "'}";
+                	   ruleString = "rule:{expression:'" + ruleString + "', display:" + ruleString + "}";
                        $("#" + prefix +"_Rule_" + ruleCheckboxIndex)[0].value = ruleString;
                        $("#" + prefix +"_" + ruleCheckboxIndex)[0].value = defaultValue.val();
                        $("#" + prefix).value = defaultValue.val();

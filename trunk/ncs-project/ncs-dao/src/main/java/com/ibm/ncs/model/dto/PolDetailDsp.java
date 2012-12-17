@@ -942,6 +942,40 @@ public class PolDetailDsp implements Serializable
 	public void setValue2LowRule(String value2LowRule) {
 		this.value2LowRule = value2LowRule;
 	}
+	
+	public String getValue1RuleExpression() {
+		return TPolicyDetailsWithRule.getRuleExpression(value1Rule);
+	}
+
+	public String getValue1RuleDisplayInfo() {
+		return TPolicyDetailsWithRule.getRuleDisplayInfo(value1Rule);
+	}
+
+	public String getValue2RuleExpression() {
+		return TPolicyDetailsWithRule.getRuleExpression(value2Rule);
+	}
+
+	public String getValue2RuleDisplayInfo() {
+		return TPolicyDetailsWithRule.getRuleDisplayInfo(value2Rule);
+	}
+
+	public String getValue1LowRuleExpression() {
+		return TPolicyDetailsWithRule.getRuleExpression(value1LowRule);
+	}
+
+	public String getValue1LowRuleDisplayInfo() {
+		return TPolicyDetailsWithRule.getRuleDisplayInfo(value1LowRule);
+	}
+
+	public String getValue2LowRuleExpression() {
+		return TPolicyDetailsWithRule.getRuleExpression(value2LowRule);
+	}
+
+	public String getValue2LowRuleDisplayInfo() {
+		return TPolicyDetailsWithRule.getRuleDisplayInfo(value2LowRule);
+	}
+
+
 
 	/**
 	 * Method 'toString'

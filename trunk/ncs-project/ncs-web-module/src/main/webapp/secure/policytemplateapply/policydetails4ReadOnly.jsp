@@ -188,7 +188,7 @@ function onLoadInit() {
 																					<c:if test="${c1.value1low=='var1'}">Ping丢包数目</c:if>
 																					<c:if test="${c1.value1low=='var2'}">RTT时间</c:if>
 																			</td>
-																			<td VALIGN="middle" class="collection-table-text">${c1.value1Rule}</td>
+																			<td VALIGN="middle" class="collection-table-text">${c1.value1RuleDisplayInfo}</td>
 																			<td VALIGN="middle" class="collection-table-text">
 																			  <c:if test="${c1.severity1Null == false}" >${c1.severity1}</c:if><br />
                                         <c:if test="${c1.severityANull == false}" >${c1.severityA}</c:if>
@@ -197,7 +197,7 @@ function onLoadInit() {
 																					<c:if test="${c1.value2low=='var1'}">Ping丢包数目</c:if>
 																					<c:if test="${c1.value2low=='var2'}">RTT时间</c:if>
 																			</td>
-																			<td VALIGN="middle" class="collection-table-text">${c1.value2Rule}</td>
+																			<td VALIGN="middle" class="collection-table-text">${c1.value2RuleDisplayInfo}</td>
 																			<td VALIGN="middle" class="collection-table-text">
 																			<c:if test="${c1.severity2Null == false}" >${c1.severity2}</c:if><br />
                                       <c:if test="${c1.severityBNull == false}" >${c1.severityB}</c:if>
@@ -256,13 +256,13 @@ function onLoadInit() {
 																					<c:if test="${c1.filterA==1}">是</c:if>
 																					<c:if test="${c1.filterA==0}">否</c:if>
 																					</td>
-																					<td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.value1Rule}</td>
+																					<td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.value1RuleDisplayInfo}</td>
 																					<td VALIGN="middle" class="collection-table-text"><c:if test="${c1.severity1Null == false}" >${c1.severity1}</c:if></td>
-																					<td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.value1LowRule}</td>
+																					<td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.value1LowRuleDisplayInfo}</td>
 																					<td VALIGN="middle" class="collection-table-text"><c:if test="${c1.v1lseverity1Null == false}" >${c1.v1lseverity1}</c:if></td>
-																					<td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.value2Rule}</td>
+																					<td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.value2RuleDisplayInfo}</td>
 																					<td VALIGN="middle" class="collection-table-text"><c:if test="${c1.severity2Null == false}" >${c1.severity2}</c:if></td>
-																					<td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.value2LowRule}</td>
+																					<td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.value2LowRuleDisplayInfo}</td>
 																					<td VALIGN="middle" class="collection-table-text"><c:if test="${c1.v2lseverity2Null == false}" >${c1.v2lseverity2}</c:if></td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.compareType=='=='}</td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><c:if test="${c1.pollNull == false}" >${c1.poll}</c:if> 秒</td>
@@ -315,9 +315,9 @@ function onLoadInit() {
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2" nowrap="nowrap">${c1.major}</td>
 																					<td VALIGN="middle" class="collection-table-text">内</td>
 																					<td VALIGN="middle" class="collection-table-text"><c:if test="${c1.filterA==1}">是</c:if><c:if test="${c1.filterA==0}">否</c:if></td>
-																					<td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.value1Rule}</td>
+																					<td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.value1RuleDisplayInfo}</td>
 																					<td VALIGN="middle" class="collection-table-text"><c:if test="${c1.severity1Null == false}" >${c1.severity1}</c:if></td>
-																					<td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.value2Rule}</td>
+																					<td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.value2RuleDisplayInfo}</td>
 																					<td VALIGN="middle" class="collection-table-text"><c:if test="${c1.severity2Null == false}" >${c1.severity2}</c:if></td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.compareType==''}</td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><c:if test="${c1.pollNull == false}" >${c1.poll}</c:if> 秒</td>
