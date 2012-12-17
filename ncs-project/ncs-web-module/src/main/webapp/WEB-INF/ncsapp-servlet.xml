@@ -725,6 +725,7 @@
 		<property name="pageView" value="/secure/policyapply/policydetails.jsp" />
 	</bean>	
 	<bean name="/secure/policyapply/policydetails.wss" class="com.ibm.ncs.web.policyapply.PolicyDetailsController" >
+    <property name="policyDetailsWithRuleDao" ref="policyDetailsWithRuleDao" />
 		<property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
 		<property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />
 		<property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />
@@ -739,6 +740,7 @@
 		<property name="pageView" value="/secure/policyapply/policydetails.jsp" />
 	</bean>	
 	<bean name="/secure/policyapply/policydetailsPDM.wss" class="com.ibm.ncs.web.policyapply.PolicyDetailsPDMController" >
+    <property name="policyDetailsWithRuleDao" ref="policyDetailsWithRuleDao" />
 		<property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
 		<property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />
 		<property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />

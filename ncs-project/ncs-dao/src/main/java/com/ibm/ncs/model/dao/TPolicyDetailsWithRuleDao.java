@@ -32,4 +32,6 @@ public interface TPolicyDetailsWithRuleDao
 	 * @return String
 	 */
 	public String getTableName();
+
+	public TPolicyDetailsWithRule findByEveidAndModid(long eveid, long modid) throws TPolicyDetailsWithRuleDaoException;
 }

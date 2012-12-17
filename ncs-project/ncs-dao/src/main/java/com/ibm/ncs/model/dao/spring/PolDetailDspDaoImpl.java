@@ -62,10 +62,11 @@ public class PolDetailDspDaoImpl extends AbstractDAO implements ParameterizedRow
 	 */
 	public List<PolDetailDsp> findByMpid(long mpid) throws PolDetailDspDaoException {
 		try {
-			return jdbcTemplate
+			List<PolDetailDsp> result = jdbcTemplate
 			    .query(
 			        "select * from  ( select a.MPID ,	a.MODID ,	a.EVEID ,	POLL, 	VALUE_1, 	 SEVERITY_1, 	FILter_A, 	VALUE_2, 	SEVERITY_2 ,	FILter_B, 	 SEVERITY_A ,	SEVERITY_B, 	OIDGROUP ,	OGFlag ,	VALUE_1_LOW ,	VALUE_2_LOW,  V1L_SEVERITY_1, 	V1L_SEVERITY_A, 	V2L_SEVERITY_2 ,	V2L_SEVERITY_B, CompareType, b.major,b.ecode,b.general ,c.mname, c.mcode, NULL as ptvid, NULL as VALUE_1_RULE, NULL as VALUE_2_RULE, NULL as VALUE_1_LOW_RULE, NULL as VALUE_2_LOW_RULE from t_policy_details a left join t_event_type_init b on a.modid=b.modid and a.eveid=b.eveid  left join t_module_info_init c on a.modid=c.modid) x  where mpid=? ",
 			        this, mpid);
+			return result;
 		} catch (Exception e) {
 			throw new PolDetailDspDaoException("Query failed", e);
 		}
