@@ -755,6 +755,7 @@
 		<property name="pageView" value="/secure/policyapply/policydetailsPDM.jsp" />
 	</bean>
 	<bean name="/secure/policyapply/savepolicydetailsPDM.wss" class="com.ibm.ncs.web.policyapply.SavePolicyDetailsPDMController" >
+    <property name="policyRuleEvaluator" ref="policyRuleEvaluator"></property>
     <property name="policyDetailsWithRuleDao" ref="policyDetailsWithRuleDao" />
 		<property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />
 		<property name="TGrpNetDao" ref="TGrpNetDao" />
@@ -771,6 +772,7 @@
 		<property name="pageView" value="/secure/policyapply/policydetailsPDM.jsp" />
 	</bean>
 	<bean name="/secure/policyapply/savepolicydetails.wss" class="com.ibm.ncs.web.policyapply.SavePolicyDetailsController" >
+	  <property name="policyRuleEvaluator" ref="policyRuleEvaluator"></property>
     <property name="policyDetailsWithRuleDao" ref="policyDetailsWithRuleDao" />
 		<property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />
 		<property name="TGrpNetDao" ref="TGrpNetDao" />

@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 import java.util.TreeMap;
 
+import javax.script.ScriptException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -41,12 +41,15 @@ import com.ibm.ncs.model.dto.TPolicyBase;
 import com.ibm.ncs.model.dto.TPolicyDetails;
 import com.ibm.ncs.model.dto.TPolicyDetailsPk;
 import com.ibm.ncs.model.dto.TPolicyDetailsWithRule;
-import com.ibm.ncs.model.dto.TPolicyPeriod;
+import com.ibm.ncs.model.exceptions.DaoException;
+import com.ibm.ncs.model.exceptions.PolicySyslogDaoException;
+import com.ibm.ncs.model.exceptions.SequenceNMDaoException;
+import com.ibm.ncs.model.exceptions.TEventTypeInitDaoException;
 import com.ibm.ncs.model.exceptions.TPolicyDetailsDaoException;
 import com.ibm.ncs.util.GenPkNumber;
 import com.ibm.ncs.util.Log4jInit;
+import com.ibm.ncs.util.PolicyRuleEvaluator;
 import com.ibm.ncs.util.SortList;
-import com.ibm.ncs.web.baseinfo.ManufacturerController;
 
 /**
  * @author root
@@ -54,6 +57,7 @@ import com.ibm.ncs.web.baseinfo.ManufacturerController;
  */
 public class SavePolicyDetailsController implements Controller {
 
+	PolicyRuleEvaluator policyRuleEvaluator;
 	TPolicyDetailsWithRuleDao policyDetailsWithRuleDao;
 	TGrpNetDao TGrpNetDao;
 	TPolicyBaseDao TPolicyBaseDao;
@@ -69,6 +73,14 @@ public class SavePolicyDetailsController implements Controller {
 	GenPkNumber genPkNumber;
 	String message;
 	String pageView;
+
+	public PolicyRuleEvaluator getPolicyRuleEvaluator() {
+		return policyRuleEvaluator;
+	}
+
+	public void setPolicyRuleEvaluator(PolicyRuleEvaluator policyRuleEvaluator) {
+		this.policyRuleEvaluator = policyRuleEvaluator;
+	}
 
 	public void setTPolicyBaseDao(TPolicyBaseDao policyBaseDao) {
 		TPolicyBaseDao = policyBaseDao;
@@ -102,549 +114,14 @@ public class SavePolicyDetailsController implements Controller {
 			String mode = request.getParameter("mode");
 			String displayOption = request.getParameter("listSeled");
 			String mpname = request.getParameter("mpname");
-			String category = request.getParameter("cate");
-			String manufacture = request.getParameter("manufselect");
-			String mpidStr = request.getParameter("mpid");
 
-			// if(mode!=null && !mode.equalsIgnoreCase("syslog")){
 			if (mode != null && mode.equalsIgnoreCase("icmp")) {
-				model = saveIcmpDetails(request, response, model, message);
+				model = saveIcmpDetails(request, response, model);
 				message = (String) model.get("messageg");
 			} else if (mode != null && mode.equalsIgnoreCase("snmp")) {
-
-				String[] sel = request.getParameterValues("sel");
-				String[] pre = request.getParameterValues("pre");
-
-				String[] eveidStr = request.getParameterValues("eveid");
-				String[] modidStr = request.getParameterValues("modid");
-				String[] pollstr = request.getParameterValues("poll");
-				String[] value1 = request.getParameterValues("value1");
-				String[] severity1Str = request.getParameterValues("severity1");
-				String[] severityAStr = request.getParameterValues("severityA");
-				String[] filterAStr = request.getParameterValues("filterA");
-				String[] value2 = request.getParameterValues("value2");
-				String[] severity2Str = request.getParameterValues("severity2");
-				String[] severityBStr = request.getParameterValues("severityB");
-				String[] filterBStr = request.getParameterValues("filterB");
-				String[] compareTypeStr = request.getParameterValues("compareType");
-				String[] oidgroupStr = request.getParameterValues("oidgroup");
-				String[] oidgroupSelStr = request.getParameterValues("oidgroupSel");
-				// for port policy
-				String[] value1lowStr = request.getParameterValues("value1low");
-				String[] v1lseverityAStr = request.getParameterValues("v1lseverityA");
-				String[] value2lowStr = request.getParameterValues("value2low");
-				String[] v2lseverityBStr = request.getParameterValues("v2lseverityB");
-				String[] v1lseverity1Str = request.getParameterValues("v1lseverity1");
-				String[] v2lseverity2Str = request.getParameterValues("v2lseverity2");
-
-				int numInDB = 0;
-				if (pre != null)
-					numInDB = pre.length; // number of original records in db
-					// System.out.println("%%In SavePolicyDetailsController%%dto.length="
-					// + sel.length + "\tnumInDb=" + numInDB );
-
-				int[] selIndexValue = null;
-				if (sel != null)
-					selIndexValue = new int[sel.length];
-				else
-					selIndexValue = new int[0];
-
-				if (sel != null) {
-					for (int i = 0; i < sel.length; i++) {
-						int selIndex = Integer.parseInt(sel[i].substring(0, sel[i].indexOf("|")));
-						selIndexValue[i] = selIndex;
-
-						long severity1 = 0;
-						long severity2 = 0;
-						long mpidTmp = 0;
-
-						// validate input:
-						long eveidTmp = 0;
-						long modidTmp = 0;
-						long pollTmp = 0;
-						long severityA = 0;
-						long severityB = 0;
-						long v1lseverity1 = 0;
-						long v2lseverity2 = 0;
-						long v1lseverityA = 0;
-						long v2lseverityB = 0;
-						String value1Tmp = value1[selIndex];
-						String value2Tmp = value2[selIndex];
-						String comparTypeTmp = compareTypeStr[selIndex];
-						String value1lowTmp = null, value2lowTmp = null;
-						if (category.equals("4")) {
-							if (value1lowStr != null)
-								value1lowTmp = value1lowStr[selIndex];
-							if (value2lowStr != null)
-								value2lowTmp = value2lowStr[selIndex];
-						}
-						try {
-							mpidTmp = Long.parseLong(mpidStr);
-							eveidTmp = Long.parseLong(eveidStr[selIndex]);
-							modidTmp = Long.parseLong(modidStr[selIndex]);
-							if (pollstr != null && pollstr[selIndex] != null && !pollstr[selIndex].equals(""))
-								pollTmp = Long.parseLong(pollstr[selIndex]);
-
-							if (severity1Str != null && severity1Str[selIndex] != null && !severity1Str[selIndex].equals(""))
-								severity1 = Long.parseLong(severity1Str[selIndex]);
-							if (severity2Str != null && severity2Str[selIndex] != null && !severity2Str[selIndex].equals(""))
-								severity2 = Long.parseLong(severity2Str[selIndex]);
-							if (severityAStr != null && severityAStr[selIndex] != null && !severityAStr[selIndex].equals(""))
-								severityA = Long.parseLong(severityAStr[selIndex]);
-							if (severityBStr != null && severityBStr[selIndex] != null && !severityBStr[selIndex].equals(""))
-								severityB = Long.parseLong(severityBStr[selIndex]);
-							if (category.equals("4")) {
-								if (v1lseverity1Str != null && v1lseverity1Str[selIndex] != null && !v1lseverity1Str[selIndex].equals(""))
-									v1lseverity1 = Long.parseLong(v1lseverity1Str[selIndex]);
-								if (v2lseverity2Str != null && v2lseverity2Str[selIndex] != null && !v2lseverity2Str[selIndex].equals(""))
-									v2lseverity2 = Long.parseLong(v2lseverity2Str[selIndex]);
-								if (v1lseverityAStr != null && v1lseverityAStr[selIndex] != null && !v1lseverityAStr[selIndex].equals(""))
-									v1lseverityA = Long.parseLong(v1lseverityAStr[selIndex]);
-								if (v2lseverityBStr != null && v2lseverityBStr[selIndex] != null && !v2lseverityBStr[selIndex].equals(""))
-									v2lseverityB = Long.parseLong(v2lseverityBStr[selIndex]);
-							}
-						} catch (Exception e) {
-							if (message.equals(""))
-								message = "以下策略定制失败：<br/>";
-							TEventTypeInit t = null;
-							if (eveidTmp > 0 && modidTmp > 0)
-								t = TEventTypeInitDao.findByPrimaryKey(modidTmp, eveidTmp);
-							message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： 阈值级别和Poll间隔应为数字类型 <br/>";
-							e.printStackTrace();
-							continue;
-						}
-						// validate severity is beween 1 to 7 or 100
-						if (((severity1Str[selIndex] != null && !severity1Str[selIndex].equals("")) && ((severity1 > 7 && severity1 != 100) || severity1 < 1))
-						    || ((severity2Str != null && severity2Str[selIndex] != null && !severity2Str[selIndex].equals("")) && ((severity2 > 7 && severity2 != 100) || severity2 < 1))
-						    || ((severityAStr != null && severityAStr[selIndex] != null && !severityAStr[selIndex].equals("")) && ((severityA > 7 && severityA != 100) || severityA < 1))
-						    || ((severityBStr != null && severityBStr[selIndex] != null && !severityBStr[selIndex].equals("")) && ((severityB > 7 && severityB != 100) || severityB < 1))) {
-							if (message.equals(""))
-								message = "以下策略定制失败：<br/>";
-							TEventTypeInit t = null;
-							if (eveidTmp > 0 && modidTmp > 0)
-								t = TEventTypeInitDao.findByPrimaryKey(modidTmp, eveidTmp);
-							message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： 告警级别范围应为1-7或100<br/>";
-							continue;
-						}
-						// validate if severity is not null, then the value should not be
-						// null
-						if ((severity1Str != null && severity1Str[selIndex] != null && !severity1Str[selIndex].equals(""))
-						    || (severityAStr != null && severityAStr[selIndex] != null && !severityAStr[selIndex].equals(""))) {
-							if (value1 == null || value1Tmp == null || value1Tmp.equalsIgnoreCase("")) {
-								if (message.equals(""))
-									message = "以下策略定制失败：<br/>";
-								TEventTypeInit t = null;
-								if (eveidTmp > 0 && modidTmp > 0)
-									t = TEventTypeInitDao.findByPrimaryKey(modidTmp, eveidTmp);
-								message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： 阈值1/阈值In1不可为空 <br/>";
-								continue;
-							}
-						}
-						if ((severity2Str != null && severity2Str[selIndex] != null && !severity2Str[selIndex].equals(""))
-						    || (severityBStr != null && severityBStr[selIndex] != null && !severityBStr[selIndex].equals(""))) {
-							if (value2 == null || value2Tmp == null || value2Tmp.equalsIgnoreCase("")) {
-								if (message.equals(""))
-									message = "以下策略定制失败：<br/>";
-								TEventTypeInit t = null;
-								if (eveidTmp > 0 && modidTmp > 0)
-									t = TEventTypeInitDao.findByPrimaryKey(modidTmp, eveidTmp);
-								message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： 阈值2/阈值Out1不可为空 <br/>";
-								continue;
-							}
-						}
-
-						if (category.equals("4")) {
-							if (((v1lseverity1Str != null && v1lseverity1Str[selIndex] != null && !v1lseverity1Str[selIndex].equals("")) && ((v1lseverity1 > 7 && v1lseverity1 != 100) || v1lseverity1 < 1))
-							    || ((v2lseverity2Str != null && v2lseverity2Str[selIndex] != null && !v2lseverity2Str[selIndex].equals("")) && ((v2lseverity2 > 7 && v2lseverity2 != 100) || v2lseverity2 < 1))
-							    || ((v1lseverityAStr != null && v1lseverityAStr[selIndex] != null && !v1lseverityAStr[selIndex].equals("")) && ((v1lseverityA > 7 && v1lseverityA != 100) || v1lseverityA < 1))
-							    || ((v2lseverityBStr != null && v2lseverityBStr[selIndex] != null && !v2lseverityBStr[selIndex].equals("")) && ((v2lseverityB > 7 && v2lseverityB != 100) || v2lseverityB < 1))) {
-								if (message.equals(""))
-									message = "以下策略定制失败：<br/>";
-								TEventTypeInit t = null;
-								if (eveidTmp > 0 && modidTmp > 0)
-									t = TEventTypeInitDao.findByPrimaryKey(modidTmp, eveidTmp);
-								message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： 告警级别范围应为1-7或100<br/>";
-								continue;
-							}
-							if (value2lowTmp != null && !value2lowTmp.equals("")) {
-								if (comparTypeTmp == null || comparTypeTmp.equals("") || comparTypeTmp.equals("NULL")) {
-									if (message.equals(""))
-										message = "以下策略定制失败：<br/>";
-									TEventTypeInit t = null;
-									if (eveidTmp > 0 && modidTmp > 0)
-										t = TEventTypeInitDao.findByPrimaryKey(modidTmp, eveidTmp);
-									message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： 当阈值Out2内容非空时，阈值比较方式不可为空<br/>";
-									continue;
-								}
-							}
-							if (value1lowTmp != null && !value1lowTmp.equals("")) {
-								if (comparTypeTmp == null || comparTypeTmp.equals("") || comparTypeTmp.equals("NULL")) {
-									if (message.equals(""))
-										message = "以下策略定制失败：<br/>";
-									TEventTypeInit t = null;
-									if (eveidTmp > 0 && modidTmp > 0)
-										t = TEventTypeInitDao.findByPrimaryKey(modidTmp, eveidTmp);
-									message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： 当阈值In2内容非空时，阈值比较方式不可为空<br/>";
-									continue;
-								}
-							}
-							// validate if severity is not null, then the value should not be
-							// null
-							if ((v1lseverity1Str != null && v1lseverity1Str[selIndex] != null && !v1lseverity1Str[selIndex].equals(""))
-							    || (v1lseverityAStr != null && v1lseverityAStr[selIndex] != null && !v1lseverityAStr[selIndex].equals(""))) {
-								if (value1lowStr == null || value1lowTmp == null || value1lowTmp.equalsIgnoreCase("")) {
-									if (message.equals(""))
-										message = "以下策略定制失败：<br/>";
-									TEventTypeInit t = null;
-									if (eveidTmp > 0 && modidTmp > 0)
-										t = TEventTypeInitDao.findByPrimaryKey(modidTmp, eveidTmp);
-									message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： 阈值In2不可为空 <br/>";
-									continue;
-								}
-							}
-
-							if ((v2lseverity2Str != null && v2lseverity2Str[selIndex] != null && !v2lseverity2Str[selIndex].equals(""))
-							    || (v2lseverityBStr != null && v2lseverityBStr[selIndex] != null && !v2lseverityBStr[selIndex].equals(""))) {
-								if (value2lowStr == null || value2lowTmp == null || value2lowTmp.equalsIgnoreCase("")) {
-									if (message.equals(""))
-										message = "以下策略定制失败：<br/>";
-									TEventTypeInit t = null;
-									if (eveidTmp > 0 && modidTmp > 0)
-										t = TEventTypeInitDao.findByPrimaryKey(modidTmp, eveidTmp);
-									message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： 阈值Out2不可为空 <br/>";
-									continue;
-								}
-							}
-						}
-						if (value1Tmp != null && !value1Tmp.equals("")) {
-							if (comparTypeTmp == null || comparTypeTmp.equals("NULL") || comparTypeTmp.equals("")) {
-								if (message.equals(""))
-									message = "以下策略定制失败：<br/>";
-								TEventTypeInit t = null;
-								if (eveidTmp > 0 && modidTmp > 0)
-									t = TEventTypeInitDao.findByPrimaryKey(modidTmp, eveidTmp);
-								message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： 当阈值1/In1内容非空时，阈值比较方式不可为空<br/>";
-								continue;
-							}
-						}
-						if (value2Tmp != null && !value2Tmp.equals("")) {
-							if (comparTypeTmp == null || comparTypeTmp.equals("NULL") || comparTypeTmp.equals("")) {
-								if (message.equals(""))
-									message = "以下策略定制失败：<br/>";
-								TEventTypeInit t = null;
-								if (eveidTmp > 0 && modidTmp > 0)
-									t = TEventTypeInitDao.findByPrimaryKey(modidTmp, eveidTmp);
-								message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： 当阈值2/Out1内容非空时，阈值比较方式不可为空<br/>";
-								continue;
-							}
-						}
-
-						TPolicyDetails dto = new TPolicyDetails();
-						dto.setMpid(mpidTmp);
-						dto.setEveid(eveidTmp);
-						dto.setModid(modidTmp);
-
-						if (pollstr[selIndex] == null || pollstr[selIndex].equals("")) {
-							dto.setPollNull(true);
-						} else
-							dto.setPoll(pollTmp);
-
-						dto.setValue1(value1Tmp);
-						if (severity1Str[selIndex] == null || severity1Str[selIndex].equals("")) {
-							dto.setSeverity1Null(true);
-						} else
-							dto.setSeverity1(severity1);
-
-						if (severityAStr == null || severityAStr[selIndex] == null || severityAStr[selIndex].equals("")) {
-							dto.setSeverityANull(true);
-						} else
-							dto.setSeverityA(severityA);
-
-						dto.setFilterA(filterAStr[selIndex]);
-						dto.setFilterB(filterBStr[selIndex]);
-						dto.setValue2(value2Tmp);
-						if (severity2Str == null || severity2Str[selIndex] == null || severity2Str[selIndex].equals("")) {
-							dto.setSeverity2Null(true);
-						} else
-							dto.setSeverity2(severity2);
-						if (comparTypeTmp.endsWith("NULL"))
-							comparTypeTmp = "";
-						dto.setComparetype(comparTypeTmp);
-
-						if (severityBStr == null || severityBStr[selIndex] == null || severityBStr[selIndex].equals("")) {
-							dto.setSeverityBNull(true);
-						} else
-							dto.setSeverityB(severityB);
-
-						if (category.equals("4")) {
-							if (v1lseverity1Str == null || v1lseverity1Str[selIndex] == null || v1lseverity1Str[selIndex].equals("")) {
-								dto.setV1lSeverity1Null(true);
-							} else
-								dto.setV1lSeverity1(v1lseverity1);
-
-							if (v2lseverity2Str == null || v2lseverity2Str[selIndex] == null || v2lseverity2Str[selIndex].equals("")) {
-								dto.setV2lSeverity2Null(true);
-							} else
-								dto.setV2lSeverity2(v2lseverity2);
-
-							if (v1lseverityAStr == null || v1lseverityAStr[selIndex] == null || v1lseverityAStr[selIndex].equals("")) {
-								dto.setV1lSeverityANull(true);
-							} else
-								dto.setV1lSeverityA(v1lseverityA);
-
-							if (v2lseverityBStr == null || v2lseverityBStr[selIndex] == null || v2lseverityBStr[selIndex].equals("")) {
-								dto.setV2lSeverityBNull(true);
-							} else
-								dto.setV2lSeverityB(v2lseverityB);
-
-							dto.setValue1Low(value1lowTmp);
-							dto.setValue2Low(value2lowTmp);
-						}
-						// if check box for OID group is checked, then save the input
-						if (oidgroupSelStr != null) {
-							boolean flag = false;
-							for (int c = 0; c < oidgroupSelStr.length; c++) {
-								if (oidgroupSelStr[c].equalsIgnoreCase(String.valueOf(selIndex))) {
-									flag = true;
-									break;
-								}
-							}
-							if (flag) {
-								dto.setOidgroup(oidgroupStr[selIndex]);
-							} else {
-								dto.setOidgroup(null);
-							}
-						} else {
-							dto.setOidgroup(null);
-						}
-
-						if (selIndex < numInDB) { // delete or update record in db
-							try {
-								// update current record
-								TPolicyDetailsPk pk = dto.createPk();
-								TPolicyDetailsDao.update(pk, dto);
-								Log4jInit.ncsLog.info(this.getClass().getName() + " Updated to TPolicyDetailsDao: pk=" + pk.toString() + "\tdto= " + dto.toString());
-								System.out.println(" Updated to TPolicyDetailsDao: pk=" + pk.toString() + "\tdto= " + dto.toString());
-
-							} catch (Exception ep) {
-								Log4jInit.ncsLog.error(this.getClass().getName() + " Error occured:\n" + ep.getMessage());
-								// TODO Auto-generated catch block
-								if (!message.equals(""))
-									message = "savePolicyDetailCtl.error";
-								model.put("messageFromSave", message);
-								buildPolicyDetailsList(request, response, model);
-								ep.printStackTrace();
-							}
-						} else { // insert records to db
-							try {
-								TPolicyDetailsPk pk1 = TPolicyDetailsDao.insert(dto);
-								Log4jInit.ncsLog.info(this.getClass().getName() + " Inserted to TPolicyDetailsDao: " + dto.toString());
-							} catch (DataIntegrityViolationException dupe) {
-								dupe.printStackTrace();
-								TPolicyDetailsPk pk = dto.createPk();
-								TPolicyDetailsDao.update(pk, dto);
-								Log4jInit.ncsLog.info(this.getClass().getName() + " Inserted to TPolicyDetailsDao: pk=" + pk.toString() + "\tdto= " + dto.toString());
-							}
-						}
-					}// end of for
-				}// end of if
-
-				for (int i = 0; i < numInDB; i++) {
-					int index = -1;
-					for (int j = 0; j < selIndexValue.length; j++) {
-						if (selIndexValue[j] == i)
-							index = j;
-					}
-					if (index < 0) {
-						TPolicyDetails dtoDel = new TPolicyDetails();
-						dtoDel.setMpid(Long.parseLong(mpidStr));
-						dtoDel.setEveid(Long.parseLong(eveidStr[i]));
-						dtoDel.setModid(Long.parseLong(modidStr[i]));
-						TPolicyDetailsPk pkDel = dtoDel.createPk();
-						TPolicyDetailsDao.delete(pkDel);
-						Log4jInit.ncsLog.info(this.getClass().getName() + " deleted from TPolicyDetailsDao: " + pkDel.toString());
-					}
-				}
+				saveSnmpDetails(request, response, model);
 			} else { // syslog policies
-			// System.out.println("******************In save syslog policies******************************************************");
-				for (int eveCount = 1; eveCount <= 8; eveCount++) {
-					// System.out.println("\tFor eveCount=" + eveCount);
-					String[] sel = request.getParameterValues("sel" + eveCount);
-					String[] pre = request.getParameterValues("pre" + eveCount);
-
-					String[] severity1Str = request.getParameterValues("severity1" + eveCount);
-					String[] filterAStr = request.getParameterValues("filterA" + eveCount);
-					String[] filterBStr = request.getParameterValues("filterB" + eveCount);
-					String[] severity2Str = request.getParameterValues("severity2" + eveCount);
-
-					String[] eventtypeStr = request.getParameterValues("eventtype" + eveCount);
-
-					// used in syslog
-					String[] markStr = request.getParameterValues("mark" + eveCount);
-
-					int numInDB = 0;
-					if (pre != null)
-						numInDB = pre.length; // number of original records in db
-						// if(sel==null)
-						// System.out.println("selection is null ****************\tnumInDb="
-						// + numInDB);
-						// else
-						// System.out.println("%%In SavePolicyDetailsController%%dto.length="
-						// + sel.length + "\tnumInDb=" + numInDB );
-
-					int preSelIndex = 0;
-					int[] selIndexValue = null;
-					if (sel != null)
-						selIndexValue = new int[sel.length];
-					else
-						selIndexValue = new int[0];
-
-					if (sel != null) {
-						for (int i = 0; i < sel.length; i++) {
-							int selIndex = Integer.parseInt(sel[i].substring(0, sel[i].indexOf("|")));
-							selIndexValue[i] = selIndex;
-							// System.out.println("\t\t\t^^^For i=" + i + "^^^\t\t\t\tcount="
-							// + selIndex + "\t\tpreSelIndex=" + preSelIndex);
-
-							long severity1 = 0;
-							long severity2 = 0;
-							long mpidTmp = 0;
-
-							// non syslog policy
-							String mark = markStr[selIndex];
-							if (mark == null || mark.equals("") || manufacture == null || manufacture.equalsIgnoreCase("")) {
-								if (message.equals(""))
-									message = "以下策略定制失败：<br/>";
-								message += "事件名称：" + (mark == null ? "" : mark) + " Mark or Manufacture is null<br/>";
-								continue;
-							}
-							long filterflag1 = 0;
-							long filterflag2 = 0;
-							long eventtype = 0;
-							try {
-								mpidTmp = Long.parseLong(mpidStr);
-								if (severity1Str != null && severity1Str[selIndex] != null && !severity1Str[selIndex].equals(""))
-									severity1 = Long.parseLong(severity1Str[selIndex]);
-								if (severity2Str != null && severity2Str[selIndex] != null && !severity2Str[selIndex].equals(""))
-									severity2 = Long.parseLong(severity2Str[selIndex]);
-								filterflag1 = Long.parseLong(filterAStr[selIndex]);
-								filterflag2 = Long.parseLong(filterBStr[selIndex]);
-								eventtype = Long.parseLong(eventtypeStr[selIndex]);
-							} catch (Exception e) {
-								if (message.equals(""))
-									message = "以下策略定制失败：<br/>";
-								message += "事件名称：" + (mark == null ? "" : mark) + ".  原因： 阈值级别应为数字类型 <br/>";
-								continue;
-							}
-							// validate severity is beween 1 to 7 or 100
-							if ((severity1Str != null && severity1Str[selIndex] != null && !severity1Str[selIndex].equals("")) && ((severity1 > 7 && severity1 != 100) || severity1 < 1)
-							    || (severity2Str != null && severity2Str[selIndex] != null && !severity2Str[selIndex].equals("")) && ((severity2 > 7 && severity2 != 100) || severity2 < 1)) {
-								if (message.equals(""))
-									message = "以下策略定制失败：<br/>";
-								message += "事件名称：" + (mark == null ? "" : mark) + ".  原因： 告警级别范围应为1-7或100<br/>";
-								continue;
-							}
-
-							PolicySyslog dto = new PolicySyslog();
-							if (severity1Str[selIndex] == null || severity1Str[selIndex].equals("")) {
-								dto.setSeverity1Null(true);
-							} else
-								dto.setSeverity1(severity1);
-
-							dto.setFilterflag1(filterflag1);
-							dto.setFilterflag2(filterflag2);
-							if (severity2Str[selIndex] == null || severity2Str[selIndex].equals("")) {
-								dto.setSeverity2Null(true);
-							} else
-								dto.setSeverity2(severity2);
-
-							dto.setMark(mark);
-							dto.setMpid(mpidTmp);
-							dto.setManufacture(manufacture);
-							dto.setEventtype(eventtype);
-
-							if (selIndex < numInDB) { // delete or update record in db
-								try {
-									// update current record
-									long spid = Long.parseLong(pre[i].substring(0, pre[i].indexOf("|")));
-									dto.setSpid(spid);
-									PolicySyslogPk pk = dto.createPk();
-									policySyslogDao.update(pk, dto);
-									Log4jInit.ncsLog.info(this.getClass().getName() + " Updated to policySyslogDao: pk=" + pk.toString() + "\tdto= " + dto.toString());
-									// System.out.println(
-									// "******* Updated to policySyslogDao: pk=" +pk.toString() +
-									// "\tdto= " +dto.toString());
-
-								} catch (Exception ep) {
-									Log4jInit.ncsLog.error(this.getClass().getName() + " Error occured:\n" + ep.getMessage());
-									// TODO Auto-generated catch block
-									if (!message.equals(""))
-										message = "策略定制保存失败";
-									model.put("messageFromSave", message);
-									buildPolicyDetailsList(request, response, model);
-									ep.printStackTrace();
-								}
-							} else { // insert records to db
-								try {
-									List<PolicySyslog> tmpLst = policySyslogDao.findWhereMarkAndMpidEquals(mark, mpidTmp);
-									if (tmpLst != null && tmpLst.size() > 1) {// error
-										if (message.equals(""))
-											message = "以下策略定制失败：<br/>";
-										message += "事件名称：" + (mark == null ? "" : mark) + ".  原因： 数据库中有超过一条记录与此事件同名，请更正数据库中记录再进行策略定制";
-										model.put("messageFromSave", message);
-										Log4jInit.ncsLog.error(this.getClass().getName() + " Error occured:\n策略定制保存失败，数据一致性错误");
-										continue;
-									} else if (tmpLst != null && tmpLst.size() == 1) {// update
-										dto.setSpid(tmpLst.get(0).getSpid());
-										PolicySyslogPk pk = dto.createPk();
-										policySyslogDao.update(pk, dto);
-										Log4jInit.ncsLog.info(this.getClass().getName() + " updated to policySyslogDao: pk=" + pk.toString() + "\tdto= " + dto.toString());
-										// System.out.println("******* updated to policySyslogDao: pk="
-										// +pk.toString() + "\tdto= " +dto.toString());
-									} else {// insert
-										dto.setSpid(genPkNumber.getID());
-										PolicySyslogPk pk1 = policySyslogDao.insert(dto);
-										Log4jInit.ncsLog.info(this.getClass().getName() + " Inserted to policySyslogDao: " + dto.toString());
-										// System.out.println("********** Inserted to policySyslogDao: "
-										// + dto.toString());
-									}
-								} catch (DataIntegrityViolationException dupe) {
-									dupe.printStackTrace();
-									long spid = Long.parseLong(pre[i].substring(0, pre[i].indexOf("|")));
-									dto.setSpid(spid);
-									PolicySyslogPk pk = dto.createPk();
-									policySyslogDao.update(pk, dto);
-									Log4jInit.ncsLog.info(this.getClass().getName() + " updated to policySyslogDao: pk=" + pk.toString() + "\tdto= " + dto.toString());
-									// System.out.println("******* updated to policySyslogDao: pk="
-									// +pk.toString() + "\tdto= " +dto.toString());
-
-								}
-							}
-						}// end of for
-					}// end of if
-
-					for (int i = 0; i < numInDB; i++) {
-						int index = -1;
-						for (int j = 0; j < selIndexValue.length; j++) {
-							if (selIndexValue[j] == i)
-								index = j;
-						}
-						if (index < 0) {
-							// System.out.println("\t\tin delet function index=" + i);
-							// non syslog policy
-							PolicySyslog dtoDel = new PolicySyslog();
-							dtoDel.setMpid(Long.parseLong(mpidStr));
-							dtoDel.setMark(markStr[i]);
-							long spid = Long.parseLong(pre[i].substring(0, pre[i].indexOf("|")));
-							dtoDel.setSpid(spid);
-							PolicySyslogPk pkDel = dtoDel.createPk();
-							policySyslogDao.delete(pkDel);
-							Log4jInit.ncsLog.info(this.getClass().getName() + " deleted from policySyslogDao: " + pkDel.toString());
-							// System.out.println("********* deleted from policySyslogDao: " +
-							// pkDel.toString());
-						}
-					}
-				}// enf of for (iterate event type)
+				saveSyslogDetails(request, response, model);
 			}// end of syslog policies
 
 			if (mpname != null)
@@ -659,8 +136,6 @@ public class SavePolicyDetailsController implements Controller {
 			de.printStackTrace();
 			return new ModelAndView(getPageView(), "model", model);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			// System.out.println("In catch exception====================");
 			Log4jInit.ncsLog.error(this.getClass().getName() + " Error occured:\n" + e.getMessage());
 			message += "策略定制保存失败";
 			model.put("messageFromSave", message);
@@ -674,15 +149,172 @@ public class SavePolicyDetailsController implements Controller {
 		return new ModelAndView(getPageView(), "model", model);
 	}
 
-	private Map<String, Object> saveIcmpDetails(HttpServletRequest request, HttpServletResponse response, Map<String, Object> model, String message2)
-	    throws DataIntegrityViolationException, Exception {
-
-		String mode = request.getParameter("mode");
-		String displayOption = request.getParameter("listSeled");
-		String mpname = request.getParameter("mpname");
-		String category = request.getParameter("cate");
+	private void saveSyslogDetails(HttpServletRequest request, HttpServletResponse response, Map<String, Object> model) throws Exception, PolicySyslogDaoException,
+	    SequenceNMDaoException {
 		String manufacture = request.getParameter("manufselect");
 		String mpidStr = request.getParameter("mpid");
+		for (int eveCount = 1; eveCount <= 8; eveCount++) {
+			// System.out.println("\tFor eveCount=" + eveCount);
+			String[] sel = request.getParameterValues("sel" + eveCount);
+			String[] pre = request.getParameterValues("pre" + eveCount);
+
+			String[] severity1Str = request.getParameterValues("severity1" + eveCount);
+			String[] filterAStr = request.getParameterValues("filterA" + eveCount);
+			String[] filterBStr = request.getParameterValues("filterB" + eveCount);
+			String[] severity2Str = request.getParameterValues("severity2" + eveCount);
+
+			String[] eventtypeStr = request.getParameterValues("eventtype" + eveCount);
+
+			// used in syslog
+			String[] markStr = request.getParameterValues("mark" + eveCount);
+
+			int numInDB = 0;
+			if (pre != null)
+				numInDB = pre.length; // number of original records in db
+
+			int preSelIndex = 0;
+			int[] selIndexValue = null;
+			if (sel != null)
+				selIndexValue = new int[sel.length];
+			else
+				selIndexValue = new int[0];
+
+			if (sel != null) {
+				for (int i = 0; i < sel.length; i++) {
+					int selIndex = Integer.parseInt(sel[i].substring(0, sel[i].indexOf("|")));
+					selIndexValue[i] = selIndex;
+
+					long severity1 = 0;
+					long severity2 = 0;
+					long mpidTmp = 0;
+
+					// non syslog policy
+					String mark = markStr[selIndex];
+					if (mark == null || mark.equals("") || manufacture == null || manufacture.equalsIgnoreCase("")) {
+						if (message.equals(""))
+							message = "以下策略定制失败：<br/>";
+						message += "事件名称：" + (mark == null ? "" : mark) + " Mark or Manufacture is null<br/>";
+						continue;
+					}
+					long filterflag1 = 0;
+					long filterflag2 = 0;
+					long eventtype = 0;
+					try {
+						mpidTmp = Long.parseLong(mpidStr);
+						if (severity1Str != null && severity1Str[selIndex] != null && !severity1Str[selIndex].equals(""))
+							severity1 = Long.parseLong(severity1Str[selIndex]);
+						if (severity2Str != null && severity2Str[selIndex] != null && !severity2Str[selIndex].equals(""))
+							severity2 = Long.parseLong(severity2Str[selIndex]);
+						filterflag1 = Long.parseLong(filterAStr[selIndex]);
+						filterflag2 = Long.parseLong(filterBStr[selIndex]);
+						eventtype = Long.parseLong(eventtypeStr[selIndex]);
+					} catch (Exception e) {
+						if (message.equals(""))
+							message = "以下策略定制失败：<br/>";
+						message += "事件名称：" + (mark == null ? "" : mark) + ".  原因： 阈值级别应为数字类型 <br/>";
+						continue;
+					}
+					// validate severity is beween 1 to 7 or 100
+					if ((severity1Str != null && severity1Str[selIndex] != null && !severity1Str[selIndex].equals("")) && ((severity1 > 7 && severity1 != 100) || severity1 < 1)
+					    || (severity2Str != null && severity2Str[selIndex] != null && !severity2Str[selIndex].equals("")) && ((severity2 > 7 && severity2 != 100) || severity2 < 1)) {
+						if (message.equals(""))
+							message = "以下策略定制失败：<br/>";
+						message += "事件名称：" + (mark == null ? "" : mark) + ".  原因： 告警级别范围应为1-7或100<br/>";
+						continue;
+					}
+
+					PolicySyslog dto = new PolicySyslog();
+					if (severity1Str[selIndex] == null || severity1Str[selIndex].equals("")) {
+						dto.setSeverity1Null(true);
+					} else
+						dto.setSeverity1(severity1);
+
+					dto.setFilterflag1(filterflag1);
+					dto.setFilterflag2(filterflag2);
+					if (severity2Str[selIndex] == null || severity2Str[selIndex].equals("")) {
+						dto.setSeverity2Null(true);
+					} else
+						dto.setSeverity2(severity2);
+
+					dto.setMark(mark);
+					dto.setMpid(mpidTmp);
+					dto.setManufacture(manufacture);
+					dto.setEventtype(eventtype);
+
+					if (selIndex < numInDB) { // delete or update record in db
+						try {
+							// update current record
+							long spid = Long.parseLong(pre[i].substring(0, pre[i].indexOf("|")));
+							dto.setSpid(spid);
+							PolicySyslogPk pk = dto.createPk();
+							policySyslogDao.update(pk, dto);
+							Log4jInit.ncsLog.info(this.getClass().getName() + " Updated to policySyslogDao: pk=" + pk.toString() + "\tdto= " + dto.toString());
+						} catch (Exception ep) {
+							Log4jInit.ncsLog.error(this.getClass().getName() + " Error occured:\n" + ep.getMessage());
+							// TODO Auto-generated catch block
+							if (!message.equals(""))
+								message = "策略定制保存失败";
+							model.put("messageFromSave", message);
+							buildPolicyDetailsList(request, response, model);
+							ep.printStackTrace();
+						}
+					} else { // insert records to db
+						try {
+							List<PolicySyslog> tmpLst = policySyslogDao.findWhereMarkAndMpidEquals(mark, mpidTmp);
+							if (tmpLst != null && tmpLst.size() > 1) {// error
+								if (message.equals(""))
+									message = "以下策略定制失败：<br/>";
+								message += "事件名称：" + (mark == null ? "" : mark) + ".  原因： 数据库中有超过一条记录与此事件同名，请更正数据库中记录再进行策略定制";
+								model.put("messageFromSave", message);
+								Log4jInit.ncsLog.error(this.getClass().getName() + " Error occured:\n策略定制保存失败，数据一致性错误");
+								continue;
+							} else if (tmpLst != null && tmpLst.size() == 1) {// update
+								dto.setSpid(tmpLst.get(0).getSpid());
+								PolicySyslogPk pk = dto.createPk();
+								policySyslogDao.update(pk, dto);
+								Log4jInit.ncsLog.info(this.getClass().getName() + " updated to policySyslogDao: pk=" + pk.toString() + "\tdto= " + dto.toString());
+							} else {// insert
+								dto.setSpid(genPkNumber.getID());
+								PolicySyslogPk pk1 = policySyslogDao.insert(dto);
+								Log4jInit.ncsLog.info(this.getClass().getName() + " Inserted to policySyslogDao: " + dto.toString());
+							}
+						} catch (DataIntegrityViolationException dupe) {
+							dupe.printStackTrace();
+							long spid = Long.parseLong(pre[i].substring(0, pre[i].indexOf("|")));
+							dto.setSpid(spid);
+							PolicySyslogPk pk = dto.createPk();
+							policySyslogDao.update(pk, dto);
+							Log4jInit.ncsLog.info(this.getClass().getName() + " updated to policySyslogDao: pk=" + pk.toString() + "\tdto= " + dto.toString());
+						}
+					}
+				}// end of for
+			}// end of if
+
+			for (int i = 0; i < numInDB; i++) {
+				int index = -1;
+				for (int j = 0; j < selIndexValue.length; j++) {
+					if (selIndexValue[j] == i)
+						index = j;
+				}
+				if (index < 0) {
+					PolicySyslog dtoDel = new PolicySyslog();
+					dtoDel.setMpid(Long.parseLong(mpidStr));
+					dtoDel.setMark(markStr[i]);
+					long spid = Long.parseLong(pre[i].substring(0, pre[i].indexOf("|")));
+					dtoDel.setSpid(spid);
+					PolicySyslogPk pkDel = dtoDel.createPk();
+					policySyslogDao.delete(pkDel);
+					Log4jInit.ncsLog.info(this.getClass().getName() + " deleted from policySyslogDao: " + pkDel.toString());
+				}
+			}
+		}// enf of for (iterate event type)
+	}
+
+	private void saveSnmpDetails(HttpServletRequest request, HttpServletResponse response, Map<String, Object> model) throws TEventTypeInitDaoException, Exception,
+	    TPolicyDetailsDaoException {
+		String category = request.getParameter("cate");
+		String mpidStr = request.getParameter("mpid");
+
 		String[] sel = request.getParameterValues("sel");
 		String[] pre = request.getParameterValues("pre");
 
@@ -711,8 +343,6 @@ public class SavePolicyDetailsController implements Controller {
 		int numInDB = 0;
 		if (pre != null)
 			numInDB = pre.length; // number of original records in db
-			// System.out.println("%%In SavePolicyDetailsController%%dto.length=" +
-			// sel.length + "\tnumInDb=" + numInDB );
 
 		int[] selIndexValue = null;
 		if (sel != null)
@@ -743,12 +373,12 @@ public class SavePolicyDetailsController implements Controller {
 				String value2Tmp = value2[selIndex];
 				String comparTypeTmp = compareTypeStr[selIndex];
 				String value1lowTmp = null, value2lowTmp = null;
-				// if(category.equals("4")){
-				if (value1lowStr != null)
-					value1lowTmp = value1lowStr[selIndex];
-				if (value2lowStr != null)
-					value2lowTmp = value2lowStr[selIndex];
-				// }
+				if (category.equals("4")) {
+					if (value1lowStr != null)
+						value1lowTmp = value1lowStr[selIndex];
+					if (value2lowStr != null)
+						value2lowTmp = value2lowStr[selIndex];
+				}
 				try {
 					mpidTmp = Long.parseLong(mpidStr);
 					eveidTmp = Long.parseLong(eveidStr[selIndex]);
@@ -764,7 +394,368 @@ public class SavePolicyDetailsController implements Controller {
 						severityA = Long.parseLong(severityAStr[selIndex]);
 					if (severityBStr != null && severityBStr[selIndex] != null && !severityBStr[selIndex].equals(""))
 						severityB = Long.parseLong(severityBStr[selIndex]);
-					// if(category.equals("4")){
+					if (category.equals("4")) {
+						if (v1lseverity1Str != null && v1lseverity1Str[selIndex] != null && !v1lseverity1Str[selIndex].equals(""))
+							v1lseverity1 = Long.parseLong(v1lseverity1Str[selIndex]);
+						if (v2lseverity2Str != null && v2lseverity2Str[selIndex] != null && !v2lseverity2Str[selIndex].equals(""))
+							v2lseverity2 = Long.parseLong(v2lseverity2Str[selIndex]);
+						if (v1lseverityAStr != null && v1lseverityAStr[selIndex] != null && !v1lseverityAStr[selIndex].equals(""))
+							v1lseverityA = Long.parseLong(v1lseverityAStr[selIndex]);
+						if (v2lseverityBStr != null && v2lseverityBStr[selIndex] != null && !v2lseverityBStr[selIndex].equals(""))
+							v2lseverityB = Long.parseLong(v2lseverityBStr[selIndex]);
+					}
+				} catch (Exception e) {
+					if (message.equals(""))
+						message = "以下策略定制失败：<br/>";
+					TEventTypeInit t = null;
+					if (eveidTmp > 0 && modidTmp > 0)
+						t = TEventTypeInitDao.findByPrimaryKey(modidTmp, eveidTmp);
+					message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： 阈值级别和Poll间隔应为数字类型 <br/>";
+					e.printStackTrace();
+					continue;
+				}
+				// validate severity is beween 1 to 7 or 100
+				if (((severity1Str[selIndex] != null && !severity1Str[selIndex].equals("")) && ((severity1 > 7 && severity1 != 100) || severity1 < 1))
+				    || ((severity2Str != null && severity2Str[selIndex] != null && !severity2Str[selIndex].equals("")) && ((severity2 > 7 && severity2 != 100) || severity2 < 1))
+				    || ((severityAStr != null && severityAStr[selIndex] != null && !severityAStr[selIndex].equals("")) && ((severityA > 7 && severityA != 100) || severityA < 1))
+				    || ((severityBStr != null && severityBStr[selIndex] != null && !severityBStr[selIndex].equals("")) && ((severityB > 7 && severityB != 100) || severityB < 1))) {
+					if (message.equals(""))
+						message = "以下策略定制失败：<br/>";
+					TEventTypeInit t = null;
+					if (eveidTmp > 0 && modidTmp > 0)
+						t = TEventTypeInitDao.findByPrimaryKey(modidTmp, eveidTmp);
+					message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： 告警级别范围应为1-7或100<br/>";
+					continue;
+				}
+				// validate if severity is not null, then the value should not be
+				// null
+				if ((severity1Str != null && severity1Str[selIndex] != null && !severity1Str[selIndex].equals(""))
+				    || (severityAStr != null && severityAStr[selIndex] != null && !severityAStr[selIndex].equals(""))) {
+					if (value1 == null || value1Tmp == null || value1Tmp.equalsIgnoreCase("")) {
+						if (message.equals(""))
+							message = "以下策略定制失败：<br/>";
+						TEventTypeInit t = null;
+						if (eveidTmp > 0 && modidTmp > 0)
+							t = TEventTypeInitDao.findByPrimaryKey(modidTmp, eveidTmp);
+						message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： 阈值1/阈值In1不可为空 <br/>";
+						continue;
+					}
+				}
+				if ((severity2Str != null && severity2Str[selIndex] != null && !severity2Str[selIndex].equals(""))
+				    || (severityBStr != null && severityBStr[selIndex] != null && !severityBStr[selIndex].equals(""))) {
+					if (value2 == null || value2Tmp == null || value2Tmp.equalsIgnoreCase("")) {
+						if (message.equals(""))
+							message = "以下策略定制失败：<br/>";
+						TEventTypeInit t = null;
+						if (eveidTmp > 0 && modidTmp > 0)
+							t = TEventTypeInitDao.findByPrimaryKey(modidTmp, eveidTmp);
+						message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： 阈值2/阈值Out1不可为空 <br/>";
+						continue;
+					}
+				}
+
+				if (category.equals("4")) {
+					if (((v1lseverity1Str != null && v1lseverity1Str[selIndex] != null && !v1lseverity1Str[selIndex].equals("")) && ((v1lseverity1 > 7 && v1lseverity1 != 100) || v1lseverity1 < 1))
+					    || ((v2lseverity2Str != null && v2lseverity2Str[selIndex] != null && !v2lseverity2Str[selIndex].equals("")) && ((v2lseverity2 > 7 && v2lseverity2 != 100) || v2lseverity2 < 1))
+					    || ((v1lseverityAStr != null && v1lseverityAStr[selIndex] != null && !v1lseverityAStr[selIndex].equals("")) && ((v1lseverityA > 7 && v1lseverityA != 100) || v1lseverityA < 1))
+					    || ((v2lseverityBStr != null && v2lseverityBStr[selIndex] != null && !v2lseverityBStr[selIndex].equals("")) && ((v2lseverityB > 7 && v2lseverityB != 100) || v2lseverityB < 1))) {
+						if (message.equals(""))
+							message = "以下策略定制失败：<br/>";
+						TEventTypeInit t = null;
+						if (eveidTmp > 0 && modidTmp > 0)
+							t = TEventTypeInitDao.findByPrimaryKey(modidTmp, eveidTmp);
+						message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： 告警级别范围应为1-7或100<br/>";
+						continue;
+					}
+					if (value2lowTmp != null && !value2lowTmp.equals("")) {
+						if (comparTypeTmp == null || comparTypeTmp.equals("") || comparTypeTmp.equals("NULL")) {
+							if (message.equals(""))
+								message = "以下策略定制失败：<br/>";
+							TEventTypeInit t = null;
+							if (eveidTmp > 0 && modidTmp > 0)
+								t = TEventTypeInitDao.findByPrimaryKey(modidTmp, eveidTmp);
+							message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： 当阈值Out2内容非空时，阈值比较方式不可为空<br/>";
+							continue;
+						}
+					}
+					if (value1lowTmp != null && !value1lowTmp.equals("")) {
+						if (comparTypeTmp == null || comparTypeTmp.equals("") || comparTypeTmp.equals("NULL")) {
+							if (message.equals(""))
+								message = "以下策略定制失败：<br/>";
+							TEventTypeInit t = null;
+							if (eveidTmp > 0 && modidTmp > 0)
+								t = TEventTypeInitDao.findByPrimaryKey(modidTmp, eveidTmp);
+							message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： 当阈值In2内容非空时，阈值比较方式不可为空<br/>";
+							continue;
+						}
+					}
+					// validate if severity is not null, then the value should not be
+					// null
+					if ((v1lseverity1Str != null && v1lseverity1Str[selIndex] != null && !v1lseverity1Str[selIndex].equals(""))
+					    || (v1lseverityAStr != null && v1lseverityAStr[selIndex] != null && !v1lseverityAStr[selIndex].equals(""))) {
+						if (value1lowStr == null || value1lowTmp == null || value1lowTmp.equalsIgnoreCase("")) {
+							if (message.equals(""))
+								message = "以下策略定制失败：<br/>";
+							TEventTypeInit t = null;
+							if (eveidTmp > 0 && modidTmp > 0)
+								t = TEventTypeInitDao.findByPrimaryKey(modidTmp, eveidTmp);
+							message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： 阈值In2不可为空 <br/>";
+							continue;
+						}
+					}
+
+					if ((v2lseverity2Str != null && v2lseverity2Str[selIndex] != null && !v2lseverity2Str[selIndex].equals(""))
+					    || (v2lseverityBStr != null && v2lseverityBStr[selIndex] != null && !v2lseverityBStr[selIndex].equals(""))) {
+						if (value2lowStr == null || value2lowTmp == null || value2lowTmp.equalsIgnoreCase("")) {
+							if (message.equals(""))
+								message = "以下策略定制失败：<br/>";
+							TEventTypeInit t = null;
+							if (eveidTmp > 0 && modidTmp > 0)
+								t = TEventTypeInitDao.findByPrimaryKey(modidTmp, eveidTmp);
+							message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： 阈值Out2不可为空 <br/>";
+							continue;
+						}
+					}
+				}
+				if (value1Tmp != null && !value1Tmp.equals("")) {
+					if (comparTypeTmp == null || comparTypeTmp.equals("NULL") || comparTypeTmp.equals("")) {
+						if (message.equals(""))
+							message = "以下策略定制失败：<br/>";
+						TEventTypeInit t = null;
+						if (eveidTmp > 0 && modidTmp > 0)
+							t = TEventTypeInitDao.findByPrimaryKey(modidTmp, eveidTmp);
+						message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： 当阈值1/In1内容非空时，阈值比较方式不可为空<br/>";
+						continue;
+					}
+				}
+				if (value2Tmp != null && !value2Tmp.equals("")) {
+					if (comparTypeTmp == null || comparTypeTmp.equals("NULL") || comparTypeTmp.equals("")) {
+						if (message.equals(""))
+							message = "以下策略定制失败：<br/>";
+						TEventTypeInit t = null;
+						if (eveidTmp > 0 && modidTmp > 0)
+							t = TEventTypeInitDao.findByPrimaryKey(modidTmp, eveidTmp);
+						message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： 当阈值2/Out1内容非空时，阈值比较方式不可为空<br/>";
+						continue;
+					}
+				}
+
+				// 验证策略规则
+				String vrMsg = validateRule(TEventTypeInitDao, TPolicyBaseDao, policyDetailsWithRuleDao, policyRuleEvaluator, request, selIndex, new String[]{"阀值2", "阀值3", "", ""});
+				if (vrMsg != null && vrMsg.trim().length() > 0) {
+				   message += vrMsg;
+				   continue;
+				}
+
+				TPolicyDetails dto = new TPolicyDetails();
+				dto.setMpid(mpidTmp);
+				dto.setEveid(eveidTmp);
+				dto.setModid(modidTmp);
+
+				if (pollstr[selIndex] == null || pollstr[selIndex].equals("")) {
+					dto.setPollNull(true);
+				} else
+					dto.setPoll(pollTmp);
+
+				dto.setValue1(value1Tmp);
+				if (severity1Str[selIndex] == null || severity1Str[selIndex].equals("")) {
+					dto.setSeverity1Null(true);
+				} else
+					dto.setSeverity1(severity1);
+
+				if (severityAStr == null || severityAStr[selIndex] == null || severityAStr[selIndex].equals("")) {
+					dto.setSeverityANull(true);
+				} else
+					dto.setSeverityA(severityA);
+
+				dto.setFilterA(filterAStr[selIndex]);
+				dto.setFilterB(filterBStr[selIndex]);
+				dto.setValue2(value2Tmp);
+				if (severity2Str == null || severity2Str[selIndex] == null || severity2Str[selIndex].equals("")) {
+					dto.setSeverity2Null(true);
+				} else
+					dto.setSeverity2(severity2);
+				if (comparTypeTmp.endsWith("NULL"))
+					comparTypeTmp = "";
+				dto.setComparetype(comparTypeTmp);
+
+				if (severityBStr == null || severityBStr[selIndex] == null || severityBStr[selIndex].equals("")) {
+					dto.setSeverityBNull(true);
+				} else
+					dto.setSeverityB(severityB);
+
+				if (category.equals("4")) {
+					if (v1lseverity1Str == null || v1lseverity1Str[selIndex] == null || v1lseverity1Str[selIndex].equals("")) {
+						dto.setV1lSeverity1Null(true);
+					} else
+						dto.setV1lSeverity1(v1lseverity1);
+
+					if (v2lseverity2Str == null || v2lseverity2Str[selIndex] == null || v2lseverity2Str[selIndex].equals("")) {
+						dto.setV2lSeverity2Null(true);
+					} else
+						dto.setV2lSeverity2(v2lseverity2);
+
+					if (v1lseverityAStr == null || v1lseverityAStr[selIndex] == null || v1lseverityAStr[selIndex].equals("")) {
+						dto.setV1lSeverityANull(true);
+					} else
+						dto.setV1lSeverityA(v1lseverityA);
+
+					if (v2lseverityBStr == null || v2lseverityBStr[selIndex] == null || v2lseverityBStr[selIndex].equals("")) {
+						dto.setV2lSeverityBNull(true);
+					} else
+						dto.setV2lSeverityB(v2lseverityB);
+
+					dto.setValue1Low(value1lowTmp);
+					dto.setValue2Low(value2lowTmp);
+				}
+				// if check box for OID group is checked, then save the input
+				if (oidgroupSelStr != null) {
+					boolean flag = false;
+					for (int c = 0; c < oidgroupSelStr.length; c++) {
+						if (oidgroupSelStr[c].equalsIgnoreCase(String.valueOf(selIndex))) {
+							flag = true;
+							break;
+						}
+					}
+					if (flag) {
+						dto.setOidgroup(oidgroupStr[selIndex]);
+					} else {
+						dto.setOidgroup(null);
+					}
+				} else {
+					dto.setOidgroup(null);
+				}
+
+				if (selIndex < numInDB) { // delete or update record in db
+					try {
+						// update current record
+						TPolicyDetailsPk pk = dto.createPk();
+						TPolicyDetailsDao.update(pk, dto);
+						Log4jInit.ncsLog.info(this.getClass().getName() + " Updated to TPolicyDetailsDao: pk=" + pk.toString() + "\tdto= " + dto.toString());
+						System.out.println(" Updated to TPolicyDetailsDao: pk=" + pk.toString() + "\tdto= " + dto.toString());
+
+					} catch (Exception ep) {
+						Log4jInit.ncsLog.error(this.getClass().getName() + " Error occured:\n" + ep.getMessage());
+						// TODO Auto-generated catch block
+						if (!message.equals(""))
+							message = "savePolicyDetailCtl.error";
+						model.put("messageFromSave", message);
+						buildPolicyDetailsList(request, response, model);
+						ep.printStackTrace();
+					}
+				} else { // insert records to db
+					try {
+						TPolicyDetailsPk pk1 = TPolicyDetailsDao.insert(dto);
+						Log4jInit.ncsLog.info(this.getClass().getName() + " Inserted to TPolicyDetailsDao: " + dto.toString());
+					} catch (DataIntegrityViolationException dupe) {
+						dupe.printStackTrace();
+						TPolicyDetailsPk pk = dto.createPk();
+						TPolicyDetailsDao.update(pk, dto);
+						Log4jInit.ncsLog.info(this.getClass().getName() + " Inserted to TPolicyDetailsDao: pk=" + pk.toString() + "\tdto= " + dto.toString());
+					}
+				}
+			}// end of for
+		}// end of if
+
+		for (int i = 0; i < numInDB; i++) {
+			int index = -1;
+			for (int j = 0; j < selIndexValue.length; j++) {
+				if (selIndexValue[j] == i)
+					index = j;
+			}
+			if (index < 0) {
+				TPolicyDetails dtoDel = new TPolicyDetails();
+				dtoDel.setMpid(Long.parseLong(mpidStr));
+				dtoDel.setEveid(Long.parseLong(eveidStr[i]));
+				dtoDel.setModid(Long.parseLong(modidStr[i]));
+				TPolicyDetailsPk pkDel = dtoDel.createPk();
+				TPolicyDetailsDao.delete(pkDel);
+				Log4jInit.ncsLog.info(this.getClass().getName() + " deleted from TPolicyDetailsDao: " + pkDel.toString());
+			}
+		}
+	}
+
+	private Map<String, Object> saveIcmpDetails(HttpServletRequest request, HttpServletResponse response, Map<String, Object> model) throws DataIntegrityViolationException,
+	    Exception {
+
+		String mpidStr = request.getParameter("mpid");
+		String[] sel = request.getParameterValues("sel");
+		String[] pre = request.getParameterValues("pre");
+
+		String[] eveidStr = request.getParameterValues("eveid");
+		String[] modidStr = request.getParameterValues("modid");
+		String[] pollstr = request.getParameterValues("poll");
+		String[] value1 = request.getParameterValues("value1");
+		String[] severity1Str = request.getParameterValues("severity1");
+		String[] severityAStr = request.getParameterValues("severityA");
+		String[] filterAStr = request.getParameterValues("filterA");
+		String[] value2 = request.getParameterValues("value2");
+		String[] severity2Str = request.getParameterValues("severity2");
+		String[] severityBStr = request.getParameterValues("severityB");
+		String[] filterBStr = request.getParameterValues("filterB");
+		String[] compareTypeStr = request.getParameterValues("compareType");
+		String[] oidgroupStr = request.getParameterValues("oidgroup");
+		String[] oidgroupSelStr = request.getParameterValues("oidgroupSel");
+		// for port policy
+		String[] value1lowStr = request.getParameterValues("value1low");
+		String[] v1lseverityAStr = request.getParameterValues("v1lseverityA");
+		String[] value2lowStr = request.getParameterValues("value2low");
+		String[] v2lseverityBStr = request.getParameterValues("v2lseverityB");
+		String[] v1lseverity1Str = request.getParameterValues("v1lseverity1");
+		String[] v2lseverity2Str = request.getParameterValues("v2lseverity2");
+
+		int numInDB = 0;
+		if (pre != null)
+			numInDB = pre.length; // number of original records in db
+
+		int[] selIndexValue = null;
+		if (sel != null)
+			selIndexValue = new int[sel.length];
+		else
+			selIndexValue = new int[0];
+
+		if (sel != null) {
+			for (int i = 0; i < sel.length; i++) {
+				int selIndex = Integer.parseInt(sel[i].substring(0, sel[i].indexOf("|")));
+				selIndexValue[i] = selIndex;
+
+				long severity1 = 0;
+				long severity2 = 0;
+				long mpidTmp = 0;
+
+				// validate input:
+				long eveidTmp = 0;
+				long modidTmp = 0;
+				long pollTmp = 0;
+				long severityA = 0;
+				long severityB = 0;
+				long v1lseverity1 = 0;
+				long v2lseverity2 = 0;
+				long v1lseverityA = 0;
+				long v2lseverityB = 0;
+				String value1Tmp = value1[selIndex];
+				String value2Tmp = value2[selIndex];
+				String comparTypeTmp = compareTypeStr[selIndex];
+				String value1lowTmp = null, value2lowTmp = null;
+				if (value1lowStr != null)
+					value1lowTmp = value1lowStr[selIndex];
+				if (value2lowStr != null)
+					value2lowTmp = value2lowStr[selIndex];
+				try {
+					mpidTmp = Long.parseLong(mpidStr);
+					eveidTmp = Long.parseLong(eveidStr[selIndex]);
+					modidTmp = Long.parseLong(modidStr[selIndex]);
+					if (pollstr != null && pollstr[selIndex] != null && !pollstr[selIndex].equals(""))
+						pollTmp = Long.parseLong(pollstr[selIndex]);
+
+					if (severity1Str != null && severity1Str[selIndex] != null && !severity1Str[selIndex].equals(""))
+						severity1 = Long.parseLong(severity1Str[selIndex]);
+					if (severity2Str != null && severity2Str[selIndex] != null && !severity2Str[selIndex].equals(""))
+						severity2 = Long.parseLong(severity2Str[selIndex]);
+					if (severityAStr != null && severityAStr[selIndex] != null && !severityAStr[selIndex].equals(""))
+						severityA = Long.parseLong(severityAStr[selIndex]);
+					if (severityBStr != null && severityBStr[selIndex] != null && !severityBStr[selIndex].equals(""))
+						severityB = Long.parseLong(severityBStr[selIndex]);
 					if (v1lseverity1Str != null && v1lseverity1Str[selIndex] != null && !v1lseverity1Str[selIndex].equals(""))
 						v1lseverity1 = Long.parseLong(v1lseverity1Str[selIndex]);
 					if (v2lseverity2Str != null && v2lseverity2Str[selIndex] != null && !v2lseverity2Str[selIndex].equals(""))
@@ -773,7 +764,6 @@ public class SavePolicyDetailsController implements Controller {
 						v1lseverityA = Long.parseLong(v1lseverityAStr[selIndex]);
 					if (v2lseverityBStr != null && v2lseverityBStr[selIndex] != null && !v2lseverityBStr[selIndex].equals(""))
 						v2lseverityB = Long.parseLong(v2lseverityBStr[selIndex]);
-					// }
 				} catch (Exception e) {
 					if (message.equals(""))
 						message = "以下策略定制失败：<br/>";
@@ -820,6 +810,13 @@ public class SavePolicyDetailsController implements Controller {
 					}
 				}
 
+				// 验证策略规则
+				String vrMsg = validateRule(TEventTypeInitDao, TPolicyBaseDao, policyDetailsWithRuleDao, policyRuleEvaluator, request, selIndex, new String[]{"阀值2", "阀值3", "", ""});
+				if (vrMsg != null && vrMsg.trim().length() > 0) {
+				   message += vrMsg;
+				   continue;
+				}
+				
 				TPolicyDetails dto = new TPolicyDetails();
 				dto.setMpid(mpidTmp);
 				dto.setEveid(eveidTmp);
@@ -1002,21 +999,21 @@ public class SavePolicyDetailsController implements Controller {
 						continue;
 					}
 					if (category.equalsIgnoreCase("4") && !(theeventtype == 2 || theeventtype == 1)) // port
-																																													 // events
-																																													 // only
-																																													 // ...ignore
-																																													 // others
-																																													 // except
-																																													 // 1wan&2lan
+					                                                                                 // events
+					                                                                                 // only
+					                                                                                 // ...ignore
+					                                                                                 // others
+					                                                                                 // except
+					                                                                                 // 1wan&2lan
 					{
 						continue;
 					}
 					if (category.equalsIgnoreCase("9") && !(theeventtype == 2 || theeventtype == 1)) // predefmib
-																																													 // work
-																																													 // as
-																																													 // port
-																																													 // events
-																																													 // ??
+					                                                                                 // work
+					                                                                                 // as
+					                                                                                 // port
+					                                                                                 // events
+					                                                                                 // ??
 					{
 						continue;
 					}
@@ -1181,6 +1178,90 @@ public class SavePolicyDetailsController implements Controller {
 		map.put(7, "安全事件");
 		map.put(8, "其他类事件");
 		return map;
+	}
+
+	public static String validateRule(TEventTypeInitDao TEventTypeInitDao, TPolicyBaseDao TPolicyBaseDao, TPolicyDetailsWithRuleDao policyDetailsWithRuleDao, PolicyRuleEvaluator policyRuleEvaluator, HttpServletRequest request, int selIndex, String[] thresholdNames) throws TEventTypeInitDaoException {
+		String message = "";
+
+		String mpidStr = request.getParameter("mpid");
+		String[] eveidStr = request.getParameterValues("eveid");
+		String[] modidStr = request.getParameterValues("modid");
+
+		String[] value1Str = request.getParameterValues("value1");
+		String[] value2Str = request.getParameterValues("value2");
+
+		long eveid = Long.parseLong(eveidStr[selIndex]);
+		long modid = Long.parseLong(modidStr[selIndex]);
+		String value1 = value1Str[selIndex];
+		String value2 = value2Str[selIndex];
+
+		TEventTypeInit t = null;
+		try {
+			if (eveid > 0 && modid > 0) {
+				t = TEventTypeInitDao.findByPrimaryKey(modid, eveid);
+			}
+
+			TPolicyBase pb = TPolicyBaseDao.findByPrimaryKey(Long.parseLong(mpidStr));
+			if (pb == null) {
+				return "";
+			}
+			long ptvid = pb.getPtvid();
+			TPolicyDetailsWithRule rule = policyDetailsWithRuleDao.findByEveidAndModid(ptvid, eveid, modid);
+			if (rule == null) {
+				return "";
+			}
+			{
+				String expression = rule.getValue1RuleExpression();
+				if (expression != null) {
+					String display = rule.getValue1RuleDisplayInfo();
+					boolean ok = policyRuleEvaluator.eval(expression, value1);
+					if (!ok) {
+						message += String.format("'%s'事件设置的阀值为 %s, 其不匹配'%s'预制策略： %s.<br/>", t.getMajor(), value1, thresholdNames[0], display);
+					}
+				}
+			}
+			{
+				String expression = rule.getValue2RuleExpression();
+				if (expression != null) {
+					String display = rule.getValue2RuleDisplayInfo();
+					boolean ok = policyRuleEvaluator.eval(expression, value2);
+					if (!ok) {
+						message += String.format("'%s'事件设置的阀值为 %s, 其不匹配'%s'预制策略： %s.<br/>", t.getMajor(), value2, thresholdNames[1], display);
+					}
+				}
+			}
+			String[] value1lowStr = request.getParameterValues("value1low");
+			if (value1lowStr != null){
+				String value1Low = value1lowStr[selIndex];
+				String expression = rule.getValue1LowRuleExpression();
+				if (expression != null && !"var1".equals(value1Low)) {
+					String display = rule.getValue1LowRuleDisplayInfo();
+					boolean ok = policyRuleEvaluator.eval(expression, value1Low);
+					if (!ok) {
+						message += String.format("'%s'事件设置的阀值为 %s, 其不匹配'%s'预制策略： %s.<br/>", t.getMajor(), value1Low, thresholdNames[2], display);
+					}
+				}
+			}
+			String[] value2lowStr = request.getParameterValues("value2low");
+			if (value2lowStr != null) {
+				String value2Low = value2lowStr[selIndex];
+				String expression = rule.getValue2LowRuleExpression();
+				if (expression != null && !"var2".equals(value2Low)) {
+					String display = rule.getValue2LowRuleDisplayInfo();
+					boolean ok = policyRuleEvaluator.eval(expression, value2Low);
+					if (!ok) {
+						message += String.format("'%s'事件设置的阀值为 %s, 其不匹配'%s'预制策略： %s.<br/>", t.getMajor(), value2Low, thresholdNames[3], display);
+					}
+				}
+			}
+		} catch (DaoException e) {
+			message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： " + e.getMessage() + "<br/>";
+			e.printStackTrace();
+		} catch (ScriptException e) {
+			message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： " + e.getMessage() + "<br/>";
+			e.printStackTrace();
+		}
+		return message;
 	}
 
 	public TPolicyDetailsDao getTPolicyDetailsDao() {
