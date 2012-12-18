@@ -115,7 +115,7 @@ function toICMP(){
 										int countChecked = 0;
 									%>
 									<!-- button section -->
-									<table border="0" cellpadding="3" cellspacing="0" VALIGN="middle" width="100%" summary="Framing Table" CLASS="button-section">
+									<table border="0" cellpadding="3" cellspacing="0" VALIGN="left" width="100%" summary="Framing Table" CLASS="button-section">
 
 										<tr align="left">
 											<td align="left"></td>
@@ -261,27 +261,67 @@ function toICMP(){
 																			  </select>
 																			  </c:if>
 																			</td>
-																			<td VALIGN="middle" class="collection-table-text">
+																			<td VALIGN="middle" class="collection-table-text" nowrap="nowrap">
                                         <c:if test="${c1.policyDetailsWithRule != null}">
-                                          ${c1.policyDetailsWithRule.value1RuleDisplayInfo}
+                                          <c:if test="${c1.policyDetailsWithRule.value1RuleFixValue}">
+                                          ${c1.policyDetailsWithRule.value1}
+                                          </c:if>
+                                          <c:if test="${not c1.policyDetailsWithRule.value1RuleFixValue}">
+                                          <input type="text" name="value1" size="5" value="${c1.policyDetailsWithRule.value1}" style="width: 30px;"/>
+                                          </c:if>
+                                          <img src="<%=request.getContextPath()%>/images/TipsIcon.gif" title="${c1.policyDetailsWithRule.value1RuleDisplayInfo}"/>
                                         </c:if>
                                         <c:if test="${c1.policyDetailsWithRule == null}">
-																			  <input type="text" name="value1" size="5" value="${c1.value1}" />
+																			  <input type="text" name="value1" size="5" value="${c1.value1}" style="width: 40px;"/>
 																			  </c:if>
 																			</td>
 																			<td VALIGN="middle" class="collection-table-text">
-																			  <input type="text" name="severity1" size="5" value="<c:if test="${c1.severity1Null == false}" >${c1.severity1}</c:if>" /><br />
-																			  <input type="text" name="severityA" size="5" value="<c:if test="${c1.severityANull == false}" >${c1.severityA}</c:if>" />
+                                        <c:if test="${c1.policyDetailsWithRule != null}">
+                                        ${c1.policyDetailsWithRule.severity1}<br/>
+                                        ${c1.policyDetailsWithRule.severityA}
+                                        </c:if>
+                                        <c:if test="${c1.policyDetailsWithRule == null}">
+																			  <input type="text" name="severity1" size="5" value="<c:if test="${c1.severity1Null == false}" >${c1.severity1}</c:if>" style="width: 40px;"/><br />
+																			  <input type="text" name="severityA" size="5" value="<c:if test="${c1.severityANull == false}" >${c1.severityA}</c:if>" style="width: 40px;"/>
+																			  </c:if>
 																			</td>
-																			<td VALIGN="middle" class="collection-table-text"><select name="value2low" id="value_2_low">
-																					<option value="">-请选择-</option>
-																					<option value="var1" <c:if test="${c1.value2low=='var1'}">selected="selected"</c:if>>Ping丢包数目</option>
-																					<option value="var2" <c:if test="${c1.value2low=='var2'}">selected="selected"</c:if>>RTT时间</option>
-																			</select></td>
-																			<td VALIGN="middle" class="collection-table-text"><input type="text" name="value2" size="5" value="${c1.value2}" /></td>
-																			<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity2" size="5"
-																				value="<c:if test="${c1.severity2Null == false}" >${c1.severity2}</c:if>" /><br /> <input type="text" name="severityB" size="5"
-																				value="<c:if test="${c1.severityBNull == false}" >${c1.severityB}</c:if>" /></td>
+																			<td VALIGN="middle" class="collection-table-text" nowrap="nowrap">
+                                        <c:if test="${c1.policyDetailsWithRule != null}">
+                                          <c:if test="${c1.policyDetailsWithRule.value2Low=='var1'}">Ping丢包数目</c:if>
+                                          <c:if test="${c1.policyDetailsWithRule.value2Low=='var2'}">RTT时间</c:if>
+                                        </c:if>
+                                        <c:if test="${c1.policyDetailsWithRule == null}">
+																				  <select name="value2low" id="value_2_low">
+																						<option value="">-请选择-</option>
+																						<option value="var1" <c:if test="${c1.value2low=='var1'}">selected="selected"</c:if>>Ping丢包数目</option>
+																						<option value="var2" <c:if test="${c1.value2low=='var2'}">selected="selected"</c:if>>RTT时间</option>
+																				  </select>
+																			  </c:if>
+																			</td>
+																			<td VALIGN="middle" class="collection-table-text" nowrap="nowrap">
+                                        <c:if test="${c1.policyDetailsWithRule != null}">
+                                          <c:if test="${c1.policyDetailsWithRule.value2RuleFixValue}">
+                                          ${c1.policyDetailsWithRule.value2}
+                                          </c:if>
+                                          <c:if test="${not c1.policyDetailsWithRule.value2RuleFixValue}">
+                                          <input type="text" name="value2" size="5" value="${c1.policyDetailsWithRule.value2}" style="width: 30px;"/>
+                                          </c:if>
+                                           <img src="<%=request.getContextPath()%>/images/TipsIcon.gif" title="${c1.policyDetailsWithRule.value2RuleDisplayInfo}"/>
+                                        </c:if>
+                                        <c:if test="${c1.policyDetailsWithRule == null}">
+																			    <input type="text" name="value2" size="5" value="${c1.value2}" style="width: 30px;"/>
+																			  </c:if>
+																			</td>
+																			<td VALIGN="middle" class="collection-table-text">
+                                        <c:if test="${c1.policyDetailsWithRule != null}">
+                                        ${c1.policyDetailsWithRule.severity2}<br/>
+                                        ${c1.policyDetailsWithRule.severityB}
+                                        </c:if>
+                                        <c:if test="${c1.policyDetailsWithRule == null}">
+																			  <input type="text" name="severity2" size="5" value="<c:if test="${c1.severity2Null == false}" >${c1.severity2}</c:if>" style="width: 30px;"/><br />
+																			  <input type="text" name="severityB" size="5" value="<c:if test="${c1.severityBNull == false}" >${c1.severityB}</c:if>" style="width: 30px;"/>
+																			  </c:if>
+																			</td>
 																			<td VALIGN="middle" class="collection-table-text"><select name="compareType" id="compare_Type">
 																					<option value="NULL" <c:if test="${c1.compareType==null}">selected="selected"</c:if>>-请选择-</option>
 																					<option value="==" <c:if test="${c1.compareType=='=='}">selected="selected"</c:if>>==</option>
@@ -448,18 +488,94 @@ function toICMP(){
 																							<option value="0" <c:if test="${c1.filterA==0}">selected="selected"</c:if>>否</option>
 																					</select></td>
 
-																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="value1" size="5" value="${c1.value1}" /></td>
-																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity1" size="5"
-																						value="<c:if test="${c1.severity1Null == false}" >${c1.severity1}</c:if>" />
-																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="value1low" size="5" value="${c1.value1low}" /></td>
-																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="v1lseverity1" size="5"
-																						value="<c:if test="${c1.v1lseverity1Null == false}" >${c1.v1lseverity1}</c:if>" /></td>
-																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="value2" size="5" value="${c1.value2}" /></td>
-																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity2" size="5"
-																						value="<c:if test="${c1.severity2Null == false}" >${c1.severity2}</c:if>" /></td>
-																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="value2low" size="5" value="${c1.value2low}" /></td>
-																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="v2lseverity2" size="5"
-																						value="<c:if test="${c1.v2lseverity2Null == false}" >${c1.v2lseverity2}</c:if>" /></td>
+																					<td VALIGN="middle" class="collection-table-text" rowspan="2" nowrap="nowrap">
+                                          <c:if test="${c1.policyDetailsWithRule != null}">
+                                            <c:if test="${c1.policyDetailsWithRule.value1RuleFixValue}">
+                                            ${c1.policyDetailsWithRule.value1}
+                                            </c:if>
+                                            <c:if test="${not c1.policyDetailsWithRule.value1RuleFixValue}">
+                                              <input type="text" name="value1" size="5" value="${c1.policyDetailsWithRule.value1}" style="width: 30px;"/>
+                                            </c:if>
+                                            <img src="<%=request.getContextPath()%>/images/TipsIcon.gif" title="${c1.policyDetailsWithRule.value1RuleDisplayInfo}"/>
+                                          </c:if>
+                                          <c:if test="${c1.policyDetailsWithRule == null}">
+                                            <input type="text" name="value1" size="5" value="${c1.value1}" style="width: 30px;"/>
+                                          </c:if>
+																					</td>
+																					<td VALIGN="middle" class="collection-table-text">
+                                            <c:if test="${c1.policyDetailsWithRule != null}">
+                                            ${c1.policyDetailsWithRule.severity1}
+                                            </c:if>
+                                            <c:if test="${c1.policyDetailsWithRule == null}">
+                                            <input type="text" name="severity1" size="5" value="<c:if test="${c1.severity1Null == false}" >${c1.severity1}</c:if>" style="width: 30px;"/>
+                                            </c:if>
+																					</td>
+																					<td VALIGN="middle" class="collection-table-text" rowspan="2" nowrap="nowrap">
+                                          <c:if test="${c1.policyDetailsWithRule != null}">
+                                            <c:if test="${c1.policyDetailsWithRule.value1LowRuleFixValue}">
+                                            ${c1.policyDetailsWithRule.value1Low}
+                                            </c:if>
+                                            <c:if test="${not c1.policyDetailsWithRule.value1LowRuleFixValue}">
+                                              <input type="text" name="value1low" size="5" value="${c1.policyDetailsWithRule.value1Low}" style="width: 30px;"/>
+                                            </c:if>
+                                            <img src="<%=request.getContextPath()%>/images/TipsIcon.gif" title="${c1.policyDetailsWithRule.value1LowRuleDisplayInfo}"/>
+                                          </c:if>
+                                          <c:if test="${c1.policyDetailsWithRule == null}">
+                                            <input type="text" name="value1low" size="5" value="${c1.value1low}" style="width: 30px;"/>
+                                          </c:if>
+																					</td>
+																					<td VALIGN="middle" class="collection-table-text">
+                                            <c:if test="${c1.policyDetailsWithRule != null}">
+                                            ${c1.policyDetailsWithRule.v1lSeverity1}
+                                            </c:if>
+                                            <c:if test="${c1.policyDetailsWithRule == null}">
+                                            <input type="text" name="v1lseverity1" size="5" value="<c:if test="${c1.v1lseverity1Null == false}" >${c1.v1lseverity1}</c:if>" style="width: 30px;"/>
+                                            </c:if>
+																					</td>
+																					<td VALIGN="middle" class="collection-table-text" rowspan="2" nowrap="nowrap">
+                                          <c:if test="${c1.policyDetailsWithRule != null}">
+                                            <c:if test="${c1.policyDetailsWithRule.value2RuleFixValue}">
+                                            ${c1.policyDetailsWithRule.value2}
+                                            </c:if>
+                                            <c:if test="${not c1.policyDetailsWithRule.value2RuleFixValue}">
+                                              <input type="text" name="value2" size="5" value="${c1.policyDetailsWithRule.value2}" style="width: 30px;"/>
+                                            </c:if>
+                                            <img src="<%=request.getContextPath()%>/images/TipsIcon.gif" title="${c1.policyDetailsWithRule.value2RuleDisplayInfo}"/>
+                                          </c:if>
+                                          <c:if test="${c1.policyDetailsWithRule == null}">
+                                            <input type="text" name="value2" size="5" value="${c1.value2}" style="width: 30px;"/>
+                                          </c:if>
+																					</td>
+																					<td VALIGN="middle" class="collection-table-text">
+                                            <c:if test="${c1.policyDetailsWithRule != null}">
+                                            ${c1.policyDetailsWithRule.severity2}
+                                            </c:if>
+                                            <c:if test="${c1.policyDetailsWithRule == null}">
+                                            <input type="text" name="severity2" size="5" value="<c:if test="${c1.severity2Null == false}" >${c1.severity2}</c:if>" style="width: 30px;"/>
+                                            </c:if>
+																					</td>
+																					<td VALIGN="middle" class="collection-table-text" rowspan="2" nowrap="nowrap">
+                                          <c:if test="${c1.policyDetailsWithRule != null}">
+                                            <c:if test="${c1.policyDetailsWithRule.value2LowRuleFixValue}">
+                                            ${c1.policyDetailsWithRule.value2Low}
+                                            </c:if>
+                                            <c:if test="${not c1.policyDetailsWithRule.value2LowRuleFixValue}">
+                                              <input type="text" name="value2low" size="5" value="${c1.policyDetailsWithRule.value2Low}" style="width: 30px;"/>
+                                            </c:if>
+                                            <img src="<%=request.getContextPath()%>/images/TipsIcon.gif" title="${c1.policyDetailsWithRule.value2LowRuleDisplayInfo}"/>
+                                          </c:if>
+                                          <c:if test="${c1.policyDetailsWithRule == null}">
+                                            <input type="text" name="value2low" size="5" value="${c1.value2low}" style="width: 30px;"/>
+                                          </c:if>
+																					</td>
+																					<td VALIGN="middle" class="collection-table-text">
+                                            <c:if test="${c1.policyDetailsWithRule != null}">
+                                            ${c1.policyDetailsWithRule.v2lSeverity2}
+                                            </c:if>
+                                            <c:if test="${c1.policyDetailsWithRule == null}">
+                                            <input type="text" name="v2lseverity2" size="5" value="<c:if test="${c1.v2lseverity2Null == false}" >${c1.v2lseverity2}</c:if>" style="width: 30px;"/>
+                                            </c:if>
+																					</td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><select name="compareType" id="compare_Type">
 																							<option value="NULL" <c:if test="${c1.compareType==NULL}">selected="selected"</c:if>>-请选择-</option>
 																							<option value="==" <c:if test="${c1.compareType=='=='}">selected="selected"</c:if>>==</option>
@@ -484,14 +600,38 @@ function toICMP(){
 																							<option value="1" <c:if test="${c1.filterB==1}">selected="selected"</c:if>>是</option>
 																							<option value="0" <c:if test="${c1.filterB==0}">selected="selected"</c:if>>否</option>
 																					</select></td>
-																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="severityA" size="5"
-																						value="<c:if test="${c1.severityANull == false}" >${c1.severityA}</c:if>" /></td>
-																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="v1lseverityA" size="5"
-																						value="<c:if test="${c1.v1lseverityANull == false}" >${c1.v1lseverityA}</c:if>" /></td>
-																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="severityB" size="5"
-																						value="<c:if test="${c1.severityBNull == false}" >${c1.severityB}</c:if>" /></td>
-																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="v2lseverityB" size="5"
-																						value="<c:if test="${c1.v2lseverityBNull == false}" >${c1.v2lseverityB}</c:if>" /></td>
+																					<td VALIGN="middle" class="collection-table-text">
+                                            <c:if test="${c1.policyDetailsWithRule != null}">
+                                            ${c1.policyDetailsWithRule.severityA}
+                                            </c:if>
+                                            <c:if test="${c1.policyDetailsWithRule == null}">
+                                            <input type="text" name="severityA" size="5" value="<c:if test="${c1.severityANull == false}" >${c1.severityA}</c:if>" style="width: 30px;"/>
+                                            </c:if>
+																					</td>
+																					<td VALIGN="middle" class="collection-table-text">
+                                            <c:if test="${c1.policyDetailsWithRule != null}">
+                                            ${c1.policyDetailsWithRule.v1lSeverityA}
+                                            </c:if>
+                                            <c:if test="${c1.policyDetailsWithRule == null}">
+                                            <input type="text" name="v1lseverityA" size="5" value="<c:if test="${c1.v1lseverityANull == false}" >${c1.v1lseverityA}</c:if>" style="width: 30px;"/>
+                                            </c:if>
+																					</td>
+																					<td VALIGN="middle" class="collection-table-text">
+                                            <c:if test="${c1.policyDetailsWithRule != null}">
+                                            ${c1.policyDetailsWithRule.severityB}
+                                            </c:if>
+                                            <c:if test="${c1.policyDetailsWithRule == null}">
+                                            <input type="text" name="severityB" size="5" value="<c:if test="${c1.severityBNull == false}" >${c1.severityB}</c:if>" style="width: 30px;"/>
+                                            </c:if>
+																					</td>
+																					<td VALIGN="middle" class="collection-table-text">
+                                            <c:if test="${c1.policyDetailsWithRule != null}">
+                                            ${c1.policyDetailsWithRule.v2lSeverityB}
+                                            </c:if>
+                                            <c:if test="${c1.policyDetailsWithRule == null}">
+                                            <input type="text" name="v2lseverityB" size="5" value="<c:if test="${c1.v2lseverityBNull == false}" >${c1.v2lseverityB}</c:if>" style="width: 30px;"/>
+                                            </c:if>
+																					</td>
 																				</tr>
 																				<%
 																					countChecked++;
@@ -633,12 +773,50 @@ function toICMP(){
 																							<option value="0" <c:if test="${c1.filterA==0}">selected="selected"</c:if>>否</option>
 																					</select></td>
 
-																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="value1" size="5" value="${c1.value1}" /></td>
-																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity1" size="5"
-																						value="<c:if test="${c1.severity1Null == false}" >${c1.severity1}</c:if>" />
-																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="value2" size="5" value="${c1.value2}" /></td>
-																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity2" size="5"
-																						value="<c:if test="${c1.severity2Null == false}" >${c1.severity2}</c:if>" /></td>
+																					<td VALIGN="middle" class="collection-table-text" rowspan="2">
+																					<c:if test="${c1.policyDetailsWithRule != null}">
+																					  <c:if test="${c1.policyDetailsWithRule.value1RuleFixValue}">
+																					  ${c1.policyDetailsWithRule.value1}
+																					  </c:if>
+																					  <c:if test="${not c1.policyDetailsWithRule.value1RuleFixValue}">
+																					    <input type="text" name="value1" size="5" value="${c1.policyDetailsWithRule.value1}" style="width: 30px;"/>
+																					  </c:if>
+																					  <img src="<%=request.getContextPath()%>/images/TipsIcon.gif" title="${c1.policyDetailsWithRule.value1RuleDisplayInfo}"/>
+																					</c:if>
+																					<c:if test="${c1.policyDetailsWithRule == null}">
+																					  <input type="text" name="value1" size="5" value="${c1.value1}" style="width: 30px;"/>
+																					</c:if>
+																					</td>
+																					<td VALIGN="middle" class="collection-table-text">
+																					  <c:if test="${c1.policyDetailsWithRule != null}">
+																					  ${c1.policyDetailsWithRule.severity1}
+																					  </c:if>
+                                            <c:if test="${c1.policyDetailsWithRule == null}">
+																					  <input type="text" name="severity1" size="5" value="<c:if test="${c1.severity1Null == false}" >${c1.severity1}</c:if>" style="width: 30px;"/>
+                                            </c:if>
+																					</td>
+																					<td VALIGN="middle" class="collection-table-text" rowspan="2">
+                                          <c:if test="${c1.policyDetailsWithRule != null}">
+                                            <c:if test="${c1.policyDetailsWithRule.value2RuleFixValue}">
+                                            ${c1.policyDetailsWithRule.value2}
+                                            </c:if>
+                                            <c:if test="${not c1.policyDetailsWithRule.value2RuleFixValue}">
+                                              <input type="text" name="value2" size="5" value="${c1.policyDetailsWithRule.value2}" style="width: 30px;"/>
+                                            </c:if>
+                                            <img src="<%=request.getContextPath()%>/images/TipsIcon.gif" title="${c1.policyDetailsWithRule.value2RuleDisplayInfo}"/>
+                                          </c:if>
+                                          <c:if test="${c1.policyDetailsWithRule == null}">
+                                            <input type="text" name="value2" size="5" value="${c1.value2}" style="width: 30px;"/>
+                                          </c:if>
+																					</td>
+																					<td VALIGN="middle" class="collection-table-text">
+                                            <c:if test="${c1.policyDetailsWithRule != null}">
+                                            ${c1.policyDetailsWithRule.severity2}
+                                            </c:if>
+                                            <c:if test="${c1.policyDetailsWithRule == null}">
+                                            <input type="text" name="severity2" size="5" value="<c:if test="${c1.severity2Null == false}" >${c1.severity2}</c:if>" style="width: 30px;"/>
+                                            </c:if>
+																					</td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><select name="compareType" id="compare_Type">
 																							<option value="NULL" <c:if test="${c1.compareType==''}">selected="selected"</c:if>>-请选择-</option>
 																							<option value="==" <c:if test="${c1.compareType=='=='}">selected="selected"</c:if>>==</option>
@@ -663,10 +841,22 @@ function toICMP(){
 																							<option value="1" <c:if test="${c1.filterB==1}">selected="selected"</c:if>>是</option>
 																							<option value="0" <c:if test="${c1.filterB==0}">selected="selected"</c:if>>否</option>
 																					</select></td>
-																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="severityA" size="5"
-																						value="<c:if test="${c1.severityANull == false}" >${c1.severityA}</c:if>" /></td>
-																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="severityB" size="5"
-																						value="<c:if test="${c1.severityBNull == false}" >${c1.severityB}</c:if>" /></td>
+																					<td VALIGN="middle" class="collection-table-text">
+                                            <c:if test="${c1.policyDetailsWithRule != null}">
+                                            ${c1.policyDetailsWithRule.severityA}
+                                            </c:if>
+                                            <c:if test="${c1.policyDetailsWithRule == null}">
+																					  <input type="text" name="severityA" size="5" value="<c:if test="${c1.severityANull == false}" >${c1.severityA}</c:if>" style="width: 30px;"/>
+																					  </c:if>
+																					</td>
+																					<td VALIGN="middle" class="collection-table-text">
+                                            <c:if test="${c1.policyDetailsWithRule != null}">
+                                            ${c1.policyDetailsWithRule.severityB}
+                                            </c:if>
+                                            <c:if test="${c1.policyDetailsWithRule == null}">
+																					  <input type="text" name="severityB" size="5" value="<c:if test="${c1.severityBNull == false}" >${c1.severityB}</c:if>" style="width: 30px;"/>
+																					  </c:if>
+																					</td>
 																				</tr>
 																				<%
 																					countChecked++;
@@ -676,16 +866,11 @@ function toICMP(){
 
 																		<TABLE class="paging-table" BORDER="0" CELLPADDING="5" CELLSPACING="0" WIDTH="100%" SUMMARY="Table for displaying paging function" id="selCountTab">
 																			<TR>
-
-
 																				<TD CLASS="table-totals" VALIGN="baseline">Total Selected ${fn:length(model.details)} &nbsp;&nbsp;&nbsp;</TD>
 																			</TR>
-
 																		</TABLE>
 
-
 																		<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" WIDTH="100%" SUMMARY="List layout table" id="unselTab">
-
 																			<TBODY>
 																				<TR>
 																					<TD CLASS="layout-manager" id="notabs">

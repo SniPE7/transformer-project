@@ -79,7 +79,7 @@ $(function() {
                 	   if (expressionLogic1.length > 0) {
                 		   ruleString += expressionLogic1.val() + " threshold " + expressionOperation2.val() + " " + expressionValue2.val();
                 	   }
-                	   ruleString = "rule:{expression:'" + ruleString + "', display:" + ruleString + "}";
+                	   ruleString = "rule:{expression:" + ruleString + ", display:" + ruleString + "}";
                        $("#" + prefix +"_Rule_" + ruleCheckboxIndex)[0].value = ruleString;
                        $("#" + prefix +"_" + ruleCheckboxIndex)[0].value = defaultValue.val();
                        $("#" + prefix).value = defaultValue.val();
