@@ -27,6 +27,7 @@ import com.ibm.ncs.model.dao.TManufacturerInfoInitDao;
 import com.ibm.ncs.model.dao.TModuleInfoInitDao;
 import com.ibm.ncs.model.dao.TPolicyBaseDao;
 import com.ibm.ncs.model.dao.TPolicyDetailsDao;
+import com.ibm.ncs.model.dao.TPolicyDetailsWithRuleDao;
 import com.ibm.ncs.model.dao.TPolicyPeriodDao;
 import com.ibm.ncs.model.dto.DspEventsFromPolicySyslog;
 import com.ibm.ncs.model.dto.DspSyslogEvents;
@@ -39,6 +40,7 @@ import com.ibm.ncs.model.dto.TModuleInfoInit;
 import com.ibm.ncs.model.dto.TPolicyBase;
 import com.ibm.ncs.model.dto.TPolicyDetails;
 import com.ibm.ncs.model.dto.TPolicyDetailsPk;
+import com.ibm.ncs.model.dto.TPolicyDetailsWithRule;
 import com.ibm.ncs.model.dto.TPolicyPeriod;
 import com.ibm.ncs.model.exceptions.TPolicyDetailsDaoException;
 import com.ibm.ncs.util.GenPkNumber;
@@ -52,7 +54,10 @@ import com.ibm.ncs.web.baseinfo.ManufacturerController;
  */
 public class SavePolicyDetailsPDMController implements Controller {
 
+	TPolicyDetailsWithRuleDao policyDetailsWithRuleDao;
+
 	TGrpNetDao TGrpNetDao;
+
 	TPolicyBaseDao TPolicyBaseDao;
 	TPolicyPeriodDao TPolicyPeriodDao;
 	TPolicyDetailsDao TPolicyDetailsDao;
@@ -1199,6 +1204,12 @@ public class SavePolicyDetailsPDMController implements Controller {
 				model.put("details", syslogdetailMap);
 				model.put("unselected", unselectedSyslog);
 			}else{
+				if (details != null) {
+					for (PolDetailDsp pdd : details) {
+						TPolicyDetailsWithRule policyDetailsWithRule = this.policyDetailsWithRuleDao.findByEveidAndModid(pdd.getPtvid(), pdd.getEveid(), pdd.getModid());
+						pdd.setPolicyDetailsWithRule(policyDetailsWithRule);
+					}
+				}
 				model.put("details", details);
 				model.put("unselected", unselected);
 			}
@@ -1330,5 +1341,12 @@ public class SavePolicyDetailsPDMController implements Controller {
 		DspEventsFromPolicySyslogDao = dspEventsFromPolicySyslogDao;
 	}
 
+	public TPolicyDetailsWithRuleDao getPolicyDetailsWithRuleDao() {
+		return policyDetailsWithRuleDao;
+	}
+
+	public void setPolicyDetailsWithRuleDao(TPolicyDetailsWithRuleDao policyDetailsWithRuleDao) {
+		this.policyDetailsWithRuleDao = policyDetailsWithRuleDao;
+	}
 
 }

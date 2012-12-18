@@ -754,7 +754,8 @@
 		<property name="dspEventsFromPolicySyslogDao" ref="DspEventsFromPolicySyslogDao" />
 		<property name="pageView" value="/secure/policyapply/policydetailsPDM.jsp" />
 	</bean>
-		<bean name="/secure/policyapply/savepolicydetailsPDM.wss" class="com.ibm.ncs.web.policyapply.SavePolicyDetailsPDMController" >
+	<bean name="/secure/policyapply/savepolicydetailsPDM.wss" class="com.ibm.ncs.web.policyapply.SavePolicyDetailsPDMController" >
+    <property name="policyDetailsWithRuleDao" ref="policyDetailsWithRuleDao" />
 		<property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />
 		<property name="TGrpNetDao" ref="TGrpNetDao" />
 			<property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
@@ -770,6 +771,7 @@
 		<property name="pageView" value="/secure/policyapply/policydetailsPDM.jsp" />
 	</bean>
 	<bean name="/secure/policyapply/savepolicydetails.wss" class="com.ibm.ncs.web.policyapply.SavePolicyDetailsController" >
+    <property name="policyDetailsWithRuleDao" ref="policyDetailsWithRuleDao" />
 		<property name="TPolicyDetailsDao" ref="TPolicyDetailsDao" />
 		<property name="TGrpNetDao" ref="TGrpNetDao" />
 			<property name="TPolicyBaseDao" ref="TPolicyBaseDao" />

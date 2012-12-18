@@ -205,7 +205,8 @@ function listEventType(){
       <td VALIGN="middle"  class="collection-table-text" rowspan="2">
         <c:if test="${c1.policyDetailsWithRule != null}">
           <c:if test="${c1.policyDetailsWithRule.value1RuleFixValue}">
-          ${c1.policyDetailsWithRule.value1}
+            ${c1.policyDetailsWithRule.value1}
+            <input type="hidden" name="value1" value="${c1.policyDetailsWithRule.value1}"/>
           </c:if>
           <c:if test="${not c1.policyDetailsWithRule.value1RuleFixValue}">
             <input type="text" name="value1" size="5" value="${c1.policyDetailsWithRule.value1}" style="width: 30px;"/>
@@ -218,7 +219,8 @@ function listEventType(){
       </td>
       <td VALIGN="middle"  class="collection-table-text" >
         <c:if test="${c1.policyDetailsWithRule != null}">
-        ${c1.policyDetailsWithRule.severity1}
+          ${c1.policyDetailsWithRule.severity1}
+          <input type="hidden" name="severity1" value="<c:if test="${c1.severity1Null == false}" >${c1.severity1}</c:if>"/>
         </c:if>
         <c:if test="${c1.policyDetailsWithRule == null}">
         <input type="text" name="severity1" size="5" value="<c:if test="${c1.severity1Null == false}" >${c1.severity1}</c:if>" style="width: 30px;"/>
@@ -227,7 +229,8 @@ function listEventType(){
       <td VALIGN="middle"  class="collection-table-text" rowspan="2">
         <c:if test="${c1.policyDetailsWithRule != null}">
           <c:if test="${c1.policyDetailsWithRule.value2RuleFixValue}">
-          ${c1.policyDetailsWithRule.value2}
+            ${c1.policyDetailsWithRule.value2}
+            <input type="hidden" name="value2" value="${c1.policyDetailsWithRule.value2}"/>
           </c:if>
           <c:if test="${not c1.policyDetailsWithRule.value2RuleFixValue}">
             <input type="text" name="value2" size="5" value="${c1.policyDetailsWithRule.value2}" style="width: 30px;"/>
@@ -241,6 +244,7 @@ function listEventType(){
       <td VALIGN="middle"  class="collection-table-text" >
         <c:if test="${c1.policyDetailsWithRule != null}">
         ${c1.policyDetailsWithRule.severity2}
+        <input type="hidden" name="severity2" value="<c:if test="${c1.severity2Null == false}" >${c1.severity2}</c:if>"/>
         </c:if>
         <c:if test="${c1.policyDetailsWithRule == null}">
         <input type="text" name="severity2" size="5" value="<c:if test="${c1.severity2Null == false}" >${c1.severity2}</c:if>" style="width: 30px;"/>
@@ -278,6 +282,7 @@ function listEventType(){
       <td VALIGN="middle"  class="collection-table-text" >
         <c:if test="${c1.policyDetailsWithRule != null}">
         ${c1.policyDetailsWithRule.severityA}
+        <input type="hidden" name="severityA" value="<c:if test="${c1.severityANull == false}" >${c1.severityA}</c:if>"/>
         </c:if>
         <c:if test="${c1.policyDetailsWithRule == null}">
         <input type="text" name="severityA" size="5" value="<c:if test="${c1.severityANull == false}" >${c1.severityA}</c:if>" style="width: 30px;"/>
@@ -286,6 +291,7 @@ function listEventType(){
       <td VALIGN="middle"  class="collection-table-text" >
         <c:if test="${c1.policyDetailsWithRule != null}">
         ${c1.policyDetailsWithRule.severityB}
+        <input type="hidden" name="severityB" value="<c:if test="${c1.severityBNull == false}" >${c1.severityB}</c:if>"/>
         </c:if>
         <c:if test="${c1.policyDetailsWithRule == null}">
         <input type="text" name="severityB" size="5" value="<c:if test="${c1.severityBNull == false}" >${c1.severityB}</c:if>" style="width: 30px;"/>
