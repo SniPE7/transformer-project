@@ -164,419 +164,252 @@ function listEventType(){
 			<TD CLASS="layout-manager" id="notabs">
             
  <c:choose>
- 
-<c:when test="${model.mode == 'SNMP'}">
-	<c:choose>
-	<c:when test="${model.cate == 4}">
-       <div> <!-- start of if mode = snmp port policy -->    
-             <table BORDER="0" CELLPADDING="0" CELLSPACING="0" WIDTH="100%" SUMMARY="List table" CLASS=" framing-table" id="selTab">
-                <thead>
-            <tr>
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="3%">选中</th>
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col">事件名称</th>
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="5%">监控时段</th>
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="6%">是否过滤</th>
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="2%">阈值In1</th>
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="9%" >阈值In1告警级别</th>
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="2%">阈值In2</th>
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="9%" >阈值In2告警级别</th>
-             <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="2%">阈值Out1</th>
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="9%" >阈值Out1告警级别</th>
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="2%">阈值Out2</th>
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="9%" >阈值Out2告警级别</th>
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="5%" >阈值比较方式</th>
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="5%" >POLL间隔</th>
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="5%" colspan="2">OID Group</th>
-            </tr>
-            </thead>
-            <% countChecked = 0; %>
-            <c:forEach items="${model.details}" var="c1" >
-            <tr class="table-row">
-            <td VALIGN="middle"  class="collection-table-text" align="center" rowspan="2">
-            <input type="radio" name="sel" value="<%=countChecked %>|${c1.modid}|${c1.eveid}|${c1.mpid}" checked="checked"/>
-            <input type="hidden" name="pre" value="${c1.mpid}|${c1.modid}|${c1.eveid}" /> 
-            <input type="hidden" 	name="modid"		size="5" value="${c1.modid}" /> 
-            <input type="hidden" 	name="eveid"		size="5" value="${c1.eveid}" />
-            </td>
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2">${c1.major} </td>
-            <td VALIGN="middle"  class="collection-table-text" >内</td>
-            <td VALIGN="middle"  class="collection-table-text" >
-                <select name="filterA" id="filter_A" >
-                        <option value="1" <c:if test="${c1.filterA==1}">selected="selected"</c:if> >是</option>
-                        <option value="0" <c:if test="${c1.filterA==0}">selected="selected"</c:if> >否</option>
-                    </select>
+ <c:when test="${model.mode == 'SNMP'}">
+  <div> <!-- start of if mode = snmp port policy -->
+      
+      <table BORDER="0" CELLPADDING="0" CELLSPACING="0" WIDTH="100%" SUMMARY="List table" CLASS=" framing-table" id="selTab">
+  <thead>
+      <tr>
+          <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="3%">选中</th>
+          <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col">事件名称</th>
+          <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="5%">监控时段</th>
+          <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="6%">是否过滤</th>
+          <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="2%">阈值1</th>
+          <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="9%" >阈值1告警级别</th>
+          <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="2%">阈值2</th>
+          <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="9%" >阈值2告警级别</th>
+          <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="5%" >阈值比较方式</th>
+          <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="5%" >POLL间隔</th>
+          <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="5%" colspan="2">OID Group</th>
+      </tr>
+  </thead>
+      <% countChecked = 0; %>
+      <c:forEach items="${model.details}" var="c1" >
+      <tr class="table-row">
+      <td VALIGN="middle"  class="collection-table-text" align="center" rowspan="2">
+      <input type="radio" name="sel" value="<%=countChecked %>|${c1.modid}|${c1.eveid}|${c1.mpid}" checked="checked"/>
+      <input type="hidden" name="pre" value="${c1.mpid}|${c1.modid}|${c1.eveid}" /> 
+      <input type="hidden" 	name="modid"		size="5" value="${c1.modid}" /> 
+      <input type="hidden" 	name="eveid"		size="5" value="${c1.eveid}" />
+      </td>
+      <td VALIGN="middle"  class="collection-table-text" rowspan="2">${c1.major} </td>
+      <td VALIGN="middle"  class="collection-table-text" >内</td>
+      <td VALIGN="middle"  class="collection-table-text" >
+          <select name="filterA" id="filter_A" >
+                  <option value="1" <c:if test="${c1.filterA==1}">selected="selected"</c:if> >是</option>
+                  <option value="0" <c:if test="${c1.filterA==0}">selected="selected"</c:if> >否</option>
+              </select>
+      
+      </td>
+      
+      <td VALIGN="middle"  class="collection-table-text" rowspan="2">
+        <c:if test="${c1.policyDetailsWithRule != null}">
+          <c:if test="${c1.policyDetailsWithRule.value1RuleFixValue}">
+          ${c1.policyDetailsWithRule.value1}
+          </c:if>
+          <c:if test="${not c1.policyDetailsWithRule.value1RuleFixValue}">
+            <input type="text" name="value1" size="5" value="${c1.policyDetailsWithRule.value1}" style="width: 30px;"/>
+          </c:if>
+          <img src="<%=request.getContextPath()%>/images/TipsIcon.gif" title="${c1.policyDetailsWithRule.value1RuleDisplayInfo}"/>
+        </c:if>
+        <c:if test="${c1.policyDetailsWithRule == null}">
+          <input type="text" name="value1" size="5" value="${c1.value1}" style="width: 30px;"/>
+        </c:if>
+      </td>
+      <td VALIGN="middle"  class="collection-table-text" >
+        <c:if test="${c1.policyDetailsWithRule != null}">
+        ${c1.policyDetailsWithRule.severity1}
+        </c:if>
+        <c:if test="${c1.policyDetailsWithRule == null}">
+        <input type="text" name="severity1" size="5" value="<c:if test="${c1.severity1Null == false}" >${c1.severity1}</c:if>" style="width: 30px;"/>
+        </c:if>
+      </td>
+      <td VALIGN="middle"  class="collection-table-text" rowspan="2">
+        <c:if test="${c1.policyDetailsWithRule != null}">
+          <c:if test="${c1.policyDetailsWithRule.value2RuleFixValue}">
+          ${c1.policyDetailsWithRule.value2}
+          </c:if>
+          <c:if test="${not c1.policyDetailsWithRule.value2RuleFixValue}">
+            <input type="text" name="value2" size="5" value="${c1.policyDetailsWithRule.value2}" style="width: 30px;"/>
+          </c:if>
+          <img src="<%=request.getContextPath()%>/images/TipsIcon.gif" title="${c1.policyDetailsWithRule.value2RuleDisplayInfo}"/>
+        </c:if>
+        <c:if test="${c1.policyDetailsWithRule == null}">
+          <input type="text" name="value1" size="5" value="${c1.value2}" style="width: 30px;"/>
+        </c:if>
+      </td>
+      <td VALIGN="middle"  class="collection-table-text" >
+        <c:if test="${c1.policyDetailsWithRule != null}">
+        ${c1.policyDetailsWithRule.severity2}
+        </c:if>
+        <c:if test="${c1.policyDetailsWithRule == null}">
+        <input type="text" name="severity2" size="5" value="<c:if test="${c1.severity2Null == false}" >${c1.severity2}</c:if>" style="width: 30px;"/>
+        </c:if>
+      </td>
+      <td VALIGN="middle"  class="collection-table-text" rowspan="2">
+          <select name="compareType" id="compare_Type" >    
+              <option value="NULL" <c:if test="${c1.compareType==''}">selected="selected"</c:if> >-请选择-</option>
+              <option value="==" <c:if test="${c1.compareType=='=='}">selected="selected"</c:if> >==</option>
+              <option value="!=" <c:if test="${c1.compareType=='!='}">selected="selected"</c:if> >!=</option>
+              <option value="&lt;" <c:if test="${c1.compareType=='<'}">selected="selected"</c:if> >&lt;</option>
+             <option value="&gt;" <c:if test="${c1.compareType=='>'}">selected="selected"</c:if> >&gt;</option>
+              <option value="&lt;=" <c:if test="${c1.compareType=='<='}">selected="selected"</c:if> >&lt;=</option>
+             <option value="&gt;=" <c:if test="${c1.compareType=='>='}">selected="selected"</c:if> >&gt;=</option>
+              <option value="Like" <c:if test="${c1.compareType=='Like'}">selected="selected"</c:if> >Like</option>
+              <option value="Not Like" <c:if test="${c1.compareType=='Not Like'}">selected="selected"</c:if> >Not Like</option>
+           </select>
+      </td>
+      <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="text" 	name="poll"			size="5" value="<c:if test="${c1.pollNull == false}" >${c1.poll}</c:if>" />
+        秒</td>
+      <td VALIGN="middle"  class="collection-table-text" rowspan="2" width="3">
+      <input type="checkbox" name="oidgroupSel" value="<%=countChecked %>" <c:if test="${c1.oidgroup != null}">checked="checked"</c:if> /></td>
+      <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="text" 	name="oidgroup"	size="5" value="${c1.oidgroup}" />
+      </td>
+      </tr>
+      
+      <tr class="table-row">
+      <td VALIGN="middle"  class="collection-table-text" >外</td>
+      <td VALIGN="middle"  class="collection-table-text" >
+          <select name="filterB" id="filter_B" >
+                  <option value="1" <c:if test="${c1.filterB==1}">selected="selected"</c:if> >是</option>
+                  <option value="0" <c:if test="${c1.filterB==0}">selected="selected"</c:if> >否</option>
+              </select>
+      </td>
+      <td VALIGN="middle"  class="collection-table-text" >
+        <c:if test="${c1.policyDetailsWithRule != null}">
+        ${c1.policyDetailsWithRule.severityA}
+        </c:if>
+        <c:if test="${c1.policyDetailsWithRule == null}">
+        <input type="text" name="severityA" size="5" value="<c:if test="${c1.severityANull == false}" >${c1.severityA}</c:if>" style="width: 30px;"/>
+        </c:if>
+      </td>
+      <td VALIGN="middle"  class="collection-table-text" >
+        <c:if test="${c1.policyDetailsWithRule != null}">
+        ${c1.policyDetailsWithRule.severityB}
+        </c:if>
+        <c:if test="${c1.policyDetailsWithRule == null}">
+        <input type="text" name="severityB" size="5" value="<c:if test="${c1.severityBNull == false}" >${c1.severityB}</c:if>" style="width: 30px;"/>
+        </c:if>
+      </td>
+      </tr>
+      <% countChecked++; %>
+      </c:forEach>
+      </table>
+      
+      
+      <TABLE class="paging-table" BORDER="0" CELLPADDING="5" CELLSPACING="0" WIDTH="100%" SUMMARY="Table for displaying paging function" id="selCountTab">
+      
+          <TR>
+                  
+      
+                  <TD CLASS="table-totals" VALIGN="baseline">               
+                  Total Selected ${fn:length(model.details)}
+                   &nbsp;&nbsp;&nbsp;      
+              
+              </TD>
+          </TR>
+      
+      </TABLE>
+      
+      
+      <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" WIDTH="100%" SUMMARY="List layout table" id="unselTab">
+      
+          <TBODY>
+              <TR>
+                  <TD CLASS="layout-manager" id="notabs">
+      
+       <table BORDER="0" CELLPADDING="0" CELLSPACING="0" WIDTH="100%" SUMMARY="List table" CLASS=" framing-table">
+          <thead>
+              <tr>
+                  <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="3%">选中</th>
+                  <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col">事件名称</th>
+                  <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="5%">监控时段</th>
+                  <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="6%">是否过滤</th>
+                  <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="2%">阈值1</th>
+                  <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="9%" >阈值1告警级别</th>
+                  <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="2%">阈值2</th>
+                  <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="9%" >阈值2告警级别</th>
+                  <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="5%" >阈值比较方式</th>
+                  <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="5%" >POLL间隔</th>
+                  <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="5%" colspan="2">OID Group</th>
+              </tr>
+          </thead>
+      
+      <c:forEach items="${model.unselected}" var="d1" >
+      
+      <tr class="table-row">
+      <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="radio" name="sel" 	value="<%=countChecked %>|${d1.modid}|${d1.eveid}"    /> 
+      <input type="hidden" 	name="modid" size="5" value="${d1.modid}" /> 
+      <input type="hidden" 	name="eveid" size="5" value="${d1.eveid}" /> </td>
+      <td VALIGN="middle"  class="collection-table-text" rowspan="2">${d1.major} </td>
+      <td VALIGN="middle"  class="collection-table-text" >内</td>
+      <td VALIGN="middle"  class="collection-table-text" >
+          <select name="filterA" id="filter_A" >
+                  <option value="0">否</option>
+                  <option value="1">是</option>
+              </select></td>
+      <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="text" 	name="value1" size="5" value="" style="width: 30px;"/></td>
+      <td VALIGN="middle"  class="collection-table-text" ><input type="text" 	name="severity1"	size="5" value="" style="width: 30px;"/></td>
+      <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="text" 	name="value2"  		size="5" value="" style="width: 30px;"/></td>
+      <td VALIGN="middle"  class="collection-table-text" ><input type="text" 	name="severity2" 		size="5" value="" style="width: 30px;"/></td>
+      <td VALIGN="middle"  class="collection-table-text" rowspan="2">
+          <select name="compareType" id="compare_Type" >    
+              <option value="null">-请选择-</option>
+              <option value="==" >==</option>
+              <option value="!=" >!=</option>
+              <option value="&lt;" >&lt;</option>
+             <option value="&gt;"> &gt;</option>
+              <option value="&lt;=" > &lt;=</option>
+             <option value="&gt;="> &gt;=</option>
+              <option value="Like">Like</option>
+              <option value="Not Like" >Not Like</option>
+           </select>
+      </td>
+      <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="text" 	name="poll"	size="5" value="300"  style="width: 30px;"/>秒</td>
+      <td VALIGN="middle"  class="collection-table-text" rowspan="2" width="3">
+      <input type="checkbox" name="oidgroupSel" value="<%=countChecked %>"/></td>
+      <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="text" 	name="oidgroup"	size="5" value="" />
+      </td>
+      </tr>
+      
+      <tr class="table-row">
+      <td VALIGN="middle"  class="collection-table-text" >外</td>
+      <td VALIGN="middle"  class="collection-table-text" >
+          <select name="filterB" id="filter_B" >
+                  <option value="1">是</option>
+                  <option value="0">否</option>
+              </select></td>
+              
+      <td VALIGN="middle"  class="collection-table-text" ><input type="text" 	name="severityA" 		size="5" value="" style="width: 30px;"/></td>
+      <td VALIGN="middle"  class="collection-table-text" ><input type="text" 	name="severityB" 		size="5" value="" style="width: 30px;"/></td>
+      </tr>
+      
+      
+      <% countChecked++; %>
+      </c:forEach>
+      </table>
+      
+      
+      
+      <TABLE class="paging-table" BORDER="0" CELLPADDING="5" CELLSPACING="0" WIDTH="100%" SUMMARY="Table for displaying paging function" id="unselCountTab">
+      
+          <TR>
+                  
+      
+                  <TD CLASS="table-totals" VALIGN="baseline">               
+                  Total Unselected ${fn:length(model.unselected)}
+                    &nbsp;&nbsp;&nbsp;               
+       
+       
+               
+               </TD>
+           </TR>
+       
+       </TABLE>
+       </TD></TR></TBODY></TABLE>
 
-            </td>
-            
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="text" 	name="value1"	size="5" value="${c1.value1}"/></td>
-            <td VALIGN="middle"  class="collection-table-text" ><input type="text" 	name="severity1"	size="5" value="<c:if test="${c1.severity1Null == false}" >${c1.severity1}</c:if>"/>
-             <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="text" 	name="value1low" size="5" value="${c1.value1low}"/></td>            
-            <td VALIGN="middle"  class="collection-table-text" ><input type="text" 	name="v1lseverity1"	size="5" value="<c:if test="${c1.v1lseverity1Null == false}" >${c1.v1lseverity1}</c:if>"/></td>
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="text" 	name="value2"  		size="5" value="${c1.value2}"/></td>
-            <td VALIGN="middle"  class="collection-table-text" ><input type="text" 	name="severity2" 		size="5" value="<c:if test="${c1.severity2Null == false}" >${c1.severity2}</c:if>"/></td>
-             <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="text" 	name="value2low" size="5" value="${c1.value2low}"/></td>
-            <td VALIGN="middle"  class="collection-table-text" ><input type="text" 	name="v2lseverity2"	size="5" value="<c:if test="${c1.v2lseverity2Null == false}" >${c1.v2lseverity2}</c:if>"/></td>
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2">
-                <select name="compareType" id="compare_Type" >    
-                    <option value="NULL" <c:if test="${c1.compareType==NULL}">selected="selected"</c:if> >-请选择-</option>
-                    <option value="==" <c:if test="${c1.compareType=='=='}">selected="selected"</c:if> >==</option>
-                    <option value="!=" <c:if test="${c1.compareType=='!='}">selected="selected"</c:if> >!=</option>
-                    <option value="&lt;" <c:if test="${c1.compareType=='<'}">selected="selected"</c:if> >&lt;</option>
-                   <option value="&gt;" <c:if test="${c1.compareType=='>'}">selected="selected"</c:if> >&gt;</option>
-                    <option value="&lt;=" <c:if test="${c1.compareType=='<='}">selected="selected"</c:if> >&lt;=</option>
-                   <option value="&gt;=" <c:if test="${c1.compareType=='>='}">selected="selected"</c:if> >&gt;=</option>
-                    <option value="Like" <c:if test="${c1.compareType=='Like'}">selected="selected"</c:if> >Like</option>
-                    <option value="Not Like" <c:if test="${c1.compareType=='Not Like'}">selected="selected"</c:if> >Not Like</option>
-                 </select>
-            </td>
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="text" 	name="poll"			size="5" value="<c:if test="${c1.pollNull == false}" >${c1.poll}</c:if>" />
-              秒</td>
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2" width="3">
-            <input type="checkbox" name="oidgroupSel" value="<%=countChecked %>" <c:if test="${c1.oidgroup != null}">checked="checked"</c:if> /></td>
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="text" 	name="oidgroup"	size="5" value="${c1.oidgroup}" />
-            </td>
-            </tr>
-            
-            <tr class="table-row">
-            <td VALIGN="middle"  class="collection-table-text" >外</td>
-            <td VALIGN="middle"  class="collection-table-text" >
-                <select name="filterB" id="filter_B" >
-                        <option value="1" <c:if test="${c1.filterB==1}">selected="selected"</c:if> >是</option>
-                        <option value="0" <c:if test="${c1.filterB==0}">selected="selected"</c:if> >否</option>
-                    </select>
-            </td>
-            <td VALIGN="middle"  class="collection-table-text" ><input type="text" 	name="severityA" 		size="5" value="<c:if test="${c1.severityANull == false}" >${c1.severityA}</c:if>"/></td>
-            <td VALIGN="middle"  class="collection-table-text" ><input type="text" 	name="v1lseverityA" 		size="5" value="<c:if test="${c1.v1lseverityANull == false}" >${c1.v1lseverityA}</c:if>"/></td>
-            <td VALIGN="middle"  class="collection-table-text" ><input type="text" 	name="severityB" 		size="5" value="<c:if test="${c1.severityBNull == false}" >${c1.severityB}</c:if>"/></td>
-            <td VALIGN="middle"  class="collection-table-text" ><input type="text" 	name="v2lseverityB" 		size="5" value="<c:if test="${c1.v2lseverityBNull == false}" >${c1.v2lseverityB}</c:if>"/></td>
-            </tr>
-            <% countChecked++; %>
-            </c:forEach>
-            </table>
-            
-            
-            <TABLE class="paging-table" BORDER="0" CELLPADDING="5" CELLSPACING="0" WIDTH="100%" SUMMARY="Table for displaying paging function" id="selCountTab">
-            
-                <TR>
-                        
-            
-                        <TD CLASS="table-totals" VALIGN="baseline">               
-                        Total Selected ${fn:length(model.details)}
-                         &nbsp;&nbsp;&nbsp;               
-            
-            
-                    
-                    </TD>
-                </TR>
-            
-            </TABLE>
-            
-            
-            <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" WIDTH="100%" SUMMARY="List layout table" id="unselTab">
-            
-                <TBODY>
-                    <TR>
-                        <TD CLASS="layout-manager" id="notabs">
-            
-            <table BORDER="0" CELLPADDING="0" CELLSPACING="0" WIDTH="100%" SUMMARY="List table" CLASS=" framing-table">
-                <thead>
-                    <tr>
-                        <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="3%">选中</th>
-            <!--<th NOWRAP VALIGN="middle" CLASS="column-head-name" SCOPE="col" >Mode</th>-->
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col">事件名称</th>
-            <!--<th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" >MODID</th>
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" >EVEID</th>-->
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="5%">监控时段</th>
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="6%">是否过滤</th>
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="2%">阈值In1</th>
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="9%" >阈值In1告警级别</th>
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="2%">阈值In2</th>
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="9%" >阈值In2告警级别</th>
-             <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="2%">阈值Out1</th>
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="9%" >阈值Out1告警级别</th>
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="2%">阈值Out2</th>
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="9%" >阈值Out2告警级别</th>
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="5%" >阈值比较方式</th>
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="5%" >POLL间隔</th>
-            <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="5%" colspan="2" >OID Group</th>
-            </tr>
-            </thead>
-            <c:forEach items="${model.unselected}" var="d1" >
-            
-            <tr class="table-row">
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="radio" name="sel" 	value="<%=countChecked %>|${d1.modid}|${d1.eveid}"    /> 
-            <input type="hidden" 	name="modid" size="5" value="${d1.modid}" /> 
-            <input type="hidden" 	name="eveid" size="5" value="${d1.eveid}" /> </td>
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2">${d1.major} </td>
-            <td VALIGN="middle"  class="collection-table-text" >内</td>
-            <td VALIGN="middle"  class="collection-table-text" >
-                <select name="filterA" id="filter_A" >
-                        <option value="0">否</option>
-                        <option value="1">是</option>
-                    </select></td>
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="text" 	name="value1" size="5" value=""/></td>
-            <td VALIGN="middle"  class="collection-table-text" ><input type="text" 	name="severity1"	size="5" value=""/></td>
-             <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="text" 	name="value1low" size="5" value=""/></td>
-            <td VALIGN="middle"  class="collection-table-text" ><input type="text" 	name="v1lseverity1"	size="5" value=""/></td>
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="text" 	name="value2"  		size="5" value=""/></td>
-            <td VALIGN="middle"  class="collection-table-text" ><input type="text" 	name="severity2" 		size="5" value=""/></td>
-             <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="text" 	name="value2low" size="5" value=""/></td>
-            <td VALIGN="middle"  class="collection-table-text" ><input type="text" 	name="v2lseverity2"	size="5" value=""/></td>
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2">
-                <select name="compareType" id="compare_Type" >    
-                    <option value="null">-请选择-</option>
-                    <option value="==" >==</option>
-                    <option value="!=" >!=</option>
-                    <option value='&lt;' >&lt;</option>
-                   <option value="&gt;"> &gt;</option>
-                    <option value="&lt;=" > &lt;=</option>
-                   <option value="&gt;="> &gt;=</option>
-                    <option value="Like">Like</option>
-                    <option value="Not Like" >Not Like</option>
-                 </select>
-            </td>
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="text" 	name="poll"	size="5" value="300" />秒</td>
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2" width="3">
-            <input type="checkbox" name="oidgroupSel" value="<%=countChecked %>"/></td>
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="text" 	name="oidgroup"	size="5" value="" />
-            </td>
-            </tr>
-            
-            <tr class="table-row">
-            <td VALIGN="middle"  class="collection-table-text" >外</td>
-            <td VALIGN="middle"  class="collection-table-text" >
-                <select name="filterB" id="filter_B" >
-                        <option value="1">是</option>
-                        <option value="0">否</option>
-                    </select></td>
-                    
-            <td VALIGN="middle"  class="collection-table-text" ><input type="text" 	name="severityA" 		size="5" value=""/></td>
-            <td VALIGN="middle"  class="collection-table-text" ><input type="text" 	name="v1lseverityA" 		size="5" value=""/></td>
-            <td VALIGN="middle"  class="collection-table-text" ><input type="text" 	name="severityB" 		size="5" value=""/></td>
-            <td VALIGN="middle"  class="collection-table-text" ><input type="text" 	name="v2lseverityB" 		size="5" value=""/></td>
-            </tr>
-            
-            <% countChecked++; %>
-            </c:forEach>
-            </table>
-            
-            
-            
-            <TABLE class="paging-table" BORDER="0" CELLPADDING="5" CELLSPACING="0" WIDTH="100%" SUMMARY="Table for displaying paging function" id="unselCountTab">
-            
-                <TR>
-                        
-            
-                        <TD CLASS="table-totals" VALIGN="baseline">               
-                        Total Unselected ${fn:length(model.unselected)}
-                         &nbsp;&nbsp;&nbsp;               
-            
-            
-                    
-                    </TD>
-                </TR>
-            
-            </TABLE>
-            </TD></TR></TBODY></TABLE>
-
-    	</div> <!-- end of if mode = SNMP -->
-    </c:when>
-    <c:otherwise>
-        <div> <!-- start of if mode = snmp port policy -->
-            
-            <table BORDER="0" CELLPADDING="0" CELLSPACING="0" WIDTH="100%" SUMMARY="List table" CLASS=" framing-table" id="selTab">
-        <thead>
-            <tr>
-                <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="3%">选中</th>
-                <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col">事件名称</th>
-                <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="5%">监控时段</th>
-                <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="6%">是否过滤</th>
-                <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="2%">阈值1</th>
-                <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="9%" >阈值1告警级别</th>
-                <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="2%">阈值2</th>
-                <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="9%" >阈值2告警级别</th>
-                <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="5%" >阈值比较方式</th>
-                <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="5%" >POLL间隔</th>
-                <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="5%" colspan="2">OID Group</th>
-            </tr>
-        </thead>
-            <% countChecked = 0; %>
-            <c:forEach items="${model.details}" var="c1" >
-            <tr class="table-row">
-            <td VALIGN="middle"  class="collection-table-text" align="center" rowspan="2">
-            <input type="radio" name="sel" value="<%=countChecked %>|${c1.modid}|${c1.eveid}|${c1.mpid}" checked="checked"/>
-            <input type="hidden" name="pre" value="${c1.mpid}|${c1.modid}|${c1.eveid}" /> 
-            <input type="hidden" 	name="modid"		size="5" value="${c1.modid}" /> 
-            <input type="hidden" 	name="eveid"		size="5" value="${c1.eveid}" />
-            </td>
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2">${c1.major} </td>
-            <td VALIGN="middle"  class="collection-table-text" >内</td>
-            <td VALIGN="middle"  class="collection-table-text" >
-                <select name="filterA" id="filter_A" >
-                        <option value="1" <c:if test="${c1.filterA==1}">selected="selected"</c:if> >是</option>
-                        <option value="0" <c:if test="${c1.filterA==0}">selected="selected"</c:if> >否</option>
-                    </select>
-            
-            </td>
-            
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="text" 	name="value1"	size="5" value="${c1.value1}"/></td>
-            <td VALIGN="middle"  class="collection-table-text" ><input type="text" 	name="severity1"	size="5" value="<c:if test="${c1.severity1Null == false}" >${c1.severity1}</c:if>"/>
-            
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="text" 	name="value2"  		size="5" value="${c1.value2}"/></td>
-            <td VALIGN="middle"  class="collection-table-text" ><input type="text" 	name="severity2" 		size="5" value="<c:if test="${c1.severity2Null == false}" >${c1.severity2}</c:if>"/></td>
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2">
-                <select name="compareType" id="compare_Type" >    
-                    <option value="NULL" <c:if test="${c1.compareType==''}">selected="selected"</c:if> >-请选择-</option>
-                    <option value="==" <c:if test="${c1.compareType=='=='}">selected="selected"</c:if> >==</option>
-                    <option value="!=" <c:if test="${c1.compareType=='!='}">selected="selected"</c:if> >!=</option>
-                    <option value="&lt;" <c:if test="${c1.compareType=='<'}">selected="selected"</c:if> >&lt;</option>
-                   <option value="&gt;" <c:if test="${c1.compareType=='>'}">selected="selected"</c:if> >&gt;</option>
-                    <option value="&lt;=" <c:if test="${c1.compareType=='<='}">selected="selected"</c:if> >&lt;=</option>
-                   <option value="&gt;=" <c:if test="${c1.compareType=='>='}">selected="selected"</c:if> >&gt;=</option>
-                    <option value="Like" <c:if test="${c1.compareType=='Like'}">selected="selected"</c:if> >Like</option>
-                    <option value="Not Like" <c:if test="${c1.compareType=='Not Like'}">selected="selected"</c:if> >Not Like</option>
-                 </select>
-            </td>
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="text" 	name="poll"			size="5" value="<c:if test="${c1.pollNull == false}" >${c1.poll}</c:if>" />
-              秒</td>
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2" width="3">
-            <input type="checkbox" name="oidgroupSel" value="<%=countChecked %>" <c:if test="${c1.oidgroup != null}">checked="checked"</c:if> /></td>
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="text" 	name="oidgroup"	size="5" value="${c1.oidgroup}" />
-            </td>
-            </tr>
-            
-            <tr class="table-row">
-            <td VALIGN="middle"  class="collection-table-text" >外</td>
-            <td VALIGN="middle"  class="collection-table-text" >
-                <select name="filterB" id="filter_B" >
-                        <option value="1" <c:if test="${c1.filterB==1}">selected="selected"</c:if> >是</option>
-                        <option value="0" <c:if test="${c1.filterB==0}">selected="selected"</c:if> >否</option>
-                    </select>
-            </td>
-            <td VALIGN="middle"  class="collection-table-text" ><input type="text" 	name="severityA" 		size="5" value="<c:if test="${c1.severityANull == false}" >${c1.severityA}</c:if>"/></td>
-            <td VALIGN="middle"  class="collection-table-text" ><input type="text" 	name="severityB" 		size="5" value="<c:if test="${c1.severityBNull == false}" >${c1.severityB}</c:if>"/></td>
-            </tr>
-            <% countChecked++; %>
-            </c:forEach>
-            </table>
-            
-            
-            <TABLE class="paging-table" BORDER="0" CELLPADDING="5" CELLSPACING="0" WIDTH="100%" SUMMARY="Table for displaying paging function" id="selCountTab">
-            
-                <TR>
-                        
-            
-                        <TD CLASS="table-totals" VALIGN="baseline">               
-                        Total Selected ${fn:length(model.details)}
-                         &nbsp;&nbsp;&nbsp;      
-                    
-                    </TD>
-                </TR>
-            
-            </TABLE>
-            
-            
-            <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" WIDTH="100%" SUMMARY="List layout table" id="unselTab">
-            
-                <TBODY>
-                    <TR>
-                        <TD CLASS="layout-manager" id="notabs">
-            
-             <table BORDER="0" CELLPADDING="0" CELLSPACING="0" WIDTH="100%" SUMMARY="List table" CLASS=" framing-table">
-                <thead>
-                    <tr>
-                        <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="3%">选中</th>
-                        <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col">事件名称</th>
-                        <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="5%">监控时段</th>
-                        <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="6%">是否过滤</th>
-                        <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="2%">阈值1</th>
-                        <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="9%" >阈值1告警级别</th>
-                        <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="2%">阈值2</th>
-                        <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="9%" >阈值2告警级别</th>
-                        <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="5%" >阈值比较方式</th>
-                        <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="5%" >POLL间隔</th>
-                        <th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="5%" colspan="2">OID Group</th>
-                    </tr>
-                </thead>
-            
-            <c:forEach items="${model.unselected}" var="d1" >
-            
-            <tr class="table-row">
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="radio" name="sel" 	value="<%=countChecked %>|${d1.modid}|${d1.eveid}"    /> 
-            <input type="hidden" 	name="modid" size="5" value="${d1.modid}" /> 
-            <input type="hidden" 	name="eveid" size="5" value="${d1.eveid}" /> </td>
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2">${d1.major} </td>
-            <td VALIGN="middle"  class="collection-table-text" >内</td>
-            <td VALIGN="middle"  class="collection-table-text" >
-                <select name="filterA" id="filter_A" >
-                        <option value="0">否</option>
-                        <option value="1">是</option>
-                    </select></td>
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="text" 	name="value1" size="5" value=""/></td>
-            <td VALIGN="middle"  class="collection-table-text" ><input type="text" 	name="severity1"	size="5" value=""/></td>
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="text" 	name="value2"  		size="5" value=""/></td>
-            <td VALIGN="middle"  class="collection-table-text" ><input type="text" 	name="severity2" 		size="5" value=""/></td>
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2">
-                <select name="compareType" id="compare_Type" >    
-                    <option value="null">-请选择-</option>
-                    <option value="==" >==</option>
-                    <option value="!=" >!=</option>
-                    <option value="&lt;" >&lt;</option>
-                   <option value="&gt;"> &gt;</option>
-                    <option value="&lt;=" > &lt;=</option>
-                   <option value="&gt;="> &gt;=</option>
-                    <option value="Like">Like</option>
-                    <option value="Not Like" >Not Like</option>
-                 </select>
-            </td>
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="text" 	name="poll"	size="5" value="300" />秒</td>
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2" width="3">
-            <input type="checkbox" name="oidgroupSel" value="<%=countChecked %>"/></td>
-            <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="text" 	name="oidgroup"	size="5" value="" />
-            </td>
-            </tr>
-            
-            <tr class="table-row">
-            <td VALIGN="middle"  class="collection-table-text" >外</td>
-            <td VALIGN="middle"  class="collection-table-text" >
-                <select name="filterB" id="filter_B" >
-                        <option value="1">是</option>
-                        <option value="0">否</option>
-                    </select></td>
-                    
-            <td VALIGN="middle"  class="collection-table-text" ><input type="text" 	name="severityA" 		size="5" value=""/></td>
-            <td VALIGN="middle"  class="collection-table-text" ><input type="text" 	name="severityB" 		size="5" value=""/></td>
-            </tr>
-            
-            
-            <% countChecked++; %>
-            </c:forEach>
-            </table>
-            
-            
-            
-            <TABLE class="paging-table" BORDER="0" CELLPADDING="5" CELLSPACING="0" WIDTH="100%" SUMMARY="Table for displaying paging function" id="unselCountTab">
-            
-                <TR>
-                        
-            
-                        <TD CLASS="table-totals" VALIGN="baseline">               
-                        Total Unselected ${fn:length(model.unselected)}
-                         &nbsp;&nbsp;&nbsp;               
-            
-            
-                    
-                    </TD>
-                </TR>
-            
-            </TABLE>
-            </TD></TR></TBODY></TABLE>
-
-    	</div> <!-- end of if mode = snmp other policy -->
-    </c:otherwise>
-    </c:choose>
+</div> <!-- end of if mode = snmp other policy -->
 </c:when>
-
 </c:choose>
 </TD></TR></TBODY></TABLE>
 </form>

@@ -759,7 +759,7 @@ public class TPolicyDetailsWithRule implements Serializable {
 			 return "";
 		}
 		if (rule.startsWith("rule:{expression:")) {
-			 int endIndex = rule.indexOf("rule:{expression:".length(), ',');
+			 int endIndex = rule.indexOf(',', "rule:{expression:".length());
 			 if (endIndex > 0) {
 					String s = rule.substring("rule:{expression:".length(), endIndex );
 					return s;
@@ -781,7 +781,19 @@ public class TPolicyDetailsWithRule implements Serializable {
 		}
 		return rule;
 	}
-
+	
+	public static boolean isFixedValue(String rule) {
+		int first =  rule.indexOf("==");
+		int second = 0;
+		if (first > 0) {
+			second = rule.indexOf("==", first + 1);
+		}
+		if (first > 0 && second < 1) {
+			 return true;
+		} else {
+			return false;
+		}
+	}
 
 	public String getValue1RuleExpression() {
 		return getRuleExpression(value1Rule);
@@ -789,6 +801,10 @@ public class TPolicyDetailsWithRule implements Serializable {
 
 	public String getValue1RuleDisplayInfo() {
 		return getRuleDisplayInfo(value1Rule);
+	}
+
+	public boolean isValue1RuleFixValue() {
+		return isFixedValue(getRuleExpression(value1Rule));
 	}
 
 	public String getValue2RuleExpression() {
@@ -799,6 +815,10 @@ public class TPolicyDetailsWithRule implements Serializable {
 		return getRuleDisplayInfo(value2Rule);
 	}
 
+	public boolean isValue2RuleFixValue() {
+		return isFixedValue(getRuleExpression(value2Rule));
+	}
+
 	public String getValue1LowRuleExpression() {
 		return getRuleExpression(value1LowRule);
 	}
@@ -807,12 +827,20 @@ public class TPolicyDetailsWithRule implements Serializable {
 		return getRuleDisplayInfo(value1LowRule);
 	}
 
+	public boolean isValue1LowRuleFixValue() {
+		return isFixedValue(getRuleExpression(value1LowRule));
+	}
+
 	public String getValue2LowRuleExpression() {
 		return getRuleExpression(value2LowRule);
 	}
 
 	public String getValue2LowRuleDisplayInfo() {
 		return getRuleDisplayInfo(value2LowRule);
+	}
+
+	public boolean isValue2LowRuleFixValue() {
+		return isFixedValue(getRuleExpression(value2LowRule));
 	}
 
 	@Override

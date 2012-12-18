@@ -39,26 +39,11 @@ function policydetails(){
 	form1.action = "<%=request.getContextPath()%>/secure/policyapply/policydetails.wss?mode=ICMP";
 	this.form1.submit();
 }
-function addform1(){	
-
-//alert("in policyDefinition addform**form.action" + form1.action);
-	document.getElementsByName("mpname").item(0).value = "";
-	document.getElementsByName("mpid").item(0).value = "";
-	document.getElementsByName("description").item(0).value = "";
-	//disable "New" button
-	document.getElementsByName("button_new").item(0).disabled = true;	
-	document.getElementsByName("button_bind").item(0).disabled = true;
-}
 function saveform1(){
 		
 //alert("in policyDefinition save **form.action" + form1.action);
-	if(document.getElementsByName("button_new").item(0).disabled == true){
-		document.getElementsByName("formAction").item(0).value= "add";
-		form1.formAction.value = "add";
-	}else{
 		form1.formAction.value = "save";
 		document.getElementsByName("formAction").item(0).value= "save";
-	}
 	
 	if(document.getElementsByName("mpname").item(0).value == ""){
 		alert("策略名称不能为空！");
@@ -67,7 +52,6 @@ function saveform1(){
 			document.getElementsByName("mpid").item(0).value = "";
 			document.getElementsByName("description").item(0).value = "";
 			//disable "New" button
-			document.getElementsByName("button_new").item(0).disabled = true;	
 			document.getElementsByName("button_bind").item(0).disabled = true;
 		}
 		return false;
@@ -75,7 +59,6 @@ function saveform1(){
 	document.getElementsByName("insertOrUpdate").item(0).value="true";
 	form1.action = "<%=request.getContextPath()%>/secure/policyapply/policyDefinition.wss";
 	this.form1.submit();
-	document.getElementsByName("button_new").item(0).disabled = false;
 }
 
 function deleteform1(){
@@ -83,7 +66,6 @@ function deleteform1(){
 	if(document.getElementsByName("mpname").item(0).value == "" || document.getElementsByName("mpid").item(0).value == 0){
 		alert("没有可以删除的数据！");
 		
-		document.getElementsByName("button_new").item(0).disabled = true;	
 		document.getElementsByName("button_bind").item(0).disabled = true;
 		return false;
 	}
@@ -95,7 +77,6 @@ function deleteform1(){
 		form1.action = "<%=request.getContextPath()%>/secure/policyapply/policyDefinition.wss";
 		this.form1.submit();		
    }
-		document.getElementsByName("button_new").item(0).disabled = true;	
 		document.getElementsByName("button_bind").item(0).disabled = true;
 }
 function reloadNavi(){
@@ -220,7 +201,6 @@ function reloadNavi(){
 	</form>
 	<script language="JavaScript" type="text/javascript">
 	if(document.getElementsByName("mpid").item(0).value == ""){
-		document.getElementsByName("button_new").item(0).disabled = true;	
 		document.getElementsByName("button_bind").item(0).disabled = true;
 	}
 </script>
