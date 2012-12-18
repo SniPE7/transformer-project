@@ -309,7 +309,7 @@ function toICMP(){
                                         <c:if test="${c1.policyDetailsWithRule != null}">
                                           <c:if test="${c1.policyDetailsWithRule.value2RuleFixValue}">
                                           ${c1.policyDetailsWithRule.value2}
-                                          <input type="hidden" name="value2" value="${not c1.policyDetailsWithRule.value2RuleFixValue}"/>
+                                          <input type="hidden" name="value2" value="${c1.policyDetailsWithRule.value2}"/>
                                           </c:if>
                                           <c:if test="${not c1.policyDetailsWithRule.value2RuleFixValue}">
                                           <input type="text" name="value2" size="5" value="${c1.policyDetailsWithRule.value2}" style="width: 30px;"/>

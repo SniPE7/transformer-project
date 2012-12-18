@@ -45,6 +45,7 @@ import com.ibm.ncs.model.dto.TPolicyPeriod;
 import com.ibm.ncs.model.exceptions.TPolicyDetailsDaoException;
 import com.ibm.ncs.util.GenPkNumber;
 import com.ibm.ncs.util.Log4jInit;
+import com.ibm.ncs.util.PolicyRuleEvaluator;
 import com.ibm.ncs.util.SortList;
 import com.ibm.ncs.web.baseinfo.ManufacturerController;
 
@@ -54,6 +55,7 @@ import com.ibm.ncs.web.baseinfo.ManufacturerController;
  */
 public class SavePolicyDetailsPDMController implements Controller {
 
+	PolicyRuleEvaluator policyRuleEvaluator;
 	TPolicyDetailsWithRuleDao policyDetailsWithRuleDao;
 
 	TGrpNetDao TGrpNetDao;
@@ -81,6 +83,14 @@ public class SavePolicyDetailsPDMController implements Controller {
 	}
 
 	
+	public PolicyRuleEvaluator getPolicyRuleEvaluator() {
+		return policyRuleEvaluator;
+	}
+
+	public void setPolicyRuleEvaluator(PolicyRuleEvaluator policyRuleEvaluator) {
+		this.policyRuleEvaluator = policyRuleEvaluator;
+	}
+
 	public String getMessage() {
 		return message;
 	}
@@ -333,6 +343,12 @@ public class SavePolicyDetailsPDMController implements Controller {
 							}
 						}
 						
+						// 验证策略规则
+						String vrMsg = SavePolicyDetailsController.validateRule(TEventTypeInitDao, TPolicyBaseDao, policyDetailsWithRuleDao, policyRuleEvaluator, request, selIndex, new String[]{"阀值2", "阀值3", "", ""});
+						if (vrMsg != null && vrMsg.trim().length() > 0) {
+						   message += vrMsg;
+						   continue;
+						}
 						
 						TPolicyDetails dto = new TPolicyDetails();
 						dto.setMpid(mpidTmp);
