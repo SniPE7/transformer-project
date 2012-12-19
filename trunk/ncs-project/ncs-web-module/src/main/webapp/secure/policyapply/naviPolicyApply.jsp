@@ -318,7 +318,7 @@ onkeypress="return;" onmouseup="return" onkeyup="filtery(this.value,navifilter.n
 		<ul class='nav-child' dir='ltr'>
 			<li class='navigation-bullet'>
 				<a style='text-decoration: none'
-				href="<%=request.getContextPath() %>/secure/policyapply/policyApply.wss?mpid=${dev.mpid }&cate=1"
+				href="<%=request.getContextPath() %>/secure/policyapply/policyApply.wss?mpid=${dev.mpid }&ptvid=${dev.ptvid }&cate=1"
 				target="detail" dir="ltr"
 				title="${dev.mpname}(...${dev.mpid})">
 				${dev.mpname }
@@ -350,7 +350,7 @@ onkeypress="return;" onmouseup="return" onkeyup="filtery(this.value,navifilter.n
 		<ul class='nav-child' dir='ltr'>
 			<li class='navigation-bullet'>
 				<a style='text-decoration: none'
-				href="<%=request.getContextPath() %>/secure/policyapply/policyApply.wss?mpid=${dev.mpid }&cate=4"
+				href="<%=request.getContextPath() %>/secure/policyapply/policyApply.wss?mpid=${dev.mpid }&ptvid=${dev.ptvid }&cate=4"
 				target="detail" dir="ltr"
 				title="${dev.mpname}(...${dev.mpid})">
 				${dev.mpname }
@@ -383,7 +383,7 @@ onkeypress="return;" onmouseup="return" onkeyup="filtery(this.value,navifilter.n
 		<ul class='nav-child' dir='ltr'>
 			<li class='navigation-bullet'>
 				<a style='text-decoration: none'
-				href="<%=request.getContextPath() %>/secure/policyapply/policyApply.wss?mpid=${dev.mpid }&cate=9"
+				href="<%=request.getContextPath() %>/secure/policyapply/policyApply.wss?mpid=${dev.mpid }&ptvid=${dev.ptvid }&cate=9"
 				target="detail" dir="ltr"
 				title="${dev.mpname}(...${dev.mpid})">
 				${dev.mpname }

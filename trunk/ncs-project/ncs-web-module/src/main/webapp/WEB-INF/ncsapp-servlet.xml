@@ -709,6 +709,7 @@
     <property name="policyPublishInfoDao" ref="policyPublishInfoDao" />
     <property name="policyTemplateDao" ref="policyTemplateDao" />
     <property name="policyTemplateVerDao" ref="policyTemplateVerDao" />
+    <property name="policyTemplateScopeDao" ref="policyTemplateScopeDao" />
 
 		<property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
 		<property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />
