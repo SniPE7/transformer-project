@@ -1582,5 +1582,16 @@
     <property name="policyTemplateVerDao" ref="policyTemplateVerDao" />
     <property name="pageView" value="/secure/output/genpolicyfile.jsp"/>
   </bean>
+  
+  <!-- 检查策略 -->
+  <bean name="/secure/policyapply/checkpolicy.wss" class="com.ibm.ncs.web.policytakeeffect.CheckPolicyController" >
+    <property name="datasource" ref="nccDS" />
+    <property name="policyValidationProcess" ref="policyValidationProcess" />
+    <property name="pageView" value="/secure/policyapply/checkpolicy.jsp" />  
+  </bean> 
+  <bean name="/secure/output/statecheckpolicy.wss" class="com.ibm.ncs.web.policytakeeffect.StateProgess4CheckPolicyController">
+    <property name="policyValidationProcess" ref="policyValidationProcess"></property>
+    <property name="pageView" value="/secure/output/stateprocess.jsp"/>
+  </bean>
 	
 </beans>  

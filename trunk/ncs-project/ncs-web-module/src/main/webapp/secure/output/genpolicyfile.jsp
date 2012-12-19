@@ -38,6 +38,7 @@ function stateChanged1(){
 		document.getElementById("info").innerHTML=xhreq.responseText;
 	}
 }
+
 function callback1(){ 
 		xhreq=GetXmlHttpObject();
 		if (xhreq==null){			
@@ -49,11 +50,13 @@ function callback1(){
 		xhreq.send(null);	
 		
 }
+
 function stateChanged2(){ 
 	if (xhreq2.readyState==4 && xhreq2.status==200){ 
 		document.getElementById("info2").innerHTML=xhreq2.responseText;
 	}
 }
+
 function callback2(){ 
 		xhreq2=GetXmlHttpObject();
 		if (xhreq2==null){			
@@ -65,6 +68,24 @@ function callback2(){
 		xhreq2.send(null);	
 		
 }
+
+function stateChanged3(){ 
+  if (xhreq3.readyState==4 && xhreq3.status==200){ 
+    document.getElementById("info3").innerHTML=xhreq3.responseText;
+  }
+}
+
+function callback3(){ 
+    xhreq3=GetXmlHttpObject();
+    if (xhreq3==null){      
+      return;
+    }
+    var url ="<%=request.getContextPath()%>/secure/output/statecheckpolicy.wss";
+    xhreq3.open("GET",url,true);
+    xhreq3.onreadystatechange=stateChanged3 ;
+    xhreq3.send(null);  
+}
+
 function applyPolicy(){
  if (window.confirm('确定生成监控配置吗？')) {
    document.getElementById("apply").disabled=true;
@@ -88,6 +109,13 @@ function exeShell(){
    }
 }
 
+function checkPolicy(){
+   document.getElementById("check").disabled=true;
+   document.getElementById("info3").innerHTML="<img border='0' src='../../images/icon_progress.gif' width='16' height='16' > 正在进行检查监控配置，请稍等．．．．．．";  
+   Dframe.location.href="<%=request.getContextPath()%>/secure/policyapply/checkpolicy.wss?ppiid=<c:out value='${definition.policyPublishInfo.ppiid}'/>";
+   RenewCheckMessage();
+}
+
 function downloadAppPolicylylog() {
    Dframe.location.href="<%=request.getContextPath()%>/doservlet/downeffectlog"
 }
@@ -96,19 +124,23 @@ function Reload(){
 	 document.getElementById("apply").disabled=false;
    downapplypolicylog.disabled=false;
    document.getElementById("info").innerHTML='';
-	 parent.policylist.location.href="<%=request.getContextPath()%>/maintain/effectinfo.jsp?OffSet=1";
+   document.getElementById("info2").innerHTML='';
+   document.getElementById("info3").innerHTML='';
 }
 
 function RenewMessage(){
-	var url ="<%=request.getContextPath()%>/secure/output/stateprocess.wss";
 	callback1();
 	setTimeout("RenewMessage()","3000");
 }
 
 function RenewExeShell(){
-	var url ="<%=request.getContextPath()%>/secure/output/stateexeshell.wss";
 	callback2();
 	setTimeout("RenewExeShell()","3000");
+}
+
+function RenewCheckMessage(){
+	  callback3();
+	  setTimeout("RenewCheckMessage()","3000");
 }
 
 function updatedo(response){
@@ -147,7 +179,8 @@ function updatedo2(response){
 											<table style="display: inline; font-size: 95%;" cellspacing="0" cellpadding="0" border="0">
 												<tr>
 													<td>
-													<input type="button" value="生成监控配置" onclick="javascript:applyPolicy()" name="apply" id="apply" class="buttons">
+													<input type="button" value="检查监控配置" onclick="javascript:checkPolicy()" name="check" id="check" class="buttons">
+                          <input type="button" value="生成监控配置" onclick="javascript:applyPolicy()" name="apply" id="apply" class="buttons">
 													<input type="button" value="生效" 	onclick="javascript:exeShell()" name="exeshell" id="exeshell" class="buttons">
 													</td>
 												</tr>
@@ -168,7 +201,7 @@ function updatedo2(response){
 												</tr>
 											</table>
 											<table  align=center>
-											  <tr><td><font color=0000ff><div id=info class="table-row"></div><div id=info2 class="table-row"></div></font></td></tr>
+											  <tr><td><font color=0000ff><div id=info class="table-row"></div><div id=info2 class="table-row"></div><div id=info3 class="table-row"></div></font></td></tr>
 											</table>										
 										</td>
 									</tr>
