@@ -3,7 +3,6 @@
  */
 package com.ibm.ncs.web.policyapply;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 

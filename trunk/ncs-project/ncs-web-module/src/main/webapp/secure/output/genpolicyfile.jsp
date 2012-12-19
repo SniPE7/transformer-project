@@ -88,12 +88,11 @@ function exeShell(){
    }
 }
 
-function downloadAppPolicylylog()
-{
-        Dframe.location.href="<%=request.getContextPath()%>/doservlet/downeffectlog"
+function downloadAppPolicylylog() {
+   Dframe.location.href="<%=request.getContextPath()%>/doservlet/downeffectlog"
 }
+
 function Reload(){
-    
 	 document.getElementById("apply").disabled=false;
    downapplypolicylog.disabled=false;
    document.getElementById("info").innerHTML='';
@@ -101,22 +100,17 @@ function Reload(){
 }
 
 function RenewMessage(){
-
 	var url ="<%=request.getContextPath()%>/secure/output/stateprocess.wss";
-	
 	callback1();
-	
 	setTimeout("RenewMessage()","3000");
 }
 
 function RenewExeShell(){
-
 	var url ="<%=request.getContextPath()%>/secure/output/stateexeshell.wss";
-	
 	callback2();
-	
 	setTimeout("RenewExeShell()","3000");
 }
+
 function updatedo(response){
 	document.getElementById("info").innerHTML=response;
 }
