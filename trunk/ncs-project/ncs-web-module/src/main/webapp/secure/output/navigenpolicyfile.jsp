@@ -220,7 +220,7 @@ window.onload =  function (){
 		<ul class='nav-child' dir='ltr'>
 						<li class='navigation-bullet'>				
 			<a style='text-decoration: none'
-				href="<%=request.getContextPath() %>/secure/output/genpolicyfile.jsp"
+				href="<%=request.getContextPath() %>/secure/policyapply/showGenPolicyFileView.wss"
 				target="detail" dir="ltr"
 				title="Time Frame Default Ploicy">
 			

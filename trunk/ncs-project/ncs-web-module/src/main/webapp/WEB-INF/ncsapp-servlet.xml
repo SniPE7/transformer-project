@@ -1574,4 +1574,13 @@
     <property name="pageView" value="/secure/policytemplateapply/policydetailsPDM.jsp" />
   </bean>
 	
+	<!-- 显示生效策略的初始页面 -->
+	<bean name="/secure/policyapply/showGenPolicyFileView.wss"
+    class="com.ibm.ncs.web.policyapply.ShowGenPolicyFileController">
+    <property name="policyPublishInfoDao" ref="policyPublishInfoDao" />
+    <property name="policyTemplateDao" ref="policyTemplateDao" />
+    <property name="policyTemplateVerDao" ref="policyTemplateVerDao" />
+    <property name="pageView" value="/secure/output/genpolicyfile.jsp"/>
+  </bean>
+	
 </beans>  
