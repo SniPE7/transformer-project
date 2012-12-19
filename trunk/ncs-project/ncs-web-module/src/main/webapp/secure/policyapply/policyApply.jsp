@@ -1,29 +1,27 @@
-<%@ include file="/include/include.jsp" %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><%@page
-	language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<% 
-response.setHeader("Cache-Control","no-cache");
-response.setHeader("Pragma","no-cache");
-response.setDateHeader("Expires",-1);
+<%@ include file="/include/include.jsp"%>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+	response.setHeader("Cache-Control", "no-cache");
+	response.setHeader("Pragma", "no-cache");
+	response.setDateHeader("Expires", -1);
 %>
 <html>
 <head>
 
-<link href='<%=request.getContextPath() %>/include/wasimp.css' rel="styleSheet" type="text/css">
-<link href='<%=request.getContextPath() %>/login.css' rel="styleSheet" type="text/css">
+<link href='<%=request.getContextPath()%>/include/wasimp.css' rel="styleSheet" type="text/css">
+<link href='<%=request.getContextPath()%>/login.css' rel="styleSheet" type="text/css">
 <title>baseinfonavi</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 
 <script type="text/javascript" language="JavaScript">
 function changenode(){
-  form1.action="<%=request.getContextPath() %>/secure/policyapply/policyApply.wss";
+  form1.action="<%=request.getContextPath()%>/secure/policyapply/policyApply.wss";
   this.form1.submit();
 }
 function changedev(selectdev){
   
-  form1.action="<%=request.getContextPath() %>/secure/policyapply/policyApply.wss";
+  form1.action="<%=request.getContextPath()%>/secure/policyapply/policyApply.wss";
   this.form1.submit();
 }
 </script>
@@ -89,7 +87,7 @@ function filtery(patterns, list){
 					
 				break;
 			}
-			form1.action="<%=request.getContextPath() %>/secure/policyapply/policyApply.wss";
+			form1.action="<%=request.getContextPath()%>/secure/policyapply/policyApply.wss";
 		}
 		
 		function ck(aform) {
@@ -334,219 +332,237 @@ function filtery(patterns, list){
 		
 	</script>
 
-<% int nodei=0; %>
+<%
+	int nodei = 0;
+%>
 
 
-<body class="navtree" style="background-color:#FFFFFF;"  leftmargin="0" topmargin="0" marginwidth="0" marginheight="0"  >
-<p></p>
+<body class="navtree" style="background-color: #FFFFFF;" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+	<p></p>
 
-<TABLE WIDTH="98%" CELLPADDING="0" CELLSPACING="0" BORDER="0" class="portalPage">
-      <TR>
-          <TD CLASS="pageTitle">策略管理
-          </TD>
-         <TD CLASS="pageClose"><img border="0" src="../../images/back.gif" width="16" height="16" onClick=history.go(-1)></TD>
-      </TR>
+	<TABLE WIDTH="98%" CELLPADDING="0" CELLSPACING="0" BORDER="0" class="portalPage">
+		<TR>
+			<TD CLASS="pageTitle">策略管理</TD>
+			<TD CLASS="pageClose"><img border="0" src="../../images/back.gif" width="16" height="16" onClick=history.go(-1)></TD>
+		</TR>
 
-  </TABLE>
-<TABLE WIDTH="100%" CELLPADDING="0" CELLSPACING="0" BORDER="0">
-  <TR>
-  
-    
-  
-  <TD valign="top">
-  
-  <TABLE WIDTH="98%" CELLPADDING="0" CELLSPACING="0" BORDER="0" CLASS="wasPortlet">
+	</TABLE>
+	<TABLE WIDTH="100%" CELLPADDING="0" CELLSPACING="0" BORDER="0">
+		<TR>
 
-  <TR>
-      <TH class="wpsPortletTitle" width="100%">策略应用</TH>
 
-      <TH class="wpsPortletTitleControls">            
-          
-          
-	  </TH>
-	  <TH class="wpsPortletTitleControls">
 
-      </TH>
-  </TR>
-   
+			<TD valign="top">
 
-  
-  <TBODY ID="wasUniPortlet">
-    <TR>   
-  <TD CLASS="wpsPortletArea" COLSPAN="3" >
-    
-        <a name="important"></a> 
-        
-        <h1 id="title-bread-crumb">策略应用</h1>
-        <h3 id="title-bread-crumb">
-        	<c:choose>
-				
-				<c:when test="${(model.cate=='4')}">
+				<TABLE WIDTH="98%" CELLPADDING="0" CELLSPACING="0" BORDER="0" CLASS="wasPortlet">
+
+					<TR>
+						<TH class="wpsPortletTitle" width="100%">策略应用</TH>
+
+						<TH class="wpsPortletTitleControls"></TH>
+						<TH class="wpsPortletTitleControls"></TH>
+					</TR>
+
+
+
+					<TBODY ID="wasUniPortlet">
+						<TR>
+							<TD CLASS="wpsPortletArea" COLSPAN="3"><a name="important"></a>
+
+								<h1 id="title-bread-crumb">策略应用</h1>
+								<h3 id="title-bread-crumb">
+									<c:choose>
+
+										<c:when test="${(model.cate=='4')}">
 				端口策略：
 				</c:when>
-				
-                <c:when test="${ (model.cate=='9')}">
+
+										<c:when test="${ (model.cate=='9')}">
 				私有MIB策略：
 				</c:when>
-				<c:when test="${ (model.cate=='16') }" >
+										<c:when test="${ (model.cate=='16') }">
 				时间段策略：
-				</c:when>			
-              
-				<c:otherwise>
+				</c:when>
+
+										<c:otherwise>
 				设备策略：		
 				</c:otherwise>
-				</c:choose>
-        
-        <input type="hidden" name="mpname" value="${model.mpname}"/>${model.mpname}</h3>
-<br/>
+									</c:choose>
 
-<form id="form1"  method="post" action="">
-<!-- node and device info selection field -->
+									<input type="hidden" name="mpname" value="${model.mpname}" />${model.mpname}
+								</h3> <br />
+
+								<form id="form1" method="post" action="">
+									<!-- node and device info selection field -->
 
 
-<table BORDER="0" CELLPADDING="1" CELLSPACING="1" WIDTH="100%" SUMMARY="List table" CLASS="framing-table" >
-	 
-	<tbody>
-	
-		<tr><td colspan="3">&nbsp;</td></tr>
-		<tr >
-			<!-- select from node -->
-			<td class="column-head-name" width="10%">节点</td>
-			<td class="column-head-name">
-			<select name="selectNode" onChange="changenode();" style="width: 98%">
-				<option value="0" selected="selected">--请选择组--</option>               
-<!-- zero level -->
-            <c:forEach  items="${model.rootlist}" var="theRoot" >	
-                <c:forEach  items="${model.ipnettree[theRoot]}" var="theL0"  > 
-    					<option value="${model.names[theL0.key].gid}" <c:if test="${model.selectNode==model.names[theL0.key].gid}">selected="selected"</c:if> >
-						${model.names[theL0.key].gname}</option>    			
-                        
-                            <c:forEach  items="${model.ipnettree[theL0.key]}" var="theL1" >
-                             <c:choose><c:when test="${fn:length(model.ipnettree[theL0.key]) >1}">     
-  				 					
-                                               <option value="${model.names[theL1.key].gid}" <c:if test="${model.selectNode==model.names[theL1.key].gid}">selected="selected"</c:if> >
-						&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-						<c:choose><c:when test="${model.names[theL1.key].unmallocedipsetflag eq 0}">
-						${model.names[theL1.key].gname}</c:when><c:when test="${model.names[theL1.key].unmallocedipsetflag eq 1}">
-						未分类</c:when></c:choose>
-						</option>  
-			    					
-			    					<!-- L2 more levels  -->                       
-                                    <c:forEach  items="${model.ipnettree[theL1.key]}" var="theL2" >             
-                                     <c:choose><c:when test="${fn:length(model.ipnettree[theL1.key]) >1}"> 
-  				 						
-                                                   <option value="${model.names[theL2.key].gid}" <c:if test="${model.selectNode==model.names[theL2.key].gid}">selected="selected"</c:if> >
-						&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-						<c:choose><c:when test="${model.names[theL2.key].unmallocedipsetflag eq 0}">
-						${model.names[theL2.key].gname}</c:when><c:when test="${model.names[theL2.key].unmallocedipsetflag eq 1}">
-						未分类</c:when></c:choose>
-						</option> 
-			    						
-			    						
-                                        <c:forEach  items="${model.ipnettree[theL2.key]}" var="theL3" >	
-                                          <c:choose><c:when test="${fn:length(model.ipnettree[theL2.key]) >1}">    
-  				 								
-                                                           <option value="${model.names[theL3.key].gid}" <c:if test="${model.selectNode==model.names[theL3.key].gid}">selected="selected"</c:if> >
-						&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<c:choose><c:when test="${model.names[theL3.key].unmallocedipsetflag eq 0}">
-						${model.names[theL3.key].gname}</c:when><c:when test="${model.names[theL3.key].unmallocedipsetflag eq 1}">
-						未分类</c:when></c:choose>
-						</option>  
-			    											    				
-                                                <c:forEach  items="${model.ipnettree[theL3.key]}" var="theL4" >
-                                                  <c:choose><c:when test="${fn:length(model.ipnettree[theL3.key]) >1}">    
-                                 						
-                                                                    <option value="${model.names[theL4.key].gid}" <c:if test="${model.selectNode==model.names[theL4.key].gid}">selected="selected"</c:if> >
-						&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<c:choose><c:when test="${model.names[theL4.key].unmallocedipsetflag eq 0}">
-						${model.names[theL4.key].gname}</c:when><c:when test="${model.names[theL4.key].unmallocedipsetflag eq 1}">
-						未分类</c:when></c:choose>
-						</option>  
-			    												    				
-                                                		<c:forEach  items="${model.ipnettree[theL4.key]}" var="theL5" >
-                                                       <c:choose><c:when test="${fn:length(model.ipnettree[theL4.key]) >1}"> 
-                                                        <c:if test="${fn:length(model.ipnettree[theL5.key]) > 0}" >
-                                                           
-                                                                        <option value="${model.names[theL5.key].gid}" <c:if test="${model.selectNode==model.names[theL5.key].gid}">selected="selected"</c:if> >
-						&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<c:choose><c:when test="${model.names[theL5.key].unmallocedipsetflag eq 0}">
-						${model.names[theL5.key].gname}</c:when><c:when test="${model.names[theL5.key].unmallocedipsetflag eq 1}">
-						未分类</c:when></c:choose>
-						</option>                                                                       
-                                                           
-                                                         </c:if>
-                                                         </c:when></c:choose>
-                                                         </c:forEach>
-                                    					<!-- L5 more levels end -->
-			   										</c:when></c:choose>
-  												</c:forEach>
-                                             	<!-- L4 more levels end -->
-			   								</c:when></c:choose>
-  										</c:forEach>	
-                                        <!-- L3 more levels end -->
-			   						</c:when></c:choose>
-  									</c:forEach>
-                                    <!-- L2 more levels end -->
-			   						</c:when></c:choose>
-  								</c:forEach>
- 
-                       
-   			</c:forEach>
+									<table BORDER="0" CELLPADDING="1" CELLSPACING="1" WIDTH="100%" SUMMARY="List table" CLASS="framing-table">
 
-		</c:forEach>
-       
-			</select></td>
-			<td class="column-head-name" width="10%">
-			&nbsp;<input id="btnselgip" type="submit" name="_target0" value=">>" class="buttons" id="functions">&nbsp;
-			</td>
-				
-		</tr>
-		<tr><td colspan="3" class="column-head-name" >&nbsp;</td></tr>
-		<!-- select from device of the node -->	
-		
-		<c:if test="${model.dispdevinfo==true }">
-		<tr>
-			<td class="column-head-name" valign="top">设备 <br/> <input type="text" id="categorypatterns" name="category_patterns"
-						value="filter" style="width: 80px; color: gray"
-						onclick="this.value='';" onKeyPress="return;" onMouseUp="return;"
-						onkeyup="filtery(this.value,selectDevice);"
-						onchange="filtery(this.value,selectDevice);"></td>
-			<td  class="column-head-name">
-			<select	name="selectDevice" style="width: 98%" size="5" onchange="changedev(this);">
-				<option value="0" selected="selected">--请选择设备--</option>
-			
-				<c:forEach items="${model.devicetmp}" var="theIp">
-					<option value="${theIp.devid}" <c:if test="${model.selectDevice==theIp.devid }">selected="selected"</c:if> title="${theIp.sysname}(	...${theIp.devid})">
-					${theIp.sysname}</option>
-				</c:forEach>
-			
-				
-			</select>
-			
-			</td>
-			<td class="column-head-name">
-			&nbsp;<input id="btnseldevice" type="submit" name="_target1" value=">>" class="buttons" id="functions">&nbsp;
-			</td>
-	
-		</tr>
-		</c:if>
-		<tr><td class="column-head-name"><div id="dev" style="color: blue">&nbsp;</div></td>
-		<td class="column-head-name" align="center">&nbsp;<div id="show" style="color: blue">&nbsp;</div>
-		<input type="hidden" name="cate" value="${model.cate}">
-		<input type="hidden" name="mpid" value="${model.mpid}">
-		<input type="hidden" name="ppid" value="${model.ppid}">
-		<!-- <input type="hidden" name="selectDevice1" value="${model.selectDevice }">-->
-		
-		</td><td class="column-head-name">&nbsp;</td></tr>
-	</tbody>
-</table>
+										<tbody>
 
-<!-- dual selection field -->
+											<tr>
+												<td colspan="3">&nbsp;</td>
+											</tr>
+											<tr>
+												<!-- select from node -->
+												<td class="column-head-name" width="10%">节点</td>
+												<td class="column-head-name"><select name="selectNode" onChange="changenode();" style="width: 98%">
+														<option value="0" selected="selected">--请选择组--</option>
+														<!-- zero level -->
+														<c:forEach items="${model.rootlist}" var="theRoot">
+															<c:forEach items="${model.ipnettree[theRoot]}" var="theL0">
+																<option value="${model.names[theL0.key].gid}" <c:if test="${model.selectNode==model.names[theL0.key].gid}">selected="selected"</c:if>>
+																	${model.names[theL0.key].gname}</option>
 
-<c:if test="${model.dispdualselect==true}">
-<table border="0" width="100%" class="framing-table">
-	<tbody>
-    	<!--<tr>
+																<c:forEach items="${model.ipnettree[theL0.key]}" var="theL1">
+																	<c:choose>
+																		<c:when test="${fn:length(model.ipnettree[theL0.key]) >1}">
+
+																			<option value="${model.names[theL1.key].gid}" <c:if test="${model.selectNode==model.names[theL1.key].gid}">selected="selected"</c:if>>
+																				&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+																				<c:choose>
+																					<c:when test="${model.names[theL1.key].unmallocedipsetflag eq 0}">
+						${model.names[theL1.key].gname}</c:when>
+																					<c:when test="${model.names[theL1.key].unmallocedipsetflag eq 1}">
+						未分类</c:when>
+																				</c:choose>
+																			</option>
+
+																			<!-- L2 more levels  -->
+																			<c:forEach items="${model.ipnettree[theL1.key]}" var="theL2">
+																				<c:choose>
+																					<c:when test="${fn:length(model.ipnettree[theL1.key]) >1}">
+
+																						<option value="${model.names[theL2.key].gid}" <c:if test="${model.selectNode==model.names[theL2.key].gid}">selected="selected"</c:if>>
+																							&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+																							<c:choose>
+																								<c:when test="${model.names[theL2.key].unmallocedipsetflag eq 0}">
+						${model.names[theL2.key].gname}</c:when>
+																								<c:when test="${model.names[theL2.key].unmallocedipsetflag eq 1}">
+						未分类</c:when>
+																							</c:choose>
+																						</option>
+
+
+																						<c:forEach items="${model.ipnettree[theL2.key]}" var="theL3">
+																							<c:choose>
+																								<c:when test="${fn:length(model.ipnettree[theL2.key]) >1}">
+
+																									<option value="${model.names[theL3.key].gid}" <c:if test="${model.selectNode==model.names[theL3.key].gid}">selected="selected"</c:if>>
+																										&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+																										<c:choose>
+																											<c:when test="${model.names[theL3.key].unmallocedipsetflag eq 0}">
+						${model.names[theL3.key].gname}</c:when>
+																											<c:when test="${model.names[theL3.key].unmallocedipsetflag eq 1}">
+						未分类</c:when>
+																										</c:choose>
+																									</option>
+
+																									<c:forEach items="${model.ipnettree[theL3.key]}" var="theL4">
+																										<c:choose>
+																											<c:when test="${fn:length(model.ipnettree[theL3.key]) >1}">
+
+																												<option value="${model.names[theL4.key].gid}" <c:if test="${model.selectNode==model.names[theL4.key].gid}">selected="selected"</c:if>>
+																													&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+																													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+																													<c:choose>
+																														<c:when test="${model.names[theL4.key].unmallocedipsetflag eq 0}">
+						${model.names[theL4.key].gname}</c:when>
+																														<c:when test="${model.names[theL4.key].unmallocedipsetflag eq 1}">
+						未分类</c:when>
+																													</c:choose>
+																												</option>
+
+																												<c:forEach items="${model.ipnettree[theL4.key]}" var="theL5">
+																													<c:choose>
+																														<c:when test="${fn:length(model.ipnettree[theL4.key]) >1}">
+																															<c:if test="${fn:length(model.ipnettree[theL5.key]) > 0}">
+
+																																<option value="${model.names[theL5.key].gid}" <c:if test="${model.selectNode==model.names[theL5.key].gid}">selected="selected"</c:if>>
+																																	&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+																																	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+																																	<c:choose>
+																																		<c:when test="${model.names[theL5.key].unmallocedipsetflag eq 0}">
+						${model.names[theL5.key].gname}</c:when>
+																																		<c:when test="${model.names[theL5.key].unmallocedipsetflag eq 1}">
+						未分类</c:when>
+																																	</c:choose>
+																																</option>
+
+																															</c:if>
+																														</c:when>
+																													</c:choose>
+																												</c:forEach>
+																												<!-- L5 more levels end -->
+																											</c:when>
+																										</c:choose>
+																									</c:forEach>
+																									<!-- L4 more levels end -->
+																								</c:when>
+																							</c:choose>
+																						</c:forEach>
+																						<!-- L3 more levels end -->
+																					</c:when>
+																				</c:choose>
+																			</c:forEach>
+																			<!-- L2 more levels end -->
+																		</c:when>
+																	</c:choose>
+																</c:forEach>
+
+
+															</c:forEach>
+
+														</c:forEach>
+
+												</select></td>
+												<td class="column-head-name" width="10%">&nbsp;<input id="btnselgip" type="submit" name="_target0" value=">>" class="buttons" id="functions">&nbsp;
+												</td>
+
+											</tr>
+											<tr>
+												<td colspan="3" class="column-head-name">&nbsp;</td>
+											</tr>
+											<!-- select from device of the node -->
+
+											<c:if test="${model.dispdevinfo==true }">
+												<tr>
+													<td class="column-head-name" valign="top">设备 <br /> <input type="text" id="categorypatterns" name="category_patterns" value="filter"
+														style="width: 80px; color: gray" onclick="this.value='';" onKeyPress="return;" onMouseUp="return;" onkeyup="filtery(this.value,selectDevice);"
+														onchange="filtery(this.value,selectDevice);"></td>
+													<td class="column-head-name"><select name="selectDevice" style="width: 98%" size="5" onchange="changedev(this);">
+															<option value="0" selected="selected">--请选择设备--</option>
+
+															<c:forEach items="${model.devicetmp}" var="theIp">
+																<option value="${theIp.devid}" <c:if test="${model.selectDevice==theIp.devid }">selected="selected"</c:if> title="${theIp.sysname}(	...${theIp.devid})">
+																	${theIp.sysname}</option>
+															</c:forEach>
+
+
+													</select></td>
+													<td class="column-head-name">&nbsp;<input id="btnseldevice" type="submit" name="_target1" value=">>" class="buttons" id="functions">&nbsp;
+													</td>
+
+												</tr>
+											</c:if>
+											<tr>
+												<td class="column-head-name"><div id="dev" style="color: blue">&nbsp;</div></td>
+												<td class="column-head-name" align="center">&nbsp;
+													<div id="show" style="color: blue">&nbsp;</div> <input type="hidden" name="cate" value="${model.cate}"> <input type="hidden" name="mpid" value="${model.mpid}">
+													<input type="hidden" name="ppid" value="${model.ppid}"> <!-- <input type="hidden" name="selectDevice1" value="${model.selectDevice }">-->
+
+												</td>
+												<td class="column-head-name">&nbsp;</td>
+											</tr>
+										</tbody>
+									</table>
+
+									<!-- dual selection field -->
+
+									<c:if test="${model.dispdualselect==true}">
+										<table border="0" width="100%" class="framing-table">
+											<tbody>
+												<!--<tr>
             <td width="40%" class="table-row" align="center">
             	Total Selected ${fn:length(model.portinfo)}
             </td>
@@ -555,176 +571,186 @@ function filtery(patterns, list){
             <td width="40%" class="table-row">portinfoed
             </td>
         </tr>-->
-		<tr >
-			<td width="45%" class="table-row" align="center">
-			
-			<select name="unselected" size="18" multiple="multiple" style="height: 245px;width:98%" onChange="showit(this);">
-				
-				<c:choose>
-				
-				<c:when test="${ (model.cate=='4')}" >
-				<c:forEach items="${model.portinfo}" var="theport">
-					<option value="${theport.ptid }">${theport.ifdescr} <c:if test="${model.portpolicyapplied[theport.ptid] != null}">&nbsp;(${model.portpolicyapplied[theport.ptid]})</c:if></option>
-				</c:forEach>
-				</c:when>
-				<c:when test="${ (model.cate=='9')}" >
-				<c:forEach items="${model.pdminfo}" var="thepdm">
-					<option value="${thepdm.pdmid }">${thepdm.oidindex}=${thepdm.oidname} <c:if test="${model.pdmspolicyapplied[thepdm.pdmid] != null}">&nbsp;(${model.pdmspolicyapplied[thepdm.pdmid]})</c:if></option>
-				</c:forEach>
-				</c:when>
-                
-				<c:when test="${ (model.cate=='16') }" >
-				<c:forEach items="${model.portinfo}" var="theport">
-					<option value="port_${theport.ptid }">端口 ${theport.ifdescr} <c:if test="${model.portpolicyapplied[theport.ptid ] != null}">&nbsp;(${model.portpolicyapplied[theport.ptid]})</c:if></option>
-				</c:forEach>
-				<c:forEach items="${model.pdminfo}" var="thepdm">
-					<option value="pdm_${thepdm.pdmid }">私有index ${thepdm.oidindex}=${thepdm.oidname} <c:if test="${model.pdmspolicyapplied[thepdm.pdmid] != null}">&nbsp;(${model.pdmspolicyapplied[thepdm.pdmid]})</c:if></option>
-				</c:forEach>
-				<c:forEach items="${model.deviceinfo}" var="device0">
-					<option value="device_${device0.devid }">设备  ${device0.devip}_${device0.sysname } <c:if test="${model.devicepolicyapplied[device0.devid] != null}">&nbsp;(${model.devicepolicyapplied[device0.devid]})</c:if></option>
-				</c:forEach>
-				
-				</c:when>
-				
-              
-				<c:otherwise>
-				<c:forEach items="${model.deviceinfo}" var="device0">
-					<option value="${device0.devid }" >${device0.devip}_${device0.sysname }<c:if test="${model.devicepolicyapplied[device0.devid] != null}">&nbsp;(${model.devicepolicyapplied[device0.devid]})</c:if></option>
-				</c:forEach>		
-				</c:otherwise>
-				</c:choose>
-				
-			</select></td>
-			<td width="10%" class="table-row">
-			<table border="0"  width="100%" cellspacing="5" cellpadding="5">
-				<tbody>
-					<tr>
-						<td></td>
-					</tr>
-					<tr>
-						<td class="buttons"><a href="javascript:add();" >添加[>]</a></td>
-					</tr>
-					<tr>
-						<td class="buttons"><a href="javascript:remove();">移除[<]</a></td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td>
-					</tr>
-					<tr>
-						<td class="buttons"><a href="javascript:addall();">添加所有[>>]</a></td>
-					</tr>
-					<tr>
-						<td class="buttons"><a href="javascript:removeall();">移除所有[<<]</a></td>
-					</tr>
-					<tr>
-						<td></td>
-					</tr>
-				</tbody>
-			</table>
-			</td>
-			<td width="45%" class="table-row" align="center">
-			<select name="selecting" size="18" multiple="multiple" style="height: 245px; width: 98%">
-				<c:choose>
-                
-				<c:when test="${ (model.cate=='4') }" >
-				<c:forEach items="${model.portinfoed}" var="theport">
-					<option value="${theport.ptid }">${theport.ifdescr}</option>
-				</c:forEach>
-				</c:when>
-				<c:when test="${ (model.cate=='9')}" >
-				<c:forEach items="${model.pdminfoed}" var="thepdm">
-					<option value="${thepdm.pdmid }">${thepdm.oidindex}=${thepdm.oidname}</option>
-				</c:forEach>
-				</c:when>
-				
-                
-				<c:when test="${ (model.cate=='16') }" >
-				<c:forEach items="${model.portinfoed}" var="theport">
-					<option value="port_${theport.ptid }">端口 ${theport.ifdescr}</option>
-				</c:forEach>
-				<c:forEach items="${model.pdminfoed}" var="thepdm">
-					<option value="pdm_${thepdm.pdmid }">私有index ${thepdm.oidindex}=${thepdm.oidname}</option>
-				</c:forEach>
-				<c:forEach items="${model.deviceinfoed}" var="device0">
-					<option value="device_${device0.devid }">设备  ${device0.devip}_${device0.sysname }</option>
-				</c:forEach>
-				
-				</c:when>
-				
-				<c:otherwise>
-				<c:forEach items="${model.deviceinfoed}" var="device0">
-					<option value="${device0.devid }">${device0.devip}_${device0.sysname }</option>
-				</c:forEach>		
-				</c:otherwise>
-				</c:choose>
+												<tr>
+													<td width="45%" class="table-row" align="center"><select name="unselected" size="18" multiple="multiple" style="height: 245px; width: 98%"
+														onChange="showit(this);">
 
-			</select></td>
-			
-		</tr>
-		<tr class="paging-table" align="center">
-		
-			<TD CLASS="table-totals" VALIGN="baseline" align="left">    
-            <c:choose>				
-				<c:when test="${ (model.cate=='4')  || (model.cate=='9')}" >
+															<c:choose>
+
+																<c:when test="${ (model.cate=='4')}">
+																	<c:forEach items="${model.portinfo}" var="theport">
+																		<option value="${theport.ptid }">
+																			${theport.ifdescr}
+																			<c:if test="${model.portpolicyapplied[theport.ptid] != null}">&nbsp;(${model.portpolicyapplied[theport.ptid]})</c:if>
+																		</option>
+																	</c:forEach>
+																</c:when>
+																<c:when test="${ (model.cate=='9')}">
+																	<c:forEach items="${model.pdminfo}" var="thepdm">
+																		<option value="${thepdm.pdmid }">
+																			${thepdm.oidindex}=${thepdm.oidname}
+																			<c:if test="${model.pdmspolicyapplied[thepdm.pdmid] != null}">&nbsp;(${model.pdmspolicyapplied[thepdm.pdmid]})</c:if>
+																		</option>
+																	</c:forEach>
+																</c:when>
+
+																<c:when test="${ (model.cate=='16') }">
+																	<c:forEach items="${model.portinfo}" var="theport">
+																		<option value="port_${theport.ptid }">
+																			端口 ${theport.ifdescr}
+																			<c:if test="${model.portpolicyapplied[theport.ptid ] != null}">&nbsp;(${model.portpolicyapplied[theport.ptid]})</c:if>
+																		</option>
+																	</c:forEach>
+																	<c:forEach items="${model.pdminfo}" var="thepdm">
+																		<option value="pdm_${thepdm.pdmid }">
+																			私有index ${thepdm.oidindex}=${thepdm.oidname}
+																			<c:if test="${model.pdmspolicyapplied[thepdm.pdmid] != null}">&nbsp;(${model.pdmspolicyapplied[thepdm.pdmid]})</c:if>
+																		</option>
+																	</c:forEach>
+																	<c:forEach items="${model.deviceinfo}" var="device0">
+																		<option value="device_${device0.devid }">
+																			设备 ${device0.devip}_${device0.sysname }
+																			<c:if test="${model.devicepolicyapplied[device0.devid] != null}">&nbsp;(${model.devicepolicyapplied[device0.devid]})</c:if>
+																		</option>
+																	</c:forEach>
+
+																</c:when>
+
+
+																<c:otherwise>
+																	<c:forEach items="${model.deviceinfo}" var="device0">
+																		<option value="${device0.devid }">
+																			${device0.devip}_${device0.sysname }
+																			<c:if test="${model.devicepolicyapplied[device0.devid] != null}">&nbsp;(${model.devicepolicyapplied[device0.devid]})</c:if>
+																		</option>
+																	</c:forEach>
+																</c:otherwise>
+															</c:choose>
+
+													</select></td>
+													<td width="10%" class="table-row">
+														<table border="0" width="100%" cellspacing="5" cellpadding="5">
+															<tbody>
+																<tr>
+																	<td></td>
+																</tr>
+																<tr>
+																	<td class="buttons"><a href="javascript:add();">添加[>]</a></td>
+																</tr>
+																<tr>
+																	<td class="buttons"><a href="javascript:remove();">移除[<]</a></td>
+																</tr>
+																<tr>
+																	<td>&nbsp;</td>
+																</tr>
+																<tr>
+																	<td class="buttons"><a href="javascript:addall();">添加所有[>>]</a></td>
+																</tr>
+																<tr>
+																	<td class="buttons"><a href="javascript:removeall();">移除所有[<<]</a></td>
+																</tr>
+																<tr>
+																	<td></td>
+																</tr>
+															</tbody>
+														</table>
+													</td>
+													<td width="45%" class="table-row" align="center"><select name="selecting" size="18" multiple="multiple" style="height: 245px; width: 98%">
+															<c:choose>
+
+																<c:when test="${ (model.cate=='4') }">
+																	<c:forEach items="${model.portinfoed}" var="theport">
+																		<option value="${theport.ptid }">${theport.ifdescr}</option>
+																	</c:forEach>
+																</c:when>
+																<c:when test="${ (model.cate=='9')}">
+																	<c:forEach items="${model.pdminfoed}" var="thepdm">
+																		<option value="${thepdm.pdmid }">${thepdm.oidindex}=${thepdm.oidname}</option>
+																	</c:forEach>
+																</c:when>
+
+
+																<c:when test="${ (model.cate=='16') }">
+																	<c:forEach items="${model.portinfoed}" var="theport">
+																		<option value="port_${theport.ptid }">端口 ${theport.ifdescr}</option>
+																	</c:forEach>
+																	<c:forEach items="${model.pdminfoed}" var="thepdm">
+																		<option value="pdm_${thepdm.pdmid }">私有index ${thepdm.oidindex}=${thepdm.oidname}</option>
+																	</c:forEach>
+																	<c:forEach items="${model.deviceinfoed}" var="device0">
+																		<option value="device_${device0.devid }">设备 ${device0.devip}_${device0.sysname }</option>
+																	</c:forEach>
+
+																</c:when>
+
+																<c:otherwise>
+																	<c:forEach items="${model.deviceinfoed}" var="device0">
+																		<option value="${device0.devid }">${device0.devip}_${device0.sysname }</option>
+																	</c:forEach>
+																</c:otherwise>
+															</c:choose>
+
+													</select></td>
+
+												</tr>
+												<tr class="paging-table" align="center">
+
+													<TD CLASS="table-totals" VALIGN="baseline" align="left"><c:choose>
+															<c:when test="${ (model.cate=='4')  || (model.cate=='9')}">
                 可选端口总数 ${fn:length(model.portinfo)}
-				</c:when>		
-				<c:when test="${ (model.cate=='16') }" >
-                可选端口总数 ${fn:length(model.portinfo)}<br/>
+				</c:when>
+															<c:when test="${ (model.cate=='16') }">
+                可选端口总数 ${fn:length(model.portinfo)}<br />
                 可选设备总数 ${fn:length(model.deviceinfo)}	
 				</c:when>
-				<c:otherwise>
+															<c:otherwise>
                 可选设备总数 ${fn:length(model.deviceinfo)}		
 				</c:otherwise>
-				</c:choose>      
-		</TD>
-        
-        <td></td>
-        
-       <TD CLASS="table-totals" VALIGN="baseline" align="left">    
-        	<c:choose>
-				<c:when test="${ (model.cate=='4')  || (model.cate=='9')}" >
+														</c:choose></TD>
+
+													<td></td>
+
+													<TD CLASS="table-totals" VALIGN="baseline" align="left"><c:choose>
+															<c:when test="${ (model.cate=='4')  || (model.cate=='9')}">
                 已选端口总数 ${fn:length(model.portinfoed)}
 				</c:when>
-                
-				<c:when test="${ (model.cate=='16') }" >
-                 已选端口总数 ${fn:length(model.portinfoed)}<br/>
+
+															<c:when test="${ (model.cate=='16') }">
+                 已选端口总数 ${fn:length(model.portinfoed)}<br />
                 已选设备总数 ${fn:length(model.deviceinfoed)}		
 				</c:when>
-				
-				<c:otherwise>
+
+															<c:otherwise>
                 已选设备总数 ${fn:length(model.deviceinfoed)}			
 				</c:otherwise>
-			</c:choose>
-		</td>	
-		</tr>
-		<tr><td colspan="4">
-		
-		</td></tr>
-	</tbody>
-</table>
+														</c:choose></td>
+												</tr>
+												<tr>
+													<td colspan="4"></td>
+												</tr>
+											</tbody>
+										</table>
 
 
 
-<TABLE class="paging-table" BORDER="0" CELLPADDING="5" CELLSPACING="0" WIDTH="100%" SUMMARY="Table for displaying paging function">
+										<TABLE class="paging-table" BORDER="0" CELLPADDING="5" CELLSPACING="0" WIDTH="100%" SUMMARY="Table for displaying paging function">
 
-	<TR>
-			
-
-            <TD CLASS="table-totals" VALIGN="baseline" align="center">               
-             
-            	<input type="submit" name="ok" onClick="javascript:submitForm('test');" value="  确认  "  class="buttons" id="functions"/> 
-				&nbsp;&nbsp;
+											<TR>
 
 
-        
-		</TD>
-	</TR>
+												<TD CLASS="table-totals" VALIGN="baseline" align="center"><input type="submit" name="ok" onClick="javascript:submitForm('test');" value="  确认  " class="buttons"
+													id="functions" /> &nbsp;&nbsp;</TD>
+											</TR>
 
-</TABLE>
-</c:if>
-</form>
-
-</TD></TR></TBODY></TABLE></TD></TR></TABLE>
+										</TABLE>
+									</c:if>
+								</form></TD>
+						</TR>
+					</TBODY>
+				</TABLE>
+			</TD>
+		</TR>
+	</TABLE>
 
 
 </body>
