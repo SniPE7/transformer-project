@@ -1,6 +1,19 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd&#xA;http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
   
-  <bean id="policyRuleEvaluator" class="com.ibm.ncs.util.PolicyRuleEvaluatorImpl">
+  <bean id="policyRuleEvaluator" class="com.ibm.ncs.util.PolicyRuleEvaluatorImpl" scope="singleton">
+  </bean>
+  
+  <bean id="policyValidationProcess" class="com.ibm.ncs.web.policytakeeffect.PolicyValidationProcessImpl" scope="singleton">
+    <property name="dataSource" ref="myDataSource" />
+    <property name="policyPublishInfoDao" ref="policyPublishInfoDao" />
+    <property name="policyTemplateDao" ref="policyTemplateDao" />
+    <property name="policyTemplateVerDao" ref="policyTemplateVerDao" />
+    
+    <property name="policyDetailsWithRuleDao" ref="policyDetailsWithRuleDao" />
+    <property name="policyRuleEvaluator" ref="policyRuleEvaluator"/>
+    <property name="polDetailDspDao" ref="PolDetailDspDao" />   
+    <property name="policyBaseDao" ref="TPolicyBaseDao" />
+    <property name="eventTypeInitDao" ref="TEventTypeInitDao" />
   </bean>
   
   <bean id="roleAndServerNodeDao" class="com.ibm.ncs.model.dao.spring.TRoleAndServerNodeDaoImpl" scope="singleton">

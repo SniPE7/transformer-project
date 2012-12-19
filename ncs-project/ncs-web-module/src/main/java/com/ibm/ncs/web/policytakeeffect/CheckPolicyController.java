@@ -1,4 +1,4 @@
-package com.ibm.ncs.web.policyapply;
+package com.ibm.ncs.web.policytakeeffect;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,31 +11,30 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import com.ibm.ncs.model.dto.TCategoryMapInit;
-import com.ibm.ncs.web.policytakeeffect.TakeEffectProcess;
 
-public class ExportXMLFileController implements Controller {
+public class CheckPolicyController implements Controller {
 
 	String pageView;
 	DataSource datasource;
 
-	TakeEffectProcess TakeEffectProcess;
+	PolicyValidationProcess policyValidationProcess;
 
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse arg1) throws Exception {
 		Map<String, Object> model = new HashMap<String, Object>();
 
-		TakeEffectProcess.getStat().clear();
-		TakeEffectProcess.setDone(false);
+		policyValidationProcess.getStat().clear();
+		policyValidationProcess.setDone(false);
 		try {
-			TakeEffectProcess.stopProcess();
+			policyValidationProcess.stopProcess();
 		} catch (Exception e) {
 		}
-		TakeEffectProcess.init();
-		TakeEffectProcess.startProcess();
+		policyValidationProcess.init();
+		policyValidationProcess.startProcess();
 		// TakeEffectProcess.operations(); //or, synchornized same thread
 
-		Map<?, ?> stat = TakeEffectProcess.getStat();
+		Map<?, ?> stat = policyValidationProcess.getStat();
 		model.put("stat", stat);
-		request.getSession().setAttribute("progress", TakeEffectProcess);
+		request.getSession().setAttribute("progress", policyValidationProcess);
 		request.getSession().setAttribute("progressInfo", stat);
 		return new ModelAndView(getPageView(), "model", model);
 	}
@@ -66,11 +65,12 @@ public class ExportXMLFileController implements Controller {
 		this.datasource = datasource;
 	}
 
-	public TakeEffectProcess getTakeEffectProcess() {
-		return TakeEffectProcess;
+	public PolicyValidationProcess getPolicyValidationProcess() {
+		return policyValidationProcess;
 	}
 
-	public void setTakeEffectProcess(TakeEffectProcess takeEffectProcess) {
-		TakeEffectProcess = takeEffectProcess;
+	public void setPolicyValidationProcess(PolicyValidationProcess policyValidationProcess) {
+		this.policyValidationProcess = policyValidationProcess;
 	}
+
 }
