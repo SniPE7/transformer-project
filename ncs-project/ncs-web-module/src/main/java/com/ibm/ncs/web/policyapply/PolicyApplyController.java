@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
+import com.ibm.ncs.model.dao.PolicyPublishInfo;
 import com.ibm.ncs.model.dao.PredefmibInfoDao;
 import com.ibm.ncs.model.dao.PredefmibPolMapDao;
 import com.ibm.ncs.model.dao.TDeviceInfoDao;
@@ -23,7 +24,11 @@ import com.ibm.ncs.model.dao.TGrpNetDao;
 import com.ibm.ncs.model.dao.TLinepolMapDao;
 import com.ibm.ncs.model.dao.TPolicyBaseDao;
 import com.ibm.ncs.model.dao.TPolicyPeriodDao;
+import com.ibm.ncs.model.dao.TPolicyPublishInfoDao;
+import com.ibm.ncs.model.dao.TPolicyTemplateDao;
+import com.ibm.ncs.model.dao.TPolicyTemplateVerDao;
 import com.ibm.ncs.model.dao.TPortInfoDao;
+import com.ibm.ncs.model.dto.PolicyTemplateVer;
 import com.ibm.ncs.model.dto.PredefmibInfo;
 import com.ibm.ncs.model.dto.PredefmibPolMap;
 import com.ibm.ncs.model.dto.PredefmibPolMapPk;
@@ -57,6 +62,10 @@ import com.ibm.ncs.util.SortList;
  */
 public class PolicyApplyController implements Controller {
 
+	private TPolicyPublishInfoDao policyPublishInfoDao;
+	private TPolicyTemplateDao policyTemplateDao;
+	private TPolicyTemplateVerDao policyTemplateVerDao;
+
 	TPolicyBaseDao TPolicyBaseDao;
 	TPolicyPeriodDao TPolicyPeriodDao;
 	TGrpNetDao TGrpNetDao;
@@ -76,6 +85,30 @@ public class PolicyApplyController implements Controller {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public TPolicyPublishInfoDao getPolicyPublishInfoDao() {
+		return policyPublishInfoDao;
+	}
+
+	public void setPolicyPublishInfoDao(TPolicyPublishInfoDao policyPublishInfoDao) {
+		this.policyPublishInfoDao = policyPublishInfoDao;
+	}
+
+	public TPolicyTemplateDao getPolicyTemplateDao() {
+		return policyTemplateDao;
+	}
+
+	public void setPolicyTemplateDao(TPolicyTemplateDao policyTemplateDao) {
+		this.policyTemplateDao = policyTemplateDao;
+	}
+
+	public TPolicyTemplateVerDao getPolicyTemplateVerDao() {
+		return policyTemplateVerDao;
+	}
+
+	public void setPolicyTemplateVerDao(TPolicyTemplateVerDao policyTemplateVerDao) {
+		this.policyTemplateVerDao = policyTemplateVerDao;
 	}
 
 	public TDeviceInfoDao getTDeviceInfoDao() {
@@ -156,20 +189,22 @@ public class PolicyApplyController implements Controller {
 		Map<String, Object> model = new HashMap<String, Object>();
 
 		try {
-			model = parseInput(request, model);
-			// model = encodeCateName(model); //not used
+			parseInput(request, model);
+
+			// Initialize PolicyBase which will dispay in content
+			getPolicyBase(request, model);
 
 			// Initialize contents listed in "Group"
-			model = getNodeList(model);
+			getNodeList(model);
 			// System.out.println("step1="+model);
 
 			// Initialize device related contents listed in "Device/Port",
 			// "Unselected" list and "Selected" list
-			model = getDevicesOfNodes(model);
+			getDevicesOfNodes(model);
 
 			String[] selecting = (String[]) request.getParameterValues("selecting");
 			String[] unselected = (String[]) request.getParameterValues("unselected");
-			String mpid = request.getParameter("mpid");
+		  String mpid = request.getParameter("mpid");
 			String ppid = request.getParameter("ppid");
 			String tcate = request.getParameter("cate");
 			String selectDevice = request.getParameter("selectDevice");
@@ -549,26 +584,26 @@ public class PolicyApplyController implements Controller {
 				}// end of device policy
 			}// end of if(selecting!=null||unselected!=null)
 
-			model = parseInput(request, model);
+			parseInput(request, model);
 			// model = encodeCateName(model); //not used
 
 			// Initialize contents listed in "Group"
-			model = getNodeList(model);
+			getNodeList(model);
 			// System.out.println("step1="+model);
 
 			// Initialize device related contents listed in "Device/Port",
 			// "Unselected" list and "Selected" list
-			model = getDevicesOfNodes(model);
+			getDevicesOfNodes(model);
 
 			String cate = (String) model.get("cate");
 
 			try {
 				// if "Port/Predefined Mib/Timeframe Policy" is selected,
 				if (cate.equals("4") || cate.equals("16")) {
-					model = getPortsOfDevice(model);
+					getPortsOfDevice(model);
 				}
 				if (cate.equals("9") || cate.equals("16")) {
-					model = getPdmsOfDevice(model);
+					getPdmsOfDevice(model);
 				}
 			} catch (Exception e) {
 				Log4jInit.ncsLog.error(this.getClass().getName() + " Error occured:\n" + e.getMessage());
@@ -599,6 +634,26 @@ public class PolicyApplyController implements Controller {
 
 	}
 
+	private void getPolicyBase(HttpServletRequest request, Map<String, Object> model) throws DaoException {
+	  String mpid = request.getParameter("mpid");
+	  TPolicyBase policybase;
+	  if (mpid != null) {
+	  	policybase = TPolicyBaseDao.findByPrimaryKey(Long.parseLong(mpid));
+	  	if (policybase != null) {
+	  		long ptvid = policybase.getPtvid();
+	  		if (ptvid > 0) {
+	  			PolicyTemplateVer ptv = this.policyTemplateVerDao.findById(Long.toString(ptvid));
+	  			policybase.setPolictTemplateVer(ptv);
+	  			if (ptv != null) {
+	  				PolicyPublishInfo ppi = this.policyPublishInfoDao.findById(Long.toString(ptv.getPpiid()));
+	  				ptv.setPolicyPublishInfo(ppi);
+	  			}
+	  		}
+	  	}
+	  	model.put("policybase", policybase);
+	  }
+  }
+
 	private boolean isWithinTheNode(TDevpolMap tm, Map<String, Object> model) {
 		boolean ret = false;
 		try {
@@ -617,7 +672,7 @@ public class PolicyApplyController implements Controller {
 		return ret;
 	}
 
-	private Map parseInput(HttpServletRequest request, Map model) {
+	private void parseInput(HttpServletRequest request, Map model) {
 		// String idxname = request.getParameter("navpolicy");//not used
 
 		String cate = request.getParameter("cate");
@@ -683,7 +738,6 @@ public class PolicyApplyController implements Controller {
 			model.put("selectDevice", selectDevice1);
 			selectDevice = selectDevice1;
 		}
-		return model;
 	}
 
 	private Map encodeCateName(Map model) {
@@ -696,7 +750,7 @@ public class PolicyApplyController implements Controller {
 		return model;
 	}
 
-	private Map getNodeList(Map model) throws TGrpNetDaoException {
+	private void getNodeList(Map model) throws TGrpNetDaoException {
 		// There are 6 fields in table T_GRP_NET they are
 		// gid,gname,supid,levels,description,unm
 		List<TGrpNet> _result = TGrpNetDao.findAll();
@@ -751,10 +805,9 @@ public class PolicyApplyController implements Controller {
 		model.put("ipnettree", tree);
 		model.put("rootlist", rootlist);
 		model.put("names", names);
-		return model;
 	}
 
-	private Map getDevicesOfNodes(Map model) throws TDeviceInfoDaoException, TListIpDaoException, TDevpolMapDaoException {
+	private void getDevicesOfNodes(Map model) throws TDeviceInfoDaoException, TListIpDaoException, TDevpolMapDaoException {
 		String selectNode = (String) model.get("selectNode");
 		String selectDevice = (String) model.get("selectDevice");
 		String cate = (String) model.get("cate");
@@ -857,10 +910,9 @@ public class PolicyApplyController implements Controller {
 			exp.printStackTrace();
 		}
 		// System.out.println("*********End of getDevicesOfNodes*********");
-		return model;
 	}
 
-	private Map getPortsOfDevice(Map model) throws TPortInfoDaoException, TLinepolMapDaoException {
+	private void getPortsOfDevice(Map model) throws TPortInfoDaoException, TLinepolMapDaoException {
 		String selectDevice = (String) model.get("selectDevice");
 		List<TPortInfo> portinfo = null;
 		List<TPortInfo> portinfoed = new ArrayList();
@@ -948,10 +1000,9 @@ public class PolicyApplyController implements Controller {
 		}
 
 		// System.out.println("*********end of getPortsOfDevice*********");
-		return model;
 	}
 
-	private Map getPdmsOfDevice(Map model) throws PredefmibPolMapDaoException, PredefmibInfoDaoException {
+	private void getPdmsOfDevice(Map model) throws PredefmibPolMapDaoException, PredefmibInfoDaoException {
 		String selectDevice = (String) model.get("selectDevice");
 		List<PredefmibInfo> pdminfo = null;
 		List<PredefmibInfo> pdminfoed = new ArrayList();
@@ -1036,8 +1087,6 @@ public class PolicyApplyController implements Controller {
 			Log4jInit.ncsLog.error(this.getClass().getName() + " Error occured:\n" + e.getMessage());
 			e.printStackTrace();
 		}
-
-		return model;
 	}
 
 	private List<TPortInfo> getPreSelectedPorts(long devidLong, String cate, long idLong) {

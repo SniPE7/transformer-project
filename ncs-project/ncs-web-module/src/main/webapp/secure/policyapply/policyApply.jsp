@@ -76,11 +76,8 @@ function filtery(patterns, list){
 
 </script>
 
-
-
 <script type="text/javascript" language="javascript">
 		function submitForm(buttonId) {
-		
 			switch(buttonId) {
 				case 'test':
 					setSelected();
@@ -119,28 +116,8 @@ function filtery(patterns, list){
 			}
 			
 		}
-		
-		//option.value is "name@title@width@index"
-		
+
 		function add() {
-		/*
-			len1 = form1.unselected.options.length;
-			len2 = form1.selecting.options.length;
-			len3 = form1.unselected.options.selectedIndex;
-			if(len3 >= 0) {
-				form1.selecting.options[len2] = new Option();
-				form1.selecting.options[len2].text = form1.unselected.options[len3].text;
-				
-				tmp_value = form1.unselected.options[len3].value;
-			
-				form1.selecting.options[len2].value = tmp_value;
-				
-				form1.unselected.options[len3] = null;
-				if(form1.unselected.options.length > len3) 
-					form1.unselected.options[len3].selected = true;
-				else 
-					form1.unselected.options[form1.unselected.options.length-1].selected = true;
-			}*/
 			len1 = form1.unselected.options.length;
 			len2 = form1.selecting.options.length;
 			len3 = form1.unselected.options.selectedIndex;
@@ -211,10 +188,6 @@ function filtery(patterns, list){
 				form1.selecting.options[a] = null;
 				len1++;
 				len2--;
-				/*if(form1.selecting.options.length > len3)
-					form1.selecting.options[len3].selected = true;
-				else 
-					form1.selecting.options[form1.selecting.options.length-1].selected = true;*/
 			}}
 		}
 		
@@ -328,18 +301,12 @@ function filtery(patterns, list){
 		//alert(selectele.options[selectele.options.selectedIndex].text);
 		show.innerText=selectele.options[selectele.options.selectedIndex].text;
 		}
-		
-		
 	</script>
-
 <%
 	int nodei = 0;
 %>
-
-
 <body class="navtree" style="background-color: #FFFFFF;" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 	<p></p>
-
 	<TABLE WIDTH="98%" CELLPADDING="0" CELLSPACING="0" BORDER="0" class="portalPage">
 		<TR>
 			<TD CLASS="pageTitle">策略管理</TD>
@@ -349,57 +316,42 @@ function filtery(patterns, list){
 	</TABLE>
 	<TABLE WIDTH="100%" CELLPADDING="0" CELLSPACING="0" BORDER="0">
 		<TR>
-
-
-
 			<TD valign="top">
-
 				<TABLE WIDTH="98%" CELLPADDING="0" CELLSPACING="0" BORDER="0" CLASS="wasPortlet">
-
 					<TR>
 						<TH class="wpsPortletTitle" width="100%">策略应用</TH>
-
 						<TH class="wpsPortletTitleControls"></TH>
 						<TH class="wpsPortletTitleControls"></TH>
 					</TR>
-
-
-
 					<TBODY ID="wasUniPortlet">
 						<TR>
 							<TD CLASS="wpsPortletArea" COLSPAN="3"><a name="important"></a>
-
 								<h1 id="title-bread-crumb">策略应用</h1>
 								<h3 id="title-bread-crumb">
 									<c:choose>
-
 										<c:when test="${(model.cate=='4')}">
 				端口策略：
 				</c:when>
-
 										<c:when test="${ (model.cate=='9')}">
 				私有MIB策略：
 				</c:when>
 										<c:when test="${ (model.cate=='16') }">
 				时间段策略：
 				</c:when>
-
 										<c:otherwise>
 				设备策略：		
 				</c:otherwise>
 									</c:choose>
-
 									<input type="hidden" name="mpname" value="${model.mpname}" />${model.mpname}
+				          <c:if test="${model.policybase.polictTemplateVer != null}"> 
+				          - [${model.policybase.polictTemplateVer.policyPublishInfo.versionTag}] V[${model.policybase.polictTemplateVer.policyPublishInfo.version}]
+                  <input type="hidden" name="ptvid" value="${model.policybase.polictTemplateVer.ptvid}" />
+				          </c:if>
 								</h3> <br />
-
 								<form id="form1" method="post" action="">
 									<!-- node and device info selection field -->
-
-
 									<table BORDER="0" CELLPADDING="1" CELLSPACING="1" WIDTH="100%" SUMMARY="List table" CLASS="framing-table">
-
 										<tbody>
-
 											<tr>
 												<td colspan="3">&nbsp;</td>
 											</tr>
@@ -442,7 +394,6 @@ function filtery(patterns, list){
 						未分类</c:when>
 																							</c:choose>
 																						</option>
-
 
 																						<c:forEach items="${model.ipnettree[theL2.key]}" var="theL3">
 																							<c:choose>
@@ -510,7 +461,6 @@ function filtery(patterns, list){
 																	</c:choose>
 																</c:forEach>
 
-
 															</c:forEach>
 
 														</c:forEach>
@@ -562,21 +512,10 @@ function filtery(patterns, list){
 									<c:if test="${model.dispdualselect==true}">
 										<table border="0" width="100%" class="framing-table">
 											<tbody>
-												<!--<tr>
-            <td width="40%" class="table-row" align="center">
-            	Total Selected ${fn:length(model.portinfo)}
-            </td>
-            <td width="40%" class="table-row">
-            </td>
-            <td width="40%" class="table-row">portinfoed
-            </td>
-        </tr>-->
 												<tr>
 													<td width="45%" class="table-row" align="center"><select name="unselected" size="18" multiple="multiple" style="height: 245px; width: 98%"
 														onChange="showit(this);">
-
 															<c:choose>
-
 																<c:when test="${ (model.cate=='4')}">
 																	<c:forEach items="${model.portinfo}" var="theport">
 																		<option value="${theport.ptid }">
@@ -615,7 +554,6 @@ function filtery(patterns, list){
 																	</c:forEach>
 
 																</c:when>
-
 
 																<c:otherwise>
 																	<c:forEach items="${model.deviceinfo}" var="device0">
@@ -731,17 +669,11 @@ function filtery(patterns, list){
 											</tbody>
 										</table>
 
-
-
 										<TABLE class="paging-table" BORDER="0" CELLPADDING="5" CELLSPACING="0" WIDTH="100%" SUMMARY="Table for displaying paging function">
-
 											<TR>
-
-
 												<TD CLASS="table-totals" VALIGN="baseline" align="center"><input type="submit" name="ok" onClick="javascript:submitForm('test');" value="  确认  " class="buttons"
 													id="functions" /> &nbsp;&nbsp;</TD>
 											</TR>
-
 										</TABLE>
 									</c:if>
 								</form></TD>
@@ -751,7 +683,5 @@ function filtery(patterns, list){
 			</TD>
 		</TR>
 	</TABLE>
-
-
 </body>
 </html>
