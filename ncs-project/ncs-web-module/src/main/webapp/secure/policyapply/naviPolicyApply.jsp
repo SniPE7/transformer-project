@@ -322,6 +322,9 @@ onkeypress="return;" onmouseup="return" onkeyup="filtery(this.value,navifilter.n
 				target="detail" dir="ltr"
 				title="${dev.mpname}(...${dev.mpid})">
 				${dev.mpname }
+          <c:if test="${dev.polictTemplateVer != null}"> 
+          - [${dev.polictTemplateVer.policyPublishInfo.versionTag}] V[${dev.polictTemplateVer.policyPublishInfo.version}]
+          </c:if>
 				</a></li>
 		</ul>
 	
@@ -351,6 +354,9 @@ onkeypress="return;" onmouseup="return" onkeyup="filtery(this.value,navifilter.n
 				target="detail" dir="ltr"
 				title="${dev.mpname}(...${dev.mpid})">
 				${dev.mpname }
+          <c:if test="${dev.polictTemplateVer != null}"> 
+          - [${dev.polictTemplateVer.policyPublishInfo.versionTag}] V[${dev.polictTemplateVer.policyPublishInfo.version}]
+          </c:if>
 				</a></li>
 		</ul>
 	
@@ -381,6 +387,9 @@ onkeypress="return;" onmouseup="return" onkeyup="filtery(this.value,navifilter.n
 				target="detail" dir="ltr"
 				title="${dev.mpname}(...${dev.mpid})">
 				${dev.mpname }
+          <c:if test="${dev.polictTemplateVer != null}"> 
+          - [${dev.polictTemplateVer.policyPublishInfo.versionTag}] V[${dev.polictTemplateVer.policyPublishInfo.version}]
+          </c:if>
 				</a></li>
 		</ul>
 	

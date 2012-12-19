@@ -637,6 +637,9 @@
 	<bean name="/secure/policyapply/naviPolicyApply.wss" class="com.ibm.ncs.web.policyapply.NaviPolicyApplyController" >
 		<property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
 		<property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />
+    <property name="policyPublishInfoDao" ref="policyPublishInfoDao" />
+    <property name="policyTemplateDao" ref="policyTemplateDao" />
+    <property name="policyTemplateVerDao" ref="policyTemplateVerDao" />
 	</bean>
 	<bean name="/secure/policyapply/naviPolicyDefinition.wss" class="com.ibm.ncs.web.policyapply.NaviPolicyDefinitionController" >
 		<property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
