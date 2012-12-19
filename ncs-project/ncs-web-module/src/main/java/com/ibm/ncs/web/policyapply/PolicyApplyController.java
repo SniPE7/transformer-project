@@ -236,7 +236,7 @@ public class PolicyApplyController implements Controller {
 								devidLong = Long.parseLong(selectDevice);
 							preSelected = getPreSelectedPDMinfo(devidLong, tcate, Long.parseLong(mpid));
 							if (preSelected != null)
-								System.out.println("\t??????----???????/after  remove=============preSelected.size=" + preSelected.size());
+								System.out.println("\t/after  remove=============preSelected.size=" + preSelected.size());
 						}
 
 						if (selecting != null) {
@@ -577,10 +577,6 @@ public class PolicyApplyController implements Controller {
 								if (tm.getPpid() > 0) {
 									tm.setMpid(0);
 									TDevpolMapDao.update(pk, tm);
-									// System.out.println("\t\t&&&&&&&&" +
-									// this.getClass().getName() +
-									// " updated to TDevpolMapDao: pk= " + pk + " dto=" +
-									// tm.toString());
 									Log4jInit.ncsLog.info(this.getClass().getName() + " updated to TDevpolMapDao: pk= " + pk + " dto=" + tm.toString());
 								} else {
 									TDevpolMapDao.delete(pk);
