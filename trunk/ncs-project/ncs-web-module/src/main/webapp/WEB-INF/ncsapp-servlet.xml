@@ -706,6 +706,10 @@
 		<property name="ipAddrRangeCheckDao" ref="IpAddrRangeCheckDao" />
 	</bean>
 	<bean name="/secure/policyapply/policyApply.wss" class="com.ibm.ncs.web.policyapply.PolicyApplyController" >
+    <property name="policyPublishInfoDao" ref="policyPublishInfoDao" />
+    <property name="policyTemplateDao" ref="policyTemplateDao" />
+    <property name="policyTemplateVerDao" ref="policyTemplateVerDao" />
+
 		<property name="TPolicyBaseDao" ref="TPolicyBaseDao" />
 		<property name="TPolicyPeriodDao" ref="TPolicyPeriodDao" />
 		<property name="TDevpolMapDao" ref="TDevpolMapDao"></property>
