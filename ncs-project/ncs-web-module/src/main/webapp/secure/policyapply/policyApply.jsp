@@ -345,10 +345,12 @@ function filtery(patterns, list){
 									<input type="hidden" name="mpname" value="${model.mpname}" />${model.mpname}
 				          <c:if test="${model.policybase.polictTemplateVer != null}"> 
 				          - [${model.policybase.polictTemplateVer.policyPublishInfo.versionTag}] V[${model.policybase.polictTemplateVer.policyPublishInfo.version}]
-                  <input type="hidden" name="ptvid" value="${model.policybase.polictTemplateVer.ptvid}" />
 				          </c:if>
 								</h3> <br />
 								<form id="form1" method="post" action="">
+                  <c:if test="${model.policybase.polictTemplateVer != null}"> 
+                  <input type="hidden" name="ptvid" value="${model.policybase.polictTemplateVer.ptvid}" />
+                  </c:if>
 									<!-- node and device info selection field -->
 									<table BORDER="0" CELLPADDING="1" CELLSPACING="1" WIDTH="100%" SUMMARY="List table" CLASS="framing-table">
 										<tbody>
@@ -482,13 +484,10 @@ function filtery(patterns, list){
 														onchange="filtery(this.value,selectDevice);"></td>
 													<td class="column-head-name"><select name="selectDevice" style="width: 98%" size="5" onchange="changedev(this);">
 															<option value="0" selected="selected">--请选择设备--</option>
-
 															<c:forEach items="${model.devicetmp}" var="theIp">
 																<option value="${theIp.devid}" <c:if test="${model.selectDevice==theIp.devid }">selected="selected"</c:if> title="${theIp.sysname}(	...${theIp.devid})">
 																	${theIp.sysname}</option>
 															</c:forEach>
-
-
 													</select></td>
 													<td class="column-head-name">&nbsp;<input id="btnseldevice" type="submit" name="_target1" value=">>" class="buttons" id="functions">&nbsp;
 													</td>
@@ -513,10 +512,11 @@ function filtery(patterns, list){
 										<table border="0" width="100%" class="framing-table">
 											<tbody>
 												<tr>
-													<td width="45%" class="table-row" align="center"><select name="unselected" size="18" multiple="multiple" style="height: 245px; width: 98%"
-														onChange="showit(this);">
+													<td width="45%" class="table-row" align="center">
+													  <select name="unselected" size="18" multiple="multiple" style="height: 245px; width: 98%"	onChange="showit(this);">
 															<c:choose>
 																<c:when test="${ (model.cate=='4')}">
+																  <!-- 端口策略 -->
 																	<c:forEach items="${model.portinfo}" var="theport">
 																		<option value="${theport.ptid }">
 																			${theport.ifdescr}
@@ -525,6 +525,7 @@ function filtery(patterns, list){
 																	</c:forEach>
 																</c:when>
 																<c:when test="${ (model.cate=='9')}">
+                                  <!-- MIB策略 -->
 																	<c:forEach items="${model.pdminfo}" var="thepdm">
 																		<option value="${thepdm.pdmid }">
 																			${thepdm.oidindex}=${thepdm.oidname}
@@ -532,8 +533,8 @@ function filtery(patterns, list){
 																		</option>
 																	</c:forEach>
 																</c:when>
-
 																<c:when test="${ (model.cate=='16') }">
+                                  <!-- 时段策略 -->
 																	<c:forEach items="${model.portinfo}" var="theport">
 																		<option value="port_${theport.ptid }">
 																			端口 ${theport.ifdescr}
@@ -552,10 +553,9 @@ function filtery(patterns, list){
 																			<c:if test="${model.devicepolicyapplied[device0.devid] != null}">&nbsp;(${model.devicepolicyapplied[device0.devid]})</c:if>
 																		</option>
 																	</c:forEach>
-
 																</c:when>
-
 																<c:otherwise>
+                                  <!-- 设备策略 -->
 																	<c:forEach items="${model.deviceinfo}" var="device0">
 																		<option value="${device0.devid }">
 																			${device0.devip}_${device0.sysname }
@@ -607,7 +607,6 @@ function filtery(patterns, list){
 																	</c:forEach>
 																</c:when>
 
-
 																<c:when test="${ (model.cate=='16') }">
 																	<c:forEach items="${model.portinfoed}" var="theport">
 																		<option value="port_${theport.ptid }">端口 ${theport.ifdescr}</option>
@@ -618,7 +617,6 @@ function filtery(patterns, list){
 																	<c:forEach items="${model.deviceinfoed}" var="device0">
 																		<option value="device_${device0.devid }">设备 ${device0.devip}_${device0.sysname }</option>
 																	</c:forEach>
-
 																</c:when>
 
 																<c:otherwise>

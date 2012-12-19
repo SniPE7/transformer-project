@@ -5,8 +5,10 @@ package com.ibm.ncs.web.policyapply;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,8 +28,10 @@ import com.ibm.ncs.model.dao.TPolicyBaseDao;
 import com.ibm.ncs.model.dao.TPolicyPeriodDao;
 import com.ibm.ncs.model.dao.TPolicyPublishInfoDao;
 import com.ibm.ncs.model.dao.TPolicyTemplateDao;
+import com.ibm.ncs.model.dao.TPolicyTemplateScopeDao;
 import com.ibm.ncs.model.dao.TPolicyTemplateVerDao;
 import com.ibm.ncs.model.dao.TPortInfoDao;
+import com.ibm.ncs.model.dto.PolicyTemplateScope;
 import com.ibm.ncs.model.dto.PolicyTemplateVer;
 import com.ibm.ncs.model.dto.PredefmibInfo;
 import com.ibm.ncs.model.dto.PredefmibPolMap;
@@ -65,6 +69,7 @@ public class PolicyApplyController implements Controller {
 	private TPolicyPublishInfoDao policyPublishInfoDao;
 	private TPolicyTemplateDao policyTemplateDao;
 	private TPolicyTemplateVerDao policyTemplateVerDao;
+	private TPolicyTemplateScopeDao policyTemplateScopeDao;
 
 	TPolicyBaseDao TPolicyBaseDao;
 	TPolicyPeriodDao TPolicyPeriodDao;
@@ -85,6 +90,14 @@ public class PolicyApplyController implements Controller {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public TPolicyTemplateScopeDao getPolicyTemplateScopeDao() {
+		return policyTemplateScopeDao;
+	}
+
+	public void setPolicyTemplateScopeDao(TPolicyTemplateScopeDao policyTemplateScopeDao) {
+		this.policyTemplateScopeDao = policyTemplateScopeDao;
 	}
 
 	public TPolicyPublishInfoDao getPolicyPublishInfoDao() {
@@ -204,7 +217,7 @@ public class PolicyApplyController implements Controller {
 
 			String[] selecting = (String[]) request.getParameterValues("selecting");
 			String[] unselected = (String[]) request.getParameterValues("unselected");
-		  String mpid = request.getParameter("mpid");
+			String mpid = request.getParameter("mpid");
 			String ppid = request.getParameter("ppid");
 			String tcate = request.getParameter("cate");
 			String selectDevice = request.getParameter("selectDevice");
@@ -217,7 +230,7 @@ public class PolicyApplyController implements Controller {
 					try {
 						List<PredefmibInfo> preSelected = null;
 						if (mpid != null && !mpid.equals("")) { // previously selected
-																										// objects for this device
+							                                      // objects for this device
 							long devidLong = 0;
 							if (selectDevice != null && !selectDevice.equals(""))
 								devidLong = Long.parseLong(selectDevice);
@@ -281,7 +294,7 @@ public class PolicyApplyController implements Controller {
 					try {
 						List<TPortInfo> preSelected = null;
 						if (mpid != null && !mpid.equals("")) { // previously selected
-																										// objects for this device
+							                                      // objects for this device
 							long devidLong = 0;
 							if (selectDevice != null && !selectDevice.equals(""))
 								devidLong = Long.parseLong(selectDevice);
@@ -339,7 +352,7 @@ public class PolicyApplyController implements Controller {
 						e.printStackTrace();
 					}
 				} else if (tcate.equals("16")) { // timeframe MIB Policy
-				// System.out.println("Step 1: \tIn tcate.equals(16 mpid=" + mpid);
+					// System.out.println("Step 1: \tIn tcate.equals(16 mpid=" + mpid);
 					TDevpolMap tdm = null;
 					TLinepolMap tlm = null;
 					PredefmibPolMap pdmmap = null;
@@ -354,7 +367,7 @@ public class PolicyApplyController implements Controller {
 						List<TPortInfo> preSelectedPort = null;
 						List<PredefmibInfo> preSelectedPdm = null;
 						if (ppid != null && !ppid.equals("")) { // previously selected
-																										// objects devices
+							                                      // objects devices
 							preSelectedDevice = TDevpolMapDao.findWherePpidEquals(Long.parseLong(ppid));
 							long devidLong = 0;
 							if (selectDevice != null && !selectDevice.equals(""))
@@ -511,7 +524,7 @@ public class PolicyApplyController implements Controller {
 					try {
 						List<TDevpolMap> preSelected = null;
 						if (mpid != null && !mpid.equals("")) { // previously selected
-																										// objects
+							                                      // objects
 							preSelected = TDevpolMapDao.findWhereMpidEquals(Long.parseLong(mpid));
 						}
 
@@ -610,7 +623,8 @@ public class PolicyApplyController implements Controller {
 
 			String selectNode = (String) model.get("selectNode");
 			if (selectNode != null && !selectNode.equals("") && !selectNode.equals("0")) {
-				// display device/port select list when choosing port/timeframe/predef MIB index
+				// display device/port select list when choosing port/timeframe/predef
+				// MIB index
 				if (cate.equals("4") || cate.equals("16") || cate.equals("9")) {
 					model.put("dispdevinfo", true);
 				}
@@ -632,24 +646,24 @@ public class PolicyApplyController implements Controller {
 	}
 
 	private void getPolicyBase(HttpServletRequest request, Map<String, Object> model) throws DaoException {
-	  String mpid = request.getParameter("mpid");
-	  TPolicyBase policybase;
-	  if (mpid != null) {
-	  	policybase = TPolicyBaseDao.findByPrimaryKey(Long.parseLong(mpid));
-	  	if (policybase != null) {
-	  		long ptvid = policybase.getPtvid();
-	  		if (ptvid > 0) {
-	  			PolicyTemplateVer ptv = this.policyTemplateVerDao.findById(Long.toString(ptvid));
-	  			policybase.setPolictTemplateVer(ptv);
-	  			if (ptv != null) {
-	  				PolicyPublishInfo ppi = this.policyPublishInfoDao.findById(Long.toString(ptv.getPpiid()));
-	  				ptv.setPolicyPublishInfo(ppi);
-	  			}
-	  		}
-	  	}
-	  	model.put("policybase", policybase);
-	  }
-  }
+		String mpid = request.getParameter("mpid");
+		TPolicyBase policybase;
+		if (mpid != null) {
+			policybase = TPolicyBaseDao.findByPrimaryKey(Long.parseLong(mpid));
+			if (policybase != null) {
+				long ptvid = policybase.getPtvid();
+				if (ptvid > 0) {
+					PolicyTemplateVer ptv = this.policyTemplateVerDao.findById(Long.toString(ptvid));
+					policybase.setPolictTemplateVer(ptv);
+					if (ptv != null) {
+						PolicyPublishInfo ppi = this.policyPublishInfoDao.findById(Long.toString(ptv.getPpiid()));
+						ptv.setPolicyPublishInfo(ppi);
+					}
+				}
+			}
+			model.put("policybase", policybase);
+		}
+	}
 
 	private boolean isWithinTheNode(TDevpolMap tm, Map<String, Object> model) {
 		boolean ret = false;
@@ -673,6 +687,7 @@ public class PolicyApplyController implements Controller {
 		String cate = request.getParameter("cate");
 		String mpid = request.getParameter("mpid"); // for other policies
 		String ppid = request.getParameter("ppid"); // for timeframe policy
+		String ptvid = request.getParameter("ptvid"); 
 		String mpname = request.getParameter("mpname");
 		String selectNode = request.getParameter("selectNode");
 		String selectDevice = request.getParameter("selectDevice");
@@ -722,18 +737,22 @@ public class PolicyApplyController implements Controller {
 		model.put("cate", cate);
 		model.put("mpid", mpid);
 		model.put("ppid", ppid);
+		if (ptvid != null) {
+			model.put("ptvid", ptvid);
+		}
 		model.put("selectNode", selectNode);
 		if (selectDevice != null && !selectDevice.equals("0")) { // has a valid
-																														 // selection in
-																														 // jsp, but not
-																														 // seleting
-																														 // "Please select a group"
+			                                                       // selection in
+			                                                       // jsp, but not
+			                                                       // seleting
+			                                                       // "Please select a group"
 			model.put("selectDevice", selectDevice);
 		} else {
 			model.put("selectDevice", selectDevice1);
 			selectDevice = selectDevice1;
 		}
 	}
+
 	private void getNodeList(Map<String, Object> model) throws TGrpNetDaoException {
 		// There are 6 fields in table T_GRP_NET they are
 		// gid,gname,supid,levels,description,unm
@@ -797,7 +816,8 @@ public class PolicyApplyController implements Controller {
 		String cate = (String) model.get("cate");
 		String mpid = (String) model.get("mpid");
 		String ppid = (String) model.get("ppid");
-		
+		String ptvid = (String) model.get("ptvid");
+
 		List<TDeviceInfo> deviceinfo = null;
 		List<TDeviceInfo> deviceinfoed = new ArrayList<TDeviceInfo>();
 		Map<Long, String> policyApplied = new HashMap<Long, String>();
@@ -805,19 +825,20 @@ public class PolicyApplyController implements Controller {
 		TDeviceInfo tDeviceInfo = null;
 		// System.out.println("********in getDevicesOfNodes**********");
 		try {
-			if (selectNode != null && !selectNode.equals("") && !selectNode.equals("0")) { 
-				 //when a valid group is selected
+			if (selectNode != null && !selectNode.equals("") && !selectNode.equals("0")) {
+				// when a valid group is selected
 				long agid = Long.parseLong(selectNode);
 				// System.out.println("\tgid="+agid);
 				deviceinfo = PolicyAppServices.getDeviceInfoListOfTheGidNode(agid);
-				devtmp     = PolicyAppServices.getDeviceInfoListOfTheGidNode(agid);
+				devtmp = PolicyAppServices.getDeviceInfoListOfTheGidNode(agid);
 				SortList<TDeviceInfo> sortdevinfo = new SortList<TDeviceInfo>();
 				sortdevinfo.Sort(devtmp, "getDevip", null);
 				if (deviceinfo != null) {
 					for (int i = 0; i < deviceinfo.size(); i++) {
 						tDeviceInfo = deviceinfo.get(i);
 						long devid = tDeviceInfo.getDevid();
-						// find the devices that already defined policy for it, and remove it from the selectable list
+						// find the devices that already defined policy for it, and remove
+						// it from the selectable list
 						TDevpolMap tm = TDevpolMapDao.findByPrimaryKey(devid);
 						if (tm != null) {
 							if (cate != null && !cate.equalsIgnoreCase("") && !cate.equalsIgnoreCase("16")) {
@@ -867,22 +888,20 @@ public class PolicyApplyController implements Controller {
 
 				// to be confirmed: what will be listed in "Device/Port" selection and
 				// selected list
-				if (selectDevice != null && !selectDevice.equals("0") && !selectDevice.equals("")) {// if
-																																														// device/prot
-																																														// is
-																																														// selected
+				if (selectDevice != null && !selectDevice.equals("0") && !selectDevice.equals("")) {
+					// if device/port is selected
 					model.put("deviceinfoed", null);
 					model.put("deviceinfo", null);
-				} else { // if device/port is not selected
+				} else {
+					// if device/port is not selected
 					model.put("deviceinfoed", deviceinfoed);
+					// 设备类策略, deviceinfo存放待选设备的清单, 在页面中供选择
+					// 按照策略模板定义的设备目标型号进行过滤, 去除待选设备清单中不符合设备目标类型的设备
+  				devtmp = wipeOutDeviceSelectList(ptvid, devtmp);
 					model.put("deviceinfo", devtmp);
 				}
-				model.put("devicetmp", deviceinfo); // confirmed: display all the IPs in
-																						// this group
-				/*
-				 * model.put("deviceinfoed", deviceinfoed); model.put("deviceinfo",
-				 * devtmp);
-				 */
+				// 设备策略: devicetmp存放已经选中的设备.
+				model.put("devicetmp", wipeOutDeviceSelectList(ptvid, deviceinfo));
 			}
 		} catch (NumberFormatException e) {
 			Log4jInit.ncsLog.error(this.getClass().getName() + " Error occured:\n" + e.getMessage());
@@ -892,6 +911,49 @@ public class PolicyApplyController implements Controller {
 			exp.printStackTrace();
 		}
 		// System.out.println("*********End of getDevicesOfNodes*********");
+	}
+
+	/**
+	 * 去除不符合设备策略限定的设备范围的设备。<br>
+	 * 如果ptvid为null, 则不做任何过滤和去除操作
+	 * @param ptvid
+	 * @param source
+	 * @return
+	 * @throws DaoException
+	 */
+	private List<TDeviceInfo> wipeOutDeviceSelectList(String ptvid, List<TDeviceInfo> source) throws DaoException {
+		if (ptvid == null || ptvid.trim().length() == 0 || source == null || source.size() == 0) {
+			 return source;
+		}
+		List<PolicyTemplateScope> scopes = this.policyTemplateScopeDao.findByPtvd(ptvid);
+		Set<Long> devTypeIDSet = new HashSet<Long>();
+		Set<Long> manufIDSet = new HashSet<Long>();
+		if (scopes != null) {
+			for (PolicyTemplateScope scope : scopes) {
+				if (scope.getDtid() > 0) {
+					devTypeIDSet.add(scope.getDtid());
+				}
+				if (scope.getMrid() > 0) {
+					manufIDSet.add(scope.getMrid());
+				}
+			}
+		}
+		List<TDeviceInfo> result = new ArrayList<TDeviceInfo>();
+    if (source != null) {
+    	 for (TDeviceInfo device: source) {
+    		 if (devTypeIDSet.contains(device.getDtid())) {
+    			 result.add(device);
+    			 continue;
+    		 }
+    		 if (manufIDSet.contains(device.getMrid())) {
+    			 result.add(device);
+    			 continue;
+    		 }
+    		 System.out.println(String.format("Ignored device: %s", device));
+    	 }
+    	 return result;
+    }
+    return source;
 	}
 
 	private void getPortsOfDevice(Map<String, Object> model) throws TPortInfoDaoException, TLinepolMapDaoException {
