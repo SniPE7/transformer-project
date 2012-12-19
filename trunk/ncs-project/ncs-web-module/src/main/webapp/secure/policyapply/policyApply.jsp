@@ -488,7 +488,9 @@ function filtery(patterns, list){
 																<option value="${theIp.devid}" <c:if test="${model.selectDevice==theIp.devid }">selected="selected"</c:if> title="${theIp.sysname}(	...${theIp.devid})">
 																	${theIp.sysname}</option>
 															</c:forEach>
-													</select></td>
+													</select><br/>
+													<c:if test="${model.ptvid != null}">&nbsp;已去除<c:out value="${model.numberOfWipedDevice}"></c:out>个不符合策略约束的设备</c:if>.
+													</td>
 													<td class="column-head-name">&nbsp;<input id="btnseldevice" type="submit" name="_target1" value=">>" class="buttons" id="functions">&nbsp;
 													</td>
 
@@ -640,7 +642,7 @@ function filtery(patterns, list){
                 可选设备总数 ${fn:length(model.deviceinfo)}	
 				</c:when>
 															<c:otherwise>
-                可选设备总数 ${fn:length(model.deviceinfo)}		
+                可选设备总数 ${fn:length(model.deviceinfo)}<c:if test="${model.ptvid != null}">, 已去除<c:out value="${model.numberOfWipedDevice}"></c:out>个不符合策略约束的设备</c:if>.
 				</c:otherwise>
 														</c:choose></TD>
 

@@ -687,7 +687,7 @@ public class PolicyApplyController implements Controller {
 		String cate = request.getParameter("cate");
 		String mpid = request.getParameter("mpid"); // for other policies
 		String ppid = request.getParameter("ppid"); // for timeframe policy
-		String ptvid = request.getParameter("ptvid"); 
+		String ptvid = request.getParameter("ptvid");
 		String mpname = request.getParameter("mpname");
 		String selectNode = request.getParameter("selectNode");
 		String selectDevice = request.getParameter("selectDevice");
@@ -894,14 +894,20 @@ public class PolicyApplyController implements Controller {
 					model.put("deviceinfo", null);
 				} else {
 					// if device/port is not selected
-					model.put("deviceinfoed", deviceinfoed);
-					// 设备类策略, deviceinfo存放待选设备的清单, 在页面中供选择
+					// 设备策略: devicetmp存放已经选中的设备.
+					model.put("deviceinfoed", wipeOutDeviceSelectList(ptvid, deviceinfoed));
+
 					// 按照策略模板定义的设备目标型号进行过滤, 去除待选设备清单中不符合设备目标类型的设备
-  				devtmp = wipeOutDeviceSelectList(ptvid, devtmp);
+					int beforeCounter = devtmp.size();
+					devtmp = wipeOutDeviceSelectList(ptvid, devtmp);
+					model.put("numberOfWipedDevice", beforeCounter - devtmp.size());
+					// 设备类策略, deviceinfo存放待选设备的清单, 在页面中供选择
 					model.put("deviceinfo", devtmp);
 				}
-				// 设备策略: devicetmp存放已经选中的设备.
-				model.put("devicetmp", wipeOutDeviceSelectList(ptvid, deviceinfo));
+				int beforeCounter = deviceinfo.size();
+				deviceinfo = wipeOutDeviceSelectList(ptvid, deviceinfo);
+				model.put("numberOfWipedDevice", beforeCounter - deviceinfo.size());
+				model.put("devicetmp", deviceinfo);
 			}
 		} catch (NumberFormatException e) {
 			Log4jInit.ncsLog.error(this.getClass().getName() + " Error occured:\n" + e.getMessage());
@@ -916,6 +922,7 @@ public class PolicyApplyController implements Controller {
 	/**
 	 * 去除不符合设备策略限定的设备范围的设备。<br>
 	 * 如果ptvid为null, 则不做任何过滤和去除操作
+	 * 
 	 * @param ptvid
 	 * @param source
 	 * @return
@@ -923,7 +930,7 @@ public class PolicyApplyController implements Controller {
 	 */
 	private List<TDeviceInfo> wipeOutDeviceSelectList(String ptvid, List<TDeviceInfo> source) throws DaoException {
 		if (ptvid == null || ptvid.trim().length() == 0 || source == null || source.size() == 0) {
-			 return source;
+			return source;
 		}
 		List<PolicyTemplateScope> scopes = this.policyTemplateScopeDao.findByPtvd(ptvid);
 		Set<Long> devTypeIDSet = new HashSet<Long>();
@@ -939,21 +946,18 @@ public class PolicyApplyController implements Controller {
 			}
 		}
 		List<TDeviceInfo> result = new ArrayList<TDeviceInfo>();
-    if (source != null) {
-    	 for (TDeviceInfo device: source) {
-    		 if (devTypeIDSet.contains(device.getDtid())) {
-    			 result.add(device);
-    			 continue;
-    		 }
-    		 if (manufIDSet.contains(device.getMrid())) {
-    			 result.add(device);
-    			 continue;
-    		 }
-    		 System.out.println(String.format("Ignored device: %s", device));
-    	 }
-    	 return result;
-    }
-    return source;
+		for (TDeviceInfo device : source) {
+			if (devTypeIDSet.contains(device.getDtid())) {
+				result.add(device);
+				continue;
+			}
+			if (manufIDSet.contains(device.getMrid())) {
+				result.add(device);
+				continue;
+			}
+			System.out.println(String.format("Ignored device: %s", device));
+		}
+		return result;
 	}
 
 	private void getPortsOfDevice(Map<String, Object> model) throws TPortInfoDaoException, TLinepolMapDaoException {
