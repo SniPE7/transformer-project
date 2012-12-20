@@ -8,13 +8,22 @@
 			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
-	<bean id="nccDS" class="org.springframework.jndi.JndiObjectFactoryBean">
+  <!-- For WebSphere -->
+  <bean id="nccDSWebSphere" class="org.springframework.jndi.JndiObjectFactoryBean">
+    <property name="jndiName" value="jdbc/nccDS" />
+    <property name="lookupOnStartup" value="false" />
+    <property name="cache" value="true" />
+    <property name="proxyInterface" value="javax.sql.DataSource" />
+  </bean>
+  <!-- For Tomcat -->
+	<bean id="nccDSTomcat" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="java:/comp/env/jdbc/nccDS" />
 		<property name="lookupOnStartup" value="false" />
 		<property name="cache" value="true" />
 		<property name="proxyInterface" value="javax.sql.DataSource" />
 	</bean>
-	<alias name="nccDS" alias="myDataSource" />
+	<!-- Define final used data source -->
+	<alias alias="myDataSource" name="nccDSTomcat"/>
 
   <!-- 	<bean id="transactionManager"
 		class="org.springframework.transaction.jta.JtaTransactionManager">
