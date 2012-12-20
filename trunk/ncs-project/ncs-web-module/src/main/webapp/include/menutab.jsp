@@ -64,7 +64,7 @@ function loadPollicyDef(){
 
 function loadPollicyTemplateDef(){
 	  window.open("<%=request.getContextPath() %>/secure/policytemplateapply/naviPolicyDefinition.wss", "navigator");
-	  window.open("<%=request.getContextPath() %>/secure/policytemaplteapply/policyDefinition.wss?cate=1", "detail");
+	  window.open("<%=request.getContextPath() %>/secure/policytemplateapply/welcome.jsp", "detail");
 	  window.close();
 	}
 

@@ -24,7 +24,7 @@
 	</bean>
 
 	<bean id="tCategoryMapInitDao" class="com.ibm.ncs.model.dao.spring.TCategoryMapInitDaoImpl">
-		<property name="dataSource" ref="nccDS" />
+		<property name="dataSource" ref="myDataSource" />
 	</bean>
 
 	<bean name="GenPkNumber" class="com.ibm.ncs.util.GenPkNumber" >
@@ -934,7 +934,7 @@
 	</bean>
 	
 	<bean name="/secure/policyapply/exportxmlfile.wss" class="com.ibm.ncs.web.policyapply.ExportXMLFileController" >
-		<property name="datasource" ref="nccDS" />
+		<property name="datasource" ref="myDataSource" />
 		<property name="pageView" value="/secure/policyapply/exportxmlfile.jsp" />	
 	 		<property name="takeEffectProcess" ref="TakeEffectProcess" />
 
@@ -1469,7 +1469,7 @@
 	 		<property name="TSvrmodMapDao" ref="TSvrmodMapDao"/>
 	 </bean>	 
 	 	<bean name="/secure/policyapply/exeshell.wss" class="com.ibm.ncs.web.policyapply.ExeShellController" >
-		<property name="datasource" ref="nccDS" />
+		<property name="datasource" ref="myDataSource" />
 		<property name="pageView" value="/secure/policyapply/exeshell.jsp" />	
 	 	<property name="exeShellProcess" ref="ExeShellProcess" />
 	</bean>	
@@ -1585,7 +1585,7 @@
   
   <!-- 检查策略 -->
   <bean name="/secure/policyapply/checkpolicy.wss" class="com.ibm.ncs.web.policytakeeffect.CheckPolicyController" >
-    <property name="datasource" ref="nccDS" />
+    <property name="datasource" ref="myDataSource" />
     <property name="policyValidationProcess" ref="policyValidationProcess" />
     <property name="pageView" value="/secure/policyapply/checkpolicy.jsp" />  
   </bean> 
