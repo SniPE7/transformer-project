@@ -62,10 +62,10 @@ public class TRoleAndServerNodeDaoImpl extends AbstractDAO implements Parameteri
 					" sn.description, " + 
 					" sn.service_endpoint " + 
 					"from " + 
-					" t_role_managed_node rmn inner join t_role r on r.role_id=rmn.role_id " + 
-					"                         inner join t_user_role_map urm on urm.role_id=rmn.role_id " + 
+					" t_user_role_map urm inner join t_role r on r.role_id=urm.role_id " + 
 					"                         inner join t_user u on u.usid=urm.usid " + 
-					"                         inner join t_server_node sn on sn.server_id=rmn.server_id " + 
+					"                         left join t_role_managed_node rmn on urm.role_id=rmn.role_id " + 
+					"                         left join t_server_node sn on sn.server_id=rmn.server_id " + 
 					"where " + 
 					" u.uname=? ", this, username);
 			return list;
