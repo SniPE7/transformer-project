@@ -134,7 +134,7 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 	 * Updates a single row in the T_POLICY_BASE table.
 	 */
 	@Transactional
-	public void update(long ppiid, PolicyPublishInfo dto) throws TPolicyBaseDaoException {
+	public void update(long ppiid, PolicyPublishInfo dto) throws TPolicyPublishInfoDaoException {
 		jdbcTemplate.update("UPDATE " + getTableName() + " SET VERSION_TAG = ?, STATUS=?, DESCRIPTION = ?, PUBLISH_TIME = ?, UPDATE_TIME = ? WHERE PPIID = ?", dto.getVersionTag(), dto.getStatus(), dto.getDescription(), dto.getPublishTime(), dto.getUpdateTime(), dto.getPpiid());
 	}
 
@@ -252,4 +252,69 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 		}
   }
 
+	/**
+	 * Updates a single row in the T_POLICY_BASE table.
+	 */
+	@Transactional
+	public void release(long toPpiid, PolicyPublishInfo toDto) throws TPolicyPublishInfoDaoException {
+		jdbcTemplate.update("UPDATE " + getTableName() + " SET VERSION_TAG = ?, STATUS=?, DESCRIPTION = ?, PUBLISH_TIME = ?, UPDATE_TIME = ? WHERE PPIID = ?", toDto.getVersionTag(), toDto.getStatus(), toDto.getDescription(), toDto.getPublishTime(), toDto.getUpdateTime(), toDto.getPpiid());
+		PolicyPublishInfo releasedPPI = this.getReleasedVersion();
+		if (releasedPPI == null) {
+			System.out.println("Could not find last release PolicyTemplate Set.");
+			return;
+		}
+		long fromPpiid = releasedPPI.getPpiid();
+		{
+			// 更新策略集
+			// update t_policy_base pb set ptvid=(select to_ptvid from v_policy_tplt_ver_change where from_ppiid=10001 and to_ppiid=257235009 and from_ptvid=pb.ptvid) where ptvid > 0
+			String sql = "update t_policy_base pb set ptvid=(select to_ptvid from v_policy_tplt_ver_change where from_ppiid=? and to_ppiid=? and from_ptvid=pb.ptvid) where ptvid > 0";
+			jdbcTemplate.update(sql, fromPpiid, toPpiid);
+		}
+		{
+			//-- 添加
+			//--  添加策略定义
+			//insert into t_policy_base(mpid, ptvid, mpname, category, description)
+			// select to_ptvid, to_ptvid, mpname, category, description
+			// from v_policy_tplt_ver_change
+			// where from_ppiid=10001 and to_ppiid=257235009 and to_ptvid not in (select ptvid from t_policy_base where ptvid>0)
+			//;  
+			//--  添加策略详细信息
+			//insert into t_policy_details
+	    //		               ( MPID, MODID, EVEID, POLL, VALUE_1, SEVERITY_1, FILTER_A, VALUE_2, SEVERITY_2, FILTER_B, SEVERITY_A, SEVERITY_B, OIDGROUP, OGFLAG, VALUE_1_LOW, VALUE_2_LOW, V1L_SEVERITY_1, V1L_SEVERITY_A, V2L_SEVERITY_2, V2L_SEVERITY_B, COMPARETYPE)
+			//select distinct PTVID, MODID, EVEID, POLL, VALUE_1, SEVERITY_1, FILTER_A, VALUE_2, SEVERITY_2, FILTER_B, SEVERITY_A, SEVERITY_B, OIDGROUP, OGFLAG, VALUE_1_LOW, VALUE_2_LOW, V1L_SEVERITY_1, V1L_SEVERITY_A, V2L_SEVERITY_2, V2L_SEVERITY_B, COMPARETYPE
+			//from
+	    //		  t_policy_event_rule
+			//where
+	    //		  ptvid in ( select to_ptvid from v_policy_tplt_ver_change where from_ppiid=10001 and to_ppiid=257235009 and to_ptvid not in (select ptvid from t_policy_base where ptvid>0) )
+			//;
+			String sql = "insert into t_policy_base(mpid, ptvid, mpname, category, description) " +
+					" select to_ptvid, to_ptvid, mpname, category, description " +
+					" from v_policy_tplt_ver_change " +
+					" where from_ppiid=? and to_ppiid=? and to_ptvid not in (select ptvid from t_policy_base where ptvid>0) ";
+			jdbcTemplate.update(sql, fromPpiid, toPpiid);
+			
+			sql = "insert into t_policy_details " +
+					"               ( MPID, MODID, EVEID, POLL, VALUE_1, SEVERITY_1, FILTER_A, VALUE_2, SEVERITY_2, FILTER_B, SEVERITY_A, SEVERITY_B, OIDGROUP, OGFLAG, VALUE_1_LOW, VALUE_2_LOW, V1L_SEVERITY_1, V1L_SEVERITY_A, V2L_SEVERITY_2, V2L_SEVERITY_B, COMPARETYPE) " +
+					" select distinct PTVID, MODID, EVEID, POLL, VALUE_1, SEVERITY_1, FILTER_A, VALUE_2, SEVERITY_2, FILTER_B, SEVERITY_A, SEVERITY_B, OIDGROUP, OGFLAG, VALUE_1_LOW, VALUE_2_LOW, V1L_SEVERITY_1, V1L_SEVERITY_A, V2L_SEVERITY_2, V2L_SEVERITY_B, COMPARETYPE " +
+					"  from " +
+					"    t_policy_event_rule " +
+					"  where " +
+					"    ptvid in ( select to_ptvid from v_policy_tplt_ver_change where from_ppiid=? and to_ppiid=? and to_ptvid not in (select ptvid from t_policy_base where ptvid>0) ) ";
+			jdbcTemplate.update(sql, fromPpiid, toPpiid);
+		}
+		{
+			//-- 删除多余的
+			//delete from t_devpol_map where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select to_ptvid from v_policy_tplt_ver_change where from_ppiid=10001 and to_ppiid=257235009));
+			//delete from t_linepol_map where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select to_ptvid from v_policy_tplt_ver_change where from_ppiid=10001 and to_ppiid=257235009));
+			//delete from predefmib_pol_map  where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select to_ptvid from v_policy_tplt_ver_change where from_ppiid=10001 and to_ppiid=257235009));
+			//delete from t_policy_base where ptvid > 0 and ptvid not in (select to_ptvid from v_policy_tplt_ver_change where from_ppiid=10001 and to_ppiid=257235009);
+			jdbcTemplate.update("delete from t_devpol_map where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select to_ptvid from v_policy_tplt_ver_change where from_ppiid=? and to_ppiid=?))", fromPpiid, toPpiid);
+			jdbcTemplate.update("delete from t_linepol_map where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select to_ptvid from v_policy_tplt_ver_change where from_ppiid=? and to_ppiid=?))", fromPpiid, toPpiid);
+			jdbcTemplate.update("delete from predefmib_pol_map  where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select to_ptvid from v_policy_tplt_ver_change where from_ppiid=? and to_ppiid=?))", fromPpiid, toPpiid);
+			jdbcTemplate.update("delete from t_policy_base where ptvid > 0 and ptvid not in (select to_ptvid from v_policy_tplt_ver_change where from_ppiid=? and to_ppiid=?)", fromPpiid, toPpiid);
+		}
+	}
+
 }
+
+

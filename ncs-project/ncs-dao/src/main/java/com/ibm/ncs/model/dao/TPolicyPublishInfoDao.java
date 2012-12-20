@@ -2,6 +2,7 @@ package com.ibm.ncs.model.dao;
 
 import java.util.List;
 
+import com.ibm.ncs.model.exceptions.DaoException;
 import com.ibm.ncs.model.exceptions.TPolicyBaseDaoException;
 import com.ibm.ncs.model.exceptions.TPolicyPublishInfoDaoException;
 
@@ -45,7 +46,9 @@ public interface TPolicyPublishInfoDao {
 	 */
 	void insert(PolicyPublishInfo policyPublishInfo) throws TPolicyPublishInfoDaoException;
 	
-	public void update(long ppiid, PolicyPublishInfo dto) throws TPolicyBaseDaoException;
+	public void update(long ppiid, PolicyPublishInfo dto) throws TPolicyPublishInfoDaoException;
+	
+	public void release(long toPpiid, PolicyPublishInfo toDto) throws TPolicyPublishInfoDaoException;
 	
 	public void delete(long ppiid) throws TPolicyBaseDaoException;
 

@@ -72,7 +72,7 @@ public class ReleasePolicyPublishInfoController implements Controller {
       PolicyPublishInfo policyPublishInfo = this.policyPublishInfoDao.findById(ppiid);
       policyPublishInfo.setPublishTime(new Date());
       policyPublishInfo.setDescription(request.getParameter("description"));
-      policyPublishInfoDao.update(Long.parseLong(ppiid), policyPublishInfo);
+      policyPublishInfoDao.release(Long.parseLong(ppiid), policyPublishInfo);
       model.put("policyPublishInfo", policyPublishInfo);
 			model.put("refresh", "true");
 			return new ModelAndView(getPageView(), "definition", model);
