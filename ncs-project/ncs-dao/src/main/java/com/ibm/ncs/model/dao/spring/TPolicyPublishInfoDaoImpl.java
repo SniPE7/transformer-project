@@ -65,7 +65,7 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 	
 	public PolicyPublishInfo getDraftVersion() throws TPolicyPublishInfoDaoException {
 		try {
-			List<PolicyPublishInfo> items = jdbcTemplate.query("SELECT PPIID, VERSION, VERSION_TAG, STATUS, DESCRIPTION, PUBLISH_TIME, CREATE_TIME, UPDATE_TIME FROM " + getTableName() + " WHERE PUBLISH_TIME is null ORDER BY VERSION DESC", this);
+			List<PolicyPublishInfo> items = jdbcTemplate.query("SELECT PPIID, VERSION, VERSION_TAG, STATUS, DESCRIPTION, PUBLISH_TIME, CREATE_TIME, UPDATE_TIME FROM " + getTableName() + " WHERE PUBLISH_TIME is null and (status is null or status='D') ORDER BY VERSION DESC", this);
 			if (items != null && items.size() > 0) {
 				return items.get(0);
 			}
@@ -77,7 +77,7 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 
 	public PolicyPublishInfo getReleasedVersion() throws TPolicyPublishInfoDaoException {
 		try {
-			List<PolicyPublishInfo> items = jdbcTemplate.query("SELECT PPIID, VERSION, VERSION_TAG, STATUS, DESCRIPTION, PUBLISH_TIME, CREATE_TIME, UPDATE_TIME FROM " + getTableName() + " WHERE PUBLISH_TIME is not null ORDER BY PUBLISH_TIME DESC", this);
+			List<PolicyPublishInfo> items = jdbcTemplate.query("SELECT PPIID, VERSION, VERSION_TAG, STATUS, DESCRIPTION, PUBLISH_TIME, CREATE_TIME, UPDATE_TIME FROM " + getTableName() + " WHERE PUBLISH_TIME is not null and status='R' ORDER BY PUBLISH_TIME DESC", this);
 			if (items != null && items.size() > 0) {
 				return items.get(0);
 			}
@@ -257,6 +257,8 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 	 */
 	@Transactional
 	public void release(long toPpiid, PolicyPublishInfo toDto) throws TPolicyPublishInfoDaoException {
+		jdbcTemplate.update("UPDATE " + getTableName() + " SET STATUS='H'");
+		toDto.setStatus("R");
 		jdbcTemplate.update("UPDATE " + getTableName() + " SET VERSION_TAG = ?, STATUS=?, DESCRIPTION = ?, PUBLISH_TIME = ?, UPDATE_TIME = ? WHERE PPIID = ?", toDto.getVersionTag(), toDto.getStatus(), toDto.getDescription(), toDto.getPublishTime(), toDto.getUpdateTime(), toDto.getPpiid());
 		PolicyPublishInfo releasedPPI = this.getReleasedVersion();
 		if (releasedPPI == null) {
@@ -276,7 +278,7 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 			//insert into t_policy_base(mpid, ptvid, mpname, category, description)
 			// select to_ptvid, to_ptvid, mpname, category, description
 			// from v_policy_tplt_ver_change
-			// where from_ppiid=10001 and to_ppiid=257235009 and to_ptvid not in (select ptvid from t_policy_base where ptvid>0)
+			// where to_ppiid=257235009 and to_ptvid not in (select ptvid from t_policy_base where ptvid>0)
 			//;  
 			//--  添加策略详细信息
 			//insert into t_policy_details
@@ -285,13 +287,13 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 			//from
 	    //		  t_policy_event_rule
 			//where
-	    //		  ptvid in ( select to_ptvid from v_policy_tplt_ver_change where from_ppiid=10001 and to_ppiid=257235009 and to_ptvid not in (select ptvid from t_policy_base where ptvid>0) )
+	    //		  ptvid in ( select to_ptvid from v_policy_tplt_ver_change where to_ppiid=257235009 and to_ptvid not in (select ptvid from t_policy_base where ptvid>0) )
 			//;
 			String sql = "insert into t_policy_base(mpid, ptvid, mpname, category, description) " +
-					" select to_ptvid, to_ptvid, mpname, category, description " +
+					" select distinct to_ptvid, to_ptvid, mpname, category, description " +
 					" from v_policy_tplt_ver_change " +
-					" where from_ppiid=? and to_ppiid=? and to_ptvid not in (select ptvid from t_policy_base where ptvid>0) ";
-			jdbcTemplate.update(sql, fromPpiid, toPpiid);
+					" where to_ppiid=? and to_ptvid not in (select ptvid from t_policy_base where ptvid>0) ";
+			jdbcTemplate.update(sql, toPpiid);
 			
 			sql = "insert into t_policy_details " +
 					"               ( MPID, MODID, EVEID, POLL, VALUE_1, SEVERITY_1, FILTER_A, VALUE_2, SEVERITY_2, FILTER_B, SEVERITY_A, SEVERITY_B, OIDGROUP, OGFLAG, VALUE_1_LOW, VALUE_2_LOW, V1L_SEVERITY_1, V1L_SEVERITY_A, V2L_SEVERITY_2, V2L_SEVERITY_B, COMPARETYPE) " +
@@ -299,19 +301,19 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 					"  from " +
 					"    t_policy_event_rule " +
 					"  where " +
-					"    ptvid in ( select to_ptvid from v_policy_tplt_ver_change where from_ppiid=? and to_ppiid=? and to_ptvid not in (select ptvid from t_policy_base where ptvid>0) ) ";
-			jdbcTemplate.update(sql, fromPpiid, toPpiid);
+					"    ptvid in ( select to_ptvid from v_policy_tplt_ver_change where to_ppiid=? and to_ptvid not in (select ptvid from t_policy_base where ptvid>0) ) ";
+			jdbcTemplate.update(sql, toPpiid);
 		}
 		{
 			//-- 删除多余的
-			//delete from t_devpol_map where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select to_ptvid from v_policy_tplt_ver_change where from_ppiid=10001 and to_ppiid=257235009));
-			//delete from t_linepol_map where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select to_ptvid from v_policy_tplt_ver_change where from_ppiid=10001 and to_ppiid=257235009));
-			//delete from predefmib_pol_map  where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select to_ptvid from v_policy_tplt_ver_change where from_ppiid=10001 and to_ppiid=257235009));
-			//delete from t_policy_base where ptvid > 0 and ptvid not in (select to_ptvid from v_policy_tplt_ver_change where from_ppiid=10001 and to_ppiid=257235009);
-			jdbcTemplate.update("delete from t_devpol_map where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select to_ptvid from v_policy_tplt_ver_change where from_ppiid=? and to_ppiid=?))", fromPpiid, toPpiid);
-			jdbcTemplate.update("delete from t_linepol_map where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select to_ptvid from v_policy_tplt_ver_change where from_ppiid=? and to_ppiid=?))", fromPpiid, toPpiid);
-			jdbcTemplate.update("delete from predefmib_pol_map  where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select to_ptvid from v_policy_tplt_ver_change where from_ppiid=? and to_ppiid=?))", fromPpiid, toPpiid);
-			jdbcTemplate.update("delete from t_policy_base where ptvid > 0 and ptvid not in (select to_ptvid from v_policy_tplt_ver_change where from_ppiid=? and to_ppiid=?)", fromPpiid, toPpiid);
+			//delete from t_devpol_map where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select to_ptvid from v_policy_tplt_ver_change where to_ppiid=257235009));
+			//delete from t_linepol_map where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select to_ptvid from v_policy_tplt_ver_change where to_ppiid=257235009));
+			//delete from predefmib_pol_map  where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select to_ptvid from v_policy_tplt_ver_change where to_ppiid=257235009));
+			//delete from t_policy_base where ptvid > 0 and ptvid not in (select to_ptvid from v_policy_tplt_ver_change where to_ppiid=257235009);
+			jdbcTemplate.update("delete from t_devpol_map where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select to_ptvid from v_policy_tplt_ver_change where to_ppiid=?))", toPpiid);
+			jdbcTemplate.update("delete from t_linepol_map where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select to_ptvid from v_policy_tplt_ver_change where to_ppiid=?))", toPpiid);
+			jdbcTemplate.update("delete from predefmib_pol_map  where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select to_ptvid from v_policy_tplt_ver_change where to_ppiid=?))", toPpiid);
+			jdbcTemplate.update("delete from t_policy_base where ptvid > 0 and ptvid not in (select to_ptvid from v_policy_tplt_ver_change where to_ppiid=?)", toPpiid);
 		}
 	}
 
