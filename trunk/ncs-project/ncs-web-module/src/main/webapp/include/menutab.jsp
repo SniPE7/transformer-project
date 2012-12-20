@@ -91,9 +91,11 @@ function onTabChange(){
 		   loadIPAddr();
 		}
 		if(child.id == 'policyapplymenu'){
-		   //loadPollicyDef();
-		   loadPollicyTemplateDef();
+		   loadPollicyDef();
 		}
+	  if(child.id == 'policytemplateapplymenu'){
+	        loadPollicyTemplateDef();
+	  }
 		if(child.id == 'maintainmenu'){
 		   loadMaintainDb();
 		}
@@ -150,26 +152,45 @@ function onTabChange(){
                 </div>
           
 </div>
-<div dojotype="dijit.layout.ContentPane" id="policyapplymenu" title="策略管理" style='background-color: transparent;'>
+<%
+java.util.List<com.ibm.ncs.model.dto.TRoleAndServerNode> roles = (java.util.List<com.ibm.ncs.model.dto.TRoleAndServerNode>)request.getSession(true).getAttribute("roles");
+boolean isAdmin = false;
+for (com.ibm.ncs.model.dto.TRoleAndServerNode role: roles) {
+	  if ("admin".equals(role.getRoleName())) {
+	  	isAdmin = true;
+	  	break;
+	  }
+}
+%>
+<%
+if (isAdmin) {
+%>
+<div dojotype="dijit.layout.ContentPane" id="policytemplateapplymenu" title="策略模板" style='background-color: transparent;'>
                 <div id="policyapptab">
                 
                 <span class="wpsToolbarBannerBackground" onClick="loadPollicyTemplateDef();">
                   <a  href="#">策略模板定义</a>
                     <!--<a href="" target="navigator">监控策略定义</a>-->
                  </span>
-                &nbsp;|&nbsp;
+                </div>
+</div>
+<%
+}
+%>
+<div dojotype="dijit.layout.ContentPane" id="policyapplymenu" title="策略应用" style='background-color: transparent;'>
+                <div id="policyapptab">
                 <span class="wpsToolbarBannerBackground" onClick="loadPollicyDef();">
-                	<a  href="#">监控策略定义</a>
+                  <a  href="#">监控策略定义</a>
                     <!--<a href="" target="navigator">监控策略定义</a>-->
                  </span>
                 &nbsp;|&nbsp;
                 <span class="wpsToolbarBannerBackground" onClick="loadPolicyApply();">
-                	<a  href="#">策略应用</a>
+                  <a  href="#">策略应用</a>
                     <!--<a href="" target="navigator">策略应用</a>-->
                 </span>
                 &nbsp;|&nbsp;
                 <span class="wpsToolbarBannerBackground" onClick="loadGenerateConfig();">
-                	<a  href="#"> 生成监控配置 </a>
+                  <a  href="#"> 生成监控配置 </a>
                     <!--<a href="" target="navigator">生成监控配置</a>-->
                 </span>
                 </div>
