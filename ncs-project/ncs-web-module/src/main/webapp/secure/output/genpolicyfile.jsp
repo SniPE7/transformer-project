@@ -200,8 +200,14 @@ function updatedo2(response){
 													</td>
 												</tr>
 											</table>
+										</td>
+								  </tr>
+                  <tr valign="top">
+                    <td class="table-row" nowrap>
 											<table  align=center>
-											  <tr><td><font color=0000ff><div id=info class="table-row"></div><div id=info2 class="table-row"></div><div id=info3 class="table-row"></div></font></td></tr>
+											  <tr><td><font color=0000ff><div id=info class="table-row"></div></font></td></tr>
+                        <tr><td><font color=0000ff><div id=info2 class="table-row"></div></font></td></tr>
+                        <tr><td><font color=0000ff><div id=info3 class="table-row"></div></font></td></tr>
 											</table>										
 										</td>
 									</tr>

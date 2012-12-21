@@ -33,7 +33,7 @@ create or replace view v_apply_device_type as
                   inner join t_device_type_init dt on dt.dtid=di.dtid
                   inner join t_manufacturer_info_init mi on dt.mrid=mi.mrid
  where
-  pb.ptvid > 0
+  t_policy_base.ptvid > 0
 union
  select
   pb.mpid,pb.ptvid,di.dtid,mi.mrid
@@ -44,7 +44,7 @@ union
                   inner join t_device_type_init dt on dt.dtid=di.dtid
                   inner join t_manufacturer_info_init mi on dt.mrid=mi.mrid
  where
-  pb.ptvid > 0
+  t_policy_base.ptvid > 0
 union
  select
    pb.mpid,pb.ptvid,di.dtid,mi.mrid
@@ -55,5 +55,5 @@ union
                   inner join t_device_type_init dt on dt.dtid=di.dtid
                   inner join t_manufacturer_info_init mi on dt.mrid=mi.mrid
  where
-  pb.ptvid > 0
+  t_policy_base.ptvid > 0
 ;
