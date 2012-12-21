@@ -724,12 +724,12 @@ function toICMP(){
 																									</select></td>
 																									<td VALIGN="middle" class="collection-table-text" rowspan="2"><img id="value1_Icon_<%=countChecked%>" title="定义规则"
 																										src="<%=request.getContextPath()%>/images/ruleedit.png" onclick="javascript: openRuleDialog('<%=countChecked%>', 'value1');"> <input type="hidden"
-																										name="value1" id="value1_<%=countChecked%>" size="5" value="" /> <input type="text" name="value1Rule" id="value1_Rule_<%=countChecked%>" value=""
+																										name="value1" id="value1_<%=countChecked%>" size="5" value="" /> <input type="hidden" name="value1Rule" id="value1_Rule_<%=countChecked%>" value=""
 																										style="width: 30px;" /></td>
 																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity1" size="5" value="" /></td>
 																									<td VALIGN="middle" class="collection-table-text" rowspan="2"><img id="value2_Icon_<%=countChecked%>" title="定义规则"
 																										src="<%=request.getContextPath()%>/images/ruleedit.png" onclick="javascript: openRuleDialog('<%=countChecked%>', 'value2');"> <input type="hidden"
-																										name="value2" id="value2_<%=countChecked%>" size="5" value="" /> <input type="text" name="value2Rule" id="value2_Rule_<%=countChecked%>" value=""
+																										name="value2" id="value2_<%=countChecked%>" size="5" value="" /> <input type="hidden" name="value2Rule" id="value2_Rule_<%=countChecked%>" value=""
 																										style="width: 30px;" /></td>
 																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity2" size="5" value="" /></td>
 																									<td VALIGN="middle" class="collection-table-text" rowspan="2"><select name="compareType" id="compare_Type">
