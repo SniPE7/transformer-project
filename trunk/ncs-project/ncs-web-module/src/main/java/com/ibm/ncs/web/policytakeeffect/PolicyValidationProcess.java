@@ -16,4 +16,6 @@ public interface PolicyValidationProcess {
 
 	public abstract void setDone(boolean done);
 
+	public abstract boolean isSuccess();
+
 }

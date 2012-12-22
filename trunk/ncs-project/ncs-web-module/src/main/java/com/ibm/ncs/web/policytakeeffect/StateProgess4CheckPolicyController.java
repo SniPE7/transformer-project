@@ -19,13 +19,15 @@ public class StateProgess4CheckPolicyController implements Controller {
 	long fintime = -1l;
 
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		Map<String, Map<String, String>> model = new HashMap<String, Map<String, String>>();
+		Map<String, Object> model = new HashMap<String, Object>();
 		Map<String, String> stat = null;
 		boolean done = false;
+		boolean success = false;
 		try {
 			stat = policyValidationProcess.getStat();
 			done = policyValidationProcess.isDone();
 			if (done) {
+				success = policyValidationProcess.isSuccess();
 				policyValidationProcess.stopProcess();
 				fintime = System.currentTimeMillis();
 			}
@@ -34,6 +36,7 @@ public class StateProgess4CheckPolicyController implements Controller {
 			e.printStackTrace();
 		}
 		model.put("stat", stat);
+		model.put("success", success);
 		return new ModelAndView(getPageView(), "model", model);
 	}
 
