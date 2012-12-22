@@ -16,6 +16,13 @@
     <property name="eventTypeInitDao" ref="TEventTypeInitDao" />
   </bean>
   
+  <bean id="takeEffectHistoryDao" class="com.ibm.ncs.model.dao.spring.TTakeEffectHistoryDaoImpl">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  <bean id="serverNodeDao" class="com.ibm.ncs.model.dao.spring.TServerNodeDaoImpl">
+    <property name="dataSource" ref="myDataSource" />
+  </bean>
+  
   <bean id="roleAndServerNodeDao" class="com.ibm.ncs.model.dao.spring.TRoleAndServerNodeDaoImpl" scope="singleton">
     <property name="dataSource" ref="myDataSource" />
   </bean>

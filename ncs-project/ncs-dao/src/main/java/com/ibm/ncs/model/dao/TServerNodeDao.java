@@ -34,7 +34,7 @@ public interface TServerNodeDao
 	/** 
 	 * Returns all rows from the T_SERVER_NODE table that match the criteria 'SERVER_ID = :serverId'.
 	 */
-	public TServerNode findByServerCode(long serverCode) throws TServerNodeDaoException;
+	public TServerNode findByServerCode(String serverCode) throws TServerNodeDaoException;
 
 	/** 
 	 * Returns all rows from the T_SERVER_NODE table that match the criteria ''.

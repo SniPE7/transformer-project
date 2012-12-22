@@ -22,6 +22,8 @@ public class ExportXMLFileController implements Controller {
 
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse arg1) throws Exception {
 		Map<String, Object> model = new HashMap<String, Object>();
+		
+		String operator = ((Map<String, String>)request.getSession(true).getAttribute("signOnFlag")).get("username");
 
 		TakeEffectProcess.getStat().clear();
 		TakeEffectProcess.setDone(false);
@@ -29,6 +31,8 @@ public class ExportXMLFileController implements Controller {
 			TakeEffectProcess.stopProcess();
 		} catch (Exception e) {
 		}
+		TakeEffectProcess.setOperator(operator);
+
 		TakeEffectProcess.init();
 		TakeEffectProcess.startProcess();
 		// TakeEffectProcess.operations(); //or, synchornized same thread

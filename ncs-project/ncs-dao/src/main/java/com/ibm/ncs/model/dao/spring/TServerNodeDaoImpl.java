@@ -106,7 +106,7 @@ public class TServerNodeDaoImpl extends AbstractDAO implements ParameterizedRowM
 		}
 	}
 
-	public TServerNode findByServerCode(long serverCode) throws TServerNodeDaoException {
+	public TServerNode findByServerCode(String serverCode) throws TServerNodeDaoException {
 		try {
 			List<TServerNode> list = jdbcTemplate.query("SELECT SERVER_ID,SERVER_CODE,NODE_TYPE,SERVER_NAME,DESCRIPTION,SERVICE_ENDPOINT FROM " + getTableName() + " WHERE SERVER_CODE = ?", this, serverCode);
 			return list.size() == 0 ? null : list.get(0);

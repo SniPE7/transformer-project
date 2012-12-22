@@ -1,7 +1,12 @@
 package com.ibm.ncs.web.policytakeeffect;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -24,6 +29,7 @@ import com.ibm.ncs.export.SrcTypeExporterImpl;
 import com.ibm.ncs.model.dao.EventsAttentionDao;
 import com.ibm.ncs.model.dao.IcmpThresholdsDao;
 import com.ibm.ncs.model.dao.LinesEventsNotcareDao;
+import com.ibm.ncs.model.dao.PolicyPublishInfo;
 import com.ibm.ncs.model.dao.PolicySyslogDao;
 import com.ibm.ncs.model.dao.PredefmibPolMapDao;
 import com.ibm.ncs.model.dao.SnmpThresholdsDao;
@@ -32,35 +38,88 @@ import com.ibm.ncs.model.dao.SyslogEventsProcessNsDao;
 import com.ibm.ncs.model.dao.TDevpolMapDao;
 import com.ibm.ncs.model.dao.TLinepolMapDao;
 import com.ibm.ncs.model.dao.TPolicyPeriodDao;
+import com.ibm.ncs.model.dao.TPolicyPublishInfoDao;
 import com.ibm.ncs.model.dao.TPpDevDao;
 import com.ibm.ncs.model.dao.TPpPortDao;
 import com.ibm.ncs.model.dao.TServerInfoDao;
+import com.ibm.ncs.model.dao.TServerNodeDao;
+import com.ibm.ncs.model.dao.TTakeEffectHistoryDao;
+import com.ibm.ncs.model.dao.TUserDao;
 import com.ibm.ncs.model.dto.PolicySyslog;
 import com.ibm.ncs.model.dto.SyslogEventsProcess;
 import com.ibm.ncs.model.dto.SyslogEventsProcessNs;
 import com.ibm.ncs.model.dto.SyslogEventsProcessNsPk;
 import com.ibm.ncs.model.dto.SyslogEventsProcessPk;
 import com.ibm.ncs.model.dto.TServerInfo;
+import com.ibm.ncs.model.dto.TServerNode;
+import com.ibm.ncs.model.dto.TTakeEffectHistory;
+import com.ibm.ncs.model.dto.TUser;
+import com.ibm.ncs.model.exceptions.DaoException;
 import com.ibm.ncs.model.exceptions.LinesEventsNotcareDaoException;
 import com.ibm.ncs.model.exceptions.PolicySyslogDaoException;
 import com.ibm.ncs.model.exceptions.PredefmibPolMapDaoException;
 import com.ibm.ncs.model.exceptions.TDevpolMapDaoException;
 import com.ibm.ncs.model.exceptions.TLinepolMapDaoException;
+import com.ibm.ncs.model.exceptions.TPolicyPublishInfoDaoException;
+import com.ibm.ncs.util.GenPkNumber;
 import com.ibm.ncs.util.Log4jInit;
 
 public class TakeEffectProcess {
 
 	static Logger logger = Logger.getLogger(TakeEffectProcess.class);
 
-	DataSource datasource;
-	PolicySyslogDao PolicySyslogDao;
-	SyslogEventsProcessDao SyslogEventsProcessDao;
-	SyslogEventsProcessNsDao SyslogEventsProcessNsDao;
-	EventsAttentionDao EventsAttentionDao;
-	LinesEventsNotcareDao LinesEventsNotcareDao;
-	TPpDevDao TPpDevDao;
-	TPpPortDao TPpPortDao;
-	TimeFrameConverter timeframeConverter;
+	private DataSource datasource;
+	
+	private TTakeEffectHistoryDao takeEffectHistoryDao;
+	private TServerNodeDao serverNodeDao;
+	private TPolicyPublishInfoDao policyPublishInfoDao;
+	private TUserDao userDao;
+	private GenPkNumber genPkNumber;
+	
+	private PolicySyslogDao PolicySyslogDao;
+	private SyslogEventsProcessDao SyslogEventsProcessDao;
+	private SyslogEventsProcessNsDao SyslogEventsProcessNsDao;
+	private EventsAttentionDao EventsAttentionDao;
+	private LinesEventsNotcareDao LinesEventsNotcareDao;
+	private TPpDevDao TPpDevDao;
+	private TPpPortDao TPpPortDao;
+	private TimeFrameConverter timeframeConverter;
+
+	private SnmpThresholdsDao SnmpThresholdsDao;
+	private IcmpThresholdsDao IcmpThresholdsDao;
+	private TPolicyPeriodDao TPolicyPeriodDao;
+	private TServerInfoDao TServerInfoDao;
+	private PredefmibPolMapDao PredefmibPolMapDao;
+	private TLinepolMapDao TLinepolMapDao;
+	private TDevpolMapDao TDevpolMapDao;
+
+	private String message;
+	private boolean done = false;
+	
+	private String operator = null;
+
+	Thread process;
+	Map<String, String> stat = new TreeMap<String, String>();
+
+	public TakeEffectProcess() {
+		// init();
+	}
+
+	public String getOperator() {
+		return operator;
+	}
+
+	public void setOperator(String operator) {
+		this.operator = operator;
+	}
+
+	public TPolicyPublishInfoDao getPolicyPublishInfoDao() {
+		return policyPublishInfoDao;
+	}
+
+	public void setPolicyPublishInfoDao(TPolicyPublishInfoDao policyPublishInfoDao) {
+		this.policyPublishInfoDao = policyPublishInfoDao;
+	}
 
 	public TServerInfoDao getTServerInfoDao() {
 		return TServerInfoDao;
@@ -70,22 +129,36 @@ public class TakeEffectProcess {
 		TServerInfoDao = serverInfoDao;
 	}
 
-	SnmpThresholdsDao SnmpThresholdsDao;
-	IcmpThresholdsDao IcmpThresholdsDao;
-	TPolicyPeriodDao TPolicyPeriodDao;
-	TServerInfoDao TServerInfoDao;
-	PredefmibPolMapDao PredefmibPolMapDao;
-	TLinepolMapDao TLinepolMapDao;
-	TDevpolMapDao TDevpolMapDao;
+	public TTakeEffectHistoryDao getTakeEffectHistoryDao() {
+		return takeEffectHistoryDao;
+	}
 
-	String message;
-	boolean done;
+	public void setTakeEffectHistoryDao(TTakeEffectHistoryDao takeEffectHistoryDao) {
+		this.takeEffectHistoryDao = takeEffectHistoryDao;
+	}
 
-	Thread process;
-	Map<String, String> stat = new TreeMap<String, String>();
+	public TServerNodeDao getServerNodeDao() {
+		return serverNodeDao;
+	}
 
-	public TakeEffectProcess() {
-		// init();
+	public void setServerNodeDao(TServerNodeDao serverNodeDao) {
+		this.serverNodeDao = serverNodeDao;
+	}
+
+	public TUserDao getUserDao() {
+		return userDao;
+	}
+
+	public void setUserDao(TUserDao userDao) {
+		this.userDao = userDao;
+	}
+
+	public GenPkNumber getGenPkNumber() {
+		return genPkNumber;
+	}
+
+	public void setGenPkNumber(GenPkNumber genPkNumber) {
+		this.genPkNumber = genPkNumber;
 	}
 
 	public void init() {
@@ -107,13 +180,18 @@ public class TakeEffectProcess {
 	}
 
 	private void operations() {
+		
 		System.out.println("TakeEffectProcess start operation...");
 		int steps = 1;
 		done = false;
 		stat.clear();
 		ResourceBundle prop = ResourceBundle.getBundle("ncc-configuration");
-		String preid // = (String)prop.getObject("export.xml.server.pre.id");
-		= ""; // ICBC rule to get the server pre id.
+	  // = (String)prop.getObject("export.xml.server.pre.id");
+		String preid = ""; // ICBC rule to get the server pre id.
+		String nodeCode = prop.getString("ncs.node.id");
+		if (nodeCode == null || nodeCode.trim().length() == 0) {
+			 throw new RuntimeException("缺少配置参数: ncs.node.id");
+		}
 		String xmldir = (String) prop.getObject("export.xml.generate.dir");
 		xmldir = (xmldir == null || xmldir.trim().equals("")) ? "/tmp/" : xmldir;
 
@@ -128,8 +206,17 @@ public class TakeEffectProcess {
 		stat.put(setKS(steps++), sdf.format(new Date()) + " 完成清理策略应用中无映射引用的数据（设备，端口，私有index）");
 		logger.info(" 完成清理策略应用中无映射引用的数据（设备，端口，私有index） ");
 
+		TTakeEffectHistory history;
+    try {
+	    history = getHistory(nodeCode);
+    } catch (DaoException e) {
+    	e.printStackTrace();
+	    throw new RuntimeException(e.getMessage(), e);
+    }
+
 		stat.put(setKS(steps++), "开始准备前缀名server.pre.id数据.");
 		try {
+
 			List<TServerInfo> server = TServerInfoDao.findAll();
 
 			if (server.size() > 0) {
@@ -164,6 +251,8 @@ public class TakeEffectProcess {
 				exp.setServerID(preid);
 				exp.setJdbcConnection(connectionDS);
 				exp.export(new FileWriter(xmldir + "icmp.xml"), null);
+				
+				history.setIcmpXMLFile(this.fileToString(new File(xmldir + "icmp.xml")));
 			} catch (IOException e2) {
 				message = "error in generate icmp.xml...IOException ";
 				logger.error("error in generate icmp.xml..." + e2.getMessage());
@@ -185,6 +274,8 @@ public class TakeEffectProcess {
 				exp1.setServerID(preid);
 				exp1.setJdbcConnection(connectionDS);
 				exp1.export(new FileWriter(xmldir + "snmp.xml"), null);
+				
+				history.setSnmpXMLFile(this.fileToString(new File(xmldir + "snmp.xml")));
 			} catch (IOException e1) {
 				message = "error in generate snmp.xml...IOException ";
 				logger.error("error in generate snmp.xml..." + e1.getMessage());
@@ -203,6 +294,8 @@ public class TakeEffectProcess {
 				SrcTypeExporter exp2 = new SrcTypeExporterImpl();
 				exp2.setJdbcConnection(connectionDS);
 				exp2.export(new FileWriter(xmldir + "SrcType"), null);
+				
+				history.setSrcTypeFile(this.fileToString(new File(xmldir + "SrcType")));
 			} catch (IOException e) {
 				message = "error in generate srctype...IOException ";
 				logger.error("error in generate srctype.xml..." + e.getMessage());
@@ -297,6 +390,54 @@ public class TakeEffectProcess {
 
 		done = true;
 		// model.put("done", "done");
+		
+		try {
+	    this.takeEffectHistoryDao.insert(history);
+    } catch (DaoException e) {
+	    e.printStackTrace();
+    }
+	}
+
+	private TTakeEffectHistory getHistory(String nodeCode) throws DaoException {
+	  TTakeEffectHistory history = new TTakeEffectHistory();
+		long id = genPkNumber.getID();
+		history.setTeId(id);
+		
+		TServerNode serverNode = this.serverNodeDao.findByServerCode(nodeCode );
+		if (serverNode != null) {
+			history.setServerId(serverNode.getServerID());
+		}
+		history.setGeneredTime(new Date());
+		PolicyPublishInfo released = this.policyPublishInfoDao.getReleasedVersion();
+		if (released != null) {
+			 history.setPpiid(released.getPpiid());
+		}
+		List<TUser> users = this.userDao.findWhereUnameEquals(this.getOperator());
+		if (users != null && users.size() > 0) {
+			history.setUsid(users.get(0).getUsid());
+		}
+	  return history;
+  }
+	
+	private String fileToString(File file) {
+		try {
+	    BufferedReader reader = new BufferedReader(new FileReader(file));
+	    StringWriter out = new StringWriter();
+	    String line = reader.readLine();
+	    while (line != null) {
+	    	out.write(String.format("%s\n", line));
+	    	line = reader.readLine();
+	    }
+	    reader.close();
+	    out.close();
+	    return out.toString();
+    } catch (FileNotFoundException e) {
+	    e.printStackTrace();
+	    return null;
+    } catch (IOException e) {
+	    e.printStackTrace();
+	    return null;
+    }
 	}
 
 	private void removeNoUsedData() {
