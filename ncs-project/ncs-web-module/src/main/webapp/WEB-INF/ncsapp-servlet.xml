@@ -1421,7 +1421,7 @@
 	 		<property name="datasource" ref="myDataSource"></property>	
 	</bean>
 	
-	 <bean name="TakeEffectProcess" class="com.ibm.ncs.web.policytakeeffect.TakeEffectProcess" scope="prototype">
+	 <bean name="TakeEffectProcess" class="com.ibm.ncs.web.policytakeeffect.TakeEffectProcess">
 	    <property name="takeEffectHistoryDao" ref="takeEffectHistoryDao"></property>
 	    <property name="serverNodeDao" ref="serverNodeDao"></property>
       <property name="policyPublishInfoDao" ref="policyPublishInfoDao" />

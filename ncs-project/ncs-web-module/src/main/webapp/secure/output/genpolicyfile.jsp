@@ -34,11 +34,12 @@ function GetXmlHttpObject(){
 }
 
 function stateChanged1(){ 
-	if (xhreq.readyState==4 && xhreq.status==200){ 
+	if (xhreq.readyState==4 && xhreq.status==200) {
+		//alert(xhreq.responseText);
 		document.getElementById("info").innerHTML=xhreq.responseText;
     document.getElementById("apply").disabled=false;
     document.getElementById("exeshell").disabled=false;
-	} else if (xhreq.readyState==4 && xhreq.status==200){ 
+	} else if (xhreq.readyState==4 && xhreq.status==201){ 
 	  document.getElementById("info").innerHTML=xhreq.responseText;
 	}
 }

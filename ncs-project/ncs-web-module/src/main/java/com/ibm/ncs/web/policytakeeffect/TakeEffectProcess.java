@@ -60,7 +60,6 @@ import com.ibm.ncs.model.exceptions.PolicySyslogDaoException;
 import com.ibm.ncs.model.exceptions.PredefmibPolMapDaoException;
 import com.ibm.ncs.model.exceptions.TDevpolMapDaoException;
 import com.ibm.ncs.model.exceptions.TLinepolMapDaoException;
-import com.ibm.ncs.model.exceptions.TPolicyPublishInfoDaoException;
 import com.ibm.ncs.util.GenPkNumber;
 import com.ibm.ncs.util.Log4jInit;
 
@@ -181,24 +180,27 @@ public class TakeEffectProcess {
 
 	private void operations() {
 		
-		System.out.println("TakeEffectProcess start operation...");
 		int steps = 1;
+
+		System.out.println("TakeEffectProcess start operation...");
+		// stat.put(setKS(steps++), "开始进行  文件处理 :"+sdf.format(new Date()));
+		stat.put(setKS(steps++), "开始准备数据.");
 		done = false;
 		stat.clear();
 		ResourceBundle prop = ResourceBundle.getBundle("ncc-configuration");
 	  // = (String)prop.getObject("export.xml.server.pre.id");
 		String preid = ""; // ICBC rule to get the server pre id.
-		String nodeCode = prop.getString("ncs.node.id");
+		String nodeCode = prop.getString("ncs.node.code");
+		stat.put(setKS(steps++), "开始提取服务节点配置(ncs.node.code) =" + nodeCode);
 		if (nodeCode == null || nodeCode.trim().length() == 0) {
-			 throw new RuntimeException("缺少配置参数: ncs.node.id");
+  		 stat.put(setKS(steps++), "错误: 缺少配置参数: ncs.node.code");
+			 throw new RuntimeException("缺少配置参数: ncs.node.code");
 		}
 		String xmldir = (String) prop.getObject("export.xml.generate.dir");
 		xmldir = (xmldir == null || xmldir.trim().equals("")) ? "/tmp/" : xmldir;
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-		// stat.put(setKS(steps++), "开始进行  文件处理 :"+sdf.format(new Date()));
-		stat.put(setKS(steps++), "开始准备数据.");
 
 		stat.put(setKS(steps++), sdf.format(new Date()) + " 开始清理策略应用中无映射引用的数据（设备，端口，私有index）...");
 		logger.info(" 开始清理策略应用中无映射引用的数据（设备，端口，私有index）...");
@@ -210,6 +212,7 @@ public class TakeEffectProcess {
     try {
 	    history = getHistory(nodeCode);
     } catch (DaoException e) {
+ 		  stat.put(setKS(steps++), "错误: 组装操作历史数据信息失败, 原因: " + e.getMessage());
     	e.printStackTrace();
 	    throw new RuntimeException(e.getMessage(), e);
     }
@@ -394,6 +397,7 @@ public class TakeEffectProcess {
 		try {
 	    this.takeEffectHistoryDao.insert(history);
     } catch (DaoException e) {
+ 		  stat.put(setKS(steps++), "错误: 保存操作历史数据信息失败, 原因: " + e.getMessage());
 	    e.printStackTrace();
     }
 	}
