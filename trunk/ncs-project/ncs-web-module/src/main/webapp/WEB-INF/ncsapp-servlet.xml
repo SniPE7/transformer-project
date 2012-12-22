@@ -1421,7 +1421,12 @@
 	 		<property name="datasource" ref="myDataSource"></property>	
 	</bean>
 	
-	 <bean name="TakeEffectProcess" class="com.ibm.ncs.web.policytakeeffect.TakeEffectProcess" >
+	 <bean name="TakeEffectProcess" class="com.ibm.ncs.web.policytakeeffect.TakeEffectProcess" scope="prototype">
+	    <property name="takeEffectHistoryDao" ref="takeEffectHistoryDao"></property>
+	    <property name="serverNodeDao" ref="serverNodeDao"></property>
+      <property name="policyPublishInfoDao" ref="policyPublishInfoDao" />
+      <property name="userDao" ref="TUserDao"></property>
+      <property name="genPkNumber" ref="GenPkNumber"></property>
 	 		<property name="syslogEventsProcessDao" ref="SyslogEventsProcessDao" />	
 	 		<property name="syslogEventsProcessNsDao" ref="SyslogEventsProcessNsDao" />	
 	 		<property name="eventsAttentionDao" ref="EventsAttentionDao" />	
@@ -1431,11 +1436,11 @@
 	 		<property name="linesEventsNotcareDao" ref="LinesEventsNotcareDao" />	
 	 		<property name="policySyslogDao" ref="PolicySyslogDao" />
 	 		<property name="TServerInfoDao" ref="TServerInfoDao"/>
-		<property name="TDevpolMapDao" ref="TDevpolMapDao"/>
-		<property name="TLinepolMapDao" ref="TLinepolMapDao"/>
-		<property name="TPpDevDao" ref="TPpDevDao"/>
-		<property name="TPpPortDao" ref="TPpPortDao"/>
-		<property name="predefmibPolMapDao" ref="PredefmibPolMapDao" />	 		
+		  <property name="TDevpolMapDao" ref="TDevpolMapDao"/>
+		  <property name="TLinepolMapDao" ref="TLinepolMapDao"/>
+		  <property name="TPpDevDao" ref="TPpDevDao"/>
+		  <property name="TPpPortDao" ref="TPpPortDao"/>
+		  <property name="predefmibPolMapDao" ref="PredefmibPolMapDao" />	 		
 	 		<property name="datasource" ref="myDataSource"></property>
 	 </bean>
 	 <bean name="/secure/policyapply/effectgenerator.wss" class="com.ibm.ncs.web.policytakeeffect.EffectGeneratorController" >
