@@ -36,6 +36,10 @@ function GetXmlHttpObject(){
 function stateChanged1(){ 
 	if (xhreq.readyState==4 && xhreq.status==200){ 
 		document.getElementById("info").innerHTML=xhreq.responseText;
+    document.getElementById("apply").disabled=false;
+    document.getElementById("exeshell").disabled=false;
+	} else if (xhreq.readyState==4 && xhreq.status==200){ 
+	  document.getElementById("info").innerHTML=xhreq.responseText;
 	}
 }
 
@@ -54,6 +58,8 @@ function callback1(){
 function stateChanged2(){ 
 	if (xhreq2.readyState==4 && xhreq2.status==200){ 
 		document.getElementById("info2").innerHTML=xhreq2.responseText;
+	} else if (xhreq2.readyState==4 && xhreq2.status==201){ 
+	  document.getElementById("info2").innerHTML=xhreq2.responseText;
 	}
 }
 
@@ -71,6 +77,12 @@ function callback2(){
 
 function stateChanged3(){ 
   if (xhreq3.readyState==4 && xhreq3.status==200){ 
+	  // Check policy passed!
+    document.getElementById("info3").innerHTML=xhreq3.responseText;
+    document.getElementById("check").disabled=false;
+    document.getElementById("apply").disabled=false;
+  } else  if (xhreq3.readyState==4 && xhreq3.status==201){
+	  // Failure to check policy
     document.getElementById("info3").innerHTML=xhreq3.responseText;
   }
 }
@@ -180,8 +192,8 @@ function updatedo2(response){
 												<tr>
 													<td>
 													<input type="button" value="检查监控配置" onclick="javascript:checkPolicy()" name="check" id="check" class="buttons">
-                          <input type="button" value="生成监控配置" onclick="javascript:applyPolicy()" name="apply" id="apply" class="buttons">
-													<input type="button" value="生效" 	onclick="javascript:exeShell()" name="exeshell" id="exeshell" class="buttons">
+                          <input type="button" value="生成监控配置" onclick="javascript:applyPolicy()" name="apply" id="apply" class="buttons" disabled="disabled">
+													<input type="button" value="生效" 	onclick="javascript:exeShell()" name="exeshell" id="exeshell" class="buttons" disabled="disabled">
 													</td>
 												</tr>
 											</table>

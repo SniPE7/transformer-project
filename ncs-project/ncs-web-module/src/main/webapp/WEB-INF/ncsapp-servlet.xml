@@ -1591,7 +1591,7 @@
   </bean> 
   <bean name="/secure/output/statecheckpolicy.wss" class="com.ibm.ncs.web.policytakeeffect.StateProgess4CheckPolicyController">
     <property name="policyValidationProcess" ref="policyValidationProcess"></property>
-    <property name="pageView" value="/secure/output/stateprocess.jsp"/>
+    <property name="pageView" value="/secure/output/stateprocess4checkpolicy.jsp"/>
   </bean>
 	
 </beans>  

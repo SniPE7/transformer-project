@@ -462,4 +462,12 @@ public class PolicyValidationProcessImpl implements PolicyValidationProcess {
 		this.policyRuleEvaluator = policyRuleEvaluator;
 	}
 
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
+	}
+
 }
