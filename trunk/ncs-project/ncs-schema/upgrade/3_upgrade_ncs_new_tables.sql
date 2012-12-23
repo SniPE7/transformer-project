@@ -248,11 +248,13 @@ create table T_USER_ROLE_MAP  (
 
 alter table T_POLICY_EVENT_RULE
    add constraint FK_T_POLICY_REFERENCE_T_POLIC6 foreign key (PTVID)
-      references T_POLICY_TEMPLATE_VER (PTVID);
+      references T_POLICY_TEMPLATE_VER (PTVID)
+      on delete cascade;
 
 alter table T_POLICY_TEMPLATE_SCOPE
    add constraint FK_T_POLICY_REFERENCE_T_POLIC5 foreign key (PTVID)
-      references T_POLICY_TEMPLATE_VER (PTVID);
+      references T_POLICY_TEMPLATE_VER (PTVID)
+      on delete cascade;
 
 alter table T_POLICY_TEMPLATE_SCOPE
    add constraint FK_T_POLICY_REFERENCE_T_DEVICE foreign key (DTID)

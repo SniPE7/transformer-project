@@ -58,6 +58,7 @@ public class PolicyDefinitionController implements Controller {
 	GenPkNumber genPkNumber;
 	String pageView;
 	String pageView4ReadOnly;
+	String pageView4Delete;
 	String message = "";
 
 	public void setManufacturerInfoDao(TManufacturerInfoInitDao manufacturerInfoDao) {
@@ -169,6 +170,8 @@ public class PolicyDefinitionController implements Controller {
 							// TODO ZHAO delete all children
 						}
 						model.put("refresh", "true");
+						model.put("message", "message.common.delete.success");
+						return new ModelAndView(this.pageView4Delete, "definition", model);
 					} else if (formAction.equalsIgnoreCase("save") && ptvid != null) { // update;
 						                                                                 // tested
 						PolicyTemplateVer policyTemplateVer = this.policyTemplateVerDao.findById(ptvid);
@@ -341,6 +344,10 @@ public class PolicyDefinitionController implements Controller {
 
 	public void setPageView4ReadOnly(String pageView4ReadOnly) {
 		this.pageView4ReadOnly = pageView4ReadOnly;
+	}
+
+	public void setPageView4Delete(String pageView4Delete) {
+		this.pageView4Delete = pageView4Delete;
 	}
 
 }

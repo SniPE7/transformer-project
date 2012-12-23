@@ -168,7 +168,7 @@ function doSelectAll(srcName, destName) {
 													<c:if test="${definition.cate !=9}">
 														<td><input type="submit" name="button_bind" value="策略定制" class="buttons" onClick="policydetails()" id="functions" /></td>
 													</c:if>
-													<td><input type="submit" name="button_new" value="新建" class="buttons" onClick="addform1()" id="functions" /></td>
+													<td><input type="hidden" name="button_new" value="新建" class="buttons" onClick="addform1()" id="functions" /></td>
 													<td><input type="button" name="button_update" value="保存" class="buttons" onClick="saveform1()" id="functions" /></td>
 													<td><input type="submit" name="button_delete" value="删除" class="buttons" onClick="deleteform1()" id="functions" /></td>
 												</tr>
