@@ -141,7 +141,7 @@ function toICMP(){
 														<fmt:message>${model.message }</fmt:message>
 													</div>
 												</c:if> <c:if test="${model.messageFromSave != null &&  model.messageFromSave != ''}">
-													<div id="errmsg">${model.messageFromSave }</div>
+													<div id="errmsg" style="color: red;">${model.messageFromSave }</div>
 												</c:if> <input type="hidden" name="formAction" value="save" /> <input type="hidden" name="ptvid" value="${model.ptvid}" /> <input type="hidden" name="cate"
 												value="${model.cate}" />
 											</td>
@@ -477,13 +477,13 @@ function toICMP(){
 																							<option value="0" <c:if test="${c1.filterB==0}">selected="selected"</c:if>>否</option>
 																					</select></td>
 																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="severityA" size="5"
-																						value="<c:if test="${c1.severityANull == false}" >${c1.severityA}</c:if>" /></td>
+																						value="<c:if test="${c1.severityANull == false}" >${c1.severityA}</c:if>" style="width: 30px;"/></td>
 																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="v1lseverityA" size="5"
-																						value="<c:if test="${c1.v1lseverityANull == false}" >${c1.v1lseverityA}</c:if>" /></td>
+																						value="<c:if test="${c1.v1lseverityANull == false}" >${c1.v1lseverityA}</c:if>" style="width: 30px;"/></td>
 																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="severityB" size="5"
-																						value="<c:if test="${c1.severityBNull == false}" >${c1.severityB}</c:if>" /></td>
+																						value="<c:if test="${c1.severityBNull == false}" >${c1.severityB}</c:if>" style="width: 30px;"/></td>
 																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="v2lseverityB" size="5"
-																						value="<c:if test="${c1.v2lseverityBNull == false}" >${c1.v2lseverityB}</c:if>" /></td>
+																						value="<c:if test="${c1.v2lseverityBNull == false}" >${c1.v2lseverityB}</c:if>" style="width: 30px;"/></td>
 																				</tr>
 																				<%
 																					countChecked++;
@@ -538,22 +538,22 @@ function toICMP(){
 																										src="<%=request.getContextPath()%>/images/ruleedit.png" onclick="javascript: openRuleDialog('<%=countChecked%>', 'value1');"> <input type="hidden"
 																										name="value1" id="value1_<%=countChecked%>" size="5" value="" /> <input type="hidden" name="value1Rule" id="value1_Rule_<%=countChecked%>" value=""
 																										style="width: 30px;" /></td>
-																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity1" size="5" value="" /></td>
+																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity1" size="5" value="" style="width: 30px;"/></td>
 																									<td VALIGN="middle" class="collection-table-text" rowspan="2"><img id="value1low_Icon_<%=countChecked%>" title="定义规则"
 																										src="<%=request.getContextPath()%>/images/ruleedit.png" onclick="javascript: openRuleDialog('<%=countChecked%>', 'value1low');"> <input
 																										type="hidden" name="value1low" id="value1low_<%=countChecked%>" size="5" value="" /> <input type="hidden" name="value1lowRule"
 																										id="value1low_Rule_<%=countChecked%>" value="" style="width: 30px;" /></td>
-																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="v1lseverity1" size="5" value="" /></td>
+																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="v1lseverity1" size="5" value="" style="width: 30px;"/></td>
 																									<td VALIGN="middle" class="collection-table-text" rowspan="2"><img id="value2_Icon_<%=countChecked%>" title="定义规则"
 																										src="<%=request.getContextPath()%>/images/ruleedit.png" onclick="javascript: openRuleDialog('<%=countChecked%>', 'value2');"> <input type="hidden"
 																										name="value2" id="value2_<%=countChecked%>" size="5" value="" /> <input type="hidden" name="value2Rule" id="value2_Rule_<%=countChecked%>" value=""
 																										style="width: 30px;" /></td>
-																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity2" size="5" value="" /></td>
+																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity2" size="5" value="" style="width: 30px;"/></td>
 																									<td VALIGN="middle" class="collection-table-text" rowspan="2"><img id="value2low_Icon_<%=countChecked%>" title="定义规则"
 																										src="<%=request.getContextPath()%>/images/ruleedit.png" onclick="javascript: openRuleDialog('<%=countChecked%>', 'value2low');"> <input
 																										type="hidden" name="value2low" id="value2low_<%=countChecked%>" size="5" value="" /> <input type="hidden" name="value2lowRule"
 																										id="value2low_Rule_<%=countChecked%>" value="" style="width: 30px;" /></td>
-																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="v2lseverity2" size="5" value="" /></td>
+																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="v2lseverity2" size="5" value="" style="width: 30px;"/></td>
 																									<td VALIGN="middle" class="collection-table-text" rowspan="2"><select name="compareType" id="compare_Type">
 																											<option value="null">-请选择-</option>
 																											<option value="==">==</option>
@@ -676,9 +676,9 @@ function toICMP(){
 																							<option value="0" <c:if test="${c1.filterB==0}">selected="selected"</c:if>>否</option>
 																					</select></td>
 																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="severityA" size="5"
-																						value="<c:if test="${c1.severityANull == false}" >${c1.severityA}</c:if>" /></td>
+																						value="<c:if test="${c1.severityANull == false}" >${c1.severityA}</c:if>" style="width: 30px;"/></td>
 																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="severityB" size="5"
-																						value="<c:if test="${c1.severityBNull == false}" >${c1.severityB}</c:if>" /></td>
+																						value="<c:if test="${c1.severityBNull == false}" >${c1.severityB}</c:if>" style="width: 30px;"/></td>
 																				</tr>
 																				<%
 																					countChecked++;
@@ -726,12 +726,12 @@ function toICMP(){
 																										src="<%=request.getContextPath()%>/images/ruleedit.png" onclick="javascript: openRuleDialog('<%=countChecked%>', 'value1');"> <input type="hidden"
 																										name="value1" id="value1_<%=countChecked%>" size="5" value="" /> <input type="hidden" name="value1Rule" id="value1_Rule_<%=countChecked%>" value=""
 																										style="width: 30px;" /></td>
-																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity1" size="5" value="" /></td>
+																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity1" size="5" value="" style="width: 30px;"/></td>
 																									<td VALIGN="middle" class="collection-table-text" rowspan="2"><img id="value2_Icon_<%=countChecked%>" title="定义规则"
 																										src="<%=request.getContextPath()%>/images/ruleedit.png" onclick="javascript: openRuleDialog('<%=countChecked%>', 'value2');"> <input type="hidden"
 																										name="value2" id="value2_<%=countChecked%>" size="5" value="" /> <input type="hidden" name="value2Rule" id="value2_Rule_<%=countChecked%>" value=""
 																										style="width: 30px;" /></td>
-																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity2" size="5" value="" /></td>
+																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity2" size="5" value="" style="width: 30px;"/></td>
 																									<td VALIGN="middle" class="collection-table-text" rowspan="2"><select name="compareType" id="compare_Type">
 																											<option value="null">-请选择-</option>
 																											<option value="==">==</option>
@@ -755,8 +755,8 @@ function toICMP(){
 																											<option value="0">否</option>
 																									</select></td>
 
-																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="severityA" size="5" value="" /></td>
-																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="severityB" size="5" value="" /></td>
+																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="severityA" size="5" value="" style="width: 30px;"/></td>
+																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="severityB" size="5" value="" style="width: 30px;"/></td>
 																								</tr>
 
 

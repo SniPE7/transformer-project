@@ -29,6 +29,7 @@ import com.ibm.ncs.model.dto.TManufacturerInfoInit;
 import com.ibm.ncs.model.dto.TModuleInfoInit;
 import com.ibm.ncs.model.dto.TPolicyDetailsWithRule;
 import com.ibm.ncs.model.dto.TPolicyDetailsWithRulePk;
+import com.ibm.ncs.model.exceptions.TEventTypeInitDaoException;
 import com.ibm.ncs.util.GenPkNumber;
 import com.ibm.ncs.util.Log4jInit;
 import com.ibm.ncs.util.SortList;
@@ -315,6 +316,36 @@ public class SavePolicyDetailsPDMController implements Controller {
 						}
 					}
 
+					if (value1[selIndex] == null || value1[selIndex].trim().length() == 0) {
+						addMessage(eveidTmp, modidTmp, "必须设置阀值1的取值规则和缺省值!");
+						continue;
+					}
+					if (value1Rule[selIndex] == null || value1Rule[selIndex].trim().length() == 0) {
+						addMessage(eveidTmp, modidTmp, "必须设置阀值1的取值规则和缺省值!");
+						continue;
+					}
+					if (severity1Str[selIndex] == null || severity1Str[selIndex].trim().length() == 0) {
+						addMessage(eveidTmp, modidTmp, "必须设置阀值1的时段内阀值!");
+						continue;
+					}
+					if (severityAStr[selIndex] == null || severityAStr[selIndex].trim().length() == 0) {
+						addMessage(eveidTmp, modidTmp, "必须设置阀值1的时段外阀值!");
+						continue;
+					}
+					if (value2[selIndex] != null && value2[selIndex].trim().length() > 0) {
+						if (value2Rule[selIndex] == null || value2Rule[selIndex].trim().length() == 0) {
+							addMessage(eveidTmp, modidTmp, "必须设置阀值2的取值规则和缺省值!");
+							continue;
+						}
+						if (severity2Str[selIndex] == null || severity2Str[selIndex].trim().length() == 0) {
+							addMessage(eveidTmp, modidTmp, "必须设置阀值2的时段内阀值!");
+							continue;
+						}
+						if (severityBStr[selIndex] == null || severityBStr[selIndex].trim().length() == 0) {
+							addMessage(eveidTmp, modidTmp, "必须设置阀值2的时段外阀值!");
+							continue;
+						}
+					}
 					TPolicyDetailsWithRule dto = new TPolicyDetailsWithRule();
 					dto.setPtvid(ptvidTmp);
 					dto.setEveid(eveidTmp);
@@ -470,6 +501,15 @@ public class SavePolicyDetailsPDMController implements Controller {
 		buildPolicyDetailsList(request, response, model);
 		return new ModelAndView(getPageView(), "model", model);
 	}
+
+	private void addMessage(long eveId, long modId, String msg) throws TEventTypeInitDaoException {
+	  if (message.equals(""))
+	  	message = "以下策略定制失败：<br/>";
+	  TEventTypeInit t = null;
+	  if (eveId > 0 && modId > 0)
+	  	t = TEventTypeInitDao.findByPrimaryKey(modId, eveId);
+	  message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： " + msg + "<br/>";
+  }
 
 	/*
 	 * (non-Javadoc)

@@ -89,7 +89,7 @@
 
 									<a name="important"></a>
 									<h1 id="title-bread-crumb">
-										策略定制--策略名称<input type="hidden" name="mpname" value="${model.mpname}" /> ${model.mpname}
+										策略模板定制--策略名称<input type="hidden" name="mpname" value="${model.mpname}" /> ${model.mpname}
 									</h1>
 									<a name="main"></a>
 									<%
@@ -99,11 +99,11 @@
 									<table border="0" cellpadding="3" cellspacing="0" VALIGN="middle" width="100%" summary="Framing Table" CLASS="button-section">
 										<tr align="left">
 											<td align="left"><c:if test="${model.message != null &&  model.message != ''}">
-													<div id="errmsg">
+													<div id="errmsg" style="color: red;">
 														<fmt:message>${model.message }</fmt:message>
 													</div>
 												</c:if> <c:if test="${model.messageFromSave != null &&  model.messageFromSave != ''}">
-													<div id="errmsg">${model.messageFromSave }</div>
+													<div id="errmsg" style="color: red;">${model.messageFromSave }</div>
 												</c:if></td>
 										</tr>
 										<tr VALIGN="middle">
@@ -179,14 +179,14 @@
                                             <input type="hidden" name="value1Rule" id="value1_Rule_<%=countChecked %>" value="${c1.value1Rule}" style="width: 30px;"/>
 																					</td>
 																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity1" size="5"
-																						value="<c:if test="${c1.severity1Null == false}" >${c1.severity1}</c:if>" />
+																						value="<c:if test="${c1.severity1Null == false}" >${c1.severity1}</c:if>"  style="width: 30px;"/>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2">
                                             <img id="value2_Icon_<%=countChecked %>" title="${c1.value2Rule}" src="<%=request.getContextPath()%>/images/ruleedit.png" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value2');">
 																					  <input type="hidden" name="value2" id="value2_<%=countChecked %>" size="5" value="${c1.value2}" />
                                             <input type="hidden" name="value2Rule" id="value2_Rule_<%=countChecked %>" value="${c1.value2Rule}" style="width: 30px;"/>
 																					</td>
 																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity2" size="5"
-																						value="<c:if test="${c1.severity2Null == false}" >${c1.severity2}</c:if>" /></td>
+																						value="<c:if test="${c1.severity2Null == false}" >${c1.severity2}</c:if>"  style="width: 30px;"/></td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><select name="compareType" id="compare_Type">
 																							<option value="NULL" <c:if test="${c1.compareType==''}">selected="selected"</c:if>>-请选择-</option>
 																							<option value="==" <c:if test="${c1.compareType=='=='}">selected="selected"</c:if>>==</option>
@@ -212,9 +212,9 @@
 																							<option value="0" <c:if test="${c1.filterB==0}">selected="selected"</c:if>>否</option>
 																					</select></td>
 																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="severityA" size="5"
-																						value="<c:if test="${c1.severityANull == false}" >${c1.severityA}</c:if>" /></td>
+																						value="<c:if test="${c1.severityANull == false}" >${c1.severityA}</c:if>"  style="width: 30px;"/></td>
 																					<td VALIGN="middle" class="collection-table-text"><input type="text" name="severityB" size="5"
-																						value="<c:if test="${c1.severityBNull == false}" >${c1.severityB}</c:if>" /></td>
+																						value="<c:if test="${c1.severityBNull == false}" >${c1.severityB}</c:if>"  style="width: 30px;"/></td>
 																				</tr>
 																				<%
 																					countChecked++;
@@ -263,13 +263,13 @@
 																									  <input type="hidden" name="value1" id="value1_<%=countChecked %>" size="5" value="" />
                                                     <input type="hidden" name="value1Rule" id="value1_Rule_<%=countChecked %>" value="" style="width: 30px;"/>
 																									</td>
-																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity1" size="5" value="" /></td>
+																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity1" size="5" value=""  style="width: 30px;"/></td>
 																									<td VALIGN="middle" class="collection-table-text" rowspan="2">
                                                     <img id="value2_Icon_<%=countChecked %>" title="定义规则" src="<%=request.getContextPath()%>/images/ruleedit.png" onclick="javascript: openRuleDialog('<%=countChecked %>', 'value2');">
 																									  <input type="hidden" name="value2" id="value2_<%=countChecked %>" size="5" value="" />
                                                     <input type="hidden" name="value2Rule" id="value2_Rule_<%=countChecked %>" value="" style="width: 30px;"/>
 																									</td>
-																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity2" size="5" value="" /></td>
+																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity2" size="5" value=""  style="width: 30px;"/></td>
 																									<td VALIGN="middle" class="collection-table-text" rowspan="2"><select name="compareType" id="compare_Type">
 																											<option value="null">-请选择-</option>
 																											<option value="==">==</option>
@@ -293,8 +293,8 @@
 																											<option value="0">否</option>
 																									</select></td>
 
-																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="severityA" size="5" value="" /></td>
-																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="severityB" size="5" value="" /></td>
+																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="severityA" size="5" value=""  style="width: 30px;"/></td>
+																									<td VALIGN="middle" class="collection-table-text"><input type="text" name="severityB" size="5" value=""  style="width: 30px;"/></td>
 																								</tr>
 																								<%
 																									countChecked++;

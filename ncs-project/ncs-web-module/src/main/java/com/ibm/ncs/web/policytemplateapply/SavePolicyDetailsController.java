@@ -29,6 +29,7 @@ import com.ibm.ncs.model.dto.TManufacturerInfoInit;
 import com.ibm.ncs.model.dto.TModuleInfoInit;
 import com.ibm.ncs.model.dto.TPolicyDetailsWithRule;
 import com.ibm.ncs.model.dto.TPolicyDetailsWithRulePk;
+import com.ibm.ncs.model.exceptions.TEventTypeInitDaoException;
 import com.ibm.ncs.util.GenPkNumber;
 import com.ibm.ncs.util.Log4jInit;
 import com.ibm.ncs.util.SortList;
@@ -299,6 +300,7 @@ public class SavePolicyDetailsController implements Controller {
 								}
 							}
 						}
+						
 						if (value1Tmp != null && !value1Tmp.equals("")) {
 							if (comparTypeTmp == null || comparTypeTmp.equals("NULL") || comparTypeTmp.equals("")) {
 								if (message.equals(""))
@@ -318,6 +320,65 @@ public class SavePolicyDetailsController implements Controller {
 								if (eveidTmp > 0 && modidTmp > 0)
 									t = TEventTypeInitDao.findByPrimaryKey(modidTmp, eveidTmp);
 								message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： 当阈值2/Out1内容非空时，阈值比较方式不可为空<br/>";
+								continue;
+							}
+						}
+
+						if (value1[selIndex] == null || value1[selIndex].trim().length() == 0) {
+							addMessage(eveidTmp, modidTmp, "必须设置阀值1/In1的取值规则和缺省值!");
+							continue;
+						}
+						if (value1Rule[selIndex] == null || value1Rule[selIndex].trim().length() == 0) {
+							addMessage(eveidTmp, modidTmp, "必须设置阀值1/In1的取值规则和缺省值!");
+							continue;
+						}
+						if (severity1Str[selIndex] == null || severity1Str[selIndex].trim().length() == 0) {
+							addMessage(eveidTmp, modidTmp, "必须设置阀值1/In1的时段内阀值!");
+							continue;
+						}
+						if (severityAStr[selIndex] == null || severityAStr[selIndex].trim().length() == 0) {
+							addMessage(eveidTmp, modidTmp, "必须设置阀值1/In1的时段外阀值!");
+							continue;
+						}
+						if (value2[selIndex] != null && value2[selIndex].trim().length() > 0) {
+							if (value2Rule[selIndex] == null || value2Rule[selIndex].trim().length() == 0) {
+								addMessage(eveidTmp, modidTmp, "必须设置阀值2/Out1的取值规则和缺省值!");
+								continue;
+							}
+							if (severity2Str[selIndex] == null || severity2Str[selIndex].trim().length() == 0) {
+								addMessage(eveidTmp, modidTmp, "必须设置阀值2/Out1的时段内阀值!");
+								continue;
+							}
+							if (severityBStr[selIndex] == null || severityBStr[selIndex].trim().length() == 0) {
+								addMessage(eveidTmp, modidTmp, "必须设置阀值2/Out1的时段外阀值!");
+								continue;
+							}
+						}
+						if (value1lowStr[selIndex] != null && value1lowStr[selIndex].trim().length() > 0) {
+							if (value1lowRuleStr[selIndex] == null || value1lowRuleStr[selIndex].trim().length() == 0) {
+								addMessage(eveidTmp, modidTmp, "必须设置阀值In2的取值规则和缺省值!");
+								continue;
+							}
+							if (v1lseverity1Str[selIndex] == null || v1lseverity1Str[selIndex].trim().length() == 0) {
+								addMessage(eveidTmp, modidTmp, "必须设置阀值In2的时段内阀值!");
+								continue;
+							}
+							if (v1lseverityAStr[selIndex] == null || v1lseverityAStr[selIndex].trim().length() == 0) {
+								addMessage(eveidTmp, modidTmp, "必须设置阀值In2的时段外阀值!");
+								continue;
+							}
+						}
+						if (value2lowStr[selIndex] != null && value2lowStr[selIndex].trim().length() > 0) {
+							if (value2lowRuleStr[selIndex] == null || value2lowRuleStr[selIndex].trim().length() == 0) {
+								addMessage(eveidTmp, modidTmp, "必须设置阀值Out2的取值规则和缺省值!");
+								continue;
+							}
+							if (v2lseverity2Str[selIndex] == null || v2lseverity2Str[selIndex].trim().length() == 0) {
+								addMessage(eveidTmp, modidTmp, "必须设置阀值Out2的时段内阀值!");
+								continue;
+							}
+							if (v2lseverityBStr[selIndex] == null || v2lseverityBStr[selIndex].trim().length() == 0) {
+								addMessage(eveidTmp, modidTmp, "必须设置阀值Out2的时段外阀值!");
 								continue;
 							}
 						}
@@ -606,6 +667,52 @@ public class SavePolicyDetailsController implements Controller {
 					message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： 告警级别范围应为1-7或100<br/>";
 					continue;
 				}
+				
+				if (v1lseverity1Str[selIndex] == null || v1lseverity1Str[selIndex].trim().length() == 0) {
+					addMessage(eveidTmp, modidTmp, "必须设置阀值1的时段内Ping不通级别!");
+					continue;
+				}
+				if (v1lseverityAStr[selIndex] == null || v1lseverityAStr[selIndex].trim().length() == 0) {
+					addMessage(eveidTmp, modidTmp, "必须设置阀值1的时段外Ping不通级别!");
+					continue;
+				}
+				if (value1lowStr[selIndex] != null && value1lowStr[selIndex].trim().length() > 0) {
+					if (value1[selIndex] == null || value1[selIndex].trim().length() == 0) {
+						addMessage(eveidTmp, modidTmp, "由于选择的阀值2，必须设置阀值2的缺省值!");
+						continue;
+					}
+					if (value1Rule[selIndex] == null || value1Rule[selIndex].trim().length() == 0) {
+						addMessage(eveidTmp, modidTmp, "由于选择的阀值2，必须设置阀值2的取值规则!");
+						continue;
+					}
+					if (severity1Str[selIndex] == null || severity1Str[selIndex].trim().length() == 0) {
+						addMessage(eveidTmp, modidTmp, "由于选择的阀值2，必须设置阀值2的时段内Ping不通级别!");
+						continue;
+					}
+					if (severityAStr[selIndex] == null || severityAStr[selIndex].trim().length() == 0) {
+						addMessage(eveidTmp, modidTmp, "由于选择的阀值2，必须设置阀值2的时段外Ping不通级别!");
+						continue;
+					}
+				}
+				if (value2lowStr[selIndex] != null && value2lowStr[selIndex].trim().length() > 0) {
+					if (value2[selIndex] == null || value2[selIndex].trim().length() == 0) {
+						addMessage(eveidTmp, modidTmp, "由于选择的阀值3，必须设置阀值2的缺省值!");
+						continue;
+					}
+					if (value2Rule[selIndex] == null || value2Rule[selIndex].trim().length() == 0) {
+						addMessage(eveidTmp, modidTmp, "由于选择的阀值3，必须设置阀值2的取值规则!");
+						continue;
+					}
+					if (severity2Str[selIndex] == null || severity2Str[selIndex].trim().length() == 0) {
+						addMessage(eveidTmp, modidTmp, "由于选择的阀值3，必须设置阀值2的时段内Ping不通级别!");
+						continue;
+					}
+					if (severityBStr[selIndex] == null || severityBStr[selIndex].trim().length() == 0) {
+						addMessage(eveidTmp, modidTmp, "由于选择的阀值3，必须设置阀值2的时段外Ping不通级别!");
+						continue;
+					}
+				}
+				
 				if (value2Tmp != null && !value2Tmp.equals("")) {
 					if (comparTypeTmp == null || comparTypeTmp.equals("NULL") || comparTypeTmp.equals("")) {
 						if (message.equals(""))
@@ -759,6 +866,15 @@ public class SavePolicyDetailsController implements Controller {
 		model.put("messageg", message);
 		return model;
 	}
+
+	private void addMessage(long eveId, long modId, String msg) throws TEventTypeInitDaoException {
+	  if (message.equals(""))
+	  	message = "以下策略定制失败：<br/>";
+	  TEventTypeInit t = null;
+	  if (eveId > 0 && modId > 0)
+	  	t = TEventTypeInitDao.findByPrimaryKey(modId, eveId);
+	  message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： " + msg + "<br/>";
+  }
 
 	/*
 	 * (non-Javadoc)

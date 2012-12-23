@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,12 +18,9 @@ import com.ibm.ncs.model.dao.PolDetailDspDao;
 import com.ibm.ncs.model.dao.TEventTypeInitDao;
 import com.ibm.ncs.model.dao.TManufacturerInfoInitDao;
 import com.ibm.ncs.model.dao.TModuleInfoInitDao;
-import com.ibm.ncs.model.dto.DspEventsFromPolicySyslog;
-import com.ibm.ncs.model.dto.DspSyslogEvents;
 import com.ibm.ncs.model.dto.PolDetailDsp;
 import com.ibm.ncs.model.dto.TEventTypeInit;
 import com.ibm.ncs.model.dto.TManufacturerInfoInit;
-import com.ibm.ncs.model.dto.TModuleInfoInit;
 import com.ibm.ncs.util.Log4jInit;
 import com.ibm.ncs.util.SortList;
 
@@ -64,8 +60,6 @@ public class PolicyDetailsController implements Controller {
 			String category = request.getParameter("cate");
 			String displayOption = request.getParameter("listSeled");
 			String selectedEveType = request.getParameter("listeve_type");
-			// System.out.println("&&&&&&&&&&%%%%%%%%%%%%%%selEvetype=" +
-			// selectedEveType);
 			String mode = request.getParameter("mode");
 
 			if (mode == null || mode.equals(""))
@@ -73,9 +67,7 @@ public class PolicyDetailsController implements Controller {
 
 			// get manufacture list
 			String manufacture = request.getParameter("manufselect");
-			// System.out.println("Manufacture selection is: " + manufacture);
-			Map<Integer, List<DspSyslogEvents>> unselectedSyslog = new HashMap<Integer, List<DspSyslogEvents>>();
-			Map<String, Map> DspSyslogMap = new TreeMap<String, Map>();
+
 			List<TManufacturerInfoInit> tmflist = TManufacturerInfoInitDao.findAll();
 			SortList<TManufacturerInfoInit> sortmanu = new SortList<TManufacturerInfoInit>();
 			sortmanu.Sort(tmflist, "getMrname", null);
@@ -83,9 +75,6 @@ public class PolicyDetailsController implements Controller {
 
 			Map<String, Object> detailMap = new HashMap<String, Object>();
 			Map<Integer, Object> syslogdetailMap = new HashMap<Integer, Object>();
-			// List<PolicySyslog> syslogDetails = new ArrayList<PolicySyslog>();
-			List<DspEventsFromPolicySyslog> eventsSyslogDetails = new ArrayList<DspEventsFromPolicySyslog>();
-			Map<String, Object> eventsDictionary = new HashMap<String, Object>();
 
 			List<PolDetailDsp> details = PolDetailDspDao.findByPtvid(ptvid);
 			SortList<PolDetailDsp> sortpdd = new SortList<PolDetailDsp>();
@@ -106,8 +95,6 @@ public class PolicyDetailsController implements Controller {
 			}
 			// System.out.println("detailMap="+detailMap);
 			details = (List<PolDetailDsp>) detailMap.get(mode.toLowerCase());
-
-			List<TModuleInfoInit> module = TModuleInfoInitDao.findAll();
 
 			List<TEventTypeInit> unselected = null; /* */
 			List<TEventTypeInit> snmplst = null; /* */
@@ -140,7 +127,6 @@ public class PolicyDetailsController implements Controller {
 			}
 			if (mode.equalsIgnoreCase("syslog")) {
 				model.put("details", syslogdetailMap);
-				model.put("unselected", unselectedSyslog);
 			} else {
 				model.put("details", details);
 				model.put("unselected", unselected);
@@ -152,7 +138,6 @@ public class PolicyDetailsController implements Controller {
 			model.put("cate", category);
 			model.put("mode", mode);
 			model.put("eventType", getEventTypeMap());
-			model.put("syslog", DspSyslogMap);
 			model.put("pmpmanu", manufacture);
 		} catch (Exception e) {
 			Log4jInit.ncsLog.error(this.getClass().getName() + " Error occured:\n" + e.getMessage());
@@ -166,7 +151,7 @@ public class PolicyDetailsController implements Controller {
 		}
 	}
 
-	public Map getCompareTypeMap() {
+	public Map<String, String> getCompareTypeMap() {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("1", "==");
 		map.put("2", "!=");
