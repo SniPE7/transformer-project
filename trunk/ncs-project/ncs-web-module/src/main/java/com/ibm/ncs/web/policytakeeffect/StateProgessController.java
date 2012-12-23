@@ -24,12 +24,14 @@ public class StateProgessController implements Controller {
 		Map model = new HashMap();
 		Map stat = null;
 		boolean done = false;
+		boolean success = false;
 		try{
 			stat = TakeEffectProcess.getStat();
 
 			done = TakeEffectProcess.isDone();
 			//System.out.println( done +"= StateProgressController TakeEffectProcess boolean done="+done);
 			if(done){
+				success = TakeEffectProcess.isSuccess();
 				TakeEffectProcess.stopProcess();
 				fintime = System.currentTimeMillis();
 			}
@@ -47,6 +49,7 @@ public class StateProgessController implements Controller {
 			e.printStackTrace();
 		}
 		model.put("stat", stat);
+		model.put("success", success);
 		return new ModelAndView(getPageView(), "model", model);
 	}
 

@@ -102,9 +102,12 @@ function callback3(){
 function applyPolicy(){
  if (window.confirm('确定生成监控配置吗？')) {
    document.getElementById("apply").disabled=true;
-   document.getElementById("info").innerHTML="<img border='0' src='../../images/icon_progress.gif' width='16' height='16' > 正在进行生成监控配置，请稍等．．．．．．";  
+   document.getElementById("info").innerHTML="<img border='0' src='../../images/icon_progress.gif' width='16' height='16' > 正在生成监控配置，请稍等．．．．．．";  
    Dframe.location.href="<%=request.getContextPath()%>/secure/policyapply/exportxmlfile.wss?ppiid=<c:out value='${definition.policyPublishInfo.ppiid}'/>";
    RenewMessage();
+   document.getElementById('info').style.display='';
+   document.getElementById('info2').style.display='none';
+   document.getElementById('info3').style.display='none';
  } else {
    	//	apply.disabled=false;
  }
@@ -117,6 +120,9 @@ function exeShell(){
      document.getElementById("info2").innerHTML="<img border='0' src='../../images/icon_progress.gif' width='16' height='16' >正在进行生效，请稍等．．．．．．";
      Dframe.location.href="<%=request.getContextPath()%>/secure/policyapply/exeshell.wss?ppiid=<c:out value='${definition.policyPublishInfo.ppiid}'/>";
      RenewExeShell();
+     document.getElementById('info').style.display='none';
+     document.getElementById('info2').style.display='';
+     document.getElementById('info3').style.display='none';
    } else {
    	//	apply.disabled=false;
    }
@@ -127,10 +133,9 @@ function checkPolicy(){
    document.getElementById("info3").innerHTML="<img border='0' src='../../images/icon_progress.gif' width='16' height='16' > 正在进行检查监控配置，请稍等．．．．．．";  
    Dframe.location.href="<%=request.getContextPath()%>/secure/policyapply/checkpolicy.wss?ppiid=<c:out value='${definition.policyPublishInfo.ppiid}'/>";
    RenewCheckMessage();
-}
-
-function downloadAppPolicylylog() {
-   Dframe.location.href="<%=request.getContextPath()%>/doservlet/downeffectlog"
+   document.getElementById('info').style.display='none';
+   document.getElementById('info2').style.display='none';
+   document.getElementById('info3').style.display='';
 }
 
 function Reload(){
@@ -141,28 +146,21 @@ function Reload(){
    document.getElementById("info3").innerHTML='';
 }
 
-function RenewMessage(){
+function RenewMessage() {
 	callback1();
 	setTimeout("RenewMessage()","3000");
 }
 
-function RenewExeShell(){
+function RenewExeShell() {
 	callback2();
 	setTimeout("RenewExeShell()","3000");
 }
 
-function RenewCheckMessage(){
-	  callback3();
-	  setTimeout("RenewCheckMessage()","3000");
+function RenewCheckMessage() {
+	callback3();
+	setTimeout("RenewCheckMessage()","3000");
 }
 
-function updatedo(response){
-	document.getElementById("info").innerHTML=response;
-}
-
-function updatedo2(response){
-	document.getElementById("info2").innerHTML=response;
-}
 </script>
 </head>
 <body>
