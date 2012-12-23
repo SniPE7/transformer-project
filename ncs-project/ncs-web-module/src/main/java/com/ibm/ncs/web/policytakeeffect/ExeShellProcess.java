@@ -81,7 +81,7 @@ public class ExeShellProcess {
 
 	public void operations() {
 		System.out.println("ExeShellProcess start operation...");
-		steps = 0;
+		steps = 1;
 		done = false;
 		success = true;
 		stat.clear();

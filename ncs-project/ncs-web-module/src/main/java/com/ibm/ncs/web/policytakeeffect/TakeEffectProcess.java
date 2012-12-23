@@ -95,6 +95,8 @@ public class TakeEffectProcess {
 	private String message;
 	private boolean done = false;
 
+	private boolean success = true;
+	
 	private String operator = null;
 
 	Thread process;
@@ -104,6 +106,14 @@ public class TakeEffectProcess {
 
 	public TakeEffectProcess() {
 		// init();
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
 	}
 
 	public String getOperator() {
@@ -182,7 +192,8 @@ public class TakeEffectProcess {
 
 	private void operations() {
 
-		steps = 1;
+		steps = 0;
+		success = true;
 
 		System.out.println("TakeEffectProcess start operation...");
 		// stat.put(setKS(steps++), "开始进行  文件处理 :"+sdf.format(new Date()));
@@ -214,7 +225,7 @@ public class TakeEffectProcess {
 			history = getHistory(nodeCode);
 		} catch (DaoException e) {
 			stat.put(setKS(steps++), "错误: 组装操作历史数据信息失败, 原因: " + e.getMessage());
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 			throw new RuntimeException(e.getMessage(), e);
 		}
 
@@ -231,16 +242,16 @@ public class TakeEffectProcess {
 				stat.put(setKS(steps++), "前缀名server.pre.id数据 =" + preid);
 			}
 		} catch (Exception e) {
-			logger.error("error in get server pre id..." + e.getMessage());
-			e.printStackTrace();
+			this.success = false;
+			logger.error("error in get server pre id..." + e.getMessage(), e);
 		}
 		// 开始准备时段数据
 		stat.put(setKS(steps++), "开始准备时段数据.");
 		try {
 			timeframeConverter.fillTimeFrameTableBtimeEtime();
-		} catch (Exception e3) {
-			logger.error("error in timeframeConverter ..." + e3.getMessage());
-			e3.printStackTrace();
+		} catch (Exception e) {
+			this.success = false;
+			logger.error("error in timeframeConverter ..." + e.getMessage(), e);
 		}
 		// sleeping2000();
 		Connection connectionDS = null;
@@ -258,14 +269,14 @@ public class TakeEffectProcess {
 				if (history != null) {
 					history.setIcmpXMLFile(this.fileToString(new File(xmldir + "icmp.xml")));
 				}
-			} catch (IOException e2) {
+			} catch (IOException e) {
+				this.success = false;
 				message = "error in generate icmp.xml...IOException ";
-				logger.error("error in generate icmp.xml..." + e2.getMessage());
-				e2.printStackTrace();
-			} catch (Exception e2) {
+				logger.error("error in generate icmp.xml..." + e.getMessage(), e);
+			} catch (Exception e) {
+				this.success = false;
 				message = "Error in generate icmp.xml...Exception ";
-				logger.error(message + e2.getMessage());
-				e2.printStackTrace();
+				logger.error(message + e.getMessage(), e);
 			}
 			stat.put(setKS(steps++), sdf.format(new Date()) + " 完成 ICMP xml 生成文件在 " + xmldir + "icmp.xml");
 			logger.info(" 完成 ICMP xml 生成文件在, " + xmldir + "icmp.xml");
@@ -283,14 +294,14 @@ public class TakeEffectProcess {
 				if (history != null) {
 					history.setSnmpXMLFile(this.fileToString(new File(xmldir + "snmp.xml")));
 				}
-			} catch (IOException e1) {
+			} catch (IOException e) {
+				this.success = false;
 				message = "error in generate snmp.xml...IOException ";
-				logger.error("error in generate snmp.xml..." + e1.getMessage());
-				e1.printStackTrace();
-			} catch (Exception e1) {
+				logger.error("error in generate snmp.xml..." + e.getMessage(), e);
+			} catch (Exception e) {
+				this.success = false;
 				message = "error in generate snmp.xml...Exception ";
-				logger.error("error in generate snmp.xml..." + e1.getMessage());
-				e1.printStackTrace();
+				logger.error("error in generate snmp.xml..." + e.getMessage(), e);
 			}
 			stat.put(setKS(steps++), sdf.format(new Date()) + "  完成 xml 生成文件在 " + xmldir + "snmp.xml");
 			logger.info("  完成 xml 生成文件在, " + xmldir + "snmp.xml");
@@ -306,27 +317,26 @@ public class TakeEffectProcess {
 					history.setSrcTypeFile(this.fileToString(new File(xmldir + "SrcType")));
 				}
 			} catch (IOException e) {
+				this.success = false;
 				message = "error in generate srctype...IOException ";
-				logger.error("error in generate srctype.xml..." + e.getMessage());
-				e.printStackTrace();
+				logger.error("error in generate srctype.xml..." + e.getMessage(), e);
 			} catch (Exception e) {
+				this.success = false;
 				message = "error in generate srcType...Exception ";
-				logger.error("error in generate srcType..." + e.getMessage());
-				e.printStackTrace();
+				logger.error("error in generate srcType..." + e.getMessage(), e);
 			}
 			stat.put(setKS(steps++), sdf.format(new Date()) + " 完成 SrcType  生成文件在 " + xmldir + "SrcType");
 			logger.info(" 完成 SrcType  生成文件在 " + xmldir + "SrcType");
 			// sleeping2000();
 			// System.out.println(model);
 		} catch (SQLException e) {
+			this.success = false;
 			message = "error in generate 3 xml files... icmp.xml ; snmp.xml; srctype ...SQLException ";
-			logger.error(message + e.getMessage());
-			e.printStackTrace();
+			logger.error(message + e.getMessage(), e);
 		} catch (Exception e) {
+			this.success = false;
 			message = "error in generate 3 xml files... icmp.xml ; snmp.xml; srctype ...Exception ";
-			logger.error(message + e.getMessage());
-			e.printStackTrace();
-
+			logger.error(message + e.getMessage(), e);
 		} finally {
 			try {
 				if (connectionDS != null)
@@ -399,17 +409,15 @@ public class TakeEffectProcess {
 				this.takeEffectHistoryDao.insert(history);
 			} catch (DaoException e) {
 				stat.put(setKS(steps++), "错误: 保存操作历史数据信息失败, 原因: " + e.getMessage());
-				e.printStackTrace();
+				logger.info(e.getMessage(), e);
 			}
 		}
 
 		stat.put(setKS(steps++), sdf.format(new Date()) + " 完成生成监控配置文件!");
 		logger.info(" 完成生成监控配置文件!");
 		// System.out.println(stat);
-
+		
 		done = true;
-		// model.put("done", "done");
-
 	}
 
 	private TTakeEffectHistory getHistory(String nodeCode) throws DaoException {
