@@ -108,6 +108,48 @@ $(function() {
 function openRuleDialog(rule_checkbox_index, elementPrefix) {
 	document.getElementById("rule_checkbox_index").value = rule_checkbox_index;
 	document.getElementById("rule_checkbox_elementPrefixelementPrefix").value = elementPrefix;
+	// Reset all elements
+	document.getElementById("setDefaultValue").checked = false;
+	
+    rule = $("#" + elementPrefix +"_Rule_" + rule_checkbox_index)[0].value;
+    //alert(rule);
+    defaultValue = $("#" + elementPrefix +"_" + rule_checkbox_index)[0].value;
+	
+    $("#defaultValue")[0].value = defaultValue;
+    
+    // Parse rule
+    fixedMode = rule.indexOf("rule:{expression:threshold==") == 0;
+    if (fixedMode) {
+    	$("#ruleFixMode").attr("checked",'checked');
+        $("#fixedValue")[0].value = defaultValue;
+    } else {
+      expressionMode = rule.indexOf("rule:{expression:") == 0;
+      if (expressionMode) {
+    	  $("#ruleExpressionMode").attr("checked",'checked');
+    	  
+    	  expression = rule.substring("rule:{expression:".length, rule.indexOf(","));
+    	  //alert(expression);
+    	  r = jQuery.trim(expression.substring("threshold ".length, rule.length));
+    	  op1 = r.substring(0, r.indexOf(" "));
+          $("#expressionOperation1")[0].value = jQuery.trim(op1);
+          
+          r = r.substring(op1.length, r.length);
+          if (r.indexOf("&&") < 0 && r.indexOf("||")){
+              $("#expressionValue1")[0].value = jQuery.trim(r);
+          } else {
+            $("#expressionValue1")[0].value = r.substring(0, r.indexOf((r.indexOf("&&") >= 0)?"&&":"||"));
+            $("#expressionLogic1")[0].value = (r.indexOf("&&") >= 0)?"&&":"||";
+            
+            r = jQuery.trim(r.substring(r.indexOf("threshold") + "threshold".length));
+      	    op2 = r.substring(0, r.indexOf(" "));
+            $("#expressionOperation2")[0].value = jQuery.trim(op2);
+            $("#expressionValue2")[0].value = jQuery.trim(r.substring(op2.length, r.length));
+          }
+          document.getElementById("setDefaultValue").checked = true;
+
+      }
+    }
+    
 	$( "#dialog-form" ).dialog( "open" );
 }
 
