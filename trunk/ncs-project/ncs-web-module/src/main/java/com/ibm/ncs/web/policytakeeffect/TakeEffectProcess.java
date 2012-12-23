@@ -68,13 +68,13 @@ public class TakeEffectProcess {
 	static Logger logger = Logger.getLogger(TakeEffectProcess.class);
 
 	private DataSource datasource;
-	
+
 	private TTakeEffectHistoryDao takeEffectHistoryDao;
 	private TServerNodeDao serverNodeDao;
 	private TPolicyPublishInfoDao policyPublishInfoDao;
 	private TUserDao userDao;
 	private GenPkNumber genPkNumber;
-	
+
 	private PolicySyslogDao PolicySyslogDao;
 	private SyslogEventsProcessDao SyslogEventsProcessDao;
 	private SyslogEventsProcessNsDao SyslogEventsProcessNsDao;
@@ -94,11 +94,13 @@ public class TakeEffectProcess {
 
 	private String message;
 	private boolean done = false;
-	
+
 	private String operator = null;
 
 	Thread process;
 	Map<String, String> stat = new TreeMap<String, String>();
+
+	private int steps;
 
 	public TakeEffectProcess() {
 		// init();
@@ -179,8 +181,8 @@ public class TakeEffectProcess {
 	}
 
 	private void operations() {
-		
-		int steps = 1;
+
+		steps = 1;
 
 		System.out.println("TakeEffectProcess start operation...");
 		// stat.put(setKS(steps++), "开始进行  文件处理 :"+sdf.format(new Date()));
@@ -188,19 +190,18 @@ public class TakeEffectProcess {
 		done = false;
 		stat.clear();
 		ResourceBundle prop = ResourceBundle.getBundle("ncc-configuration");
-	  // = (String)prop.getObject("export.xml.server.pre.id");
+		// = (String)prop.getObject("export.xml.server.pre.id");
 		String preid = ""; // ICBC rule to get the server pre id.
 		String nodeCode = prop.getString("ncs.node.code");
 		stat.put(setKS(steps++), "开始提取服务节点配置(ncs.node.code) =" + nodeCode);
 		if (nodeCode == null || nodeCode.trim().length() == 0) {
-  		 stat.put(setKS(steps++), "错误: 缺少配置参数: ncs.node.code");
-			 throw new RuntimeException("缺少配置参数: ncs.node.code");
+			stat.put(setKS(steps++), "错误: 缺少配置参数: ncs.node.code");
+			throw new RuntimeException("缺少配置参数: ncs.node.code");
 		}
 		String xmldir = (String) prop.getObject("export.xml.generate.dir");
 		xmldir = (xmldir == null || xmldir.trim().equals("")) ? "/tmp/" : xmldir;
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
 
 		stat.put(setKS(steps++), sdf.format(new Date()) + " 开始清理策略应用中无映射引用的数据（设备，端口，私有index）...");
 		logger.info(" 开始清理策略应用中无映射引用的数据（设备，端口，私有index）...");
@@ -209,13 +210,13 @@ public class TakeEffectProcess {
 		logger.info(" 完成清理策略应用中无映射引用的数据（设备，端口，私有index） ");
 
 		TTakeEffectHistory history;
-    try {
-	    history = getHistory(nodeCode);
-    } catch (DaoException e) {
- 		  stat.put(setKS(steps++), "错误: 组装操作历史数据信息失败, 原因: " + e.getMessage());
-    	e.printStackTrace();
-	    throw new RuntimeException(e.getMessage(), e);
-    }
+		try {
+			history = getHistory(nodeCode);
+		} catch (DaoException e) {
+			stat.put(setKS(steps++), "错误: 组装操作历史数据信息失败, 原因: " + e.getMessage());
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage(), e);
+		}
 
 		stat.put(setKS(steps++), "开始准备前缀名server.pre.id数据.");
 		try {
@@ -254,8 +255,9 @@ public class TakeEffectProcess {
 				exp.setServerID(preid);
 				exp.setJdbcConnection(connectionDS);
 				exp.export(new FileWriter(xmldir + "icmp.xml"), null);
-				
-				history.setIcmpXMLFile(this.fileToString(new File(xmldir + "icmp.xml")));
+				if (history != null) {
+					history.setIcmpXMLFile(this.fileToString(new File(xmldir + "icmp.xml")));
+				}
 			} catch (IOException e2) {
 				message = "error in generate icmp.xml...IOException ";
 				logger.error("error in generate icmp.xml..." + e2.getMessage());
@@ -277,8 +279,10 @@ public class TakeEffectProcess {
 				exp1.setServerID(preid);
 				exp1.setJdbcConnection(connectionDS);
 				exp1.export(new FileWriter(xmldir + "snmp.xml"), null);
-				
-				history.setSnmpXMLFile(this.fileToString(new File(xmldir + "snmp.xml")));
+
+				if (history != null) {
+					history.setSnmpXMLFile(this.fileToString(new File(xmldir + "snmp.xml")));
+				}
 			} catch (IOException e1) {
 				message = "error in generate snmp.xml...IOException ";
 				logger.error("error in generate snmp.xml..." + e1.getMessage());
@@ -297,8 +301,10 @@ public class TakeEffectProcess {
 				SrcTypeExporter exp2 = new SrcTypeExporterImpl();
 				exp2.setJdbcConnection(connectionDS);
 				exp2.export(new FileWriter(xmldir + "SrcType"), null);
-				
-				history.setSrcTypeFile(this.fileToString(new File(xmldir + "SrcType")));
+
+				if (history != null) {
+					history.setSrcTypeFile(this.fileToString(new File(xmldir + "SrcType")));
+				}
 			} catch (IOException e) {
 				message = "error in generate srctype...IOException ";
 				logger.error("error in generate srctype.xml..." + e.getMessage());
@@ -387,61 +393,73 @@ public class TakeEffectProcess {
 		// sleeping2000();
 		// System.out.println(model);
 
+		if (history != null) {
+			try {
+				stat.put(setKS(steps++), sdf.format(new Date()) + " 记录操作信息");
+				this.takeEffectHistoryDao.insert(history);
+			} catch (DaoException e) {
+				stat.put(setKS(steps++), "错误: 保存操作历史数据信息失败, 原因: " + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+
 		stat.put(setKS(steps++), sdf.format(new Date()) + " 完成生成监控配置文件!");
 		logger.info(" 完成生成监控配置文件!");
 		// System.out.println(stat);
 
 		done = true;
 		// model.put("done", "done");
-		
-		try {
-	    this.takeEffectHistoryDao.insert(history);
-    } catch (DaoException e) {
- 		  stat.put(setKS(steps++), "错误: 保存操作历史数据信息失败, 原因: " + e.getMessage());
-	    e.printStackTrace();
-    }
+
 	}
 
 	private TTakeEffectHistory getHistory(String nodeCode) throws DaoException {
-	  TTakeEffectHistory history = new TTakeEffectHistory();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		TTakeEffectHistory history = new TTakeEffectHistory();
 		long id = genPkNumber.getID();
 		history.setTeId(id);
-		
-		TServerNode serverNode = this.serverNodeDao.findByServerCode(nodeCode );
-		if (serverNode != null) {
-			history.setServerId(serverNode.getServerID());
+
+		TServerNode serverNode = this.serverNodeDao.findByServerCode(nodeCode);
+		if (serverNode == null) {
+			return null;
 		}
+		history.setServerId(serverNode.getServerID());
+
 		history.setGeneredTime(new Date());
 		PolicyPublishInfo released = this.policyPublishInfoDao.getReleasedVersion();
-		if (released != null) {
-			 history.setPpiid(released.getPpiid());
+		if (released == null) {
+			return null;
 		}
+		history.setPpiid(released.getPpiid());
+		stat.put(setKS(steps++), String.format("%s 生效策略集: %s V[%s]", sdf.format(new Date()), released.getVersionTag(), released.getVersion()));
+
 		List<TUser> users = this.userDao.findWhereUnameEquals(this.getOperator());
-		if (users != null && users.size() > 0) {
-			history.setUsid(users.get(0).getUsid());
+		if (users == null || users.size() == 0) {
+			return null;
 		}
-	  return history;
-  }
-	
+		history.setUsid(users.get(0).getUsid());
+		return history;
+	}
+
 	private String fileToString(File file) {
 		try {
-	    BufferedReader reader = new BufferedReader(new FileReader(file));
-	    StringWriter out = new StringWriter();
-	    String line = reader.readLine();
-	    while (line != null) {
-	    	out.write(String.format("%s\n", line));
-	    	line = reader.readLine();
-	    }
-	    reader.close();
-	    out.close();
-	    return out.toString();
-    } catch (FileNotFoundException e) {
-	    e.printStackTrace();
-	    return null;
-    } catch (IOException e) {
-	    e.printStackTrace();
-	    return null;
-    }
+			BufferedReader reader = new BufferedReader(new FileReader(file));
+			StringWriter out = new StringWriter();
+			String line = reader.readLine();
+			while (line != null) {
+				out.write(String.format("%s\n", line));
+				line = reader.readLine();
+			}
+			reader.close();
+			out.close();
+			return out.toString();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	private void removeNoUsedData() {

@@ -1,16 +1,19 @@
 package com.ibm.ncs.model.dao.spring;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.ibm.ncs.model.dao.TTakeEffectHistoryDao;
 import com.ibm.ncs.model.dto.TTakeEffectHistory;
 import com.ibm.ncs.model.dto.TTakeEffectHistoryPk;
 import com.ibm.ncs.model.exceptions.TTakeEffectHistoryDaoException;
-import java.util.List;
-import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
-import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
-import org.springframework.transaction.annotation.Transactional;
 
 public class TTakeEffectHistoryDaoImpl extends AbstractDAO implements ParameterizedRowMapper<TTakeEffectHistory>, TTakeEffectHistoryDao {
 	protected SimpleJdbcTemplate jdbcTemplate;
@@ -108,6 +111,15 @@ public class TTakeEffectHistoryDaoImpl extends AbstractDAO implements Parameteri
 	public TTakeEffectHistory findByTeid(long teid) throws TTakeEffectHistoryDaoException {
 		try {
 			List<TTakeEffectHistory> list = jdbcTemplate.query("SELECT TEID, USID, PPIID, SERVER_ID, GENERED_TIME, SRC_TYPE_FILE, ICMP_XML_FILE, SNMP_XML_FILE, ICMP_THRESHOLD, SNMP_THRESHOLD, EFFECT_TIME, EFFECT_STATUS FROM " + getTableName() + " WHERE TEID = ?", this, teid);
+			return list.size() == 0 ? null : list.get(0);
+		} catch (Exception e) {
+			throw new TTakeEffectHistoryDaoException("Query failed", e);
+		}
+  }
+
+	public TTakeEffectHistory findLastItemByServerIdAndReleaseInfo(long serverId, long ppiid) throws TTakeEffectHistoryDaoException {
+		try {
+			List<TTakeEffectHistory> list = jdbcTemplate.query("select * from (SELECT TEID, USID, PPIID, SERVER_ID, GENERED_TIME, SRC_TYPE_FILE, ICMP_XML_FILE, SNMP_XML_FILE, ICMP_THRESHOLD, SNMP_THRESHOLD, EFFECT_TIME, EFFECT_STATUS FROM " + getTableName() + " WHERE server_id = ? and ppiid = ? order by GENERED_TIME desc) where rownum=1", this, serverId, ppiid);
 			return list.size() == 0 ? null : list.get(0);
 		} catch (Exception e) {
 			throw new TTakeEffectHistoryDaoException("Query failed", e);
