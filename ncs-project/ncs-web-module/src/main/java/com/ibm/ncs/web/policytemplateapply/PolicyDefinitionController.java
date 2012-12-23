@@ -238,7 +238,7 @@ public class PolicyDefinitionController implements Controller {
 						model.put("refresh", "true");
 						Log4jInit.ncsLog.info(this.getClass().getName() + " inserted to TPolicyTemplateDao: " + template.toString());
 						Log4jInit.ncsLog.info(this.getClass().getName() + " inserted to TPolicyTemplateVerDao: " + templateVer.toString());
-						return new ModelAndView(getPageView(), "definition", model);
+						//return new ModelAndView(getPageView(), "definition", model);
 					}
 				}
 			} catch (UncategorizedSQLException ue) {
