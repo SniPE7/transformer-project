@@ -1470,6 +1470,12 @@
 	 		<property name="dataSource" ref="myDataSource"></property>
 	 </bean>
 	 <bean name="ExeShellProcess" class="com.ibm.ncs.web.policytakeeffect.ExeShellProcess" >
+      <property name="takeEffectHistoryDao" ref="takeEffectHistoryDao"></property>
+      <property name="serverNodeDao" ref="serverNodeDao"></property>
+      <property name="policyPublishInfoDao" ref="policyPublishInfoDao" />
+      <property name="userDao" ref="TUserDao"></property>
+      <property name="genPkNumber" ref="GenPkNumber"></property>
+
 	 		<property name="TServerInfoDao" ref="TServerInfoDao"/>
 	 		<property name="TSvrmodMapDao" ref="TSvrmodMapDao"/>
 	 </bean>	 

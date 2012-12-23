@@ -2,6 +2,7 @@ package com.ibm.ncs.model.dao;
 
 import java.util.List;
 
+import com.ibm.ncs.model.dto.TServerNode;
 import com.ibm.ncs.model.dto.TTakeEffectHistory;
 import com.ibm.ncs.model.dto.TTakeEffectHistoryPk;
 import com.ibm.ncs.model.exceptions.TTakeEffectHistoryDaoException;
@@ -35,5 +36,7 @@ public interface TTakeEffectHistoryDao
 	 * Returns all rows from the T_SERVER_NODE table that match the criteria ''.
 	 */
 	public List<TTakeEffectHistory> findAll() throws TTakeEffectHistoryDaoException;
+
+	public TTakeEffectHistory findLastItemByServerIdAndReleaseInfo(long serverId, long ppiid) throws TTakeEffectHistoryDaoException;
 
 }
