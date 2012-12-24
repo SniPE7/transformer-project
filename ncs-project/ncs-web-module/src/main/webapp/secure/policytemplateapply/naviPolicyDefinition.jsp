@@ -273,8 +273,6 @@ window.onload =  function (){
 					</a>
 		            <a style='color: #000000; text-decoration: none;'
 		            	onClick="javascript:expandCollapse('<%=nodei %>');" 
-						href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1" 
-						title="设备策略"
 		                target="detail" dir="ltr">设备策略模板&nbsp;&nbsp;</a>
 		</div>
 		<div class='nav-child-container'
@@ -304,8 +302,6 @@ window.onload =  function (){
 					</a>
 		            <a style='color: #000000; text-decoration: none;'
 		            	onClick="javascript:expandCollapse('<%=nodei %>');" 
-						href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=4" 
-						title="端口策略"
 		                target="detail" dir="ltr">端口策略模板&nbsp;&nbsp;</a>
 		</div>
 		<div class='nav-child-container'
@@ -334,8 +330,6 @@ window.onload =  function (){
 					</a>
 		            <a style='color: #000000; text-decoration: none;'
 		            	onClick="javascript:expandCollapse('<%=nodei %>');" 
-						href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=9" 
-						title="私有MIB策略&"
 		                target="detail" dir="ltr">私有MIB策略模板&nbsp;&nbsp;</a>
 		         </div>
 		
@@ -363,10 +357,10 @@ window.onload =  function (){
             title=""> 
           <img src='<%=request.getContextPath() %>/images/arrow_expanded.gif' title='+' alt='+' id='I<%=nodei %>' border='0' align='absmiddle'>
           </a>
-                <a style='color: #000000; text-decoration: none;'
-                  onClick="javascript:expandCollapse('<%=nodei %>');" 
-            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=9" 
-            title="私有MIB策略&"
+          <a style='color: #000000; text-decoration: none;'
+             onClick="javascript:expandCollapse('<%=nodei %>');" 
+             href="<%=request.getContextPath() %>/secure/policyapply/historyByBranch.jsp?ppiid=${model.releasedVersionPolicyPublishInfo.ppiid}&ptvid=${dev.ptvid }" 
+             title="策略应用明细"
                     target="detail" dir="ltr">策略应用明细&nbsp;&nbsp;</a>
              </div>
 		    
@@ -419,8 +413,6 @@ window.onload =  function (){
           </a>
                 <a style='color: #000000; text-decoration: none;'
                   onClick="javascript:expandCollapse('<%=nodei %>');" 
-            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1" 
-            title="设备策略"
                     target="detail" dir="ltr">设备策略模板&nbsp;&nbsp;</a>
     </div>
     <div class='nav-child-container'
@@ -458,8 +450,6 @@ window.onload =  function (){
           </a>
                 <a style='color: #000000; text-decoration: none;'
                   onClick="javascript:expandCollapse('<%=nodei %>');" 
-            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=4" 
-            title="端口策略"
                     target="detail" dir="ltr">端口策略模板&nbsp;&nbsp;</a>
     </div>
     <div class='nav-child-container'
@@ -497,8 +487,6 @@ window.onload =  function (){
           </a>
                 <a style='color: #000000; text-decoration: none;'
                   onClick="javascript:expandCollapse('<%=nodei %>');" 
-            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=9" 
-            title="私有MIB策略&"
                     target="detail" dir="ltr">私有MIB策略模板&nbsp;&nbsp;</a>
              </div>
     
@@ -583,8 +571,8 @@ window.onload =  function (){
       </a>
       <a style='color: #000000; text-decoration: none;'
          onClick="javascript:expandCollapse('<%=nodei %>');" 
-         href="<%=request.getContextPath() %>/secure/policytemplateapply/policyDefinition.wss?cate=1" 
-         title="设备策略"
+             href="<%=request.getContextPath() %>/secure/policyapply/historyByBranch.jsp?ppiid=${historyPPI.ppiid}&ptvid=${dev.ptvid }" 
+             title="策略应用明细"
          target="detail" dir="ltr">${historyPPI.versionTag} - V[${historyPPI.version}]</a>
     </div>
     <div class='nav-child-container' style='margin-left: 0.3em; display: block' id='N<%=nodei %>'>
