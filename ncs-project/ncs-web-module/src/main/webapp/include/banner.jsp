@@ -48,9 +48,7 @@
           </td>  
 
         <td class="wpsToolBarLink" nowrap style="text-align:center;">
-            <a title= 'Help' href="https://<%=request.getLocalAddr() %>:9046/ibm/help" target="_blank" style="text-decoration:none;">
-            帮助 
-            </a>
+            <a title= 'Help' href="<%=request.getContextPath()%>/secure/user/profile.jsp" target="detail" style="text-decoration:none;">设置个人信息及口令</a>
           </td>
             
         <td align="center" style="width:10px;padding-left: 10px;padding-right: 10px;">

@@ -120,19 +120,6 @@ public class TUsersController implements Controller {
 							model.put("message", message);
 							return new ModelAndView("/login.jsp", "model", model);
 						}
-
-						// check status
-						/*
-						if (dto.get(0).getStatus().equals("1")) {
-							return new ModelAndView("/forceLogin.jsp", "model", model);
-						} else {
-							synchronized (this) {
-								dto.get(0).setStatus("1");
-								TUserPk pk = dto.get(0).createPk();
-								TUserDao.update(pk, dto.get(0));
-							}
-						}
-						*/
 						// Set roles into Session
 						List<TRoleAndServerNode> roles = this.roleAndServerNodeDao.findByUsername(username);
 						request.getSession(true).setAttribute("roles", roles);
@@ -149,6 +136,7 @@ public class TUsersController implements Controller {
 
 			model.put("message", message);
 			request.getSession(true).setAttribute("signOnFlag", signOnFlag);
+			request.getSession(true).setAttribute("username", username);
 			Log4jInit.ncsLog.info(this.getClass().getName() + "  User: " + username + " logged in to the system.");
 			return new ModelAndView(pageView, "model", model);
 
