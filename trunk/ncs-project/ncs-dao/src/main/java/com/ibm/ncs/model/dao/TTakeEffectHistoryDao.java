@@ -2,7 +2,6 @@ package com.ibm.ncs.model.dao;
 
 import java.util.List;
 
-import com.ibm.ncs.model.dto.TServerNode;
 import com.ibm.ncs.model.dto.TTakeEffectHistory;
 import com.ibm.ncs.model.dto.TTakeEffectHistoryPk;
 import com.ibm.ncs.model.exceptions.TTakeEffectHistoryDaoException;
@@ -38,5 +37,12 @@ public interface TTakeEffectHistoryDao
 	public List<TTakeEffectHistory> findAll() throws TTakeEffectHistoryDaoException;
 
 	public TTakeEffectHistory findLastItemByServerIdAndReleaseInfo(long serverId, long ppiid) throws TTakeEffectHistoryDaoException;
+
+	/**
+	 * 返回所有分行应用PPIID策略的详情
+	 * @param ppiid
+	 * @return
+	 */
+	public List<TTakeEffectHistory> findBranchHistoryByPpiid(long parseLong) throws TTakeEffectHistoryDaoException;
 
 }

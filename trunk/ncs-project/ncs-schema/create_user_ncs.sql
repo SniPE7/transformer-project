@@ -1,4 +1,4 @@
-conn system/passw0rd@ncc;
+-- conn system/passw0rd@ncc;
 -- Create Tablespace
 DROP TABLESPACE NCS_DB INCLUDING CONTENTS AND DATAFILES;
 CREATE TABLESPACE NCS_DB
@@ -44,6 +44,7 @@ GRANT UNLIMITED TABLESPACE TO ncs;
 GRANT CREATE ANY VIEW TO ncs;
 GRANT CREATE PUBLIC DATABASE LINK TO ncs;
 GRANT CREATE  DATABASE LINK TO ncs;
+grant create synonym to ncs;
 GRANT NCS_DW TO ncs;
 
 

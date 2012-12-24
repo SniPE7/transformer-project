@@ -1605,5 +1605,16 @@
     <property name="policyValidationProcess" ref="policyValidationProcess"></property>
     <property name="pageView" value="/secure/output/stateprocess4checkpolicy.jsp"/>
   </bean>
+
+  <!-- 策略生效历史 -->
+  <bean name="/secure/policyapply/history.wss" class="com.ibm.ncs.web.policytakeeffect.HistoryController" >
+    <property name="policyPublishInfoDao" ref="policyPublishInfoDao" />
+    <property name="policyTemplateDao" ref="policyTemplateDao" />
+    <property name="policyTemplateVerDao" ref="policyTemplateVerDao" />
+    <property name="takeEffectHistoryDao" ref="takeEffectHistoryDao"></property>
+    <property name="serverNodeDao" ref="serverNodeDao"></property>
+    <property name="userDao" ref="TUserDao"></property>
+    <property name="pageView" value="/secure/policyapply/historyByBranch.jsp" />  
+  </bean> 
 	
 </beans>  
