@@ -1,12 +1,4 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd&#xA;http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
-<!--  <bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">-->
-<!--    <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />-->
-<!--    <property name="url" value="jdbc:oracle:thin:@localhost:1521:ncc" />-->
-<!--    <property name="username" value="ncc" />-->
-<!--    <property name="password" value="ncc" />-->
-<!--  </bean>-->
-<!--  <tx:annotation-driven xmlns:tx="http://www.springframework.org/schema/tx" transaction-manager="txManager" />-->
-<!--  <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" />-->
   <bean id="DefMibGrpDao" class="com.ibm.ncs.model.dao.spring.DefMibGrpDaoImpl" scope="singleton">
     <property name="dataSource" ref="myDataSource" />
   </bean>
