@@ -197,7 +197,7 @@ function initAll()
 {
 base=new String("N");
 //var txt="";
-for (i=1; i<4; i++) 
+for (i=1; i<14; i++) 
  {
 	try{
 	Collapse(i);
