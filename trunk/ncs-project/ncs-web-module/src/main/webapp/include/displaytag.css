@@ -1,0 +1,239 @@
+table.entityview {
+  border: 1px solid #afcbdf;
+  border-collapse: collapse;
+  font-size: 11.5px;
+  margin: 10px 0 10px 0 !important;
+  width: 100%
+}
+
+table.entityview th {
+  border: 1px solid #afcbdf;
+  font-size: 11.5px;
+  padding: 2px 4px 2px 4px !important;
+  text-align: right;
+  vertical-align: top;
+  height: 23px;
+  vertical-align: middle;
+}
+
+table.entityview td {
+  border: 1px solid #afcbdf;
+  font-size: 11.5px;
+  padding: 2px 4px 2px 4px !important;
+  text-align: left;
+  vertical-align: top;
+  height: 23px;
+  vertical-align: middle;
+}
+
+table.entityview tbody tr th {
+  border: 1px solid #afcbdf;
+  padding: 2px 4px 2px 4px !important;
+  background-color: #e3edf4;
+  font-size: 11.5px;
+  height: 23px;
+  vertical-align: middle;
+}
+
+table.entityview tbody tr td {
+  border: 1px solid #afcbdf;
+  padding: 2px 4px 2px 4px !important;
+  font-size: 11.5px;
+  height: 23px;
+  vertical-align: middle;
+}
+
+table.entityview thead tr th {
+  border: 1px solid #afcbdf;
+  padding: 4px 4px 4px 4px !important;
+  font-size: 11.5px;
+  text-align: left;
+  height: 26px;
+  vertical-align: middle;
+  background-color: #e3edf4;
+    BACKGROUND-POSITION: right top; 
+    BACKGROUND-IMAGE: url(bg_dragndrop_header.gif); 
+    BACKGROUND-REPEAT: no-repeat; 
+}
+/* 
+  Simple Table Styles 
+*/
+table.simple {
+  HEIGHT: 22px;
+  BORDER-RIGHT: #afcbdf 1px solid; 
+  BORDER-TOP: #afcbdf 1px solid; 
+  BORDER-LEFT: #afcbdf 1px solid; 
+  BORDER-BOTTOM: #afcbdf 1px solid; 
+  border-collapse: collapse;
+  font-size: 11.5px;
+  width: 100%;
+  margin: 5px 0 5px 0 !important;
+}
+
+table.simple thead tr th {
+  BACKGROUND-POSITION: center 50%; 
+  PADDING-LEFT: 3px; 
+  FONT-WEIGHT: bold; 
+  FONT-SIZE: 11.5px; 
+  COLOR: #000000; 
+  BORDER-BOTTOM: #d1e0eb 1px solid; 
+  FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; 
+  HEIGHT: 22px; 
+  BACKGROUND-COLOR: #e3edf4;
+  text-align: left;
+  white-space: nowrap;
+}
+
+table.simple td,table.simple th {
+  PADDING-LEFT: 3px; 
+  FONT-SIZE: 11.5px; 
+  COLOR: #000000; 
+  BORDER-RIGHT: #e8e8e8 1px solid; 
+  BORDER-BOTTOM: #e8e8e8 1px solid; 
+  FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; 
+  HEIGHT: 22px
+}
+
+table.simple tr.even {
+  background-color: #f5f5f5;
+  PADDING-LEFT: 3px; 
+  FONT-SIZE: 11.5px; 
+  COLOR: #000000; 
+  BORDER-BOTTOM: #e8e8e8 1px solid; 
+  FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; 
+  HEIGHT: 22px
+}
+
+table.simple td.textRed {
+  color: #b11;
+}
+
+table.simple td.rowNum {
+  font-size: 11.5px;
+  text-align: center;
+  width: 30px;
+}
+
+/* 
+  Simple Table Styles for Inline mode 
+*/
+table.simple_inline {
+  HEIGHT: 22px;
+  border-collapse: collapse;
+  font-size: 11.5px;
+  width: 100%;
+}
+
+table.simple_inline thead tr th {
+  BACKGROUND-POSITION: center 50%; 
+  PADDING-LEFT: 3px; 
+  FONT-WEIGHT: bold; 
+  FONT-SIZE: 11.5px; 
+  COLOR: #000000; 
+  BORDER-BOTTOM: #d1e0eb 1px solid; 
+  FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; 
+  HEIGHT: 22px; 
+  BACKGROUND-COLOR: #e3edf4;
+  text-align: left;
+  white-space: nowrap;
+}
+
+table.simple_inline td,table.simple th {
+  PADDING-LEFT: 3px; 
+  FONT-SIZE: 11.5px; 
+  COLOR: #000000; 
+  BORDER-RIGHT: #e8e8e8 1px solid; 
+  BORDER-BOTTOM: #e8e8e8 1px solid; 
+  FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; 
+  HEIGHT: 22px
+}
+
+table.simple_inline tr.even {
+  background-color: #f5f5f5;
+  PADDING-LEFT: 3px; 
+  FONT-SIZE: 11.5px; 
+  COLOR: #000000; 
+  BORDER-BOTTOM: #e8e8e8 1px solid; 
+  FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; 
+  HEIGHT: 22px
+}
+
+table.simple_inline td.textRed {
+  color: #b11;
+}
+
+table.simple_inline td.rowNum {
+  font-size: 11.5px;
+  text-align: center;
+  width: 30px;
+}
+
+th.sorted {
+  background-color: orange;
+}
+
+th.sorted a,th.sortable a {
+  background-position: right;
+  background-repeat: no-repeat;
+  display: block;
+  width: 100%;
+}
+
+th.sortable a {
+  background-image: url(/ncsWeb/images/displaytag/arrow_off.png);
+}
+
+th.order1 a {
+  background-image: url(/ncsWeb/images/displaytag/arrow_down.png);
+}
+
+th.order2 a {
+  background-image: url(/ncsWeb/images/displaytag/arrow_up.png);
+}
+
+tr.odd {
+  background-color: #fff
+}
+
+tr.tableRowEven {
+  background-color: #fea
+}
+
+div.exportlinks {
+  background-color: #eee;
+  border: 1px dotted #999;
+  padding: 2px 4px 2px 4px;
+  margin: 2px 0 10px 0;
+  width: 100%;
+  font-size: 11.5px;
+}
+
+span.export {
+  padding: 0 4px 1px 20px;
+  display: inline;
+  display: inline-block;
+  cursor: pointer;
+}
+
+span.pagebanner {
+  background-color: #e3edf4;
+  border: 1px dotted #afcbdf;
+  padding: 2px 4px 2px 4px;
+  width: 100%;
+  margin-top: 0px;
+  display: block;
+  border-bottom: none;
+  font-size: 11.5px;
+  clear: both;
+}
+
+span.pagelinks {
+  background-color: #e3edf4;
+  border: 1px dotted #afcbdf;
+  padding: 2px 4px 2px 4px;
+  width: 100%;
+  display: block;
+  border-top: none;
+  margin-bottom: 5px;
+  font-size: 11.5px;
+}

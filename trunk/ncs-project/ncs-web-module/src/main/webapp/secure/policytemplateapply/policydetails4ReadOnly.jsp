@@ -144,7 +144,7 @@ function onLoadInit() {
 														<c:when test="${model.mode == 'ICMP'}">
 															<div>
 																<!-- start of if mode = ICMP -->
-																<table BORDER="0" CELLPADDING="0" CELLSPACING="0" WIDTH="100%" SUMMARY="List table" CLASS=" framing-table" id="selTab">
+																<table BORDER="0" CELLPADDING="0" CELLSPACING="0" WIDTH="100%" SUMMARY="List table" CLASS="framing-table" id="selTab">
 																	<thead>
 																		<tr>
 																			<th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="3%">#</th>
