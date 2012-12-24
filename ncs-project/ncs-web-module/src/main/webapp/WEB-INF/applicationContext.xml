@@ -8,6 +8,11 @@
 			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
+  <!-- =================================================================================== -->
+  <!-- =====                                                                         ===== -->
+  <!-- ===== DataSource: myDataSource Local Database                                 ===== -->
+  <!-- =====                                                                         ===== -->
+  <!-- =================================================================================== -->
   <!-- For WebSphere -->
   <bean id="nccDSWebSphere" class="org.springframework.jndi.JndiObjectFactoryBean">
     <property name="jndiName" value="jdbc/nccDS" />
