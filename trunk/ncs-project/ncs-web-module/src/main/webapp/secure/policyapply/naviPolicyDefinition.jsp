@@ -261,43 +261,20 @@ window.onload =  function (){
 		<ul class='nav-child' dir='ltr'>
 			<li class='navigation-bullet'>监控策略定义</li>
 		</ul>
-		<!--<a style='color: #000000; text-decoration: none;' 	
-				onclick="javascript:CollapseAll();"			
-				href="javascript:CollapseAll();"
-				dir="ltr" title="Collapse All">
-				<img src='<%=request.getContextPath() %>/images/arrow_expanded.gif' 
-				title='+' alt='+' id='I<%=nodei %>' border='0' align='absmiddle'>  				
-				展开所有</a>-->
-<%--
-<div class="wpsGpFilter" valign="center" height="26" align="left" width="100%" style="border-left: 1px solid #3970B1;background-image:url(<%=request.getContextPath() %>/images/grpfilter_background.gif);background-repeat: repeat-x;">
- <form id="navifilter" name="navFilter" method="GET" action="<%=request.getContextPath() %>/secure/policyapply/policyDefinition.wss" target="detail">
-<input type="text" id="categorypatterns" name="category_patterns"  value="filter" style="width:38px;color:gray" onclick="this.value='';" 
-onkeypress="return;" onmouseup="return" onkeyup="filtery(this.value,navifilter.navpolicy)" onchange="filtery(this.value,navifilter.navpolicy)" />
-                      
-        <select name="navpolicy"  style="width:280px;" id="mfcate" > 
-        	<option value="0:0">Select an item</option>
-            
-            <c:forEach items="${model.navitree}" var="cate" >    
-            <c:forEach items="${cate.value}" var="devpol" >                                
-            <option value="${cate.key}||${devpol.key }||${cate.value[devpol.key].mpname }" >
-          	${cate.key}...${devpol.key }...${cate.value[devpol.key].mpname }
-            </option>  
-            </c:forEach>
-            </c:forEach>
-            
-			<c:forEach  items="${model.period}" var="thePe" >	
-				<option value="16||${model.period[thePe.key].ppid }||${model.period[thePe.key].ppname }">
-				16...${model.period[thePe.key].ppid }...${model.period[thePe.key].ppname }
-				</option>
-			</c:forEach>
 
-
-        </select> 
-        <input class="ibm-btn-arrow-sec" name="imbProgCty" type="submit" value="->" />
-</form></div>
---%>		
-		</td></tr><tr><td>
-<!--	Policy in a category	-->
+<% nodei++ ;%>
+<div nowrap class='main-task' style='margin-left: 0.3em;'>      
+            <a style='color: #000000; text-decoration: none;'
+        href="javascript:expandCollapse('<%=nodei %>');" 
+        title=""> 
+      <img src='<%=request.getContextPath() %>/images/arrow_expanded.gif' title='+' alt='+' id='I<%=nodei %>' border='0' align='absmiddle'>
+      </a>
+            <a style='color: #000000; text-decoration: none;'
+              onClick="javascript:expandCollapse('<%=nodei %>');" 
+        href="<%=request.getContextPath() %>/secure/policyapply/checkApplyVersion.wss" 
+        title="设备策略"
+                target="detail" dir="ltr">接收策略模板&nbsp;&nbsp;</a>
+</div>
 
 <% nodei++ ;%>
 <div nowrap class='main-task' style='margin-left: 0.3em;'>			

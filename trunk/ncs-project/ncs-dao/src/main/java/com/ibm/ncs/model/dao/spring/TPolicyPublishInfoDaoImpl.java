@@ -95,6 +95,18 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 	  return items;
   }
 
+	public PolicyPublishInfo getAppliedVersion() throws TPolicyPublishInfoDaoException {
+		try {
+			List<PolicyPublishInfo> items = jdbcTemplate.query("select distinct ppi.* from t_policy_base pb inner join t_policy_template_ver ptv on ptv.ptvid=pb.ptvid inner join t_policy_publish_info ppi on ppi.ppiid=ptv.ppiid", this);
+			if (items != null && items.size() > 0) {
+				return items.get(0);
+			}
+			return null;
+		} catch (Exception e) {
+			throw new TPolicyPublishInfoDaoException("Query failed", e);
+		}
+  }
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -262,14 +274,25 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 			System.out.println("Could not find last release PolicyTemplate Set.");
 			return;
 		}
-		long fromPpiid = releasedPPI.getPpiid();
-
 		System.out.println(String.format("发布策略集: %s", toDto));
 
 		jdbcTemplate.update("UPDATE " + getTableName() + " SET STATUS='H'");
 		toDto.setStatus("R");
 		jdbcTemplate.update("UPDATE " + getTableName() + " SET VERSION_TAG = ?, STATUS=?, DESCRIPTION = ?, PUBLISH_TIME = ?, UPDATE_TIME = ? WHERE PPIID = ?", toDto.getVersionTag(), toDto.getStatus(), toDto.getDescription(), toDto.getPublishTime(), toDto.getUpdateTime(), toDto.getPpiid());
 		
+	}
+	/**
+	 * Updates a single row in the T_POLICY_BASE table.
+	 */
+	@Transactional
+	public void upgrade(long toPpiid, PolicyPublishInfo toDto) throws TPolicyPublishInfoDaoException {
+		PolicyPublishInfo releasedPPI = this.getReleasedVersion();
+		if (releasedPPI == null) {
+			System.out.println("Could not find last release PolicyTemplate Set.");
+			return;
+		}
+		long fromPpiid = releasedPPI.getPpiid();
+
 		int total = 0;
 		{
 			// 更新策略集

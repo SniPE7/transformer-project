@@ -1542,7 +1542,8 @@
     <property name="policyPublishInfoDao" ref="policyPublishInfoDao" />
     <property name="policyTemplateDao" ref="policyTemplateDao" />
     <property name="policyTemplateVerDao" ref="policyTemplateVerDao" />
-    <property name="pageView" value="/secure/policytemplateapply/view4ReleasePolicyPublishInfo.jsp"/>
+    <property name="pageView" value="/secure/policytemplateapply/releaseSuccess.jsp"/>
+    <property name="pageView4Error" value="/secure/policytemplateapply/view4ReleasePolicyPublishInfo.jsp"/>
   </bean>
   
   <bean name="/secure/policytemplateapply/policydetails.wss" class="com.ibm.ncs.web.policytemplateapply.PolicyDetailsController" >
@@ -1612,4 +1613,13 @@
     <property name="pageView" value="/secure/user/profile.jsp" />  
   </bean> 
 	
+  <!-- 接收策略初始页面 -->
+  <bean name="/secure/policyapply/checkApplyVersion.wss"
+    class="com.ibm.ncs.web.policyapply.CheckApplyVersionController">
+    <property name="policyPublishInfoDao" ref="policyPublishInfoDao" />
+    <property name="policyTemplateDao" ref="policyTemplateDao" />
+    <property name="policyTemplateVerDao" ref="policyTemplateVerDao" />
+    <property name="pageView" value="/secure/policyapply/checkApplyVersion.jsp"/>
+  </bean>
+  
 </beans>  
