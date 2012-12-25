@@ -126,9 +126,9 @@ public class TTakeEffectHistoryDaoImpl extends AbstractDAO implements Parameteri
 		}
   }
 
-	public List<TTakeEffectHistory> findBranchHistoryByPpiid(long parseLong) throws TTakeEffectHistoryDaoException {
+	public List<TTakeEffectHistory> findBranchHistoryByPpiid(long ppiid) throws TTakeEffectHistoryDaoException {
 		try {
-			List<TTakeEffectHistory> list = jdbcTemplate.query("select * from (SELECT TEID, USID, PPIID, SERVER_ID, GENERED_TIME, SRC_TYPE_FILE, ICMP_XML_FILE, SNMP_XML_FILE, ICMP_THRESHOLD, SNMP_THRESHOLD, EFFECT_TIME, EFFECT_STATUS FROM T_SERVER_NODE sn left join T_TAKE_EFFECT_HISTORY teh on sn.server WHERE ppiid = ? order by GENERED_TIME desc) where rownum=1", this, serverId, ppiid);
+			List<TTakeEffectHistory> list = jdbcTemplate.query("select * from (SELECT TEID, USID, PPIID, SERVER_ID, GENERED_TIME, SRC_TYPE_FILE, ICMP_XML_FILE, SNMP_XML_FILE, ICMP_THRESHOLD, SNMP_THRESHOLD, EFFECT_TIME, EFFECT_STATUS FROM T_SERVER_NODE sn left join T_TAKE_EFFECT_HISTORY teh on sn.server WHERE ppiid = ? order by GENERED_TIME desc) where rownum=1", this, ppiid);
 			return list;
 		} catch (Exception e) {
 			throw new TTakeEffectHistoryDaoException("Query failed", e);

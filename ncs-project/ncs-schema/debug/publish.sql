@@ -9,10 +9,12 @@ delete from predefmib_pol_map;
 delete from t_policy_base;
 
 -- 更新策略
-update t_policy_base pb set ptvid=(select to_ptvid from v_policy_tplt_ver_change where to_ppiid=257235100 and from_ppiid=10001 and from_ptvid=pb.ptvid) where ptvid > 0 and (select to_ptvid from v_policy_tplt_ver_change where to_ppiid=257235100 and from_ppiid=10001 and from_ptvid=pb.ptvid) is not null;
+--    替换策略引用的ptvid
+-- select count(*) as v from t_policy_base pb where ptvid > 0 and (select to_ptvid from v_policy_tplt_ver_change where to_ppiid=(select ppiid from v_current_released_ppiid) and from_ppiid=(select ppiid from v_branch_current_ppiid) and from_ptvid=pb.ptvid) is not null
+update t_policy_base pb set ptvid=(select to_ptvid from v_policy_tplt_ver_change where to_ppiid=(select ppiid from v_current_released_ppiid) and from_ppiid=(select ppiid from v_branch_current_ppiid) and from_ptvid=pb.ptvid) where ptvid > 0 and (select to_ptvid from v_policy_tplt_ver_change where to_ppiid=(select ppiid from v_current_released_ppiid) and from_ppiid=(select ppiid from v_branch_current_ppiid) and from_ptvid=pb.ptvid) is not null;
 -- select ptvid from t_policy_base where ptvid>0;
 -- 删除多余的事件
-delete from t_policy_details pd where (mpid,modid,eveid) not in (select (select distinct mpid from t_policy_base where ptvid=per.ptvid), modid,eveid from t_policy_event_rule per where ptvid in (select ptvid from t_policy_template_ver where ppiid=257235100))
+delete from t_policy_details pd where (mpid,modid,eveid) not in (select (select distinct mpid from t_policy_base where ptvid=per.ptvid), modid,eveid from t_policy_event_rule per where ptvid in (select ptvid from t_policy_template_ver where ppiid=(select ppiid from v_current_released_ppiid)))
 and mpid in (select mpid from t_policy_base where ptvid>0);
 -- 创建新增加的事件
 insert into t_policy_details
@@ -78,7 +80,7 @@ select distinct PTVID, MODID, EVEID, POLL, VALUE_1, SEVERITY_1, FILTER_A, VALUE_
 from
   t_policy_event_rule
 where
-  ptvid in ( select ptv.ptvid from t_policy_template_ver ptv inner join t_policy_template pt on pt.ptid=ptv.ptid inner join t_policy_publish_info ppi on ppi.ppiid=ptv.ppiid	where ptv.ppiid=257235100 and ptv.ptvid not in (select ptvid from t_policy_base where ptvid>0) )
+  ptvid in ( select ptv.ptvid from t_policy_template_ver ptv inner join t_policy_template pt on pt.ptid=ptv.ptid inner join t_policy_publish_info ppi on ppi.ppiid=ptv.ppiid	where ptv.ppiid=(select ppiid from v_current_released_ppiid) and ptv.ptvid not in (select ptvid from t_policy_base where ptvid>0) )
 ;
 
 --  添加策略定义
@@ -88,15 +90,15 @@ insert into t_policy_base(mpid, ptvid, mpname, category, description)
 	from
 	 t_policy_template_ver ptv inner join t_policy_template pt on pt.ptid=ptv.ptid
 	                           inner join t_policy_publish_info ppi on ppi.ppiid=ptv.ppiid
-	where ptv.ppiid=257235100 and ptv.ptvid not in (select ptvid from t_policy_base where ptvid>0)
+	where ptv.ppiid=(select ppiid from v_current_released_ppiid) and ptv.ptvid not in (select ptvid from t_policy_base where ptvid>0)
 ;
 -- select ptvid from t_policy_base where ptvid>0;
 
 -- 删除多余的
-delete from t_devpol_map where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select ptvid from t_policy_template_ver where ppiid=257235100));
-delete from t_linepol_map where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select ptvid from t_policy_template_ver where ppiid=257235100));
-delete from predefmib_pol_map  where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select ptvid from t_policy_template_ver where ppiid=257235100));
-delete from t_policy_base where ptvid > 0 and ptvid not in (select ptvid from t_policy_template_ver where ppiid=257235100);
+delete from t_devpol_map where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select ptvid from t_policy_template_ver where ppiid=(select ppiid from v_current_released_ppiid)));
+delete from t_linepol_map where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select ptvid from t_policy_template_ver where ppiid=(select ppiid from v_current_released_ppiid)));
+delete from predefmib_pol_map  where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select ptvid from t_policy_template_ver where ppiid=(select ppiid from v_current_released_ppiid)));
+delete from t_policy_base where ptvid > 0 and ptvid not in (select ptvid from t_policy_template_ver where ppiid=(select ppiid from v_current_released_ppiid));
 
 
 

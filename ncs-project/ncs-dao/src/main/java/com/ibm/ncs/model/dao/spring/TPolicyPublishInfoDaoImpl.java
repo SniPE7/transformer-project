@@ -3,12 +3,16 @@
  */
 package com.ibm.ncs.model.dao.spring;
 
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +27,8 @@ import com.ibm.ncs.model.exceptions.TPolicyPublishInfoDaoException;
  * 
  */
 public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements ParameterizedRowMapper<PolicyPublishInfo>, TPolicyPublishInfoDao {
+	
+	private static Log log = LogFactory.getLog(TPolicyPublishInfoDaoImpl.class);
 
 	protected SimpleJdbcTemplate jdbcTemplate;
 
@@ -285,25 +291,30 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 	 * Updates a single row in the T_POLICY_BASE table.
 	 */
 	@Transactional
-	public void upgrade(long toPpiid, PolicyPublishInfo toDto) throws TPolicyPublishInfoDaoException {
+	public void upgrade(Writer writer) throws TPolicyPublishInfoDaoException {
 		PolicyPublishInfo releasedPPI = this.getReleasedVersion();
 		if (releasedPPI == null) {
-			System.out.println("Could not find last release PolicyTemplate Set.");
-			return;
+			throw new TPolicyPublishInfoDaoException("没有发布的策略集, 无需升级!");
 		}
-		long fromPpiid = releasedPPI.getPpiid();
+		PolicyPublishInfo branchPPI = this.getReleasedVersion();
+		if (branchPPI == null) {
+			throw new TPolicyPublishInfoDaoException("本地从未应用过策略, 需要先进行迁移!");
+		}
 
+		PrintWriter out = new PrintWriter(writer);
 		int total = 0;
 		{
 			// 更新策略集
-			String sql = "update t_policy_base pb set ptvid=(select to_ptvid from v_policy_tplt_ver_change where to_ppiid=? and from_ppiid=? and from_ptvid=pb.ptvid) where ptvid > 0 and (select to_ptvid from v_policy_tplt_ver_change where to_ppiid=? and from_ppiid=? and from_ptvid=pb.ptvid) is not null";
-			total = jdbcTemplate.update(sql, toPpiid, fromPpiid, toPpiid, fromPpiid);
-			System.out.println(String.format("升级策略数量(修改原有策略): %s个", total));
-
-			sql = "delete from t_policy_details pd where (mpid,modid,eveid) not in (select (select distinct mpid from t_policy_base where ptvid=per.ptvid), modid,eveid from t_policy_event_rule per where ptvid in (select ptvid from t_policy_template_ver where ppiid=?)) " +
+			String sql = "update t_policy_base pb set ptvid=(select to_ptvid from v_policy_tplt_ver_change where to_ppiid=(select ppiid from v_current_released_ppiid) and from_ppiid=(select ppiid from v_branch_current_ppiid) and from_ptvid=pb.ptvid) where ptvid > 0 and (select to_ptvid from v_policy_tplt_ver_change where to_ppiid=(select ppiid from v_current_released_ppiid) and from_ppiid=(select ppiid from v_branch_current_ppiid) and from_ptvid=pb.ptvid) is not null";
+			total = jdbcTemplate.update(sql);
+			log.info(String.format("升级策略数量(修改原有策略): %s个", total));
+			out.println(String.format("升级策略数量(修改原有策略): %s个", total));
+      
+			sql = "delete from t_policy_details pd where (mpid,modid,eveid) not in (select (select distinct mpid from t_policy_base where ptvid=per.ptvid), modid,eveid from t_policy_event_rule per where ptvid in (select ptvid from t_policy_template_ver where ppiid=(select ppiid from v_current_released_ppiid))) " +
 					"and mpid in (select mpid from t_policy_base where ptvid>0)";
-			total = jdbcTemplate.update(sql, toPpiid);
-			System.out.println(String.format("升级策略数量(删除多余事件策略): %s个", total));
+			total = jdbcTemplate.update(sql);
+			log.info(String.format("升级策略数量(删除多余事件策略): %s个", total));
+			out.println(String.format("升级策略数量(删除多余事件策略): %s个", total));
 			
 			sql = "insert into t_policy_details " +
 					"               ( MPID, MODID, EVEID, POLL, VALUE_1, SEVERITY_1, FILTER_A, VALUE_2, SEVERITY_2, FILTER_B, SEVERITY_A, SEVERITY_B, OIDGROUP, OGFLAG, VALUE_1_LOW, VALUE_2_LOW, V1L_SEVERITY_1, V1L_SEVERITY_A, V2L_SEVERITY_2, V2L_SEVERITY_B, COMPARETYPE) " +
@@ -314,7 +325,8 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 					"where " +
 					"  (modid, eveid) not in (select modid, eveid from t_policy_details where mpid in (select mpid from t_policy_base where ptvid>0))";
 			total = jdbcTemplate.update(sql);
-			System.out.println(String.format("升级策略数量(添加新增事件策略): %s个", total));
+			log.info(String.format("升级策略数量(添加新增事件策略): %s个", total));
+			out.println(String.format("升级策略数量(添加新增事件策略): %s个", total));
 			
 			sql = "update " +
 					"  t_policy_details pd " +
@@ -360,7 +372,8 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 					"		or COMPARETYPE<>(select distinct COMPARETYPE from t_policy_event_rule per inner join t_policy_base pb on pb.ptvid=per.ptvid where pb.mpid=pd.mpid and per.modid=pd.modid and per.eveid=pd.eveid) " +
 					"		) ";
 			total = jdbcTemplate.update(sql);
-			System.out.println(String.format("升级策略数量(变更事件策略): %s个", total));
+			log.info(String.format("升级策略数量(变更事件策略): %s个", total));
+			out.println(String.format("升级策略数量(变更事件策略): %s个", total));
 		}
 		
 		{
@@ -372,9 +385,10 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 					"from " +
 					"  t_policy_event_rule " +
 					"where " +
-					"  ptvid in ( select ptv.ptvid from t_policy_template_ver ptv inner join t_policy_template pt on pt.ptid=ptv.ptid inner join t_policy_publish_info ppi on ppi.ppiid=ptv.ppiid	where ptv.ppiid=? and ptv.ptvid not in (select ptvid from t_policy_base where ptvid>0) )";
-			total = jdbcTemplate.update(sql, toPpiid);		
-			System.out.println(String.format("新添加事件: %s", total));
+					"  ptvid in ( select ptv.ptvid from t_policy_template_ver ptv inner join t_policy_template pt on pt.ptid=ptv.ptid inner join t_policy_publish_info ppi on ppi.ppiid=ptv.ppiid	where ptv.ppiid=(select ppiid from v_current_released_ppiid) and ptv.ptvid not in (select ptvid from t_policy_base where ptvid>0) )";
+			total = jdbcTemplate.update(sql);		
+			log.info(String.format("新添加事件: %s", total));
+			out.println(String.format("新添加事件: %s", total));
 
 			// 添加策略定义
 			sql = "insert into t_policy_base(mpid, ptvid, mpname, category, description) " +
@@ -383,19 +397,43 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 					"	from " +
 					"	 t_policy_template_ver ptv inner join t_policy_template pt on pt.ptid=ptv.ptid " +
 					"	                           inner join t_policy_publish_info ppi on ppi.ppiid=ptv.ppiid " +
-					"	where ptv.ppiid=? and ptv.ptvid not in (select ptvid from t_policy_base where ptvid>0) ";
-			total = jdbcTemplate.update(sql, toPpiid);
-			System.out.println(String.format("新添加策略: %s", total));
+					"	where ptv.ppiid=(select ppiid from v_current_released_ppiid) and ptv.ptvid not in (select ptvid from t_policy_base where ptvid>0) ";
+			total = jdbcTemplate.update(sql);
+			log.info(String.format("新添加策略: %s", total));
+			out.println(String.format("新添加策略: %s", total));
 		}
 		{
 			//-- 删除多余的
-			total = jdbcTemplate.update("delete from t_devpol_map where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select ptvid from t_policy_template_ver where ppiid=?))", toPpiid);
-			total = jdbcTemplate.update("delete from t_linepol_map where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select ptvid from t_policy_template_ver where ppiid=?))", toPpiid);
-			total = jdbcTemplate.update("delete from predefmib_pol_map  where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select ptvid from t_policy_template_ver where ppiid=?))", toPpiid);
-			total = jdbcTemplate.update("delete from t_policy_base where ptvid > 0 and ptvid not in (select ptvid from t_policy_template_ver where ppiid=?)", toPpiid);
-			System.out.println(String.format("删除策略: %s", total));
+			total = jdbcTemplate.update("delete from t_devpol_map where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select ptvid from t_policy_template_ver where ppiid=(select ppiid from v_current_released_ppiid)))");
+			total = jdbcTemplate.update("delete from t_linepol_map where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select ptvid from t_policy_template_ver where ppiid=(select ppiid from v_current_released_ppiid)))");
+			total = jdbcTemplate.update("delete from predefmib_pol_map  where mpid in (select mpid from t_policy_base where ptvid > 0 and ptvid not in (select ptvid from t_policy_template_ver where ppiid=(select ppiid from v_current_released_ppiid)))");
+			total = jdbcTemplate.update("delete from t_policy_base where ptvid > 0 and ptvid not in (select ptvid from t_policy_template_ver where ppiid=(select ppiid from v_current_released_ppiid))");
+			log.info(String.format("删除策略: %s", total));
+			out.println(String.format("删除策略: %s", total));
 		}
 	}
+
+	@Transactional
+  public void migrate(Writer writer) throws TPolicyPublishInfoDaoException {
+		PolicyPublishInfo releasedPPI = this.getReleasedVersion();
+		if (releasedPPI == null) {
+			throw new TPolicyPublishInfoDaoException("没有发布的策略集, 无需迁移!");
+		}
+		PolicyPublishInfo branchPPI = this.getReleasedVersion();
+		if (branchPPI != null) {
+			throw new TPolicyPublishInfoDaoException("本地已经应用过策略模板, 无需迁移!");
+		}
+
+		PrintWriter out = new PrintWriter(writer);
+		int total = 0;
+		{
+			// 更新策略集
+			String sql = "update t_policy_base pb set ptvid=(select to_ptvid from v_policy_tplt_ver_change where to_ppiid=(select ppiid from v_current_released_ppiid) and from_ppiid=(select ppiid from v_branch_current_ppiid) and from_ptvid=pb.ptvid) where ptvid > 0 and (select to_ptvid from v_policy_tplt_ver_change where to_ppiid=(select ppiid from v_current_released_ppiid) and from_ppiid=(select ppiid from v_branch_current_ppiid) and from_ptvid=pb.ptvid) is not null";
+			total = jdbcTemplate.update(sql);
+			log.info(String.format("升级策略数量(修改原有策略): %s个", total));
+			out.println(String.format("升级策略数量(修改原有策略): %s个", total));
+		}
+  }
 
 }
 

@@ -3,6 +3,7 @@
  */
 package com.ibm.ncs.web.policyapply;
 
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,9 +64,36 @@ public class CheckApplyVersionController implements Controller {
 	 * .http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+    String operation = request.getParameter("operation");
+    
 		Map<String, Object> model = new HashMap<String, Object>();
 		message = "";
+		if (operation != null && operation.equals("upgrade")) {
+    	try {
+	      StringWriter writer = new StringWriter();
+				writer.write("<pre>\n");
+				this.policyPublishInfoDao.upgrade(writer);
+				writer.write("升级成功!\n");
+				writer.write("</pre>\n");
+				model.put("operationMessage", writer.toString());
+      } catch (Exception e) {
+  			message = e.getMessage();
+  			Log4jInit.ncsLog.error(this.getClass().getName() + " Error occured:\n" + e.getMessage(), e);
+      }
+    } else if (operation != null && operation.equals("migrate")) {
+    	try {
+	      StringWriter writer = new StringWriter();
+				writer.write("<pre>\n");
+				this.policyPublishInfoDao.upgrade(writer);
+				writer.write("迁移成功!\n");
+				writer.write("</pre>\n");
+				model.put("operationMessage", writer.toString());
+      } catch (Exception e) {
+  			message = e.getMessage();
+  			Log4jInit.ncsLog.error(this.getClass().getName() + " Error occured:\n" + e.getMessage(), e);
+      }
+    }
+    
 		boolean needUpgrade = false;
 		boolean needMigrate = false;
 		try {
@@ -95,8 +123,7 @@ public class CheckApplyVersionController implements Controller {
 			}
 		} catch (Exception e) {
 			message = e.getMessage();
-			Log4jInit.ncsLog.error(this.getClass().getName() + " Error occured:\n" + e.getMessage());
-			e.printStackTrace();
+			Log4jInit.ncsLog.error(this.getClass().getName() + " Error occured:\n" + e.getMessage(), e);
 		}
 		model.put("needMigrate", needMigrate);
 		model.put("needUpgrade", needUpgrade);
