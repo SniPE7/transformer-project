@@ -26,5 +26,7 @@ create or replace synonym T_ROLE_MANAGED_NODE for T_ROLE_MANAGED_NODE@nccadm;
 create or replace synonym T_ROLE for T_ROLE@nccadm;
 create or replace synonym T_USER_ROLE_MAP for T_USER_ROLE_MAP@nccadm;
 create or replace synonym T_USER for T_USER@nccadm;
+create or replace synonym V_POLICY_TPLT_VER_CHANGE for V_POLICY_TPLT_VER_CHANGE@nccadm;
+create or replace synonym v_apply_device_type for v_apply_device_type@nccadm;
 
 

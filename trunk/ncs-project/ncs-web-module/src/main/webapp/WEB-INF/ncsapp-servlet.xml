@@ -1613,13 +1613,13 @@
     <property name="pageView" value="/secure/user/profile.jsp" />  
   </bean> 
 	
-  <!-- 接收策略初始页面 -->
-  <bean name="/secure/policyapply/checkApplyVersion.wss"
+  <!-- 升级策略及接收策略初始页面 -->
+  <bean name="/secure/policyapply/upgradePolices.wss"
     class="com.ibm.ncs.web.policyapply.CheckApplyVersionController">
     <property name="policyPublishInfoDao" ref="policyPublishInfoDao" />
     <property name="policyTemplateDao" ref="policyTemplateDao" />
     <property name="policyTemplateVerDao" ref="policyTemplateVerDao" />
     <property name="pageView" value="/secure/policyapply/checkApplyVersion.jsp"/>
   </bean>
-  
+
 </beans>  
