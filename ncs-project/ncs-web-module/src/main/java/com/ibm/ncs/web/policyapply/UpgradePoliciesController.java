@@ -23,7 +23,7 @@ import com.ibm.ncs.util.Log4jInit;
  * @author root
  * 
  */
-public class CheckApplyVersionController implements Controller {
+public class UpgradePoliciesController implements Controller {
 
 	private TPolicyPublishInfoDao policyPublishInfoDao;
 	private TPolicyTemplateDao policyTemplateDao;
