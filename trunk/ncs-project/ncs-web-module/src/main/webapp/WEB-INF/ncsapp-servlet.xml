@@ -1615,7 +1615,7 @@
 	
   <!-- 升级策略及接收策略初始页面 -->
   <bean name="/secure/policyapply/upgradePolices.wss"
-    class="com.ibm.ncs.web.policyapply.CheckApplyVersionController">
+    class="com.ibm.ncs.web.policyapply.UpgradePoliciesController">
     <property name="policyPublishInfoDao" ref="policyPublishInfoDao" />
     <property name="policyTemplateDao" ref="policyTemplateDao" />
     <property name="policyTemplateVerDao" ref="policyTemplateVerDao" />
