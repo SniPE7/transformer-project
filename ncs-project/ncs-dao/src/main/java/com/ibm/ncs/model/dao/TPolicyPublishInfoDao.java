@@ -40,6 +40,14 @@ public interface TPolicyPublishInfoDao {
 	 * @throws TPolicyPublishInfoDaoException
 	 */
 	public List<PolicyPublishInfo> getHistoryVersions() throws TPolicyPublishInfoDaoException;
+
+	/**
+	 * 返回当前分行已经在用的策略集
+	 * @return
+	 * @throws TPolicyPublishInfoDaoException
+	 */
+	public PolicyPublishInfo getAppliedVersion() throws TPolicyPublishInfoDaoException;
+
 	/**
 	 * @param policyPublishInfo
 	 * @throws TPolicyPublishInfoDaoException
@@ -61,6 +69,5 @@ public interface TPolicyPublishInfoDao {
 	 * @throws TPolicyPublishInfoDaoException
 	 */
 	public void copyAllPolicyTemplateVer(long srcPpiid, long destPpiid) throws TPolicyPublishInfoDaoException;
-
 
 }

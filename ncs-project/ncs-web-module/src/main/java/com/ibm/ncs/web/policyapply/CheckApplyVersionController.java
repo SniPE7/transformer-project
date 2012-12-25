@@ -1,9 +1,8 @@
 /**
  * 
  */
-package com.ibm.ncs.web.policytemplateapply;
+package com.ibm.ncs.web.policyapply;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,14 +22,13 @@ import com.ibm.ncs.util.Log4jInit;
  * @author root
  * 
  */
-public class ReleasePolicyPublishInfoController implements Controller {
+public class CheckApplyVersionController implements Controller {
 
 	private TPolicyPublishInfoDao policyPublishInfoDao;
 	private TPolicyTemplateDao policyTemplateDao;
 	private TPolicyTemplateVerDao policyTemplateVerDao;
 
 	String pageView;
-	String pageView4Error;
 	String message = "";
 
 	public TPolicyPublishInfoDao getPolicyPublishInfoDao() {
@@ -57,14 +55,6 @@ public class ReleasePolicyPublishInfoController implements Controller {
 		this.message = message;
 	}
 
-	public String getPageView4Error() {
-		return pageView4Error;
-	}
-
-	public void setPageView4Error(String pageView4Error) {
-		this.pageView4Error = pageView4Error;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -76,21 +66,42 @@ public class ReleasePolicyPublishInfoController implements Controller {
 
 		Map<String, Object> model = new HashMap<String, Object>();
 		message = "";
+		boolean needUpgrade = false;
+		boolean needMigrate = false;
 		try {
-      String ppiid = request.getParameter("ppiid");
-      PolicyPublishInfo policyPublishInfo = this.policyPublishInfoDao.findById(ppiid);
-      policyPublishInfo.setPublishTime(new Date());
-      policyPublishInfo.setDescription(request.getParameter("description"));
-      policyPublishInfoDao.release(Long.parseLong(ppiid), policyPublishInfo);
-      model.put("policyPublishInfo", policyPublishInfo);
+			PolicyPublishInfo releasedPolicyPublishInfo = this.policyPublishInfoDao.getReleasedVersion();
+			model.put("releasedPolicyPublishInfo", releasedPolicyPublishInfo);
+
+			PolicyPublishInfo appliedPolicyPublishInfo = this.policyPublishInfoDao.getAppliedVersion();
+			model.put("appliedPolicyPublishInfo", appliedPolicyPublishInfo);
+
 			model.put("refresh", "true");
-			return new ModelAndView(getPageView(), "definition", model);
+
+			if (releasedPolicyPublishInfo == null && appliedPolicyPublishInfo == null) {
+				message = "未发布策略模板, 无需升级本地策略定义!";
+			} else if (releasedPolicyPublishInfo == null) {
+				message = "未发布策略模板, 无需升级本地策略定义!";
+			} else if (appliedPolicyPublishInfo == null) {
+				message = "已发布策略模板, 本地从未应用策略模板，需迁移本地策略定义!";
+				needMigrate = true;
+			} else if (releasedPolicyPublishInfo != null && appliedPolicyPublishInfo != null) {
+				if (releasedPolicyPublishInfo.getPpiid() == appliedPolicyPublishInfo.getPpiid()) {
+					// Not need upgrade
+					message = "版本一致, 无需升级本地策略定义!";
+				} else {
+					message = "版本不一致, 需升级本地策略定义!";
+					needUpgrade = true;
+				}
+			}
 		} catch (Exception e) {
-			message = "policyDefinitionController.error";
-			model.put("message", message);
-			Log4jInit.ncsLog.error(this.getClass().getName() + " Error occured:\n" + e.getMessage(), e);
-			return new ModelAndView(this.pageView4Error, "definition", model);
+			message = e.getMessage();
+			Log4jInit.ncsLog.error(this.getClass().getName() + " Error occured:\n" + e.getMessage());
+			e.printStackTrace();
 		}
+		model.put("needMigrate", needMigrate);
+		model.put("needUpgrade", needUpgrade);
+		model.put("message", message);
+		return new ModelAndView(getPageView(), "model", model);
 	}
 
 	public String getPageView() {
