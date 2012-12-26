@@ -70,32 +70,52 @@ public class DownloadApplyFileSetController implements Controller {
 
 			TTakeEffectHistory history = this.takeEffectHistoryDao.findLastItemByServerIdAndReleaseInfo(Long.parseLong(serverId), Long.parseLong(ppiid));
 			if (history == null) {
-				 response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-				 return new ModelAndView(this.getPageView(), "definition", model);
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+				return new ModelAndView(this.getPageView(), "definition", model);
 			}
-			
+
 			String fileName = String.format("ncs-%s-%s.zip", serverId, ppiid);
 			File zipFile = File.createTempFile(fileName, ".zip");
 			// Generate zip file
 			ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zipFile));
-			
-			ZipEntry ze = new ZipEntry("icmp.xml");
-			ze.setSize(history.getIcmpXMLFile().length());
-			zos.putNextEntry(ze);
-			zos.write((history.getIcmpXMLFile().getBytes("UTF-8")));
-			
-			ze = new ZipEntry("snmp.xml");
-			ze.setSize(history.getSnmpXMLFile().length());
-			zos.putNextEntry(ze);
-			zos.write((history.getSnmpXMLFile().getBytes("UTF-8")));
 
-			ze = new ZipEntry("srcType.txt");
-			ze.setSize(history.getSrcTypeFile().length());
-			zos.putNextEntry(ze);
-			zos.write((history.getSrcTypeFile().getBytes("UTF-8")));
+			if (history.getIcmpXMLFile() != null) {
+				ZipEntry ze = new ZipEntry("icmp.xml");
+				ze.setSize(history.getIcmpXMLFile().length());
+				zos.putNextEntry(ze);
+				zos.write((history.getIcmpXMLFile().getBytes("UTF-8")));
+			}
+
+			if (history.getSnmpXMLFile() != null) {
+				ZipEntry ze = new ZipEntry("snmp.xml");
+				ze.setSize(history.getSnmpXMLFile().length());
+				zos.putNextEntry(ze);
+				zos.write((history.getSnmpXMLFile().getBytes("UTF-8")));
+			}
+
+			if (history.getSrcTypeFile() != null) {
+				ZipEntry ze = new ZipEntry("SrcType.txt");
+				ze.setSize(history.getSrcTypeFile().length());
+				zos.putNextEntry(ze);
+				zos.write((history.getSrcTypeFile().getBytes("UTF-8")));
+			}
+
+			if (history.getSnmpThreshold() != null) {
+				ZipEntry ze = new ZipEntry("snmp_thresholds.csv");
+				ze.setSize(history.getSnmpThreshold().length());
+				zos.putNextEntry(ze);
+				zos.write((history.getSnmpThreshold().getBytes("UTF-8")));
+			}
+
+			if (history.getIcmpThreshold() != null) {
+				ZipEntry ze = new ZipEntry("icmp_thresholds.csv");
+				ze.setSize(history.getIcmpThreshold().length());
+				zos.putNextEntry(ze);
+				zos.write((history.getIcmpThreshold().getBytes("UTF-8")));
+			}
 
 			zos.close();
-			
+
 			// Write to browser
 			response.setContentType("application/x-msdownload;");
 			response.setHeader("Content-disposition", "attachment; filename=" + new String(fileName.getBytes("utf-8"), "ISO8859-1"));
