@@ -18,9 +18,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <script language="JavaScript" type="text/javascript">
-	
+function reloadNavi(){
+	  window.parent.frames[2].location.reload();
+}
 </script>
-<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<body onLoad="reloadNavi()" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 	<form id="mainform" action="<%=request.getContextPath()%>/secure/policyapply/upgradePolices.wss" method="post">
 	  <input type="hidden" name="operation" value=""/>
 		<div style="background-color: #FFFFFF; margin: 5px; padding: 10px;">
