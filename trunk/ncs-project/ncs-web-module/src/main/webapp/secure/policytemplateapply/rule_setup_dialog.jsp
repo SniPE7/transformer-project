@@ -15,6 +15,7 @@
       </select>
       <input type="text" name="expressionValue1" id="expressionValue1" style="width: 40px;"/>
       <select name="expressionLogic1" id="expressionLogic1" size="1" class="text ui-widget-content ui-corner-all">
+        <option value="">无</option>
         <option value="&&">AND</option>
         <option value="||">OR</option>
       </select>
