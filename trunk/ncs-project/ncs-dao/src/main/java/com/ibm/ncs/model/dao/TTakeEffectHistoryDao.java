@@ -37,7 +37,7 @@ public interface TTakeEffectHistoryDao
 	public List<TTakeEffectHistory> findAll() throws TTakeEffectHistoryDaoException;
 
 	public TTakeEffectHistory findLastItemByServerIdAndReleaseInfo(long serverId, long ppiid) throws TTakeEffectHistoryDaoException;
-
+	
 	/**
 	 * 返回所有分行应用PPIID策略的详情
 	 * @param ppiid

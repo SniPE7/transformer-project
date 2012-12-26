@@ -298,7 +298,7 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 		}
 		PolicyPublishInfo branchPPI = this.getReleasedVersion();
 		if (branchPPI == null) {
-			throw new TPolicyPublishInfoDaoException("本地从未应用过策略, 需要先进行迁移!");
+			//throw new TPolicyPublishInfoDaoException("本地从未应用过策略, 需要先进行迁移!");
 		}
 
 		PrintWriter out = new PrintWriter(writer);
@@ -381,11 +381,15 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 			//--  添加策略详细信息
 			String sql = "insert into t_policy_details " +
 					"               ( MPID, MODID, EVEID, POLL, VALUE_1, SEVERITY_1, FILTER_A, VALUE_2, SEVERITY_2, FILTER_B, SEVERITY_A, SEVERITY_B, OIDGROUP, OGFLAG, VALUE_1_LOW, VALUE_2_LOW, V1L_SEVERITY_1, V1L_SEVERITY_A, V2L_SEVERITY_2, V2L_SEVERITY_B, COMPARETYPE) " +
-					"select distinct PTVID, MODID, EVEID, POLL, VALUE_1, SEVERITY_1, FILTER_A, VALUE_2, SEVERITY_2, FILTER_B, SEVERITY_A, SEVERITY_B, OIDGROUP, OGFLAG, VALUE_1_LOW, VALUE_2_LOW, V1L_SEVERITY_1, V1L_SEVERITY_A, V2L_SEVERITY_2, V2L_SEVERITY_B, COMPARETYPE " +
+					"select PTVID, MODID, EVEID, POLL, VALUE_1, SEVERITY_1, FILTER_A, VALUE_2, SEVERITY_2, FILTER_B, SEVERITY_A, SEVERITY_B, OIDGROUP, OGFLAG, VALUE_1_LOW, VALUE_2_LOW, V1L_SEVERITY_1, V1L_SEVERITY_A, V2L_SEVERITY_2, V2L_SEVERITY_B, COMPARETYPE " +
+					"from t_policy_event_rule " +
+					"where (PTVID, MODID, EVEID) in ( " +
+					"select distinct PTVID, MODID, EVEID " +
 					"from " +
 					"  t_policy_event_rule " +
 					"where " +
-					"  ptvid in ( select ptv.ptvid from t_policy_template_ver ptv inner join t_policy_template pt on pt.ptid=ptv.ptid inner join t_policy_publish_info ppi on ppi.ppiid=ptv.ppiid	where ptv.ppiid=(select ppiid from v_current_released_ppiid) and ptv.ptvid not in (select ptvid from t_policy_base where ptvid>0) )";
+					"  ptvid in ( select ptv.ptvid from t_policy_template_ver ptv inner join t_policy_template pt on pt.ptid=ptv.ptid inner join t_policy_publish_info ppi on ppi.ppiid=ptv.ppiid	where ptv.ppiid=(select ppiid from v_current_released_ppiid) and ptv.ptvid not in (select ptvid from t_policy_base where ptvid>0) ) " +
+					") and (PTVID, MODID, EVEID) not in (select distinct MPID, MODID, EVEID from t_policy_details) ";
 			total = jdbcTemplate.update(sql);		
 			log.info(String.format("新添加事件: %s", total));
 			out.println(String.format("新添加事件: %s", total));

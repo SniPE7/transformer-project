@@ -148,17 +148,17 @@ function Reload(){
 
 function RenewMessage() {
 	callback1();
-	setTimeout("RenewMessage()","3000");
+	setTimeout("RenewMessage()","1000");
 }
 
 function RenewExeShell() {
 	callback2();
-	setTimeout("RenewExeShell()","3000");
+	setTimeout("RenewExeShell()","1000");
 }
 
 function RenewCheckMessage() {
 	callback3();
-	setTimeout("RenewCheckMessage()","3000");
+	setTimeout("RenewCheckMessage()","1000");
 }
 
 </script>
@@ -190,21 +190,21 @@ function RenewCheckMessage() {
 											<table style="display: inline; font-size: 95%;" cellspacing="0" cellpadding="0" border="0">
 												<tr>
 													<td>
-													<input type="button" value="检查监控配置" onclick="javascript:checkPolicy()" name="check" id="check" class="buttons">
-                          <input type="button" value="生成监控配置" onclick="javascript:applyPolicy()" name="apply" id="apply" class="buttons" disabled="disabled">
-													<input type="button" value="生效" 	onclick="javascript:exeShell()" name="exeshell" id="exeshell" class="buttons" disabled="disabled">
+													<input type="button" value="检查监控配置" onclick="javascript:checkPolicy()" name="check" id="check" class="buttons" style="width: 120px;">
+                          <input type="button" value="生成监控配置" onclick="javascript:applyPolicy()" name="apply" id="apply" class="buttons" disabled="disabled" style="width: 120px;">
+													<input type="button" value="生效" 	onclick="javascript:exeShell()" name="exeshell" id="exeshell" class="buttons" disabled="disabled" style="width: 120px;">
 													</td>
 												</tr>
 											</table>
 										</td>
 									</tr>
 								</table> <!-- button section -->
-								<table border="0" cellpadding="3" cellspacing="0" valign="top" width="100%" summary="Framing Table" CLASS="button-section">
+								<table align="left" border="0" cellpadding="3" cellspacing="0" valign="top" width="100%" summary="Framing Table" CLASS="button-section">
 									<tr valign="top">
 										<td class="table-row" nowrap>
 											<table align=left>
 												<tr>
-													<td>
+													<td style="font-size: x-small;">
 									          <c:if test="${definition.policyPublishInfo != null}"> 
 									          当前策略集: [${definition.policyPublishInfo.versionTag}] V[${definition.policyPublishInfo.version}]
 									          </c:if>
@@ -215,10 +215,10 @@ function RenewCheckMessage() {
 								  </tr>
                   <tr valign="top">
                     <td class="table-row" nowrap>
-											<table  align=center>
-											  <tr><td><font color=0000ff><div id=info class="table-row"></div></font></td></tr>
-                        <tr><td><font color=0000ff><div id=info2 class="table-row"></div></font></td></tr>
-                        <tr><td><font color=0000ff><div id=info3 class="table-row"></div></font></td></tr>
+											<table  align=left>
+											  <tr><td id="info" style="color: blue; font-size: xx-small; text-align: left;"></td></tr>
+                        <tr><td id="info2" style="color: blue; font-size: xx-small; text-align: left;"></td></tr>
+                        <tr><td id="info3" style="color: blue; font-size: xx-small; text-align: left;"></td></tr>
 											</table>										
 										</td>
 									</tr>

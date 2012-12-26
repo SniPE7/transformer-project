@@ -209,7 +209,7 @@ function listEventType(){
             <input type="hidden" name="value1" value="${c1.policyDetailsWithRule.value1}"/>
           </c:if>
           <c:if test="${not c1.policyDetailsWithRule.value1RuleFixValue}">
-            <input type="text" name="value1" size="5" value="${c1.policyDetailsWithRule.value1}" style="width: 30px;"/>
+            <input type="text" name="value1" size="5" value="${c1.value1}" style="width: 30px;"/>
           </c:if>
           <img src="<%=request.getContextPath()%>/images/TipsIcon.gif" title="${c1.policyDetailsWithRule.value1RuleDisplayInfo}"/>
         </c:if>
@@ -233,7 +233,7 @@ function listEventType(){
             <input type="hidden" name="value2" value="${c1.policyDetailsWithRule.value2}"/>
           </c:if>
           <c:if test="${not c1.policyDetailsWithRule.value2RuleFixValue}">
-            <input type="text" name="value2" size="5" value="${c1.policyDetailsWithRule.value2}" style="width: 30px;"/>
+            <input type="text" name="value2" size="5" value="${c1.value2}" style="width: 30px;"/>
           </c:if>
           <img src="<%=request.getContextPath()%>/images/TipsIcon.gif" title="${c1.policyDetailsWithRule.value2RuleDisplayInfo}"/>
         </c:if>
