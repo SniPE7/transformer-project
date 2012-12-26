@@ -324,7 +324,7 @@ public class PolicyDefinitionController implements Controller {
 			  	result.remove(dt);
 			  }
 			  if (searchText != null && searchText.trim().length() > 0) {
-			  	 if (dt.getModel() != null && dt.getModel().toLowerCase().indexOf(searchText.toLowerCase()) < 0) {
+			  	 if (dt.getModel() == null || dt.getModel().toLowerCase().indexOf(searchText.toLowerCase()) < 0) {
 			  		 result.remove(dt);
 			  	 }
 			  }
