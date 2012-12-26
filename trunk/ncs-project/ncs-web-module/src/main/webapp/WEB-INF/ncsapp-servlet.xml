@@ -1607,7 +1607,7 @@
     <property name="pageView" value="/secure/output/stateprocess4checkpolicy.jsp"/>
   </bean>
 
-  <!-- 策略生效历史 -->
+  <!-- 个人帐号信息-->
   <bean name="/secure/user/profile.wss" class="com.ibm.ncs.web.signon.UpdateProfileController" >
     <property name="userDao" ref="TUserDao"></property>
     <property name="pageView" value="/secure/user/profile.jsp" />  
@@ -1621,5 +1621,11 @@
     <property name="policyTemplateVerDao" ref="policyTemplateVerDao" />
     <property name="pageView" value="/secure/policyapply/checkApplyVersion.jsp"/>
   </bean>
+
+  <!-- 策略生效历史 -->
+  <bean name="/secure/policytemplateapply/downloadfileset.wss" class="com.ibm.ncs.web.policytemplateapply.DownloadApplyFileSetController" >
+      <property name="takeEffectHistoryDao" ref="takeEffectHistoryDao"></property>
+      <property name="pageView" value="/secure/policyapply/historyByBranch.jsp"></property>
+  </bean> 
 
 </beans>  

@@ -86,7 +86,7 @@ order by server_code
            </display:column>
            <display:column title="下载生效文件">
              <c:if test="${history.success_count > 0}">
-             <a href="?serverId=<c:out value='${history.server_id}'/>&ppiid=<c:out value='${ppiid}'/>">下载最新文件</a>
+             <a href="<%=request.getContextPath()%>/secure/policytemplateapply/downloadfileset.wss?serverId=<c:out value='${history.server_id}'/>&ppiid=<c:out value='${ppiid}'/>">下载最新文件</a>
              </c:if>
            </display:column>
 	</display:table>
