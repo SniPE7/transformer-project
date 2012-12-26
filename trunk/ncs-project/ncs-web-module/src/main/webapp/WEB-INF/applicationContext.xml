@@ -14,43 +14,43 @@
 	<!-- ===== DataSource: myDataSource Local Database ===== -->
 	<!-- ===== ===== -->
 	<!-- =================================================================================== -->
-	<!-- For WebSphere -->
-	<bean id="nccDSWebSphere" class="org.springframework.jndi.JndiObjectFactoryBean">
+	<!-- For WebSphere 
+	<bean id="nccDS" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="jdbc/nccDS" />
 		<property name="lookupOnStartup" value="false" />
 		<property name="cache" value="true" />
 		<property name="proxyInterface" value="javax.sql.DataSource" />
 	</bean>
+	-->
 	<!-- For Tomcat -->
-	<bean id="nccDSTomcat" class="org.springframework.jndi.JndiObjectFactoryBean">
+	<bean id="nccDS" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="java:/comp/env/jdbc/nccDS" />
 		<property name="lookupOnStartup" value="false" />
 		<property name="cache" value="true" />
 		<property name="proxyInterface" value="javax.sql.DataSource" />
 	</bean>
 	<!-- Define final used data source -->
-	<alias alias="myDataSource" name="nccDSTomcat" />
+	<alias alias="myDataSource" name="nccDS" />
 
-	<context:annotation-config />
-	<context:component-scan base-package="com.ibm.ncs.model.dao" />
-	<tx:annotation-driven transaction-manager="transactionManager" />
+<!-- 	<context:annotation-config /> -->
+<!-- 	<context:component-scan base-package="com.ibm.ncs.model.dao" /> -->
+<!-- 	<tx:annotation-driven transaction-manager="transactionManager" /> -->
 
 	<!-- jdbc事务管理器 -->
-	<bean id="transactionManager"	class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="myDataSource" />
-	</bean>
+<!-- 	<bean id="transactionManager"	class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> -->
+<!-- 		<property name="dataSource" ref="myDataSource" /> -->
+<!-- 	</bean> -->
 	
 	<!--事务模板 -->
-	<bean id="transactionTemplate"
-		class="org.springframework.transaction.support.TransactionTemplate">
-		<property name="transactionManager">
-			<ref local="transactionManager" />
-		</property>
-		<!--ISOLATION_DEFAULT 表示由使用的数据库决定 -->
-		<property name="isolationLevelName" value="ISOLATION_DEFAULT" />
-		<property name="propagationBehaviorName" value="PROPAGATION_REQUIRED" />
-		<!-- <property name="timeout" value="30"/> -->
-	</bean>
+<!-- 	<bean id="transactionTemplate" -->
+<!-- 		class="org.springframework.transaction.support.TransactionTemplate"> -->
+<!-- 		<property name="transactionManager"> -->
+<!-- 			<ref local="transactionManager" /> -->
+<!-- 		</property> -->
+<!-- 		<property name="isolationLevelName" value="ISOLATION_DEFAULT" /> -->
+<!-- 		<property name="propagationBehaviorName" value="PROPAGATION_REQUIRES_NEW" /> -->
+<!-- 		<property name="timeout" value="10"/> -->
+<!-- 	</bean> -->
   <!-- 
 	<bean id="transactionManager"
 		class="org.springframework.transaction.jta.JtaTransactionManager">
