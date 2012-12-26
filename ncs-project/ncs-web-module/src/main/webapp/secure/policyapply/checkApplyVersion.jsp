@@ -54,7 +54,7 @@
 				<tbody>
 					<tr>
 						<th width="150">版本</th>
-						<td><c:out value="${model.appliedPolicyPublishInfo.version}" /></td>
+						<td><c:out value="${model.appliedPolicyPublishInfo.version}" /><c:if test="${!model.needUpgrade && !model.needMigrate }"><font color="blue">&nbsp;[已经使用最新版本]</font></c:if><c:if test="${model.needUpgrade || model.needMigrate }"><font color="red">&nbsp;[需要升级]</font></c:if></td>
 					</tr>
 					<tr>
 						<th width="150">版本标识</th>
@@ -67,6 +67,7 @@
 				</tbody>
 			</table>
 
+      <c:if test="${model.needUpgrade || model.needMigrate }">
 			<table class="entityview">
 				<thead>
 					<tr>
@@ -92,6 +93,7 @@
 					</tr>
 				</tbody>
 			</table>
+			</c:if>
 
 <c:if test="${model.needUpgrade || model.needMigrate }">
       <sql:setDataSource var="myDataSource" dataSource="jdbc/nccDS" />

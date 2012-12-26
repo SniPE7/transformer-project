@@ -57,7 +57,7 @@ function loadPollicyTemplateDef(){
 
 function loadPollicyDef(){
 	window.open("<%=request.getContextPath()%>/secure/policyapply/naviPolicyDefinition.wss", "navigator");
-	window.open("<%=request.getContextPath()%>/secure/policyapply/policyDefinition.wss?cate=1", "detail");
+	window.open("<%=request.getContextPath()%>/secure/policyapply/upgradePolices.wss", "detail");
 	window.close();
 }
 
