@@ -340,28 +340,14 @@ public class DeviceTypeTree implements Serializable, Comparable<DeviceTypeTree>
 	}
 
 	public int compareTo(DeviceTypeTree o) {
+		
 		if (o == null) {
 			 return 1;
 		}
-		if (this.mrName == null || o.getMrName() == null) {
-			 return -1;
-		}
-		if (this.model == null) {
-			if (o.getModel() != null) {
-				 return -1;
-			} else {
-				return 0;
-			}
-		}
-		if (o.getModel() == null) {
-			 return -1;
-		}
-		
-		if (this.mrName.equalsIgnoreCase(o.getMrName())) {
-			return this.model.compareToIgnoreCase(o.getModel());
-		} else {
-			return this.mrName.compareToIgnoreCase(o.getMrName());
-		}
+		String displayName = ((this.mrName == null)?"":this.mrName.toLowerCase()) + " - " + ((this.model == null)?"":this.model.toLowerCase());
+		String otherDisplayName = ((o.mrName == null)?"":o.mrName.toLowerCase()) + " - " + ((o.model == null)?"":o.model.toLowerCase());
+
+		return displayName.compareTo(otherDisplayName);
   }
 
 }

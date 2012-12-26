@@ -286,9 +286,9 @@ public class PolicyDefinitionController implements Controller {
 					}
 				}
 				// Load all device type and manufacturers
-				List<DeviceTypeTree> deviceTypes = this.deviceTypeTreeDao.findDeviceTypeByWhereClause("");
+				List<DeviceTypeTree> deviceTypes = filterForSearch(this.deviceTypeTreeDao.findDeviceTypeByWhereClause(""), request.getParameter("deveiceTypeSearchText"), request.getParameter("manufacturer_list"));
 				deviceTypes.removeAll(selectedDeviceTypes);
-				model.put("deviceTypes", deviceTypes);
+				model.put("deviceTypes", new TreeSet<DeviceTypeTree>(deviceTypes));
 
 				List<TManufacturerInfoInit> manufacturers = this.manufacturerInfoDao.findAll();
 				model.put("manufacturers", manufacturers);
@@ -313,6 +313,24 @@ public class PolicyDefinitionController implements Controller {
 		return new ModelAndView(this.getPageView(), "definition", model);
 
 	}
+
+	private List<DeviceTypeTree> filterForSearch(List<DeviceTypeTree> deviceTypes, String searchText, String mrid) {
+		if ((searchText == null || searchText.trim().length() == 0) && (mrid == null || mrid.trim().length() == 0)) {
+			 return deviceTypes;
+		}
+		List<DeviceTypeTree> result = new ArrayList<DeviceTypeTree>(deviceTypes);
+		for (DeviceTypeTree dt: deviceTypes) {
+			  if (mrid != null && mrid.trim().length() > 0 && dt.getMrid() != Long.parseLong(mrid)) {
+			  	result.remove(dt);
+			  }
+			  if (searchText != null && searchText.trim().length() > 0) {
+			  	 if (dt.getModel() != null && dt.getModel().toLowerCase().indexOf(searchText.toLowerCase()) < 0) {
+			  		 result.remove(dt);
+			  	 }
+			  }
+		}
+		return result;
+  }
 
 	public GenPkNumber getGenPkNumber() {
 		return genPkNumber;

@@ -53,9 +53,26 @@ function addform1(){
 }
 
 
+function search(){
+	  if(document.getElementsByName("button_new").item(0).disabled == true){
+	    document.getElementsByName("formAction").item(0).value= "add";
+	    form1.formAction.value = "add";
+	  }else{
+	    form1.formAction.value = "save";
+	    document.getElementsByName("formAction").item(0).value= "save";
+	  }
+	  document.getElementsByName("insertOrUpdate").item(0).value="true";
+	  document.getElementsByName("searchMode").item(0).value="true";
+
+	  for (var i = 0; i < document.getElementsByName("selected_device_type_list").item(0).options.length; i++)  {
+	    document.getElementsByName("selected_device_type_list").item(0).options[i].selected = true;
+	  }
+	  form1.action = "<%=request.getContextPath()%>/secure/policytemplateapply/policyDefinition.wss";
+	    document.getElementsByName("button_new").item(0).disabled = false;
+	  this.form1.submit();
+}
+
 function saveform1(){
-		
-//alert("in policyDefinition save **form.action" + form1.action);
 	if(document.getElementsByName("button_new").item(0).disabled == true){
 		document.getElementsByName("formAction").item(0).value= "add";
 		form1.formAction.value = "add";
@@ -77,6 +94,7 @@ function saveform1(){
 		return false;
 	}
 	document.getElementsByName("insertOrUpdate").item(0).value="true";
+  document.getElementsByName("searchMode").item(0).value="";
 
 	for (var i = 0; i < document.getElementsByName("selected_device_type_list").item(0).options.length; i++)	{
 		document.getElementsByName("selected_device_type_list").item(0).options[i].selected = true;
@@ -139,6 +157,7 @@ function doSelectAll(srcName, destName) {
     <input type="hidden" name="ppiid" value="${definition.ppiid}"/>
     <input type="hidden" name="ptvid" value="${definition.ptvid}"/>
     <input type="hidden" name="formAction" value="test" />
+    <input type="hidden" name="searchMode" value="" />
 		<TABLE WIDTH="98%" CELLPADDING="0" CELLSPACING="0" BORDER="0" class="portalPage">
 			<TR>
 				<TD CLASS="pageTitle">策略管理</TD>
@@ -184,7 +203,7 @@ function doSelectAll(srcName, destName) {
 												</tr>
 												<tr>
 												<tr>
-													<c:if test="${definition.message != null &&  definition.message != ''}">
+													<c:if test="${definition.message != null &&  definition.message != '' && param.searchMode != 'true'}">
 														<div id="errmsg">
 															<fmt:message>${definition.message }</fmt:message>
 														</div>
@@ -231,14 +250,15 @@ function doSelectAll(srcName, destName) {
                                 <tr>
                                   <td colspan="3">
                                     <select name="manufacturer_list" style="font-size: x-small;">
+                                      <option value="">所有设备厂商</option>
                                       <c:forEach var="manufacturer" items="${definition.manufacturers}">
-                                      <option value="${manufacturer.mrid}">${manufacturer.mrname}</option>
+                                      <option value="${manufacturer.mrid}" <c:if test="${param.manufacturer_list==manufacturer.mrid}">selected</c:if>>${manufacturer.mrname}</option>
                                       </c:forEach>
                                     </select>
                                     &nbsp;
                                     <input type="text" name="deveiceTypeSearchText" style="width: 120px">
                                     &nbsp;
-                                    <input type="button" value="查询">
+                                    <input type="button" value="查询" onclick="search();" name="searchButton">
                                   </td>
                                 </tr>
                                 <tr class="table-row">
