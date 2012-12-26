@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,6 +20,8 @@ import java.util.TreeMap;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
+import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 
 import com.ibm.ncs.export.IcmpPolicyExporter;
 import com.ibm.ncs.export.IcmpPolicyExporterImpl;
@@ -378,6 +381,7 @@ public class TakeEffectProcess {
 		stat.put(setKS(steps++), sdf.format(new Date()) + " 完成 SNMP thresholds ");
 		logger.info(" 完成 SNMP thresholds ");
 		// sleeping2000();
+		history.setSnmpThreshold(this.dumpSnmpThresholdsIntoString());
 
 		stat.put(setKS(steps++), sdf.format(new Date()) + " 开始进行 ICMP thresholds 处理...");
 		logger.info(" 开始进行 ICMP thresholds 处理...");
@@ -385,7 +389,7 @@ public class TakeEffectProcess {
 		stat.put(setKS(steps++), sdf.format(new Date()) + " 完成 ICMP thresholds ");
 		logger.info(" 完成 ICMP thresholds ");
 		// sleeping2000();
-		// System.out.println(model);
+		history.setIcmpThreshold(this.dumpIcmpThresholdsIntoString());
 
 		stat.put(setKS(steps++), sdf.format(new Date()) + " 开始进行 PP_DEV 处理...");
 		logger.info(" 开始进行 PP_DEV 处理...");
@@ -418,6 +422,40 @@ public class TakeEffectProcess {
 		// System.out.println(stat);
 		
 		done = true;
+	}
+	
+	private String dumpSnmpThresholdsIntoString() {
+		SimpleJdbcTemplate jdbcTemplate = new SimpleJdbcTemplate(this.datasource);
+		String sql = "select PERFORMANCE||','||BTIME||','||ETIME||','||THRESHOLD||','||COMPARETYPE||','||SEVERITY1||','||SEVERITY2||','||FILTERFLAG1||','||FILTERFLAG2 from snmp_thresholds";
+		List<String> result = jdbcTemplate.query(sql, new ParameterizedRowMapper<String>() {
+
+			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+	      return rs.getString(1);
+      }
+		});
+		StringBuffer buf = new StringBuffer();
+		for (String s: result) {
+			 buf.append(s);
+			 buf.append('\n');
+		}
+		return buf.toString();
+	}
+
+	private String dumpIcmpThresholdsIntoString() {
+		SimpleJdbcTemplate jdbcTemplate = new SimpleJdbcTemplate(this.datasource);
+		String sql = "select IPADDRESS||','||BTIME||','||ETIME||','||THRESHOLD||','||COMPARETYPE||','||SEVERITY1||','||SEVERITY2||','||FILTERFLAG1||','||FILTERFLAG2||','||VARLIST||','||SUMMARYCN from icmp_thresholds";
+		List<String> result = jdbcTemplate.query(sql, new ParameterizedRowMapper<String>() {
+
+			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+	      return rs.getString(1);
+      }
+		});
+		StringBuffer buf = new StringBuffer();
+		for (String s: result) {
+			 buf.append(s);
+			 buf.append('\n');
+		}
+		return buf.toString();
 	}
 
 	private TTakeEffectHistory getHistory(String nodeCode) throws DaoException {
