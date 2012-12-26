@@ -84,7 +84,7 @@ public class UpgradePoliciesController implements Controller {
     	try {
 	      StringWriter writer = new StringWriter();
 				writer.write("<pre>\n");
-				this.policyPublishInfoDao.upgrade(writer);
+				this.policyPublishInfoDao.migrate(writer);
 				writer.write("迁移成功!\n");
 				writer.write("</pre>\n");
 				model.put("operationMessage", writer.toString());
