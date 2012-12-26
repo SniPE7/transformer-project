@@ -31,7 +31,7 @@ function reloadNavi(){
 
 			<c:if test="${model.needUpgrade || model.needMigrate }">
 				<div class="buttonArea">
-					<c:if test="${model.needUpgrade}">
+					<c:if test="${model.needUpgrade || model.needMigrate}">
 						<input type="button" value="立即升级" onclick="document.forms['mainform'].operation.value='upgrade'; document.forms['mainform'].submit();"/>
 					</c:if>
 					<c:if test="${model.needMigrate }">

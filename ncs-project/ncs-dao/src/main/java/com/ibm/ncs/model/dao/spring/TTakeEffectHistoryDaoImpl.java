@@ -117,10 +117,24 @@ public class TTakeEffectHistoryDaoImpl extends AbstractDAO implements Parameteri
 		}
   }
 
+	@Transactional
 	public TTakeEffectHistory findLastItemByServerIdAndReleaseInfo(long serverId, long ppiid) throws TTakeEffectHistoryDaoException {
 		try {
-			List<TTakeEffectHistory> list = jdbcTemplate.query("select * from (SELECT TEID, USID, PPIID, SERVER_ID, GENERED_TIME, SRC_TYPE_FILE, ICMP_XML_FILE, SNMP_XML_FILE, ICMP_THRESHOLD, SNMP_THRESHOLD, EFFECT_TIME, EFFECT_STATUS FROM " + getTableName() + " WHERE server_id = ? and ppiid = ? order by GENERED_TIME desc) where rownum=1", this, serverId, ppiid);
-			return list.size() == 0 ? null : list.get(0);
+			List<String> r = jdbcTemplate.query("select table_name from cat where table_name='TMP_TEH'", new ParameterizedRowMapper<String>() {
+
+				public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+	        return rs.getString(1);
+        }
+			});
+			if (r.size() == 0 ) {
+				 // 总行节点，无需要解决ORA-22992 LOB 问题，直接读取
+			   List<TTakeEffectHistory> list = jdbcTemplate.query("select * from (SELECT TEID, USID, PPIID, SERVER_ID, GENERED_TIME, SRC_TYPE_FILE, ICMP_XML_FILE, SNMP_XML_FILE, ICMP_THRESHOLD, SNMP_THRESHOLD, EFFECT_TIME, EFFECT_STATUS FROM T_TAKE_EFFECT_HISTORY WHERE server_id =? and ppiid = ? order by GENERED_TIME desc) where rownum=1", this, serverId, ppiid);
+			   return list.size() == 0 ? null : list.get(0);
+			} else {
+				int total = jdbcTemplate.update("insert into TMP_TEH select * from T_TAKE_EFFECT_HISTORY WHERE server_id =? and ppiid = ?", serverId, ppiid);
+			  List<TTakeEffectHistory> list = jdbcTemplate.query("select * from (SELECT TEID, USID, PPIID, SERVER_ID, GENERED_TIME, SRC_TYPE_FILE, ICMP_XML_FILE, SNMP_XML_FILE, ICMP_THRESHOLD, SNMP_THRESHOLD, EFFECT_TIME, EFFECT_STATUS FROM TMP_TEH WHERE server_id =? and ppiid = ? order by GENERED_TIME desc) where rownum=1", this, serverId, ppiid);
+			  return list.size() == 0 ? null : list.get(0);
+			}
 		} catch (Exception e) {
 			throw new TTakeEffectHistoryDaoException("Query failed", e);
 		}
@@ -134,5 +148,4 @@ public class TTakeEffectHistoryDaoImpl extends AbstractDAO implements Parameteri
 			throw new TTakeEffectHistoryDaoException("Query failed", e);
 		}
   }
-
 }
