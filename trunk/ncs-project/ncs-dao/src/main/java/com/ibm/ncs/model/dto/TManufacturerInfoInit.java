@@ -6,7 +6,7 @@ import com.ibm.ncs.model.exceptions.*;
 import java.io.Serializable;
 import java.util.*;
 
-public class TManufacturerInfoInit implements Serializable
+public class TManufacturerInfoInit implements Serializable, Comparable<TManufacturerInfoInit>
 {
 	/** 
 	 * This attribute maps to the column MRID in the T_MANUFACTURER_INFO_INIT table.
@@ -205,5 +205,15 @@ public class TManufacturerInfoInit implements Serializable
 		ret.append( ", description=" + description );
 		return ret.toString();
 	}
+
+	public int compareTo(TManufacturerInfoInit o) {
+		if (o == null) {
+			 return 1;
+		}
+		String displayName = ((this.mrname == null)?"":this.mrname.toLowerCase());
+		String otherDisplayName = ((o.mrname == null)?"":o.mrname.toLowerCase());
+
+		return displayName.compareTo(otherDisplayName);
+  }
 
 }

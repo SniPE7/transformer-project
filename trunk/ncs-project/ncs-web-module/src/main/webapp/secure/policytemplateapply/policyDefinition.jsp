@@ -67,6 +67,9 @@ function search(){
 	  for (var i = 0; i < document.getElementsByName("selected_device_type_list").item(0).options.length; i++)  {
 	    document.getElementsByName("selected_device_type_list").item(0).options[i].selected = true;
 	  }
+    for (var i = 0; i < document.getElementsByName("selected_manufacturer_list").item(0).options.length; i++)  {
+       document.getElementsByName("selected_manufacturer_list").item(0).options[i].selected = true;
+    }
 	  form1.action = "<%=request.getContextPath()%>/secure/policytemplateapply/policyDefinition.wss";
 	    document.getElementsByName("button_new").item(0).disabled = false;
 	  this.form1.submit();
@@ -99,9 +102,11 @@ function saveform1(){
 	for (var i = 0; i < document.getElementsByName("selected_device_type_list").item(0).options.length; i++)	{
 		document.getElementsByName("selected_device_type_list").item(0).options[i].selected = true;
 	}
-	
-	
-	form1.action = "<%=request.getContextPath()%>/secure/policytemplateapply/policyDefinition.wss";
+    for (var i = 0; i < document.getElementsByName("selected_manufacturer_list").item(0).options.length; i++)  {
+        document.getElementsByName("selected_manufacturer_list").item(0).options[i].selected = true;
+     }
+
+    form1.action = "<%=request.getContextPath()%>/secure/policytemplateapply/policyDefinition.wss";
 	this.form1.submit();
 	document.getElementsByName("button_new").item(0).disabled = false;
 }
@@ -248,6 +253,9 @@ function doSelectAll(srcName, destName) {
                             <table>
                               <thead>
                                 <tr>
+                                  <td colspan="3" class="table-row"><font color="blue">若不设置设备类型和设备厂商范围, 则表示该策略可以应用在所有设备, 不受限制.</font></td>
+                                </tr>
+                                <tr>
                                   <td colspan="3">
                                     <select name="manufacturer_list" style="font-size: x-small;">
                                       <option value="">所有设备厂商</option>
@@ -286,6 +294,47 @@ function doSelectAll(srcName, destName) {
                                     <select multiple="multiple" size="12" name="selected_device_type_list" style="width: 240px; font-size: x-small;">
                                       <c:forEach var="devType" items="${definition.selectedDeviceTypes}">
                                       <option value="${devType.dtid}">${devType.mrName} - ${devType.model}</option>
+                                      </c:forEach>
+                                    </select>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>适用的设备厂商</td>
+                          <td>&nbsp;
+                            <table>
+                              <thead>
+                                <tr>
+                                  <td colspan="3" class="table-row"><font color="blue">若设置了厂商范围, 表示应用范围为所有该厂商的设备类型. 即使未来新增了该厂商的设备, 仍然适用本策略.</font></td>
+                                </tr>
+                                <tr class="table-row">
+                                  <td>&nbsp;待选设备厂商:</td>
+                                  <td></td>
+                                  <td>&nbsp;策略影响的设备厂商:</td>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    <select multiple="multiple" size="12" name="for_selection_manufacturer_list" style="width: 240px; font-size: x-small;">
+                                      <c:forEach var="manufacturer" items="${definition.forSelectionManufacturers}">
+                                      <option value="${manufacturer.mrid}">${manufacturer.mrname}</option>
+                                      </c:forEach>
+                                    </select>
+                                  </td>
+                                  <td>
+                                    <input type="button" value="  >  " onclick="doSelect('for_selection_manufacturer_list', 'selected_manufacturer_list');" style="width: 40px; font-size: x-small;"><br/>
+                                    <input type="button" value="  <  " onclick="doSelect('selected_manufacturer_list', 'for_selection_manufacturer_list');" style="width: 40px; font-size: x-small;"><br/>
+                                    <input type="button" value=" >>  " onclick="doSelectAll('for_selection_manufacturer_list', 'selected_manufacturer_list');" style="width: 40px; font-size: x-small;"><br/>
+                                    <input type="button" value=" <<  " onclick="doSelectAll('selected_manufacturer_list', 'for_selection_manufacturer_list');" style="width: 40px; font-size: x-small;"><br/>
+                                  </td>
+                                  <td>
+                                    <select multiple="multiple" size="12" name="selected_manufacturer_list" style="width: 240px; font-size: x-small;">
+                                      <c:forEach var="manufacturer" items="${definition.selectedManufacturerTypes}">
+                                      <option value="${manufacturer.mrid}">${manufacturer.mrname}</option>
                                       </c:forEach>
                                     </select>
                                   </td>
