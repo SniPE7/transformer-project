@@ -18,4 +18,4 @@ response.setStatus(201);
 %>
   </c:otherwise>
 </c:choose>
-<pre><c:forEach items="${model.stat}" var="msg"><c:out value="${msg.key}"/>&nbsp;<c:out value="${msg.value}"/><br></c:forEach></pre>
+<pre><c:forEach items="${model.stat}" var="msg"><c:out value="${msg.key}"/>&nbsp;<c:out value="${msg.value}" escapeXml="false"/><br></c:forEach></pre>

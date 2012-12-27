@@ -143,6 +143,8 @@ public class PolicyValidationProcessImpl implements PolicyValidationProcess {
 	private void operations() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+		success = true;
+
 		System.out.println("PolicyValidationProcess start operation...");
 		int steps = 1;
 		done = false;
@@ -166,39 +168,71 @@ public class PolicyValidationProcessImpl implements PolicyValidationProcess {
 			// 检查是否匹配阀值规则
 			steps = checkThresholdRule(sdf, steps);
 
-			// 检查型号是否匹配
-			stat.put(setKS(steps++), "检查应用的设备是否符合设备类型约束.");
-			String sql = "select " + 
-					"  mpid, ptvid, dtid, mrid " + 
-					"from " + 
-					"    (   " + 
-					"    select " + 
-					"      mpid, ptvid, dtid, mrid " + 
-					"    from " + 
-					"      v_apply_device_type " + 
-					"    where " + 
-					"      ptvid ||'_'|| dtid not in (select ptvid ||'_'|| dtid from t_policy_template_scope) " + 
-					"    ) " + 
-					"where  " + 
-					"  ptvid ||'_'|| mrid not in (select ptvid ||'_'|| mrid from t_policy_template_scope where mrid > 0) " + 
-					"  and mrid > 0 ";
-			List<PolicyBaseWithDeviceType> missmatchedItems = this.jdbcTemplate.query(sql, new ParameterizedRowMapper<PolicyBaseWithDeviceType>() {
-				public PolicyBaseWithDeviceType mapRow(ResultSet rs, int arg1) throws SQLException {
-					return new PolicyBaseWithDeviceType(rs.getLong(1), rs.getLong(2), rs.getLong(3), rs.getLong(4));
+			// 检查型号是否匹配 -- 设备类
+			stat.put(setKS(steps++), String.format("%s 检查应用的设备类策略是否符合设备类型约束.", sdf.format(new Date())));
+			String sql = "select distinct mpid from t_devpol_map dm where (dm.mpid, dm.devid) not in (select mpid, devid from V_MP_DEVICE_SCOPE)";
+			List<Integer> missmatchedItems = this.jdbcTemplate.query(sql, new ParameterizedRowMapper<Integer>() {
+				public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
+					return rs.getInt(1);
 				}
 			});
 			if (missmatchedItems.size() > 0) {
-				stat.put(setKS(steps++), String.format("%s 未通过设备类型约束.", sdf.format(new Date())));
+				stat.put(setKS(steps++), String.format("%s <font color='red'>设备类策略未通过设备类型约束检查.</font>", sdf.format(new Date())));
 				this.success = false;
-				for (PolicyBaseWithDeviceType item: missmatchedItems) {
-					TPolicyBase pb = this.policyBaseDao.findByPrimaryKey(item.getMpid());
-					stat.put(setKS(steps++), String.format("%s 未通过设备类型约束的策略: %s", sdf.format(new Date()), pb));
+				for (int mpid: missmatchedItems) {
+					TPolicyBase pb = this.policyBaseDao.findByPrimaryKey(mpid);
+					if (pb == null) {
+						 continue;
+					}
+					stat.put(setKS(steps++), String.format("%s <font color='red'>未通过设备类型约束的设备类策略: %s</font>", sdf.format(new Date()), pb.getMpname()));
 				}
 			} else {
-				stat.put(setKS(steps++), String.format("%s 通过设备类型约束检查.", sdf.format(new Date())));
+				stat.put(setKS(steps++), String.format("%s 所有设备类策略通过设备类型约束检查.", sdf.format(new Date())));
+			}
+			// 检查型号是否匹配 -- 端口类
+			stat.put(setKS(steps++), String.format("%s 检查应用的端口类策略是否符合设备类型约束.", sdf.format(new Date())));
+			sql = "select distinct mpid from t_linepol_map lm where (lm.mpid, lm.ptid) not in (select mpid, p.ptid from V_MP_DEVICE_SCOPE mds inner join t_port_info p on p.devid=mds.devid)";
+			missmatchedItems = this.jdbcTemplate.query(sql, new ParameterizedRowMapper<Integer>() {
+				public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
+					return rs.getInt(1);
+				}
+			});
+			if (missmatchedItems.size() > 0) {
+				stat.put(setKS(steps++), String.format("%s <font color='red'>端口类策略未通过设备类型约束检查.</font>", sdf.format(new Date())));
+				this.success = false;
+				for (int mpid: missmatchedItems) {
+					TPolicyBase pb = this.policyBaseDao.findByPrimaryKey(mpid);
+					if (pb == null) {
+						 continue;
+					}
+					stat.put(setKS(steps++), String.format("%s <font color='red'>未通过设备类型约束检查的端口类策略: %s</font>", sdf.format(new Date()), pb.getMpname()));
+				}
+			} else {
+				stat.put(setKS(steps++), String.format("%s 所有端口类策略通过设备类型约束检查.", sdf.format(new Date())));
 			}
 
-			success = true;
+			// 检查型号是否匹配 -- 私有MIB
+			stat.put(setKS(steps++), String.format("%s 检查应用的私有MIB类策略是否符合设备类型约束.", sdf.format(new Date())));
+			sql = "select distinct mpid from PREDEFMIB_POL_MAP pm where (pm.mpid, pm.pdmid) not in (select mpid, p.pdmid from V_MP_DEVICE_SCOPE mds inner join PREDEFMIB_INFO p on p.devid=mds.devid)";
+			missmatchedItems = this.jdbcTemplate.query(sql, new ParameterizedRowMapper<Integer>() {
+				public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
+					return rs.getInt(1);
+				}
+			});
+			if (missmatchedItems.size() > 0) {
+				stat.put(setKS(steps++), String.format("%s <font color='red'>私有MIB类策略未通过设备类型约束检查.</font>", sdf.format(new Date())));
+				this.success = false;
+				for (int mpid: missmatchedItems) {
+					TPolicyBase pb = this.policyBaseDao.findByPrimaryKey(mpid);
+					if (pb == null) {
+						 continue;
+					}
+					stat.put(setKS(steps++), String.format("%s <font color='red'>未通过设备类型约束检查的私有MIB类策略: %s</font>", sdf.format(new Date()), pb.getMpname()));
+				}
+			} else {
+				stat.put(setKS(steps++), String.format("%s 所有私有MIB类策略通过设备类型约束检查.", sdf.format(new Date())));
+			}
+
 		} catch (Exception e) {
 			message = "error in generate icmp.xml...IOException ";
 			logger.error("error in get server pre id..." + e.getMessage());
