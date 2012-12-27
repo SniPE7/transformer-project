@@ -7,3 +7,4 @@ insert into t_user_role_map(usid, role_id) values(0, 0);
 -- 将ncc用户赋权限为operator角色
 insert into t_user_role_map(usid, role_id) values(1, 1);
 
+commit;

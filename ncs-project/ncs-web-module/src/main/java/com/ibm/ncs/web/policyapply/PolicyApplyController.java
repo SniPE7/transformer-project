@@ -644,7 +644,7 @@ public class PolicyApplyController implements Controller {
 	private void getPolicyBase(HttpServletRequest request, Map<String, Object> model) throws DaoException {
 		String mpid = request.getParameter("mpid");
 		TPolicyBase policybase;
-		if (mpid != null) {
+		if (mpid != null && mpid.trim().length() > 0) {
 			policybase = TPolicyBaseDao.findByPrimaryKey(Long.parseLong(mpid));
 			if (policybase != null) {
 				long ptvid = policybase.getPtvid();
