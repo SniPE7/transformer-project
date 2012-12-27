@@ -114,7 +114,7 @@ response.setDateHeader("Expires",-1);
 				<td class="portlet-table-body">
 
 				NetCool信息管理系统策略应用管理</td>
-				<td class="portlet-table-body">1.02</td>
+				<td class="portlet-table-body">1.5.0</td>
 
 				
 			</tr>

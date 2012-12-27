@@ -111,7 +111,7 @@
 				<td class="portlet-table-body">
 
 				NetCool信息管理系统</td>
-				<td class="portlet-table-body">1.02</td>
+				<td class="portlet-table-body">1.5.0</td>
 
 				
 			</tr>
