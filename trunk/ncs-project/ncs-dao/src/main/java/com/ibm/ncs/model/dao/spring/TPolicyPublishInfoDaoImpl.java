@@ -275,11 +275,6 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 	 */
 	@Transactional
 	public void release(long toPpiid, PolicyPublishInfo toDto) throws TPolicyPublishInfoDaoException {
-		PolicyPublishInfo releasedPPI = this.getReleasedVersion();
-		if (releasedPPI == null) {
-			System.out.println("Could not find last release PolicyTemplate Set.");
-			return;
-		}
 		System.out.println(String.format("发布策略集: %s", toDto));
 
 		jdbcTemplate.update("UPDATE " + getTableName() + " SET STATUS='H'");

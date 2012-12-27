@@ -245,6 +245,15 @@ public class PolicyDefinitionController implements Controller {
 								this.policyTemplateScopeDao.insert(policyTemplateScope);
 							}
 						}
+						String[] selectedManufacturerTypeIDs = request.getParameterValues("selected_manufacturer_list");
+						if (selectedManufacturerTypeIDs != null && selectedManufacturerTypeIDs.length > 0) {
+							for (String mrid : selectedManufacturerTypeIDs) {
+								PolicyTemplateScope policyTemplateScope = new PolicyTemplateScope();
+								policyTemplateScope.setPtvid(Long.parseLong(ptvid));
+								policyTemplateScope.setMrid(Long.parseLong(mrid));
+								this.policyTemplateScopeDao.insert(policyTemplateScope);
+							}
+						}
 
 						model.put("message", "message.common.create.success");
 						model.put("refresh", "true");

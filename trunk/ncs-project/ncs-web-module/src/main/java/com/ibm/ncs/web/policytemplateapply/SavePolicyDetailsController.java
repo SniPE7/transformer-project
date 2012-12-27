@@ -354,7 +354,7 @@ public class SavePolicyDetailsController implements Controller {
 								continue;
 							}
 						}
-						if (value1lowStr[selIndex] != null && value1lowStr[selIndex].trim().length() > 0) {
+						if (value1lowStr != null && value1lowStr[selIndex] != null && value1lowStr[selIndex].trim().length() > 0) {
 							if (value1lowRuleStr[selIndex] == null || value1lowRuleStr[selIndex].trim().length() == 0) {
 								addMessage(eveidTmp, modidTmp, "必须设置阀值In2的取值规则和缺省值!");
 								continue;
@@ -368,7 +368,7 @@ public class SavePolicyDetailsController implements Controller {
 								continue;
 							}
 						}
-						if (value2lowStr[selIndex] != null && value2lowStr[selIndex].trim().length() > 0) {
+						if (value2lowStr != null && value2lowStr[selIndex] != null && value2lowStr[selIndex].trim().length() > 0) {
 							if (value2lowRuleStr[selIndex] == null || value2lowRuleStr[selIndex].trim().length() == 0) {
 								addMessage(eveidTmp, modidTmp, "必须设置阀值Out2的取值规则和缺省值!");
 								continue;

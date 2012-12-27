@@ -105,6 +105,7 @@ public class PolicyPublishInfoDefinitionController implements Controller {
 				}
 				model.put("message", "message.common.create.success");
 				model.put("refresh", "true");
+				return new ModelAndView(getPageView() + "?formAction=showModifyForm&ppiid=" + policyPublishInfo.getPpiid(), "definition", model);
 			} else if (formAction != null && formAction.equalsIgnoreCase("showModifyForm")) {
 				PolicyPublishInfo policyPublishInfo = policyPublishInfoDao.findById(request.getParameter("ppiid"));
 				model.put("newVersion4Draft", policyPublishInfo.getVersion());
