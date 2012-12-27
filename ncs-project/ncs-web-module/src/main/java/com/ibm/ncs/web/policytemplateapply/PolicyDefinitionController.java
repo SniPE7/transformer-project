@@ -190,6 +190,15 @@ public class PolicyDefinitionController implements Controller {
 								this.policyTemplateScopeDao.insert(policyTemplateScope);
 							}
 						}
+						String[] selectedManufacturerTypeIDs = request.getParameterValues("selected_manufacturer_list");
+						if (selectedManufacturerTypeIDs != null && selectedManufacturerTypeIDs.length > 0) {
+							for (String mrid : selectedManufacturerTypeIDs) {
+								PolicyTemplateScope policyTemplateScope = new PolicyTemplateScope();
+								policyTemplateScope.setPtvid(Long.parseLong(ptvid));
+								policyTemplateScope.setMrid(Long.parseLong(mrid));
+								this.policyTemplateScopeDao.insert(policyTemplateScope);
+							}
+						}
 
 						model.put("message", "message.common.update.success");
 
@@ -264,6 +273,7 @@ public class PolicyDefinitionController implements Controller {
 			}
 
 			List<DeviceTypeTree> selectedDeviceTypes = new ArrayList<DeviceTypeTree>();
+			List<TManufacturerInfoInit> selectedManufacturerTypes = new ArrayList<TManufacturerInfoInit>();
 			try {
 				if (ptvid != null) {
 					PolicyTemplateVer policyTemplateVer = null;
@@ -281,8 +291,15 @@ public class PolicyDefinitionController implements Controller {
 									selectedDeviceTypes.add(deviceType);
 								}
 							}
+							if (scope.getMrid() > 0) {
+								TManufacturerInfoInit manufacturer = this.manufacturerInfoDao.findByPrimaryKey(scope.getMrid());
+								if (manufacturer != null) {
+									selectedManufacturerTypes.add(manufacturer);
+								}
+							}
 						}
 						model.put("selectedDeviceTypes", new TreeSet<DeviceTypeTree>(selectedDeviceTypes));
+						model.put("selectedManufacturerTypes", new TreeSet<TManufacturerInfoInit>(selectedManufacturerTypes));
 					}
 				}
 				// Load all device type and manufacturers
@@ -292,6 +309,10 @@ public class PolicyDefinitionController implements Controller {
 
 				List<TManufacturerInfoInit> manufacturers = this.manufacturerInfoDao.findAll();
 				model.put("manufacturers", manufacturers);
+				
+				List<TManufacturerInfoInit> forSelectionManufacturers = this.manufacturerInfoDao.findAll();
+				forSelectionManufacturers.removeAll(selectedManufacturerTypes);
+				model.put("forSelectionManufacturers", forSelectionManufacturers);
 
 				if (formAction != null && formAction.equalsIgnoreCase("view")) {
           return new ModelAndView(this.getPageView4ReadOnly(), "definition", model);
