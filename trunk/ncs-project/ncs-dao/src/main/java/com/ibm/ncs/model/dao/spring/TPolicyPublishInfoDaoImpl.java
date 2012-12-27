@@ -374,6 +374,24 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 			total = jdbcTemplate.update(sql);
 			log.info(String.format("升级策略数量(变更事件策略): %s个", total));
 			out.println(String.format("升级策略数量(变更事件策略): %s个", total));
+			
+			// 删除不在设备类型范围内的设备策略应用关系
+			sql = "delete from t_devpol_map dm where (dm.mpid, dm.devid) not in (select mpid, devid from V_MP_DEVICE_SCOPE)";
+			total = jdbcTemplate.update(sql);
+			log.info(String.format("升级策略数量(删除不在设备类型范围内的设备映射): %s个", total));
+			out.println(String.format("升级策略数量(删除不在设备类型范围内的设备映射): %s个", total));
+
+			// 删除不在设备类型范围内的端口策略应用关系
+			sql = "delete from t_linepol_map lm where (lm.mpid, lm.ptid) not in (select mpid, p.ptid from V_MP_DEVICE_SCOPE mds inner join t_port_info p on p.devid=mds.devid)";
+			total = jdbcTemplate.update(sql);
+			log.info(String.format("升级策略数量(删除不在设备类型范围内的端口映射): %s个", total));
+			out.println(String.format("升级策略数量(删除不在设备类型范围内的端口映射): %s个", total));
+			
+			// 删除不在设备类型范围内的MIB策略应用关系
+			sql = "delete from PREDEFMIB_POL_MAP pm where (pm.mpid, pm.pdmid) not in (select mpid, p.pdmid from V_MP_DEVICE_SCOPE mds inner join PREDEFMIB_INFO p on p.devid=mds.devid)";
+			total = jdbcTemplate.update(sql);
+			log.info(String.format("升级策略数量(删除不在设备类型范围内的MIB Index映射): %s个", total));
+			out.println(String.format("升级策略数量(删除不在设备类型范围内的MIB Index映射): %s个", total));
 		}
 		
 		{

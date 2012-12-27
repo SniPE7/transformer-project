@@ -70,6 +70,12 @@ update
 		or COMPARETYPE<>(select distinct COMPARETYPE from t_policy_event_rule per inner join t_policy_base pb on pb.ptvid=per.ptvid where pb.mpid=pd.mpid and per.modid=pd.modid and per.eveid=pd.eveid)
 		)
 ;
+-- 删除不在设备类型范围内的设备策略应用关系
+delete from t_devpol_map dm where (dm.mpid, dm.devid) not in (select mpid, devid from V_MP_DEVICE_SCOPE);
+-- 删除不在设备类型范围内的端口策略应用关系
+delete from t_linepol_map lm where (lm.mpid, lm.ptid) not in (select mpid, p.ptid from V_MP_DEVICE_SCOPE mds inner join t_port_info p on p.devid=mds.devid);
+-- 删除不在设备类型范围内的MIB策略应用关系
+delete from PREDEFMIB_POL_MAP pm where (pm.mpid, pm.pdmid) not in (select mpid, p.pdmid from V_MP_DEVICE_SCOPE mds inner join PREDEFMIB_INFO p on p.devid=mds.devid);
 
 
 -- 添加
