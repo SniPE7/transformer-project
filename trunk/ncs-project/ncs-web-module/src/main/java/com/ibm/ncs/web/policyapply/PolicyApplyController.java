@@ -929,18 +929,21 @@ public class PolicyApplyController implements Controller {
 			return source;
 		}
 		List<PolicyTemplateScope> scopes = this.policyTemplateScopeDao.findByPtvd(ptvid);
+		if (scopes == null || scopes.isEmpty()) {
+			 // 如果未设置设备类型范围, 则不过滤任何设备
+      return source;
+		}
 		Set<Long> devTypeIDSet = new HashSet<Long>();
 		Set<Long> manufIDSet = new HashSet<Long>();
-		if (scopes != null) {
-			for (PolicyTemplateScope scope : scopes) {
-				if (scope.getDtid() > 0) {
-					devTypeIDSet.add(scope.getDtid());
-				}
-				if (scope.getMrid() > 0) {
-					manufIDSet.add(scope.getMrid());
-				}
+		for (PolicyTemplateScope scope : scopes) {
+			if (scope.getDtid() > 0) {
+				devTypeIDSet.add(scope.getDtid());
+			}
+			if (scope.getMrid() > 0) {
+				manufIDSet.add(scope.getMrid());
 			}
 		}
+
 		List<TDeviceInfo> result = new ArrayList<TDeviceInfo>();
 		for (TDeviceInfo device : source) {
 			if (devTypeIDSet.contains(device.getDtid())) {
