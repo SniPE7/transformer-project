@@ -33,6 +33,9 @@
     以system身份运行如下sql
       upgrade/DC/create_dlink_user.sql
 
+ 3. 部署war包
+ 4. 修改applicationContext.xml
+
 
 生产环境（分行）
 ================================================================================
