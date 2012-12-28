@@ -541,10 +541,10 @@ public class SavePolicyDetailsController implements Controller {
 				}
 
 				// 验证策略规则
-				String vrMsg = validateRule(TEventTypeInitDao, TPolicyBaseDao, policyDetailsWithRuleDao, policyRuleEvaluator, request, selIndex, new String[]{"阀值2", "阀值3", "", ""});
+				String vrMsg = validateRule(TEventTypeInitDao, TPolicyBaseDao, policyDetailsWithRuleDao, policyRuleEvaluator, request, selIndex, new String[] { "阀值2", "阀值3", "", "" });
 				if (vrMsg != null && vrMsg.trim().length() > 0) {
-				   message += vrMsg;
-				   continue;
+					message += vrMsg;
+					continue;
 				}
 
 				TPolicyDetails dto = new TPolicyDetails();
@@ -775,17 +775,29 @@ public class SavePolicyDetailsController implements Controller {
 					continue;
 				}
 				// validate severity is beween 1 to 7 or 100
-				if (((severity1Str[selIndex] != null && !severity1Str[selIndex].equals("")) && ((severity1 > 7 && severity1 != 100) || severity1 < 1))
-				    || ((severity2Str != null && severity2Str[selIndex] != null && !severity2Str[selIndex].equals("")) && ((severity2 > 7 && severity2 != 100) || severity2 < 1))
-				    || ((severityAStr != null && severityAStr[selIndex] != null && !severityAStr[selIndex].equals("")) && ((severityA > 7 && severityA != 100) || severityA < 1))
-				    || ((severityBStr != null && severityBStr[selIndex] != null && !severityBStr[selIndex].equals("")) && ((severityB > 7 && severityB != 100) || severityB < 1))) {
-					if (message.equals(""))
-						message = "以下策略定制失败：<br/>";
-					TEventTypeInit t = null;
-					if (eveidTmp > 0 && modidTmp > 0)
-						t = TEventTypeInitDao.findByPrimaryKey(modidTmp, eveidTmp);
-					message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： 告警级别范围应为1-7或100<br/>";
-					continue;
+				if (((severity2Str != null && severity2Str[selIndex] != null && !severity2Str[selIndex].equals("")) && ((severity2 > 7 && severity2 != 100) || severity2 < 1))
+				    || ((severityAStr != null && severityAStr[selIndex] != null && !severityAStr[selIndex].equals("")) && ((severityA > 7 && severityA != 100) || severityA < 1))) {
+					if (value1lowTmp != null && value1lowTmp.trim().length() > 0) {
+						if (message.equals(""))
+							message = "以下策略定制失败：<br/>";
+						TEventTypeInit t = null;
+						if (eveidTmp > 0 && modidTmp > 0)
+							t = TEventTypeInitDao.findByPrimaryKey(modidTmp, eveidTmp);
+						message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： 告警级别范围应为1-7或100<br/>";
+						continue;
+					}
+				}
+				if (((severity2Str != null && severity2Str[selIndex] != null && !severity2Str[selIndex].equals("")) && ((severity2 > 7 && severity2 != 100) || severity2 < 1))
+				    || ((severityAStr != null && severityAStr[selIndex] != null && !severityAStr[selIndex].equals("")) && ((severityA > 7 && severityA != 100) || severityA < 1))) {
+					if (value2lowTmp != null && value2lowTmp.trim().length() > 0) {
+						if (message.equals(""))
+							message = "以下策略定制失败：<br/>";
+						TEventTypeInit t = null;
+						if (eveidTmp > 0 && modidTmp > 0)
+							t = TEventTypeInitDao.findByPrimaryKey(modidTmp, eveidTmp);
+						message += "事件名称：" + (t == null ? "" : t.getMajor()) + ".  原因： 告警级别范围应为1-7或100<br/>";
+						continue;
+					}
 				}
 				if (value2Tmp != null && !value2Tmp.equals("")) {
 					if (comparTypeTmp == null || comparTypeTmp.equals("NULL") || comparTypeTmp.equals("")) {
@@ -811,12 +823,12 @@ public class SavePolicyDetailsController implements Controller {
 				}
 
 				// 验证策略规则
-				String vrMsg = validateRule(TEventTypeInitDao, TPolicyBaseDao, policyDetailsWithRuleDao, policyRuleEvaluator, request, selIndex, new String[]{"阀值2", "阀值3", "", ""});
+				String vrMsg = validateRule(TEventTypeInitDao, TPolicyBaseDao, policyDetailsWithRuleDao, policyRuleEvaluator, request, selIndex, new String[] { "阀值2", "阀值3", "", "" });
 				if (vrMsg != null && vrMsg.trim().length() > 0) {
-				   message += vrMsg;
-				   continue;
+					message += vrMsg;
+					continue;
 				}
-				
+
 				TPolicyDetails dto = new TPolicyDetails();
 				dto.setMpid(mpidTmp);
 				dto.setEveid(eveidTmp);
@@ -1180,7 +1192,8 @@ public class SavePolicyDetailsController implements Controller {
 		return map;
 	}
 
-	public static String validateRule(TEventTypeInitDao TEventTypeInitDao, TPolicyBaseDao TPolicyBaseDao, TPolicyDetailsWithRuleDao policyDetailsWithRuleDao, PolicyRuleEvaluator policyRuleEvaluator, HttpServletRequest request, int selIndex, String[] thresholdNames) throws TEventTypeInitDaoException {
+	public static String validateRule(TEventTypeInitDao TEventTypeInitDao, TPolicyBaseDao TPolicyBaseDao, TPolicyDetailsWithRuleDao policyDetailsWithRuleDao,
+	    PolicyRuleEvaluator policyRuleEvaluator, HttpServletRequest request, int selIndex, String[] thresholdNames) throws TEventTypeInitDaoException {
 		String message = "";
 
 		String mpidStr = request.getParameter("mpid");
@@ -1212,7 +1225,7 @@ public class SavePolicyDetailsController implements Controller {
 			}
 			{
 				String expression = rule.getValue1RuleExpression();
-				if (expression != null) {
+				if (expression != null && expression.trim().length() > 0) {
 					String display = rule.getValue1RuleDisplayInfo();
 					boolean ok = policyRuleEvaluator.eval(expression, value1);
 					if (!ok) {
@@ -1222,7 +1235,7 @@ public class SavePolicyDetailsController implements Controller {
 			}
 			{
 				String expression = rule.getValue2RuleExpression();
-				if (expression != null) {
+				if (expression != null && expression.trim().length() > 0) {
 					String display = rule.getValue2RuleDisplayInfo();
 					boolean ok = policyRuleEvaluator.eval(expression, value2);
 					if (!ok) {
@@ -1231,10 +1244,10 @@ public class SavePolicyDetailsController implements Controller {
 				}
 			}
 			String[] value1lowStr = request.getParameterValues("value1low");
-			if (value1lowStr != null){
+			if (value1lowStr != null) {
 				String value1Low = value1lowStr[selIndex];
 				String expression = rule.getValue1LowRuleExpression();
-				if (expression != null && !"var1".equals(value1Low)) {
+				if (expression != null && expression.trim().length() > 0 && !"var1".equals(value1Low)) {
 					String display = rule.getValue1LowRuleDisplayInfo();
 					boolean ok = policyRuleEvaluator.eval(expression, value1Low);
 					if (!ok) {
@@ -1246,7 +1259,7 @@ public class SavePolicyDetailsController implements Controller {
 			if (value2lowStr != null) {
 				String value2Low = value2lowStr[selIndex];
 				String expression = rule.getValue2LowRuleExpression();
-				if (expression != null && !"var2".equals(value2Low)) {
+				if (expression != null && expression.trim().length() > 0 && !"var2".equals(value2Low)) {
 					String display = rule.getValue2LowRuleDisplayInfo();
 					boolean ok = policyRuleEvaluator.eval(expression, value2Low);
 					if (!ok) {

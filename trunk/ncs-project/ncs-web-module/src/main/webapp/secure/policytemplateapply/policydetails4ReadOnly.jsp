@@ -202,7 +202,7 @@ function onLoadInit() {
 																			<c:if test="${c1.severity2Null == false}" >${c1.severity2}</c:if><br />
                                       <c:if test="${c1.severityBNull == false}" >${c1.severityB}</c:if>
                                       </td>
-																			<td VALIGN="middle" class="collection-table-text">${c1.compareType=='=='}</td>
+																			<td VALIGN="middle" class="collection-table-text">${c1.compareType}11</td>
 																			<td VALIGN="middle" class="collection-table-text"><c:if test="${c1.pollNull == false}" >${c1.poll}</c:if>秒</td>
 																			<td VALIGN="middle" class="collection-table-text" width="3">
 																				<c:if test="${c1.oidgroup != null}">是</c:if></td>
@@ -264,7 +264,7 @@ function onLoadInit() {
 																					<td VALIGN="middle" class="collection-table-text"><c:if test="${c1.severity2Null == false}" >${c1.severity2}</c:if></td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.value2LowRuleDisplayInfo}</td>
 																					<td VALIGN="middle" class="collection-table-text"><c:if test="${c1.v2lseverity2Null == false}" >${c1.v2lseverity2}</c:if></td>
-																					<td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.compareType=='=='}</td>
+																					<td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.compareType}</td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><c:if test="${c1.pollNull == false}" >${c1.poll}</c:if> 秒</td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2" width="3"><c:if test="${c1.oidgroup != null}">是</c:if></td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.oidgroup}</td>
@@ -319,7 +319,7 @@ function onLoadInit() {
 																					<td VALIGN="middle" class="collection-table-text"><c:if test="${c1.severity1Null == false}" >${c1.severity1}</c:if></td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.value2RuleDisplayInfo}</td>
 																					<td VALIGN="middle" class="collection-table-text"><c:if test="${c1.severity2Null == false}" >${c1.severity2}</c:if></td>
-																					<td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.compareType==''}</td>
+																					<td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.compareType}</td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><c:if test="${c1.pollNull == false}" >${c1.poll}</c:if> 秒</td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2" width="3"><c:if test="${c1.oidgroup != null}">是</c:if></td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.oidgroup}</td>

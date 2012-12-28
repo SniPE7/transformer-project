@@ -35,7 +35,7 @@ function reloadNavi(){
 						<input type="button" value="立即升级" onclick="document.forms['mainform'].operation.value='upgrade'; document.forms['mainform'].submit();"/>
 					</c:if>
 					<c:if test="${model.needMigrate }">
-						<input type="button" value="立即迁移" onclick="document.forms['mainform'].operation.value='migrate'; document.forms['mainform'].submit();"/>
+						<input type="hidden" value="立即迁移" onclick="document.forms['mainform'].operation.value='migrate'; document.forms['mainform'].submit();"/>
 					</c:if>
 				</div>
 			</c:if>
