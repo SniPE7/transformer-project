@@ -50,7 +50,7 @@ li {
 }
 
 ul { 
-    margin-left: 0.75em;margin-bottom: 0px; margin-top: 0px; font-size:65.0%; list-style-position: outside; list-style-type: square; color: #BCBCBC
+    margin-left: 0.75em;margin-bottom: 0px; margin-top: 0px; list-style-position: outside; list-style-type: square; 
 }
 
 pre {
@@ -2496,7 +2496,6 @@ a:active.iscNavNode {
 }
 
 .nav-child {
-        font-size:70.0%; 
         padding-top: 1px;
         padding-bottom:1px;
         padding-left:1em;
