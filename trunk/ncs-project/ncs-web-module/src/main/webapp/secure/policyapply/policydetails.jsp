@@ -224,8 +224,9 @@ function toICMP(){
 																	%>
 																	<c:forEach items="${model.details}" var="c1">
 																		<tr class="table-row">
-																			<td VALIGN="middle" class="collection-table-text" align="center"><input type="checkbox" name="sel"
-																				value="<%=countChecked %>|${c1.modid}|${c1.eveid}|${c1.mpid}" checked="checked" /> <input type="hidden" name="pre" value="${c1.mpid}|${c1.modid}|${c1.eveid}" />
+																			<td VALIGN="middle" class="collection-table-text" align="center">
+																			  <input type="checkbox" name="sel"	value="<%=countChecked %>|${c1.modid}|${c1.eveid}|${c1.mpid}" checked="checked" <c:if test="${c1.policyDetailsWithRule != null}">onclick="return false"</c:if>/>
+                                        <input type="hidden" name="pre" value="${c1.mpid}|${c1.modid}|${c1.eveid}" />
 																				<input type="hidden" name="modid" size="5" value="${c1.modid}" /> <input type="hidden" name="eveid" size="5" value="${c1.eveid}" /></td>
 																			<td VALIGN="middle" class="collection-table-text">${c1.major}</td>
 																			<td VALIGN="middle" class="collection-table-text">内<br />外
@@ -488,8 +489,9 @@ function toICMP(){
 																			%>
 																			<c:forEach items="${model.details}" var="c1">
 																				<tr class="table-row">
-																					<td VALIGN="middle" class="collection-table-text" align="center" rowspan="2"><input type="checkbox" name="sel"
-																						value="<%=countChecked %>|${c1.modid}|${c1.eveid}|${c1.mpid}" checked="checked" /> <input type="hidden" name="pre" value="${c1.mpid}|${c1.modid}|${c1.eveid}" />
+																					<td VALIGN="middle" class="collection-table-text" align="center" rowspan="2">
+																					  <input type="checkbox" name="sel"	value="<%=countChecked %>|${c1.modid}|${c1.eveid}|${c1.mpid}" checked="checked" <c:if test="${c1.policyDetailsWithRule != null}">onclick="return false"</c:if>/>
+																					  <input type="hidden" name="pre" value="${c1.mpid}|${c1.modid}|${c1.eveid}" />
 																						<input type="hidden" name="modid" size="5" value="${c1.modid}" /> <input type="hidden" name="eveid" size="5" value="${c1.eveid}" /></td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.major}</td>
 																					<td VALIGN="middle" class="collection-table-text">内</td>
@@ -786,7 +788,7 @@ function toICMP(){
 																			<c:forEach items="${model.details}" var="c1">
 																				<tr class="table-row">
 																					<td VALIGN="middle" class="collection-table-text" align="center" rowspan="2"><input type="checkbox" name="sel"
-																						value="<%=countChecked %>|${c1.modid}|${c1.eveid}|${c1.mpid}" checked="checked" /> <input type="hidden" name="pre" value="${c1.mpid}|${c1.modid}|${c1.eveid}" />
+																						value="<%=countChecked %>|${c1.modid}|${c1.eveid}|${c1.mpid}" checked="checked" <c:if test="${c1.policyDetailsWithRule != null}">onclick="return false"</c:if>/> <input type="hidden" name="pre" value="${c1.mpid}|${c1.modid}|${c1.eveid}" />
 																						<input type="hidden" name="modid" size="5" value="${c1.modid}" /> <input type="hidden" name="eveid" size="5" value="${c1.eveid}" /></td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.major}</td>
 																					<td VALIGN="middle" class="collection-table-text">内</td>
