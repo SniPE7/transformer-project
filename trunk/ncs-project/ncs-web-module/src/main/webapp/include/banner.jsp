@@ -32,13 +32,13 @@ select db_link from dba_db_links where db_link='NCCADM'
 			<td align="left"></td>
 			<td align="left" width="85%" nowrap class="ibm-banner-product-name">&nbsp;&nbsp;<span id="headingtext" class="ibm-banner-product-name"> NetCool配置信息管理系统 </span>
 			</td>
-			<td class="wpsToolBarLink" nowrap style="text-align: center;"><span id="ibm-banner-welcome"> 欢迎 </span>&nbsp;<span id="ibm-banner-user"><%=request.getSession(true).getAttribute("username") %><c:if test="${isBranchNode}">@[<fmt:message key="ncs.node.code" bundle="${commonBundle}"/>分行节点]</c:if>, &nbsp;</span>&nbsp;&nbsp;
+			<td class="wpsToolBarLink" nowrap style="text-align: center;"><span id="ibm-banner-welcome"> 欢迎 </span>&nbsp;<span id="ibm-banner-user"><%=request.getSession(true).getAttribute("username") %><c:if test="${isBranchNode}">@【<fmt:message key="ncs.node.code" bundle="${commonBundle}"/>分行节点】</c:if><c:if test="${not isBranchNode}">@【数据中心】</c:if>, &nbsp;</span>&nbsp;&nbsp;
 			</td>
 			<td class="wpsToolBarLink" nowrap style="text-align: center;"><a title='Help' href="<%=request.getContextPath()%>/secure/user/profile.jsp" target="detail"
-				style="text-decoration: none;">[设置个人信息及口令]</a></td>
+				style="text-decoration: none;">【设置个人信息及口令】</a></td>
 			<td align="center" style="width: 10px; padding-left: 10px; padding-right: 10px;"></td>
 			<td class="wpsToolBarLink" nowrap style="text-align: center;"><a title='Logout' href="<%=request.getContextPath()%>/logout.wss" target="_top"
-				style="text-decoration: none;">[退出] </a></td>
+				style="text-decoration: none;">【退出】 </a></td>
 			<td align="right" style="padding-left: 10px;"></td>
 		</tr>
 	</table>
