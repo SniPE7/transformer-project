@@ -649,6 +649,9 @@
     <property name="policyTemplateVerDao" ref="policyTemplateVerDao" />
 	</bean>
 	<bean name="/secure/policyapply/policyDefinition.wss" class="com.ibm.ncs.web.policyapply.PolicyDefinitionController" >
+    <property name="policyTemplateScopeDao" ref="policyTemplateScopeDao" />
+    <property name="deviceTypeTreeDao" ref="DeviceTypeTreeDao" />
+    <property name="manufacturerInfoDao" ref="TManufacturerInfoInitDao" />
     <property name="policyPublishInfoDao" ref="policyPublishInfoDao" />
     <property name="policyTemplateDao" ref="policyTemplateDao" />
     <property name="policyTemplateVerDao" ref="policyTemplateVerDao" />

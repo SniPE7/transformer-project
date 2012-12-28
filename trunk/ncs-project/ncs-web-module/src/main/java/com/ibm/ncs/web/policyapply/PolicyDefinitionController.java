@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,19 +17,25 @@ import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
+import com.ibm.ncs.model.dao.DeviceTypeTreeDao;
 import com.ibm.ncs.model.dao.PolicyPublishInfo;
 import com.ibm.ncs.model.dao.PredefmibPolMapDao;
 import com.ibm.ncs.model.dao.TDevpolMapDao;
 import com.ibm.ncs.model.dao.TLinepolMapDao;
+import com.ibm.ncs.model.dao.TManufacturerInfoInitDao;
 import com.ibm.ncs.model.dao.TPolicyBaseDao;
 import com.ibm.ncs.model.dao.TPolicyPeriodDao;
 import com.ibm.ncs.model.dao.TPolicyPublishInfoDao;
 import com.ibm.ncs.model.dao.TPolicyTemplateDao;
+import com.ibm.ncs.model.dao.TPolicyTemplateScopeDao;
 import com.ibm.ncs.model.dao.TPolicyTemplateVerDao;
+import com.ibm.ncs.model.dto.DeviceTypeTree;
+import com.ibm.ncs.model.dto.PolicyTemplateScope;
 import com.ibm.ncs.model.dto.PolicyTemplateVer;
 import com.ibm.ncs.model.dto.PredefmibPolMap;
 import com.ibm.ncs.model.dto.TDevpolMap;
 import com.ibm.ncs.model.dto.TLinepolMap;
+import com.ibm.ncs.model.dto.TManufacturerInfoInit;
 import com.ibm.ncs.model.dto.TPolicyBase;
 import com.ibm.ncs.model.dto.TPolicyBasePk;
 import com.ibm.ncs.model.dto.TPolicyPeriod;
@@ -44,6 +51,9 @@ public class PolicyDefinitionController implements Controller {
 	private TPolicyPublishInfoDao policyPublishInfoDao;
 	private TPolicyTemplateDao policyTemplateDao;
 	private TPolicyTemplateVerDao policyTemplateVerDao;
+	private TPolicyTemplateScopeDao policyTemplateScopeDao;
+	private DeviceTypeTreeDao deviceTypeTreeDao;
+	private TManufacturerInfoInitDao manufacturerInfoDao;
 
 	TPolicyBaseDao TPolicyBaseDao;
 	TPolicyPeriodDao TPolicyPeriodDao;
@@ -53,6 +63,18 @@ public class PolicyDefinitionController implements Controller {
 	GenPkNumber genPkNumber;
 	String pageView;
 	String message = "";
+
+	public void setPolicyTemplateScopeDao(TPolicyTemplateScopeDao policyTemplateScopeDao) {
+		this.policyTemplateScopeDao = policyTemplateScopeDao;
+	}
+
+	public void setDeviceTypeTreeDao(DeviceTypeTreeDao deviceTypeTreeDao) {
+		this.deviceTypeTreeDao = deviceTypeTreeDao;
+	}
+
+	public void setManufacturerInfoDao(TManufacturerInfoInitDao manufacturerInfoDao) {
+		this.manufacturerInfoDao = manufacturerInfoDao;
+	}
 
 	public void setTPolicyBaseDao(TPolicyBaseDao policyBaseDao) {
 		TPolicyBaseDao = policyBaseDao;
@@ -270,6 +292,26 @@ public class PolicyDefinitionController implements Controller {
 								if (ptv != null) {
 									PolicyPublishInfo ppi = this.policyPublishInfoDao.findById(Long.toString(ptv.getPpiid()));
 									ptv.setPolicyPublishInfo(ppi);
+									
+									List<DeviceTypeTree> selectedDeviceTypes = new ArrayList<DeviceTypeTree>();
+									List<TManufacturerInfoInit> selectedManufacturerTypes = new ArrayList<TManufacturerInfoInit>();
+									List<PolicyTemplateScope> policyTemplateScopes = this.policyTemplateScopeDao.findByPtvd(Long.toString(ptvid));
+									for (PolicyTemplateScope scope : policyTemplateScopes) {
+										if (scope.getDtid() > 0) {
+											DeviceTypeTree deviceType = this.deviceTypeTreeDao.findByDtid(scope.getDtid());
+											if (deviceType != null) {
+												selectedDeviceTypes.add(deviceType);
+											}
+										}
+										if (scope.getMrid() > 0) {
+											TManufacturerInfoInit manufacturer = this.manufacturerInfoDao.findByPrimaryKey(scope.getMrid());
+											if (manufacturer != null) {
+												selectedManufacturerTypes.add(manufacturer);
+											}
+										}
+									}
+									model.put("selectedDeviceTypes", new TreeSet<DeviceTypeTree>(selectedDeviceTypes));
+									model.put("selectedManufacturerTypes", new TreeSet<TManufacturerInfoInit>(selectedManufacturerTypes));
 								}
 							}
 						}
