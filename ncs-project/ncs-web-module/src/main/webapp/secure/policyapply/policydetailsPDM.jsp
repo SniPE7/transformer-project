@@ -187,7 +187,7 @@ function listEventType(){
       <c:forEach items="${model.details}" var="c1" >
       <tr class="table-row">
       <td VALIGN="middle"  class="collection-table-text" align="center" rowspan="2">
-      <input type="radio" name="sel" value="<%=countChecked %>|${c1.modid}|${c1.eveid}|${c1.mpid}" checked="checked"/>
+      <input type="radio" name="sel" value="<%=countChecked %>|${c1.modid}|${c1.eveid}|${c1.mpid}" checked="checked" <c:if test="${c1.policyDetailsWithRule != null}">onclick="return false"</c:if>/>
       <input type="hidden" name="pre" value="${c1.mpid}|${c1.modid}|${c1.eveid}" /> 
       <input type="hidden" 	name="modid"		size="5" value="${c1.modid}" /> 
       <input type="hidden" 	name="eveid"		size="5" value="${c1.eveid}" />
