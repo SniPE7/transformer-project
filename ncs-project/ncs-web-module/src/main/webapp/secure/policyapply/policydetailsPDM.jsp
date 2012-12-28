@@ -123,7 +123,7 @@ function listEventType(){
         
         <td class="table-button-section" nowrap> 
     
-    <table style="display: inline; font-size: 95%;" cellspacing="0" cellpadding="0" border="0" align="center"><tr> 
+    <table style="display: inline; font-size: 95%;" cellspacing="0" cellpadding="0" border="0" align="left"><tr> 
 
    			<td>
     		<input type="button" name="button.snmp" value="SNMP" onClick="toSNMP();" class="buttons" id="functions"/>&nbsp;
@@ -338,6 +338,7 @@ function listEventType(){
       
       </TABLE>
       
+      <c:if test="${model.ptvid == null }">
       
       <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" WIDTH="100%" SUMMARY="List layout table" id="unselTab">
       
@@ -434,7 +435,7 @@ function listEventType(){
        
        </TABLE>
        </TD></TR></TBODY></TABLE>
-
+     </c:if>
 </div> <!-- end of if mode = snmp other policy -->
 </c:when>
 </c:choose>

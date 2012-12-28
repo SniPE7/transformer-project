@@ -189,7 +189,7 @@ function reloadNavi(){
                         <c:if test="${not empty definition.selectedDeviceTypes}">
                         <tr>
                           <td>适用的设备类型</td>
-                          <td>&nbsp;
+                          <td>&nbsp;<font color="blue">若不设置设备类型和设备厂商范围, 则表示该策略可以应用在所有设备, 不受限制.</font><br/>
                             <table>
                               <tbody>
                                 <tr>
@@ -208,7 +208,7 @@ function reloadNavi(){
                         <c:if test="${not empty definition.selectedManufacturerTypes}">
                         <tr>
                           <td>适用的设备厂商</td>
-                          <td>&nbsp;
+                          <td>&nbsp;<font color="blue">若设置了厂商范围, 表示应用范围为所有该厂商的设备类型. 即使未来新增了该厂商的设备, 仍然适用本策略.</font><br>
                             <table>
                               <tbody>
                                 <tr>

@@ -34,6 +34,7 @@ import com.ibm.ncs.model.dto.TEventTypeInit;
 import com.ibm.ncs.model.dto.TManufacturerInfoInit;
 import com.ibm.ncs.model.dto.TModuleInfoInit;
 import com.ibm.ncs.model.dto.PolicySyslog;
+import com.ibm.ncs.model.dto.TPolicyBase;
 import com.ibm.ncs.model.dto.TPolicyDetailsWithRule;
 import com.ibm.ncs.util.Log4jInit;
 import com.ibm.ncs.util.SortList;
@@ -93,6 +94,11 @@ public class PolicyDetailsPDMController implements Controller {
 			message = request.getParameter("message");
 			String mpidstr = request.getParameter("mpid");
 			long mpid = Long.parseLong(mpidstr);
+			TPolicyBase policyBase = TPolicyBaseDao.findByPrimaryKey(mpid);
+			model.put("policyBase", policyBase);
+			if (policyBase.getPtvid() > 0) {
+				 model.put("ptvid", policyBase.getPtvid());
+			}
 
 			String mpname = request.getParameter("mpname");
 

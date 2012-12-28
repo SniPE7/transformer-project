@@ -20,7 +20,7 @@ public interface TPolicyTemplateVerDao {
 	public PolicyTemplateVer findById(String ptid) throws TPolicyTemplateVerDaoException;
 	
 	/**
-	 * 查找所有发布集下ppiid的事件
+	 * 查找所有发布集下ppiid的性能指标
 	 * @param ppiid
 	 * @return
 	 * @throws TPolicyTemplateVerDaoException

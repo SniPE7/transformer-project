@@ -109,6 +109,14 @@ public class SavePolicyDetailsPDMController implements Controller {
 		message = "";
 		try {
 
+			String mpidstr = request.getParameter("mpid");
+			long mpid = Long.parseLong(mpidstr);
+			TPolicyBase policyBase = TPolicyBaseDao.findByPrimaryKey(mpid);
+			model.put("policyBase", policyBase);
+			if (policyBase.getPtvid() > 0) {
+				 model.put("ptvid", policyBase.getPtvid());
+			}
+
 			String mode = request.getParameter("mode");
 			String displayOption = request.getParameter("listSeled");
 			String mpname = request.getParameter("mpname");
