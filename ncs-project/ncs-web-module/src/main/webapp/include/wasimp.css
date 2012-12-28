@@ -485,7 +485,6 @@ FORM {
 /******* BUTTONS ********/
 
 .buttons  {  font-family: Verdana,Helvetica, sans-serif; 
-    font-size:90.0%; 
     margin: 1px 2px 1px 2px; border-top: 1px outset #B1B1B1; 
     border-right: 1px outset #000000; border-bottom: 1px outset #000000; 
     border-left: 1px outset #B1B1B1; 
