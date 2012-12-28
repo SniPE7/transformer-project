@@ -30,7 +30,7 @@ select db_link from dba_db_links where db_link='NCCADM'
 	<table border="0" height="35" width="100%" cellpadding="0" cellspacing="0" class="wpsToolBar">
 		<tr>
 			<td align="left"></td>
-			<td align="left" width="85%" nowrap class="ibm-banner-product-name">&nbsp;&nbsp;<span id="headingtext" class="ibm-banner-product-name"> Netcool信息管理系统 </span>
+			<td align="left" width="85%" nowrap class="ibm-banner-product-name">&nbsp;&nbsp;<span id="headingtext" class="ibm-banner-product-name"> NetCool配置信息管理系统 </span>
 			</td>
 			<td class="wpsToolBarLink" nowrap style="text-align: center;"><span id="ibm-banner-welcome"> 欢迎 </span>&nbsp;<span id="ibm-banner-user"><%=request.getSession(true).getAttribute("username") %><c:if test="${isBranchNode}">@[<fmt:message key="ncs.node.code" bundle="${commonBundle}"/>分行节点]</c:if>, &nbsp;</span>&nbsp;&nbsp;
 			</td>
