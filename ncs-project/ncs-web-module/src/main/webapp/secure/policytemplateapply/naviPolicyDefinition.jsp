@@ -403,6 +403,21 @@ window.onload =  function (){
     </div>
     </c:if>
     <c:if test="${model.draftVersionPolicyPublishInfo != null}">
+    <% nodei++ ;%>
+    <div nowrap class='main-task' style='margin-left: 0.3em;'>      
+                <a style='color: #000000; text-decoration: none;'
+            href="javascript:expandCollapse('<%=nodei %>');" 
+            title=""> 
+          <img src='<%=request.getContextPath() %>/images/arrow_expanded.gif' title='+' alt='+' id='I<%=nodei %>' border='0' align='absmiddle'>
+          </a>
+                <a style='color: #000000; text-decoration: none;'
+                  onClick="javascript:expandCollapse('<%=nodei %>');" 
+            href="<%=request.getContextPath() %>/secure/policytemplateapply/policyPublishInfoDefinition.wss?formAction=showModifyForm&ppiid=${model.draftVersionPolicyPublishInfo.ppiid}" 
+            title="设备策略"
+                    target="detail" dir="ltr">修改模板基本信息&nbsp;&nbsp;</a>
+    </div>
+    </c:if>
+    <c:if test="${model.draftVersionPolicyPublishInfo != null}">
     <!--  Policy in a category  -->
     <% nodei++ ;%>
     <div nowrap class='main-task' style='margin-left: 0.3em;'>      

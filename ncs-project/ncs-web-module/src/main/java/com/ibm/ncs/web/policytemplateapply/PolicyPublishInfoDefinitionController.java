@@ -104,10 +104,15 @@ public class PolicyPublishInfoDefinitionController implements Controller {
 					}
 				}
 				model.put("message", "message.common.create.success");
+				model.put("ppiid", policyPublishInfo.getPpiid());
+				model.put("newVersion4Draft", policyPublishInfo.getVersion());
+				model.put("versionTag", policyPublishInfo.getVersionTag());
+				model.put("description", policyPublishInfo.getDescription());
+				model.put("formAction", "update");
 				model.put("refresh", "true");
-				return new ModelAndView(getPageView() + "?formAction=showModifyForm&ppiid=" + policyPublishInfo.getPpiid(), "definition", model);
 			} else if (formAction != null && formAction.equalsIgnoreCase("showModifyForm")) {
 				PolicyPublishInfo policyPublishInfo = policyPublishInfoDao.findById(request.getParameter("ppiid"));
+				model.put("ppiid", policyPublishInfo.getPpiid());
 				model.put("newVersion4Draft", policyPublishInfo.getVersion());
 				model.put("versionTag", policyPublishInfo.getVersionTag());
 				model.put("description", policyPublishInfo.getDescription());
@@ -122,6 +127,11 @@ public class PolicyPublishInfoDefinitionController implements Controller {
 				policyPublishInfo.setDescription(request.getParameter("description"));
 				policyPublishInfoDao.update(Long.parseLong(request.getParameter("ppiid")), policyPublishInfo);
 				model.put("message", "message.common.update.success");
+				model.put("ppiid", policyPublishInfo.getPpiid());
+				model.put("newVersion4Draft", policyPublishInfo.getVersion());
+				model.put("versionTag", policyPublishInfo.getVersionTag());
+				model.put("description", policyPublishInfo.getDescription());
+				model.put("formAction", "update");
 				model.put("refresh", "true");
 			}
 		} catch (UncategorizedSQLException ue) {

@@ -35,6 +35,7 @@ function reloadNavi(){
 	marginheight="0">
 	<form action="" method="post" id="form1" name="form1">
     <input type="hidden" name="formAction" value="${definition.formAction}" />
+    <input type="hidden" name="ppiid" value="${definition.ppiid}" />
 		<TABLE WIDTH="98%" CELLPADDING="0" CELLSPACING="0" BORDER="0" class="portalPage">
 			<TR>
 				<TD CLASS="pageTitle">策略管理</TD>
