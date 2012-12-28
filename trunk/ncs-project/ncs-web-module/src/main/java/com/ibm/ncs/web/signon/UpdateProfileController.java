@@ -17,6 +17,7 @@ import com.ibm.ncs.model.dao.TUserDao;
 import com.ibm.ncs.model.dto.TUser;
 import com.ibm.ncs.model.dto.TUserPk;
 import com.ibm.ncs.util.Log4jInit;
+import com.ibm.ncs.util.PasswordUtil;
 import com.ibm.ws.webservices.engine.utils.Base64;
 
 /**
@@ -83,7 +84,7 @@ public class UpdateProfileController implements Controller {
 						needToUpdate = false;
 					} else {
 						if (newPassword1 != null && newPassword2 != null && newPassword1.equals(newPassword2)) {
-							user.setPassword(new String(Base64.encode(newPassword2.getBytes())));
+							user.setPassword(new String(PasswordUtil.encode(newPassword2)));
 							needToUpdate = true;
 						} else {
 							message = "您两次输入的口令不匹配!";

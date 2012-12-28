@@ -22,6 +22,8 @@
  1. 开通分行到数据中心数据库的访问端口
  2. 获得分行和数据中心数据库的system用户口令
  3. 获得分行和数据中心WAS管理员的用户名和口令
+ 4. 备份分行和数据中心数据库的数据
+ 5. 备份分行和数据中心原有的ncsWeb.ear软件包
 
 
 生产环境（DataCenter）
@@ -43,7 +45,7 @@
  
  如果DC节点也需要使用策略生效等功能, 则需要运行如下脚本：
  1. 以ncs用户的身份, 运行如下sql：
-    upgrade/Branch/upgrade.sql
+    upgrade/Branch/upgrade_db.sql
  2. 以ncs用户的身份, 运行如下sql：
     upgrade/Branch/create_view.sql
  3. 修改配置ncc-configuration.properties，定义本服务器的所属分行

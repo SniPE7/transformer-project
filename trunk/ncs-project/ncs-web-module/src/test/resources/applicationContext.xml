@@ -14,21 +14,22 @@
 	<!-- ===== DataSource: myDataSource Local Database ===== -->
 	<!-- ===== ===== -->
 	<!-- =================================================================================== -->
-	<!-- For WebSphere -->
+	<!-- For WebSphere 
 	<bean id="nccDS" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="jdbc/nccDS" />
 		<property name="lookupOnStartup" value="false" />
 		<property name="cache" value="true" />
 		<property name="proxyInterface" value="javax.sql.DataSource" />
 	</bean>
-	<!-- For Tomcat
+	-->
+	<!-- For Tomcat -->
 	<bean id="nccDS" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="java:/comp/env/jdbc/nccDS" />
 		<property name="lookupOnStartup" value="false" />
 		<property name="cache" value="true" />
 		<property name="proxyInterface" value="javax.sql.DataSource" />
 	</bean>
-	 -->
+	
 	<!-- Define final used data source -->
 	<alias alias="myDataSource" name="nccDS" />
 

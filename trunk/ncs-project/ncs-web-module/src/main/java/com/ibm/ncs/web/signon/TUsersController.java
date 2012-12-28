@@ -19,6 +19,7 @@ import com.ibm.ncs.model.dto.TUser;
 import com.ibm.ncs.model.dto.TUserPk;
 import com.ibm.ncs.util.Base64Encode;
 import com.ibm.ncs.util.Log4jInit;
+import com.ibm.ncs.util.PasswordUtil;
 import com.ibm.ncs.web.HttpSessionList;
 
 public class TUsersController implements Controller {
@@ -54,14 +55,9 @@ public class TUsersController implements Controller {
 					return new ModelAndView("/login.jsp", "model", model);
 				}
 
-				Base64Encode bencode = new Base64Encode();
 				model.put("username", username);
-				model.put("password", password);
 
 				signOnFlag.put("username", username);
-
-				if (password != null)
-					password = bencode.encode(password.getBytes());
 
 				List<TUser> dto = TUserDao.findWhereUnameEquals(username);
 				if (dto == null || dto.size() < 1) {
@@ -115,7 +111,7 @@ public class TUsersController implements Controller {
 							}
 						}
 					} else {
-						if (!password.equals(dto.get(0).getPassword())) {
+						if (!PasswordUtil.verify(password, dto.get(0).getPassword())) {
 							message = "login.password";
 							model.put("message", message);
 							return new ModelAndView("/login.jsp", "model", model);
