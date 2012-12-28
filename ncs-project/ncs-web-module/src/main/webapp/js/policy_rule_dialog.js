@@ -53,18 +53,13 @@ $(function() {
                 	bValid = false;
                 }
                 
-                var setDefaultValue = false;
-                $("[name='setDefaultValue']:checked").each(function(){ 
-                	setDefaultValue = true; 
-                  });
-                if (setDefaultValue) {
-                	bValid = bValid && checkEmpty( defaultValue, "defaultValue");
-                }	 else {
-                	if (ruleMode == "expression") {
-                		updateTips( "由于使用了表达式规则, 必须设置缺省取值!" );
+                //alert(defaultValue.val());
+                //alert(checkEmpty(defaultValue, "defaultValue"));
+             	if (ruleMode == "expression" && !checkEmpty(defaultValue, "defaultValue")) {
+            		updateTips( "由于使用了表达式规则, 必须设置缺省取值!" );
                     bValid = false;
-                	}
-                }
+            	}
+
                 if ( bValid ) {
                    ruleCheckboxIndex = document.getElementById("rule_checkbox_index").value;
               	   var ruleString = "";
@@ -109,7 +104,7 @@ function openRuleDialog(rule_checkbox_index, elementPrefix) {
 	document.getElementById("rule_checkbox_index").value = rule_checkbox_index;
 	document.getElementById("rule_checkbox_elementPrefixelementPrefix").value = elementPrefix;
 	// Reset all elements
-	document.getElementById("setDefaultValue").checked = false;
+	//document.getElementById("setDefaultValue").checked = false;
 	
     rule = $("#" + elementPrefix +"_Rule_" + rule_checkbox_index)[0].value;
     //alert(rule);
@@ -145,7 +140,7 @@ function openRuleDialog(rule_checkbox_index, elementPrefix) {
             $("#expressionOperation2")[0].value = jQuery.trim(op2);
             $("#expressionValue2")[0].value = jQuery.trim(r.substring(op2.length, r.length));
           }
-          document.getElementById("setDefaultValue").checked = true;
+          //document.getElementById("setDefaultValue").checked = true;
 
       }
     }

@@ -144,7 +144,7 @@ public class TUserDaoImpl extends AbstractDAO implements ParameterizedRowMapper<
 	public List<TUser> findWhereUnameEquals(String uname) throws TUserDaoException
 	{
 		try {
-			return jdbcTemplate.query("SELECT USID, UNAME, PASSWORD, STATUS, DESCRIPTION, FULLNAME, EMAIL FROM " + getTableName() + " WHERE UNAME = ? ORDER BY UNAME", this,uname);
+			return jdbcTemplate.query("SELECT USID, UNAME, PASSWORD, STATUS, DESCRIPTION, FULLNAME, EMAIL FROM " + getTableName() + " WHERE UPPER(UNAME) = ? ORDER BY UNAME", this, uname.toUpperCase());
 		}
 		catch (Exception e) {
 			throw new TUserDaoException("Query failed", e);
