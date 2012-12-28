@@ -195,11 +195,15 @@ function listEventType(){
       <td VALIGN="middle"  class="collection-table-text" rowspan="2">${c1.major} </td>
       <td VALIGN="middle"  class="collection-table-text" >内</td>
       <td VALIGN="middle"  class="collection-table-text" >
+        <c:if test="${c1.policyDetailsWithRule != null}">
+          <input type="hidden" name="filterA" value="${c1.filterA}" /><c:if test="${c1.filterA==1}">是</c:if><c:if test="${c1.filterA==0}">否</c:if>
+        </c:if>
+        <c:if test="${c1.policyDetailsWithRule == null}">
           <select name="filterA" id="filter_A" >
                   <option value="1" <c:if test="${c1.filterA==1}">selected="selected"</c:if> >是</option>
                   <option value="0" <c:if test="${c1.filterA==0}">selected="selected"</c:if> >否</option>
               </select>
-      
+         </c:if>
       </td>
       
       <td VALIGN="middle"  class="collection-table-text" rowspan="2">
@@ -251,6 +255,10 @@ function listEventType(){
         </c:if>
       </td>
       <td VALIGN="middle"  class="collection-table-text" rowspan="2">
+        <c:if test="${c1.policyDetailsWithRule != null}">
+        <input type="hidden" name="compareType" size="5" value="${c1.compareType}"/><c:out value="${c1.compareType}"></c:out>
+        </c:if>
+        <c:if test="${c1.policyDetailsWithRule == null}">
           <select name="compareType" id="compare_Type" >    
               <option value="NULL" <c:if test="${c1.compareType==''}">selected="selected"</c:if> >-请选择-</option>
               <option value="==" <c:if test="${c1.compareType=='=='}">selected="selected"</c:if> >==</option>
@@ -262,9 +270,17 @@ function listEventType(){
               <option value="Like" <c:if test="${c1.compareType=='Like'}">selected="selected"</c:if> >Like</option>
               <option value="Not Like" <c:if test="${c1.compareType=='Not Like'}">selected="selected"</c:if> >Not Like</option>
            </select>
+         </c:if>
       </td>
-      <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="text" 	name="poll"			size="5" value="<c:if test="${c1.pollNull == false}" >${c1.poll}</c:if>" />
-        秒</td>
+      <td VALIGN="middle" class="collection-table-text" rowspan="2" nowrap="nowrap">
+        <c:if test="${c1.policyDetailsWithRule != null}">
+        <input type="hidden" name="poll" size="5"  value="<c:if test="${c1.pollNull == false}" >${c1.poll}</c:if>"/><c:if test="${c1.pollNull == false}" >${c1.poll}</c:if>
+        </c:if>
+        <c:if test="${c1.policyDetailsWithRule == null}">
+        <input type="text" name="poll" size="5" value="<c:if test="${c1.pollNull == false}" >${c1.poll}</c:if>"/>
+        </c:if>
+         秒
+      </td>
       <td VALIGN="middle"  class="collection-table-text" rowspan="2" width="3">
       <input type="checkbox" name="oidgroupSel" value="<%=countChecked %>" <c:if test="${c1.oidgroup != null}">checked="checked"</c:if> /></td>
       <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="text" 	name="oidgroup"	size="5" value="${c1.oidgroup}" />
@@ -274,10 +290,15 @@ function listEventType(){
       <tr class="table-row">
       <td VALIGN="middle"  class="collection-table-text" >外</td>
       <td VALIGN="middle"  class="collection-table-text" >
+        <c:if test="${c1.policyDetailsWithRule != null}">
+          <input type="hidden" name="filterB" value="${c1.filterB}" /><c:if test="${c1.filterB==1}">是</c:if><c:if test="${c1.filterB==0}">否</c:if>
+        </c:if>
+        <c:if test="${c1.policyDetailsWithRule == null}">
           <select name="filterB" id="filter_B" >
                   <option value="1" <c:if test="${c1.filterB==1}">selected="selected"</c:if> >是</option>
                   <option value="0" <c:if test="${c1.filterB==0}">selected="selected"</c:if> >否</option>
               </select>
+        </c:if>
       </td>
       <td VALIGN="middle"  class="collection-table-text" >
         <c:if test="${c1.policyDetailsWithRule != null}">
