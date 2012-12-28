@@ -23,8 +23,8 @@ create or replace synonym ncs.T_ROLE_MANAGED_NODE for ncs.T_ROLE_MANAGED_NODE@nc
 create or replace synonym ncs.T_ROLE for ncs.T_ROLE@nccadm;
 create or replace synonym ncs.T_USER_ROLE_MAP for ncs.T_USER_ROLE_MAP@nccadm;
 create or replace synonym ncs.T_USER for ncs.T_USER@nccadm;
---create or replace synonym ncs.V_POLICY_TPLT_VER_CHANGE for ncs.V_POLICY_TPLT_VER_CHANGE@nccadm;
---create or replace synonym ncs.v_apply_device_type for ncs.v_apply_device_type@nccadm;
+create or replace synonym ncs.V_POLICY_TPLT_VER_CHANGE for ncs.V_POLICY_TPLT_VER_CHANGE@nccadm;
+create or replace synonym ncs.v_apply_device_type for ncs.v_apply_device_type@nccadm;
 
 -- Resolve ORA-22992 issue in access LOB from DBLink remote DB
 create global temporary table ncs.TMP_TEH  (

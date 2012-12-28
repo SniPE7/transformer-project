@@ -529,7 +529,7 @@ function toICMP(){
                                               <input type="hidden" name="value1low" value="${c1.policyDetailsWithRule.value1Low}"/>
                                             </c:if>
                                             <c:if test="${not c1.policyDetailsWithRule.value1LowRuleFixValue}">
-                                              <input type="text" name="value1low" size="5" value="${c1.value1Low}" style="width: 30px;"/>
+                                              <input type="text" name="value1low" size="5" value="${c1.value1low}" style="width: 30px;"/>
                                             </c:if>
                                             <img src="<%=request.getContextPath()%>/images/TipsIcon.gif" title="${c1.policyDetailsWithRule.value1LowRuleDisplayInfo}"/>
                                           </c:if>
@@ -577,7 +577,7 @@ function toICMP(){
                                               <input type="hidden" name="value2low" value="${c1.policyDetailsWithRule.value2Low}"/>
                                             </c:if>
                                             <c:if test="${not c1.policyDetailsWithRule.value2LowRuleFixValue}">
-                                              <input type="text" name="value2low" size="5" value="${c1.value2Low}" style="width: 30px;"/>
+                                              <input type="text" name="value2low" size="5" value="${c1.value2low}" style="width: 30px;"/>
                                             </c:if>
                                             <img src="<%=request.getContextPath()%>/images/TipsIcon.gif" title="${c1.policyDetailsWithRule.value2LowRuleDisplayInfo}"/>
                                           </c:if>

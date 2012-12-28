@@ -284,9 +284,13 @@ public class ExportPolicyController implements Controller {
 	}
 	
 	private void getAllPolicyList(Map<String, Object> model){
-		List<TPolicyBase> policybase;
+		List<TPolicyBase> policybase = new ArrayList<TPolicyBase>();
 		try {
-			policybase = TPolicyBaseDao.findAllOrderBy("CATEGORY");
+			for (TPolicyBase t: TPolicyBaseDao.findAllOrderBy("CATEGORY")) {
+				if (t.getPtvid() <= 0) {
+					policybase.add(t);
+				}
+			}
 			
 			List<TPolicyPeriod> policyPeriodBase;
 			policyPeriodBase = TPolicyPeriodDao.findAll();			
