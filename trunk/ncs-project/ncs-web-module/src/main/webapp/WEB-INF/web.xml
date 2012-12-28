@@ -50,7 +50,7 @@
 	</listener>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:applicationContext*.xml /WEB-INF/dao-beans-*.xml</param-value>
+		<param-value>classpath*:applicationContext*.xml /WEB-INF/dao-beans-*.xml</param-value>
 	</context-param>
 	<servlet>
 		<servlet-name>ncsapp</servlet-name>
