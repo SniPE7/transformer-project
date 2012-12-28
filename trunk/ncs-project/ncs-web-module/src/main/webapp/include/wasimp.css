@@ -268,10 +268,9 @@ HR {
 }
 
     
-SELECT {  font-family: Verdana,sans-serif; font-size:114.0%; 
+SELECT {  font-family: Verdana,sans-serif; 
           border:1px #000000 solid; 
           margin-top: 0em;
-          padding: 2px; 
           margin-left: 0.4em;
 }
 TEXTAREA {  font-size:114.0%; 
@@ -496,7 +495,7 @@ FORM {
 .buttons-filter  {  
     font-family: Verdana,Helvetica, sans-serif; font-size:114.0%; margin: 1px 2px 1px 2px; border-top: 1px outset #B1B1B1; border-right: 1px outset #000000; border-bottom: 1px outset #000000; border-left: 1px outset #B1B1B1; 
 }
-.buttons#functions  {   font-size:114.0%;
+.buttons#functions  {
     font-weight:normal; font-family: Verdana, sans-serif; 
     BORDER-RIGHT: #336699 1px solid; BORDER-TOP: #8cb1d1 1px solid; 
     BORDER-LEFT: #8cb1d1 1px solid; BORDER-BOTTOM: #336699 1px solid; 
