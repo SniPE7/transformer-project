@@ -2,6 +2,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><%@page
 	language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib prefix="sql" uri="http://java.sun.com/jstl/sql_rt"%>
+<sql:setDataSource var="myDataSource" dataSource="jdbc/nccDS" />
 <% 
 response.setHeader("Cache-Control","no-cache");
 response.setHeader("Pragma","no-cache");
@@ -369,8 +371,14 @@ window.onload =  function (){
 </table>
 </c:if>
 
-
-
+<sql:query var="items" dataSource="jdbc/nccDS">
+select db_link from dba_db_links where db_link='NCCADM'
+</sql:query>
+<c:set var="isBranchNode" value="false"/>
+<c:forEach var="item" items="${items.rows}">
+  <c:set var="isBranchNode" value="true"/>
+</c:forEach>
+<c:if test="${not isBranchNode}">
 <table height="26" width="100%" cellspacing="0" cellpadding="0" style="background-color: #FFFFFF; margin-bottom: 10;">
 
   <tr>
@@ -562,6 +570,7 @@ window.onload =  function (){
   </td>
   </tr>
 </table>
+</c:if>
 
 <table height="26" width="100%" cellspacing="0" cellpadding="0" style="background-color: #FFFFFF; margin-bottom: 10;">
 

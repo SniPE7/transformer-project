@@ -1,11 +1,13 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <%@ include file="/include/include.jsp"%>
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="sql" uri="http://java.sun.com/jstl/sql_rt"%>
 <%
 	response.setHeader("Cache-Control","no-cache");
 response.setHeader("Pragma","no-cache");
 response.setDateHeader("Expires",-1);
 %>
+<sql:setDataSource var="myDataSource" dataSource="jdbc/nccDS" />
 <html>
 <head>
 <style type="text/css">
@@ -160,6 +162,10 @@ function loadGenerateConfig(){
 		<%
 			}
 		%>
+    <sql:query var="items" dataSource="jdbc/nccDS">
+		select table_name from cat where table_name=UPPER('v_branch_current_ppiid')
+		</sql:query>
+		<c:forEach var="item" items="${items.rows}">
 		<div dojotype="dijit.layout.ContentPane" id="policyapplymenu" title="策略应用" style='background-color: transparent;'>
 			<div id="policyapptab">
 				<span class="wpsToolbarBannerBackground" onClick="loadPollicyDef();"> <a href="#">监控策略定义</a> <!--<a href="" target="navigator">监控策略定义</a>-->
@@ -168,6 +174,7 @@ function loadGenerateConfig(){
 				</span>
 			</div>
 		</div>
+		</c:forEach>
 		<div dojotype="dijit.layout.ContentPane" id="maintainmenu" title="数据库维护" style='background-color: transparent;'>
 			<div id="maintaintab">
 
