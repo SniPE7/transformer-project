@@ -30,7 +30,7 @@ body {
 
 table, input, textarea, button {
     font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: x-small;
+    font-size: 12px;
 }
 
 /* select has a special font family to fix a problem in Simplified Chinese */
@@ -2470,12 +2470,10 @@ a:active.iscNavNode {
 }
 
 .navigation-bullet {
-        font-size:130.0%; 
         margin-left: 0.75em;
 }
 
 .main-task {
-        font-size:90.0%; 
         padding: 0em;
         margin-top: .5em; 
         margin-bottom:0em; 

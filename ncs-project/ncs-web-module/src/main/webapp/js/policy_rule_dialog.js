@@ -76,7 +76,7 @@ $(function() {
                         $("#" + prefix).value = fixedValue.val();
                 	 } else {
                 	   ruleString = "threshold " + expressionOperation1.val() + " " + expressionValue1.val();
-                	   if (expressionLogic1.length > 0) {
+                	   if (expressionLogic1.val().length > 0) {
                 		   ruleString += expressionLogic1.val() + " threshold " + expressionOperation2.val() + " " + expressionValue2.val();
                 	   }
                 	   ruleString = "rule:{expression:" + ruleString + ", display:" + ruleString + "}";
