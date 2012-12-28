@@ -323,7 +323,7 @@ onkeypress="return;" onmouseup="return" onkeyup="filtery(this.value,navifilter.n
 				title="${dev.mpname}(...${dev.mpid})">
 				${dev.mpname }
           <c:if test="${dev.polictTemplateVer != null}"> 
-          - [${dev.polictTemplateVer.policyPublishInfo.versionTag}] V[${dev.polictTemplateVer.policyPublishInfo.version}]
+          <font color="red">- [${dev.polictTemplateVer.policyPublishInfo.versionTag}] V[${dev.polictTemplateVer.policyPublishInfo.version}]</font>
           </c:if>
 				</a></li>
 		</ul>
@@ -355,7 +355,7 @@ onkeypress="return;" onmouseup="return" onkeyup="filtery(this.value,navifilter.n
 				title="${dev.mpname}(...${dev.mpid})">
 				${dev.mpname }
           <c:if test="${dev.polictTemplateVer != null}"> 
-          - [${dev.polictTemplateVer.policyPublishInfo.versionTag}] V[${dev.polictTemplateVer.policyPublishInfo.version}]
+          <font color="red">- [${dev.polictTemplateVer.policyPublishInfo.versionTag}] V[${dev.polictTemplateVer.policyPublishInfo.version}]</font>
           </c:if>
 				</a></li>
 		</ul>
@@ -388,7 +388,7 @@ onkeypress="return;" onmouseup="return" onkeyup="filtery(this.value,navifilter.n
 				title="${dev.mpname}(...${dev.mpid})">
 				${dev.mpname }
           <c:if test="${dev.polictTemplateVer != null}"> 
-          - [${dev.polictTemplateVer.policyPublishInfo.versionTag}] V[${dev.polictTemplateVer.policyPublishInfo.version}]
+          <font color="red">- [${dev.polictTemplateVer.policyPublishInfo.versionTag}] V[${dev.polictTemplateVer.policyPublishInfo.version}]</font>
           </c:if>
 				</a></li>
 		</ul>

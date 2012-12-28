@@ -180,6 +180,51 @@ function reloadNavi(){
                           <input type="hidden" name="insertOrUpdate" value="false" />
 												</td>
 												</tr>
+                        <c:if test="${empty definition.selectedDeviceTypes && empty definition.selectedManufacturerTypes && definition.policybase.polictTemplateVer != null}">
+                        <tr>
+                          <td>适用的设备类型</td>
+                          <td>&nbsp;适用于所有设备类型</td>
+                        </tr>
+                        </c:if>
+                        <c:if test="${not empty definition.selectedDeviceTypes}">
+                        <tr>
+                          <td>适用的设备类型</td>
+                          <td>&nbsp;
+                            <table>
+                              <tbody>
+                                <tr>
+                                  <td><select multiple="multiple" size="12" name="selected_device_type_list" style="width: 240px; font-size: x-small;">
+                                      <c:forEach var="devType" items="${definition.selectedDeviceTypes}">
+                                      <option value="${devType.dtid}">${devType.mrName} - ${devType.model}</option>
+                                      </c:forEach>
+                                    </select>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                        </c:if>
+                        <c:if test="${not empty definition.selectedManufacturerTypes}">
+                        <tr>
+                          <td>适用的设备厂商</td>
+                          <td>&nbsp;
+                            <table>
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    <select multiple="multiple" size="12" name="selected_manufacturer_list" style="width: 240px; font-size: x-small;">
+                                      <c:forEach var="manufacturer" items="${definition.selectedManufacturerTypes}">
+                                      <option value="${manufacturer.mrid}">${manufacturer.mrname}</option>
+                                      </c:forEach>
+                                    </select>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                        </c:if>
 												<tr>
 													<td>备注</td>
 													<td><textarea rows="4" cols="20" name="description" style="width: 245px">${definition.policybase.description}</textarea></td>
