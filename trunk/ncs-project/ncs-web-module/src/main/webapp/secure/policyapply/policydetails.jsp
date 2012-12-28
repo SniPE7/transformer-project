@@ -231,13 +231,22 @@ function toICMP(){
 																			<td VALIGN="middle" class="collection-table-text">${c1.major}</td>
 																			<td VALIGN="middle" class="collection-table-text">内<br />外
 																			</td>
-																			<td VALIGN="middle" class="collection-table-text"><select name="filterA" id="filter_A" class="collection-table-text">
+																			<td VALIGN="middle" class="collection-table-text">
+                                        <c:if test="${c1.policyDetailsWithRule != null}">
+                                          <input type="hidden" name="filterA" value="${c1.filterA}" /><c:if test="${c1.filterA==1}">是</c:if><c:if test="${c1.filterA==0}">否</c:if>&nbsp;<br /> 
+                                          <input type="hidden" name="filterB" value="${c1.filterB}" /><c:if test="${c1.filterB==1}">是</c:if><c:if test="${c1.filterB==0}">否</c:if>
+                                        </c:if>
+                                        <c:if test="${c1.policyDetailsWithRule == null}">
+																			   <select name="filterA" id="filter_A" class="collection-table-text">
 																					<option value="1" <c:if test="${c1.filterA==1}">selected="selected"</c:if>>是</option>
 																					<option value="0" <c:if test="${c1.filterA==0}">selected="selected"</c:if>>否</option>
-																			</select>&nbsp;<br /> <select name="filterB" id="filter_B" class="collection-table-text">
+																			   </select>&nbsp;<br /> 
+																			   <select name="filterB" id="filter_B" class="collection-table-text">
 																					<option value="1" <c:if test="${c1.filterB==1}">selected="selected"</c:if>>是</option>
 																					<option value="0" <c:if test="${c1.filterB==0}">selected="selected"</c:if>>否</option>
-																			</select>&nbsp;</td>
+																			   </select>&nbsp;
+																			   </c:if>
+																			</td>
 																			<td VALIGN="middle" class="collection-table-text">var0</td>
 																			<td VALIGN="middle" class="collection-table-text">0</td>
 																			<td VALIGN="middle" class="collection-table-text">
@@ -333,7 +342,12 @@ function toICMP(){
 																			  <input type="text" name="severityB" size="5" value="<c:if test="${c1.severityBNull == false}" >${c1.severityB}</c:if>" style="width: 30px;"/>
 																			  </c:if>
 																			</td>
-																			<td VALIGN="middle" class="collection-table-text"><select name="compareType" id="compare_Type">
+																			<td VALIGN="middle" class="collection-table-text">
+																			<c:if test="${c1.policyDetailsWithRule != null}">
+																			<input type="hidden" name="compareType" size="5" value="${c1.compareType}"/><c:out value="${c1.compareType}"></c:out>
+																			</c:if>
+																			<c:if test="${c1.policyDetailsWithRule == null}">
+																			  <select name="compareType" id="compare_Type" onclick="retrun false;">
 																					<option value="NULL" <c:if test="${c1.compareType==null}">selected="selected"</c:if>>-请选择-</option>
 																					<option value="==" <c:if test="${c1.compareType=='=='}">selected="selected"</c:if>>==</option>
 																					<option value="!=" <c:if test="${c1.compareType=='!='}">selected="selected"</c:if>>!=</option>
@@ -343,9 +357,18 @@ function toICMP(){
 																					<option value="&gt;=" <c:if test="${c1.compareType=='>='}">selected="selected"</c:if>>&gt;=</option>
 																					<option value="Like" <c:if test="${c1.compareType=='Like'}">selected="selected"</c:if>>Like</option>
 																					<option value="Not Like" <c:if test="${c1.compareType=='Not Like'}">selected="selected"</c:if>>Not Like</option>
-																			</select></td>
-																			<td VALIGN="middle" class="collection-table-text"><input type="text" name="poll" size="5" value="<c:if test="${c1.pollNull == false}" >${c1.poll}</c:if>" />
-																				秒</td>
+																			  </select>
+																			</c:if>
+																			</td>
+                                      <td VALIGN="middle" class="collection-table-text" nowrap="nowrap">
+                                        <c:if test="${c1.policyDetailsWithRule != null}">
+                                        <input type="hidden" name="poll" size="5"  value="<c:if test="${c1.pollNull == false}" >${c1.poll}</c:if>"/><c:if test="${c1.pollNull == false}" >${c1.poll}</c:if>
+                                        </c:if>
+                                        <c:if test="${c1.policyDetailsWithRule == null}">
+                                        <input type="text" name="poll" size="5" value="<c:if test="${c1.pollNull == false}" >${c1.poll}</c:if>"/>
+                                        </c:if>
+                                         秒
+                                      </td>
 																			<td VALIGN="middle" class="collection-table-text" width="3"><input type="checkbox" name="oidgroupSel" value="<%=countChecked %>"
 																				<c:if test="${c1.oidgroup != null}">checked="checked"</c:if> /></td>
 																			<td VALIGN="middle" class="collection-table-text"><input type="text" name="oidgroup" size="5" value="${c1.oidgroup}" /></td>
@@ -398,13 +421,16 @@ function toICMP(){
 																							<td VALIGN="middle" class="collection-table-text">${d1.major}</td>
 																							<td VALIGN="middle" class="collection-table-text">内<br />外
 																							</td>
-																							<td VALIGN="middle" class="collection-table-text"><select name="filterA" id="filter_A">
+																							<td VALIGN="middle" class="collection-table-text">
+																							  <select name="filterA" id="filter_A">
 																									<option value="0">否</option>
 																									<option value="1">是</option>
-																							</select><br /> <select name="filterB" id="filter_B">
+																							  </select><br /> 
+																							  <select name="filterB" id="filter_B">
 																									<option value="1">是</option>
 																									<option value="0">否</option>
-																							</select></td>
+																							  </select>
+																							</td>
 																							<td VALIGN="middle" class="collection-table-text">var0</td>
 																							<td VALIGN="middle" class="collection-table-text">0</td>
 																							<td VALIGN="middle" class="collection-table-text"><input type="text" name="v1lseverity1" size="5" value="" /><br />
@@ -495,11 +521,17 @@ function toICMP(){
 																						<input type="hidden" name="modid" size="5" value="${c1.modid}" /> <input type="hidden" name="eveid" size="5" value="${c1.eveid}" /></td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.major}</td>
 																					<td VALIGN="middle" class="collection-table-text">内</td>
-																					<td VALIGN="middle" class="collection-table-text"><select name="filterA" id="filter_A">
+																					<td VALIGN="middle" class="collection-table-text">
+                                            <c:if test="${c1.policyDetailsWithRule != null}">
+                                              <input type="hidden" name="filterA" value="${c1.filterA}" /><c:if test="${c1.filterA==1}">是</c:if><c:if test="${c1.filterA==0}">否</c:if>
+                                            </c:if>
+                                            <c:if test="${c1.policyDetailsWithRule == null}">
+																					  <select name="filterA" id="filter_A">
 																							<option value="1" <c:if test="${c1.filterA==1}">selected="selected"</c:if>>是</option>
 																							<option value="0" <c:if test="${c1.filterA==0}">selected="selected"</c:if>>否</option>
-																					</select></td>
-
+																					  </select>
+																					  </c:if>
+																					</td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2" nowrap="nowrap">
 	                                          <c:if test="${c1.policyDetailsWithRule != null}">
 	                                            <c:if test="${c1.policyDetailsWithRule.value1RuleFixValue}">
@@ -596,7 +628,12 @@ function toICMP(){
                                             <input type="text" name="v2lseverity2" size="5" value="<c:if test="${c1.v2lseverity2Null == false}" >${c1.v2lseverity2}</c:if>" style="width: 30px;"/>
                                             </c:if>
 																					</td>
-																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><select name="compareType" id="compare_Type">
+																					<td VALIGN="middle" class="collection-table-text" rowspan="2">
+			                                      <c:if test="${c1.policyDetailsWithRule != null}">
+			                                      <input type="hidden" name="compareType" size="5" value="${c1.compareType}"/><c:out value="${c1.compareType}"></c:out>
+			                                      </c:if>
+			                                      <c:if test="${c1.policyDetailsWithRule == null}">
+																					  <select name="compareType" id="compare_Type">
 																							<option value="NULL" <c:if test="${c1.compareType==NULL}">selected="selected"</c:if>>-请选择-</option>
 																							<option value="==" <c:if test="${c1.compareType=='=='}">selected="selected"</c:if>>==</option>
 																							<option value="!=" <c:if test="${c1.compareType=='!='}">selected="selected"</c:if>>!=</option>
@@ -606,9 +643,18 @@ function toICMP(){
 																							<option value="&gt;=" <c:if test="${c1.compareType=='>='}">selected="selected"</c:if>>&gt;=</option>
 																							<option value="Like" <c:if test="${c1.compareType=='Like'}">selected="selected"</c:if>>Like</option>
 																							<option value="Not Like" <c:if test="${c1.compareType=='Not Like'}">selected="selected"</c:if>>Not Like</option>
-																					</select></td>
-																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="poll" size="5"
-																						value="<c:if test="${c1.pollNull == false}" >${c1.poll}</c:if>" /> 秒</td>
+																					</select>
+																					</c:if>
+																					</td>
+		                                      <td VALIGN="middle" class="collection-table-text" rowspan="2" nowrap="nowrap">
+		                                        <c:if test="${c1.policyDetailsWithRule != null}">
+		                                        <input type="hidden" name="poll" size="5"  value="<c:if test="${c1.pollNull == false}" >${c1.poll}</c:if>"/><c:if test="${c1.pollNull == false}" >${c1.poll}</c:if>
+		                                        </c:if>
+		                                        <c:if test="${c1.policyDetailsWithRule == null}">
+		                                        <input type="text" name="poll" size="5" value="<c:if test="${c1.pollNull == false}" >${c1.poll}</c:if>"/>
+		                                        </c:if>
+		                                         秒
+		                                      </td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2" width="3"><input type="checkbox" name="oidgroupSel" value="<%=countChecked %>"
 																						<c:if test="${c1.oidgroup != null}">checked="checked"</c:if> /></td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="oidgroup" size="5" value="${c1.oidgroup}" /></td>
@@ -616,10 +662,17 @@ function toICMP(){
 
 																				<tr class="table-row">
 																					<td VALIGN="middle" class="collection-table-text">外</td>
-																					<td VALIGN="middle" class="collection-table-text"><select name="filterB" id="filter_B">
+																					<td VALIGN="middle" class="collection-table-text">
+                                            <c:if test="${c1.policyDetailsWithRule != null}">
+                                              <input type="hidden" name="filterB" value="${c1.filterB}" /><c:if test="${c1.filterB==1}">是</c:if><c:if test="${c1.filterB==0}">否</c:if>
+                                            </c:if>
+                                            <c:if test="${c1.policyDetailsWithRule == null}">
+																				  	<select name="filterB" id="filter_B">
 																							<option value="1" <c:if test="${c1.filterB==1}">selected="selected"</c:if>>是</option>
 																							<option value="0" <c:if test="${c1.filterB==0}">selected="selected"</c:if>>否</option>
-																					</select></td>
+																				  	</select>
+																				  	</c:if>
+																					</td>
 																					<td VALIGN="middle" class="collection-table-text">
                                             <c:if test="${c1.policyDetailsWithRule != null}">
                                             ${c1.policyDetailsWithRule.severityA}
@@ -792,11 +845,17 @@ function toICMP(){
 																						<input type="hidden" name="modid" size="5" value="${c1.modid}" /> <input type="hidden" name="eveid" size="5" value="${c1.eveid}" /></td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.major}</td>
 																					<td VALIGN="middle" class="collection-table-text">内</td>
-																					<td VALIGN="middle" class="collection-table-text"><select name="filterA" id="filter_A">
+																					<td VALIGN="middle" class="collection-table-text">
+                                            <c:if test="${c1.policyDetailsWithRule != null}">
+                                              <input type="hidden" name="filterA" value="${c1.filterA}" /><c:if test="${c1.filterA==1}">是</c:if><c:if test="${c1.filterA==0}">否</c:if>
+                                            </c:if>
+                                            <c:if test="${c1.policyDetailsWithRule == null}">
+																					  <select name="filterA" id="filter_A">
 																							<option value="1" <c:if test="${c1.filterA==1}">selected="selected"</c:if>>是</option>
 																							<option value="0" <c:if test="${c1.filterA==0}">selected="selected"</c:if>>否</option>
-																					</select></td>
-
+																					  </select>
+																					  </c:if>
+																					</td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2">
 																					<c:if test="${c1.policyDetailsWithRule != null}">
 																					  <c:if test="${c1.policyDetailsWithRule.value1RuleFixValue}">
@@ -845,7 +904,12 @@ function toICMP(){
                                             <input type="text" name="severity2" size="5" value="<c:if test="${c1.severity2Null == false}" >${c1.severity2}</c:if>" style="width: 30px;"/>
                                             </c:if>
 																					</td>
-																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><select name="compareType" id="compare_Type">
+																					<td VALIGN="middle" class="collection-table-text" rowspan="2">
+			                                      <c:if test="${c1.policyDetailsWithRule != null}">
+			                                      <input type="hidden" name="compareType" size="5" value="${c1.compareType}"/><c:out value="${c1.compareType}"></c:out>
+			                                      </c:if>
+			                                      <c:if test="${c1.policyDetailsWithRule == null}">
+																					  <select name="compareType" id="compare_Type">
 																							<option value="NULL" <c:if test="${c1.compareType==''}">selected="selected"</c:if>>-请选择-</option>
 																							<option value="==" <c:if test="${c1.compareType=='=='}">selected="selected"</c:if>>==</option>
 																							<option value="!=" <c:if test="${c1.compareType=='!='}">selected="selected"</c:if>>!=</option>
@@ -855,9 +919,18 @@ function toICMP(){
 																							<option value="&gt;=" <c:if test="${c1.compareType=='>='}">selected="selected"</c:if>>&gt;=</option>
 																							<option value="Like" <c:if test="${c1.compareType=='Like'}">selected="selected"</c:if>>Like</option>
 																							<option value="Not Like" <c:if test="${c1.compareType=='Not Like'}">selected="selected"</c:if>>Not Like</option>
-																					</select></td>
-																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="poll" size="5"
-																						value="<c:if test="${c1.pollNull == false}" >${c1.poll}</c:if>" /> 秒</td>
+																					  </select>
+																					  </c:if>
+																					</td>
+		                                      <td VALIGN="middle" class="collection-table-text" rowspan="2" nowrap="nowrap">
+		                                        <c:if test="${c1.policyDetailsWithRule != null}">
+		                                        <input type="hidden" name="poll" size="5"  value="<c:if test="${c1.pollNull == false}" >${c1.poll}</c:if>"/><c:if test="${c1.pollNull == false}" >${c1.poll}</c:if>
+		                                        </c:if>
+		                                        <c:if test="${c1.policyDetailsWithRule == null}">
+		                                        <input type="text" name="poll" size="5" value="<c:if test="${c1.pollNull == false}" >${c1.poll}</c:if>"/>
+		                                        </c:if>
+		                                         秒
+		                                      </td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2" width="3"><input type="checkbox" name="oidgroupSel" value="<%=countChecked %>"
 																						<c:if test="${c1.oidgroup != null}">checked="checked"</c:if> /></td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="oidgroup" size="5" value="${c1.oidgroup}" /></td>
@@ -865,10 +938,17 @@ function toICMP(){
 
 																				<tr class="table-row">
 																					<td VALIGN="middle" class="collection-table-text">外</td>
-																					<td VALIGN="middle" class="collection-table-text"><select name="filterB" id="filter_B">
+																					<td VALIGN="middle" class="collection-table-text">
+                                            <c:if test="${c1.policyDetailsWithRule != null}">
+                                              <input type="hidden" name="filterB" value="${c1.filterB}" /><c:if test="${c1.filterB==1}">是</c:if><c:if test="${c1.filterB==0}">否</c:if>
+                                            </c:if>
+                                            <c:if test="${c1.policyDetailsWithRule == null}">
+																					  <select name="filterB" id="filter_B">
 																							<option value="1" <c:if test="${c1.filterB==1}">selected="selected"</c:if>>是</option>
 																							<option value="0" <c:if test="${c1.filterB==0}">selected="selected"</c:if>>否</option>
-																					</select></td>
+																					  </select>
+																					  </c:if>
+																					</td>
 																					<td VALIGN="middle" class="collection-table-text">
                                             <c:if test="${c1.policyDetailsWithRule != null}">
                                             ${c1.policyDetailsWithRule.severityA}
