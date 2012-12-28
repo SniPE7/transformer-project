@@ -41,18 +41,30 @@ function toICMP(){
 
 	function listSelected() {
 		if (form1.listSeled.value == 1) { //selected
+	          if (document.getElementById("unselTab") != null) {
 			document.getElementById("unselTab").style.display = 'none';
+        }
+        if (document.getElementById("unselTab") != null) {
 			document.getElementById("unselCountTab").style.display = 'none';
+	}
 			document.getElementById("selTab").style.display = 'block';
 			document.getElementById("selCountTab").style.display = 'block';
 		} else if (form1.listSeled.value == 2) {//unselectd
+		      if (document.getElementById("unselTab") != null) {
 			document.getElementById("unselTab").style.display = 'block';
-			document.getElementById("unselCountTab").style.display = 'block';
+	      }
+	      if (document.getElementById("unselTab") != null) {
+	   		document.getElementById("unselCountTab").style.display = 'block';
+      }
 			document.getElementById("selTab").style.display = 'none';
 			document.getElementById("selCountTab").style.display = 'none';
 		} else {//all
-			document.getElementById("unselTab").style.display = 'block';
-			document.getElementById("unselCountTab").style.display = 'block';
+			if (document.getElementById("unselTab") != null) {
+			   document.getElementById("unselTab").style.display = 'block';
+		  }
+      if (document.getElementById("unselTab") != null) {
+	   		document.getElementById("unselCountTab").style.display = 'block';
+    	}
 			document.getElementById("selTab").style.display = 'block';
 			document.getElementById("selCountTab").style.display = 'block';
 		}
@@ -125,8 +137,9 @@ function toICMP(){
 
 											<td class="table-button-section" nowrap>
 
-												<table style="display: inline; font-size: 95%;" cellspacing="0" cellpadding="0" border="0" align="center">
+												<table style="display: inline; font-size: 95%;" cellspacing="0" cellpadding="0" border="0" align="left">
 													<tr>
+													  <c:if test="${model.ptvid == null }">
 														<td class="tdcontent">&nbsp;厂商名： <select name="manufselect" onChange="changemfsel()" id="formStyleblock">
 																<option value="-1">--请选择--</option>
 																<c:forEach items="${model.mflist}" var="theMf">
@@ -141,8 +154,8 @@ function toICMP(){
 																</c:forEach>
 														</select>&nbsp;&nbsp;
 														</td>
-
 														<td><input type="button" name="button.syslog" value="SYSLOG" onClick="toSyslog();" class="buttons" id="functions" />&nbsp;</td>
+														</c:if>
 														<td><input type="button" name="button.snmp" value="SNMP" onClick="toSNMP();" class="buttons" id="functions" />&nbsp;</td>
 														<td><input type="button" name="button.icmp" value="ICMP" onClick="toICMP();" class="buttons" id="functions" />&nbsp;</td>
 
@@ -388,6 +401,7 @@ function toICMP(){
 																	</TR>
 																</TABLE>
 
+                                <c:if test="${model.ptvid == null }">
 																<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" WIDTH="100%" SUMMARY="List layout table" id="unselTab">
 																	<TBODY>
 																		<TR>
@@ -481,7 +495,7 @@ function toICMP(){
 																		</TR>
 																	</TBODY>
 																</TABLE>
-
+                                </c:if>
 															</div>
 															<!-- end of if mode = ICMP -->
 														</c:when>
@@ -716,13 +730,13 @@ function toICMP(){
 																			</c:forEach>
 																		</table>
 
-
 																		<TABLE class="paging-table" BORDER="0" CELLPADDING="5" CELLSPACING="0" WIDTH="100%" SUMMARY="Table for displaying paging function" id="selCountTab">
 																			<TR>
 																				<TD CLASS="table-totals" VALIGN="baseline">Total Selected ${fn:length(model.details)} &nbsp;&nbsp;&nbsp;</TD>
 																			</TR>
 																		</TABLE>
 
+                                    <c:if test="${model.ptvid == null }">
 																		<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" WIDTH="100%" SUMMARY="List layout table" id="unselTab">
 																			<TBODY>
 																				<TR>
@@ -812,7 +826,7 @@ function toICMP(){
 																				</TR>
 																			</TBODY>
 																		</TABLE>
-
+                                    </c:if>
 																	</div>
 																	<!-- end of if mode = SNMP -->
 																</c:when>
@@ -979,7 +993,8 @@ function toICMP(){
 																				<TD CLASS="table-totals" VALIGN="baseline">Total Selected ${fn:length(model.details)} &nbsp;&nbsp;&nbsp;</TD>
 																			</TR>
 																		</TABLE>
-
+																		
+                                    <c:if test="${model.ptvid == null }">
 																		<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" WIDTH="100%" SUMMARY="List layout table" id="unselTab">
 																			<TBODY>
 																				<TR>
@@ -1055,7 +1070,7 @@ function toICMP(){
 																				</TR>
 																			</TBODY>
 																		</TABLE>
-
+                                    </c:if>
 																	</div>
 																	<!-- end of if mode = snmp other policy -->
 																</c:otherwise>

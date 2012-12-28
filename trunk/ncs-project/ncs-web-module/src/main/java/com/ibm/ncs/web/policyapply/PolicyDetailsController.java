@@ -33,6 +33,7 @@ import com.ibm.ncs.model.dto.PolDetailDsp;
 import com.ibm.ncs.model.dto.TEventTypeInit;
 import com.ibm.ncs.model.dto.TManufacturerInfoInit;
 import com.ibm.ncs.model.dto.TModuleInfoInit;
+import com.ibm.ncs.model.dto.TPolicyBase;
 import com.ibm.ncs.model.dto.TPolicyDetailsWithRule;
 import com.ibm.ncs.util.Log4jInit;
 import com.ibm.ncs.util.SortList;
@@ -90,6 +91,11 @@ public class PolicyDetailsController implements Controller {
 			message = request.getParameter("message");
 			String mpidstr = request.getParameter("mpid");
 			long mpid = Long.parseLong(mpidstr);
+			TPolicyBase policyBase = TPolicyBaseDao.findByPrimaryKey(mpid);
+			model.put("policyBase", policyBase);
+			if (policyBase.getPtvid() > 0) {
+				 model.put("ptvid", policyBase.getPtvid());
+			}
 
 			String mpname = request.getParameter("mpname");
 
@@ -133,21 +139,21 @@ public class PolicyDetailsController implements Controller {
 						continue;
 					}
 					if (category.equalsIgnoreCase("4") && !(theeventtype == 2 || theeventtype == 1)) // port
-																																													 // events
-																																													 // only
-																																													 // ...ignore
-																																													 // others
-																																													 // except
-																																													 // 1wan&2lan
+					                                                                                 // events
+					                                                                                 // only
+					                                                                                 // ...ignore
+					                                                                                 // others
+					                                                                                 // except
+					                                                                                 // 1wan&2lan
 					{
 						continue;
 					}
 					if (category.equalsIgnoreCase("9") && !(theeventtype == 2 || theeventtype == 1)) // predefmib
-																																													 // work
-																																													 // as
-																																													 // port
-																																													 // events
-																																													 // ??
+					                                                                                 // work
+					                                                                                 // as
+					                                                                                 // port
+					                                                                                 // events
+					                                                                                 // ??
 					{
 						continue;
 					}
@@ -216,23 +222,23 @@ public class PolicyDetailsController implements Controller {
 				details = (List<PolDetailDsp>) detailMap.get(mode.toLowerCase());
 
 			} else { // syslog policies
-			// syslogDetails =
-			// policySyslogDao.findWhereManufactureAndMpidEquals(manufacture,mpid);
-			// //
-			// System.out.println("%%%%%%%%%%%%Get ppppolicy syslog by selected manufacture size="
-			// + syslogDetails.size()+ "\n\tcontent:\n" + syslogDetails);
-			// for(PolicySyslog dto: syslogDetails){
-			// int key = Integer.parseInt(String.valueOf(dto.getEventtype()));
-			// List<PolicySyslog> templst = null;
-			// if(syslogdetailMap.containsKey(key)){
-			// templst = (List<PolicySyslog>)syslogdetailMap.get(key);
-			// }else{
-			// templst = new ArrayList<PolicySyslog>();
-			// }
-			// templst.add(dto);
-			// syslogdetailMap.put(key, templst);
-			//
-			// }
+				// syslogDetails =
+				// policySyslogDao.findWhereManufactureAndMpidEquals(manufacture,mpid);
+				// //
+				// System.out.println("%%%%%%%%%%%%Get ppppolicy syslog by selected manufacture size="
+				// + syslogDetails.size()+ "\n\tcontent:\n" + syslogDetails);
+				// for(PolicySyslog dto: syslogDetails){
+				// int key = Integer.parseInt(String.valueOf(dto.getEventtype()));
+				// List<PolicySyslog> templst = null;
+				// if(syslogdetailMap.containsKey(key)){
+				// templst = (List<PolicySyslog>)syslogdetailMap.get(key);
+				// }else{
+				// templst = new ArrayList<PolicySyslog>();
+				// }
+				// templst.add(dto);
+				// syslogdetailMap.put(key, templst);
+				//
+				// }
 
 				try {
 					eventsSyslogDetails = DspEventsFromPolicySyslogDao.findDspEventsByManufactureAndMpid(manufacture, mpid);

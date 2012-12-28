@@ -308,8 +308,8 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 			sql = "delete from t_policy_details pd where (mpid,modid,eveid) not in (select (select distinct mpid from t_policy_base where ptvid=per.ptvid), modid,eveid from t_policy_event_rule per where ptvid in (select ptvid from t_policy_template_ver where ppiid=(select ppiid from v_current_released_ppiid))) " +
 					"and mpid in (select mpid from t_policy_base where ptvid>0)";
 			total = jdbcTemplate.update(sql);
-			log.info(String.format("升级策略数量(删除多余事件策略): %s个", total));
-			out.println(String.format("升级策略数量(删除多余事件策略): %s个", total));
+			log.info(String.format("升级策略数量(删除多余性能指标): %s个", total));
+			out.println(String.format("升级策略数量(删除多余性能指标): %s个", total));
 			
 			sql = "insert into t_policy_details " +
 					"               ( MPID, MODID, EVEID, POLL, VALUE_1, SEVERITY_1, FILTER_A, VALUE_2, SEVERITY_2, FILTER_B, SEVERITY_A, SEVERITY_B, OIDGROUP, OGFLAG, VALUE_1_LOW, VALUE_2_LOW, V1L_SEVERITY_1, V1L_SEVERITY_A, V2L_SEVERITY_2, V2L_SEVERITY_B, COMPARETYPE) " +
@@ -320,8 +320,8 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 					"where " +
 					"  (modid, eveid) not in (select modid, eveid from t_policy_details where mpid in (select mpid from t_policy_base where ptvid>0))";
 			total = jdbcTemplate.update(sql);
-			log.info(String.format("升级策略数量(添加新增事件策略): %s个", total));
-			out.println(String.format("升级策略数量(添加新增事件策略): %s个", total));
+			log.info(String.format("升级策略数量(添加新增性能指标): %s个", total));
+			out.println(String.format("升级策略数量(添加新增性能指标): %s个", total));
 			
 			sql = "update " +
 					"  t_policy_details pd " +
@@ -367,8 +367,8 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 					"		or COMPARETYPE<>(select distinct COMPARETYPE from t_policy_event_rule per inner join t_policy_base pb on pb.ptvid=per.ptvid where pb.mpid=pd.mpid and per.modid=pd.modid and per.eveid=pd.eveid) " +
 					"		) ";
 			total = jdbcTemplate.update(sql);
-			log.info(String.format("升级策略数量(变更事件策略): %s个", total));
-			out.println(String.format("升级策略数量(变更事件策略): %s个", total));
+			log.info(String.format("升级策略数量(变更性能指标): %s个", total));
+			out.println(String.format("升级策略数量(变更性能指标): %s个", total));
 			
 			// 删除不在设备类型范围内的设备策略应用关系
 			sql = "delete from t_devpol_map dm where (dm.mpid, dm.devid) not in (select mpid, devid from V_MP_DEVICE_SCOPE)";
@@ -404,8 +404,8 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 					"  ptvid in ( select ptv.ptvid from t_policy_template_ver ptv inner join t_policy_template pt on pt.ptid=ptv.ptid inner join t_policy_publish_info ppi on ppi.ppiid=ptv.ppiid	where ptv.ppiid=(select ppiid from v_current_released_ppiid) and ptv.ptvid not in (select ptvid from t_policy_base where ptvid>0) ) " +
 					") and (PTVID, MODID, EVEID) not in (select distinct MPID, MODID, EVEID from t_policy_details) ";
 			total = jdbcTemplate.update(sql);		
-			log.info(String.format("新添加事件: %s", total));
-			out.println(String.format("新添加事件: %s", total));
+			log.info(String.format("新添加性能指标: %s", total));
+			out.println(String.format("新添加性能指标: %s", total));
 
 			// 添加策略定义
 			sql = "insert into t_policy_base(mpid, ptvid, mpname, category, description) " +
@@ -453,8 +453,8 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 			sql = "delete from t_policy_details pd where (mpid,modid,eveid) not in (select (select distinct mpid from t_policy_base where ptvid=per.ptvid), modid,eveid from t_policy_event_rule per where ptvid in (select ptvid from t_policy_template_ver where ppiid=(select ppiid from v_current_released_ppiid))) " +
 					"and mpid in (select mpid from t_policy_base where ptvid>0) ";
 			total = jdbcTemplate.update(sql);
-			log.info(String.format("迁移策略数量(删除多余事件策略): %s个", total));
-			out.println(String.format("迁移策略数量(删除多余事件策略): %s个", total));
+			log.info(String.format("迁移策略数量(删除多余性能指标): %s个", total));
+			out.println(String.format("迁移策略数量(删除多余性能指标): %s个", total));
 
 			sql = "insert into t_policy_details " +
 					"               ( MPID, MODID, EVEID, POLL, VALUE_1, SEVERITY_1, FILTER_A, VALUE_2, SEVERITY_2, FILTER_B, SEVERITY_A, SEVERITY_B, OIDGROUP, OGFLAG, VALUE_1_LOW, VALUE_2_LOW, V1L_SEVERITY_1, V1L_SEVERITY_A, V2L_SEVERITY_2, V2L_SEVERITY_B, COMPARETYPE) " +
@@ -465,8 +465,8 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 					"where " +
 					"  (modid, eveid) not in (select modid, eveid from t_policy_details where mpid in (select mpid from t_policy_base where ptvid>0)) ";
 			total = jdbcTemplate.update(sql);
-			log.info(String.format("迁移策略数量(添加新增事件策略): %s个", total));
-			out.println(String.format("迁移策略数量(添加新增事件策略): %s个", total));
+			log.info(String.format("迁移策略数量(添加新增性能指标): %s个", total));
+			out.println(String.format("迁移策略数量(添加新增性能指标): %s个", total));
 			
 			sql = "update " +
 					"  t_policy_details pd " +
@@ -512,8 +512,8 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 					"		or COMPARETYPE<>(select distinct COMPARETYPE from t_policy_event_rule per inner join t_policy_base pb on pb.ptvid=per.ptvid where pb.mpid=pd.mpid and per.modid=pd.modid and per.eveid=pd.eveid) " +
 					"		) ";
 			total = jdbcTemplate.update(sql);
-			log.info(String.format("迁移策略数量(修改事件策略): %s个", total));
-			out.println(String.format("迁移策略数量(修改事件策略): %s个", total));
+			log.info(String.format("迁移策略数量(修改性能指标): %s个", total));
+			out.println(String.format("迁移策略数量(修改性能指标): %s个", total));
 		}
 		{
 			//-- 添加
@@ -530,8 +530,8 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 					"  ptvid in ( select ptv.ptvid from t_policy_template_ver ptv inner join t_policy_template pt on pt.ptid=ptv.ptid inner join t_policy_publish_info ppi on ppi.ppiid=ptv.ppiid	where ptv.ppiid=(select ppiid from v_current_released_ppiid) and ptv.ptvid not in (select ptvid from t_policy_base where ptvid>0) ) " +
 					") and (PTVID, MODID, EVEID) not in (select distinct MPID, MODID, EVEID from t_policy_details) ";
 			total = jdbcTemplate.update(sql);		
-			log.info(String.format("新添加事件: %s", total));
-			out.println(String.format("新添加事件: %s", total));
+			log.info(String.format("新添加性能指标: %s", total));
+			out.println(String.format("新添加性能指标: %s", total));
 
 			// 添加策略定义
 			sql = "insert into t_policy_base(mpid, ptvid, mpname, category, description) " +
