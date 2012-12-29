@@ -113,7 +113,7 @@
 						</tr>
 						<tr>
 							<th width="150">发布时间</th>
-							<td><fmt:formatDate value="${model.appliedPolicyPublishInfo.publishTime}" pattern="yyyy-MM-dd HH:mm:ss" type="both" timeStyle="full" /></td>
+							<td><fmt:formatDate value="${model.releasedPolicyPublishInfo.publishTime}" pattern="yyyy-MM-dd HH:mm:ss" type="both" timeStyle="full" /></td>
 						</tr>
 						<tr>
 							<th width="150">备注</th>

@@ -768,8 +768,19 @@ public class TPolicyDetailsWithRule implements Serializable {
 		return rule;
 	}
 
-	public static String getRuleDisplayInfo(String rule) {
-		if (rule == null) {
+	public static String getRuleDisplayInfo(String rule, String defaultValue) {
+		String s = getRuleDisplayInfo(rule);
+		if (defaultValue != null) {
+			if (s != null && s.trim().length() > 0) {
+				 s += ", ";
+			}
+			s += "ȱʡȡֵΪ" + defaultValue;
+		}
+		return s;
+	}
+
+	private static String getRuleDisplayInfo(String rule) {
+	  if (rule == null) {
 			 return "";
 		}
 		if (rule.startsWith("rule:{expression:")) {
@@ -780,7 +791,7 @@ public class TPolicyDetailsWithRule implements Serializable {
 			 }
 		}
 		return rule;
-	}
+  }
 	
 	public static boolean isFixedValue(String rule) {
 		int first =  rule.indexOf("==");

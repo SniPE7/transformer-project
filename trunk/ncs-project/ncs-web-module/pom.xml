@@ -14,7 +14,7 @@
 	<description>NCS Web Module</description>
 
   <properties>
-    <m2eclipse.wtp.contextRoot>/ncsWeb</m2eclipse.wtp.contextRoot>
+    <m2eclipse.wtp.contextRoot>/nccWeb</m2eclipse.wtp.contextRoot>
   </properties>
 
 	<dependencies>

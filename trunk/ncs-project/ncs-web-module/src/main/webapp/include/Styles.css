@@ -2128,8 +2128,14 @@ a:active.iscNavNode {
 }
 .table-row {   
     font-family: Verdana,Helvetica, sans-serif; 
-    background-color: #f7f7f7; 
+    background-color: #e7e7e7; 
 }
+
+.table-row-odd {   
+    font-family: Verdana,Helvetica, sans-serif; 
+    background-color: gold; 
+}
+
 .collection-table-text {
     border-top: 1px solid #FFFFFF; 
     border-left: 1px solid #FFFFFF; 

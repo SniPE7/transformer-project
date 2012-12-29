@@ -235,8 +235,8 @@ function toICMP(){
 																	<%
 																		countChecked = 0;
 																	%>
-																	<c:forEach items="${model.details}" var="c1">
-																		<tr class="table-row">
+																	<c:forEach items="${model.details}" var="c1" varStatus="idx">
+																		<tr class="table-row" style="background-color: <c:if test="${idx.index % 2 == 1 }">#ffffff</c:if><c:if test="${idx.index % 2 == 0 }">#e7e7e7</c:if>;">
 																			<td VALIGN="middle" class="collection-table-text" align="center">
 																			  <input type="checkbox" name="sel"	value="<%=countChecked %>|${c1.modid}|${c1.eveid}|${c1.mpid}" checked="checked" <c:if test="${c1.policyDetailsWithRule != null}">onclick="return false"</c:if>/>
                                         <input type="hidden" name="pre" value="${c1.mpid}|${c1.modid}|${c1.eveid}" />
@@ -386,12 +386,9 @@ function toICMP(){
 																				<c:if test="${c1.oidgroup != null}">checked="checked"</c:if> /></td>
 																			<td VALIGN="middle" class="collection-table-text"><input type="text" name="oidgroup" size="5" value="${c1.oidgroup}" /></td>
 																		</tr>
-
-																		<tr class="table-row">
 																			<%
 																				countChecked++;
 																			%>
-																		
 																	</c:forEach>
 																</table>
 
@@ -428,8 +425,8 @@ function toICMP(){
 																						</tr>
 																					</thead>
 
-																					<c:forEach items="${model.unselected}" var="d1">
-																						<tr class="table-row">
+																					<c:forEach items="${model.unselected}" var="d1" varStatus="idx">
+																						<tr class="table-row" style="background-color: <c:if test="${idx.index % 2 == 1 }">#ffffff</c:if><c:if test="${idx.index % 2 == 0 }">#e7e7e7</c:if>;">
 																							<td VALIGN="middle" class="collection-table-text"><input type="checkbox" name="sel" value="<%=countChecked %>|${d1.modid}|${d1.eveid}" /> <input
 																								type="hidden" name="modid" size="5" value="${d1.modid}" /> <input type="hidden" name="eveid" size="5" value="${d1.eveid}" /></td>
 																							<td VALIGN="middle" class="collection-table-text">${d1.major}</td>
@@ -527,8 +524,8 @@ function toICMP(){
 																			<%
 																				countChecked = 0;
 																			%>
-																			<c:forEach items="${model.details}" var="c1">
-																				<tr class="table-row">
+																			<c:forEach items="${model.details}" var="c1" varStatus="idx">
+																				<tr class="table-row" style="background-color: <c:if test="${idx.index % 2 == 1 }">#ffffff</c:if><c:if test="${idx.index % 2 == 0 }">#e7e7e7</c:if>;">
 																					<td VALIGN="middle" class="collection-table-text" align="center" rowspan="2">
 																					  <input type="checkbox" name="sel"	value="<%=countChecked %>|${c1.modid}|${c1.eveid}|${c1.mpid}" checked="checked" <c:if test="${c1.policyDetailsWithRule != null}">onclick="return false"</c:if>/>
 																					  <input type="hidden" name="pre" value="${c1.mpid}|${c1.modid}|${c1.eveid}" />
@@ -674,7 +671,7 @@ function toICMP(){
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="oidgroup" size="5" value="${c1.oidgroup}" /></td>
 																				</tr>
 
-																				<tr class="table-row">
+																				<tr class="table-row" style="background-color: <c:if test="${idx.index % 2 == 1 }">#ffffff</c:if><c:if test="${idx.index % 2 == 0 }">#e7e7e7</c:if>;">
 																					<td VALIGN="middle" class="collection-table-text">外</td>
 																					<td VALIGN="middle" class="collection-table-text">
                                             <c:if test="${c1.policyDetailsWithRule != null}">
@@ -764,9 +761,9 @@ function toICMP(){
 																									<th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="5%" colspan="2">OID Group</th>
 																								</tr>
 																							</thead>
-																							<c:forEach items="${model.unselected}" var="d1">
+																							<c:forEach items="${model.unselected}" var="d1" varStatus="idx">
 
-																								<tr class="table-row">
+																								<tr class="table-row" style="background-color: <c:if test="${idx.index % 2 == 1 }">#ffffff</c:if><c:if test="${idx.index % 2 == 0 }">#e7e7e7</c:if>;">
 																									<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="checkbox" name="sel" value="<%=countChecked %>|${d1.modid}|${d1.eveid}" />
 																										<input type="hidden" name="modid" size="5" value="${d1.modid}" /> <input type="hidden" name="eveid" size="5" value="${d1.eveid}" /></td>
 																									<td VALIGN="middle" class="collection-table-text" rowspan="2">${d1.major}</td>
@@ -799,7 +796,7 @@ function toICMP(){
 																									<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="oidgroup" size="5" value="" /></td>
 																								</tr>
 
-																								<tr class="table-row">
+																								<tr class="table-row" style="background-color: <c:if test="${idx.index % 2 == 1 }">#ffffff</c:if><c:if test="${idx.index % 2 == 0 }">#e7e7e7</c:if>;">
 																									<td VALIGN="middle" class="collection-table-text">外</td>
 																									<td VALIGN="middle" class="collection-table-text"><select name="filterB" id="filter_B">
 																											<option value="1">是</option>
@@ -852,8 +849,8 @@ function toICMP(){
 																			<%
 																				countChecked = 0;
 																			%>
-																			<c:forEach items="${model.details}" var="c1">
-																				<tr class="table-row">
+																			<c:forEach items="${model.details}" var="c1" varStatus="idx">
+																				<tr class="table-row" style="background-color: <c:if test="${idx.index % 2 == 1 }">#ffffff</c:if><c:if test="${idx.index % 2 == 0 }">#e7e7e7</c:if>;">
 																					<td VALIGN="middle" class="collection-table-text" align="center" rowspan="2"><input type="checkbox" name="sel"
 																						value="<%=countChecked %>|${c1.modid}|${c1.eveid}|${c1.mpid}" checked="checked" <c:if test="${c1.policyDetailsWithRule != null}">onclick="return false"</c:if>/> <input type="hidden" name="pre" value="${c1.mpid}|${c1.modid}|${c1.eveid}" />
 																						<input type="hidden" name="modid" size="5" value="${c1.modid}" /> <input type="hidden" name="eveid" size="5" value="${c1.eveid}" /></td>
@@ -950,7 +947,7 @@ function toICMP(){
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="oidgroup" size="5" value="${c1.oidgroup}" /></td>
 																				</tr>
 
-																				<tr class="table-row">
+																				<tr class="table-row" style="background-color: <c:if test="${idx.index % 2 == 1 }">#ffffff</c:if><c:if test="${idx.index % 2 == 0 }">#e7e7e7</c:if>;">
 																					<td VALIGN="middle" class="collection-table-text">外</td>
 																					<td VALIGN="middle" class="collection-table-text">
                                             <c:if test="${c1.policyDetailsWithRule != null}">
@@ -1016,8 +1013,8 @@ function toICMP(){
 																								</tr>
 																							</thead>
 
-																							<c:forEach items="${model.unselected}" var="d1">
-																								<tr class="table-row">
+																							<c:forEach items="${model.unselected}" var="d1" varStatus="idx">
+																								<tr class="table-row" style="background-color: <c:if test="${idx.index % 2 == 1 }">#ffffff</c:if><c:if test="${idx.index % 2 == 0 }">#e7e7e7</c:if>;">
 																									<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="checkbox" name="sel" value="<%=countChecked %>|${d1.modid}|${d1.eveid}" />
 																										<input type="hidden" name="modid" size="5" value="${d1.modid}" /> <input type="hidden" name="eveid" size="5" value="${d1.eveid}" /></td>
 																									<td VALIGN="middle" class="collection-table-text" rowspan="2">${d1.major}</td>
@@ -1046,7 +1043,7 @@ function toICMP(){
 																									<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="oidgroup" size="5" value="" /></td>
 																								</tr>
 
-																								<tr class="table-row">
+																								<tr class="table-row" style="background-color: <c:if test="${idx.index % 2 == 1 }">#ffffff</c:if><c:if test="${idx.index % 2 == 0 }">#e7e7e7</c:if>;">
 																									<td VALIGN="middle" class="collection-table-text">外</td>
 																									<td VALIGN="middle" class="collection-table-text"><select name="filterB" id="filter_B">
 																											<option value="1">是</option>
@@ -1107,8 +1104,8 @@ function toICMP(){
 																										<th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="15%">是否过滤</th>
 																									</tr>
 																								</thead>
-																								<c:forEach items="${model.details[u1]}" var="c1">
-																									<tr class="table-row">
+																								<c:forEach items="${model.details[u1]}" var="c1" varStatus="idx">
+																									<tr class="table-row" style="background-color: <c:if test="${idx.index % 2 == 1 }">#ffffff</c:if><c:if test="${idx.index % 2 == 0 }">#e7e7e7</c:if>;">
 																										<td VALIGN="middle" class="collection-table-text" align="center" rowspan="2"><input type="checkbox" name="sel${u1}"
 																											value="<%=countChecked %>|${c1.spid}" checked="checked" /> <input type="hidden" name="pre${u1}" value="${c1.spid}|${c1.mpid}" /></td>
 																										<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="hidden" name="mark${u1}" value="<c:out value='${c1.mark}'/>" />${c1.events}
@@ -1125,7 +1122,7 @@ function toICMP(){
 
 																									</tr>
 
-																									<tr class="table-row">
+																									<tr class="table-row" style="background-color: <c:if test="${idx.index % 2 == 1 }">#ffffff</c:if><c:if test="${idx.index % 2 == 0 }">#e7e7e7</c:if>;">
 																										<td VALIGN="middle" class="collection-table-text">外</td>
 
 																										<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity2${u1}" size="5"
@@ -1170,9 +1167,9 @@ function toICMP(){
 																																		<th NOWRAP VALIGN="middle" class="column-head-name" SCOPE="col" width="15%">是否过滤</th>
 																																	</tr>
 																																</thead>
-																																<c:forEach items="${model.unselected[u1]}" var="d1">
+																																<c:forEach items="${model.unselected[u1]}" var="d1" varStatus="idx">
 
-																																	<tr class="table-row">
+																																	<tr class="table-row" style="background-color: <c:if test="${idx.index % 2 == 1 }">#ffffff</c:if><c:if test="${idx.index % 2 == 0 }">#e7e7e7</c:if>;">
 																																		<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="checkbox" name="sel${u1}"
 																																			value="<%=countChecked %>|<c:out value='${d1.mark}'/>" /></td>
 																																		<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="hidden" name="mark${u1}" value="<c:out value='${d1.mark}'/>" />
