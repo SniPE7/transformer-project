@@ -102,7 +102,7 @@ function callback3(){
 function applyPolicy(){
  if (window.confirm('确定生成监控配置吗？')) {
    document.getElementById("apply").disabled=true;
-   document.getElementById("info").innerHTML="<img border='0' src='../../images/icon_progress.gif' width='16' height='16' > 正在生成监控配置，请稍等．．．．．．";  
+   document.getElementById("info").innerHTML="";  
    Dframe.location.href="<%=request.getContextPath()%>/secure/policyapply/exportxmlfile.wss?ppiid=<c:out value='${definition.policyPublishInfo.ppiid}'/>";
    RenewMessage();
    document.getElementById('info').style.display='';
@@ -117,7 +117,7 @@ function applyPolicy(){
 function exeShell(){
   if (window.confirm('确定进行配置生效吗？')){
      document.getElementById("exeshell").disabled=true;
-     document.getElementById("info2").innerHTML="<img border='0' src='../../images/icon_progress.gif' width='16' height='16' >正在进行生效，请稍等．．．．．．";
+     document.getElementById("info2").innerHTML="";
      Dframe.location.href="<%=request.getContextPath()%>/secure/policyapply/exeshell.wss?ppiid=<c:out value='${definition.policyPublishInfo.ppiid}'/>";
      RenewExeShell();
      document.getElementById('info').style.display='none';
@@ -130,7 +130,7 @@ function exeShell(){
 
 function checkPolicy(){
    document.getElementById("check").disabled=true;
-   document.getElementById("info3").innerHTML="<img border='0' src='../../images/icon_progress.gif' width='16' height='16' > 正在进行检查监控配置，请稍等．．．．．．";  
+   document.getElementById("info3").innerHTML="";  
    Dframe.location.href="<%=request.getContextPath()%>/secure/policyapply/checkpolicy.wss?ppiid=<c:out value='${definition.policyPublishInfo.ppiid}'/>";
    RenewCheckMessage();
    document.getElementById('info').style.display='none';

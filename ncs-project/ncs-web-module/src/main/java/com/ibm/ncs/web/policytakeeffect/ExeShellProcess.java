@@ -2,12 +2,10 @@
 
 import java.io.IOException;
 import java.io.Writer;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
 
@@ -47,15 +45,14 @@ public class ExeShellProcess {
 	boolean done;
 
 	Thread process;
-	Map<String, Object> stat = new TreeMap<String, Object>();
+
+	private StepTracker stepTracker = new StepTracker();
 
 	private String operator = null;
 
 	private boolean success = false;
 
-	private int steps;
-
-	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	//private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	public ExeShellProcess() {
 		// init();
@@ -81,11 +78,12 @@ public class ExeShellProcess {
 
 	public void operations() {
 		System.out.println("ExeShellProcess start operation...");
-		steps = 1;
+
 		done = false;
 		success = true;
-		stat.clear();
-
+		
+		stepTracker.start();
+		
 		String[] syslogcmdstring = exeCommandStep1();// SYSLOG
 
 		String[] icmpcmdstring = exeCommandStep2();// ICMP
@@ -100,18 +98,18 @@ public class ExeShellProcess {
 		String scr01 = "--------------------------- Shell Scripts Output ---------------------------";
 		String scr02 = "--------------------------- End of Screen output ---------------------------";
 
-		stat.put(setKS(steps++), sdf.format(new Date()) + " 开始运行生效脚本 syslog shell script  ...");
+		this.stepTracker.writeState(" 开始运行生效脚本 syslog shell script  ...");
 		String nodeCode = prop.getString("ncs.node.code");
-		stat.put(setKS(steps++), "开始提取服务节点配置(ncs.node.code) =" + nodeCode);
+		this.stepTracker.writeState("开始提取服务节点配置(ncs.node.code) =" + nodeCode);
 		if (nodeCode == null || nodeCode.trim().length() == 0) {
-			stat.put(setKS(steps++), "错误: 缺少配置参数: ncs.node.code");
+			this.stepTracker.writeState("错误: 缺少配置参数: ncs.node.code");
 			throw new RuntimeException("缺少配置参数: ncs.node.code");
 		}
 		TTakeEffectHistory history;
 		try {
 			history = getHistory(nodeCode);
 		} catch (DaoException e) {
-			stat.put(setKS(steps++), "错误: 组装操作历史数据信息失败, 原因: " + e.getMessage());
+			this.stepTracker.writeState("错误: 组装操作历史数据信息失败, 原因: " + e.getMessage());
 			e.printStackTrace();
 			throw new RuntimeException(e.getMessage(), e);
 		}
@@ -122,77 +120,76 @@ public class ExeShellProcess {
 			logger.info("syslogcmdstring=" + ArrayPrint(syslogcmdstring));
 			String output1st = waitUntillFireExeShell(syslogcmdstring, "syslog");
 			// System.out.println("output1st="+output1st);
-			stat.put(setKS(steps++), "\n" + scr01 + "\n" + output1st + "\n" + scr02);
+			this.stepTracker.writeState("\n" + scr01 + "\n" + output1st + "\n" + scr02);
 		} catch (Exception e) {
 			success = false;
 			logger.error("syslogcmdstring... Error occured:\n" + e);
 			e.printStackTrace();
 		}
-		stat.put(setKS(steps++), sdf.format(new Date()) + " 完成 syslog shell script ");
+		this.stepTracker.writeState(" 完成 syslog shell script ");
 		logger.info(" 完成 syslog shell script ");
 
-		stat.put(setKS(steps++), sdf.format(new Date()) + " 开始运行生效脚本 icmp shell script  ...");
+		this.stepTracker.writeState(" 开始运行生效脚本 icmp shell script  ...");
 		logger.info(" 开始运行生效脚本 icmp shell script  ...");
 		try {
 			// steps++;
 			logger.info("icmpcmdstring=" + ArrayPrint(icmpcmdstring));
 			String output2nd = waitUntillFireExeShell(icmpcmdstring, "icmp");
 			// System.out.println("output2nd="+output2nd);
-			stat.put(setKS(steps++), "\n" + scr01 + "\n" + output2nd + "\n" + scr02);
+			this.stepTracker.writeState("\n" + scr01 + "\n" + output2nd + "\n" + scr02);
 		} catch (Exception e) {
 			success = false;
 			logger.error("icmpcmdstring... Error occured:\n" + e);
 			e.printStackTrace();
 		}
-		stat.put(setKS(steps++), sdf.format(new Date()) + " 完成 icmp shell script");
+		this.stepTracker.writeState(" 完成 icmp shell script");
 		logger.info(" 完成 icmp shell script");
 
-		stat.put(setKS(steps++), sdf.format(new Date()) + " 开始运行生效脚本 snmp shell script  ...");
+		this.stepTracker.writeState(" 开始运行生效脚本 snmp shell script  ...");
 		logger.info(" 开始运行生效脚本 snmp shell script  ...");
 		try {
 			// steps++;
 			logger.info("snmpcmdstring=" + ArrayPrint(snmpcmdstring));
 			String output3rd = waitUntillFireExeShell(snmpcmdstring, "snmp");
 			// System.out.println("output3rd="+output3rd);
-			stat.put(setKS(steps++), "\n" + scr01 + "\n" + output3rd + "\n" + scr02);
+			this.stepTracker.writeState("\n" + scr01 + "\n" + output3rd + "\n" + scr02);
 		} catch (Exception e) {
 			success = false;
 			logger.error("snmpcmdstring... Error occured:\n" + e);
 			e.printStackTrace();
 		}
-		stat.put(setKS(steps++), sdf.format(new Date()) + " 完成 snmp shell script ");
+		this.stepTracker.writeState(" 完成 snmp shell script ");
 		logger.info(" 完成 snmp shell script ");
 
 		// -- only start when meet *5 minute
 		// long delay = checkFireTime(waituntil); // no more delay for stop service
 		//
 		// delay = 0;
-		// stat.put(setKS(steps++), "重启服务脚本将在下个时刻运行 :"
+		// this.stepTracker.writeState("重启服务脚本将在下个时刻运行 :"
 		// +sdf.format(System.currentTimeMillis() +delay));
 		// try {
 		// Thread.sleep(delay);
 		// } catch (InterruptedException e) {
 		// //e.printStackTrace();
 		// }
-		stat.put(setKS(steps++), sdf.format(new Date()) + " 开始进行重启服务脚本 ");
+		this.stepTracker.writeState(" 开始进行重启服务脚本 ");
 		logger.info(" 开始进行重启服务脚本 ");
 		try {
 			// steps++;
 			logger.info("restartcmdstring=" + ArrayPrint(restartcmdstring));
 			String output4th = waitUntillFireExeShell(restartcmdstring, "restart");
 			// System.out.println("output4th="+output4th);
-			stat.put(setKS(steps++), "\n" + scr01 + "\n" + output4th + "\n" + scr02);
+			this.stepTracker.writeState("\n" + scr01 + "\n" + output4th + "\n" + scr02);
 		} catch (Exception e) {
 			success = false;
 			logger.error("restartcmdstring... Error occured:\n" + e);
 			e.printStackTrace();
 		}
-		stat.put(setKS(steps++), sdf.format(new Date()) + " 完成重启服务脚本");
+		this.stepTracker.writeState(" 完成重启服务脚本");
 		logger.info(" 完成重启服务脚本");
 
-		stat.put(setKS(steps++), "完成生效脚本");
+		this.stepTracker.writeState("完成生效脚本");
 		logger.info("完成生效脚本");
-		System.out.println(stat);
 
 		done = true;
 		// model.put("done", "done");
@@ -205,13 +202,15 @@ public class ExeShellProcess {
 					history.setEffectStatus("H");
 				}
 				history.setEffectTime(new Date());
-				stat.put(setKS(steps++), sdf.format(new Date()) + " 记录操作信息");
+				this.stepTracker.writeState(" 记录操作信息");
 				this.takeEffectHistoryDao.update(new TTakeEffectHistoryPk(history.getTeId()), history);
 			} catch (DaoException e) {
-				stat.put(setKS(steps++), "错误: 保存操作历史数据信息失败, 原因: " + e.getMessage());
+				this.stepTracker.writeState("错误: 保存操作历史数据信息失败, 原因: " + e.getMessage());
 				e.printStackTrace();
 			}
 		}
+		
+		this.stepTracker.done();
 	}
 
 	private String ArrayPrint(String[] syslogcmdstring) {
@@ -503,7 +502,7 @@ public class ExeShellProcess {
 			System.out.println("目前没有发布的策略集.");
 			return null;
 		}
-		stat.put(setKS(steps++), String.format("%s 生效策略集: %s V[%s]", sdf.format(new Date()), released.getVersionTag(), released.getVersion()));
+		this.stepTracker.writeState(String.format("生效策略集: %s V[%s]", released.getVersionTag(), released.getVersion()));
 
 		List<TUser> users = this.userDao.findWhereUnameEquals(this.getOperator());
 		if (users == null || users.size() == 0) {
@@ -541,12 +540,8 @@ public class ExeShellProcess {
 		this.message = message;
 	}
 
-	public Map<String, Object> getStat() {
-		return stat;
-	}
-
-	public void setStat(Map<String, Object> stat) {
-		this.stat = stat;
+	public Map<String, String> getStat() {
+		return this.stepTracker.getState();
 	}
 
 	public boolean isDone() {

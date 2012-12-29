@@ -15,7 +15,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.TreeMap;
 
 import javax.sql.DataSource;
 
@@ -103,9 +102,8 @@ public class TakeEffectProcess {
 	private String operator = null;
 
 	Thread process;
-	Map<String, String> stat = new TreeMap<String, String>();
 
-	private int steps;
+	private StepTracker stepTracker = new StepTracker();
 
 	public TakeEffectProcess() {
 		// init();
@@ -195,61 +193,60 @@ public class TakeEffectProcess {
 
 	private void operations() {
 
-		steps = 0;
+		this.stepTracker.start();
+		
 		success = true;
 
 		System.out.println("TakeEffectProcess start operation...");
-		// stat.put(setKS(steps++), "开始进行  文件处理 :"+sdf.format(new Date()));
-		stat.put(setKS(steps++), "开始准备数据.");
+		// this.stepTracker.writeState("开始进行  文件处理 :"+sdf.format(new Date()));
+		this.stepTracker.writeState("开始准备数据.");
 		done = false;
-		stat.clear();
+
 		ResourceBundle prop = ResourceBundle.getBundle("ncc-configuration");
 		// = (String)prop.getObject("export.xml.server.pre.id");
 		String preid = ""; // ICBC rule to get the server pre id.
 		String nodeCode = prop.getString("ncs.node.code");
-		stat.put(setKS(steps++), "开始提取服务节点配置(ncs.node.code) =" + nodeCode);
+		this.stepTracker.writeState("开始提取服务节点配置(ncs.node.code) =" + nodeCode);
 		if (nodeCode == null || nodeCode.trim().length() == 0) {
-			stat.put(setKS(steps++), "错误: 缺少配置参数: ncs.node.code");
+			this.stepTracker.writeState("错误: 缺少配置参数: ncs.node.code");
 			throw new RuntimeException("缺少配置参数: ncs.node.code");
 		}
 		String xmldir = (String) prop.getObject("export.xml.generate.dir");
 		xmldir = (xmldir == null || xmldir.trim().equals("")) ? "/tmp/" : xmldir;
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-		stat.put(setKS(steps++), sdf.format(new Date()) + " 开始清理策略应用中无映射引用的数据（设备，端口，私有index）...");
+		this.stepTracker.writeState(" 开始清理策略应用中无映射引用的数据（设备，端口，私有index）...");
 		logger.info(" 开始清理策略应用中无映射引用的数据（设备，端口，私有index）...");
 		removeNoUsedData();
-		stat.put(setKS(steps++), sdf.format(new Date()) + " 完成清理策略应用中无映射引用的数据（设备，端口，私有index）");
+		this.stepTracker.writeState(" 完成清理策略应用中无映射引用的数据（设备，端口，私有index）");
 		logger.info(" 完成清理策略应用中无映射引用的数据（设备，端口，私有index） ");
 
 		TTakeEffectHistory history;
 		try {
 			history = getHistory(nodeCode);
 		} catch (DaoException e) {
-			stat.put(setKS(steps++), "错误: 组装操作历史数据信息失败, 原因: " + e.getMessage());
+			this.stepTracker.writeState("错误: 组装操作历史数据信息失败, 原因: " + e.getMessage());
 			logger.error(e.getMessage(), e);
 			throw new RuntimeException(e.getMessage(), e);
 		}
 
-		stat.put(setKS(steps++), "开始准备前缀名server.pre.id数据.");
+		this.stepTracker.writeState("开始准备前缀名server.pre.id数据.");
 		try {
 
 			List<TServerInfo> server = TServerInfoDao.findAll();
 
 			if (server.size() > 0) {
 				String nmsname = server.get(0).getNmsname();
-				stat.put(setKS(steps++), "server数据 =" + nmsname);
+				this.stepTracker.writeState("server数据 =" + nmsname);
 				preid = nmsname.substring(2, 4);
 				logger.info("ICBC rule...server.pre.id=" + preid);
-				stat.put(setKS(steps++), "前缀名server.pre.id数据 =" + preid);
+				this.stepTracker.writeState("前缀名server.pre.id数据 =" + preid);
 			}
 		} catch (Exception e) {
 			this.success = false;
 			logger.error("error in get server pre id..." + e.getMessage(), e);
 		}
 		// 开始准备时段数据
-		stat.put(setKS(steps++), "开始准备时段数据.");
+		this.stepTracker.writeState("开始准备时段数据.");
 		try {
 			timeframeConverter.fillTimeFrameTableBtimeEtime();
 		} catch (Exception e) {
@@ -262,7 +259,7 @@ public class TakeEffectProcess {
 			logger.info("export the xml files... icmp.xml ; snmp.xml; srctype.xml");
 			connectionDS = datasource.getConnection();
 			// connectionDS = DataSourceUtils.getConnection(datasource);
-			stat.put(setKS(steps++), sdf.format(new Date()) + " 开始进行 ICMP xml 文件处理...");
+			this.stepTracker.writeState(" 开始进行 ICMP xml 文件处理...");
 			logger.info(" 开始进行 ICMP xml 文件处理...");
 			try {
 				IcmpPolicyExporter exp = new IcmpPolicyExporterImpl();
@@ -281,12 +278,12 @@ public class TakeEffectProcess {
 				message = "Error in generate icmp.xml...Exception ";
 				logger.error(message + e.getMessage(), e);
 			}
-			stat.put(setKS(steps++), sdf.format(new Date()) + " 完成 ICMP xml 生成文件在 " + xmldir + "icmp.xml");
+			this.stepTracker.writeState(" 完成 ICMP xml 生成文件在 " + xmldir + "icmp.xml");
 			logger.info(" 完成 ICMP xml 生成文件在, " + xmldir + "icmp.xml");
-			stat.put(setKS(steps++), sdf.format(new Date()) + " process Snmp xml ");
+			this.stepTracker.writeState(" process Snmp xml ");
 			logger.info(" process Snmp xml ");
 			// sleeping2000();
-			stat.put(setKS(steps++), sdf.format(new Date()) + " 开始进行 Snmp xml 文件处理...");
+			this.stepTracker.writeState(" 开始进行 Snmp xml 文件处理...");
 			logger.info(" 开始进行 Snmp xml 文件处理...");
 			try {
 				SnmpPolicyExporter exp1 = new SnmpPolicyExporterImpl();
@@ -306,10 +303,10 @@ public class TakeEffectProcess {
 				message = "error in generate snmp.xml...Exception ";
 				logger.error("error in generate snmp.xml..." + e.getMessage(), e);
 			}
-			stat.put(setKS(steps++), sdf.format(new Date()) + "  完成 xml 生成文件在 " + xmldir + "snmp.xml");
+			this.stepTracker.writeState("  完成 xml 生成文件在 " + xmldir + "snmp.xml");
 			logger.info("  完成 xml 生成文件在, " + xmldir + "snmp.xml");
 			// sleeping2000();
-			stat.put(setKS(steps++), sdf.format(new Date()) + " 开始进行 SrcType 文件处理...");
+			this.stepTracker.writeState(" 开始进行 SrcType 文件处理...");
 			logger.info(" 开始进行 SrcType 文件处理...");
 			try {
 				SrcTypeExporter exp2 = new SrcTypeExporterImpl();
@@ -328,7 +325,7 @@ public class TakeEffectProcess {
 				message = "error in generate srcType...Exception ";
 				logger.error("error in generate srcType..." + e.getMessage(), e);
 			}
-			stat.put(setKS(steps++), sdf.format(new Date()) + " 完成 SrcType  生成文件在 " + xmldir + "SrcType");
+			this.stepTracker.writeState(" 完成 SrcType  生成文件在 " + xmldir + "SrcType");
 			logger.info(" 完成 SrcType  生成文件在 " + xmldir + "SrcType");
 			// sleeping2000();
 			// System.out.println(model);
@@ -347,80 +344,81 @@ public class TakeEffectProcess {
 			} catch (SQLException e) {
 			}
 		}
-		stat.put(setKS(steps++), sdf.format(new Date()) + " 开始进行 Syslog events process, 设置使用标志.");
+		this.stepTracker.writeState(" 开始进行 Syslog events process, 设置使用标志.");
 		logger.info(" 开始进行 Syslog events process, 设置使用标志.");
 		settingSyslogEventsFlags();
-		stat.put(setKS(steps++), sdf.format(new Date()) + " Syslog events process, 标志设置完成.");
+		this.stepTracker.writeState(" Syslog events process, 标志设置完成.");
 		logger.info(" Syslog events process, 标志设置完成.");
 		// sleeping2000();
 
-		stat.put(setKS(steps++), sdf.format(new Date()) + " 开始进行 Syslog events process NS, 设置使用标志.");
+		this.stepTracker.writeState(" 开始进行 Syslog events process NS, 设置使用标志.");
 		logger.info(" 开始进行 Syslog events process NS, 设置使用标志.");
 		settingSyslogEventsNsFlags();
-		stat.put(setKS(steps++), sdf.format(new Date()) + "  Syslog events process NS, 设置标志完成.");
+		this.stepTracker.writeState("  Syslog events process NS, 设置标志完成.");
 		logger.info("  Syslog events process NS, 设置标志完成.");
 		// sleeping2000();
 
-		stat.put(setKS(steps++), sdf.format(new Date()) + " 开始进行 Syslog events attention 的处理...");
+		this.stepTracker.writeState(" 开始进行 Syslog events attention 的处理...");
 		logger.info(" 开始进行 Syslog events attention 的处理...");
 		onEventsAttention();
-		stat.put(setKS(steps++), sdf.format(new Date()) + " 完成 Syslog events attention ");
+		this.stepTracker.writeState(" 完成 Syslog events attention ");
 		logger.info(" 完成 Syslog events attention ");
 		// sleeping2000();
 
-		stat.put(setKS(steps++), sdf.format(new Date()) + " 开始处理 Syslog events LineEventsNotCare...");
+		this.stepTracker.writeState(" 开始处理 Syslog events LineEventsNotCare...");
 		logger.info(" 开始处理 Syslog events LineEventsNotCare...");
 		onLinesEventsNotCare();
-		stat.put(setKS(steps++), sdf.format(new Date()) + " 完成 Syslog events LineEventsNotCare...");
+		this.stepTracker.writeState(" 完成 Syslog events LineEventsNotCare...");
 		logger.info(" 完成 Syslog events LineEventsNotCare...");
 		// sleeping2000();
 
-		stat.put(setKS(steps++), sdf.format(new Date()) + " 开始进行 SNMP thresholds 处理...");
+		this.stepTracker.writeState(" 开始进行 SNMP thresholds 处理...");
 		logger.info(" 开始进行 SNMP thresholds 处理...");
 		onSnmpThresholds();
-		stat.put(setKS(steps++), sdf.format(new Date()) + " 完成 SNMP thresholds ");
+		this.stepTracker.writeState(" 完成 SNMP thresholds ");
 		logger.info(" 完成 SNMP thresholds ");
 		// sleeping2000();
 		history.setSnmpThreshold(this.dumpSnmpThresholdsIntoString());
 
-		stat.put(setKS(steps++), sdf.format(new Date()) + " 开始进行 ICMP thresholds 处理...");
+		this.stepTracker.writeState(" 开始进行 ICMP thresholds 处理...");
 		logger.info(" 开始进行 ICMP thresholds 处理...");
 		onIcmpThresholds();
-		stat.put(setKS(steps++), sdf.format(new Date()) + " 完成 ICMP thresholds ");
+		this.stepTracker.writeState(" 完成 ICMP thresholds ");
 		logger.info(" 完成 ICMP thresholds ");
 		// sleeping2000();
 		history.setIcmpThreshold(this.dumpIcmpThresholdsIntoString());
 
-		stat.put(setKS(steps++), sdf.format(new Date()) + " 开始进行 PP_DEV 处理...");
+		this.stepTracker.writeState(" 开始进行 PP_DEV 处理...");
 		logger.info(" 开始进行 PP_DEV 处理...");
 		onPpDev();
-		stat.put(setKS(steps++), sdf.format(new Date()) + " 完成 PP_DEV ");
+		this.stepTracker.writeState(" 完成 PP_DEV ");
 		logger.info(" 完成 PP_DEV ");
 		// sleeping2000();
 		// System.out.println(model);
 
-		stat.put(setKS(steps++), sdf.format(new Date()) + " 开始进行 PP_PORT 处理...");
+		this.stepTracker.writeState(" 开始进行 PP_PORT 处理...");
 		logger.info(" 开始进行 PP_PORT 处理...");
 		onPpPort();
-		stat.put(setKS(steps++), sdf.format(new Date()) + " 完成 PP_PORT ");
+		this.stepTracker.writeState(" 完成 PP_PORT ");
 		logger.info(" 完成 PP_PORT ");
 		// sleeping2000();
 		// System.out.println(model);
 
 		if (history != null) {
 			try {
-				stat.put(setKS(steps++), sdf.format(new Date()) + " 记录操作信息");
+				this.stepTracker.writeState(" 记录操作信息");
 				this.takeEffectHistoryDao.insert(history);
 			} catch (DaoException e) {
-				stat.put(setKS(steps++), "错误: 保存操作历史数据信息失败, 原因: " + e.getMessage());
+				this.stepTracker.writeState("错误: 保存操作历史数据信息失败, 原因: " + e.getMessage());
 				logger.info(e.getMessage(), e);
 			}
 		}
 
-		stat.put(setKS(steps++), sdf.format(new Date()) + " 完成生成监控配置文件!");
+		this.stepTracker.writeState(" 完成生成监控配置文件!");
 		logger.info(" 完成生成监控配置文件!");
 		// System.out.println(stat);
 		
+		this.stepTracker.done();
 		done = true;
 	}
 	
@@ -477,7 +475,7 @@ public class TakeEffectProcess {
 			return null;
 		}
 		history.setPpiid(released.getPpiid());
-		stat.put(setKS(steps++), String.format("%s 生效策略集: %s V[%s]", sdf.format(new Date()), released.getVersionTag(), released.getVersion()));
+		this.stepTracker.writeState(String.format("%s 生效策略集: %s V[%s]", sdf.format(new Date()), released.getVersionTag(), released.getVersion()));
 
 		List<TUser> users = this.userDao.findWhereUnameEquals(this.getOperator());
 		if (users == null || users.size() == 0) {
@@ -857,11 +855,7 @@ public class TakeEffectProcess {
 	}
 
 	public Map<String, String> getStat() {
-		return stat;
-	}
-
-	public void setStat(Map<String, String> stat) {
-		this.stat = stat;
+		return this.stepTracker.getState();
 	}
 
 	public PredefmibPolMapDao getPredefmibPolMapDao() {
