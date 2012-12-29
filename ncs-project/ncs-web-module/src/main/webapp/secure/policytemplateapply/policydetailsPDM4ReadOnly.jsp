@@ -151,8 +151,8 @@
                                       <%
                                         countChecked = 0;
                                       %>
-                                      <c:forEach items="${model.details}" var="c1">
-                                        <tr class="table-row">
+                                      <c:forEach items="${model.details}" var="c1" varStatus="idx">
+                                        <tr class="table-row" style="background-color: <c:if test="${idx.index % 2 == 1 }">#ffffff</c:if><c:if test="${idx.index % 2 == 0 }">#e7e7e7</c:if>;">
                                           <td VALIGN="middle" class="collection-table-text" align="center" rowspan="2"><%=countChecked + 1 %></td>
                                           <td VALIGN="middle" class="collection-table-text" rowspan="2" nowrap="nowrap">${c1.major}</td>
                                           <td VALIGN="middle" class="collection-table-text">内</td>
@@ -167,7 +167,7 @@
                                           <td VALIGN="middle" class="collection-table-text" rowspan="2">${c1.oidgroup}</td>
                                         </tr>
 
-                                        <tr class="table-row">
+                                        <tr class="table-row" style="background-color: <c:if test="${idx.index % 2 == 1 }">#ffffff</c:if><c:if test="${idx.index % 2 == 0 }">#e7e7e7</c:if>;">
                                           <td VALIGN="middle" class="collection-table-text">外</td>
                                           <td VALIGN="middle" class="collection-table-text"><c:if test="${c1.filterB==1}">是</c:if><c:if test="${c1.filterB==0}">否</c:if></td>
                                           <td VALIGN="middle" class="collection-table-text"><c:if test="${c1.severityANull == false}" >${c1.severityA}</c:if></td>

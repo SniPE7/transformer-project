@@ -136,9 +136,9 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 		dto.setVersionTag(rs.getString(3));
 		dto.setStatus(rs.getString(4));
 		dto.setDescription(rs.getString(5));
-		dto.setPublishTime(rs.getTime(6));
-		dto.setCreateTime(rs.getTime(7));
-		dto.setUpdateTime(rs.getTime(8));
+		dto.setPublishTime(rs.getTimestamp(6));
+		dto.setCreateTime(rs.getTimestamp(7));
+		dto.setUpdateTime(rs.getTimestamp(8));
 		return dto;
 	}
 

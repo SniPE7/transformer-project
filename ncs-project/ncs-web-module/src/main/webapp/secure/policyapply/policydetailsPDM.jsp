@@ -184,8 +184,8 @@ function listEventType(){
       </tr>
   </thead>
       <% countChecked = 0; %>
-      <c:forEach items="${model.details}" var="c1" >
-      <tr class="table-row">
+      <c:forEach items="${model.details}" var="c1" varStatus="idx">
+      <tr class="table-row" style="background-color: <c:if test="${idx.index % 2 == 1 }">#ffffff</c:if><c:if test="${idx.index % 2 == 0 }">#e7e7e7</c:if>;">
       <td VALIGN="middle"  class="collection-table-text" align="center" rowspan="2">
       <input type="radio" name="sel" value="<%=countChecked %>|${c1.modid}|${c1.eveid}|${c1.mpid}" checked="checked" <c:if test="${c1.policyDetailsWithRule != null}">onclick="return false"</c:if>/>
       <input type="hidden" name="pre" value="${c1.mpid}|${c1.modid}|${c1.eveid}" /> 
@@ -287,7 +287,7 @@ function listEventType(){
       </td>
       </tr>
       
-      <tr class="table-row">
+      <tr class="table-row" style="background-color: <c:if test="${idx.index % 2 == 1 }">#ffffff</c:if><c:if test="${idx.index % 2 == 0 }">#e7e7e7</c:if>;">
       <td VALIGN="middle"  class="collection-table-text" >外</td>
       <td VALIGN="middle"  class="collection-table-text" >
         <c:if test="${c1.policyDetailsWithRule != null}">
@@ -325,17 +325,13 @@ function listEventType(){
       
       
       <TABLE class="paging-table" BORDER="0" CELLPADDING="5" CELLSPACING="0" WIDTH="100%" SUMMARY="Table for displaying paging function" id="selCountTab">
-      
           <TR>
-                  
-      
                   <TD CLASS="table-totals" VALIGN="baseline">               
                   Total Selected ${fn:length(model.details)}
                    &nbsp;&nbsp;&nbsp;      
               
               </TD>
           </TR>
-      
       </TABLE>
       
       <c:if test="${model.ptvid == null }">
@@ -363,9 +359,9 @@ function listEventType(){
               </tr>
           </thead>
       
-      <c:forEach items="${model.unselected}" var="d1" >
+      <c:forEach items="${model.unselected}" var="d1" varStatus="idx">
       
-      <tr class="table-row">
+      <tr class="table-row" style="background-color: <c:if test="${idx.index % 2 == 1 }">#ffffff</c:if><c:if test="${idx.index % 2 == 0 }">#e7e7e7</c:if>;">
       <td VALIGN="middle"  class="collection-table-text" rowspan="2"><input type="radio" name="sel" 	value="<%=countChecked %>|${d1.modid}|${d1.eveid}"    /> 
       <input type="hidden" 	name="modid" size="5" value="${d1.modid}" /> 
       <input type="hidden" 	name="eveid" size="5" value="${d1.eveid}" /> </td>
@@ -400,7 +396,7 @@ function listEventType(){
       </td>
       </tr>
       
-      <tr class="table-row">
+      <tr class="table-row" style="background-color: <c:if test="${idx.index % 2 == 1 }">#ffffff</c:if><c:if test="${idx.index % 2 == 0 }">#e7e7e7</c:if>;">
       <td VALIGN="middle"  class="collection-table-text" >外</td>
       <td VALIGN="middle"  class="collection-table-text" >
           <select name="filterB" id="filter_B" >

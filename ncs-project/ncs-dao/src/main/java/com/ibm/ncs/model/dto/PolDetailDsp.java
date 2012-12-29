@@ -880,7 +880,7 @@ public class PolDetailDsp implements Serializable {
 	}
 
 	public String getValue1RuleDisplayInfo() {
-		return TPolicyDetailsWithRule.getRuleDisplayInfo(value1Rule);
+		return TPolicyDetailsWithRule.getRuleDisplayInfo(value1Rule, value1);
 	}
 
 	public String getValue2RuleExpression() {
@@ -888,7 +888,7 @@ public class PolDetailDsp implements Serializable {
 	}
 
 	public String getValue2RuleDisplayInfo() {
-		return TPolicyDetailsWithRule.getRuleDisplayInfo(value2Rule);
+		return TPolicyDetailsWithRule.getRuleDisplayInfo(value2Rule, value2);
 	}
 
 	public String getValue1LowRuleExpression() {
@@ -896,7 +896,7 @@ public class PolDetailDsp implements Serializable {
 	}
 
 	public String getValue1LowRuleDisplayInfo() {
-		return TPolicyDetailsWithRule.getRuleDisplayInfo(value1LowRule);
+		return TPolicyDetailsWithRule.getRuleDisplayInfo(value1LowRule, value1low);
 	}
 
 	public String getValue2LowRuleExpression() {
@@ -904,7 +904,7 @@ public class PolDetailDsp implements Serializable {
 	}
 
 	public String getValue2LowRuleDisplayInfo() {
-		return TPolicyDetailsWithRule.getRuleDisplayInfo(value2LowRule);
+		return TPolicyDetailsWithRule.getRuleDisplayInfo(value2LowRule, value2low);
 	}
 
 	public TPolicyDetailsWithRule getPolicyDetailsWithRule() {
