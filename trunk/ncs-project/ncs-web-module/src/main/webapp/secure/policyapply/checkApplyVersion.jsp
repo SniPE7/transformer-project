@@ -29,6 +29,8 @@ function reloadNavi(){
 			接收策略模板
 			<hr />
 
+            <input type="button" value="立即升级" onclick="document.forms['mainform'].operation.value='upgrade';this.disabled=true; document.forms['mainform'].submit();"/>
+
 			<c:if test="${model.needUpgrade || model.needMigrate }">
 				<div class="buttonArea">
 					<c:if test="${model.needUpgrade || model.needMigrate}">

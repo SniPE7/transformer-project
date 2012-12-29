@@ -33,7 +33,7 @@ public class ExeShellController implements Controller {
 		ExeShellProcess.init();
 		ExeShellProcess.startProcess();
 
-		Map<String,Object> stat = ExeShellProcess.getStat();
+		Map<String,String> stat = ExeShellProcess.getStat();
 		stat.clear();
 		model.put("stat", stat);
 		request.getSession().setAttribute("progress", ExeShellProcess);
