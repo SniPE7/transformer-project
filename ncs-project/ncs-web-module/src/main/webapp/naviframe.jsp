@@ -12,10 +12,6 @@
 </head>
 <body>
 NetCool 配置管理系统
-
-
 <c:redirect url="secure/baseinfo/naviBaseInfo.jsp" />
-
-
 </body>
 </html>
