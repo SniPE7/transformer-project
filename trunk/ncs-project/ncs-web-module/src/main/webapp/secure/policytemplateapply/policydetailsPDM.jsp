@@ -198,7 +198,7 @@
 																							<option value="Like" <c:if test="${c1.compareType=='Like'}">selected="selected"</c:if>>Like</option>
 																							<option value="Not Like" <c:if test="${c1.compareType=='Not Like'}">selected="selected"</c:if>>Not Like</option>
 																					</select></td>
-																					<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="poll" size="5"
+																					<td VALIGN="middle" class="collection-table-text" rowspan="2" nowrap="nowrap"><input type="text" name="poll" size="5"
 																						value="<c:if test="${c1.pollNull == false}" >${c1.poll}</c:if>" /> 秒</td>
 																					<td VALIGN="middle" class="collection-table-text" rowspan="2" width="3"><input type="checkbox" name="oidgroupSel" value="<%=countChecked %>"
 																						<c:if test="${c1.oidgroup != null}">checked="checked"</c:if> /></td>
@@ -281,7 +281,7 @@
 																											<option value="Like">Like</option>
 																											<option value="Not Like">Not Like</option>
 																									</select></td>
-																									<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="poll" size="5" value="300" />秒</td>
+																									<td VALIGN="middle" class="collection-table-text" rowspan="2" nowrap="nowrap"><input type="text" name="poll" size="5" value="300" />秒</td>
 																									<td VALIGN="middle" class="collection-table-text" rowspan="2" width="3"><input type="checkbox" name="oidgroupSel" value="<%=countChecked%>" /></td>
 																									<td VALIGN="middle" class="collection-table-text" rowspan="2"><input type="text" name="oidgroup" size="5" value="" /></td>
 																								</tr>

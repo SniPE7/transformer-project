@@ -92,7 +92,7 @@ function toICMP(){
 			listEventType();
 		if (form1.formAction.value != 'syslog')
 			;
-		listSelected();
+		//listSelected();
 	}
 </script>
 </head>
@@ -140,7 +140,7 @@ function toICMP(){
 												<table style="display: inline; font-size: 95%;" cellspacing="0" cellpadding="0" border="0" align="left">
 													<tr>
 													  <c:if test="${model.ptvid == null }">
-														<td class="tdcontent">&nbsp;厂商名： <select name="manufselect" onChange="changemfsel()" id="formStyleblock">
+														<td class="tdcontent">&nbsp;厂商名： <select name="manufselect" id="formStyleblock">
 																<option value="-1">--请选择--</option>
 																<c:forEach items="${model.mflist}" var="theMf">
 																	<c:choose>
@@ -273,7 +273,7 @@ function toICMP(){
 																			    <input type="text" name="v1lseverityA" size="5" value="${c1.v1lseverityA}" />
 																			  </c:if>
 																			</td>
-																			<td VALIGN="middle" class="collection-table-text">
+																			<td VALIGN="middle" class="collection-table-text" nowrap="nowrap">
                                         <c:if test="${c1.policyDetailsWithRule != null}">
                                           <c:if test="${c1.policyDetailsWithRule.value1Low=='var1'}">Ping丢包数目</c:if>
                                           <c:if test="${c1.policyDetailsWithRule.value1Low=='var2'}">RTT时间</c:if>
@@ -294,9 +294,16 @@ function toICMP(){
                                           <input type="hidden" name="value1" size="5" value="${c1.policyDetailsWithRule.value1}"/>
                                           </c:if>
                                           <c:if test="${not c1.policyDetailsWithRule.value1RuleFixValue}">
-                                          <input type="text" name="value1" size="5" value="${c1.value1}" style="width: 30px;"/>
+                                            <c:if test="${c1.policyDetailsWithRule.value1Low != null}">
+                                            <input type="text" name="value1" size="5" value="${c1.value1}" style="width: 30px;"/>
+                                            </c:if>
+                                            <c:if test="${c1.policyDetailsWithRule.value1Low == null}">
+                                            <input type="hidden" name="value1" value="${c1.value1}"/>
+                                            </c:if>
                                           </c:if>
+                                          <c:if test="${c1.policyDetailsWithRule.value1Low != null}">
                                           <img src="<%=request.getContextPath()%>/images/TipsIcon.gif" title="${c1.policyDetailsWithRule.value1RuleDisplayInfo}"/>
+                                          </c:if>
                                         </c:if>
                                         <c:if test="${c1.policyDetailsWithRule == null}">
 																			  <input type="text" name="value1" size="5" value="${c1.value1}" style="width: 40px;"/>
@@ -304,8 +311,10 @@ function toICMP(){
 																			</td>
 																			<td VALIGN="middle" class="collection-table-text">
                                         <c:if test="${c1.policyDetailsWithRule != null}">
-                                        ${c1.policyDetailsWithRule.severity1}<br/>
-                                        ${c1.policyDetailsWithRule.severityA}
+                                          <c:if test="${c1.policyDetailsWithRule.value1Low != null}">
+                                          ${c1.policyDetailsWithRule.severity1}<br/>
+                                          ${c1.policyDetailsWithRule.severityA}
+                                          </c:if>
                                         <input type="hidden" name="severity1" size="5" value="${c1.policyDetailsWithRule.severity1}"/>
                                         <input type="hidden" name="severityA" size="5" value="${c1.policyDetailsWithRule.severity1}"/>
                                         </c:if>
@@ -335,9 +344,16 @@ function toICMP(){
                                           <input type="hidden" name="value2" value="${c1.policyDetailsWithRule.value2}"/>
                                           </c:if>
                                           <c:if test="${not c1.policyDetailsWithRule.value2RuleFixValue}">
+                                            <c:if test="${c1.policyDetailsWithRule.value2Low != null}">
                                           <input type="text" name="value2" size="5" value="${c1.value2}" style="width: 30px;"/>
+                                            </c:if>
+                                            <c:if test="${c1.policyDetailsWithRule.value2Low == null}">
+                                            <input type="hidden" name="value2" value="${c1.value1}"/>
+                                            </c:if>
                                           </c:if>
+                                          <c:if test="${c1.policyDetailsWithRule.value2Low != null}">
                                           <img src="<%=request.getContextPath()%>/images/TipsIcon.gif" title="${c1.policyDetailsWithRule.value2RuleDisplayInfo}"/>
+                                          </c:if>
                                         </c:if>
                                         <c:if test="${c1.policyDetailsWithRule == null}">
 																			    <input type="text" name="value2" size="5" value="${c1.value2}" style="width: 30px;"/>
@@ -345,10 +361,12 @@ function toICMP(){
 																			</td>
 																			<td VALIGN="middle" class="collection-table-text">
                                         <c:if test="${c1.policyDetailsWithRule != null}">
-                                        ${c1.policyDetailsWithRule.severity2}<br/>
-                                        ${c1.policyDetailsWithRule.severityB}
-                                        <input type="hidden" name="severity2" size="5" value="${c1.policyDetailsWithRule.severity2}"/><br />
-                                        <input type="hidden" name="severityB" size="5" value="${c1.policyDetailsWithRule.severityB}"/>
+                                          <c:if test="${c1.policyDetailsWithRule.value2Low != null}">
+                                          ${c1.policyDetailsWithRule.severity2}<br/>
+                                          ${c1.policyDetailsWithRule.severityB}
+                                          </c:if>
+                                          <input type="hidden" name="severity2" size="5" value="${c1.policyDetailsWithRule.severity2}"/><br />
+                                          <input type="hidden" name="severityB" size="5" value="${c1.policyDetailsWithRule.severityB}"/>
                                         </c:if>
                                         <c:if test="${c1.policyDetailsWithRule == null}">
 																			  <input type="text" name="severity2" size="5" value="<c:if test="${c1.severity2Null == false}" >${c1.severity2}</c:if>" style="width: 30px;"/><br />
@@ -867,7 +885,7 @@ function toICMP(){
 																					  </select>
 																					  </c:if>
 																					</td>
-																					<td VALIGN="middle" class="collection-table-text" rowspan="2">
+																					<td VALIGN="middle" class="collection-table-text" rowspan="2" nowrap="nowrap">
 																					<c:if test="${c1.policyDetailsWithRule != null}">
 																					  <c:if test="${c1.policyDetailsWithRule.value1RuleFixValue}">
   																					  ${c1.policyDetailsWithRule.value1}
@@ -891,7 +909,7 @@ function toICMP(){
 																					  <input type="text" name="severity1" size="5" value="<c:if test="${c1.severity1Null == false}" >${c1.severity1}</c:if>" style="width: 30px;"/>
                                             </c:if>
 																					</td>
-																					<td VALIGN="middle" class="collection-table-text" rowspan="2">
+																					<td VALIGN="middle" class="collection-table-text" rowspan="2" nowrap="nowrap">
                                           <c:if test="${c1.policyDetailsWithRule != null}">
                                             <c:if test="${c1.policyDetailsWithRule.value2RuleFixValue}">
                                               ${c1.policyDetailsWithRule.value2}
@@ -1182,7 +1200,7 @@ function toICMP(){
 																																		</select></td>
 																																	</tr>
 
-																																	<tr class="table-row">
+																																	<tr class="table-row" style="background-color: <c:if test="${idx.index % 2 == 1 }">#ffffff</c:if><c:if test="${idx.index % 2 == 0 }">#e7e7e7</c:if>;">
 																																		<td VALIGN="middle" class="collection-table-text">外</td>
 
 																																		<td VALIGN="middle" class="collection-table-text"><input type="text" name="severity2${u1}" size="5" value="" /></td>
