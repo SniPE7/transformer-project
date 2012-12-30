@@ -828,6 +828,10 @@ public class PolDetailDsp implements Serializable {
 	}
 
 	public java.lang.String getCompareType() {
+		if (compareType == null || compareType.equalsIgnoreCase("null")) {
+			 // Fix data error.
+			 return null;
+		}
 		return compareType;
 	}
 
