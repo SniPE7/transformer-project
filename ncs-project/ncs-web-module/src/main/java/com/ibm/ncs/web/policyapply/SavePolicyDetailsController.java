@@ -783,7 +783,7 @@ public class SavePolicyDetailsController implements Controller {
 					continue;
 				}
 				// validate severity is beween 1 to 7 or 100
-				if (((severity2Str != null && severity2Str[selIndex] != null && !severity2Str[selIndex].equals("")) && ((severity2 > 7 && severity2 != 100) || severity2 < 1))
+				if (((severity1Str != null && severity1Str[selIndex] != null && !severity1Str[selIndex].equals("")) && ((severity1 > 7 && severity1 != 100) || severity1 < 1))
 				    || ((severityAStr != null && severityAStr[selIndex] != null && !severityAStr[selIndex].equals("")) && ((severityA > 7 && severityA != 100) || severityA < 1))) {
 					if (value1lowTmp != null && value1lowTmp.trim().length() > 0) {
 						if (message.equals(""))
@@ -796,7 +796,7 @@ public class SavePolicyDetailsController implements Controller {
 					}
 				}
 				if (((severity2Str != null && severity2Str[selIndex] != null && !severity2Str[selIndex].equals("")) && ((severity2 > 7 && severity2 != 100) || severity2 < 1))
-				    || ((severityAStr != null && severityAStr[selIndex] != null && !severityAStr[selIndex].equals("")) && ((severityA > 7 && severityA != 100) || severityA < 1))) {
+				    || ((severityBStr != null && severityBStr[selIndex] != null && !severityBStr[selIndex].equals("")) && ((severityB > 7 && severityB != 100) || severityB < 1))) {
 					if (value2lowTmp != null && value2lowTmp.trim().length() > 0) {
 						if (message.equals(""))
 							message = "以下策略定制失败：<br/>";
