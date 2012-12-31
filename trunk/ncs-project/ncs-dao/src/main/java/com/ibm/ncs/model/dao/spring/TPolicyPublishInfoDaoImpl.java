@@ -318,7 +318,7 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 					"from " +
 					"  t_policy_event_rule per inner join t_policy_base pb on pb.ptvid = per.ptvid " +
 					"where " +
-					"  (modid, eveid) not in (select modid, eveid from t_policy_details where mpid in (select mpid from t_policy_base where ptvid>0))";
+					"  (pb.mpid, modid, eveid) not in (select mpid, modid, eveid from t_policy_details where mpid in (select mpid from t_policy_base where ptvid>0))";
 			total = jdbcTemplate.update(sql);
 			log.info(String.format("升级策略数量(添加新增性能指标): %s个", total));
 			out.println(String.format("升级策略数量(添加新增性能指标): %s个", total));

@@ -24,7 +24,7 @@ MODID, EVEID, POLL, VALUE_1, SEVERITY_1, FILTER_A, VALUE_2, SEVERITY_2, FILTER_B
 from
   t_policy_event_rule per inner join t_policy_base pb on pb.ptvid = per.ptvid
 where
-  (modid, eveid) not in (select modid, eveid from t_policy_details where mpid in (select mpid from t_policy_base where ptvid>0));
+  (pb.mpid, modid, eveid) not in (select mpid, modid, eveid from t_policy_details where mpid in (select mpid from t_policy_base where ptvid>0));
 -- 修改原有的事件
 update
   t_policy_details pd
