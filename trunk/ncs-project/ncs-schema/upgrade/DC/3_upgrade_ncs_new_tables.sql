@@ -256,13 +256,13 @@ alter table T_POLICY_TEMPLATE_SCOPE
       references T_POLICY_TEMPLATE_VER (PTVID)
       on delete cascade;
 
-alter table T_POLICY_TEMPLATE_SCOPE
-   add constraint FK_T_POLICY_REFERENCE_T_DEVICE foreign key (DTID)
-      references T_DEVICE_TYPE_INIT (DTID);
+--alter table T_POLICY_TEMPLATE_SCOPE
+--   add constraint FK_T_POLICY_REFERENCE_T_DEVICE foreign key (DTID)
+--      references T_DEVICE_TYPE_INIT (DTID);
 
-alter table T_POLICY_TEMPLATE_SCOPE
-   add constraint FK_T_POLICY_REFERENCE_T_MANUFA foreign key (MRID)
-      references T_MANUFACTURER_INFO_INIT (MRID);
+--alter table T_POLICY_TEMPLATE_SCOPE
+--   add constraint FK_T_POLICY_REFERENCE_T_MANUFA foreign key (MRID)
+--      references T_MANUFACTURER_INFO_INIT (MRID);
 
 alter table T_POLICY_TEMPLATE_VER
    add constraint FK_T_POLICY_REFERENCE_T_POLIC4 foreign key (PPIID)
