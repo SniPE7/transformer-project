@@ -939,8 +939,7 @@
 	<bean name="/secure/policyapply/exportxmlfile.wss" class="com.ibm.ncs.web.policyapply.ExportXMLFileController" >
 		<property name="datasource" ref="myDataSource" />
 		<property name="pageView" value="/secure/policyapply/exportxmlfile.jsp" />	
-	 		<property name="takeEffectProcess" ref="TakeEffectProcess" />
-
+	 	<property name="takeEffectProcess" ref="TakeEffectProcess" />
 	</bean>	
 
 	<!-- 2010-12-23 modyfied -->
@@ -1424,7 +1423,7 @@
 	 		<property name="datasource" ref="myDataSource"></property>	
 	</bean>
 	
-	 <bean name="TakeEffectProcess" class="com.ibm.ncs.web.policytakeeffect.TakeEffectProcess">
+	 <bean name="TakeEffectProcess" class="com.ibm.ncs.web.policytakeeffect.TakeEffectProcessImpl">
 	    <property name="takeEffectHistoryDao" ref="takeEffectHistoryDao"></property>
 	    <property name="serverNodeDao" ref="serverNodeDao"></property>
       <property name="policyPublishInfoDao" ref="policyPublishInfoDao" />
@@ -1472,7 +1471,7 @@
 	 <bean name="DbRestore" class="com.ibm.ncs.util.db.DbRestore" >
 	 		<property name="dataSource" ref="myDataSource"></property>
 	 </bean>
-	 <bean name="ExeShellProcess" class="com.ibm.ncs.web.policytakeeffect.ExeShellProcess" >
+	 <bean name="ExeShellProcess" class="com.ibm.ncs.web.policytakeeffect.ExeShellProcessImpl" >
       <property name="takeEffectHistoryDao" ref="takeEffectHistoryDao"></property>
       <property name="serverNodeDao" ref="serverNodeDao"></property>
       <property name="policyPublishInfoDao" ref="policyPublishInfoDao" />

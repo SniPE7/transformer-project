@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.Controller;
 
 import com.ibm.ncs.util.Log4jInit;
 import com.ibm.ncs.util.SnmpUtil;
-import com.ibm.ncs.web.policytakeeffect.TakeEffectProcess;
+import com.ibm.ncs.web.policytakeeffect.TakeEffectProcessImpl;
 
 public class StatDbRestoreProcessController implements Controller {
 

@@ -15,7 +15,7 @@ import com.ibm.ncs.util.SnmpUtil;
 
 public class StateProgessController implements Controller {
 
-	TakeEffectProcess TakeEffectProcess;
+	TakeEffectProcessImpl takeEffectProcess;
 	String pageView;
 	long fintime = -1l;
 
@@ -26,13 +26,13 @@ public class StateProgessController implements Controller {
 		boolean done = false;
 		boolean success = false;
 		try{
-			stat = TakeEffectProcess.getStat();
+			stat = takeEffectProcess.getStat();
 
-			done = TakeEffectProcess.isDone();
+			done = takeEffectProcess.isDone();
 			//System.out.println( done +"= StateProgressController TakeEffectProcess boolean done="+done);
 			if(done){
-				success = TakeEffectProcess.isSuccess();
-				TakeEffectProcess.stopProcess();
+				success = takeEffectProcess.isSuccess();
+				takeEffectProcess.stopProcess();
 				fintime = System.currentTimeMillis();
 			}
 			/*
@@ -53,12 +53,12 @@ public class StateProgessController implements Controller {
 		return new ModelAndView(getPageView(), "model", model);
 	}
 
-	public TakeEffectProcess getTakeEffectProcess() {
-		return TakeEffectProcess;
+	public TakeEffectProcessImpl getTakeEffectProcess() {
+		return takeEffectProcess;
 	}
 
-	public void setTakeEffectProcess(TakeEffectProcess takeEffectProcess) {
-		TakeEffectProcess = takeEffectProcess;
+	public void setTakeEffectProcess(TakeEffectProcessImpl takeEffectProcess) {
+		this.takeEffectProcess = takeEffectProcess;
 	}
 
 	public String getPageView() {
