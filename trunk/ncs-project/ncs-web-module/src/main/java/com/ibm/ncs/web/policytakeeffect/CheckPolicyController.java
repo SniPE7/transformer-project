@@ -22,20 +22,14 @@ public class CheckPolicyController implements Controller {
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse arg1) throws Exception {
 		Map<String, Object> model = new HashMap<String, Object>();
 
-		policyValidationProcess.getStat().clear();
-		policyValidationProcess.setDone(false);
-		try {
-			policyValidationProcess.stopProcess();
-		} catch (Exception e) {
+		if (policyValidationProcess.isDone()) {
+			policyValidationProcess.init();
+			policyValidationProcess.startProcess();
 		}
-		policyValidationProcess.init();
-		policyValidationProcess.startProcess();
-		// TakeEffectProcess.operations(); //or, synchornized same thread
-
-		Map<?, ?> stat = policyValidationProcess.getStat();
-		model.put("stat", stat);
-		request.getSession().setAttribute("progress", policyValidationProcess);
-		request.getSession().setAttribute("progressInfo", stat);
+		// Map<String, String> stat = policyValidationProcess.getStat();
+		// model.put("stat", stat);
+		// request.getSession().setAttribute("progress", policyValidationProcess);
+		// request.getSession().setAttribute("progressInfo", stat);
 		return new ModelAndView(getPageView(), "model", model);
 	}
 

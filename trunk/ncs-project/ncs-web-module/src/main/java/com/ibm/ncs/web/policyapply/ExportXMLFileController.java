@@ -12,35 +12,29 @@ import org.springframework.web.servlet.mvc.Controller;
 
 import com.ibm.ncs.model.dto.TCategoryMapInit;
 import com.ibm.ncs.web.policytakeeffect.TakeEffectProcess;
+import com.ibm.ncs.web.policytakeeffect.TakeEffectProcessImpl;
 
 public class ExportXMLFileController implements Controller {
 
 	String pageView;
 	DataSource datasource;
 
-	TakeEffectProcess TakeEffectProcess;
+	TakeEffectProcess takeEffectProcess;
 
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse arg1) throws Exception {
 		Map<String, Object> model = new HashMap<String, Object>();
-		
-		String operator = ((Map<String, String>)request.getSession(true).getAttribute("signOnFlag")).get("username");
 
-		TakeEffectProcess.getStat().clear();
-		TakeEffectProcess.setDone(false);
-		try {
-			TakeEffectProcess.stopProcess();
-		} catch (Exception e) {
+		if (takeEffectProcess.isDone()) {
+			String operator = ((Map<String, String>) request.getSession(true).getAttribute("signOnFlag")).get("username");
+			takeEffectProcess.setOperator(operator);
+			takeEffectProcess.init();
+			takeEffectProcess.startProcess();
 		}
-		TakeEffectProcess.setOperator(operator);
 
-		TakeEffectProcess.init();
-		TakeEffectProcess.startProcess();
-		// TakeEffectProcess.operations(); //or, synchornized same thread
-
-		Map<?, ?> stat = TakeEffectProcess.getStat();
-		model.put("stat", stat);
-		request.getSession().setAttribute("progress", TakeEffectProcess);
-		request.getSession().setAttribute("progressInfo", stat);
+		//Map<?, ?> stat = TakeEffectProcess.getStat();
+		//model.put("stat", stat);
+		//request.getSession().setAttribute("progress", TakeEffectProcess);
+		//request.getSession().setAttribute("progressInfo", stat);
 		return new ModelAndView(getPageView(), "model", model);
 	}
 
@@ -71,10 +65,11 @@ public class ExportXMLFileController implements Controller {
 	}
 
 	public TakeEffectProcess getTakeEffectProcess() {
-		return TakeEffectProcess;
+		return takeEffectProcess;
 	}
 
 	public void setTakeEffectProcess(TakeEffectProcess takeEffectProcess) {
-		TakeEffectProcess = takeEffectProcess;
+		this.takeEffectProcess = takeEffectProcess;
 	}
+
 }

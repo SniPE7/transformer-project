@@ -14,8 +14,6 @@ public interface PolicyValidationProcess {
 
 	public abstract Map<String, String> getStat();
 
-	public abstract void setDone(boolean done);
-
 	public abstract boolean isSuccess();
 
 }

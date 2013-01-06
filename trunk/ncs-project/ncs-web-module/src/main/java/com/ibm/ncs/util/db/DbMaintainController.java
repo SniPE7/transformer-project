@@ -38,7 +38,7 @@ import com.ibm.ncs.model.dao.TOidgroupInfoInitDao;
 import com.ibm.ncs.model.dto.*;
 import com.ibm.ncs.service.TCategoryMapInitManager;
 import com.ibm.ncs.util.Log4jInit;
-import com.ibm.ncs.web.policytakeeffect.TakeEffectProcess;
+import com.ibm.ncs.web.policytakeeffect.TakeEffectProcessImpl;
 
 public class DbMaintainController implements Controller {
 	

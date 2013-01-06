@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import javax.script.ScriptException;
 import javax.sql.DataSource;
@@ -54,55 +53,63 @@ public class PolicyValidationProcessImpl implements PolicyValidationProcess {
 	private TEventTypeInitDao eventTypeInitDao;
 
 	private String message;
-	private boolean done;
+	private boolean done = true;
 	/**
 	 * Success flag
 	 */
 	private boolean success = false;
 
 	private Thread process;
-	
-	private StepTracker stepTracker = new StepTracker();
-	
+
+	private StepTracker stepTracker = new StepTracker(0);
+
 	public final class PolicyBaseWithDeviceType {
-  	private long mpid;
-  	private long ptvid;
-  	private long dtid;
-  	private long mrid;
+		private long mpid;
+		private long ptvid;
+		private long dtid;
+		private long mrid;
+
 		public PolicyBaseWithDeviceType(long mpid, long ptvid, long dtid, long mrid) {
-	    super();
-	    this.mpid = mpid;
-	    this.ptvid = ptvid;
-	    this.dtid = dtid;
-	    this.mrid = mrid;
-    }
+			super();
+			this.mpid = mpid;
+			this.ptvid = ptvid;
+			this.dtid = dtid;
+			this.mrid = mrid;
+		}
+
 		public long getMpid() {
 			return mpid;
 		}
+
 		public void setMpid(long mpid) {
 			this.mpid = mpid;
 		}
+
 		public long getDtid() {
 			return dtid;
 		}
+
 		public void setDtid(long dtid) {
 			this.dtid = dtid;
 		}
+
 		public long getMrid() {
 			return mrid;
 		}
+
 		public void setMrid(long mrid) {
 			this.mrid = mrid;
 		}
+
 		public long getPtvid() {
 			return ptvid;
 		}
+
 		public void setPtvid(long ptvid) {
 			this.ptvid = ptvid;
 		}
-  	
-  	
-  }
+
+	}
 
 	public PolicyValidationProcessImpl() {
 		super();
@@ -113,7 +120,10 @@ public class PolicyValidationProcessImpl implements PolicyValidationProcess {
 	 * 
 	 * @see com.ibm.ncs.web.policytakeeffect.PolicyValidationProcess#init()
 	 */
-	public void init() {
+	public synchronized void init() {
+		this.stepTracker.start();
+		this.done = false;
+
 		process = new Thread() {
 			public void run() {
 				operations();
@@ -127,7 +137,7 @@ public class PolicyValidationProcessImpl implements PolicyValidationProcess {
 	 * @see
 	 * com.ibm.ncs.web.policytakeeffect.PolicyValidationProcess#startProcess()
 	 */
-	public void startProcess() {
+	public synchronized void startProcess() {
 		process.start();
 	}
 
@@ -136,16 +146,18 @@ public class PolicyValidationProcessImpl implements PolicyValidationProcess {
 	 * 
 	 * @see com.ibm.ncs.web.policytakeeffect.PolicyValidationProcess#stopProcess()
 	 */
-	public void stopProcess() {
-		process.interrupt();
+	public synchronized void stopProcess() {
+		if (process != null) {
+			process.interrupt();
+		}
 	}
 
 	private void operations() {
 		success = true;
 		System.out.println("PolicyValidationProcess start operation...");
 		done = false;
-    this.stepTracker.start();
-    
+		this.stepTracker.start();
+
 		this.stepTracker.writeState("开始获取最新的发布策略集.");
 
 		try {
@@ -155,7 +167,7 @@ public class PolicyValidationProcessImpl implements PolicyValidationProcess {
 			}
 			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 			this.stepTracker.writeState(String.format("最新发布的策略集为: %s - V [%s], 发布时间为: %s", policyPublishInfo.getVersionTag(), policyPublishInfo.getVersion(),
-			        sdf.format(policyPublishInfo.getPublishTime())));
+			    sdf.format(policyPublishInfo.getPublishTime())));
 
 			// 检查策略集数量及内容是否一致
 			checkPolicySet(policyPublishInfo);
@@ -174,17 +186,17 @@ public class PolicyValidationProcessImpl implements PolicyValidationProcess {
 			if (missmatchedItems.size() > 0) {
 				this.stepTracker.writeState(String.format("<font color='red'>设备类策略未通过设备类型约束检查.</font>"));
 				this.success = false;
-				for (int mpid: missmatchedItems) {
+				for (int mpid : missmatchedItems) {
 					TPolicyBase pb = this.policyBaseDao.findByPrimaryKey(mpid);
 					if (pb == null) {
-						 continue;
+						continue;
 					}
 					this.stepTracker.writeState(String.format("<font color='red'>未通过设备类型约束的设备类策略: %s</font>", pb.getMpname()));
 				}
 			} else {
 				this.stepTracker.writeState(String.format("所有设备类策略通过设备类型约束检查."));
 			}
-			
+
 			// 检查型号是否匹配 -- 端口类
 			this.stepTracker.writeState(String.format("检查应用的端口类策略是否符合设备类型约束."));
 			sql = "select distinct mpid from t_linepol_map lm where (lm.mpid, lm.ptid) not in (select mpid, p.ptid from V_MP_DEVICE_SCOPE mds inner join t_port_info p on p.devid=mds.devid)";
@@ -196,10 +208,10 @@ public class PolicyValidationProcessImpl implements PolicyValidationProcess {
 			if (missmatchedItems.size() > 0) {
 				this.stepTracker.writeState(String.format("<font color='red'>端口类策略未通过设备类型约束检查.</font>"));
 				this.success = false;
-				for (int mpid: missmatchedItems) {
+				for (int mpid : missmatchedItems) {
 					TPolicyBase pb = this.policyBaseDao.findByPrimaryKey(mpid);
 					if (pb == null) {
-						 continue;
+						continue;
 					}
 					this.stepTracker.writeState(String.format("<font color='red'>未通过设备类型约束检查的端口类策略: %s</font>", pb.getMpname()));
 				}
@@ -218,10 +230,10 @@ public class PolicyValidationProcessImpl implements PolicyValidationProcess {
 			if (missmatchedItems.size() > 0) {
 				this.stepTracker.writeState(String.format("<font color='red'>私有MIB类策略未通过设备类型约束检查.</font>"));
 				this.success = false;
-				for (int mpid: missmatchedItems) {
+				for (int mpid : missmatchedItems) {
 					TPolicyBase pb = this.policyBaseDao.findByPrimaryKey(mpid);
 					if (pb == null) {
-						 continue;
+						continue;
 					}
 					this.stepTracker.writeState(String.format("<font color='red'>未通过设备类型约束检查的私有MIB类策略: %s</font>", pb.getMpname()));
 				}
@@ -245,39 +257,39 @@ public class PolicyValidationProcessImpl implements PolicyValidationProcess {
 		}
 	}
 
-	private void checkThresholdRule(SimpleDateFormat sdf) throws TPolicyBaseDaoException, TPolicyTemplateVerDaoException, TPolicyPublishInfoDaoException,
-      PolDetailDspDaoException, TEventTypeInitDaoException {
-	  this.stepTracker.writeState("检查是否匹配阀值规则 .");
-	  List<TPolicyBase> policyBases = this.policyBaseDao.findAll();
-	  for (TPolicyBase policyBase : policyBases) {
-	  	long ptvid = policyBase.getPtvid();
-	  	if (ptvid > 0) {
-	  		PolicyTemplateVer ptv = this.policyTemplateVerDao.findById(Long.toString(ptvid));
-	  		policyBase.setPolictTemplateVer(ptv);
-	  		if (ptv != null) {
-	  			PolicyPublishInfo ppi = this.policyPublishInfoDao.findById(Long.toString(ptv.getPpiid()));
-	  			ptv.setPolicyPublishInfo(ppi);
-	  		}
-	  	}
-	  }
+	private void checkThresholdRule(SimpleDateFormat sdf) throws TPolicyBaseDaoException, TPolicyTemplateVerDaoException, TPolicyPublishInfoDaoException, PolDetailDspDaoException,
+	    TEventTypeInitDaoException {
+		this.stepTracker.writeState("检查是否匹配阀值规则 .");
+		List<TPolicyBase> policyBases = this.policyBaseDao.findAll();
+		for (TPolicyBase policyBase : policyBases) {
+			long ptvid = policyBase.getPtvid();
+			if (ptvid > 0) {
+				PolicyTemplateVer ptv = this.policyTemplateVerDao.findById(Long.toString(ptvid));
+				policyBase.setPolictTemplateVer(ptv);
+				if (ptv != null) {
+					PolicyPublishInfo ppi = this.policyPublishInfoDao.findById(Long.toString(ptv.getPpiid()));
+					ptv.setPolicyPublishInfo(ppi);
+				}
+			}
+		}
 
-	  int totalCheckedRule = 0;
-	  for (TPolicyBase policyBase : policyBases) {
-	  	if (policyBase.getPolictTemplateVer() != null) {
-	  		// Check Rule
-	  		List<PolDetailDsp> details = this.polDetailDspDao.findByMpid(policyBase.getMpid());
-	  		for (PolDetailDsp detail : details) {
-	  			String vMsg = validateRule(policyBase, detail, new String[]{"1", "2", "3", "4"});
-	  			totalCheckedRule++;
-	  			if (vMsg != null && vMsg.trim().length() > 0) {
-	  				this.stepTracker.writeState(String.format("未通过阀值规则检查, 原因: %s", vMsg));
-	  				this.success = false;
-	  			}
-	  		}
-	  	}
-	  }
-	  this.stepTracker.writeState(String.format("共检查 %s 个策略.", totalCheckedRule));
-  }
+		int totalCheckedRule = 0;
+		for (TPolicyBase policyBase : policyBases) {
+			if (policyBase.getPolictTemplateVer() != null) {
+				// Check Rule
+				List<PolDetailDsp> details = this.polDetailDspDao.findByMpid(policyBase.getMpid());
+				for (PolDetailDsp detail : details) {
+					String vMsg = validateRule(policyBase, detail, new String[] { "1", "2", "3", "4" });
+					totalCheckedRule++;
+					if (vMsg != null && vMsg.trim().length() > 0) {
+						this.stepTracker.writeState(String.format("未通过阀值规则检查, 原因: %s", vMsg));
+						this.success = false;
+					}
+				}
+			}
+		}
+		this.stepTracker.writeState(String.format("共检查 %s 个策略.", totalCheckedRule));
+	}
 
 	private void checkPolicySet(PolicyPublishInfo policyPublishInfo) {
 		// PolicyBase是否包含了所有发布集的内容
@@ -395,10 +407,6 @@ public class PolicyValidationProcessImpl implements PolicyValidationProcess {
 		return done;
 	}
 
-	public void setDone(boolean done) {
-		this.done = done;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -407,6 +415,7 @@ public class PolicyValidationProcessImpl implements PolicyValidationProcess {
 	public Map<String, String> getStat() {
 		return this.stepTracker.getState();
 	}
+
 	/**
 	 * Method 'setDataSource'
 	 * 

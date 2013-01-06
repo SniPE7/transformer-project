@@ -11,6 +11,17 @@ public class StepTracker {
 	private int step;
 
 	private boolean done = false;
+	
+	private long slowDownInSeconds = 0;
+
+	public StepTracker() {
+	  super();
+  }
+
+	public StepTracker(long slowDownInSeconds) {
+	  super();
+	  this.slowDownInSeconds = slowDownInSeconds;
+  }
 
 	private String setKS(int steps) {
 		String ss = (steps < 10 ? "0" : "") + steps;
@@ -26,6 +37,10 @@ public class StepTracker {
 	public void writeState(String msg) {
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 	  stat.put(setKS(step++), String.format("%s %s", sdf.format(new Date()), msg));
+	  try {
+	    Thread.sleep(this.slowDownInSeconds);
+    } catch (InterruptedException e) {
+    }
   }
 	
 	public void done() {
