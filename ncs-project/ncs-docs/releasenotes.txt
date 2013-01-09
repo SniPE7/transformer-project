@@ -3,3 +3,5 @@
 Version 1.5.3
  - 解决基础信息导入时，出现ClassNotFoundException的问题, 增补了commons-io-2.4相关的库引用.
  
+Version 1.5.5
+ - 解决ICMP生效时的IP重复时无法完整生成的问题

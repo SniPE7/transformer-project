@@ -83,7 +83,7 @@
 																					<tr class="wpsTableRow">
 
 																						<td class="portlet-table-body">NetCool信息管理系统</td>
-																						<td class="portlet-table-body">1.5.4</td>
+																						<td class="portlet-table-body">1.5.5</td>
 
 
 																					</tr>
