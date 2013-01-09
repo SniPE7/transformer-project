@@ -48,6 +48,8 @@
     upgrade/Branch/upgrade_db.sql
  2. 以ncs用户的身份, 运行如下sql：
     upgrade/Branch/create_view.sql
+    upgrade/upgrade_to_v155_for_icmp_threshold.sql
+
  3. 修改配置ncc-configuration.properties，定义本服务器的所属分行
     ncs.node.code设置为与之对应的分行标识
     上述文件路径在部署包的WEB-INF/classes目录下
@@ -65,6 +67,7 @@
  
  3. 以ncs用户的身份, 运行如下sql：
     upgrade/Branch/create_view.sql
+    upgrade/upgrade_to_v155_for_icmp_threshold.sql
     
  4. 部署war包
  5. 修改配置ncc-configuration.properties，定义本服务器的所属分行

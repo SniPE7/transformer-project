@@ -332,6 +332,7 @@ public class IcmpThresholdsDaoImpl extends AbstractDAO implements ParameterizedR
 	@Transactional
 	public int insertEffect() {
 		int ret = -1;
+		/*
 		String s1 = "'可Ping通|Ping不通'";
 		String s2 = "'丢包率正常|丢包率超阀值'";
 		String s3 = "'响应时间未超阀值|响应时间超阀值'";
@@ -358,42 +359,21 @@ public class IcmpThresholdsDaoImpl extends AbstractDAO implements ParameterizedR
 		    + "||(case when value_2_low is not null and trim(length(value_2_low))<>0  and value_2_low='var1' then '|'||" + s2
 		    + " when value_2_low is not null and trim(length(value_2_low))<>0  and value_2_low='var2' then '|'||" + s3 + " end) summaryCN "
 		    + " from v_icmp_port_thresholds where (ifip is not null or trim(ifip) <>'')" + " and ifip not in ( select devip from v_icmp_dev_thresholds )";
-		/*
-		 * String sqlpdm = "select oidname ipaddress, btime, etime, " +
-		 * " '0'||(case when value_1_low is not null then '|'||value_1 end)||(case  when value_2_low is not null then '|'||value_2 end) threshold,"
-		 * +
-		 * " comparetype, severity_1 severity1,severity_2 severity2, filter_A filterflag1,filter_B filterflag2, "
-		 * +
-		 * " 'var0'||(case when value_1_low is not null then '|'||value_1_low end)||(case when value_2_low is not null then '|'||value_2_low end) varlist, "
-		 * + " "+s1+
-		 * "||(case when value_1_low is not null and value_1_low='var1' then '|'||"
-		 * +s2
-		 * +" when value_1_low is not null and value_1_low='var2' then '|'||"+s3+" end)"
-		 * +
-		 * "||(case when value_2_low is not null and value_2_low='var1' then '|'||"
-		 * +s2+" when value_2_low is not null and value_2_low='var2' then '|'||"+s2+
-		 * " end) summaryCN " +
-		 * " from v_icmp_pdm_thresholds where oidname is not null or trim(oidname) <>''"
-		 * ;
-		 */
-		// System.out.print(sqldev);
-		// System.out.print(sqlport);
+		*/
 		try {
-			ret = jdbcTemplate.update("INSERT INTO " + getTableName() + "( " + sqldev + " )");
+			String sqldev = "select ipaddress, btime, etime, threshold, comparetype, severity1, severity2, filterflag1, filterflag2, varlist, summaryCN " +
+                      "from (select v.*,row_number() over(partition by ipaddress order by rownum) cn from v_icmp_dev_threshold_apply v) where cn = 1";
+			ret = jdbcTemplate.update("INSERT INTO " + getTableName() + " ( " + sqldev + " )");
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 		}
 		try {
+			String sqlport = "select ipaddress, btime, etime, threshold, comparetype, severity1, severity2, filterflag1, filterflag2, varlist, summaryCN " +
+                       "from (select v.*,row_number() over(partition by ipaddress order by rownum) cn from v_icmp_port_threshold_apply v) where cn = 1";
 			ret += jdbcTemplate.update("INSERT INTO " + getTableName() + "( " + sqlport + " )");
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 		}
-		/* need to confirm if icmp ping is needed ??? */
-		/*
-		 * try { ret += jdbcTemplate.update("INSERT INTO " + getTableName()
-		 * +"("+sqlpdm+")" ,this); } catch (DataAccessException e) {
-		 * e.printStackTrace(); }
-		 */
 		return ret;
 	}
 
