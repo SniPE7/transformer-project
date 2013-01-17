@@ -177,7 +177,7 @@ public class PolicyValidationProcessImpl implements PolicyValidationProcess {
 
 			// 检查型号是否匹配 -- 设备类
 			this.stepTracker.writeState(String.format("检查应用的设备类策略是否符合设备类型约束."));
-			String sql = "select distinct mpid from t_devpol_map dm where (dm.mpid, dm.devid) not in (select mpid, devid from V_MP_DEVICE_SCOPE)";
+			String sql = "select distinct dm.mpid from t_devpol_map dm inner join t_policy_base p on p.mpid=dm.mpid  where (dm.mpid, dm.devid) not in (select mpid, devid from V_MP_DEVICE_SCOPE) and p.ptvid>0";
 			List<Integer> missmatchedItems = this.jdbcTemplate.query(sql, new ParameterizedRowMapper<Integer>() {
 				public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
 					return rs.getInt(1);
@@ -199,7 +199,9 @@ public class PolicyValidationProcessImpl implements PolicyValidationProcess {
 
 			// 检查型号是否匹配 -- 端口类
 			this.stepTracker.writeState(String.format("检查应用的端口类策略是否符合设备类型约束."));
-			sql = "select distinct mpid from t_linepol_map lm where (lm.mpid, lm.ptid) not in (select mpid, p.ptid from V_MP_DEVICE_SCOPE mds inner join t_port_info p on p.devid=mds.devid)";
+			int deletedItem = this.jdbcTemplate.update("delete from T_LINEPOL_MAP where ptid not in (select ptid from t_port_info)");
+			this.stepTracker.writeState(String.format("删除端口不存在的端口策略映射, 共%s个映射条目被删除", deletedItem));
+			sql = "select distinct lm.mpid from t_linepol_map lm inner join t_policy_base p on p.mpid=lm.mpid where (lm.mpid, lm.ptid) not in (select mpid, p.ptid from V_MP_DEVICE_SCOPE mds inner join t_port_info p on p.devid=mds.devid) and p.ptvid>0";
 			missmatchedItems = this.jdbcTemplate.query(sql, new ParameterizedRowMapper<Integer>() {
 				public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
 					return rs.getInt(1);
@@ -221,7 +223,9 @@ public class PolicyValidationProcessImpl implements PolicyValidationProcess {
 
 			// 检查型号是否匹配 -- 私有MIB
 			this.stepTracker.writeState(String.format("检查应用的私有MIB类策略是否符合设备类型约束."));
-			sql = "select distinct mpid from PREDEFMIB_POL_MAP pm where (pm.mpid, pm.pdmid) not in (select mpid, p.pdmid from V_MP_DEVICE_SCOPE mds inner join PREDEFMIB_INFO p on p.devid=mds.devid)";
+			deletedItem = this.jdbcTemplate.update("delete from PREDEFMIB_POL_MAP where pdmid not in (select pdmid from PREDEFMIB_INFO)");
+			this.stepTracker.writeState(String.format("删除PREMIB不存在的私有MIB类策略映射, 共%s个映射条目被删除", deletedItem));
+			sql = "select distinct pm.mpid from PREDEFMIB_POL_MAP pm inner join t_policy_base p on p.mpid=pm.mpid where (pm.mpid, pm.pdmid) not in (select mpid, p.pdmid from V_MP_DEVICE_SCOPE mds inner join PREDEFMIB_INFO p on p.devid=mds.devid) and p.ptvid>0";
 			missmatchedItems = this.jdbcTemplate.query(sql, new ParameterizedRowMapper<Integer>() {
 				public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
 					return rs.getInt(1);
@@ -294,7 +298,7 @@ public class PolicyValidationProcessImpl implements PolicyValidationProcess {
 	private void checkPolicySet(PolicyPublishInfo policyPublishInfo) {
 		// PolicyBase是否包含了所有发布集的内容
 		this.stepTracker.writeState("检查是否存在使用错误策略集的策略定义信息.");
-		String sql = "select pb.ptvid " + "from " + "  t_policy_base pb " + "where " + "  ptvid is not null and " + "  ptvid not in  "
+		String sql = "select pb.ptvid " + "from " + "  t_policy_base pb " + "where " + "  ptvid > 0 and " + "  ptvid not in  "
 		    + "    (select ptvid from t_policy_template_ver where ppiid=?) ";
 		List<Long> unkownPtvIds = this.jdbcTemplate.query(sql, new ParameterizedRowMapper<Long>() {
 

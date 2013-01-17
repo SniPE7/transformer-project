@@ -445,7 +445,7 @@ public class TPolicyPublishInfoDaoImpl extends AbstractDAO implements Parameteri
 		int total = 0;
 		{
 			// 更新策略集
-			String sql = "update t_policy_base pb set ptvid=(select ptvid from t_policy_template_ver ptv inner join t_policy_template pt on pt.ptid=ptv.ptid inner join T_POLICY_PUBLISH_INFO ppi on ppi.ppiid=ptv.ppiid where ptv.ppiid=(select ppiid from v_current_released_ppiid) and pb.mpname=pt.mpname and pb.category=pt.category) where ptvid is null";
+			String sql = "update t_policy_base pb set ptvid=(select ptvid from t_policy_template_ver ptv inner join t_policy_template pt on pt.ptid=ptv.ptid inner join T_POLICY_PUBLISH_INFO ppi on ppi.ppiid=ptv.ppiid where ptv.ppiid=(select ppiid from v_current_released_ppiid) and pb.mpname=pt.mpname and pb.category=pt.category) where ptvid > 0";
 			total = jdbcTemplate.update(sql);
 			log.info(String.format("迁移策略数量(修改原有策略): %s个", total));
 			out.println(String.format("迁移策略数量(修改原有策略): %s个", total));

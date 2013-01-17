@@ -46,6 +46,7 @@ union
 from 
   t_policy_base pb, t_device_info di
 where
+  pb.ptvid > 0 and
   (select count(*) from t_policy_template_scope pts where pts.ptvid=pb.ptvid) = 0
 )
 ;

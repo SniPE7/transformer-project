@@ -428,7 +428,7 @@ public class TakeEffectProcessImpl implements TakeEffectProcess {
 				try {
 					this.stepTracker.writeState(" 记录操作信息");
 					this.takeEffectHistoryDao.insert(history);
-				} catch (DaoException e) {
+				} catch (Exception e) {
 					this.stepTracker.writeState("错误: 保存操作历史数据信息失败, 原因: " + e.getMessage());
 					logger.info(e.getMessage(), e);
 				}
@@ -485,7 +485,9 @@ public class TakeEffectProcessImpl implements TakeEffectProcess {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		TTakeEffectHistory history = new TTakeEffectHistory();
-		long id = genPkNumber.getID();
+		// 每个分行插入到中心节点的数据库中, 但目前genPKNumber使用分行本地的Sequence计算, 会存在重复的问题
+		//long id = genPkNumber.getID();
+		long id = System.currentTimeMillis();
 		history.setTeId(id);
 
 		TServerNode serverNode = this.serverNodeDao.findByServerCode(nodeCode);
@@ -500,7 +502,7 @@ public class TakeEffectProcessImpl implements TakeEffectProcess {
 			return null;
 		}
 		history.setPpiid(released.getPpiid());
-		this.stepTracker.writeState(String.format("%s 生效策略集: %s V[%s]", sdf.format(new Date()), released.getVersionTag(), released.getVersion()));
+		this.stepTracker.writeState(String.format("生效策略集: %s V[%s]", released.getVersionTag(), released.getVersion()));
 
 		List<TUser> users = this.userDao.findWhereUnameEquals(this.getOperator());
 		if (users == null || users.size() == 0) {
