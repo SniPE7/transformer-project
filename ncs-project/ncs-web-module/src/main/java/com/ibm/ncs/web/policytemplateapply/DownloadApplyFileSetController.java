@@ -79,11 +79,13 @@ public class DownloadApplyFileSetController implements Controller {
 			// Generate zip file
 			ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zipFile));
 
+			boolean isEmpty = true;
 			if (history.getIcmpXMLFile() != null) {
 				ZipEntry ze = new ZipEntry("icmp.xml");
 				ze.setSize(history.getIcmpXMLFile().length());
 				zos.putNextEntry(ze);
 				zos.write((history.getIcmpXMLFile().getBytes("UTF-8")));
+				isEmpty = false;
 			}
 
 			if (history.getSnmpXMLFile() != null) {
@@ -91,6 +93,7 @@ public class DownloadApplyFileSetController implements Controller {
 				ze.setSize(history.getSnmpXMLFile().length());
 				zos.putNextEntry(ze);
 				zos.write((history.getSnmpXMLFile().getBytes("UTF-8")));
+				isEmpty = false;
 			}
 
 			if (history.getSrcTypeFile() != null) {
@@ -98,6 +101,7 @@ public class DownloadApplyFileSetController implements Controller {
 				ze.setSize(history.getSrcTypeFile().length());
 				zos.putNextEntry(ze);
 				zos.write((history.getSrcTypeFile().getBytes("UTF-8")));
+				isEmpty = false;
 			}
 
 			if (history.getSnmpThreshold() != null) {
@@ -105,6 +109,7 @@ public class DownloadApplyFileSetController implements Controller {
 				ze.setSize(history.getSnmpThreshold().length());
 				zos.putNextEntry(ze);
 				zos.write((history.getSnmpThreshold().getBytes("UTF-8")));
+				isEmpty = false;
 			}
 
 			if (history.getIcmpThreshold() != null) {
@@ -112,20 +117,27 @@ public class DownloadApplyFileSetController implements Controller {
 				ze.setSize(history.getIcmpThreshold().length());
 				zos.putNextEntry(ze);
 				zos.write((history.getIcmpThreshold().getBytes("UTF-8")));
+				isEmpty = false;
 			}
 
-			zos.close();
+			if (!isEmpty) {
+				zos.close();
 
-			// Write to browser
-			response.setContentType("application/x-msdownload;");
-			response.setHeader("Content-disposition", "attachment; filename=" + new String(fileName.getBytes("utf-8"), "ISO8859-1"));
-			response.setHeader("Content-Length", String.valueOf(zipFile.length()));
-			bis = new BufferedInputStream(new FileInputStream(zipFile));
-			bos = new BufferedOutputStream(response.getOutputStream());
-			byte[] buff = new byte[2048];
-			int bytesRead;
-			while (-1 != (bytesRead = bis.read(buff, 0, buff.length))) {
-				bos.write(buff, 0, bytesRead);
+				// Write to browser
+				response.setContentType("application/x-msdownload;");
+				response.setHeader("Content-disposition", "attachment; filename=" + new String(fileName.getBytes("utf-8"), "ISO8859-1"));
+				response.setHeader("Content-Length", String.valueOf(zipFile.length()));
+				bis = new BufferedInputStream(new FileInputStream(zipFile));
+				bos = new BufferedOutputStream(response.getOutputStream());
+				byte[] buff = new byte[2048];
+				int bytesRead;
+				while (-1 != (bytesRead = bis.read(buff, 0, buff.length))) {
+					bos.write(buff, 0, bytesRead);
+				}
+			} else {
+				response.setContentType("text/html;charset=UTF-8");
+				bos = new BufferedOutputStream(response.getOutputStream());
+				bos.write("没有上传的生效数据!".getBytes("UTF-8"));
 			}
 
 		} catch (Exception e) {

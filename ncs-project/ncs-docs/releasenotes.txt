@@ -1,5 +1,4 @@
 
-
 Version 1.5.3
  - 解决基础信息导入时，出现ClassNotFoundException的问题, 增补了commons-io-2.4相关的库引用.
  
@@ -11,4 +10,15 @@ Version 1.5.6
  - 解决策略检查时，检查性能慢的问题
  - 解决插入生效历史数据，TEID重复，违反数据库完整性约束的问题
  - 解决策略检查模块, ptvid为0的问题
+
+Version 1.5.7
+ - 加固策略升级时，对原有策略映射的删除处理，防止极端情况下删除不相关策略映射
+ - 策略检查时，有一处时间信息的显示中没有显示日期，仅仅显示了时间
+
+Version 1.5.8
+ - 从程序端解决特定分行节点不能保存生效历史数据的问题（DBLink下CLOB字段的问题）
+          可以通过在ncc-configuration.properties配置文件中增加effect.history.save.mode=disable选项可以禁止保存生效数据文件, 而仅仅更新状态.
+ - 解决数据库备份出现OutOfMemeoryException的问题（不备份生效历史的CLOB数据, 仅仅备份生效历史状态信息）
+ - 解决数据库备份时 分行节点备份DBLink的远程表问题, 目前分行节点不备份远程表 
+ - 解决多处JSP显示版本信息，不一致的问题
  

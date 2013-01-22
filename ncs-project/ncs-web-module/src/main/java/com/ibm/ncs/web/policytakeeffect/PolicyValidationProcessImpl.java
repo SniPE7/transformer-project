@@ -165,7 +165,7 @@ public class PolicyValidationProcessImpl implements PolicyValidationProcess {
 			if (policyPublishInfo == null) {
 				this.stepTracker.writeState("未发现已发布的策略集.");
 			}
-			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
 			this.stepTracker.writeState(String.format("最新发布的策略集为: %s - V [%s], 发布时间为: %s", policyPublishInfo.getVersionTag(), policyPublishInfo.getVersion(),
 			    sdf.format(policyPublishInfo.getPublishTime())));
 
@@ -177,6 +177,8 @@ public class PolicyValidationProcessImpl implements PolicyValidationProcess {
 
 			// 检查型号是否匹配 -- 设备类
 			this.stepTracker.writeState(String.format("检查应用的设备类策略是否符合设备类型约束."));
+			int deletedItem = this.jdbcTemplate.update("delete from t_devpol_map where devid not in (select devid from T_DEVICE_INFO)");
+			this.stepTracker.writeState(String.format("删除设备不存在的设备策略映射, 共%s个映射条目被删除", deletedItem));
 			String sql = "select distinct dm.mpid from t_devpol_map dm inner join t_policy_base p on p.mpid=dm.mpid  where (dm.mpid, dm.devid) not in (select mpid, devid from V_MP_DEVICE_SCOPE) and p.ptvid>0";
 			List<Integer> missmatchedItems = this.jdbcTemplate.query(sql, new ParameterizedRowMapper<Integer>() {
 				public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
@@ -199,7 +201,7 @@ public class PolicyValidationProcessImpl implements PolicyValidationProcess {
 
 			// 检查型号是否匹配 -- 端口类
 			this.stepTracker.writeState(String.format("检查应用的端口类策略是否符合设备类型约束."));
-			int deletedItem = this.jdbcTemplate.update("delete from T_LINEPOL_MAP where ptid not in (select ptid from t_port_info)");
+			deletedItem = this.jdbcTemplate.update("delete from T_LINEPOL_MAP where ptid not in (select ptid from t_port_info)");
 			this.stepTracker.writeState(String.format("删除端口不存在的端口策略映射, 共%s个映射条目被删除", deletedItem));
 			sql = "select distinct lm.mpid from t_linepol_map lm inner join t_policy_base p on p.mpid=lm.mpid where (lm.mpid, lm.ptid) not in (select mpid, p.ptid from V_MP_DEVICE_SCOPE mds inner join t_port_info p on p.devid=mds.devid) and p.ptvid>0";
 			missmatchedItems = this.jdbcTemplate.query(sql, new ParameterizedRowMapper<Integer>() {
