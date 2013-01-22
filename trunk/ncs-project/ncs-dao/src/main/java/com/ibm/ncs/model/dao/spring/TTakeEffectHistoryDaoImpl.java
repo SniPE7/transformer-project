@@ -3,9 +3,13 @@ package com.ibm.ncs.model.dao.spring;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +20,9 @@ import com.ibm.ncs.model.dto.TTakeEffectHistoryPk;
 import com.ibm.ncs.model.exceptions.TTakeEffectHistoryDaoException;
 
 public class TTakeEffectHistoryDaoImpl extends AbstractDAO implements ParameterizedRowMapper<TTakeEffectHistory>, TTakeEffectHistoryDao {
+	
+	private static Log log = LogFactory.getLog(TTakeEffectHistoryDaoImpl.class);
+	
 	protected SimpleJdbcTemplate jdbcTemplate;
 
 	protected DataSource dataSource;
@@ -38,18 +45,62 @@ public class TTakeEffectHistoryDaoImpl extends AbstractDAO implements Parameteri
 	 */
 	@Transactional
 	public TTakeEffectHistoryPk insert(TTakeEffectHistory dto) {
-		jdbcTemplate.update("INSERT INTO " + getTableName() + " ( TEID, USID, PPIID, SERVER_ID, GENERED_TIME, SRC_TYPE_FILE, ICMP_XML_FILE, SNMP_XML_FILE, ICMP_THRESHOLD, SNMP_THRESHOLD, EFFECT_TIME, EFFECT_STATUS ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )", 
-				dto.getTeId(), dto.getUsid(), dto.getPpiid(), dto.getServerId(), dto.getGeneredTime(), dto.getSrcTypeFile(), dto.getIcmpXMLFile(), dto.getSnmpXMLFile(), dto.getIcmpThreshold(), dto.getSnmpThreshold(), dto.getEffectTime(), dto.getEffectStatus()
-				);
+		if (this.isUploadFileAndThreshold()) {
+			log.debug("Upload all TakeEffectInfo with SRC_TYPE, SNMP XML, ICMP XML, SNMP Thresholds, ICMP Thresholds.");
+			jdbcTemplate
+			    .update(
+			        "INSERT INTO "
+			            + getTableName()
+			            + " ( TEID, USID, PPIID, SERVER_ID, GENERED_TIME, SRC_TYPE_FILE, ICMP_XML_FILE, SNMP_XML_FILE, ICMP_THRESHOLD, SNMP_THRESHOLD, EFFECT_TIME, EFFECT_STATUS ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )",
+			        dto.getTeId(), dto.getUsid(), dto.getPpiid(), dto.getServerId(), dto.getGeneredTime(), dto.getSrcTypeFile(), dto.getIcmpXMLFile(), dto.getSnmpXMLFile(),
+			        dto.getIcmpThreshold(), dto.getSnmpThreshold(), dto.getEffectTime(), dto.getEffectStatus());
+		} else {
+			log.debug("Update TakeEffectInfo without SRC_TYPE, SNMP XML, ICMP XML, SNMP Thresholds, ICMP Thresholds.");
+			jdbcTemplate
+	    .update(
+	        "INSERT INTO "
+	            + getTableName()
+	            + " ( TEID, USID, PPIID, SERVER_ID, GENERED_TIME, EFFECT_TIME, EFFECT_STATUS ) VALUES ( ?, ?, ?, ?, ?, ?, ? )",
+	        dto.getTeId(), dto.getUsid(), dto.getPpiid(), dto.getServerId(), dto.getGeneredTime(), dto.getEffectTime(), dto.getEffectStatus());
+		}
 		return dto.createPk();
 	}
+
+	private boolean isUploadFileAndThreshold() {
+		ResourceBundle props = ResourceBundle.getBundle("ncc-configuration");
+		try {
+	    String mode = props.getString("effect.history.save.mode");
+	    if (mode != null && mode.trim().equalsIgnoreCase("disable")) {
+	    	return false;
+	    }
+    } catch (MissingResourceException e) {
+    }
+		return true;
+  }
 
 	/**
 	 * Updates a single row in the T_MANUFACTURER_INFO_INIT table.
 	 */
 	@Transactional
 	public void update(TTakeEffectHistoryPk pk, TTakeEffectHistory dto) throws TTakeEffectHistoryDaoException {
-		jdbcTemplate.update("UPDATE " + getTableName() + " SET USID=?, PPIID=?, SERVER_ID=?, GENERED_TIME=?, SRC_TYPE_FILE=?, ICMP_XML_FILE=?, SNMP_XML_FILE=?, ICMP_THRESHOLD=?, SNMP_THRESHOLD=?, EFFECT_TIME=?, EFFECT_STATUS=?  WHERE TEID = ?", dto.getUsid(), dto.getPpiid(), dto.getServerId(), dto.getGeneredTime(), dto.getSrcTypeFile(), dto.getIcmpXMLFile(), dto.getSnmpXMLFile(), dto.getIcmpThreshold(), dto.getSnmpThreshold(), dto.getEffectTime(), dto.getEffectStatus(), dto.getTeId());
+		if (this.isUploadFileAndThreshold()) {
+			log.debug("Upload all TakeEffectInfo with SRC_TYPE, SNMP XML, ICMP XML, SNMP Thresholds, ICMP Thresholds.");
+			jdbcTemplate
+	    .update(
+	        "UPDATE "
+	            + getTableName()
+	            + " SET USID=?, PPIID=?, SERVER_ID=?, GENERED_TIME=?, SRC_TYPE_FILE=?, ICMP_XML_FILE=?, SNMP_XML_FILE=?, ICMP_THRESHOLD=?, SNMP_THRESHOLD=?, EFFECT_TIME=?, EFFECT_STATUS=?  WHERE TEID = ?",
+	        dto.getUsid(), dto.getPpiid(), dto.getServerId(), dto.getGeneredTime(), dto.getSrcTypeFile(), dto.getIcmpXMLFile(), dto.getSnmpXMLFile(), dto.getIcmpThreshold(),
+	        dto.getSnmpThreshold(), dto.getEffectTime(), dto.getEffectStatus(), dto.getTeId());
+		} else {
+			log.debug("Update TakeEffectInfo without SRC_TYPE, SNMP XML, ICMP XML, SNMP Thresholds, ICMP Thresholds.");
+			jdbcTemplate
+	    .update(
+	        "UPDATE "
+	            + getTableName()
+	            + " SET USID=?, PPIID=?, SERVER_ID=?, GENERED_TIME=?, EFFECT_TIME=?, EFFECT_STATUS=?  WHERE TEID = ?",
+	        dto.getUsid(), dto.getPpiid(), dto.getServerId(), dto.getGeneredTime(), dto.getEffectTime(), dto.getEffectStatus(), dto.getTeId());
+		}
 	}
 
 	/**
@@ -101,7 +152,9 @@ public class TTakeEffectHistoryDaoImpl extends AbstractDAO implements Parameteri
 	@Transactional
 	public List<TTakeEffectHistory> findAll() throws TTakeEffectHistoryDaoException {
 		try {
-			return jdbcTemplate.query("SELECT TEID, USID, PPIID, SERVER_ID, GENERED_TIME, SRC_TYPE_FILE, ICMP_XML_FILE, SNMP_XML_FILE, ICMP_THRESHOLD, SNMP_THRESHOLD, EFFECT_TIME, EFFECT_STATUS FROM " + getTableName() + " ORDER BY SERVER_ID, GENERED_TIME", this);
+			return jdbcTemplate.query(
+			    "SELECT TEID, USID, PPIID, SERVER_ID, GENERED_TIME, SRC_TYPE_FILE, ICMP_XML_FILE, SNMP_XML_FILE, ICMP_THRESHOLD, SNMP_THRESHOLD, EFFECT_TIME, EFFECT_STATUS FROM "
+			        + getTableName() + " ORDER BY SERVER_ID, GENERED_TIME", this);
 		} catch (Exception e) {
 			throw new TTakeEffectHistoryDaoException("Query failed", e);
 		}
@@ -110,12 +163,14 @@ public class TTakeEffectHistoryDaoImpl extends AbstractDAO implements Parameteri
 
 	public TTakeEffectHistory findByTeid(long teid) throws TTakeEffectHistoryDaoException {
 		try {
-			List<TTakeEffectHistory> list = jdbcTemplate.query("SELECT TEID, USID, PPIID, SERVER_ID, GENERED_TIME, SRC_TYPE_FILE, ICMP_XML_FILE, SNMP_XML_FILE, ICMP_THRESHOLD, SNMP_THRESHOLD, EFFECT_TIME, EFFECT_STATUS FROM " + getTableName() + " WHERE TEID = ?", this, teid);
+			List<TTakeEffectHistory> list = jdbcTemplate.query(
+			    "SELECT TEID, USID, PPIID, SERVER_ID, GENERED_TIME, SRC_TYPE_FILE, ICMP_XML_FILE, SNMP_XML_FILE, ICMP_THRESHOLD, SNMP_THRESHOLD, EFFECT_TIME, EFFECT_STATUS FROM "
+			        + getTableName() + " WHERE TEID = ?", this, teid);
 			return list.size() == 0 ? null : list.get(0);
 		} catch (Exception e) {
 			throw new TTakeEffectHistoryDaoException("Query failed", e);
 		}
-  }
+	}
 
 	@Transactional
 	public TTakeEffectHistory findLastItemByServerIdAndReleaseInfo(long serverId, long ppiid) throws TTakeEffectHistoryDaoException {
@@ -123,29 +178,38 @@ public class TTakeEffectHistoryDaoImpl extends AbstractDAO implements Parameteri
 			List<String> r = jdbcTemplate.query("select table_name from cat where table_name='TMP_TEH'", new ParameterizedRowMapper<String>() {
 
 				public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-	        return rs.getString(1);
-        }
+					return rs.getString(1);
+				}
 			});
-			if (r.size() == 0 ) {
-				 // 总行节点，无需要解决ORA-22992 LOB 问题，直接读取
-			   List<TTakeEffectHistory> list = jdbcTemplate.query("select * from (SELECT TEID, USID, PPIID, SERVER_ID, GENERED_TIME, SRC_TYPE_FILE, ICMP_XML_FILE, SNMP_XML_FILE, ICMP_THRESHOLD, SNMP_THRESHOLD, EFFECT_TIME, EFFECT_STATUS FROM T_TAKE_EFFECT_HISTORY WHERE server_id =? and ppiid = ? order by GENERED_TIME desc) where rownum=1", this, serverId, ppiid);
-			   return list.size() == 0 ? null : list.get(0);
+			if (r.size() == 0) {
+				// 总行节点，无需要解决ORA-22992 LOB 问题，直接读取
+				List<TTakeEffectHistory> list = jdbcTemplate
+				    .query(
+				        "select * from (SELECT TEID, USID, PPIID, SERVER_ID, GENERED_TIME, SRC_TYPE_FILE, ICMP_XML_FILE, SNMP_XML_FILE, ICMP_THRESHOLD, SNMP_THRESHOLD, EFFECT_TIME, EFFECT_STATUS FROM T_TAKE_EFFECT_HISTORY WHERE server_id =? and ppiid = ? order by GENERED_TIME desc) where rownum=1",
+				        this, serverId, ppiid);
+				return list.size() == 0 ? null : list.get(0);
 			} else {
 				int total = jdbcTemplate.update("insert into TMP_TEH select * from T_TAKE_EFFECT_HISTORY WHERE server_id =? and ppiid = ?", serverId, ppiid);
-			  List<TTakeEffectHistory> list = jdbcTemplate.query("select * from (SELECT TEID, USID, PPIID, SERVER_ID, GENERED_TIME, SRC_TYPE_FILE, ICMP_XML_FILE, SNMP_XML_FILE, ICMP_THRESHOLD, SNMP_THRESHOLD, EFFECT_TIME, EFFECT_STATUS FROM TMP_TEH WHERE server_id =? and ppiid = ? order by GENERED_TIME desc) where rownum=1", this, serverId, ppiid);
-			  return list.size() == 0 ? null : list.get(0);
+				List<TTakeEffectHistory> list = jdbcTemplate
+				    .query(
+				        "select * from (SELECT TEID, USID, PPIID, SERVER_ID, GENERED_TIME, SRC_TYPE_FILE, ICMP_XML_FILE, SNMP_XML_FILE, ICMP_THRESHOLD, SNMP_THRESHOLD, EFFECT_TIME, EFFECT_STATUS FROM TMP_TEH WHERE server_id =? and ppiid = ? order by GENERED_TIME desc) where rownum=1",
+				        this, serverId, ppiid);
+				return list.size() == 0 ? null : list.get(0);
 			}
 		} catch (Exception e) {
 			throw new TTakeEffectHistoryDaoException("Query failed", e);
 		}
-  }
+	}
 
 	public List<TTakeEffectHistory> findBranchHistoryByPpiid(long ppiid) throws TTakeEffectHistoryDaoException {
 		try {
-			List<TTakeEffectHistory> list = jdbcTemplate.query("select * from (SELECT TEID, USID, PPIID, SERVER_ID, GENERED_TIME, SRC_TYPE_FILE, ICMP_XML_FILE, SNMP_XML_FILE, ICMP_THRESHOLD, SNMP_THRESHOLD, EFFECT_TIME, EFFECT_STATUS FROM T_SERVER_NODE sn left join T_TAKE_EFFECT_HISTORY teh on sn.server WHERE ppiid = ? order by GENERED_TIME desc) where rownum=1", this, ppiid);
+			List<TTakeEffectHistory> list = jdbcTemplate
+			    .query(
+			        "select * from (SELECT TEID, USID, PPIID, SERVER_ID, GENERED_TIME, SRC_TYPE_FILE, ICMP_XML_FILE, SNMP_XML_FILE, ICMP_THRESHOLD, SNMP_THRESHOLD, EFFECT_TIME, EFFECT_STATUS FROM T_SERVER_NODE sn left join T_TAKE_EFFECT_HISTORY teh on sn.server WHERE ppiid = ? order by GENERED_TIME desc) where rownum=1",
+			        this, ppiid);
 			return list;
 		} catch (Exception e) {
 			throw new TTakeEffectHistoryDaoException("Query failed", e);
 		}
-  }
+	}
 }

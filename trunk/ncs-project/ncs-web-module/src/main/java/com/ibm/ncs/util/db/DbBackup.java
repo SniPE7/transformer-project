@@ -57,6 +57,11 @@ public class DbBackup {
 			for (; rs.next();) {
 				ResultSetMetaData rsmeta = rs.getMetaData();
 				int j = rsmeta.getColumnCount();
+				if (rs.getString(4) != null && rs.getString(4).equalsIgnoreCase("SYNONYM")) {
+					// 不备份同义词
+					logger.info(String.format("Skip SYNONYM: %s", rs.getString(3)));
+					 continue;
+				}
 				tables.add(rs.getString(3));
 			}
 			rs.close();
@@ -287,6 +292,7 @@ public class DbBackup {
 
 	public void writeTableData(Connection conn, String tableName, Writer out) {
 
+		logger.info(String.format("Write table : %s", tableName));
 		StringBuffer sbuf = new StringBuffer();
 
 		// StringBuffer sqlData = null;
@@ -313,6 +319,9 @@ public class DbBackup {
 						int type = rsmeta.getColumnType(i);
 						String tmp = rs.getString(i);
 						switch (type) {
+						// 不备份CLOB和BLOB类型的数据
+						case java.sql.Types.CLOB: break;
+						case java.sql.Types.BLOB: break;
 						case java.sql.Types.TIMESTAMP: // 93: // '['
 																					 // java.sql.Types.TIMESTAMP
 
@@ -370,36 +379,6 @@ public class DbBackup {
 							break;
 						}
 					}
-					// System.out.println(" sbuf , rowName="+rowName+" \n rowData="+rowData);
-					// if(rowData.length() > 0)
-					// {
-					// rowData = rowData.substring(0, rowData.length() - 1);
-					// rowName = rowName.substring(0, rowName.length() - 1);
-					// }
-					// rowData = rowData.replaceAll("\r", " ");
-					// rowData = rowData.replaceAll("\n", " ");
-					// rowName = rowName.replaceAll("\r", " ");
-					// rowName = rowName.replaceAll("\n", " ");
-
-					// sbuf.append("insert into ");
-					// sbuf.append(tableName);
-					// sbuf.append(" (");
-					// sbuf.append(rowName);
-					// sbuf.append(") values (");
-					// sbuf.append(rowData);
-					// sbuf.append(") \n");
-					// vout.add(sbuf);
-					// sbuf.delete(0, sbuf.length());
-					// rowName.delete(0,rowName.length());
-					// rowData.delete(0, rowData.length());
-					// vout.add(new StringBuffer("insert into ")
-					// .append(tableName)
-					// .append(" (")
-					// .append(rowName)
-					// .append(") values (")
-					// .append(rowData)
-					// .append(") \n")
-					// );
 					String rowDataStr = rowData.toString().replaceAll("\r", " ");
 					rowDataStr = rowDataStr.replaceAll("\n", " ");
 					String rowNameStr = rowName.toString().replaceAll("\r", " ");
