@@ -17,11 +17,6 @@
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
-<script language="JavaScript" type="text/javascript">
-	function reloadNavi() {
-		window.parent.frames[2].location.reload();
-	}
-</script>
 <script language="javascript">
 	function ShowWaiting() {
 		document.getElementById('doing').style.visibility = 'visible';
