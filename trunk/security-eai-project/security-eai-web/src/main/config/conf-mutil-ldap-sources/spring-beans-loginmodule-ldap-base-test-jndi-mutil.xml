@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+	<!-- TAM Ldap数据源 -->
+	<bean id="tamLdapContextSource" class="org.springframework.ldap.core.support.LdapContextSource">
+		<property name="url" value="${idp.tam.ldap.url}" />
+		<!-- <property name="urls">
+		    <list>
+		      <value>ldap://192.168.134.156:389</value>
+		      <value>ldap://192.168.134.155:389</value>
+		    </list>
+	 	 </property> -->
+	  
+	  <property name="base" value="${idp.tam.ldap.user.baseDn}" />
+		<property name="userDn" value="${idp.tam.ldap.userDn}" />
+		<property name="password" value="${idp.tam.ldap.password}" />
+		<!-- 必须配置为false, 禁用此模式下的连接池机制才能使MutablePoolingContextSource的连接池控制起作用, 否则无法重新连接失效的连接 -->
+		<!-- <property name="pooled" value="false" /> -->
+		
+		<property name="dirObjectFactory" value="org.springframework.ldap.core.support.DefaultDirObjectFactory" />
+		
+<!-- 		<property name="baseEnvironmentProperties">
+			<map>
+				Three seconds is an eternity to users.
+		       <entry key="com.sun.jndi.ldap.connect.timeout" value="3000" />
+		       <entry key="com.sun.jndi.ldap.read.timeout" value="3000" />
+		  
+		       Explained at http://download.oracle.com/javase/1.3/docs/api/javax/naming/Context.html#SECURITY_AUTHENTICATION
+		       <entry key="java.naming.security.authentication" value="simple" />
+			</map>
+		</property> -->
+
+	</bean>
+
+	<bean id="tamLdapPoolingContextSource0"
+		class="org.springframework.ldap.pool.factory.MutablePoolingContextSource">
+		<property name="contextSource" ref="tamLdapContextSource" />
+		<!-- 不限制各个类型最大的连接数 -->
+		<property name="maxActive" value="-1" />
+		<!-- 不限制总的最大连接数 -->
+		<property name="maxTotal" value="-1" />
+		<!-- 释放达到的并保持的最大连接，即繁忙后释放连接时,保持的最大连接 -->
+		<property name="maxIdle" value="16" />
+		<!-- 创建时，建立空闲连接数的上限，即最小 -->
+		<property name="minIdle" value="8" />
+		<!-- 当Pool中资源耗尽时, 缺省为无限等待, 为了防止对WAS线程造成长时间占用, 调整为一个固定时间. 应根据实际运行场景进行调整, 
+			-1时为无限等待 -->
+		<property name="maxWait" value="1000" />
+		<!-- 连接池中连接的验证器, 缺省查询单节点, 并只返回Objectclass属性 -->
+		<property name="dirContextValidator">
+			<bean
+				class="org.springframework.ldap.pool.validation.DefaultDirContextValidator"></bean>
+		</property>
+		<!-- 三种检测方式, 一般不需要在租界前检测，也不要在归还时检测, 即使只打开一种方式, 也会对性能敏感的场合产生影响. 除非应用对性能不敏感 -->
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<!-- 推荐使用空闲检测的方式, 以指定的空闲时间检测连接, 失效的连接将被逐出 -->
+		<property name="testWhileIdle" value="true" />
+		<!-- 毫秒为单位的空闲逐出检测的间隔 -->
+		<property name="timeBetweenEvictionRunsMillis" value="10000" />
+		<!-- 每次做连接检测时, 检查的连接次数，例如10表示每次检测10个连接池中的连接 -->
+		<property name="numTestsPerEvictionRun" value="10"></property>
+	</bean>
+	
+	
+	<bean id="tamLdapPoolingContextSource" class="org.springframework.ldap.pool.factory.PoolingContextSource" destroy-method="destroy">
+        <property name="contextSource" ref="tamLdapContextSource"/>
+        <property name="dirContextValidator" ref="dirContextValidator"/>
+        <property name="minIdle" value="2"/>
+        <property name="maxIdle" value="12"/>
+        <property name="maxActive" value="32"/>
+        <property name="maxTotal" value="32"/>
+        <property name="maxWait" value="1000"/>
+        <property name="testOnBorrow" value="true"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="timeBetweenEvictionRunsMillis" value="120000"/>
+        <property name="minEvictableIdleTimeMillis" value="900000"/>
+        <property name="numTestsPerEvictionRun" value="6"/>
+    </bean>
+
+	<bean id="dirContextValidator" class="org.springframework.ldap.pool.validation.DefaultDirContextValidator" />
+
+
+	<bean id="tamLdapTemplate" class="org.springframework.ldap.core.LdapTemplate">
+		<property name="contextSource" ref="tamLdapPoolingContextSource" />
+	</bean>
+
+	<!-- TIM Ldap数据源 -->
+	<bean id="timLdapContextSource" class="org.springframework.ldap.core.support.LdapContextSource">
+		<property name="url" value="${idp.tim.ldap.url}" />
+		<property name="userDn" value="${idp.tim.ldap.userDn}" />
+		<property name="password" value="${idp.tim.ldap.password}" />
+		<!-- 必须配置为false, 禁用此模式下的连接池机制才能使MutablePoolingContextSource的连接池控制起作用, 否则无法重新连接失效的连接 -->
+		<property name="pooled" value="false" />
+	</bean>
+
+	<bean id="timLdapPoolingContextSource"
+		class="org.springframework.ldap.pool.factory.MutablePoolingContextSource">
+		<property name="contextSource" ref="timLdapContextSource" />
+		<!-- 不限制各个类型最大的连接数 -->
+		<property name="maxActive" value="-1" />
+		<!-- 不限制总的最大连接数 -->
+		<property name="maxTotal" value="-1" />
+		<!-- 释放达到的并保持的最大连接，即繁忙后释放连接时,保持的最大连接 -->
+		<property name="maxIdle" value="16" />
+		<!-- 创建时，建立空闲连接数的上限，即最小 -->
+		<property name="minIdle" value="8" />
+		<!-- 当Pool中资源耗尽时, 缺省为无限等待, 为了防止对WAS线程造成长时间占用, 调整为一个固定时间. 应根据实际运行场景进行调整, 
+			-1时为无限等待 -->
+		<property name="maxWait" value="1000" />
+		<!-- 连接池中连接的验证器, 缺省查询单节点, 并只返回Objectclass属性 -->
+		<property name="dirContextValidator">
+			<bean
+				class="org.springframework.ldap.pool.validation.DefaultDirContextValidator"></bean>
+		</property>
+		<!-- 三种检测方式, 一般不需要在租界前检测，也不要在归还时检测, 即使只打开一种方式, 也会对性能敏感的场合产生影响. 除非应用对性能不敏感 -->
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<!-- 推荐使用空闲检测的方式, 以指定的空闲时间检测连接, 失效的连接将被逐出 -->
+		<property name="testWhileIdle" value="true" />
+		<!-- 毫秒为单位的空闲逐出检测的间隔 -->
+		<property name="timeBetweenEvictionRunsMillis" value="10000" />
+		<!-- 每次做连接检测时, 检查的连接次数，例如10表示每次检测10个连接池中的连接 -->
+		<property name="numTestsPerEvictionRun" value="10"></property>
+	</bean>
+
+	<bean id="timLdapTemplate" class="org.springframework.ldap.core.LdapTemplate">
+		<property name="contextSource" ref="timLdapPoolingContextSource" />
+	</bean>
+
+
+	<!-- TAM LDAP User Service -->
+	<bean id="tamLdapUserService"
+		class="com.sinopec.siam.am.idp.authn.service.LdapUserServiceImpl">
+		<property name="template" ref="tamLdapTemplate"></property>
+		<property name="userBaseDN" value="${idp.tam.ldap.user.baseDn}"></property>
+	</bean>
+
+	<!-- TAM LDAP User Security Authority Service -->
+	<bean id="tamLdapUserSecAuthrityService"
+		class="com.sinopec.siam.am.idp.authn.service.LdapUserServiceImpl">
+		<property name="template" ref="tamLdapTemplate"></property>
+		<property name="userBaseDN"
+			value="${idp.loginmodule.tamldap.secauthority.ldap.userBaseDN}"></property>
+	</bean>
+
+	<!-- TAM Local User Lock Service -->
+	<bean id="tamLocalUserLockService"
+		class="group.tivoli.security.eai.loginmodule.tam.service.TimUserLockService" init-method="init">
+		<property name="maxFailedNumber"
+			value="${idp.loginmodule.tamldap.userlock.maxFailedNumber}"></property>
+		<property name="unLockTimeInterval"
+			value="${idp.loginmodule.tamldap.userlock.unLockTimeInterval}"></property>
+		<property name="userNameAttr"
+			value="${idp.loginmodule.tamldap.secauthority.ldap.userNameAttr}"></property>
+		<property name="unlockTimeAttr"
+			value="${idp.loginmodule.tamldap.userlock.ldap.unlockTimeAttr}"></property>
+		<property name="unlockTimeFormat"
+			value="${idp.loginmodule.tamldap.userlock.ldap.unlockTimeFormat}"></property>
+		<property name="failedNumberAttr"
+			value="${idp.loginmodule.tamldap.userlock.ldap.failedNumberAttr}"></property>
+		<property name="lockStateAttr"
+			value="${idp.loginmodule.tamldap.userlock.ldap.lockStateAttr}"></property>
+		<property name="ldapTemplate" ref="tamLdapTemplate"/>
+		<property name="ldapUserBaseDN"
+			value="${idp.tam.ldap.user.baseDn}"></property>
+		<property name="isCache" value="false"></property>
+		<property name="hasHintUnlockTime" value="false"></property>
+		<property name="timUserLdapUtil" ref="timUserLdapUtil"/>
+	</bean>
+	
+	<bean id="timUserLdapUtil" class="group.tivoli.security.eai.loginmodule.tam.service.TimUserLdapUtil">
+		<property name="ldapTemplate" ref="timLdapTemplate" />
+		<property name="timLdapBaseDn" value="${idp.loginmodule.timldap.secauthority.userBaseDN}" />
+		<property name="confEntityDn" value="${tim.configure.entity.dn}" />
+	</bean>
+
+	<!-- TAM User Pass Service -->
+	<bean id="tamUserPassService"
+		class="com.sinopec.siam.am.idp.authn.service.TamUserPassServiceImpl">
+		<property name="ldapTemplate" ref="tamLdapTemplate"></property>
+		<property name="ldapUserBaseDN"
+			value="${idp.loginmodule.tamldap.secauthority.ldap.userBaseDN}"></property>
+		<property name="userNameLdapAttribute"
+			value="${idp.loginmodule.tamldap.secauthority.ldap.userNameAttr}"></property>
+		<property name="userPassLastChangedLdapAttribute"
+			value="${idp.loginmodule.tamldap.secauthority.ldap.userPassLastChangedAttribute}"></property>
+		<property name="userPassResetStateLdapAttribute"
+			value="${idp.loginmodule.tamldap.secauthority.ldap.userPassResetStateLdapAttribute}"></property>
+		<property name="notifyByMail"
+			value="${idp.loginmodule.tamldap.secauthority.ldap.notifyByMail}"></property>
+		<property name="userOwnerLdapAttribute"
+			value="${idp.loginmodule.tamldap.secauthority.ldap.userOwnerLdapAttribute}"></property>
+		<property name="timSoapEndpoint" value="${idp.tim.api.soapEndpoint}"></property>
+		<property name="itimManager" value="${itim.manager.principal}"></property>
+		<property name="itimManagerPwd" value="${itim.manager.credentials}"></property>
+	</bean>
+
+	<!-- TIM User Pass Service -->
+	<bean id="timUserPassService" class="group.tivoli.security.eai.loginmodule.tam.service.TimLdapSelfUserPassServiceImpl">
+		<property name="ldapTemplate" ref="timLdapTemplate"></property>
+		<property name="ldapUserBaseDN" value="${idp.loginmodule.timldap.secauthority.userBaseDN}"></property>
+		<property name="userNameLdapAttribute" value="${idp.loginmodule.timldap.secauthority.userNameAttribute}"></property>
+		<property name="userPassLastChangedLdapAttribute" value="${idp.loginmodule.timldap.secauthority.userPassLastChangedAttribute}"></property>
+		<property name="userPassResetStateLdapAttribute" value="${idp.loginmodule.timldap.secauthority.userPassResetStateLdapAttribute}"></property>
+		<property name="timSoapEndpoint" value="${idp.tim.api.soapEndpoint}"></property>
+		<property name="itimManager" value="${itim.manager.principal}"></property>
+		<property name="itimManagerPwd" value="${itim.manager.credentials}"></property>
+		<property name="notifyByMail" value="${idp.loginmodule.timldap.secauthority.notifyByMail}"></property>
+		<property name="userOwnerLdapAttribute" value="${idp.loginmodule.timldap.secauthority.userOwnerLdapAttribute}"></property>
+		<property name="timUserPasswordService" ref="timUserPasswordService"></property>
+	</bean>
+	
+	<bean id="timUserPasswordService" class="group.tivoli.security.eai.loginmodule.tam.service.TimUserPasswordService" >
+		<property name="timUserLdapUtil" ref="timUserLdapUtil"/>
+	</bean>
+
+	<!-- TamLockUserLock schedule bean, used by Spring Job Controlled substance -->
+<!-- 	<bean id="tamLocalUserLock4TimeSynTask"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="tamLocalUserLockService" />
+		<property name="targetMethod" value="unLockAll" />
+		<property name="concurrent" value="false" />
+	</bean> -->
+	
+<!-- 	<bean id="tamLocalUserLockTriggers"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				当前配置的是: 每小时运行一次 value中的内容： 第6位：的1代表星期天，在国外星期天才是每个周的开始！ 第5位： *代表所有月的星期天 
+					第4位：？代表也没有具体到某日的星期天 第3位：23代表23点，注意：采用24小时 第2位：59代表分钟 第1位：50代表秒
+				<bean class="org.springframework.scheduling.quartz.CronTriggerBean">
+					<property name="jobDetail" ref="tamLocalUserLock4TimeSynTask" />
+					<property name="cronExpression" value="10 * * ? * *" />
+				</bean>
+			</list>
+		</property>
+	</bean> -->
+</beans>

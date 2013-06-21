@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING/DTD BEAN/EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="siam.sp.webseal.eai.handler" class="group.tivoli.security.eai.web.sso.webseal.WebSEALEAIPostAuthenHandler">
+		<property name="eaiXAttrsName" value="am-eai-xattrs"></property>
+		<property name="tagValuePrefix" value="tagvalue_"></property>
+		<property name="eaiUseridName" value="am-eai-user-id"></property>
+		<property name="eaiAuthenLevenName" value="am-eai-auth-level"></property>
+	</bean>
+</beans>

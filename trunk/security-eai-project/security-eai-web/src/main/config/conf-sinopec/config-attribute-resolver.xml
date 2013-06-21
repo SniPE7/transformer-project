@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>IDP Attribute Resolver configuration file</comment>
+
+  <!-- *************************************************************************************** 
+  *
+  *  Attribute Resolver parameters: tamldap data connector
+  *
+  *************************************************************************************** -->
+  <entry key="idp.attribute.resovler.tamLdap.url">${idp.tam.ldap.url}</entry>
+  <entry key="idp.attribute.resovler.tamldap.baseDn">${idp.tam.ldap.user.baseDn}</entry>
+  <entry key="idp.attribute.resovler.tamLdap.bindDn">${idp.tam.ldap.userDn}</entry>
+  <entry key="idp.attribute.resovler.tamLdap.bindPassword">${idp.tam.ldap.password}</entry>
+  <!-- Velocity Template Engine, requestContext: ShibbolethResolutionContext -->
+  <entry key="idp.attribute.resovler.tamLdap.userFilter">(uid=$requestContext.principalName)</entry>
+</properties>

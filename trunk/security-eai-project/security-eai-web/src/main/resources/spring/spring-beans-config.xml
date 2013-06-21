@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING/DTD BEAN/EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="propertyConfigurer" class="group.tivoli.security.eai.web.util.CustomizedPropertyConfigurer">
+		<property name="ignoreResourceNotFound" value="true"/>
+		<property name="ignoreUnresolvablePlaceholders" value="true"/>
+		<property name="fileEncoding" value="UTF-8" />
+		<property name="locations">
+			<list>
+				<value>classpath:conf/config-default.xml</value>
+				<value>classpath:conf/config-loginmodule-jaas.xml</value>
+				 
+				<!-- Load from User Home -->
+       			<value>file:${user.home}/eaiweb/conf/config-default.xml</value>
+       			<value>file:${user.home}/eaiweb/conf/config-loginmodule-jaas.xml</value>
+       			
+       			<value>file:${was.install.root}/eaiweb/conf/config-default.xml</value>
+       			<value>file:${was.install.root}/eaiweb/conf/config-loginmodule-jaas.xml</value>
+			</list>
+		</property>
+	</bean>
+</beans>
