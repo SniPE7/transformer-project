@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<comment>EAI main configuration file</comment>
+
+	<entry key="idp.themes">default</entry>
+		
+	<!-- Sinopec AD Server -->
+	<entry key="idp.ad.ldap.url">ldap://10.1.0.10:389</entry>
+	<!-- LDAP用户查询baseDN -->
+	<entry key="idp.ad.ldap.user.baseDn">ou=组织机构,dc=contoso,dc=org</entry>
+	<entry key="idp.ad.ldap.userDn">siamtest@contoso.org</entry>
+	<entry key="idp.ad.ldap.passwordFilter">(unicodePwd={0})</entry>
+	<entry key="idp.ad.ldap.password">abcd.1234</entry>
+
+	<!-- TAM LDAP Server -->
+	<entry key="idp.tam.ldap.url">ldap://10.5.86.161:389</entry>
+	<entry key="idp.tam.ldap.user.baseDn">cn=users,dc=SINOPEC,DC=COM</entry>
+	<entry key="idp.tam.ldap.userDn">cn=root</entry>
+	<entry key="idp.tam.ldap.password">Pass1234</entry>
+	
+	<!--
+	<entry key="idp.tam.ldap.url">ldap://192.168.134.129:389</entry>
+	<entry key="idp.tam.ldap.user.baseDn">cn=users,dc=SINOPEC,DC=COM</entry>
+	<entry key="idp.tam.ldap.userDn">cn=root</entry>
+	<entry key="idp.tam.ldap.password">passw0rd</entry>
+	-->
+
+	<!-- TIM LDAP Server -->
+	<entry key="idp.tim.ldap.url">ldap://10.5.86.161:489</entry>
+	<entry key="idp.tim.ldap.userDn">cn=root</entry>
+	<entry key="idp.tim.ldap.password">Pass1234</entry>
+	
+	<!-- 中间系统 中间数据库 -->
+	<entry key="idp.mid.jdbc.driver">com.ibm.db2.jcc.DB2Driver</entry>
+	<entry key="idp.mid.jdbc.url">jdbc:db2://10.5.86.161:50001/middb</entry>
+	<entry key="idp.mid.jdbc.username">db2inst1</entry>
+	<entry key="idp.mid.jdbc.password">Pass1234</entry>
+	
+	<!-- TIM API Server -->
+	<entry key="idp.tim.api.soapEndpoint">http://10.5.86.161:9080/ITIMWebServices</entry>
+
+	<!-- ITIM 管理账号 -->
+	<entry key="itim.manager.principal">itim manager</entry>
+	<entry key="itim.manager.credentials">Pass1234</entry>
+
+	<!-- JMX -->
+	<entry key="idp.jmx.hostName">0.0.0.0</entry>
+	<entry key="idp.jmx.rmi.jndiPort">9099</entry>
+	<entry key="idp.jmx.heartbeat.interval">30000</entry>
+	
+	<entry key="idp.relying.party.provider.anonymous.entityID">https://idp.tiam.sinopec.com/idp</entry>
+	<entry key="idp.relying.party.provider.topology.metadataURL">https://ts.tiam.sinopec.com/ts/services/restful/topology/publisher/getSPEntitiesDescriptor</entry>
+	<entry key="idp.relying.party.provider.topology.backingFile">${user.home}/idpdev-all.xml</entry>
+	<entry key="idp.relying.party.provider.topology.registMetadataFile">classpath:/idp/metadata/idpdev-metadata.xml</entry>
+	<entry key="idp.relying.party.provider.topology.registURL">https://ts.tiam.sinopec.com/ts/services/restful/topology/registrition/register</entry>
+	<entry key="idp.relying.party.provider.topology.disregardSslCertificate">true</entry>
+	<entry key="idp.relying.party.provider.topology.registEntityName">registEntityName</entry>
+	<entry key="idp.relying.party.provider.topology.registEntityDomain">registEntityDomain</entry>
+	<entry key="idp.relying.party.provider.topology.registRuntimeNodeCn">registRuntimeNodeCn</entry>
+</properties>

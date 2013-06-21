@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<comment>EAI main configuration file</comment>
+	<entry key="idp.themes">default</entry>
+	
+	<!-- TAM LDAP Server -->
+	<entry key="idp.tam.ldap.url">ldap://192.168.134.145:389</entry>
+	<entry key="idp.tam.ldap.user.baseDn">cn=users,DC=TAM,DC=COM</entry>
+	<entry key="idp.tam.ldap.userDn">cn=root</entry>
+	<entry key="idp.tam.ldap.password">passw0rd</entry>
+	
+	<!-- TIM LDAP Server -->
+	<entry key="idp.tim.ldap.url">ldap://192.168.134.145:389</entry>
+	<entry key="idp.tim.ldap.userDn">cn=root</entry>
+	<entry key="idp.tim.ldap.password">passw0rd</entry>
+	
+	<!-- TIM API Server -->
+	<entry key="idp.tim.api.soapEndpoint">http://192.168.134.145:9080/ITIMWebServices</entry>
+	<!-- ITIM 管理账号 -->
+	<entry key="itim.manager.principal">itim manager</entry>
+	<entry key="itim.manager.credentials">passw0rd</entry>
+</properties>

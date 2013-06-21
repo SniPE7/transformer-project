@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>IDP LoginModule ClientCert configuration file</comment>
+
+	<!-- 认证通过后返回的用户属性，半角“,”隔开 -->
+	<entry key="idp.loginmodule.login.returnAttributeNames">cn,sn,telephoneNumber,seeAlso,description,title,x121Address,registeredAddress,destinationIndicator,preferredDeliveryMethod,telexNumber,teletexTerminalIdentifier,internationalISDNNumber,facsimileTelephoneNumber,street,postalAddress,postalCode,postOfficeBox,physicalDeliveryOfficeName,ou,st,l,businessCategory,departmentNumber,employeeNumber,employeeType,givenName,initials,labeledURI,mail,manager,pager,preferredLanguage,roomNumber,secretary,uid,displayName,o,userPKCS12,c,spPinYinName,spPinYinShortName,spIdentityType,spGender,spCountry,spOrgShortName,spOrgNumber,spDeptManagerName,spDeptManagerNumber,spPositionName,spPositionNumber,spPositionStatus,spEmployeeLevel,spTitleNumber,spTitleLevel,spTitleCategory,spPluralityStatus,spPluralityParents,spTransferStatus,spTransferParents,spStartTime,spEndTime,spEntryStatus,spAppendStatus,spUpdateDate,spRoleList,spAllowShow,spParents,ibm-allgroups</entry>
+
+	<!-- ldap用户名Ldap属性 -->
+	<entry key="idp.loginmodule.tam.login.secauthority.userNameAttr">principalName</entry>
+	<!-- ldap账号有效性Ldap属性 -->
+	<entry key="idp.loginmodule.tam.login.userAcctValidAttr">secacctvalid</entry>
+
+	<!--
+	用户密码过期认证模式
+	userPassPastDueTime      ：密码过期时间（毫秒）
+	remindPasswordStatus     ：提醒密码过期开关
+	remindPasswordTime       ：提醒密码过期时间（毫秒）
+	-->
+	<entry key="idp.loginmodule.userpasswd.pastDue.time">2592000000</entry>
+	<entry key="idp.loginmodule.userpasswd.pastDue.remindPasswordStatus">true</entry>
+	<entry key="idp.loginmodule.userpasswd.pastDue.remindPasswordTime">259200000</entry>
+	<entry key="idp.loginmodule.audit.namemappingpath">classpath:conf/auditEventNameMapping.properties</entry>
+</properties>

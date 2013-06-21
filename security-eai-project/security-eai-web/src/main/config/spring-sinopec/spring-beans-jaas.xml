@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+  xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+  http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+ 
+  <bean id="jaasConfiguration" class="com.ibm.tivoli.jaas.config.XMLConfiguration">
+    <constructor-arg>
+      <list>
+        <ref bean="idp.jaas.loginModule.ClientCertAuth" />
+        <ref bean="idp.jaas.loginModule.TamLdapUserPassAuth" />
+        <ref bean="idp.jaas.loginModule.LdapAndADUserPassAuth" />
+        <ref bean="idp.jaas.loginModule.TamUserPassAuth" />
+        <ref bean="idp.jaas.loginModule.LdapUserPassAuth" />
+        <ref bean="idp.jaas.loginModule.ADUserPassAuth" />
+      </list>
+    </constructor-arg>
+  </bean>
+
+
+  <bean id="loginContextManager"
+    class="com.sinopec.siam.am.idp.authn.SpringBasedLoginContextManager">
+    <property name="configuration" ref="jaasConfiguration"></property>
+    <property name="loginContextClassName" value="com.sinopec.siam.am.idp.authn.AuditableSpringLoginContext"></property>
+   <!--  <property name="loginModuleEventListener" ref="loginEventListen"></property> -->
+    <!-- 
+    <property name="loginContextEventListener">
+      <bean class=" com.sinopec.siam.am.idp.authn.ChainLoginContextEventListener">
+        <constructor-arg>
+          <list> -->
+            <!-- For Audit events -->
+            <!-- <ref bean="loginEventListen" /> -->
+            <!-- For IdP JMX Monitor -->
+            <!-- <ref bean="idpMonitorEventListen" /> -->
+          <!-- </list>
+        </constructor-arg>
+      </bean>
+    </property> -->
+  </bean>
+  
+  <!-- 
+  <bean id="loginEventListen" class="com.sinopec.siam.am.idp.authn.AuditLoginEventListener">
+    <property name="auditEventRecognizer">
+      <bean class="com.sinopec.siam.am.idp.audit.ChainAuditEventRecognizer">
+        <constructor-arg>
+          <list>
+            <bean class="com.sinopec.siam.am.idp.audit.UserLockAuditEventRecognizer">
+              <property name="storageService" ref="shibboleth.StorageService"/>
+              <property name="logModuleNameMappingPath" value="${idp.loginmodule.audit.namemappingpath}"/>
+            </bean>
+            <bean class="com.sinopec.siam.am.idp.audit.ClientCertAuditEventRecognizer">
+              <property name="storageService" ref="shibboleth.StorageService"/>
+              <property name="logModuleNameMappingPath" value="${idp.loginmodule.audit.namemappingpath}"/>
+            </bean>
+
+            <bean class="com.sinopec.siam.am.idp.audit.PassPastDueLdapAuditEventRecognizer">
+              <property name="storageService" ref="shibboleth.StorageService"/>
+              <property name="logModuleNameMappingPath" value="${idp.loginmodule.audit.namemappingpath}"/>
+            </bean>
+            <bean class="com.sinopec.siam.am.idp.audit.PassResetLdapAuditEventRecognizer">
+              <property name="storageService" ref="shibboleth.StorageService"/>
+              <property name="logModuleNameMappingPath" value="${idp.loginmodule.audit.namemappingpath}"/>
+            </bean>
+            <bean class="com.sinopec.siam.am.idp.audit.SetPasswordHintAuditEventRecognizer">
+              <property name="storageService" ref="shibboleth.StorageService"/>
+              <property name="logModuleNameMappingPath" value="${idp.loginmodule.audit.namemappingpath}"/>
+            </bean>
+            <bean class="com.sinopec.siam.am.idp.audit.TamAndADMappingAuditEventRecognizer">
+              <property name="storageService" ref="shibboleth.StorageService"/>
+              <property name="logModuleNameMappingPath" value="${idp.loginmodule.audit.namemappingpath}"/>
+            </bean>
+            <bean class="com.sinopec.siam.am.idp.audit.UpdateUserLockAuditEventRecognizer">
+              <property name="storageService" ref="shibboleth.StorageService"/>
+              <property name="logModuleNameMappingPath" value="${idp.loginmodule.audit.namemappingpath}"/>
+            </bean>
+            <bean class="com.sinopec.siam.am.idp.audit.UserAcctValidAuditEventRecognizer">
+              <property name="storageService" ref="shibboleth.StorageService"/>
+              <property name="logModuleNameMappingPath" value="${idp.loginmodule.audit.namemappingpath}"/>
+            </bean>
+           <bean class="com.sinopec.siam.am.idp.audit.LoginContextEventRecognizer">
+              <property name="storageService" ref="shibboleth.StorageService"/>
+              <property name="logModuleNameMappingPath" value="${idp.loginmodule.audit.namemappingpath}"/>
+            </bean>
+          </list>
+        </constructor-arg>
+      </bean>
+    </property>
+  </bean>
+   -->
+  
+<!--   <bean id="idpMonitorEventListen" class="com.sinopec.siam.am.idp.authn.SimpleIdPMonitorEventListener">
+    <property name="idpMonitor" ref="jmxIdPMonitorBean"/>
+    <property name="storageService" ref="shibboleth.StorageService"/>
+  </bean> -->
+  
+</beans>

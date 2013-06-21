@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--  ***************************************************************************************** -->
+    <!--  All SP logs will be output into ${sp.log.dir} directory.                                -->
+    <!--  If you wan to set other directory, Un-comment the following property and set a directory. -->
+    <!--  By default, log directory will output into:                                               -->
+    <!--     * WebSphere env, - all logs will output into "WAS_INSTALL/profiles/Cell/logs".         -->
+    <!--     * Tomcat env, - all logs will output into "CATALINA_HOME/logs".                        -->
+    <!--  ***************************************************************************************** -->
+    <!-- <property scope="context" name="sp.log.dir" value="${java.io.tmpdir}"/> -->
+    
+    <!-- Guess default log directory -->
+    <if condition='isNull("sp.log.dir")'>
+      <then>
+        <!-- Detect which container installed -->
+        <if condition='isDefined("user.install.root")'>
+          <then>
+            <!-- In WAS, output to profiles/Cell/logs -->
+            <property scope="context" name="sp.log.dir" value="${user.install.root}/logs"/>
+          </then>
+        </if>
+        <if condition='isDefined("catalina.home")'>
+          <then>
+            <!-- In Tomcat, output to $CATALINA_HOME/logs -->
+            <property scope="context" name="sp.log.dir" value="${catalina.home}/logs"/>
+          </then>
+        </if>
+      </then>
+    </if>
+    
+    <!--
+        Loggers define indicate which packages/categories are logged, at which level, and to which appender.
+        Levels: OFF, ERROR, WARN, INFO, DEBUG, TRACE, ALL
+    -->
+    <!-- Logs SP, but not OpenSAML, messages -->
+    <!--
+    <logger name="com.sinopec.siam.agent.web" level="ALL"/>
+    
+        <logger name="com.sinopec.siam.agent.am" level="ALL"/>-->
+    
+    
+    <logger name="org.springframework" level="INFO"/>
+    
+   <!--
+    <logger name="org.apache.catalina" level="ERROR"/>
+   
+       <logger name="org.opensaml" level="ALL"/>-->
+      <!-- <logger name="org.springframework.ldap" level="DEBUG"/>-->
+       
+   
+    
+    <!-- Logs inbound and outbound protocols messages at DEBUG level -->
+    <!--
+    <logger name="PROTOCOL_MESSAGE" level="DEBUG" />
+    -->
+    
+    <!-- 
+        Normally you should not edit below this point.  These default configurations are sufficient for 
+        almost every system.
+    -->
+    
+    <!-- Core appender for all information -->
+    <appender name="SP_PROCESS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${sp.log.dir}/logs/sp-process.log</File>
+        
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${sp.log.dir}/logs/sp-process-%d{yyyy-MM-dd}.log</FileNamePattern>
+        </rollingPolicy>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <charset>UTF-8</charset>
+            <Pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} - %level [%logger:%line] - %msg%n</Pattern>
+        </encoder>
+    </appender>
+
+    <root level="ERROR">
+        <appender-ref ref="SP_PROCESS"/>
+    </root>
+
+</configuration>
