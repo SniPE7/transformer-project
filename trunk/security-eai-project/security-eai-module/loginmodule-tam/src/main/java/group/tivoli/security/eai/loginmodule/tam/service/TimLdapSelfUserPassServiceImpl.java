@@ -48,7 +48,6 @@ public class TimLdapSelfUserPassServiceImpl extends TimLdapUserPassServiceImpl {
    * @throws WSInvalidLoginException
    * @throws javax.xml.rpc.ServiceException 
    */
-  @Override
   public void updatePassword(String username, String oldPassword, String newPassword) throws MalformedURLException,
   WSInvalidLoginException, WSLoginServiceException, RemoteException, ServiceException {
     if(log.isDebugEnabled()){
