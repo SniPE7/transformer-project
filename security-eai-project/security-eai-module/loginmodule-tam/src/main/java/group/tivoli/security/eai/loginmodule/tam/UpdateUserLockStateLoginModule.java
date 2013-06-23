@@ -17,6 +17,7 @@ import com.sinopec.siam.am.idp.authn.module.AbstractSpringLoginModule;
 import com.sinopec.siam.am.idp.authn.module.DetailLoginException;
 import com.sinopec.siam.am.idp.authn.principal.UserPrincipal;
 import com.sinopec.siam.am.idp.authn.service.AbstractUserLockService;
+import com.sinopec.siam.am.idp.authn.service.UserLockState;
 
 /**
  * 用户锁定状态检查LoginModule
@@ -70,7 +71,15 @@ public class UpdateUserLockStateLoginModule extends AbstractSpringLoginModule {
       //清理失败状态
       AbstractUserLockService userLockStateService = getUserLockStateService();
       try {
-        userLockStateService.cleanState(loginUsername);
+    	    UserLockState userLockState = userLockStateService.getUser(loginUsername);
+    	    if (userLockState != null){
+        	    if(log.isDebugEnabled()){
+          	      log.debug(String.format("cleanState username is %s", loginUsername));
+          	    }
+    	    }
+    	    userLockState.setValue(userLockStateService.getFailedNumberAttr(), 0);
+    	    userLockState.setValue(userLockStateService.getUnlockTimeAttr(), null);
+    	    userLockStateService.unLock(userLockState);
       } catch (Exception e) {
           log.error(e.getMessage(), e);
       }

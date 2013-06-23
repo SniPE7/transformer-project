@@ -236,7 +236,7 @@ public class ModifyPasswordServlet extends HttpServlet {
 
     // 修改TIM口令（API）
     try {
-      userPassService.updatePassword(username, password, nPassword);
+      userPassService.updatePassword(username, nPassword);
     } catch (MalformedURLException e) {
       log.error(String.format("Create ITIMWebServiceFactory Exception. username:%s [error: %s]", username, e.toString()), e);
       request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "modifyPass.error.failure");

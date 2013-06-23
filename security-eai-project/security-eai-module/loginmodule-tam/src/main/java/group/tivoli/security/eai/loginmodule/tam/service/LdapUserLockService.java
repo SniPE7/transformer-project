@@ -101,7 +101,6 @@ public class LdapUserLockService extends AbstractUserLockService {
     updateUserLock(userLockState);
   }
   
-  @Override
   public void cleanState(String userName) throws Exception{
     
     UserLockState userLockState = getUser(userName);
@@ -117,10 +116,7 @@ public class LdapUserLockService extends AbstractUserLockService {
     updateUserLock(userLockState);
   }
 
-  /** {@inheritDoc} */
-  @SuppressWarnings("unchecked")
-  @Override
-  protected UserLockState getUser(String username) throws Exception {
+  public UserLockState getUser(String username) throws Exception {
     if(log.isDebugEnabled()){
       log.debug(String.format("getUser by username is %s", username));
     }
