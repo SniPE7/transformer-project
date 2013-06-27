@@ -7,7 +7,7 @@
         </div>
       </div><!-- end #banner -->
       <div id="menu">
-        <div id="slides">中国石化用户统一身份认证中心</div>
+        <div id="slides">上海通用汽车统一身份认证中心</div>
         <ul id="tabs">
           <li><a href="#">帮助</a></li>
           <li><a href="#" class="current">注销</a></li>

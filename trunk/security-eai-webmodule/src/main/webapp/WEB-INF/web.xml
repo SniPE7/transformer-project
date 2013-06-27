@@ -125,7 +125,7 @@
 		<url-pattern>/AuthnEngine</url-pattern>
 	</servlet-mapping>
 
-  <!-- TAM Login Handler -->
+  <!-- TAM LDAP Username and Password Login Handler -->
   <servlet>
     <servlet-name>TAMAuthHandler</servlet-name>
     <servlet-class>com.sinopec.siam.am.idp.authn.module.tamldap.TAMLoginServlet</servlet-class>
@@ -237,6 +237,14 @@
 			<param-name>kaptcha.border</param-name>
 			<param-value>no</param-value>
 		</init-param>
+    <init-param>
+      <param-name>kaptcha.textproducer.char.length</param-name>
+      <param-value>5</param-value>
+    </init-param>
+    <init-param>
+      <param-name>kaptcha.textproducer.char.string </param-name>
+      <param-value>0123456789</param-value>
+    </init-param>
 		<init-param>
 			<param-name>kaptcha.textproducer.font.color</param-name>
 			<param-value>black</param-value>
@@ -247,11 +255,7 @@
 		</init-param>
 		<init-param>
 			<param-name>kaptcha.textproducer.font.size</param-name>
-			<param-value>20</param-value>
-		</init-param>
-		<init-param>
-			<param-name>kaptcha.textproducer.char.length</param-name>
-			<param-value>4</param-value>
+			<param-value>26</param-value>
 		</init-param>
 		<init-param>
 			<param-name>kaptcha.obscurificator.impl</param-name>
@@ -259,7 +263,7 @@
 		</init-param>
 		<init-param>
 			<param-name>kaptcha.image.width</param-name>
-			<param-value>100</param-value>
+			<param-value>160</param-value>
 		</init-param>
 		<init-param>
 			<param-name>kaptcha.image.height</param-name>
