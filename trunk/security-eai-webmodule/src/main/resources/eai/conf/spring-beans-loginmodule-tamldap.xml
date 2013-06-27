@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+  xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+  <!-- ========================================================================================================= -->
+  <!-- TAM Ldap数据源 -->
+  <!-- ========================================================================================================= -->
+  <bean id="tamLdapContextSource" class="org.springframework.ldap.core.support.LdapContextSource">
+    <property name="url" value="${eai.tam.ldap.url}" />
+    <property name="userDn" value="${eai.tam.ldap.userDn}" />
+    <property name="password" value="${eai.tam.ldap.password}" />
+    <!-- 必须配置为false, 禁用此模式下的连接池机制才能使MutablePoolingContextSource的连接池控制起作用, 否则无法重新连接失效的连接 -->
+    <property name="pooled" value="false" />
+  </bean>
+
+  <bean id="tamLdapPoolingContextSource" class="org.springframework.ldap.pool.factory.MutablePoolingContextSource">
+    <property name="contextSource" ref="tamLdapContextSource" />
+    <!-- 不限制各个类型最大的连接数 -->
+    <property name="maxActive" value="-1" />
+    <!-- 不限制总的最大连接数 -->
+    <property name="maxTotal" value="-1" />
+    <!-- 释放达到的并保持的最大连接，即繁忙后释放连接时,保持的最大连接 -->
+    <property name="maxIdle" value="16" />
+    <!-- 创建时，建立空闲连接数的上限，即最小 -->
+    <property name="minIdle" value="8" />
+    <!-- 当Pool中资源耗尽时, 缺省为无限等待, 为了防止对WAS线程造成长时间占用, 调整为一个固定时间. 应根据实际运行场景进行调整, -1时为无限等待 -->
+    <property name="maxWait" value="1000" />
+    <!-- 连接池中连接的验证器, 缺省查询单节点, 并只返回Objectclass属性 -->
+    <property name="dirContextValidator">
+      <bean class="org.springframework.ldap.pool.validation.DefaultDirContextValidator">
+        <property name="base" value="${eai.tam.ldap.user.baseDn}"></property>
+      </bean>
+    </property>
+    <!-- 三种检测方式, 一般不需要在租界前检测，也不要在归还时检测, 即使只打开一种方式, 也会对性能敏感的场合产生影响. 除非应用对性能不敏感 -->
+    <property name="testOnBorrow" value="false" />
+    <property name="testOnReturn" value="false" />
+    <!-- 推荐使用空闲检测的方式, 以指定的空闲时间检测连接, 失效的连接将被逐出 -->
+    <property name="testWhileIdle" value="true" />
+    <!-- 毫秒为单位的空闲逐出检测的间隔 -->
+    <property name="timeBetweenEvictionRunsMillis" value="60000" />
+    <!-- 每次做连接检测时, 检查的连接次数，例如10表示每次检测10个连接池中的连接 -->
+    <property name="numTestsPerEvictionRun" value="10"></property>
+  </bean>
+
+  <bean id="tamLdapTemplate" class="org.springframework.ldap.core.LdapTemplate">
+    <property name="contextSource" ref="tamLdapPoolingContextSource" />
+  </bean>
+
+  <!-- ========================================================================================================= -->
+  <!-- TAM LDAP User Service -->
+  <!-- ========================================================================================================= -->
+  <bean id="tamLdapUserService" class="com.sinopec.siam.am.idp.authn.service.LdapUserServiceImpl">
+    <property name="template" ref="tamLdapTemplate"></property>
+    <property name="userBaseDN" value="${eai.tam.ldap.user.baseDn}"></property>
+  </bean>
+
+  <!-- ========================================================================================================= -->
+  <!-- TAM LDAP User Security Authority Service -->
+  <!-- ========================================================================================================= -->
+  <bean id="tamLdapUserSecAuthrityService" class="com.sinopec.siam.am.idp.authn.service.LdapUserServiceImpl">
+    <property name="template" ref="tamLdapTemplate"></property>
+    <property name="userBaseDN" value="${eai.tam.ldap.secauthority.baseDN}"></property>
+  </bean>
+
+  <!-- ========================================================================================================= -->
+  <!-- TIM Ldap数据源 -->
+  <!-- ========================================================================================================= -->
+  <bean id="timLdapContextSource" class="org.springframework.ldap.core.support.LdapContextSource">
+    <property name="url" value="${eai.tim.ldap.url}" />
+    <property name="userDn" value="${eai.tim.ldap.userDn}" />
+    <property name="password" value="${eai.tim.ldap.password}" />
+    <!-- 必须配置为false, 禁用此模式下的连接池机制才能使MutablePoolingContextSource的连接池控制起作用, 否则无法重新连接失效的连接 -->
+    <property name="pooled" value="false" />
+  </bean>
+
+  <bean id="timLdapPoolingContextSource" class="org.springframework.ldap.pool.factory.MutablePoolingContextSource">
+    <property name="contextSource" ref="timLdapContextSource" />
+    <!-- 不限制各个类型最大的连接数 -->
+    <property name="maxActive" value="-1" />
+    <!-- 不限制总的最大连接数 -->
+    <property name="maxTotal" value="-1" />
+    <!-- 释放达到的并保持的最大连接，即繁忙后释放连接时,保持的最大连接 -->
+    <property name="maxIdle" value="16" />
+    <!-- 创建时，建立空闲连接数的上限，即最小 -->
+    <property name="minIdle" value="8" />
+    <!-- 当Pool中资源耗尽时, 缺省为无限等待, 为了防止对WAS线程造成长时间占用, 调整为一个固定时间. 应根据实际运行场景进行调整, -1时为无限等待 -->
+    <property name="maxWait" value="1000" />
+    <!-- 连接池中连接的验证器, 缺省查询单节点, 并只返回Objectclass属性 -->
+    <property name="dirContextValidator">
+      <bean class="org.springframework.ldap.pool.validation.DefaultDirContextValidator">
+        <property name="base" value="${eai.tim.ldap.userBaseDN}"></property>
+      </bean>
+    </property>
+    <!-- 三种检测方式, 一般不需要在租界前检测，也不要在归还时检测, 即使只打开一种方式, 也会对性能敏感的场合产生影响. 除非应用对性能不敏感 -->
+    <property name="testOnBorrow" value="false" />
+    <property name="testOnReturn" value="false" />
+    <!-- 推荐使用空闲检测的方式, 以指定的空闲时间检测连接, 失效的连接将被逐出 -->
+    <property name="testWhileIdle" value="true" />
+    <!-- 毫秒为单位的空闲逐出检测的间隔 -->
+    <property name="timeBetweenEvictionRunsMillis" value="60000" />
+    <!-- 每次做连接检测时, 检查的连接次数，例如10表示每次检测10个连接池中的连接 -->
+    <property name="numTestsPerEvictionRun" value="10"></property>
+  </bean>
+
+  <bean id="timLdapTemplate" class="org.springframework.ldap.core.LdapTemplate">
+    <property name="contextSource" ref="timLdapPoolingContextSource" />
+  </bean>
+
+  <!-- ========================================================================================================= -->
+  <!-- TIM User Pass Service -->
+  <!-- ========================================================================================================= -->
+  <bean id="timUserPassService" class="com.sinopec.siam.am.idp.authn.service.TimLdapUserPassServiceImpl">
+    <property name="ldapTemplate" ref="timLdapTemplate"></property>
+    <property name="ldapUserBaseDN" value="${eai.tim.ldap.userBaseDN}"></property>
+    <property name="userNameLdapAttribute" value="${eai.loginmodule.tim.ldap.userNameAttribute}"></property>
+    <property name="userPassLastChangedLdapAttribute" value="${eai.loginmodule.tim.ldap.userPassLastChangedAttribute}"></property>
+    <property name="userPassResetStateLdapAttribute" value="${eai.loginmodule.tim.ldap.userPassResetStateLdapAttribute}"></property>
+    <property name="timSoapEndpoint" value="${eai.tim.api.soapEndpoint}"></property>
+    <property name="itimManager" value="${eai.itim.manager.principal}"></property>
+    <property name="itimManagerPwd" value="${eai.itim.manager.credentials}"></property>
+    <property name="notifyByMail" value="false"></property>
+    <property name="userOwnerLdapAttribute" value="${eai.loginmodule.tim.ldap.userOwnerLdapAttribute}"></property>
+  </bean>
+
+  <!-- ========================================================================================================= -->
+  <!-- TAM Local User Lock Service -->
+  <!-- ========================================================================================================= -->
+  <bean id="tamLocalUserLockService" class="com.sinopec.siam.am.idp.authn.service.LocalUserLockService">
+    <property name="userNameAttr" value="${eai.loginmodule.secauthority.ldap.userNameAttr}"></property>
+    
+    <property name="maxFailedNumber" value="${eai.loginmodule.userlock.maxFailedNumber}"></property>
+    <property name="unLockTimeInterval" value="${eai.loginmodule.userlock.unLockTimeInterval}"></property>
+    <property name="unlockTimeAttr" value="${eai.loginmodule.userlock.ldap.unlockTimeAttr}"></property>
+    <property name="unlockTimeFormat" value="${eai.loginmodule.userlock.ldap.unlockTimeFormat}"></property>
+    <property name="failedNumberAttr" value="${eai.loginmodule.userlock.ldap.failedNumberAttr}"></property>
+    <property name="lockStateAttr" value="${eai.loginmodule.userlock.ldap.lockStateAttr}"></property>
+  </bean>
+  
+  <!-- ========================================================================================================= -->
+  <!-- TamLockUserLock schedule bean, used by Spring Job Controlled substance -->
+  <!-- ========================================================================================================= -->
+  <bean id="tamLocalUserLockTriggers" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+    <property name="triggers">
+      <list>
+        <!-- 当前配置的是: 每小时运行一次 value中的内容： 第6位：的1代表星期天，在国外星期天才是每个周的开始！ 第5位： *代表所有月的星期天 第4位：？代表也没有具体到某日的星期天 第3位：23代表23点，注意：采用24小时 第2位：59代表分钟 第1位：50代表秒 -->
+        <bean class="org.springframework.scheduling.quartz.CronTriggerBean">
+          <property name="cronExpression" value="10 * * ? * *" />
+          <property name="jobDetail">
+            <bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+              <property name="targetObject" ref="tamLocalUserLockService" />
+              <property name="targetMethod" value="unLockAll" />
+              <property name="concurrent" value="false" />
+            </bean>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+
+  <!-- ========================================================================================================= -->
+  <!-- -->
+  <!-- -->
+  <!-- TAM LDAP User Password Login Context -->
+  <!-- -->
+  <!-- -->
+  <!-- ========================================================================================================= -->
+  <bean id="eai.jaas.loginModule.TamLdapUserPassAuth" class="com.ibm.tivoli.jaas.config.LoginContextItem">
+    <!-- Login Context Name, which be referenced by JAAS -->
+    <property name="name" value="TamLdapUserPassAuth"></property>
+    <!-- Login Module Chain -->
+    <property name="loginModules">
+      <list>
+        <!-- VerifyCode check Login Module -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.VerifyCodeCheckLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="loginOptFlag"></property>
+                <property name="value" value="login"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- User Lock State Check Login Module, Where user is locked, this login will fail -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.CheckUserLockStateLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userLockServiceBeanId"></property>
+                <property name="value" value="tamLocalUserLockService"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- LDAP Login Module: Composite TAM LDAP and AD Login Modules -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.LoginContextBasedLoginModule"></property>
+          <property name="moduleFlag" value="REQUIRED"></property>
+          <property name="moduleOptions">
+            <list>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="loginContextManagerBeanName"></property>
+                <property name="value" value="loginContextManager"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="jaasConfigName"></property>
+                <property name="value" value="LdapUserLogin"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- Update Lock State Login Module, Base on previouse login modules, this module will count failure login. -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.UpdateUserLockStateLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userLockServiceBeanId"></property>
+                <property name="value" value="tamLocalUserLockService"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- TAM and AD Mapping Login Module -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.tamldap.TamAndADMappingLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="adEntryDnSuffix"></property>
+                <property name="value" value="${idp.ad.ldap.user.baseDn}"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="tamAdMappingFilter"></property>
+                <property name="value" value="${idp.loginmodule.tam.login.tamAdMappingFilter}"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="returnAttributeNames"></property>
+                <property name="value" value="${idp.loginmodule.login.returnAttributeNames}"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userServiceBeanId"></property>
+                <property name="value" value="tamLdapUserService"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- User Account Valid -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.CheckUserAcctValidLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userServiceBeanId"></property>
+                <property name="value" value="tamLdapUserSecAuthrityService"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userAcctValidAttr"></property>
+                <property name="value" value="${eai.tam.ldap.secauthority.userAcctValidAttr}"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userNameAttr"></property>
+                <property name="value" value="${eai.tam.ldap.secauthority.userNameAttr}"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- User Pass Past Due Login Module -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.UserPassPastDueLdapLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userPassServiceBeanId"></property>
+                <property name="value" value="timUserPassService"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userPassPastDueTime"></property>
+                <property name="value" value="${eai.loginmodule.userpasswd.pastDue.time}"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- User Pass Reset Login Module -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.UserPassResetLdapLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userPassServiceBeanId"></property>
+                <property name="value" value="timUserPassService"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- Password Remind Login Module -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.UserPassRemindLdapLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userPassServiceBeanId"></property>
+                <property name="value" value="timUserPassService"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userPassPastDueTime"></property>
+                <property name="value" value="${eai.loginmodule.userpasswd.pastDue.time}"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="remindPasswordTime"></property>
+                <property name="value" value="${eai.loginmodule.userpasswd.pastDue.remindPasswordTime}"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.ValidateReAuthenLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!-- LDAP and AD User Password Login Module -->
+  <bean id="eai.jaas.loginModule.LdapUserLogin" class="com.ibm.tivoli.jaas.config.LoginContextItem">
+    <property name="name" value="LdapUserLogin"></property>
+    <property name="loginModules">
+      <list>
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.tamldap.LoginStateCheckerLoginModule"></property>
+          <property name="moduleFlag" value="SUFFICIENT"></property>
+        </bean>
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.CommonLdapLoginModule"></property>
+          <property name="moduleFlag" value="SUFFICIENT"></property>
+          <property name="moduleOptions">
+            <list>
+              <!-- Enable store source to shareState, share authenticated source with other LoginModule -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="authnSource"></property>
+                <property name="value" value="SIAM"></property>
+              </bean>
+              <!-- Enable store username to shareState, share authenticated username with other LoginModule -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="storePass"></property>
+                <property name="value" value="true"></property>
+              </bean>
+              <!-- Define how to search user by username, {0} mean username -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userFilter"></property>
+                <property name="value" value="(&amp;(uid={0})(objectclass=inetOrgPerson))"></property>
+              </bean>
+              <!-- Define login user return attribute name -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="returnAttributeNames"></property>
+                <property name="value" value="${idp.loginmodule.login.returnAttributeNames}"></property>
+              </bean>
+              <!-- Define spring ldap template bean name -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="ldapTemplateBeanName"></property>
+                <property name="value" value="tamLdapTemplate"></property>
+              </bean>
+              <!-- Define baseDN -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="baseDn"></property>
+                <property name="value" value="${eai.tam.ldap.user.baseDn}"></property>
+              </bean>
+              <!-- whether use bind mode -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="bindMode"></property>
+                <property name="value" value="false"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+
+</beans>
