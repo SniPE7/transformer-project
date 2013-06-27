@@ -704,11 +704,11 @@ public class AuthenticationEngine extends HttpServlet {
 		UsernamePrincipal authenticationPrincipal = (UsernamePrincipal) authenticationSubject.getPrincipals(UsernamePrincipal.class).iterator().next();
 		LOG.debug("Updating session information for principal {}", authenticationPrincipal.getName());
 
-		Session userSession = (Session) httpRequest.getAttribute(Session.HTTP_SESSION_BINDING_ATTRIBUTE);
+		HttpSession session = httpRequest.getSession(true);
+		Session userSession = (Session) session.getAttribute(Session.HTTP_SESSION_BINDING_ATTRIBUTE);
 		if (userSession == null) {
 			LOG.debug("Creating shibboleth session for principal {}", authenticationPrincipal.getName());
 			userSession = new SessionImpl();
-			HttpSession session = httpRequest.getSession(true);
 			session.setAttribute(Session.HTTP_SESSION_BINDING_ATTRIBUTE, userSession);
 		}
 
