@@ -6,9 +6,7 @@
 				<div class="desc">
 				  <p>登录用户：${PrincipalName}</p>
 				  <c:forEach items="${ServiceInformation}" var="item">
-				  <p>SP：${item.entityid}</p>
-				  <p>认证方式：<spring:message code="${item.method}"/></p>
+				  <p>认证方式：${item.authenticationMethod.authenticationMethod}</p>
 				  <p>会话最后活动时间：${item.loginInstant}</p>
-				  <p>会话预计终止时间：${item.expirationInstant}</p>
 				  </c:forEach>
 				</div>
