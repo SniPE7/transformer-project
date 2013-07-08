@@ -159,12 +159,419 @@
       </list>
     </property>
   </bean>
+  
+  <!-- ========================================================================================================= -->
+  <!-- -->
+  <!-- -->
+  <!--  User SMS Password Login Context : UID/工卡+密码+SMS OTP登录页面-->
+  <!-- -->
+  <!-- -->
+  <!-- ========================================================================================================= -->
+  <bean id="idp.jaas.loginModule.SMSUserPassAuth" class="com.ibm.tivoli.jaas.config.LoginContextItem">
+    <!-- Login Context Name, which be referenced by JAAS -->
+    <property name="name" value="SMSUserPassAuth"></property>
+    <!-- Login Module Chain -->
+    <property name="loginModules">
+      <list>
+        <!-- VerifyCode check Login Module -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.VerifyCodeCheckLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="loginOptFlag"></property>
+                <property name="value" value="login"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- SMSCode check Login Module -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.SMSCodeCheckLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="loginOptFlag"></property>
+                <property name="value" value="login"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- User Lock State Check Login Module, Where user is locked, this login will fail -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.CheckUserLockStateLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userLockServiceBeanId"></property>
+                <property name="value" value="tamLocalUserLockService"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- LDAP Login Module: Composite TAM LDAP and AD Login Modules -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.LoginContextBasedLoginModule"></property>
+          <property name="moduleFlag" value="REQUIRED"></property>
+          <property name="moduleOptions">
+            <list>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="loginContextManagerBeanName"></property>
+                <property name="value" value="loginContextManager"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="jaasConfigName"></property>
+                <property name="value" value="LdapUserLogin"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- Check SMS Code Auth Login Module and reflect loingtag to  uid for loginname -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.LoginStateSetLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <!-- Define how to search user by username, {0} mean username -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userFilter"></property>
+                <!-- <property name="value" value="(&amp;(uid={0})(objectclass=inetOrgPerson))"></property>-->
+                <property name="value" value="(&amp;(|(uid={0})(badgeid={0}))(objectclass=inetOrgPerson))"></property> 
+              </bean>
+              <!-- Define spring ldap template bean name -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="ldapTemplateBeanName"></property>
+                <property name="value" value="tamLdapTemplate"></property>
+              </bean>
+              <!-- Define baseDN -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="baseDn"></property>
+                <property name="value" value="${eai.tam.ldap.user.baseDn}"></property>
+              </bean>
+              <!-- Define check sms code -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="checkSMS"></property>
+                <property name="value" value="true"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- Update Lock State Login Module, Base on previouse login modules, this module will count failure login. -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.UpdateUserLockStateLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userLockServiceBeanId"></property>
+                <property name="value" value="tamLocalUserLockService"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- TAM and AD Mapping Login Module -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.tamldap.TamAndADMappingLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="adEntryDnSuffix"></property>
+                <property name="value" value="${idp.ad.ldap.user.baseDn}"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="tamAdMappingFilter"></property>
+                <property name="value" value="${idp.loginmodule.tam.login.tamAdMappingFilter}"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="returnAttributeNames"></property>
+                <property name="value" value="${idp.loginmodule.login.returnAttributeNames}"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userServiceBeanId"></property>
+                <property name="value" value="tamLdapUserService"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- User Account Valid -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.CheckUserAcctValidLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userServiceBeanId"></property>
+                <property name="value" value="tamLdapUserSecAuthrityService"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userAcctValidAttr"></property>
+                <property name="value" value="${eai.tam.ldap.secauthority.userAcctValidAttr}"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userNameAttr"></property>
+                <property name="value" value="${eai.tam.ldap.secauthority.userNameAttr}"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- User Pass Past Due Login Module -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.UserPassPastDueLdapLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userPassServiceBeanId"></property>
+                <property name="value" value="timUserPassService"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userPassPastDueTime"></property>
+                <property name="value" value="${eai.loginmodule.userpasswd.pastDue.time}"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- User Pass Reset Login Module -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.UserPassResetLdapLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userPassServiceBeanId"></property>
+                <property name="value" value="timUserPassService"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- Password Remind Login Module -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.UserPassRemindLdapLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userPassServiceBeanId"></property>
+                <property name="value" value="timUserPassService"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userPassPastDueTime"></property>
+                <property name="value" value="${eai.loginmodule.userpasswd.pastDue.time}"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="remindPasswordTime"></property>
+                <property name="value" value="${eai.loginmodule.userpasswd.pastDue.remindPasswordTime}"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.ValidateReAuthenLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  
+  
+  
+  <!-- ========================================================================================================= -->
+  <!-- -->
+  <!-- -->
+  <!-- SMS User Login Context : UID/工卡+SMS OTP登录页面-->
+  <!-- -->
+  <!-- -->
+  <!-- ========================================================================================================= -->
+  <bean id="idp.jaas.loginModule.SMSUserAuth" class="com.ibm.tivoli.jaas.config.LoginContextItem">
+    <!-- Login Context Name, which be referenced by JAAS -->
+    <property name="name" value="SMSUserAuth"></property>
+    <!-- Login Module Chain -->
+    <property name="loginModules">
+      <list>
+        <!-- VerifyCode check Login Module -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.VerifyCodeCheckLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="loginOptFlag"></property>
+                <property name="value" value="login"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- SMSCode check Login Module -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.SMSCodeCheckLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="loginOptFlag"></property>
+                <property name="value" value="login"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- Check SMS Code Auth Login Module and reflect loingtag to  uid for loginname -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.LoginStateSetLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <!-- Define how to search user by username, {0} mean username -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userFilter"></property>
+                <!-- <property name="value" value="(&amp;(uid={0})(objectclass=inetOrgPerson))"></property>-->
+                <property name="value" value="(&amp;(|(uid={0})(badgeid={0}))(objectclass=inetOrgPerson))"></property> 
+              </bean>
+              <!-- Define spring ldap template bean name -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="ldapTemplateBeanName"></property>
+                <property name="value" value="tamLdapTemplate"></property>
+              </bean>
+              <!-- Define baseDN -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="baseDn"></property>
+                <property name="value" value="${eai.tam.ldap.user.baseDn}"></property>
+              </bean>
+              <!-- Define check sms code -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="checkSMS"></property>
+                <property name="value" value="true"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- User Lock State Check Login Module, Where user is locked, this login will fail -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.CheckUserLockStateLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userLockServiceBeanId"></property>
+                <property name="value" value="tamLocalUserLockService"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+       
+        <!-- TAM and AD Mapping Login Module -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.tamldap.TamAndADMappingLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="adEntryDnSuffix"></property>
+                <property name="value" value="${idp.ad.ldap.user.baseDn}"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="tamAdMappingFilter"></property>
+                <property name="value" value="${idp.loginmodule.tam.login.tamAdMappingFilter}"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="returnAttributeNames"></property>
+                <property name="value" value="${idp.loginmodule.login.returnAttributeNames}"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userServiceBeanId"></property>
+                <property name="value" value="tamLdapUserService"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- User Account Valid -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.CheckUserAcctValidLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userServiceBeanId"></property>
+                <property name="value" value="tamLdapUserSecAuthrityService"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userAcctValidAttr"></property>
+                <property name="value" value="${eai.tam.ldap.secauthority.userAcctValidAttr}"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userNameAttr"></property>
+                <property name="value" value="${eai.tam.ldap.secauthority.userNameAttr}"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- User Pass Past Due Login Module -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.UserPassPastDueLdapLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userPassServiceBeanId"></property>
+                <property name="value" value="timUserPassService"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userPassPastDueTime"></property>
+                <property name="value" value="${eai.loginmodule.userpasswd.pastDue.time}"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- User Pass Reset Login Module -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.UserPassResetLdapLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userPassServiceBeanId"></property>
+                <property name="value" value="timUserPassService"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- Password Remind Login Module -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.UserPassRemindLdapLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userPassServiceBeanId"></property>
+                <property name="value" value="timUserPassService"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userPassPastDueTime"></property>
+                <property name="value" value="${eai.loginmodule.userpasswd.pastDue.time}"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="remindPasswordTime"></property>
+                <property name="value" value="${eai.loginmodule.userpasswd.pastDue.remindPasswordTime}"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.ValidateReAuthenLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
 
   <!-- ========================================================================================================= -->
   <!-- -->
   <!-- -->
-  <!-- TAM LDAP User Password Login Context -->
+  <!-- TAM LDAP User Password Login Context: UID/工卡+密码登录页面 -->
   <!-- -->
   <!-- -->
   <!-- ========================================================================================================= -->
@@ -226,6 +633,36 @@
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="userLockServiceBeanId"></property>
                 <property name="value" value="tamLocalUserLockService"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <!-- Check SMS Code Auth Login Module and reflect loingtag to  uid for loginname -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.LoginStateSetLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <!-- Define how to search user by username, {0} mean username -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userFilter"></property>
+                <!-- <property name="value" value="(&amp;(uid={0})(objectclass=inetOrgPerson))"></property>-->
+                <property name="value" value="(&amp;(|(uid={0})(badgeid={0}))(objectclass=inetOrgPerson))"></property> 
+              </bean>
+              <!-- Define spring ldap template bean name -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="ldapTemplateBeanName"></property>
+                <property name="value" value="tamLdapTemplate"></property>
+              </bean>
+              <!-- Define baseDN -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="baseDn"></property>
+                <property name="value" value="${eai.tam.ldap.user.baseDn}"></property>
+              </bean>
+              <!-- Define check sms code -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="checkSMS"></property>
+                <property name="value" value="false"></property>
               </bean>
             </list>
           </property>
@@ -362,7 +799,8 @@
               <!-- Define how to search user by username, {0} mean username -->
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="userFilter"></property>
-                <property name="value" value="(&amp;(uid={0})(objectclass=inetOrgPerson))"></property>
+                <!-- <property name="value" value="(&amp;(uid={0})(objectclass=inetOrgPerson))"></property>-->
+                <property name="value" value="(&amp;(|(uid={0})(badgeid={0}))(objectclass=inetOrgPerson))"></property> 
               </bean>
               <!-- Define login user return attribute name -->
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">

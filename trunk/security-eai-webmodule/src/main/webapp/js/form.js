@@ -20,3 +20,57 @@ function setMsg(type, txt) {
   p.appendChild(document.createTextNode(txt));
   divMsg.appendChild(p);
 }
+
+function sendsms() {
+	$.ajax( {
+		type : "post",
+		url : "getsmscode.do",
+		dataType:"json",
+        data:{
+            "j_username":$('#j_username').val()
+        },
+		success : function(msg) {
+			if(msg.status=='fail') {
+				setMsg('error', msg.msg);
+			} else if(msg.status=='success') {
+				updateTimeLabel(60);
+				
+				var mobile =  msg.mobile;
+				if(mobile.length==11) {
+					$("#lb_usr_mobile").text(" " + mobile.substring(0,3) + "-XXXX-" + mobile.substring(7,11) + " ");
+				} else {
+					$("#lb_usr_mobile").text("错误的手机号/ error mobile number");
+				}
+				//setMsg('info', msg.code);
+				$("#j_smscode").val(msg.code);
+			}
+		},
+		error:function(html){
+			setMsg('info', "提交数据失败，代码:" +html.status+ "，请稍候再试");
+		}
+	});
+}
+
+function updateTimeLabel(time) {
+    var btn = $("#bnt_sms");
+    var a_sendcode = jQuery("#a_sendcode");
+    btn.val(time <= 0 ? "发送/Send": ("" + (time) + "秒"));
+    var hander = setInterval(function() {
+        if (time <= 0) {
+        	btn.attr("disabled", false);
+        	
+            clearInterval(hander);
+            hander = null;
+            btn.val("发送/Send");
+            //a_sendcode.attr("disabled", false);
+            jQuery("#lb_tipsms").text("");
+        } else {
+            btn.attr("disabled", true);
+            //a_sendcode.attr("disabled", true);
+            btn.val("" + (time--) + "秒");
+            jQuery("#lb_tipsms").text("60秒后可以再次重发/Your can re-send until 10");
+        }
+    },
+    1000);
+}
+

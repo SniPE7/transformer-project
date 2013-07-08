@@ -98,11 +98,17 @@
       <param-name>AlwaysReauthen</param-name>
       <param-value>false</param-value>
     </init-param>
+    <init-param>
+      <description>Flag for EAI Authen</description>
+      <param-name>eaiAuthen</param-name>
+      <param-value>true</param-value>
+    </init-param>
   </filter>
   <filter-mapping>
     <filter-name>com.ibm.siam.am.idp.authn.AccessEnforcer</filter-name>
     <url-pattern>/login/info.do</url-pattern>
   </filter-mapping>
+   
 
 	<!-- Authentication Engine Entry Point -->
 	<servlet>
@@ -160,6 +166,81 @@
   <servlet-mapping>
     <servlet-name>TAMAuthHandler</servlet-name>
     <url-pattern>/Authn/TAMUserPassAuth</url-pattern>
+  </servlet-mapping>
+  
+  <!-- SMSUserAuth Login Handler -->
+  <servlet>
+    <servlet-name>SMSUserAuthHandler</servlet-name>
+    <servlet-class>com.sinopec.siam.am.idp.authn.module.tamldap.TAMLoginServlet</servlet-class>
+    <init-param>
+      <param-name>authnMethod</param-name>
+      <param-value>urn:oasis:names:tc:SAML:2.0:ac:classes:SMSUserAuth</param-value>
+    </init-param>
+    <init-param>
+      <param-name>jaasConfigName</param-name>
+      <param-value>SMSUserAuth</param-value>
+    </init-param>
+    <init-param>
+      <param-name>loginPage</param-name>
+      <param-value>/login/smsuser/loginform.do</param-value>
+    </init-param>
+    <init-param>
+      <param-name>failureParam</param-name>
+      <param-value>loginFailed</param-value>
+    </init-param>
+    <!-- 登录操作的标识 -->
+    <init-param>
+      <param-name>loginOptFlag</param-name>
+      <param-value>login</param-value>
+    </init-param>
+    <!-- Form表单操作标识属性名称 -->
+    <init-param>
+      <param-name>formOptFlagAttribute</param-name>
+      <param-value>op</param-value>
+    </init-param>
+    <load-on-startup>6</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SMSUserAuthHandler</servlet-name>
+    <url-pattern>/Authn/SMSUserAuth</url-pattern>
+  </servlet-mapping>
+  
+  
+  <!-- SMSUserPassAuth Login Handler -->
+  <servlet>
+    <servlet-name>SMSUserPassAuthHandler</servlet-name>
+    <servlet-class>com.sinopec.siam.am.idp.authn.module.tamldap.TAMLoginServlet</servlet-class>
+    <init-param>
+      <param-name>authnMethod</param-name>
+      <param-value>urn:oasis:names:tc:SAML:2.0:ac:classes:SMSUserPassAuth</param-value>
+    </init-param>
+    <init-param>
+      <param-name>jaasConfigName</param-name>
+      <param-value>SMSUserPassAuth</param-value>
+    </init-param>
+    <init-param>
+      <param-name>loginPage</param-name>
+      <param-value>/login/smspass/loginform.do</param-value>
+    </init-param>
+    <init-param>
+      <param-name>failureParam</param-name>
+      <param-value>loginFailed</param-value>
+    </init-param>
+    <!-- 登录操作的标识 -->
+    <init-param>
+      <param-name>loginOptFlag</param-name>
+      <param-value>login</param-value>
+    </init-param>
+    <!-- Form表单操作标识属性名称 -->
+    <init-param>
+      <param-name>formOptFlagAttribute</param-name>
+      <param-value>op</param-value>
+    </init-param>
+    <load-on-startup>6</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SMSUserPassAuthHandler</servlet-name>
+    <url-pattern>/Authn/SMSUserPassAuth</url-pattern>
   </servlet-mapping>
   
   <!-- Modify Password Handler -->

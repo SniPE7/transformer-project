@@ -1,5 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="edu.internet2.middleware.shibboleth.idp.authn.LoginHandler"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ page
+	import="edu.internet2.middleware.shibboleth.idp.authn.LoginHandler"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%
@@ -9,7 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN">
 <head>
-<base href="<%=basePath%>"/>
+<base href="<%=basePath%>" />
 <tiles:useAttribute name="title" scope="request" />
 <title><spring:message code="${title}" /></title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -22,42 +24,51 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div id="container">
 		<div id="header">
 			<tiles:insertAttribute name="banner" />
-		</div><!-- end of #header -->
+		</div>
+		<!-- end of #header -->
 
 		<div id="main">
 			<div id="panel">
 				<div id="sidebar">
 					<tiles:insertAttribute name="info" />
 					<h3>统一账号介绍</h3>
-          <div class="desc">
-          	<div class="text">由上海通用汽车统一身份管理系统产生，统一颁发.</div>
-          </div>
-          <h3>统一账号管理</h3>
-          <div class="desc">
-          	<div class="text">统一账号（SUID）是SGM认证中心颁发的用户登录名，供登录信息系统使用。</div>
-           <ol>
-              <li>还没有统一账号？：点击“<a href="https://uid.sinopec.com/ss/view/register.html">创建统一账号</a>”</li>
-              <li>忘记了统一账号？：点击“<a href="https://uid.sinopec.com/ss/view/lose/account.html">找回统一账号</a>”</li>
-            </ol>
-          </div>
-          <h3>技术支持热线</h3>
-          <div class="desc">
-            <ol>
-              <li>电话：010-59966450</li>
-              <li>邮箱：siam@sinopec.com</li>
-            </ol>
-          </div>
-				</div><!-- end of #sidebar -->
+					<div class="desc">
+						<div class="text">由上海通用汽车统一身份管理系统产生，统一颁发.</div>
+					</div>
+					<h3>统一账号管理</h3>
+					<div class="desc">
+						<div class="text">统一账号（SUID）是SGM认证中心颁发的用户登录名，供登录信息系统使用。</div>
+						<ol>
+							<li>还没有统一账号？：点击“<a
+								href="https://uid.sinopec.com/ss/view/register.html">创建统一账号</a>”
+							</li>
+							<li>忘记了统一账号？：点击“<a
+								href="https://uid.sinopec.com/ss/view/lose/account.html">找回统一账号</a>”
+							</li>
+						</ol>
+					</div>
+					<h3>技术支持热线</h3>
+					<div class="desc">
+						<ol>
+							<li>电话：010-59966450</li>
+							<li>邮箱：siam@sinopec.com</li>
+						</ol>
+					</div>
+				</div>
+				<!-- end of #sidebar -->
 
 				<tiles:insertAttribute name="body" />
-			</div><!-- End of #panel -->
+			</div>
+			<!-- End of #panel -->
 
 			<div class="line"></div>
-		</div><!-- end #main -->
+		</div>
+		<!-- end #main -->
 
 		<div id="footer">
 			<tiles:insertAttribute name="footer" />
-		</div><!-- end #footer -->
+		</div>
+		<!-- end #footer -->
 	</div>
 	<%
     if ("true".equals(request.getAttribute("loginFailed"))) {
@@ -73,12 +84,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    if (request.getAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY) != null) {
 	      String arguments = request.getAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY).toString();
 	 %>
-	 			<script>setMsg('<%=msgType%>', '<spring:message code="<%=msgKey%>" arguments="<%=arguments%>" />');</script>
-	 <%
+	<script>setMsg('<%=msgType%>', '<spring:message code="<%=msgKey%>" arguments="<%=arguments%>" />');</script>
+	<%
 	    } else {
 	 %>
-	 			<script>setMsg('<%=msgType%>', '<spring:message code="<%=msgKey%>" />');</script>
-	 <%
+	<script>setMsg('<%=msgType%>', '<spring:message code="<%=msgKey%>" />');</script>
+	<%
 	    }
     }
   %>

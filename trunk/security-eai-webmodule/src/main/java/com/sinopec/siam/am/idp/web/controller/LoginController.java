@@ -96,6 +96,32 @@ public class LoginController extends BaseController {
 		super.setModelAndView(mav, request);
 		return mav;
 	}
+	
+	/**
+	 * UID/工卡+SMS OTP登录页面
+	 * 
+	 * @param request
+	 * @return uri(smsuserlogin)
+	 */
+	@RequestMapping(value = "/login/smsuser/loginform.do", method = { RequestMethod.GET, RequestMethod.POST, RequestMethod.HEAD })
+	public ModelAndView smsUserLogin(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("/login/smsuser/loginform");
+		super.setModelAndView(mav, request);
+		return mav;
+	}
+	
+	/**
+	 * UID/工卡+密码+SMS OTP登录页面
+	 * 
+	 * @param request
+	 * @return uri(smspasslogin)
+	 */
+	@RequestMapping(value = "/login/smspass/loginform.do", method = { RequestMethod.GET, RequestMethod.POST, RequestMethod.HEAD })
+	public ModelAndView smsPassLogin(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("/login/smspass/loginform");
+		super.setModelAndView(mav, request);
+		return mav;
+	}
 
 	/**
 	 * AD用户名口令登录界面

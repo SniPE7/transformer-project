@@ -21,7 +21,7 @@ a:hover {
 }
 #header, #main, #footer {
 	margin: 0 auto;
-	width: 780px;	
+	width: 1000px;	
 }
 #banner {
 	height: 120px;
@@ -198,7 +198,7 @@ ul#tabs li a:hover {
 	background: url("../images/login/acloginpodbg.gif") repeat-x scroll 0 0 #EBEBEB;
 	border: 1px solid #D3D3D3;
 	border-radius: 7px 7px 7px 7px;
-	width: 320px;
+	width: 450px;
 	margin: 20px auto;
 }
 #acloginpod .loginpanel {
@@ -230,7 +230,7 @@ ul#tabs li a:hover {
 	margin-bottom: 10px;
 	padding: 7px 0;
 	text-indent: 7px;
-	width: 99%;
+	width: 50%;
 }
 #acloginpod input.textCKcode {
   background: url("../images/login/textinputbg.gif") repeat-x scroll 0 0 #FFFFFF;
@@ -240,7 +240,7 @@ ul#tabs li a:hover {
   margin-bottom: 10px;
   padding: 7px 0;
   text-indent: 7px;
-  width: 50%;
+  width: 30%;
 }
 #acloginpod input:focus {
 	border-color: #77B2EE;
@@ -302,7 +302,7 @@ ul#tabs li a:hover {
     color: #333333;
     margin: 0.5em auto 1em auto;
     min-height: 1em;
-    width: 270px;
+    width: 400px;
     padding: 1em 1em 1em 35px;
     position: relative;
 }

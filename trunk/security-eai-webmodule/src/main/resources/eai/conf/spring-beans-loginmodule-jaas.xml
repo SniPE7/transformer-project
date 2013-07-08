@@ -10,6 +10,8 @@
     <constructor-arg>
       <list>
         <ref bean="eai.jaas.loginModule.TamLdapUserPassAuth" />
+        <ref bean="idp.jaas.loginModule.SMSUserAuth" />
+        <ref bean="idp.jaas.loginModule.SMSUserPassAuth" />
         <ref bean="eai.jaas.loginModule.LdapUserLogin" />
       </list>
     </constructor-arg>
