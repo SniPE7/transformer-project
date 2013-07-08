@@ -16,26 +16,35 @@
 	                <legend>
 	                  <em>请输入您的统一账号和密码</em>
 	                </legend>
-	                <label for="ac_username"><spring:message code="logon.form.username" /></label>
-	                <input type="text" tabindex="1" name="j_username" id="j_username" class="textinput" />
+	                <div id="normal-label">
+	                	<label for="ac_username"><spring:message code="logon.form.username" /></label>
+	                </div>
+	               	<div id="badge-label"> <label for="ac_username">请将工卡插入读卡器 或 输入用户名</label>
+		               	<label for="ac_username" style="display: block; float: left;">Please place your badge over reader, Or enter your username</label> 
+		               	<div id="forgotbox" style="display: block; float: left;text-align:center"><a tabindex="6" href="https://uid.sinopec.com/siam-im-selfservice-web/view/reset/password.html" class="forgotpass">注册工卡/Register My Badge?</a></div>
+	               	</div>
+					
+	               	<div style="clear:both; height:0;overflow:hidden;"></div>
+	                <input type="text" tabindex="1" name="j_username" id="j_username" class="textinput" style="display: block; float: left;"/>
+	                <div id="forgotbox" style="display: block; float: left;text-align:center"><a tabindex="5" href="https://uid.sinopec.com/siam-im-selfservice-web/view/lose/account.html" class="forgotpass">忘记用户名/Forget Username?</a></div>
+	                <div style="clear:both; height:0;overflow:hidden;"></div>
 	                <label class="float-left"><spring:message code="logon.form.password" /></label>
-	                <input type="password" tabindex="2" name="j_password" id="j_password" class="textinput"/>
+	                <input type="password" tabindex="2" name="j_password" id="j_password" class="textinput" style="display: block; float: left;"/>
+	                <div id="forgotbox" style="display: block; float: left;text-align:center"><a tabindex="6" href="https://uid.sinopec.com/siam-im-selfservice-web/view/reset/password.html" class="forgotpass">忘记密码/Forget Password?</a></div>
+	                <div style="clear:both; height:0;overflow:hidden;"></div>
+	                
 	                <label class="float-left"><spring:message code="logon.form.checkcode" /></label>
 	                <input type="text" tabindex="3" name="j_checkcode" id="j_checkcode" class="textCKcode" style="display: block; float: left;"/>
 	                <img id="j_checkcodeImgCode" src="Kaptcha.jpg"
 	                  style="height: 27px; width: 75px; cursor: hand; display: block; float: left; margin-left: 10px; margin-top: 3px;" title="看不清，请点击"
 	                  onclick="javascript:updateCheckCodeImg()"/>
-	                <span style="display: block; clear: both;"><font size="2px">请输入图片中的字符，区分大小写</font></span>
-	                <div class="aclogin-action">
+	                <span style="display: block; float: left; text-align:center"><font size="2px"> 点击图片更新验证码</font></span>
+	                <div class="aclogin-action" style="display: block; clear: both;">
 	                  <div class="fl-left">
-	                    <label accesskey="r" for="login-form-remember-me">
-	                    <input type="checkbox" tabindex="4" value="true" name="os_cookie"
-	                      id="login-form-remember-me" class="checkbox" />
-	                    <spring:message code="logon.form.rememberme" /></label>
-	                    <div id="forgotbox">
-	                      <a tabindex="5" href="https://uid.sinopec.com/siam-im-selfservice-web/view/lose/account.html" class="forgotpass">忘记账号?</a>
-	                      <a tabindex="6" href="https://uid.sinopec.com/siam-im-selfservice-web/view/reset/password.html" class="forgotpass">忘记密码?</a>
-	                    </div>
+	                   <!--  <div id="forgotbox">
+	                      <a tabindex="5" href="https://uid.sinopec.com/siam-im-selfservice-web/view/lose/account.html" class="forgotpass">忘记用户名/Forget Username?</a>
+	                      <a tabindex="6" href="https://uid.sinopec.com/siam-im-selfservice-web/view/reset/password.html" class="forgotpass">忘记密码/Forget Password?</a>
+	                    </div> -->
 	                  </div>
 	                  <input type="image" tabindex="7" value="登录" class="acloginbttn" 
 	                   src="themes/default/images/login/transparent.gif"/>

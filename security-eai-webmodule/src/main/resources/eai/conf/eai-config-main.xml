@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>EAI main configuration file</comment>
+
+	<!-- TAM LDAP Server -->
+	<entry key="eai.tam.ldap.url">ldap://ldap.shanghaigm.com:3890</entry>
+	<entry key="eai.tam.ldap.user.baseDn">DC=JKE,DC=COM</entry>
+	<entry key="eai.tam.ldap.userDn">cn=root</entry>
+	<entry key="eai.tam.ldap.password">smartway</entry>
+    <!-- WebSEAL SecurityAuthority BaseDN -->
+    <entry key="eai.tam.ldap.secauthority.baseDN">cn=Users,SECAUTHORITY=DEFAULT</entry>
+    <!-- WebSEAL Security Authority: Attribute name for username -->
+    <entry key="eai.tam.ldap.secauthority.userNameAttr">principalName</entry>
+    <entry key="eai.tam.ldap.secauthority.userAcctValidAttr">secacctvalid</entry>
+  
+
+	<!-- TIM LDAP Server -->
+	<entry key="eai.tim.ldap.url">ldap://ldap.shanghaigm.com:3890</entry>
+	<entry key="eai.tim.ldap.userDn">cn=root</entry>
+	<entry key="eai.tim.ldap.password">smartway</entry>
+  <!-- TIM Ldap BaseDN -->
+  <entry key="eai.tim.ldap.userBaseDN">OU=ITIM,ou=JKE,DC=ITIM</entry>
+	
+	<!-- TIM API Server -->
+	<entry key="eai.tim.api.soapEndpoint">http://ldap.shanghaigm.com:9080/ITIMWebServices</entry>
+	<!-- ITIM 管理账号 -->
+	<entry key="eai.itim.manager.principal">itim manager</entry>
+	<entry key="eai.itim.manager.credentials">smartway</entry>
+
+</properties>

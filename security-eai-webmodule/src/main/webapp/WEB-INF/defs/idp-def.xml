@@ -31,6 +31,12 @@
 		<put-attribute name="body" value="/WEB-INF/views/modify_password.jsp" />
 	</definition>
 	
+	<!-- user smscode view -->
+	<definition name="/modify_password" extends="tiles.baseTemplate">
+		<put-attribute name="title" value="modifyPass.title.modifyPass" />
+		<put-attribute name="body" value="/WEB-INF/views/modify_password.jsp" />
+	</definition>
+	
 	<!-- remind password view -->
   <definition name="/remind_password" extends="tiles.baseTemplate">
     <put-attribute name="title" value="modifyPass.title.remindPass" />
@@ -54,11 +60,23 @@
     <put-attribute name="title" value="logon.title.login" />
     <put-attribute name="body" value="/WEB-INF/views/itimlogin.jsp" />
   </definition>
-
+  
   <!-- tam ldap login view -->
   <definition name="/login/tam/loginform" extends="tiles.baseTemplate">
     <put-attribute name="title" value="logon.title.login" />
     <put-attribute name="body" value="/WEB-INF/views/tamlogin.jsp" />
+  </definition>
+  
+  <!-- SMSUserAuth login view -->
+  <definition name="/login/smsuser/loginform" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="logon.title.login" />
+    <put-attribute name="body" value="/WEB-INF/views/smsuserlogin.jsp" />
+  </definition>
+
+  <!-- SMSUserPassAuth login view -->
+  <definition name="/login/smspass/loginform" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="logon.title.login" />
+    <put-attribute name="body" value="/WEB-INF/views/smspasslogin.jsp" />
   </definition>
   
   <!-- ad login view -->

@@ -40,7 +40,7 @@
   <bean id="loginHandlerManager" class="com.sinopec.siam.am.idp.authn.LoginHandlerManager">
     <constructor-arg>
       <map>
-        <entry key="TAMUsernamePassword">
+        <entry key="urn:oasis:names:tc:SAML:2.0:ac:classes:TAMUsernamePassword">
           <bean class="com.sinopec.siam.am.idp.authn.module.tamldap.TAMLoginHandler">
             <property name="authenticationLevel" value="1"></property>
             <property name="authenticationServletPath" value="/Authn/TAMUserPassAuth"></property>
@@ -49,6 +49,35 @@
             <property name="supportedAuthenticationMethods">
               <list>
                 <value>urn:oasis:names:tc:SAML:2.0:ac:classes:TAMUsernamePassword</value>
+                <value>urn:oasis:names:tc:SAML:2.0:ac:classes:SMSUserAuth</value>
+                <value>urn:oasis:names:tc:SAML:2.0:ac:classes:SMSUserPassAuth</value>
+              </list>
+            </property>
+          </bean>
+        </entry>
+        <entry key="urn:oasis:names:tc:SAML:2.0:ac:classes:SMSUserAuth">
+          <bean class="com.sinopec.siam.am.idp.authn.module.tamldap.TAMLoginHandler">
+            <property name="authenticationLevel" value="2"></property>
+            <property name="authenticationServletPath" value="/Authn/SMSUserAuth"></property>
+            <property name="supportsForceAuthentication" value="true"></property>
+            <property name="supportsPassive" value="false"></property>
+            <property name="supportedAuthenticationMethods">
+              <list>
+                <value>urn:oasis:names:tc:SAML:2.0:ac:classes:SMSUserAuth</value>
+                <value>urn:oasis:names:tc:SAML:2.0:ac:classes:SMSUserPassAuth</value>
+              </list>
+            </property>
+          </bean>
+        </entry>
+        <entry key="urn:oasis:names:tc:SAML:2.0:ac:classes:SMSUserPassAuth">
+          <bean class="com.sinopec.siam.am.idp.authn.module.tamldap.TAMLoginHandler">
+            <property name="authenticationLevel" value="4"></property>
+            <property name="authenticationServletPath" value="/Authn/SMSUserPassAuth"></property>
+            <property name="supportsForceAuthentication" value="true"></property>
+            <property name="supportsPassive" value="false"></property>
+            <property name="supportedAuthenticationMethods">
+              <list>
+                <value>urn:oasis:names:tc:SAML:2.0:ac:classes:SMSUserPassAuth</value>
               </list>
             </property>
           </bean>
@@ -64,7 +93,7 @@
           <property name="authenLevel" value="1"></property>
           <property name="authenMethods">
             <list>
-              <value>urn:oasis:names:tc:SAML:2.0:ac:classes:TAMUsernamePassword</value>
+              	<value>urn:oasis:names:tc:SAML:2.0:ac:classes:TAMUsernamePassword</value>
             </list>
           </property>
         </bean>        
@@ -72,7 +101,7 @@
           <property name="authenLevel" value="2"></property>
           <property name="authenMethods">
             <list>
-              <value>urn:oasis:names:tc:SAML:2.0:ac:classes:ERPTLSClient</value>
+                <value>urn:oasis:names:tc:SAML:2.0:ac:classes:SMSUserAuth</value>
             </list>
           </property>
         </bean>
@@ -80,7 +109,7 @@
           <property name="authenLevel" value="4"></property>
           <property name="authenMethods">
             <list>
-              <value>urn:oasis:names:tc:SAML:2.0:ac:classes:TLSClient</value>
+                <value>urn:oasis:names:tc:SAML:2.0:ac:classes:SMSUserPassAuth</value>
             </list>
           </property>
         </bean>

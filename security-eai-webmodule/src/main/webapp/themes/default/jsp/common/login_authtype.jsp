@@ -14,7 +14,7 @@
 					<li>
 				</c:if>
 					<a href="<%=request.getContextPath() %>/AuthnEngine?currentAuthentication=${authenType}&spAuthentication=${param.spAuthentication}"><spring:message code="${authenType}"/></a></li>
-				<c:if test="${authenType == 'urn_oasis_names_tc_SAML_2.0_ac_classes_TLSClient'}">
+				<%-- <c:if test="${authenType == 'urn_oasis_names_tc_SAML_2.0_ac_classes_TLSClient'}">
 				<script type="text/javascript">
 					//使用证书产生用户身份验证数据---begin
 					function fun_logincert() {
@@ -46,7 +46,7 @@
 					%>
 					//alert("ok");
 				</script>
-				</c:if>
+				</c:if> --%>
 				</c:forTokens>
 				</ol>
 				</div>

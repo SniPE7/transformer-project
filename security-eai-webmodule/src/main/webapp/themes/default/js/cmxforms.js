@@ -72,9 +72,10 @@ function showMsg(id, errormsg){
 function validate(form) {
   var flag = validateField("#j_username", /.{1,100}$/, usernameErrormsg, true);
   flag = flag && validateField("#j_password", /.{1,20}$/, passwordErrormsg, false);
-  flag = flag && validateField("#j_checkcode", /^[A-Za-z0-9]{4}$/, checkcodeErrormsg, false);
+  flag = flag && validateField("#j_checkcode", /^[A-Za-z0-9]{5}$/, checkcodeErrormsg, false);
   flag = flag && validateField("#j_new_password", /.{1,20}$/, newpasswordErrormsg, false);
   flag = flag && validateField("#j_confirm_password", new RegExp("^" + $.trim($("#j_new_password").val()) + "$"), equalpasswordErrormsg, false);
 
   return flag;
 }
+

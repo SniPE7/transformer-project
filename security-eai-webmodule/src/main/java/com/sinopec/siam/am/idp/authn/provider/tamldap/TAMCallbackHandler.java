@@ -20,6 +20,8 @@ import com.sinopec.siam.am.idp.authn.provider.LastAuthenticatedPrincipalCallback
 import com.sinopec.siam.am.idp.authn.provider.PasswordHintQuestionAndAnswerCallback;
 import com.sinopec.siam.am.idp.authn.provider.PasswordUpdateOperationStatusCallback;
 import com.sinopec.siam.am.idp.authn.provider.RequestCallback;
+import com.sinopec.siam.am.idp.authn.provider.SMSCodeCallback;
+import com.sinopec.siam.am.idp.authn.util.dyncpwd.DyncUtil;
 
 import edu.internet2.middleware.shibboleth.idp.authn.LoginHandler;
 import edu.internet2.middleware.shibboleth.idp.session.Session;
@@ -41,6 +43,9 @@ public class TAMCallbackHandler implements CallbackHandler {
   
   /** Form表单验证码属性名称 */
   private String formCheckCodeAttribute = "j_checkcode";
+  
+  /** Form表单验证码属性名称 */
+  private String formSMSCodeAttribute = "j_smscode";
 
   
   /** Name of the user. */
@@ -123,7 +128,13 @@ public class TAMCallbackHandler implements CallbackHandler {
            kcp.setKaptachaCode((String) session.getAttribute(Constants.KAPTCHA_SESSION_KEY));
         }
         kcp.setCodeFromInput(request.getParameter(formCheckCodeAttribute));
-      } else if (cb instanceof FormOperationCallback) {
+      } else if (cb instanceof SMSCodeCallback) {
+    	  SMSCodeCallback smscb = (SMSCodeCallback)cb;
+    	  
+    	  smscb.setSMSCode(DyncUtil.getPassword(this.username, this.password));
+          smscb.setCodeFromInput(request.getParameter(formSMSCodeAttribute));
+          
+        } else if (cb instanceof FormOperationCallback) {
         FormOperationCallback fcb = (FormOperationCallback)cb;
         fcb.setOperation(request.getParameter(formOptFlagAttribute));
       } else if (cb instanceof PasswordUpdateOperationStatusCallback) {

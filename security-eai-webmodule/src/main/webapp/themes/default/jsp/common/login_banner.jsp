@@ -18,10 +18,19 @@
 						<c:if test="${param.currentAuthen != authenType}">
 							<li><a href="<%=request.getContextPath() %>/AuthnEngine?currentAuthentication=${authenType}&spAuthentication=${param.spAuthentication}"><spring:message code="${authenType}"/></a></li>
 						</c:if>
-						<c:if test="${authenType == 'urn_oasis_names_tc_SAML_2.0_ac_classes_TLSClient'}">
+						
+						<!-- <script type="text/javascript">
+							alert("authenType: ${authenType}");
+						</script> -->
+						
 							<script type="text/javascript">
-								//使用证书产生用户身份验证数据---begin
-								function fun_logincert() {
+								//是否连接读卡器
+								var hasReader = false;
+							
+								//检测是否连接读卡器---begin
+								function checkReader() {
+									return false;
+									
 									var ob;
 									var random;
 									var err = 0;
@@ -39,18 +48,17 @@
 									if(err == 0) {
 										window.location.href = "<%=request.getContextPath() %>/AuthnEngine?currentAuthentication=${authenType}";
 									}
+									
+									hasReader = true;
+									
+									return hasReader;
 								}
-								//使用证书产生用户身份验证数据---end
-								<%
-							    if (!"true".equals(request.getAttribute("loginFailed"))) {
-								 %>
-										fun_logincert();
-								<%
-									}
-								%>
+								//检测是否连接读卡器---end
+								
+								checkReader();
+								
 								//alert("ok");
 						</script>
-					</c:if>
 				</c:forTokens>
        </ul>
      </div><!-- end of #menu -->
