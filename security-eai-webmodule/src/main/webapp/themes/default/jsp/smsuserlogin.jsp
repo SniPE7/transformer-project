@@ -26,7 +26,7 @@
 					
 	               	<div style="clear:both; height:0;overflow:hidden;"></div>
 	                <input type="text" tabindex="1" name="j_username" id="j_username" class="textinput" style="display: block; float: left;"/>
-	                <div id="forgotbox" style="display: block; float: left;text-align:center"><a tabindex="9" href="https://uid.sinopec.com/siam-im-selfservice-web/view/lose/account.html" class="forgotpass">忘记用户名/Forget Username?</a></div>
+	                <div id="forgotbox" style="display: block; float: left;text-align:center"><a tabindex="9" href="loseuser.do" class="forgotpass">忘记用户名/Forget Username?</a></div>
 	                <div style="clear:both; height:0;overflow:hidden;"></div>
 	               
 	                <label class="float-left"><spring:message code="logon.form.checkcode" /></label>

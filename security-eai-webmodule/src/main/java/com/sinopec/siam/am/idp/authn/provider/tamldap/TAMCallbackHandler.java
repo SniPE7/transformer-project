@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.code.kaptcha.Constants;
+import com.sinopec.siam.am.idp.authn.module.MobileUpdateOperationStatusCallback;
 import com.sinopec.siam.am.idp.authn.provider.FormOperationCallback;
 import com.sinopec.siam.am.idp.authn.provider.KaptachaCallback;
 import com.sinopec.siam.am.idp.authn.provider.LastAuthenticatedPrincipalCallback;
@@ -146,7 +147,16 @@ public class TAMCallbackHandler implements CallbackHandler {
              fcb.setPasswordUpdated(true);
           }
         }
-      } else if  (cb instanceof PasswordHintQuestionAndAnswerCallback) {
+      } else if (cb instanceof MobileUpdateOperationStatusCallback) {
+    	  MobileUpdateOperationStatusCallback fcb = (MobileUpdateOperationStatusCallback)cb;
+          HttpSession session = request.getSession(false);
+          if (session != null) {
+            String v = (String)session.getAttribute(LoginHandler.PRINCIPAL_UPDATE_MOBILE_SUCCESS_KEY);
+            if ("true".equalsIgnoreCase(v)) {
+               fcb.setMobileUpdated(true);
+            }
+          }
+        } else if  (cb instanceof PasswordHintQuestionAndAnswerCallback) {
         PasswordHintQuestionAndAnswerCallback pcb = (PasswordHintQuestionAndAnswerCallback)cb;
         pcb.setUsername(request.getParameter("j_username"));
         pcb.setQuestion(request.getParameter("hintQuestion"));

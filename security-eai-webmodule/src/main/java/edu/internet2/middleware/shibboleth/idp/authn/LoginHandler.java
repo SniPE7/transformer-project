@@ -82,6 +82,9 @@ public interface LoginHandler {
 
     /** Request attribute to which user's principal update password success state should be bound. */
     public static final String PRINCIPAL_UPDATE_PASSWORD_SUCCESS_KEY = "principal_update_password_success";
+    
+    /** Request attribute to which user's principal update mobile success state should be bound. */
+    public static final String PRINCIPAL_UPDATE_MOBILE_SUCCESS_KEY = "principal_update_mobile_success";
 
     /** Request attribute to which user's subject should be bound. */
     public static final String SUBJECT_KEY = "subject";

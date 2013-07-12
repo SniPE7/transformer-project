@@ -27,6 +27,7 @@ import org.springframework.ldap.core.support.AbstractContextMapper;
 
 import com.sinopec.siam.am.idp.authn.module.CommonLdapLoginModule.DnAndAttributes;
 import com.sinopec.siam.am.idp.authn.principal.UserPrincipal;
+import com.sinopec.siam.am.idp.authn.provider.FormOperationCallback;
 
 /**
  * SMS Code 模式下设置用户登录，从而可以获取 ldap属性信息 LoginModule
@@ -57,6 +58,9 @@ public class LoginStateSetLoginModule extends AbstractSpringLoginModule {
 	   * checkSMS
 	   */
 	  private boolean checkSMS = false;
+	  
+	  /** 登录操作的标识 */
+	  private String loginOptFlag = "login";
 
 	  
 
@@ -71,7 +75,9 @@ public class LoginStateSetLoginModule extends AbstractSpringLoginModule {
 	    }
 	
 	    NameCallback nameCallback = new NameCallback("User Name: ");
-	    Callback[] callbacks = new Callback[]{nameCallback};
+	    FormOperationCallback formOperationCallback = new FormOperationCallback(this.loginOptFlag);
+	    
+	    Callback[] callbacks = new Callback[]{nameCallback, formOperationCallback};
 	
 	    try {
 	      callbackHandler.handle(callbacks);
@@ -82,17 +88,23 @@ public class LoginStateSetLoginModule extends AbstractSpringLoginModule {
 	      log.error(e.getMessage(), e);
 	      return false;
 	    }
+	    
+	    /*
+	    String opt = formOperationCallback.getOperation();
+	    if (opt != null && !loginOptFlag.equals(opt)) {
+	    	return true;
+	    }*/
 	
 	    String username = nameCallback.getName();
 	    //String sessionUsername = lastPrincipalCallback.getPrincipalName();
 
-	    if(this.checkSMS) {
-		    String hasSMSAuth = (String)this.getSessionLevelState(LoginStateSetLoginModule.LOGIN_AUTH_SMS_OK);
-		    if(hasSMSAuth == null || "false".equalsIgnoreCase(hasSMSAuth)){
-		      log.warn(String.format("No authentication, session username is null or unequal usernmae. username:%s, sessionUsername:%s", username, username));
-		      throw new LoginException(String.format("No authentication, session username is null or unequal usernmae. username:%s, sessionUsername:%s", username, username));
+		    if(this.checkSMS) {
+			    String hasSMSAuth = (String)this.getSessionLevelState(LoginStateSetLoginModule.LOGIN_AUTH_SMS_OK);
+			    if(hasSMSAuth == null || "false".equalsIgnoreCase(hasSMSAuth)){
+			      log.warn(String.format("No authentication, session username is null or unequal usernmae. username:%s, sessionUsername:%s", username, username));
+			      throw new LoginException(String.format("No authentication, session username is null or unequal usernmae. username:%s, sessionUsername:%s", username, username));
+			    }
 		    }
-	    }
 	    
 	      DnAndAttributes dnAndAttrs = this.searchUserDNByAccount(username);
 	      if (dnAndAttrs == null){
@@ -199,7 +211,9 @@ public class LoginStateSetLoginModule extends AbstractSpringLoginModule {
 	        this.baseDn = value;
 	      } else if (key.equalsIgnoreCase("checkSMS")) {
 		        this.checkSMS = Boolean.parseBoolean(value);
-		      } 
+		  } else if (key.equalsIgnoreCase("loginOptFlag")) {
+			    this.loginOptFlag = value;
+		  } 
 	    }
 
 	    this.principals = new TreeSet<Principal>();

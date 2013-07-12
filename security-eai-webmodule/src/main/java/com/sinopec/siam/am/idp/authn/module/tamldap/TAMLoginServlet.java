@@ -20,8 +20,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.ContextLoader;
 
-import antlr.StringUtils;
-
 import com.google.code.kaptcha.Constants;
 import com.ibm.siam.am.idp.authn.AuthenticationEngine;
 import com.sinopec.siam.am.idp.authn.LoginContextManager;
@@ -32,6 +30,7 @@ import com.sinopec.siam.am.idp.authn.module.NeedChangePasswordLoginException;
 import com.sinopec.siam.am.idp.authn.module.PasswordExpiredLoginException;
 import com.sinopec.siam.am.idp.authn.module.PasswordReminderLoginException;
 import com.sinopec.siam.am.idp.authn.module.UpdatePasswordHintLoginException;
+import com.sinopec.siam.am.idp.authn.module.UserMobileBindingLoginException;
 import com.sinopec.siam.am.idp.authn.provider.tamldap.TAMCallbackHandler;
 
 import edu.internet2.middleware.shibboleth.idp.authn.LoginHandler;
@@ -133,7 +132,20 @@ public class TAMLoginServlet extends HttpServlet {
       request.setAttribute("op", "remindpassword");
       request.setAttribute("actionUrl", buildServletUrl(request));
       redirectToPage(request, response, "/remind_password.do");
-    } catch (MissingPasswordHintLoginException e) {
+    } catch (UserMobileBindingLoginException e) {
+        // 捕获异常，转移到修改手机号的提醒页面
+        // 统一ID
+        request.setAttribute("j_username", e.getUsername());
+        // 登录ID
+        request.setAttribute("show_username", username);
+        request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, e.getLoginErrorKey());
+        request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, e.getLoginErrorArgs());
+        request.getSession(false).setAttribute(LoginHandler.PRINCIPAL_UPDATE_MOBILE_SUCCESS_KEY, "true");
+
+        request.setAttribute("op", "modifymobile");
+        request.setAttribute("actionUrl", buildServletUrl(request));
+        redirectToPage(request, response, "/regmobile.do");
+     } catch (MissingPasswordHintLoginException e) {
       request.setAttribute("j_username", e.getUsername());
       request.setAttribute("hintQuestionCandidate", e.getQuestionCandidateAttributes());
       request.setAttribute(LoginHandler.AUTHENTICATION_INFO_KEY, "passhint.form.info.hint.isNull");

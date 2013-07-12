@@ -106,6 +106,7 @@
     <put-attribute name="footer" value="/WEB-INF/views/common/login_footer.jsp" />
   </definition>
   
+  
   <!-- error view -->
   <definition name="/error" extends="tiles.baseTemplate">
     <put-attribute name="title" value="logon.title.logout" />
@@ -123,5 +124,36 @@
     <put-attribute name="title" value="logon.title.logout" />
     <put-attribute name="body" value="/WEB-INF/views/error/login-error.jsp" />
   </definition>
+
+
+	<!-- global common view -->
+  <definition name="tiles.commom.base" template="/WEB-INF/views/common/common_base_template.jsp">
+    <put-attribute name="title" value="" />
+    <put-attribute name="head" value="/WEB-INF/views/common/themes.jsp" />
+    <put-attribute name="banner" value="/WEB-INF/views/common/login_banner.jsp" />
+    <put-attribute name="body" value="/WEB-INF/views/logout.jsp" />
+    <put-attribute name="footer" value="/WEB-INF/views/common/login_footer.jsp" />
+  </definition>
+  
+	<!-- 忘记密码 -->
+	<definition name="/lose/password" extends="tiles.commom.base">
+		<put-attribute name="title" value="accout.title.lose" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/losepwd.jsp" />
+	</definition>
+	
+	<!-- 忘记用户名 -->
+	<definition name="/lose/user" extends="tiles.commom.base">
+		<put-attribute name="title" value="accout.title.lose" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/loseuser.jsp" />
+	</definition>
+	
+	<!-- 注册手机号 -->
+	<definition name="/lose/regmobile" extends="tiles.commom.base">
+		<put-attribute name="title" value="accout.title.lose" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/regmobile.jsp" />
+	</definition>
 
 </tiles-definitions>

@@ -35,5 +35,8 @@
 	 -->
   <entry key="eai.loginmodule.userpasswd.pastDue.time">2592000000</entry>
   <entry key="eai.loginmodule.userpasswd.pastDue.remindPasswordTime">2160000000</entry>
+  
+  <!--  手机号修改过期时间 -->
+  <entry key="eai.loginmodule.usermobile.pastDue.time">2592000000</entry>
 
 </properties>
