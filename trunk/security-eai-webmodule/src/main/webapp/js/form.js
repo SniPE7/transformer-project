@@ -27,7 +27,8 @@ function sendsms() {
 		url : "getsmscode.do",
 		dataType:"json",
         data:{
-            "j_username":$('#j_username').val()
+            "j_username":$('#j_username').val(),
+            "j_checkcode":$('#j_checkcode').val()
         },
 		success : function(msg) {
 			if(msg.status=='fail') {
@@ -51,8 +52,45 @@ function sendsms() {
 	});
 }
 
+function sendsms2() {
+	$.ajax( {
+		type : "post",
+		url : "getsmscode.do",
+		dataType:"json",
+        data:{
+            "j_username":$('#j_username').val(),
+            "j_checkcode":$('#j_checkcode').val()
+        },
+		success : function(msg) {
+			if(msg.status=='fail') {
+				$('#wizard').smartWizard('showMessage', msg.msg);
+			} else if(msg.status=='success') {
+				updateTimeLabel(60);
+				
+				var mobile =  msg.mobile;
+				if(mobile.length==11) {
+					$("#lb_usr_mobile").text(" " + mobile.substring(0,3) + "-XXXX-" + mobile.substring(7,11) + " ");
+				} else {
+					$("#lb_usr_mobile").text("错误的手机号/ error mobile number");
+				}
+				//setMsg('info', msg.code);
+				$("#j_smscode").val(msg.code);
+				$("#j_useruid").val(msg.username);
+			}
+		},
+		error:function(html){
+			$('#wizard').smartWizard('showMessage', "提交数据失败，代码:" +html.status+ "，请稍候再试");
+			//alert("提交数据失败，代码:" +html.status+ "，请稍候再试");
+		}
+	});
+}
+
 function updateTimeLabel(time) {
     var btn = $("#bnt_sms");
+    
+    btn.attr("disabled", true);
+    btn.val("" + (time--) + "秒");
+    
     var a_sendcode = jQuery("#a_sendcode");
     btn.val(time <= 0 ? "发送/Send": ("" + (time) + "秒"));
     var hander = setInterval(function() {
@@ -73,4 +111,3 @@ function updateTimeLabel(time) {
     },
     1000);
 }
-
