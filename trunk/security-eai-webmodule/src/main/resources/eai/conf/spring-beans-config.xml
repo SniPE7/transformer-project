@@ -32,6 +32,7 @@
     </constructor-arg>
   </bean>
 
+
   <!-- Spring MVC 国际化支持 -->
   <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
     <property name="basename" value="classpath:webui/messages" />

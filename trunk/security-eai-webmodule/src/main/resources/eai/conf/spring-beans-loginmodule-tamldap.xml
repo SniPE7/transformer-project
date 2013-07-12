@@ -253,7 +253,7 @@
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="userFilter"></property>
                 <!-- <property name="value" value="(&amp;(uid={0})(objectclass=inetOrgPerson))"></property>-->
-                <property name="value" value="(&amp;(|(uid={0})(badgeid={0}))(objectclass=inetOrgPerson))"></property> 
+                <property name="value" value="${eai.loginmodule.user.search.filter}"></property> 
               </bean>
               <!-- Define spring ldap template bean name -->
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
@@ -480,7 +480,7 @@
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="userFilter"></property>
                 <!-- <property name="value" value="(&amp;(uid={0})(objectclass=inetOrgPerson))"></property>-->
-                <property name="value" value="(&amp;(|(uid={0})(badgeid={0}))(objectclass=inetOrgPerson))"></property> 
+                <property name="value" value="${eai.loginmodule.user.search.filter}"></property> 
               </bean>
               <!-- Define spring ldap template bean name -->
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
@@ -737,7 +737,7 @@
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="userFilter"></property>
                 <!-- <property name="value" value="(&amp;(uid={0})(objectclass=inetOrgPerson))"></property>-->
-                <property name="value" value="(&amp;(|(uid={0})(badgeid={0}))(objectclass=inetOrgPerson))"></property> 
+                <property name="value" value="${eai.loginmodule.user.search.filter}"></property> 
               </bean>
               <!-- Define spring ldap template bean name -->
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
@@ -929,7 +929,7 @@
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="userFilter"></property>
                 <!-- <property name="value" value="(&amp;(uid={0})(objectclass=inetOrgPerson))"></property>-->
-                <property name="value" value="(&amp;(|(uid={0})(badgeid={0}))(objectclass=inetOrgPerson))"></property> 
+                <property name="value" value="${eai.loginmodule.user.search.filter}"></property> 
               </bean>
               <!-- Define login user return attribute name -->
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">

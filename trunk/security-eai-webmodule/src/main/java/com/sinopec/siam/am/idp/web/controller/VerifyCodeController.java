@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,9 +38,14 @@ public class VerifyCodeController extends BaseController {
 	@Autowired
 	@Qualifier("tamLdapUserService")
 	private UserService userService;
-
-	private String smsFilter = "(|(uid={0})(badgeid={0}))";
+	
+	@Value("#{beanProperties['eai.loginmodule.user.search.filter']}")
+	private String smsFilter = "(&amp;(|(uid={0})(badgeid={0}))(objectclass=inetOrgPerson))";
+	
+	@Value("#{beanProperties['eai.loginmodule.user.search.mobileattrname']}")
 	private String userMobileAttribute = "mobile";
+	
+	@Value("#{beanProperties['eai.loginmodule.user.search.displayattrname']}")
 	private String displayNameAttribute = "displayName";
 
 	/**
@@ -158,9 +164,6 @@ public class VerifyCodeController extends BaseController {
 		return smsInfo;
 
 	}
-	
-
-	
 	
 	
 	/**

@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,8 +35,13 @@ public class LoseUserController extends BaseController {
 	
 	private final Logger log = LoggerFactory.getLogger(LoseUserController.class);
 	
+	@Value("#{beanProperties['eai.loginmodule.user.search.idcardfilter']}")
 	private String idCardFilter = "(|(employeeNumber={0})(employeeNumber={1}))";
+
+	@Value("#{beanProperties['eai.loginmodule.user.search.mobileattrname']}")
 	private String userMobileAttribute = "mobile";
+	
+	@Value("#{beanProperties['eai.loginmodule.user.search.displayattrname']}")
 	private String displayNameAttribute = "displayName";
 	
 	
