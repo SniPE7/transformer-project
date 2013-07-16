@@ -20,36 +20,43 @@
 					<div id="step-1">
 
 			               	<div id="name-info" style="display: block;"> 
-			               		<label>姓名/Name:</label>
-			               		<label id="name"><%=request.getAttribute("show_username") != null ? request.getAttribute("show_username") : ""%></label>
+			               		<div><label>姓名/Name:</label></div>
+			               		<div><label id="name"><%=request.getAttribute("show_username") != null ? request.getAttribute("show_username") : ""%></label></div>
 			               	</div>
+			               	<div style="clear:both; height:0;overflow:hidden;"></div>
 			               	
 			               	<div id="id-info" style="display: block;"> 
-			               		<label>用户名/Username:</label>
-			               		<label id="usernmae"><%=request.getAttribute("j_username") != null ? request.getAttribute("j_username") : ""%></label>
+			               		<div><label>用户名/Username:</label></div>
+			               		<div><label id="usernmae"><%=request.getAttribute("j_username") != null ? request.getAttribute("j_username") : ""%></label></div>
 			               	</div>
+			               	<div style="clear:both; height:0;overflow:hidden;"></div>
 			               	
 			               	<div id="mobile-info" style="display: block;"> 
-			               		<label class="float-left" style="display: block;">手机/Mobile</label>
-			               		<input type="text" tabindex="1" name="j_mobile" id="j_mobile" class="textinput" style="display: block; float: left;"/>
+			               		<div><label class="float-left" style="display: block;">手机/Mobile</label></div>
+			               		<div><input type="text" tabindex="1" name="j_mobile" id="j_mobile" class="textinput" /></div>
 			               	</div>
+			               	<div style="clear:both; height:0;overflow:hidden;"></div>
 			               	
 			               	<div id="checkcode" style="display: block;"> 
-			               		<label class="float-left" style="display: block;"><spring:message code="logon.form.checkcode" /></label>
-			               		<input type="text" tabindex="3" name="j_checkcode" id="j_checkcode" class="textCKcode" style="display: block; float: left;"/>
-			               		<img id="j_checkcodeImgCode" src="Kaptcha.jpg"
-				                  style="height: 27px; width: 75px; cursor: hand; display: block; float: left; margin-left: 10px; margin-top: 3px;" title="看不清，请点击"
-				                  onclick="javascript:updateCheckCodeImg()"/>
-				                  <span style="display: block; float: left; text-align:center"><font size="2px"> 点击图片更新验证码</font></span>
+			               		<div><label class="float-left" style="display: block;"><spring:message code="logon.form.checkcode" /></label></div>
+			               		<div>
+			               				<input type="text" tabindex="3" name="j_checkcode" id="j_checkcode" class="textCKcode" style="display: block;float: left;"/>
+				               			<img id="j_checkcodeImgCode" src="Kaptcha.jpg"
+					                 	 style="height: 27px; width: 75px; cursor: hand; display: block;float: left; margin-left: 10px; margin-top: 3px;" title="看不清，请点击"
+					               	   onclick="javascript:updateCheckCodeImg()"/>
+					               	   <span style="display: block; float: left; text-align:center"><font size="2px"> 点击图片更新验证码</font></span>
+				                </div>
 			               	</div>
+			               	<div style="clear:both; height:0;overflow:hidden;"></div>
 			               	
 			               	<div id="checksms" style="display: block;"> 
-				               	<label class="float-left">短信验证码/SMS Check Code</label>
-				                <input type="text" tabindex="4" name="j_smscode" id="j_smscode" class="textCKcode" style="display: block; float: left;"/>
-				                <input type="button" tabindex="5" name="bnt_sms" id="bnt_sms" value="发送短信验证码/Send SMS Check Code" onclick="sendsms2()" style="display: block; float: left;"/>
+				               <div>	<label class="float-left">短信验证码/SMS Check Code</label>
+					                <input type="text" tabindex="4" name="j_smscode" id="j_smscode" class="textCKcode" style="display: block; float: left;"/>
+					                <input type="button" tabindex="5" name="bnt_sms" id="bnt_sms" value="发送短信验证码/Send SMS Check Code" onclick="sendsms2()" style="display: block; float: left;"/>
+				                </div>
 				                <label id="lb_tipsms" class="float-left"></label>
-				               	<div style="clear:both; height:0;overflow:hidden;"></div>
 				            </div>
+							<div style="clear:both; height:0;overflow:hidden;"></div>
 
 					</div>
 					<div id="step-2">
