@@ -156,4 +156,43 @@
 			value="/WEB-INF/views/regmobile.jsp" />
 	</definition>
 
+  <!-- card insert -->
+  <definition name="/card/insert" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="card.register" />
+    <put-attribute name="body" value="/WEB-INF/views/card_insert.jsp" />
+  </definition>
+  <definition name="/card/selectop" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="card.register" />
+    <put-attribute name="body" value="/WEB-INF/views/card_selectop.jsp" />
+  </definition>
+
+  <definition name="/card/newreg_input_number" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="card.register" />
+    <put-attribute name="body" value="/WEB-INF/views/card_newreg_input_number.jsp" />
+  </definition>
+  <definition name="/card/newreg_regist" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="card.register" />
+    <put-attribute name="body" value="/WEB-INF/views/card_newreg_regist.jsp" />
+  </definition>
+  <definition name="/card/newreg_verify_user" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="card.register" />
+    <put-attribute name="body" value="/WEB-INF/views/card_newreg_verify_user.jsp" />
+  </definition>
+  <definition name="/card/newreg_success" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="card.register" />
+    <put-attribute name="body" value="/WEB-INF/views/card_newreg_success.jsp" />
+  </definition>
+  <definition name="/card/chgreg_verify_user" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="card.register" />
+    <put-attribute name="body" value="/WEB-INF/views/card_chgreg_verify_user.jsp" />
+  </definition>
+  <definition name="/card/chgreg_success" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="card.register" />
+    <put-attribute name="body" value="/WEB-INF/views/card_chgreg_success.jsp" />
+  </definition>
+  <definition name="/card/error" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="card.register" />
+    <put-attribute name="body" value="/WEB-INF/views/card_error.jsp" />
+  </definition>
+
 </tiles-definitions>
