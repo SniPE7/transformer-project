@@ -1,10 +1,15 @@
 package com.sinopec.siam.am.idp.web.controller;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.ldap.filter.AndFilter;
 import org.springframework.ldap.filter.EqualsFilter;
@@ -14,11 +19,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.code.kaptcha.Constants;
 import com.ibm.siam.am.idp.authn.entity.CardRegisterEntity;
-import com.sinopec.siam.am.idp.authn.service.LdapUserServiceImpl;
-import com.sinopec.siam.am.idp.authn.service.UserPassService;
+import com.sinopec.siam.am.idp.authn.service.PersonService;
 import com.sinopec.siam.am.idp.authn.service.UserService;
 import com.sinopec.siam.am.idp.entity.LdapUserEntity;
+
+import edu.internet2.middleware.shibboleth.idp.authn.LoginHandler;
 
 @Controller
 public class CardController extends BaseController {
@@ -26,17 +33,16 @@ public class CardController extends BaseController {
 	private String userServiceBeanId = "tamLdapUserService";
 
 	private String tamAdMappingFilter = "(&(sprolelist={})(objectclass=inetorgperson))";
+	
+	private String failureParam = "loginFailed";
 
+	@Autowired
+	@Qualifier("personService")
+	PersonService personService;
+	
 	@RequestMapping(value = "/card/insert.do", method = { RequestMethod.GET,
 			RequestMethod.POST, RequestMethod.HEAD })
 	public ModelAndView insert(HttpServletRequest request) {
-		AndFilter filter = new AndFilter();
-		filter.and(new EqualsFilter("cn", "root"));
-		filter.and(new EqualsFilter("ca", "root2"));
-		filter.and(new EqualsFilter("cb", "root3"));
-
-		String ss = filter.toString();
-		
 		ModelAndView mav = new ModelAndView("/card/insert");
 		super.setModelAndView(mav, request);
 		return mav;
@@ -104,11 +110,29 @@ public class CardController extends BaseController {
 		filter.and(new EqualsFilter("employeeNumber", cardRegisterEntity.getEmployeeNumber()));
 		
 		UserService userService = getUserService();
-		List<LdapUserEntity> ldapUserEntitys = userService
+		
+		List<LdapUserEntity> ldapUserEntitys;
+		try {
+		ldapUserEntitys = userService
 				.searchByFilter(filter.toString());
+		} catch (Exception e)  {
+			request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "card.error.ldapError");
+			request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, null);
+			request.setAttribute(failureParam, "true");
+			
+			ModelAndView mav = new ModelAndView("/card/newreg_input_number");
+			super.setModelAndView(mav, request);
+			return mav;
+		}
+		
 		if (ldapUserEntitys == null || ldapUserEntitys.size()==0){
-			session.setAttribute("errorMessage", "用户不存在。");
-			ModelAndView mav = new ModelAndView("/card/error");
+			request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "card.error.userNotExist");
+			request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, null);
+			request.setAttribute(failureParam, "true");
+			
+//			session.setAttribute("errorMessage", "用户不存在。");
+//			ModelAndView mav = new ModelAndView("/card/error");
+			ModelAndView mav = new ModelAndView("/card/newreg_input_number");
 			super.setModelAndView(mav, request);
 			return mav;
 		}
@@ -182,13 +206,41 @@ public class CardController extends BaseController {
 			cardRegisterEntity = new CardRegisterEntity();
 		}
 		int optype = cardRegisterEntity.getOptype();
-		if (optype==0) {
+		if (optype==0) { // new user
 			cardRegisterEntity.setPassword((String)request.getParameter("newPassword"));
 			
 			// TODO write ldap
-		} else {
+			try {
+		    	Map<String, String> attrs = new HashMap<String, String>();
+		    	attrs.put("SGMBadgeUID", cardRegisterEntity.getCardUid());
+		    	attrs.put("SGMBadgeCode", cardRegisterEntity.getMatchCode());
+		    	attrs.put("SGMBadgeTime", (new Date()).toString());
+		    	attrs.put("userPassword", cardRegisterEntity.getPassword());
+		    	personService.updatePerson(cardRegisterEntity.getUsername(), attrs);
+		    } catch (Exception e) {
+		    	request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "card.error.updateUserInfo");
+				request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, null);
+				request.setAttribute(failureParam, "true");
+				
+				ModelAndView mav = new ModelAndView("/card/newreg_regist");
+				super.setModelAndView(mav, request);
+				return mav;
+		    }
+		} else { // already login user
 			String password =(String)request.getParameter("j_password");
-			String captcha =(String)request.getParameter("j_checkcode");
+			String inputCaptcha =(String)request.getParameter("j_checkcode");
+			
+			String captcha = (String) session.getAttribute(Constants.KAPTCHA_SESSION_KEY);
+			
+			if (!inputCaptcha.equals(captcha)) {
+				request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "login.form.error.checkCodeFailed");
+				request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, null);
+				request.setAttribute(failureParam, "true");
+				
+				ModelAndView mav = new ModelAndView("/card/newreg_verify_user");
+				super.setModelAndView(mav, request);
+				return mav;
+			}
 			
 			// TODO verify user by ldap
 			AndFilter filter = new AndFilter();
@@ -199,18 +251,34 @@ public class CardController extends BaseController {
 			List<LdapUserEntity> ldapUserEntitys = userService
 					.searchByFilter(filter.toString());
 			if (ldapUserEntitys == null || ldapUserEntitys.size()==0){
-				session.setAttribute("errorMessage", "用户口令不正确。");
-				ModelAndView mav = new ModelAndView("/card/error");
+				request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "card.error.usernamePasswordError");
+				request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, null);
+				request.setAttribute(failureParam, "true");
+				
+				ModelAndView mav = new ModelAndView("/card/newreg_verify_user");
 				super.setModelAndView(mav, request);
 				return mav;
 			}
 			
-			// TODO write ldap
+			try {
+		    	Map<String, String> attrs = new HashMap<String, String>();
+		    	attrs.put("SGMBadgeUID", cardRegisterEntity.getCardUid());
+		    	attrs.put("SGMBadgeCode", cardRegisterEntity.getMatchCode());
+		    	attrs.put("SGMBadgeTime", (new Date()).toString());
+		    	personService.updatePerson(cardRegisterEntity.getUsername(), attrs);
+		    } catch (Exception e) {
+		    	request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "card.error.updateUserInfo");
+				request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, null);
+				request.setAttribute(failureParam, "true");
+				
+				ModelAndView mav = new ModelAndView("/card/newreg_verify_user");
+				super.setModelAndView(mav, request);
+				return mav;
+		    }
 		}
 		session.setAttribute("cardRegisterEntity", cardRegisterEntity);
 		
-		// TODO write ldap
-		
+		request.setAttribute(LoginHandler.AUTHENTICATION_INFO_KEY, "card.info.register.success");
 		ModelAndView mav = new ModelAndView("/card/newreg_success");
 		super.setModelAndView(mav, request);
 		return mav;
@@ -242,8 +310,20 @@ public class CardController extends BaseController {
 
 		String mobile =(String)request.getParameter("mobile");
 		String password =(String)request.getParameter("j_password");
-		String captcha =(String)request.getParameter("j_checkcode");
+		String inputCaptcha =(String)request.getParameter("j_checkcode");
+		
+		String captcha = (String) session.getAttribute(Constants.KAPTCHA_SESSION_KEY);
+		
+		if (!inputCaptcha.equals(captcha)) {
+			request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "login.form.error.checkCodeFailed");
+			request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, null);
+			request.setAttribute(failureParam, "true");
 			
+			ModelAndView mav = new ModelAndView("/card/chgreg_verify_user");
+			super.setModelAndView(mav, request);
+			return mav;
+		}
+
 		AndFilter filter = new AndFilter();
 		filter.and(new EqualsFilter("mobile", mobile));
 		filter.and(new EqualsFilter("userPassword", password));
@@ -252,13 +332,31 @@ public class CardController extends BaseController {
 		List<LdapUserEntity> ldapUserEntitys = userService
 				.searchByFilter(filter.toString());
 		if (ldapUserEntitys == null || ldapUserEntitys.size()==0){
-			session.setAttribute("errorMessage", "手机号或者口令不正确。");
-			ModelAndView mav = new ModelAndView("/card/error");
+			request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "card.error.mobilePasswordError");
+			request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, null);
+			request.setAttribute(failureParam, "true");
+			
+			ModelAndView mav = new ModelAndView("/card/chgreg_verify_user");
 			super.setModelAndView(mav, request);
 			return mav;
 		}
 			
 		// TODO write ldap for the new card uid
+		try {
+	    	Map<String, String> attrs = new HashMap<String, String>();
+	    	attrs.put("SGMBadgeUID", cardRegisterEntity.getCardUid());
+	    	attrs.put("SGMBadgeCode", cardRegisterEntity.getMatchCode());
+	    	attrs.put("SGMBadgeTime", (new Date()).toString());
+	    	personService.updatePerson(cardRegisterEntity.getUsername(), attrs);
+	    } catch (Exception e) {
+	    	request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "card.error.updateUserInfo");
+			request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, null);
+			request.setAttribute(failureParam, "true");
+			
+			ModelAndView mav = new ModelAndView("/card/chgreg_verify_user");
+			super.setModelAndView(mav, request);
+			return mav;
+	    }
 		
 		ModelAndView mav = new ModelAndView("/card/chgreg_success");
 		super.setModelAndView(mav, request);
@@ -270,6 +368,8 @@ public class CardController extends BaseController {
 	public ModelAndView chgreg_success(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 
+		request.setAttribute(LoginHandler.AUTHENTICATION_INFO_KEY, "card.info.register.success");
+		
 		ModelAndView mav = new ModelAndView("/card/chgreg_success");
 		super.setModelAndView(mav, request);
 		return mav;
