@@ -13,6 +13,13 @@ function chgreg() {
 </script>
 
 	      <div id="content" class="conten-login">
+			<div class="aui-message error invisible" id="errorDivMsg">
+			  <!-- shown with class="aui-message error" -->
+			</div>
+			<div class="aui-message info invisible" id="infoDivMsg">
+			  <!-- shown with class="aui-message info" -->
+			</div>
+
 	        <div id="acloginpod">
 	          <div id="acloginpanel" class="loginpanel">
 	            <form class="aui cmxform" method="post" id="cardForm" name="cardForm" action="">
