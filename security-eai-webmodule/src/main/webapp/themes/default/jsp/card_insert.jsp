@@ -10,6 +10,8 @@ var init = 0;
 
 function checkCardStatus() {
 //alert("1");
+	$("#carduid").attr("value", "0A0F849E");
+	
 	$("#cardForm").attr("action", "card/selectop.do");
 	$("#cardForm").submit();
 }
@@ -33,8 +35,8 @@ cardTimer = setInterval("checkCardStatus();", 1000);
         
           <span style="display: block; clear: both;"><font size="2px">请将工卡插入读卡器.</font></span>
           <span style="display: block; clear: both;"><font size="2px">Please place your badge over reader.</font></span>
-          
-	      <input type="text" tabindex="1" name="carduid" id="carduid" value="1234" class="textinput" />
+          <br/>
+	      <input type="text" tabindex="1" name="carduid" id="carduid" value="" class="textinput" />
 
           <div class="clearfix">&nbsp;</div>
           
@@ -44,4 +46,4 @@ cardTimer = setInterval("checkCardStatus();", 1000);
   </div><!-- End of #acloginpod -->
 </div><!-- End of #content -->
 
-<script>setMsg('info','<spring:message code="login.form.error.title.tam" />');</script>
+<script>setMsg('info','<spring:message code="card.register" />');</script>

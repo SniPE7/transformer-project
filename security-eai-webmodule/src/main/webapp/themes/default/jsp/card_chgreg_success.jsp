@@ -32,7 +32,7 @@
 	          </div><!-- End of #acloginpanel -->
 	        </div><!-- End of #acloginpod -->
 	      </div><!-- End of #content -->
-	      <script>setMsg('info','<spring:message code="login.form.error.title.tam" />');</script>
+	      <script>setMsg('info','<spring:message code="card.register" />');</script>
 	      <script type="text/javascript">
 	        //更新图形验证码
 	        function updateCheckCodeImg() {

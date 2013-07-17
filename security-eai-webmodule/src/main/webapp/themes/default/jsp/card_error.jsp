@@ -36,4 +36,4 @@ function nextstep() {
 	          </div><!-- End of #acloginpanel -->
 	        </div><!-- End of #acloginpod -->
 	      </div><!-- End of #content -->
-	      <script>setMsg('info','<spring:message code="login.form.error.title.tam" />');</script>
+	      <script>setMsg('info','<spring:message code="card.register" />');</script>
