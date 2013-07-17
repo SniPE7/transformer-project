@@ -44,11 +44,4 @@ function chgreg() {
 	          </div><!-- End of #acloginpanel -->
 	        </div><!-- End of #acloginpod -->
 	      </div><!-- End of #content -->
-	      <script>setMsg('info','<spring:message code="login.form.error.title.tam" />');</script>
-	      <script type="text/javascript">
-	        //更新图形验证码
-	        function updateCheckCodeImg() {
-	          var imgCode = document.getElementById("j_checkcodeImgCode");
-	          imgCode.src = "Kaptcha.jpg?dt=" + (new Date()).getTime();
-	        }
-	      </script>
+	      <script>setMsg('info','<spring:message code="card.register" />');</script>

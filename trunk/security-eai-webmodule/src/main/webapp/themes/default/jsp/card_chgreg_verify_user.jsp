@@ -29,9 +29,9 @@ function nextstep() {
 	              <fieldset>
 
 	                <label for="ac_username">请填写您已经注册的手机/Please input your registered mobile phone:</label>
-	                <input type="text" tabindex="1" name="mobile" id="mobile" class="textinput" />
+	                <input type="text" tabindex="1" name="mobile" id="mobile" class="textinput" value="3333" />
 	                <label class="float-left">密码/Password</label>
-	                <input type="text" tabindex="2" name="j_password" id="j_password" class="textinput"/>
+	                <input type="text" tabindex="2" name="j_password" id="j_password" class="textinput" value="Pass1234" />
 
 	                <label class="float-left"><spring:message code="logon.form.checkcode" /></label>
 	                <input type="text" tabindex="3" name="j_checkcode" id="j_checkcode" class="textCKcode" style="display: block; float: left;"/>
@@ -51,7 +51,7 @@ function nextstep() {
 	          </div><!-- End of #acloginpanel -->
 	        </div><!-- End of #acloginpod -->
 	      </div><!-- End of #content -->
-	      <script>setMsg('info','<spring:message code="login.form.error.title.tam" />');</script>
+	      <script>setMsg('info','<spring:message code="card.register" />');</script>
 	      <script type="text/javascript">
 	        //更新图形验证码
 	        function updateCheckCodeImg() {

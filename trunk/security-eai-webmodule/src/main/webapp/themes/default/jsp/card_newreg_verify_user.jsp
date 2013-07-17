@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ page import="com.ibm.siam.am.idp.authn.entity.CardRegisterEntity" %>
+<%
+	CardRegisterEntity cardRegisterEntity = (CardRegisterEntity) session.getAttribute("cardRegisterEntity");
+	if (cardRegisterEntity == null) {
+		cardRegisterEntity = new CardRegisterEntity();
+	}
+%>
 
 <script type="text/javascript">
 function prevstep() {
@@ -28,12 +35,14 @@ function nextstep() {
 	              <input type="hidden" name="op" value="login" />
 	              <fieldset>
 
-	                <span style="display: block; clear: both;"><font size="2px">用户名/Username : User001</font></span>
-	                <span style="display: block; clear: both;"><font size="2px">姓名/Name : 张三</font></span>
+	                <span style="display: block; clear: both;"><font size="2px">用户名/Username : <%=cardRegisterEntity.getUsername() %></font></span>
+	                <span style="display: block; clear: both;"><font size="2px">姓名/Name : <%=cardRegisterEntity.getName() %></font></span>
 <br />
 
+<!-- 
 	                <label for="ac_username">用户名/Username</label>
 	                <input type="text" tabindex="1" name="j_username" id="j_username" class="textinput" />
+ -->
 	                <label class="float-left">密码/Password</label>
 	                <input type="text" tabindex="2" name="j_password" id="j_password" class="textinput"/>
 
@@ -55,7 +64,7 @@ function nextstep() {
 	          </div><!-- End of #acloginpanel -->
 	        </div><!-- End of #acloginpod -->
 	      </div><!-- End of #content -->
-	      <script>setMsg('info','<spring:message code="login.form.error.title.tam" />');</script>
+	      <script>setMsg('info','<spring:message code="card.register" />');</script>
 	      <script type="text/javascript">
 	        //更新图形验证码
 	        function updateCheckCodeImg() {

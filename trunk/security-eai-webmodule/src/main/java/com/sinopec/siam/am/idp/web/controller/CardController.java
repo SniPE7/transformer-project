@@ -1,5 +1,6 @@
 package com.sinopec.siam.am.idp.web.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -60,9 +61,8 @@ public class CardController extends BaseController {
 		}
 		String cardUid = (String) request.getParameter("carduid");
 		cardRegisterEntity.setCardUid(cardUid);
-		cardRegisterEntity.setCardATR("");
 		// TODO get match code
-		cardRegisterEntity.setMatchCode("");
+		cardRegisterEntity.setMatchCode("43729348");
 		session.setAttribute("cardRegisterEntity", cardRegisterEntity);
 
 		ModelAndView mav = new ModelAndView("/card/selectop");
@@ -108,6 +108,7 @@ public class CardController extends BaseController {
 		AndFilter filter = new AndFilter();
 		filter.and(new EqualsFilter("SGMCertID", cardRegisterEntity.getIdNumber()));
 		filter.and(new EqualsFilter("employeeNumber", cardRegisterEntity.getEmployeeNumber()));
+		filter.and(new EqualsFilter("objectclass", "SGMEmployeePerson"));
 		
 		UserService userService = getUserService();
 		
@@ -130,8 +131,6 @@ public class CardController extends BaseController {
 			request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, null);
 			request.setAttribute(failureParam, "true");
 			
-//			session.setAttribute("errorMessage", "用户不存在。");
-//			ModelAndView mav = new ModelAndView("/card/error");
 			ModelAndView mav = new ModelAndView("/card/newreg_input_number");
 			super.setModelAndView(mav, request);
 			return mav;
@@ -139,22 +138,27 @@ public class CardController extends BaseController {
 		
 		LdapUserEntity ldapUserEntity = ldapUserEntitys.get(0);
 		
-		String username = ldapUserEntity.getValueAsString("sn");
+		String username = ldapUserEntity.getUid();
 		String employeeNumber = ldapUserEntity.getValueAsString("employeeNumber");
 		String name = ldapUserEntity.getValueAsString("givenName");
 		
 		cardRegisterEntity.setUsername(username);
 		cardRegisterEntity.setEmployeeNumber(employeeNumber);
 		cardRegisterEntity.setName(name);
+		cardRegisterEntity.setDn(ldapUserEntity.getDn());
 		session.setAttribute("cardRegisterEntity", cardRegisterEntity);
 
-		String loginFlag = ldapUserEntity.getValueAsString("SGMeOnboardTime");
+		String loginFlag = ldapUserEntity.getValueAsString("alloweprptservice");
 		ModelAndView mav;
-		if ("1".equals(loginFlag)) {
+		if ("false".compareToIgnoreCase(loginFlag)==0) {
+			cardRegisterEntity.setOptype(1);
 			mav = new ModelAndView("/card/newreg_verify_user");
 		} else {
+			cardRegisterEntity.setOptype(0);
 			mav = new ModelAndView("/card/newreg_regist");			
 		}
+		session.setAttribute("cardRegisterEntity", cardRegisterEntity);
+		
 		super.setModelAndView(mav, request);
 		return mav;
 	}
@@ -209,14 +213,15 @@ public class CardController extends BaseController {
 		if (optype==0) { // new user
 			cardRegisterEntity.setPassword((String)request.getParameter("newPassword"));
 			
-			// TODO write ldap
+			// write ldap
 			try {
 		    	Map<String, String> attrs = new HashMap<String, String>();
 		    	attrs.put("SGMBadgeUID", cardRegisterEntity.getCardUid());
 		    	attrs.put("SGMBadgeCode", cardRegisterEntity.getMatchCode());
-		    	attrs.put("SGMBadgeTime", (new Date()).toString());
-		    	attrs.put("userPassword", cardRegisterEntity.getPassword());
+		    	attrs.put("SGMBadgeTime", getCurrentDate());
 		    	personService.updatePerson(cardRegisterEntity.getUsername(), attrs);
+
+		    	//personService.updatePassword(cardRegisterEntity.getUsername(), cardRegisterEntity.getPassword());
 		    } catch (Exception e) {
 		    	request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "card.error.updateUserInfo");
 				request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, null);
@@ -242,29 +247,25 @@ public class CardController extends BaseController {
 				return mav;
 			}
 			
-			// TODO verify user by ldap
-			AndFilter filter = new AndFilter();
-			filter.and(new EqualsFilter("sn", cardRegisterEntity.getUsername()));
-			filter.and(new EqualsFilter("userPassword", password));
-			
+			// verify user by ldap
 			UserService userService = getUserService();
-			List<LdapUserEntity> ldapUserEntitys = userService
-					.searchByFilter(filter.toString());
-			if (ldapUserEntitys == null || ldapUserEntitys.size()==0){
-				request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "card.error.usernamePasswordError");
-				request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, null);
-				request.setAttribute(failureParam, "true");
-				
-				ModelAndView mav = new ModelAndView("/card/newreg_verify_user");
-				super.setModelAndView(mav, request);
-				return mav;
-			}
+			
+			boolean isUserPassed = userService.authenticateByUserDnPassword(cardRegisterEntity.getDn(), password);					
+//			if (!isUserPassed){
+//				request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "card.error.usernamePasswordError");
+//				request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, null);
+//				request.setAttribute(failureParam, "true");
+//				
+//				ModelAndView mav = new ModelAndView("/card/newreg_verify_user");
+//				super.setModelAndView(mav, request);
+//				return mav;
+//			}
 			
 			try {
 		    	Map<String, String> attrs = new HashMap<String, String>();
 		    	attrs.put("SGMBadgeUID", cardRegisterEntity.getCardUid());
 		    	attrs.put("SGMBadgeCode", cardRegisterEntity.getMatchCode());
-		    	attrs.put("SGMBadgeTime", (new Date()).toString());
+		    	attrs.put("SGMBadgeTime", getCurrentDate());
 		    	personService.updatePerson(cardRegisterEntity.getUsername(), attrs);
 		    } catch (Exception e) {
 		    	request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "card.error.updateUserInfo");
@@ -326,7 +327,7 @@ public class CardController extends BaseController {
 
 		AndFilter filter = new AndFilter();
 		filter.and(new EqualsFilter("mobile", mobile));
-		filter.and(new EqualsFilter("userPassword", password));
+		filter.and(new EqualsFilter("objectclass", "SGMEmployeePerson"));
 		
 		UserService userService = getUserService();
 		List<LdapUserEntity> ldapUserEntitys = userService
@@ -340,14 +341,27 @@ public class CardController extends BaseController {
 			super.setModelAndView(mav, request);
 			return mav;
 		}
+		
+		LdapUserEntity ldapUserEntity = ldapUserEntitys.get(0);
+		String username = ldapUserEntity.getUid();
+		
+		boolean isUserPassed = userService.authenticateByUserDnPassword(ldapUserEntity.getDn(), password);					
+//		if (!isUserPassed){
+//			request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "card.error.mobilePasswordError");
+//			request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, null);
+//			request.setAttribute(failureParam, "true");
+//			
+//			ModelAndView mav = new ModelAndView("/card/chgreg_verify_user");
+//			super.setModelAndView(mav, request);
+//			return mav;
+//		}
 			
-		// TODO write ldap for the new card uid
 		try {
 	    	Map<String, String> attrs = new HashMap<String, String>();
 	    	attrs.put("SGMBadgeUID", cardRegisterEntity.getCardUid());
 	    	attrs.put("SGMBadgeCode", cardRegisterEntity.getMatchCode());
-	    	attrs.put("SGMBadgeTime", (new Date()).toString());
-	    	personService.updatePerson(cardRegisterEntity.getUsername(), attrs);
+	    	attrs.put("SGMBadgeTime", getCurrentDate());
+	    	personService.updatePerson(username, attrs);
 	    } catch (Exception e) {
 	    	request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "card.error.updateUserInfo");
 			request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, null);
@@ -389,5 +403,12 @@ public class CardController extends BaseController {
 		ApplicationContext appContext = ContextLoader
 				.getCurrentWebApplicationContext();
 		return appContext.getBean(userServiceBeanId, UserService.class);
+	}
+	
+	private String getCurrentDate() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+		String dateString = sdf.format(new Date());
+
+		return (dateString + "Z");
 	}
 }

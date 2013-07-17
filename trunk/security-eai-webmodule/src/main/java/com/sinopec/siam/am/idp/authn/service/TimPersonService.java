@@ -38,14 +38,14 @@ public class TimPersonService implements PersonService {
 	/** ITIM update user's password notify by mail */
 	private boolean notifyByMail;
 
-	/** ÓÃ»§ÓµÓÐÕßDNLdapÊôÐÔÃû */
+	/** ï¿½Ã»ï¿½Óµï¿½ï¿½ï¿½ï¿½DNLdapï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 	private String userOwnerLdapAttribute;
 
 	protected LdapTemplate ldapTemplate;
 
 	private String ldapUserBaseDN;
 
-	/** userName¶ÔÓ¦ldapÊôÐÔÃû³Æ */
+	/** userNameï¿½ï¿½Ó¦ldapï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 	private String userNameLdapAttribute;
 
 	public String getTimSoapEndpoint() {
@@ -133,7 +133,7 @@ public class TimPersonService implements PersonService {
 					username));
 		}
 		LdapUserEntity userEntity = result.get(0);
-		// ÐÞ¸ÄTIM Person ÊôÐÔ£¨API£©
+		// ï¿½Þ¸ï¿½TIM Person ï¿½ï¿½ï¿½Ô£ï¿½APIï¿½ï¿½
 		ITIMWebServiceFactory webServiceFactory;
 		try {
 			webServiceFactory = new ITIMWebServiceFactory(timSoapEndpoint);
@@ -158,13 +158,48 @@ public class TimPersonService implements PersonService {
 		}
 
 	}
+	
+	public void updatePassword(String username, String password) {
+		if (log.isDebugEnabled()) {
+			log.debug("Update User Pass by username [{}]", username);
+		}
+
+		List<LdapUserEntity> result = getUserByUsername(username);
+		if (result.size() == 0) {
+			log.error("Username not exists, username [{}]", username);
+			throw new RuntimeException(String.format(
+					"Username not exists, username[%s]", username));
+		} else if (result.size() > 1) {
+			log.error("Find more than one user, username [{}]", username);
+			throw new RuntimeException(String.format(
+					"Find more than one user by username, username[%s]",
+					username));
+		}
+		LdapUserEntity userEntity = result.get(0);
+		// ï¿½Þ¸ï¿½TIM Person ï¿½ï¿½ï¿½Ô£ï¿½APIï¿½ï¿½
+		ITIMWebServiceFactory webServiceFactory;
+		try {
+			webServiceFactory = new ITIMWebServiceFactory(timSoapEndpoint);
+
+			WSItimService wsItimService = webServiceFactory.getWSItimService();
+			Calendar scheduledTime = Calendar.getInstance();
+			scheduledTime.setTime(new Date());
+			WSSession wsSession = wsItimService.login(itimManager,
+					itimManagerPwd);
+			
+			wsItimService.synchPasswords(wsSession, userEntity.getDn(), password, null, false);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("updatePerson fail: ", e);
+		}
+	}
 
 	/**
-	 * »ñÈ¡ÓÃ»§ÐÅÏ¢
+	 * ï¿½ï¿½È¡ï¿½Ã»ï¿½ï¿½ï¿½Ï¢
 	 * 
 	 * @param username
-	 *            ÓÃ»§Ãû
-	 * @return List<LdapUserEntity> ÓÃ»§ÐÅÏ¢£¬Èç¹ûÓÃ»§²»´æÔÚ:list.size=0
+	 *            ï¿½Ã»ï¿½ï¿½ï¿½
+	 * @return List<LdapUserEntity> ï¿½Ã»ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:list.size=0
 	 */
 	@SuppressWarnings("unchecked")
 	protected List<LdapUserEntity> getUserByUsername(String username) {

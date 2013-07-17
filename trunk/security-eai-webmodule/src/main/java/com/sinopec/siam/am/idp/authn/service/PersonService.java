@@ -3,21 +3,23 @@ package com.sinopec.siam.am.idp.authn.service;
 import java.util.Map;
 
 /**
- * ÈËÔ±ÊôĞÔĞŞ¸Ä·şÎñ½Ó¿Ú
+ * ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ï¿½Ş¸Ä·ï¿½ï¿½ï¿½Ó¿ï¿½
  * 
  * @author zhangxianwen
- * @since 2012-6-20 ÉÏÎç9:35:40
+ * @since 2012-6-20 ï¿½ï¿½ï¿½ï¿½9:35:40
  */
 
 public interface PersonService {
 
 	/**
-	 * ĞŞ¸ÄÓÃ»§ÊôĞÔ
+	 * ï¿½Ş¸ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param username
-	 *            ĞŞ¸ÄµÄÈËÔ±±êÊ¾
+	 *            ï¿½Ş¸Äµï¿½ï¿½ï¿½Ô±ï¿½ï¿½Ê¾
 	 * @param attrs
-	 *            ĞŞ¸ÄÊôĞÔ¼¯ºÏ
+	 *            ï¿½Ş¸ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½
 	 */
 	public void updatePerson(String username, Map<String, String> attrs);
+	
+	public void updatePassword(String username, String password);
 }
