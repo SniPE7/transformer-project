@@ -7,6 +7,7 @@ public class CardRegisterEntity {
 	private String cardUid;
 	private String cardATR;
 	private String matchCode;
+	private String dn;
 	private String username;
 	private String password;
 	private String idNumber;
@@ -53,6 +54,14 @@ public class CardRegisterEntity {
 
 	public void setMatchCode(String matchCode) {
 		this.matchCode = matchCode;
+	}
+
+	public String getDn() {
+		return dn;
+	}
+
+	public void setDn(String dn) {
+		this.dn = dn;
 	}
 
 	public String getUsername() {
