@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>Send SMS Configure</comment>
+  <!-- IP -->
+  <entry key="eai.sms.api.ip">211.151.48.100</entry>
+   <!-- port -->
+  <entry key="eai.sms.api.port">1236</entry>
+   <!-- clientId -->
+  <entry key="eai.sms.api.clientId">1111</entry>
+   <!-- loginName -->
+  <entry key="eai.sms.api.loginName">smstest</entry>
+   <!-- password -->
+  <entry key="eai.sms.api.password">smstest</entry>
+   <!-- longCode -->
+  <entry key="eai.sms.api.longCode"></entry>
+   <!-- submitPath -->
+  <entry key="eai.sms.api.submitPath">./submit</entry>
+   <!-- resourceFilePath -->
+  <entry key="eai.sms.api.resourceFilePath">./resource</entry>
+   <!-- copyPath -->
+  <entry key="eai.sms.api.copyPath">./resourceBak</entry>
+   <!-- resourceIdFilePath -->
+  <entry key="eai.sms.api.resourceIdFilePath">./properties</entry>
+   <!-- submitBakPath -->
+  <entry key="eai.sms.api.submitBakPath">./</entry>
+   <!-- controlWindowSize -->
+  <entry key="eai.sms.api.controlWindowSize">16</entry>
+  <!-- keepDate -->
+  <entry key="eai.sms.api.keepDate">10</entry>
+  <!-- maxQueueSize -->
+  <entry key="eai.sms.api.maxQueueSize">20000</entry>
+  <!-- clearTimeOut -->
+  <entry key="eai.sms.api.clearTimeOut">6000000</entry>
+  <!-- clearSleepTime -->
+  <entry key="eai.sms.api.clearSleepTime">30000</entry>
+  <!-- idleTime -->
+  <entry key="eai.sms.api.idleTime">10</entry>
+  <!-- inBufferSize -->
+  <entry key="eai.sms.api.inBufferSize">1024</entry>
+  <!-- outBufferSize -->
+  <entry key="eai.sms.api.outBufferSize">1024</entry>
+ 
+</properties>

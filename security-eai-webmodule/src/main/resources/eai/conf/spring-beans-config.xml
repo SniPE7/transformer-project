@@ -18,6 +18,7 @@
         <value>classpath:eai/conf/eai-config-main.xml</value>
         <value>classpath:eai/conf/eai-config-loginmodule-jaas.xml</value>
         <value>classpath:eai/conf/eai-config-loginmodule-tamldap.xml</value>
+        <value>classpath:eai/conf/eai-config-smsapi.xml</value>
         <!-- Load from Server Home -->
         <!-- <value>file:${eai.server.home}/eai/conf/eai-config.xml</value> -->
 

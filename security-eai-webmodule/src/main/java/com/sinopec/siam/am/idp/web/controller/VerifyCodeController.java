@@ -23,6 +23,7 @@ import com.google.code.kaptcha.Constants;
 import com.sinopec.siam.am.idp.authn.service.UserService;
 import com.sinopec.siam.am.idp.authn.util.dyncpwd.DyncUtil;
 import com.sinopec.siam.am.idp.entity.LdapUserEntity;
+import com.techcenter.SpringSMSClient;
 
 /**
  * 提供页面ajax调用 Controller。
@@ -38,6 +39,9 @@ public class VerifyCodeController extends BaseController {
 	@Autowired
 	@Qualifier("tamLdapUserService")
 	private UserService userService;
+	
+	@Autowired
+	private SpringSMSClient smsClient;
 	
 	@Value("#{beanProperties['eai.loginmodule.user.search.filter']}")
 	private String smsFilter = "(&amp;(|(uid={0})(badgeid={0}))(objectclass=inetOrgPerson))";
@@ -100,6 +104,8 @@ public class VerifyCodeController extends BaseController {
 				// if get it, send smscode to mobile of user, return mobileno. need callsms api
 				smsCode = DyncUtil.getPassword(userid, "");
 				//send sms
+				String sendMsg = "您的短信验证是 " + smsCode;
+				smsClient.getSubmitSender().send(mobile, sendMsg);
 				
 				log.info("get user sms code is :" + smsCode);
 				status = "success";
