@@ -8,95 +8,72 @@
 	<description>EAI API For SMS Send</description>
 
 	<dependencies>
-		<dependency>
-			<groupId>com.tech</groupId>
-			<artifactId>tech_coagent_client</artifactId>
-			<version>1.0.0.1</version>
-		</dependency>
 
-		<dependency>
-			<groupId>com.tech</groupId>
-			<artifactId>tech_coagent_codec</artifactId>
-			<version>1.0.0.1</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.tech</groupId>
-			<artifactId>tech_queue_adapter</artifactId>
-			<version>1.0.0.2</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.tech</groupId>
-			<artifactId>tech_spring_init</artifactId>
-			<version>1.0.0.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.tech</groupId>
-			<artifactId>tech_standard_protocol</artifactId>
-			<version>1.0.0.2</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.tech</groupId>
-			<artifactId>tech_util</artifactId>
-			<version>1.0.0.2</version>
-		</dependency>
-
-		<!-- <dependency> <groupId>com.tech</groupId> <artifactId>mina-core</artifactId> 
-			<version>2.0.0-RC1</version> <scope>system</scope> <systemPath>${project.basedir}/lib/mina-core-2.0.0-RC1.jar</systemPath> 
-			</dependency> -->
-
-		<dependency>
-			<groupId>org.apache.mina</groupId>
-			<artifactId>mina-core</artifactId>
-			<version>2.0.0-RC1</version>
-		</dependency>
-
-		<!-- <dependency> <groupId>commons-io</groupId> <artifactId>commons-io</artifactId> 
-			<version>1.4</version> <type>jar</type> <scope>compile</scope> </dependency> -->
-		<!-- <dependency> <groupId>com.tech</groupId> <artifactId>log4j-over-slf4j</artifactId> 
-			<version>1.5.8</version> <scope>system</scope> <systemPath>${project.basedir}/lib/log4j-over-slf4j-1.5.8.jar</systemPath> 
-			</dependency> <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-api</artifactId> 
-			<version>1.5.8</version> <type>jar</type> <scope>compile</scope> </dependency> 
-			<dependency> <groupId>commons-logging</groupId> <artifactId>commons-logging</artifactId> 
-			<version>1.1.1</version> <type>jar</type> <scope>compile</scope> </dependency> -->
-		<!-- <dependency> <groupId>ch.qos.logback</groupId> <artifactId>logback-classic</artifactId> 
-			<version>0.9.17</version> <type>jar</type> <scope>system</scope> <systemPath>${project.basedir}/lib/logback-classic-0.9.17.jar</systemPath> 
-			</dependency> <dependency> <groupId>ch.qos.logback</groupId> <artifactId>logback-core</artifactId> 
-			<version>0.9.17</version> <type>jar</type> <scope>system</scope> <systemPath>${project.basedir}/lib/logback-core-0.9.17.jar</systemPath> 
-			</dependency> -->
-		<!-- <dependency> <groupId>ch.qos.logback</groupId> <artifactId>logback-classic</artifactId> 
-			<version>1.0.0</version> <type>jar</type> <scope>compile</scope> </dependency> 
-			<dependency> <groupId>ch.qos.logback</groupId> <artifactId>logback-core</artifactId> 
-			<version>1.0.0</version> <type>jar</type> <scope>compile</scope> </dependency> 
-			<dependency> <groupId>org.slf4j</groupId> <artifactId>jcl-over-slf4j</artifactId> 
-			<version>1.6.5</version> <type>jar</type> <scope>compile</scope> </dependency> 
-			<dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-api</artifactId> 
-			<version>1.6.5</version> <type>jar</type> <scope>compile</scope> </dependency> -->
-
-		<!-- add log -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-			<version>1.6.5</version>
-		</dependency>
-
-
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>log4j-over-slf4j</artifactId>
-			<version>1.6.5</version>
-		</dependency>
+    <dependency>
+      <groupId>com.tech</groupId>
+      <artifactId>tech_coagent_client</artifactId>
+      <version>1.0.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.tech</groupId>
+      <artifactId>tech_coagent_codec</artifactId>
+      <version>1.0.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.tech</groupId>
+      <artifactId>tech_queue_adapter</artifactId>
+      <version>1.0.0.2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.tech</groupId>
+      <artifactId>tech_spring_init</artifactId>
+      <version>1.0.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.tech</groupId>
+      <artifactId>tech_standard_protocol</artifactId>
+      <version>1.0.0.2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.tech</groupId>
+      <artifactId>tech_util</artifactId>
+      <version>1.0.0.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.mina</groupId>
+      <artifactId>mina-core</artifactId>
+      <version>2.0.0-RC1</version>
+    </dependency>
+    <!-- add log -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+      <version>1.6.5</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>log4j-over-slf4j</artifactId>
+      <version>1.6.5</version>
+    </dependency>
 
 	</dependencies>
 
+  <distributionManagement>
+    <snapshotRepository>
+      <id>Snapshots</id>
+      <name>Local Nexus Repository</name>
+      <url>http://mysvn.ibm.com:8081/nexus/content/repositories/snapshots/</url>
+    </snapshotRepository>
+    <repository>
+      <id>Releases</id>
+      <name>Local Nexus Repository</name>
+      <url>http://mysvn.ibm.com:8081/nexus/content/repositories/releases</url>
+    </repository>
+  </distributionManagement>
 
 </project>
