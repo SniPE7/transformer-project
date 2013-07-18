@@ -74,7 +74,6 @@ public class SubmitSender implements ISubmitSender {
 		return ssm;
 	}
 
-	@Override
 	public Standard_Head send() {
 		if(this.sendQueue == null) {
 			return null;
@@ -88,7 +87,6 @@ public class SubmitSender implements ISubmitSender {
 		return currentSSM; // 返回发送对象，如果不发送时返回null
 	}
 
-	@Override
 	public void receive(Standard_Head submit, Standard_Head response) {
 		LogObject.logSubmit("submit-->" + submit); // 发送日志
 		LogObject.logResponse("response-->" + response); // 响应日志
