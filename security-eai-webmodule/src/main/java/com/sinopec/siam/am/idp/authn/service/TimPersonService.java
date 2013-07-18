@@ -38,14 +38,12 @@ public class TimPersonService implements PersonService {
 	/** ITIM update user's password notify by mail */
 	private boolean notifyByMail;
 
-	/** 锟矫伙拷拥锟斤拷锟斤拷DNLdap锟斤拷锟斤拷锟斤拷 */
 	private String userOwnerLdapAttribute;
 
 	protected LdapTemplate ldapTemplate;
 
 	private String ldapUserBaseDN;
 
-	/** userName锟斤拷应ldap锟斤拷锟斤拷锟斤拷锟�*/
 	private String userNameLdapAttribute;
 
 	public String getTimSoapEndpoint() {
@@ -133,7 +131,6 @@ public class TimPersonService implements PersonService {
 					username));
 		}
 		LdapUserEntity userEntity = result.get(0);
-		// 锟睫革拷TIM Person 锟斤拷锟皆ｏ拷API锟斤拷
 		ITIMWebServiceFactory webServiceFactory;
 		try {
 			webServiceFactory = new ITIMWebServiceFactory(timSoapEndpoint);
@@ -176,7 +173,6 @@ public class TimPersonService implements PersonService {
 					username));
 		}
 		LdapUserEntity userEntity = result.get(0);
-		// 锟睫革拷TIM Person 锟斤拷锟皆ｏ拷API锟斤拷
 		ITIMWebServiceFactory webServiceFactory;
 		try {
 			webServiceFactory = new ITIMWebServiceFactory(timSoapEndpoint);
@@ -194,13 +190,6 @@ public class TimPersonService implements PersonService {
 		}
 	}
 
-	/**
-	 * 锟斤拷取锟矫伙拷锟斤拷息
-	 * 
-	 * @param username
-	 *            锟矫伙拷锟斤拷
-	 * @return List<LdapUserEntity> 锟矫伙拷锟斤拷息锟斤拷锟斤拷锟斤拷没锟斤拷锟斤拷锟斤拷锟�list.size=0
-	 */
 	@SuppressWarnings("unchecked")
 	protected List<LdapUserEntity> getUserByUsername(String username) {
 		if (log.isDebugEnabled()) {
