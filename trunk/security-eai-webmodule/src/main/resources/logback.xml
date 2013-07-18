@@ -136,7 +136,7 @@
     
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
       <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-          <charset>UTF-8</charset>
+          <charset>GBK</charset>
           <pattern>%date{HH:mm:ss.SSS} - %level [%logger:%line] - %msg%n</pattern>
       </encoder>
     </appender>
@@ -155,6 +155,8 @@
 
     <!-- Logs OpenSAML, but not IdP, messages -->
     <logger name="org.opensaml" level="INFO"/>
+    
+    <logger name="com.techcenter" level="INFO"/>
     
     <!-- Logs VT LDAP LoginModule related messages, now not yet used -->
     <logger name="edu.vt.middleware.ldap" level="OFF"/>
