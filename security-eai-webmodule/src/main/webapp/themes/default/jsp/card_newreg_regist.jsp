@@ -40,9 +40,9 @@ function nextstep() {
 <br />
 
 	                <label for="ac_username">新口令/New Password</label>
-	                <input type="text" tabindex="1" name="newPassword" id="newPassword" class="textinput" />
+	                <input type="password" tabindex="1" name="newPassword" id="newPassword" class="textinput" />
 	                <label class="float-left">新口令/New Password</label>
-	                <input type="text" tabindex="2" name="newPassword2" id="newPassword2" class="textinput"/>
+	                <input type="password" tabindex="2" name="newPassword2" id="newPassword2" class="textinput"/>
 
 	                <div class="aclogin-action">
 	                  <input type="button" tabindex="7" value="上一步" onclick="prevstep();" />
