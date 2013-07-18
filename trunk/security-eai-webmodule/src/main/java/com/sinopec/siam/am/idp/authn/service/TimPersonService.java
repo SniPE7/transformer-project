@@ -38,14 +38,14 @@ public class TimPersonService implements PersonService {
 	/** ITIM update user's password notify by mail */
 	private boolean notifyByMail;
 
-	/** �û�ӵ����DNLdap������ */
+	/** 锟矫伙拷拥锟斤拷锟斤拷DNLdap锟斤拷锟斤拷锟斤拷 */
 	private String userOwnerLdapAttribute;
 
 	protected LdapTemplate ldapTemplate;
 
 	private String ldapUserBaseDN;
 
-	/** userName��Ӧldap������� */
+	/** userName锟斤拷应ldap锟斤拷锟斤拷锟斤拷锟�*/
 	private String userNameLdapAttribute;
 
 	public String getTimSoapEndpoint() {
@@ -133,7 +133,7 @@ public class TimPersonService implements PersonService {
 					username));
 		}
 		LdapUserEntity userEntity = result.get(0);
-		// �޸�TIM Person ���ԣ�API��
+		// 锟睫革拷TIM Person 锟斤拷锟皆ｏ拷API锟斤拷
 		ITIMWebServiceFactory webServiceFactory;
 		try {
 			webServiceFactory = new ITIMWebServiceFactory(timSoapEndpoint);
@@ -176,7 +176,7 @@ public class TimPersonService implements PersonService {
 					username));
 		}
 		LdapUserEntity userEntity = result.get(0);
-		// �޸�TIM Person ���ԣ�API��
+		// 锟睫革拷TIM Person 锟斤拷锟皆ｏ拷API锟斤拷
 		ITIMWebServiceFactory webServiceFactory;
 		try {
 			webServiceFactory = new ITIMWebServiceFactory(timSoapEndpoint);
@@ -184,10 +184,10 @@ public class TimPersonService implements PersonService {
 			WSItimService wsItimService = webServiceFactory.getWSItimService();
 			Calendar scheduledTime = Calendar.getInstance();
 			scheduledTime.setTime(new Date());
-			WSSession wsSession = wsItimService.login(itimManager,
-					itimManagerPwd);
+			WSSession wsSession = wsItimService.login(itimManager, itimManagerPwd);
 			
-			wsItimService.synchPasswords(wsSession, userEntity.getDn(), password, null, false);
+			String personDn = userEntity.getValueAsString("owner");
+			wsItimService.synchPasswords(wsSession, personDn, password, scheduledTime , false);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("updatePerson fail: ", e);
@@ -195,11 +195,11 @@ public class TimPersonService implements PersonService {
 	}
 
 	/**
-	 * ��ȡ�û���Ϣ
+	 * 锟斤拷取锟矫伙拷锟斤拷息
 	 * 
 	 * @param username
-	 *            �û���
-	 * @return List<LdapUserEntity> �û���Ϣ������û�������:list.size=0
+	 *            锟矫伙拷锟斤拷
+	 * @return List<LdapUserEntity> 锟矫伙拷锟斤拷息锟斤拷锟斤拷锟斤拷没锟斤拷锟斤拷锟斤拷锟�list.size=0
 	 */
 	@SuppressWarnings("unchecked")
 	protected List<LdapUserEntity> getUserByUsername(String username) {
