@@ -52,7 +52,7 @@
   <!-- ========================================================================================================= -->
   <!-- TAM LDAP User Service -->
   <!-- ========================================================================================================= -->
-  <bean id="tamLdapUserService" class="com.sinopec.siam.am.idp.authn.service.LdapUserServiceImpl">
+  <bean id="tamLdapUserService" class="com.ibm.siam.am.idp.authn.service.LdapUserServiceImpl">
     <property name="template" ref="tamLdapTemplate"></property>
     <property name="userBaseDN" value="${eai.tam.ldap.user.baseDn}"></property>
   </bean>
@@ -60,7 +60,7 @@
   <!-- ========================================================================================================= -->
   <!-- TAM LDAP User Security Authority Service -->
   <!-- ========================================================================================================= -->
-  <bean id="tamLdapUserSecAuthrityService" class="com.sinopec.siam.am.idp.authn.service.LdapUserServiceImpl">
+  <bean id="tamLdapUserSecAuthrityService" class="com.ibm.siam.am.idp.authn.service.LdapUserServiceImpl">
     <property name="template" ref="tamLdapTemplate"></property>
     <property name="userBaseDN" value="${eai.tam.ldap.secauthority.baseDN}"></property>
   </bean>
@@ -420,7 +420,7 @@
               </bean>
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="mobileUpdateAttrName"></property>
-                <property name="value" value="mobileUpdateTime"></property>
+                <property name="value" value="SGMMobileTime"></property>
               </bean>
             </list>
           </property>
