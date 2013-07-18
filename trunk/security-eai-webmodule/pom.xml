@@ -12,6 +12,28 @@
   <properties>
     <m2eclipse.wtp.contextRoot>/eaiweb</m2eclipse.wtp.contextRoot>
   </properties>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>1.0.1</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <source>1.5</source>
+          <target>1.6</target>
+          <optimize>true</optimize>
+          <debug>true</debug>
+          <encoding>GBK</encoding>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
   <dependencies>
     <!-- Spring Libs -->
     <dependency>
@@ -186,19 +208,13 @@
 		<version>1.9.7</version>
 	</dependency>
 
-	<dependency>
-		<groupId>group.tivoli.security</groupId>
-		<artifactId>security-eai-api-sms</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-		<type>jar</type>
-		<scope>compile</scope>
-		<!-- <exclusions>
-        <exclusion>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-api</artifactId>
-        </exclusion>
-      </exclusions> -->
-	</dependency>
+  <dependency>
+    <groupId>group.tivoli.security</groupId>
+    <artifactId>security-eai-api-sms</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </dependency>
+
+
   </dependencies>
 
 </project>
