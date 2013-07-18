@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.naming.NamingException;
+import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.SearchControls;
 import javax.security.auth.Subject;
@@ -67,7 +68,7 @@ public class UserMobileBindingLdapLoginModule extends AbstractSpringLoginModule 
   /**
    * LDAP mobileUpdateAttrName
    */
-  private String mobileUpdateAttrName = "mobileUpdateTime";
+  private String mobileUpdateAttrName = "SGMMobileTime";
   
 
   /** {@inheritDoc} */
@@ -152,7 +153,10 @@ public class UserMobileBindingLdapLoginModule extends AbstractSpringLoginModule 
     } else {  	  
 		try {
 			mobile = dnAndAttrs.getAttributes().get(mobileAttrName).get(0);
-			mobileLastDate = convertPwdChangeTime((String)dnAndAttrs.getAttributes().get(mobileUpdateAttrName).get(0));
+			Attribute mobileUpdateAttr = dnAndAttrs.getAttributes().get(mobileUpdateAttrName);
+			if (mobileUpdateAttr != null) {
+			   mobileLastDate = convertPwdChangeTime((String)mobileUpdateAttr.get(0));
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
