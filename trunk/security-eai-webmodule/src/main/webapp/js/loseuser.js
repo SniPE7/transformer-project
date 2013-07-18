@@ -15,7 +15,7 @@ function loseuserStepOne() {
 			}
 		},
 		error:function(html){
-			$('#wizard').smartWizard('showMessage', "æäº¤æ•°æ®å¤±è´¥ï¼Œä»£ç :" +html.status+ "ï¼Œè¯·ç¨å€™å†è¯•");
+			$('#wizard').smartWizard('showMessage', "Ìá½»Êı¾İÊ§°Ü£¬´úÂë:" +html.status+ "£¬ÇëÉÔºòÔÙÊÔ");
 		}
 	});
 	
@@ -43,14 +43,14 @@ function loseuserStepTwo(issend) {
 				if(mobile.length==11) {
 					$("#lb_usr_mobile").text(" " + mobile.substring(0,3) + "-XXXX-" + mobile.substring(7,11) + " ");
 				} else {
-					$("#lb_usr_mobile").text("é”™è¯¯çš„æ‰‹æœºå·/ error mobile number: " + mobile);
+					$("#lb_usr_mobile").text("´íÎóµÄÊÖ»úºÅ/ error mobile number: " + mobile);
 				}
 			} else {
-				//$('#wizard').smartWizard('showMessage', "æäº¤æ•°æ®å¤±è´¥ï¼Œè¯·ç¨å€™å†è¯•");
+				//$('#wizard').smartWizard('showMessage', "Ìá½»Êı¾İÊ§°Ü£¬ÇëÉÔºòÔÙÊÔ");
 			}
 		},
 		error:function(html){
-			$('#wizard').smartWizard('showMessage', "æäº¤æ•°æ®å¤±è´¥ï¼Œä»£ç :" +html.status+ "ï¼Œè¯·ç¨å€™å†è¯•");
+			$('#wizard').smartWizard('showMessage', "Ìá½»Êı¾İÊ§°Ü£¬´úÂë:" +html.status+ "£¬ÇëÉÔºòÔÙÊÔ");
 		}
 	});
 	
@@ -58,7 +58,7 @@ function loseuserStepTwo(issend) {
 }
 
 
-//æ›´æ–°å›¾å½¢éªŒè¯ç 
+//¸üĞÂÍ¼ĞÎÑéÖ¤Âë
 function updateCheckCodeImg() {
   var imgCode = document.getElementById("j_checkcodeImgCode");
   imgCode.src = "Kaptcha.jpg?dt=" + (new Date()).getTime();
@@ -73,8 +73,8 @@ function cancelLosePassword(){
 $(document).ready(function() {
 	// Smart Wizard
 	$('#wizard').smartWizard({
-		labelNext : 'ä¸‹ä¸€æ­¥/Next',
-		labelFinish: 'å®Œæˆ/Finsh',
+		labelNext : 'ÏÂÒ»²½/Next',
+		labelFinish: 'Íê³É/Finsh',
 		onFinish : onFinishCallback,
 		transitionEffect : false,
 		cycleSteps : false,
@@ -93,7 +93,7 @@ $(document).ready(function() {
 		var step_num = obj.attr('rel');
 		if(step_num==2) {
 			if(!loseuserStepTwo("false")){
-				//$('#wizard').smartWizard('showMessage', "éªŒè¯ç é”™è¯¯");
+				//$('#wizard').smartWizard('showMessage', "ÑéÖ¤Âë´íÎó");
 				$("#nomobile").show();
 				$("#hadmobile").hide();
 				$(".buttonNext").attr("disabled",false);
@@ -112,14 +112,14 @@ $(document).ready(function() {
 		var step_num = obj.attr('rel');
 		if(step_num==1) {
 			if(!loseuserStepOne()){
-				$('#wizard').smartWizard('showMessage', "éªŒè¯ç é”™è¯¯");
+				$('#wizard').smartWizard('showMessage', "ÑéÖ¤Âë´íÎó");
 				return false;
 			} else {
-				$(".buttonNext").text("å‘é€ç”¨æˆ·å/Send");
+				$(".buttonNext").text("·¢ËÍÓÃ»§Ãû/Send");
 			}
 		} else if(step_num==2) {
 			if(!loseuserStepTwo("true")){
-				$('#wizard').smartWizard('showMessage', "çŸ­ä¿¡å‘é€å¤±è´¥");
+				$('#wizard').smartWizard('showMessage', "¶ÌĞÅ·¢ËÍÊ§°Ü");
 				return false;
 			} else {
 				$(".buttonNext").hide();
