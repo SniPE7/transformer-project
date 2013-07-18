@@ -221,7 +221,7 @@ public class CardController extends BaseController {
 		    	attrs.put("SGMBadgeTime", getCurrentDate());
 		    	personService.updatePerson(cardRegisterEntity.getUsername(), attrs);
 
-		    	//personService.updatePassword(cardRegisterEntity.getUsername(), cardRegisterEntity.getPassword());
+		    	personService.updatePassword(cardRegisterEntity.getUsername(), cardRegisterEntity.getPassword());
 		    } catch (Exception e) {
 		    	request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "card.error.updateUserInfo");
 				request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, null);
@@ -346,15 +346,15 @@ public class CardController extends BaseController {
 		String username = ldapUserEntity.getUid();
 		
 		boolean isUserPassed = userService.authenticateByUserDnPassword(ldapUserEntity.getDn(), password);					
-//		if (!isUserPassed){
-//			request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "card.error.mobilePasswordError");
-//			request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, null);
-//			request.setAttribute(failureParam, "true");
-//			
-//			ModelAndView mav = new ModelAndView("/card/chgreg_verify_user");
-//			super.setModelAndView(mav, request);
-//			return mav;
-//		}
+		if (!isUserPassed){
+			request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "card.error.mobilePasswordError");
+			request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, null);
+			request.setAttribute(failureParam, "true");
+			
+			ModelAndView mav = new ModelAndView("/card/chgreg_verify_user");
+			super.setModelAndView(mav, request);
+			return mav;
+		}
 			
 		try {
 	    	Map<String, String> attrs = new HashMap<String, String>();
