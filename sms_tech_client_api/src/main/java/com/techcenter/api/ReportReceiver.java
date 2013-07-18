@@ -12,7 +12,6 @@ public class ReportReceiver implements IReportReceiver {
 	
 	protected static final Logger logger = LoggerFactory.getLogger(ReportReceiver.class);
 	
-	@Override
 	public void receive(Standard_Head obj) {
 		Standard_Report report=(Standard_Report)obj;     // 转换为Standard_Report对象
 		LogObject.logReport("report:" + report);         // 输出report日志 
