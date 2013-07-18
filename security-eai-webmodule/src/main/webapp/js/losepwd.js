@@ -17,7 +17,7 @@ function losepwdStepOne() {
 			}
 		},
 		error:function(html){
-			$('#wizard').smartWizard('showMessage', "æäº¤æ•°æ®å¤±è´¥ï¼Œä»£ç :" +html.status+ "ï¼Œè¯·ç¨å€™å†è¯•");
+			$('#wizard').smartWizard('showMessage', "Ìá½»Êı¾İÊ§°Ü£¬´úÂë:" +html.status+ "£¬ÇëÉÔºòÔÙÊÔ");
 		}
 	});
 	
@@ -42,13 +42,13 @@ function losepwdStepSubmit() {
 			if(msg.status=='success') {
 				result = true;
 				//$("#j_useruid").val(msg.usrename);
-				$('#wizard').smartWizard('showMessage', "ä¿®æ”¹å¯†ç æˆåŠŸï¼");
+				$('#wizard').smartWizard('showMessage', "ĞŞ¸ÄÃÜÂë³É¹¦£¡");
 			} else {
 				$('#wizard').smartWizard('showMessage', msg.msg);
 			}
 		},
 		error:function(html){
-			$('#wizard').smartWizard('showMessage', "æäº¤æ•°æ®å¤±è´¥ï¼Œä»£ç :" +html.status+ "ï¼Œè¯·ç¨å€™å†è¯•");
+			$('#wizard').smartWizard('showMessage', "Ìá½»Êı¾İÊ§°Ü£¬´úÂë:" +html.status+ "£¬ÇëÉÔºòÔÙÊÔ");
 		}
 	});
 	
@@ -56,7 +56,7 @@ function losepwdStepSubmit() {
 }
 
 
-//æ›´æ–°å›¾å½¢éªŒè¯ç 
+//¸üĞÂÍ¼ĞÎÑéÖ¤Âë
 function updateCheckCodeImg() {
   var imgCode = document.getElementById("j_checkcodeImgCode");
   imgCode.src = "Kaptcha.jpg?dt=" + (new Date()).getTime();
@@ -71,8 +71,8 @@ function cancelLosePassword(){
 $(document).ready(function() {
 	// Smart Wizard
 	$('#wizard').smartWizard({
-		labelNext : 'ä¸‹ä¸€æ­¥/Next',
-		labelFinish: 'æäº¤/Submit',
+		labelNext : 'ÏÂÒ»²½/Next',
+		labelFinish: 'Ìá½»/Submit',
 		onFinish : onFinishCallback,
 		transitionEffect : false,
 		cycleSteps : false,
@@ -91,7 +91,7 @@ $(document).ready(function() {
 		//$('#wizard').smartWizard('showMessage', step_num);
 		if(step_num==1) {
 			if(!losepwdStepOne()){
-				$('#wizard').smartWizard('showMessage', "çŸ­ä¿¡éªŒè¯é”™è¯¯");
+				$('#wizard').smartWizard('showMessage', "¶ÌĞÅÑéÖ¤´íÎó");
 				return false;
 			}
 		}

@@ -1,12 +1,12 @@
 /**
- * æ‰§è¡ŒéªŒè¯ã€‚
+ * Ö´ĞĞÑéÖ¤¡£
  */
-var usernameErrormsg = 'è´¦å·ä¸åˆæ³•ï¼Œè¯·é‡æ–°è¾“å…¥';
-var passwordErrormsg = 'è´¦å·å¯†ç ä¸åˆæ³•ï¼Œè¯·é‡æ–°è¾“å…¥';
-var checkcodeErrormsg = 'éªŒè¯ç ä¸åˆæ³•ï¼Œè¯·é‡æ–°è¾“å…¥';
-var newpasswordErrormsg = 'æ–°å¯†ç ä¸åˆæ³•ï¼Œè¯·é‡æ–°è¾“å…¥';
-var confirmpasswordErrormsg = 'ç¡®è®¤æ–°å¯†ç ä¸åˆæ³•ï¼Œè¯·é‡æ–°è¾“å…¥';
-var equalpasswordErrormsg = 'ç¡®è®¤æ–°å¯†ç ä¸æ–°å¯†ç ä¸ç›¸åŒï¼Œè¯·é‡æ–°è¾“å…¥';
+var usernameErrormsg = 'ÕËºÅ²»ºÏ·¨£¬ÇëÖØĞÂÊäÈë';
+var passwordErrormsg = 'ÕËºÅÃÜÂë²»ºÏ·¨£¬ÇëÖØĞÂÊäÈë';
+var checkcodeErrormsg = 'ÑéÖ¤Âë²»ºÏ·¨£¬ÇëÖØĞÂÊäÈë';
+var newpasswordErrormsg = 'ĞÂÃÜÂë²»ºÏ·¨£¬ÇëÖØĞÂÊäÈë';
+var confirmpasswordErrormsg = 'È·ÈÏĞÂÃÜÂë²»ºÏ·¨£¬ÇëÖØĞÂÊäÈë';
+var equalpasswordErrormsg = 'È·ÈÏĞÂÃÜÂëÓëĞÂÃÜÂë²»ÏàÍ¬£¬ÇëÖØĞÂÊäÈë';
 
 $().ready(function() {
   $("#sidebar").collapse({
@@ -62,7 +62,7 @@ function validateField(id, regex, errormsg, trim) {
   return true;
 }
 
-//æ˜¾ç¤ºæç¤ºä¿¡æ¯
+//ÏÔÊ¾ÌáÊ¾ĞÅÏ¢
 function showMsg(id, errormsg){
   $(id).poshytip('update', errormsg);
   $(id).poshytip('show');
