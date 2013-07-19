@@ -5,7 +5,7 @@
 	<artifactId>security-eai-api-sms</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<description>EAI API For SMS Send</description>
+	<description>SGM SMS Client Library</description>
 
 	<dependencies>
 
