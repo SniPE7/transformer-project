@@ -19,9 +19,9 @@
 	                <div id="normal-label">
 	                	<label for="ac_username"><spring:message code="logon.form.username" /></label>
 	                </div>
-	               	<div id="badge-label"> <label for="ac_username">请将工卡插入读卡器 或 输入用户名</label>
+	               	<div id="badge-label" style="display:none;"> <label for="ac_username">请将工卡插入读卡器 或 输入用户名</label>
 		               	<label for="ac_username" style="display: block; float: left;">Please place your badge over reader, Or enter your username</label> 
-		               	<div id="forgotbox" style="display: block; float: left;text-align:center"><a tabindex="9" href="https://uid.sinopec.com/siam-im-selfservice-web/view/reset/password.html" class="forgotpass">注册工卡/Register My Badge?</a></div>
+		               	<div id="forgotbox" style="display: block; float: left;text-align:center"><a tabindex="9" href="#" class="forgotpass">注册工卡/Register My Badge?</a></div>
 	               	</div>
 					
 	               	<div style="clear:both; height:0;overflow:hidden;"></div>
@@ -39,7 +39,7 @@
 	                <img id="j_checkcodeImgCode" src="Kaptcha.jpg"
 	                  style="height: 27px; width: 75px; cursor: hand; display: block; float: left; margin-left: 10px; margin-top: 3px;" title="看不清，请点击"
 	                  onclick="javascript:updateCheckCodeImg()"/>
-	                <span style="display: block; float: left; text-align:center"><font size="2px"> 点击图片更新验证码</font></span>
+	                <span style="display: block; float: left; line-height:250%;font-size: 12px;text-align:center">点击图片更新验证码</span>
 	                 <div style="clear:both; height:0;overflow:hidden;"></div>
 	                 
 	                <label class="float-left">短信一次性密码/SMS One Time Password</label>
@@ -54,10 +54,6 @@
 	                
 	                <div class="aclogin-action" style="display: block; clear: both;">
 	                  <div class="fl-left">
-	                   <!--  <div id="forgotbox">
-	                      <a tabindex="5" href="https://uid.sinopec.com/siam-im-selfservice-web/view/lose/account.html" class="forgotpass">忘记用户名/Forget Username?</a>
-	                      <a tabindex="6" href="https://uid.sinopec.com/siam-im-selfservice-web/view/reset/password.html" class="forgotpass">忘记密码/Forget Password?</a>
-	                    </div> -->
 	                  </div>
 	                  <input type="image" tabindex="7" value="登录" class="acloginbttn" 
 	                   src="themes/default/images/login/transparent.gif"/>

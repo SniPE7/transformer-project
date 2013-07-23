@@ -1,5 +1,5 @@
 /**
- * ÏÔÊ¾ÌáÊ¾ĞÅÏ¢¡£
+ * æ˜¾ç¤ºæç¤ºä¿¡æ¯ã€‚
  * 
  * @param type
  * @param txt
@@ -40,14 +40,14 @@ function sendsms() {
 				if(mobile.length==11) {
 					$("#lb_usr_mobile").text(" " + mobile.substring(0,3) + "-XXXX-" + mobile.substring(7,11) + " ");
 				} else {
-					$("#lb_usr_mobile").text("´íÎóµÄÊÖ»úºÅ/ error mobile number");
+					$("#lb_usr_mobile").text("é”™è¯¯çš„æ‰‹æœºå·/ error mobile number");
 				}
 				//setMsg('info', msg.code);
 				$("#j_smscode").val(msg.code);
 			}
 		},
 		error:function(html){
-			setMsg('info', "Ìá½»Êı¾İÊ§°Ü£¬´úÂë:" +html.status+ "£¬ÇëÉÔºòÔÙÊÔ");
+			setMsg('info', "æäº¤æ•°æ®å¤±è´¥ï¼Œä»£ç :" +html.status+ "ï¼Œè¯·ç¨å€™å†è¯•");
 		}
 	});
 }
@@ -71,7 +71,7 @@ function sendsms2() {
 				if(mobile.length==11) {
 					$("#lb_usr_mobile").text(" " + mobile.substring(0,3) + "-XXXX-" + mobile.substring(7,11) + " ");
 				} else {
-					$("#lb_usr_mobile").text("´íÎóµÄÊÖ»úºÅ/ error mobile number");
+					$("#lb_usr_mobile").text("é”™è¯¯çš„æ‰‹æœºå·/ error mobile number");
 				}
 				//setMsg('info', msg.code);
 				$("#j_smscode").val(msg.code);
@@ -79,8 +79,8 @@ function sendsms2() {
 			}
 		},
 		error:function(html){
-			$('#wizard').smartWizard('showMessage', "Ìá½»Êı¾İÊ§°Ü£¬´úÂë:" +html.status+ "£¬ÇëÉÔºòÔÙÊÔ");
-			//alert("Ìá½»Êı¾İÊ§°Ü£¬´úÂë:" +html.status+ "£¬ÇëÉÔºòÔÙÊÔ");
+			$('#wizard').smartWizard('showMessage', "æäº¤æ•°æ®å¤±è´¥ï¼Œä»£ç :" +html.status+ "ï¼Œè¯·ç¨å€™å†è¯•");
+			//alert("æäº¤æ•°æ®å¤±è´¥ï¼Œä»£ç :" +html.status+ "ï¼Œè¯·ç¨å€™å†è¯•");
 		}
 	});
 }
@@ -89,24 +89,24 @@ function updateTimeLabel(time) {
     var btn = $("#bnt_sms");
     
     btn.attr("disabled", true);
-    btn.val("" + (time--) + "Ãë");
+    btn.val("" + (time--) + "ç§’");
     
     var a_sendcode = jQuery("#a_sendcode");
-    btn.val(time <= 0 ? "·¢ËÍ/Send": ("" + (time) + "Ãë"));
+    btn.val(time <= 0 ? "å‘é€/Send": ("" + (time) + "ç§’"));
     var hander = setInterval(function() {
         if (time <= 0) {
         	btn.attr("disabled", false);
         	
             clearInterval(hander);
             hander = null;
-            btn.val("·¢ËÍ/Send");
+            btn.val("å‘é€/Send");
             //a_sendcode.attr("disabled", false);
             jQuery("#lb_tipsms").text("");
         } else {
             btn.attr("disabled", true);
             //a_sendcode.attr("disabled", true);
-            btn.val("" + (time--) + "Ãë");
-            jQuery("#lb_tipsms").text("60Ãëºó¿ÉÒÔÔÙ´ÎÖØ·¢/Your can re-send until 10");
+            btn.val("" + (time--) + "ç§’");
+            jQuery("#lb_tipsms").text("60ç§’åå¯ä»¥å†æ¬¡é‡å‘/Your can re-send until 10");
         }
     },
     1000);

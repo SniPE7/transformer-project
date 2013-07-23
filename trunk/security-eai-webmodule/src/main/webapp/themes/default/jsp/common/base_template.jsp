@@ -39,19 +39,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<div class="desc">
 						<div class="text">统一账号（SUID）是SGM认证中心颁发的用户登录名，供登录信息系统使用。</div>
 						<ol>
-							<li>还没有统一账号？：点击“<a
-								href="https://uid.sinopec.com/ss/view/register.html">创建统一账号</a>”
-							</li>
 							<li>忘记了统一账号？：点击“<a
-								href="https://uid.sinopec.com/ss/view/lose/account.html">找回统一账号</a>”
+								href="loseuser.do">找回统一账号</a>”
 							</li>
 						</ol>
 					</div>
 					<h3>技术支持热线</h3>
 					<div class="desc">
 						<ol>
-							<li>电话：010-59966450</li>
-							<li>邮箱：siam@sinopec.com</li>
+							<li>电话：022-58581082</li>
+							<li>邮箱：admin@shanghaigm.com</li>
 						</ol>
 					</div>
 				</div>
