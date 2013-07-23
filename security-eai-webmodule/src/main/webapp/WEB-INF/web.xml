@@ -328,7 +328,7 @@
     </init-param>
 		<init-param>
 			<param-name>kaptcha.textproducer.font.color</param-name>
-			<param-value>black</param-value>
+			<param-value>red</param-value>
 		</init-param>
 		<init-param>
 			<param-name>kaptcha.textproducer.char.space</param-name>
@@ -336,12 +336,23 @@
 		</init-param>
 		<init-param>
 			<param-name>kaptcha.textproducer.font.size</param-name>
-			<param-value>26</param-value>
+			<param-value>30</param-value>
 		</init-param>
 		<init-param>
-			<param-name>kaptcha.obscurificator.impl</param-name>
-			<param-value>com.sinopec.siam.am.idp.authn.kaptcha.NoObscurificator</param-value>
+			<param-name>kaptcha.textproducer.font.names</param-name>
+			<param-value>arial</param-value>
 		</init-param>
+		<!--
+		<init-param>
+					<param-name>kaptcha.obscurificator.impl</param-name>
+					<param-value>com.sinopec.siam.am.idp.authn.kaptcha.NoObscurificator</param-value>
+				</init-param>-->
+		
+		<init-param>
+			<param-name>kaptcha.noise.impl</param-name>
+			<param-value>com.google.code.kaptcha.impl.DefaultNoise</param-value>
+		</init-param>
+		
 		<init-param>
 			<param-name>kaptcha.image.width</param-name>
 			<param-value>160</param-value>

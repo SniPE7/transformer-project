@@ -9,6 +9,7 @@
         </div>
       </div><!-- end #banner -->
       <div id="menu">
+        <div style="float: left;"><img src="themes/default/images/login/sinopec-logo24.png" style="margin-top:-35px; margin-left:-70px"></img></div>
         <div id="slides">上海通用汽车统一身份认证中心</div>
         <ul id="tabs">
           <c:forTokens items="${param.authenTypes}" delims="," var="authenType">
@@ -61,4 +62,6 @@
 						</script>
 				</c:forTokens>
        </ul>
-     </div><!-- end of #menu -->
+     </div>
+     <div class="clear"></div>
+     <!-- end of #menu -->

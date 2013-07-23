@@ -24,7 +24,7 @@ a:hover {
 	width: 1000px;	
 }
 #banner {
-	height: 120px;
+	height: 60px;
 }
 #logo {
 	background: url("../images/login/logo2.png") no-repeat scroll 0 0 none;
@@ -66,16 +66,18 @@ a:hover {
 }
 
 #slides {
-	background: url("../images/login/sinopec-logo24.png") no-repeat scroll 3px 0 transparent;
+	/*background: url("../images/login/sinopec-logo24.png") no-repeat scroll 3px 0 transparent;*/
 	display: block;
 	float: left;
-	padding: 5px 0 5px 34px;
+	padding: 5px 0 5px -34px;
 	font-weight: bold;
+	font-size:16px; 
 	color: #444444;
 }
 ul#tabs
 {
 	border-bottom: 1px solid #ccc;
+	padding-top: 30px;
 	padding-bottom: 28px;
 }
 
@@ -86,6 +88,9 @@ ul#tabs li
 	margin: 0;
 	padding: 0;
 }
+
+.clear{ clear:both; font-size:0px; line-height:0px; height:0px; overflow:hidden}
+
 
 ul#tabs li a:link, #tabs a:visited
 {
@@ -215,8 +220,9 @@ ul#tabs li a:hover {
 #acloginpod label {
 	color: #444444;
 	display: block;
-	font-size: 15px;
+	font-size: 12px;
 	margin-bottom: 3px;
+	font-weight: bold;
 }
 #acloginpod label span.loginerror {
 	color: #8D1C1C;
@@ -276,12 +282,15 @@ ul#tabs li a:hover {
 	vertical-align: middle;
 }
 #acloginpod a.forgotpass {
-	color: #AAAAAA;
+	color: #039;
 	font-size: 12px;
+	text-decoration:underline;
+	line-height:250%;
 }
 #acloginpod div#forgotbox {
 	background: url("../images/login/icon-question.png") no-repeat scroll 3px 0 transparent;
 	padding-left: 25px;
+	background-position: 3% center;
 }
 #acloginpod a.forgotpass:hover, #acloginpod a.forgotpass:focus {
 	color: red;
