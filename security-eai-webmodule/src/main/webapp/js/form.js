@@ -106,7 +106,7 @@ function updateTimeLabel(time) {
             btn.attr("disabled", true);
             //a_sendcode.attr("disabled", true);
             btn.val("" + (time--) + "秒");
-            jQuery("#lb_tipsms").text("60秒后可以再次重发/Your can re-send until 10");
+            jQuery("#lb_tipsms").text("60秒后可以再次重发/Your can re-send until 60");
         }
     },
     1000);

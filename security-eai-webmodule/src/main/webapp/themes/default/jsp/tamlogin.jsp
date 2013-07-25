@@ -26,7 +26,7 @@
 					
 	               	<div style="clear:both; height:0;overflow:hidden;"></div>
 	                <input type="text" tabindex="1" name="j_username" id="j_username" class="textinput" style="display: block; float: left;"/>
-	                <div id="forgotbox" style="display: block; float: left;text-align:center"><a tabindex="5" href="loseuser.do" class="forgotpass">忘记用户名/Forget Username?</a></div>
+	                <div id="forgotbox" style="display: block; float: left;text-align:center" ><a tabindex="5" href="loseuser.do" class="forgotpass">忘记用户名/Forget Username?</a></div>
 	                <div style="clear:both; height:0;overflow:hidden;"></div>
 	                <label class="float-left"><spring:message code="logon.form.password" /></label>
 	                <input type="password" tabindex="2" name="j_password" id="j_password" class="textinput" style="display: block; float: left;"/>
@@ -42,8 +42,9 @@
 	                <div class="aclogin-action" style="display: block; clear: both;">
 	                  <div class="fl-left">
 	                  </div>
-	                  <input type="image" tabindex="7" value="登录" class="acloginbttn" 
-	                   src="themes/default/images/login/transparent.gif"/>
+	                  <div><button type="submit" id="J_sidebar_login" class="btn btn_big btn_submit mr20" style="float:right">登录/Login</button> </div>
+	                 <!--  <input type="image" tabindex="7" value="登录" class="acloginbttn" 
+	                   src="themes/default/images/login/transparent.gif"/> -->
 	                  <div class="clearfix">&nbsp;</div>
 	                </div>
 	              </fieldset>

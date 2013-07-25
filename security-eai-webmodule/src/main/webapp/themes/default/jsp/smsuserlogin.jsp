@@ -39,7 +39,7 @@
 	                 
 	                <label class="float-left">短信一次性密码/SMS One Time Password</label>
 	                <input type="text" tabindex="3" name="j_smscode" id="j_smscode" class="textCKcode" style="display: block; float: left;"/>
-	                <input type="button" tabindex="4" name="bnt_sms" id="bnt_sms" value="发送/Send" onclick="sendsms()" style="display: block; float: left;"/>
+	                <input type="button" tabindex="4" name="bnt_sms" id="bnt_sms" value="发送/Send" onclick="sendsms()" class="btn btn_big" style="display: block; float: left;"/>
 	                <label id="lb_tipsms" class="float-left"></label>
 	               	<div style="clear:both; height:0;overflow:hidden;"></div>
 	               
@@ -50,8 +50,10 @@
 	                <div class="aclogin-action" style="display: block; clear: both;">
 	                  <div class="fl-left">
 	                  </div>
-	                  <input type="image" tabindex="5" value="登录" class="acloginbttn" 
-	                   src="themes/default/images/login/transparent.gif"/>
+	                  <div><button type="submit" id="J_sidebar_login" class="btn btn_big btn_submit mr20" style="float:right">登录/Login</button> </div>
+	                  
+	                  <!-- <input type="image" tabindex="5" value="登录" class="acloginbttn" 
+	                   src="themes/default/images/login/transparent.gif"/> -->
 	                  <div class="clearfix">&nbsp;</div>
 	                </div>
 	              </fieldset>
