@@ -97,9 +97,13 @@ $(document).ready(function() {
 		var step_num = obj.attr('rel');
 		if(step_num==2) {
 			if(!regmobileStepTwo()){
+				$('.buttonNext').hide();
+				$('.buttonFinish').show();
 				//$(".buttonNext").hide();
 				//return false;
 			}
+		} else if (step_num==1) {
+			$('.buttonFinish').hide();
 		}
 		return true;
 	}
@@ -113,6 +117,7 @@ $(document).ready(function() {
 				return false;
 			} else {
 				$(".buttonNext").hide();
+				$('.buttonFinish').show();
 			}
 		} 
 		return true;

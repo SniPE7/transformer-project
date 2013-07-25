@@ -103,6 +103,11 @@ $(document).ready(function() {
 				$("#nomobile").hide();
 				$("#hadmobile").show();
 			}
+		} else if (step_num==1) {
+			$('.buttonFinish').hide();
+		} else if (step_num==3) {
+			$('.buttonNext').hide();
+			$('.buttonFinish').show();
 		}
 		return true;
 	}
