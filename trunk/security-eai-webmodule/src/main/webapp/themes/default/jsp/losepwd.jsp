@@ -53,19 +53,19 @@
 
 					</div>
 					<div id="step-2" style="padding-top: 20px; padding-left: 20px;">
-						 <label class="normal-label">姓名/Name:</label>
+						 <label class="normal-label float-left">姓名/Name:</label>
 			             <label id="lb_username" class="normal-label">张三</label>
 			             
-			             <label class="normal-label">用户名/Username:</label>
+			             <label class="normal-label float-left">用户名/Username:</label>
 			             <label id="lb_userid" class="normal-label">User001</label>
 			             
 			             
-			             <label for="ac_username" class="normal-label">新口令/New Password</label>
-			             <input type="password" tabindex="7" name="j_npassword" id="j_npassword" class="textinput" style="display: block; float: left;"/>
+			             <label for="ac_username" class="normal-label float-left">新口令/New Password</label>
+			             <input type="password" tabindex="7" name="j_npassword" id="j_npassword" class="textinput" style="display: block; "/>
 			             
 			             
-			             <label for="ac_username" class="normal-label">新口令/New Password</label>
-			             <input type="password" tabindex="8" name="j_npassword2" id="j_npassword2" class="textinput" style="display: block; float: left;"/>
+			             <label for="ac_username" class="normal-label float-left">新口令/New Password</label>
+			             <input type="password" tabindex="8" name="j_npassword2" id="j_npassword2" class="textinput" style="display: block; "/>
 
 					</div>
 

@@ -25,12 +25,12 @@
 	               	</div>
 					
 	               	<div style="clear:both; height:0;overflow:hidden;"></div>
-	                <input type="text" tabindex="1" name="j_username" id="j_username" class="textinput" style="display: block; float: left;"/>
+	                <div style="display: block; float: left;"><input type="text" tabindex="1" name="j_username" id="j_username" class="textinput"/></div>
 	                <div id="forgotbox" style="display: block; float: left;text-align:center"><a tabindex="9" href="loseuser.do" class="forgotpass">忘记用户名/Forget Username?</a></div>
 	                <div style="clear:both; height:0;overflow:hidden;"></div>
 	               
 	                <label class="float-left"><spring:message code="logon.form.checkcode" /></label>
-	                <input type="text" tabindex="2" name="j_checkcode" id="j_checkcode" class="textCKcode" style="display: block; float: left;"/>
+	                <div style="display: block; float: left;"><input type="text" tabindex="2" name="j_checkcode" id="j_checkcode" class="textCKcode"/></div>
 	                <img id="j_checkcodeImgCode" src="Kaptcha.jpg"
 	                  style="height: 27px; width: 75px; cursor: hand; display: block; float: left; margin-left: 10px; margin-top: 3px;" title="看不清，请点击"
 	                  onclick="javascript:updateCheckCodeImg()"/>
@@ -38,7 +38,7 @@
 	                 <div style="clear:both; height:0;overflow:hidden;"></div>
 	                 
 	                <label class="float-left">短信一次性密码/SMS One Time Password</label>
-	                <input type="text" tabindex="3" name="j_smscode" id="j_smscode" class="textCKcode" style="display: block; float: left;"/>
+	                <div style="display: block; float: left;"><input type="text" tabindex="3" name="j_smscode" id="j_smscode" class="textCKcode"/></div>
 	                <input type="button" tabindex="4" name="bnt_sms" id="bnt_sms" value="发送/Send" onclick="sendsms()" class="btn btn_big" style="display: block; float: left;"/>
 	                <label id="lb_tipsms" class="float-left"></label>
 	               	<div style="clear:both; height:0;overflow:hidden;"></div>

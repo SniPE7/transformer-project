@@ -14,7 +14,7 @@
   border: 0px solid #CCC;
   overflow:visible;
   float:left;
-  width:980px;
+  width:1000px;
 }
 .swMain .stepContainer {
   display:block;
@@ -43,7 +43,7 @@
   z-index:88; 
   -webkit-border-radius: 5px;
   -moz-border-radius  : 5px;
-  width:968px;
+  width:973px;
   clear:both;
      
 }
@@ -53,7 +53,7 @@
   position: relative; 
   clear:both;
   margin:             3px 0 0 0;   
-  border:             1px solid #CCC;
+  border:             0px solid #CCC;
   padding:            0;    
   color:              #5A5655;   
   /*background-color:   #F8F8F8;*/
@@ -185,8 +185,8 @@
   color:#000 !important;       
 }
 
-.swMain .buttonNext {
-  display:block;
+.swMain .buttonNext, .buttonFinish, .buttonPrevious {
+  /*display:block;
   float:left;
   margin:5px 3px 0 3px;
   padding:5px;
@@ -199,8 +199,57 @@
   background-color:   #5A5655;
   border: 1px solid #5A5655;
   -moz-border-radius  : 5px; 
-  -webkit-border-radius: 5px;    
+  -webkit-border-radius: 5px;    */
+ 
+
+	background:url(../images/core_bg.png);
+	
+ 	background-color: #F3F3F3;
+    background-position: 0 0;
+    border: 1px solid #B1AEAE;
+    border-radius: 2px 2px 2px 2px;
+    color: #ffffff !important;
+    cursor: pointer;
+    display: inline-block;
+    font-family: inherit;
+    font-size: 100%;
+    line-height: normal;
+    margin: 0;
+    margin-left: 5px;
+    overflow: visible;
+    padding: 4px 10px;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    vertical-align: middle;
+    white-space: nowrap;
+    
+ 
+ 	*padding: 6px 18px 5px !important;
+	_padding: 6px 18px 3px !important;
+	
+ 
+	border-radius: 2px 2px 2px 2px;
+    font-size: 14px;
+    line-height: normal;
+    padding: 6px 18px;
+    
+ 	background-color: #3B7DC3;
+    background-position: 0 -120px;
+    border-color: #0F75A4 #0E6191 #0C497C;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    float: left;
+    padding-left:25px;
+	padding-right:25px;
+	position:relative;
+	-moz-border-radius  : 5px; 
+  	-webkit-border-radius: 5px; 
 }
+
+.buttonNext:hover, .buttonFinish:hover, .buttonPrevious:hover {
+    background-position: 0 -160px;
+}
+
 .swMain .buttonDisabled {
   color:#F8F8F8  !important;
   background-color: #CCCCCC !important;
@@ -208,7 +257,7 @@
   cursor:text;    
 }
 .swMain .buttonPrevious {
-  display:block;
+  /*display:block;
   float:left;
   margin:5px 3px 0 3px;
   padding:5px;
@@ -221,10 +270,10 @@
   background-color:   #5A5655;
   border: 1px solid #5A5655;
   -moz-border-radius  : 5px; 
-  -webkit-border-radius: 5px;    
+  -webkit-border-radius: 5px;    */
 }
 .swMain .buttonFinish {
-  display:block;
+  /*display:block;
   float:left;
   margin:5px 10px 0 3px;
   padding:5px;
@@ -237,7 +286,7 @@
   background-color:   #5A5655;
   border: 1px solid #5A5655;
   -moz-border-radius  : 5px; 
-  -webkit-border-radius: 5px;    
+  -webkit-border-radius: 5px;    */
 }
 
 /* Form Styles */

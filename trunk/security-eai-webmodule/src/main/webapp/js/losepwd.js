@@ -43,6 +43,7 @@ function losepwdStepSubmit() {
 				result = true;
 				//$("#j_useruid").val(msg.usrename);
 				$('#wizard').smartWizard('showMessage', "修改密码成功！");
+				
 			} else {
 				$('#wizard').smartWizard('showMessage', msg.msg);
 			}
@@ -77,8 +78,20 @@ $(document).ready(function() {
 		transitionEffect : false,
 		cycleSteps : false,
 		enableFinishButton : false,
-		onLeaveStep : leavestepCallback
+		onLeaveStep : leavestepCallback,
+		onShowStep: showstepCallback
 	});
+	
+	function showstepCallback(obj) {
+		var step_num = obj.attr('rel');
+		if (step_num==1) {
+			$('.buttonFinish').hide();
+		} else if(step_num==2) {
+			$('.buttonNext').hide();
+			$('.buttonFinish').show();
+		}
+		return true;
+	}
 
 	function onFinishCallback() {
 		//$('#wizard').smartWizard('showMessage', 'Finish Clicked');
@@ -93,7 +106,7 @@ $(document).ready(function() {
 			if(!losepwdStepOne()){
 				$('#wizard').smartWizard('showMessage', "短信验证错误");
 				return false;
-			}
+			} 
 		}
 
 		return true;

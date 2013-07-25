@@ -25,21 +25,22 @@
 	               	</div>
 					
 	               	<div style="clear:both; height:0;overflow:hidden;"></div>
-	                <input type="text" tabindex="1" name="j_username" id="j_username" class="textinput" style="display: block; float: left;"/>
+	                <div style="display: block; float: left;"><input type="text" tabindex="1" name="j_username" id="j_username" class="textinput" /></div>
 	                <div id="forgotbox" style="display: block; float: left;text-align:center" ><a tabindex="5" href="loseuser.do" class="forgotpass">忘记用户名/Forget Username?</a></div>
 	                <div style="clear:both; height:0;overflow:hidden;"></div>
 	                <label class="float-left"><spring:message code="logon.form.password" /></label>
-	                <input type="password" tabindex="2" name="j_password" id="j_password" class="textinput" style="display: block; float: left;"/>
+	                <div style="display: block; float: left;"><input type="password" tabindex="2" name="j_password" id="j_password" class="textinput" /></div>
 	                <div id="forgotbox" style="display: block; float: left;text-align:center"><a tabindex="6" href="losepwd.do" class="forgotpass">忘记密码/Forget Password?</a></div>
 	                <div style="clear:both; height:0;overflow:hidden;"></div>
 	                
 	                <label class="float-left"><spring:message code="logon.form.checkcode" /></label>
-	                <input type="text" tabindex="3" name="j_checkcode" id="j_checkcode" class="textCKcode" style="display: block; float: left;"/>
+	                <div style="display: block; float: left;"><input type="text" tabindex="3" name="j_checkcode" id="j_checkcode" class="textCKcode" /></div>
 	                <img id="j_checkcodeImgCode" src="Kaptcha.jpg"
 	                  style="height: 27px; width: 75px; cursor: hand; display: block; float: left; margin-left: 10px; margin-top: 3px;" title="看不清，请点击"
 	                  onclick="javascript:updateCheckCodeImg()"/>
 	                <span style="display: block; float: left; line-height:250%;text-align:center;font-size: 12px;">点击图片更新验证码</span>
-	                <div class="aclogin-action" style="display: block; clear: both;">
+	                <div style="clear:both; height:0;overflow:hidden;"></div>
+	                <div class="aclogin-action">
 	                  <div class="fl-left">
 	                  </div>
 	                  <div><button type="submit" id="J_sidebar_login" class="btn btn_big btn_submit mr20" style="float:right">登录/Login</button> </div>

@@ -77,7 +77,7 @@ a:hover {
 ul#tabs
 {
 	border-bottom: 1px solid #ccc;
-	padding-top: 30px;
+	padding-top: 36px;
 	padding-bottom: 28px;
 }
 
@@ -223,6 +223,7 @@ ul#tabs li a:hover {
 	font-size: 12px;
 	margin-bottom: 3px;
 	font-weight: bold;
+	line-height: 18px;
 }
 #acloginpod label span.loginerror {
 	color: #8D1C1C;
@@ -491,6 +492,7 @@ button::-moz-focus-inner, input::-moz-focus-inner {
     font-size: 100%;
     line-height: normal;
     margin: 0;
+    margin-left: 5px;
     overflow: visible;
     padding: 4px 10px;
     text-align: center;
@@ -563,4 +565,18 @@ button.btn_big{
 
 .mr20 {
     margin-right: 20px !important;
+}
+
+h1.read_h1 {
+    background: url("../images/docreadicon.png") no-repeat scroll 0 -413px transparent;
+    padding: 20px 0 15px 30px;
+}
+
+.read_h1, .read_h1 a {
+    color: #0066CC;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0;
+    padding: 0;
 }
