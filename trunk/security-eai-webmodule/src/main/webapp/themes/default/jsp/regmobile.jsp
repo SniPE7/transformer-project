@@ -17,7 +17,7 @@
 								<small></small> </span> </a>
 						</li>
 					</ul>
-					<div id="step-1">
+					<div id="step-1" style="padding-top: 20px; padding-left: 20px;">
 
 			               	<div id="name-info" style="display: block;"> 
 			               		<div><label>姓名/Name:</label></div>
@@ -59,7 +59,7 @@
 							<div style="clear:both; height:0;overflow:hidden;"></div>
 
 					</div>
-					<div id="step-2">
+					<div id="step-2" style="padding-top: 20px; padding-left: 20px;">
 			               	<div id="changemobile"> 
 			               	
 			               		<label>新的手机已经注册成功!</label>

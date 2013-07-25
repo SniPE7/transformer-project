@@ -217,7 +217,7 @@ ul#tabs li a:hover {
 	left: -9999em;
 	position: absolute;
 }
-#acloginpod label {
+#acloginpod label , .normal-label{
 	color: #444444;
 	display: block;
 	font-size: 12px;
@@ -228,7 +228,7 @@ ul#tabs li a:hover {
 	color: #8D1C1C;
 	font-size: 10px;
 }
-#acloginpod input.textinput {
+#acloginpod input.textinput, .textinput {
 	background: url("../images/login/textinputbg.gif") repeat-x scroll 0 0 #FFFFFF;
 	border: 1px solid #D3D3D3;
 	color: #000000;
@@ -236,9 +236,9 @@ ul#tabs li a:hover {
 	margin-bottom: 10px;
 	padding: 7px 0;
 	text-indent: 7px;
-	width: 50%;
+	width: 200px;
 }
-#acloginpod input.textCKcode {
+#acloginpod input.textCKcode, .textCKcode {
   background: url("../images/login/textinputbg.gif") repeat-x scroll 0 0 #FFFFFF;
   border: 1px solid #D3D3D3;
   color: #000000;
@@ -246,7 +246,7 @@ ul#tabs li a:hover {
   margin-bottom: 10px;
   padding: 7px 0;
   text-indent: 7px;
-  width: 30%;
+  width: 120px;
 }
 #acloginpod input:focus {
 	border-color: #77B2EE;
@@ -281,13 +281,13 @@ ul#tabs li a:hover {
 #acloginpod .aclogin-action label input {
 	vertical-align: middle;
 }
-#acloginpod a.forgotpass {
+#acloginpod a.forgotpass, .forgotpass {
 	color: #039;
 	font-size: 12px;
 	text-decoration:underline;
 	line-height:250%;
 }
-#acloginpod div#forgotbox {
+.forgotpass {
 	background: url("../images/login/icon-question.png") no-repeat scroll 3px 0 transparent;
 	padding-left: 25px;
 	background-position: 3% center;
@@ -456,4 +456,111 @@ ul#tabs li a:hover {
 /* ****************************************************** */
 #APPid{
 	float:left;
+}
+
+/* **********************按键******************************** */
+/*
+===================
+核心背景整合
+===================
+*/
+.btn/*按钮背景*/,
+.core_follow/*全局关注按钮*/,
+.pop_deep .ct dt.reward/*打卡奖励金币图*/,
+.pages a/*分页样式*/,
+.pages strong,
+.design_mode_edit/*模块管理按钮*/,
+#back_top/*返回顶部*/,
+.pop_showmsg/*无操作提示*/{
+	background:url(../images/core_bg.png);
+}
+
+button::-moz-focus-inner, input::-moz-focus-inner {
+    border: 0 none;
+    padding: 0;
+}
+.btn {
+    background-color: #F3F3F3;
+    background-position: 0 0;
+    border: 1px solid #B1AEAE;
+    border-radius: 2px 2px 2px 2px;
+    color: #333333 !important;
+    cursor: pointer;
+    display: inline-block;
+    font-family: inherit;
+    font-size: 100%;
+    line-height: normal;
+    margin: 0;
+    overflow: visible;
+    padding: 4px 10px;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+input.btn_big,
+button.btn_big{
+	*padding: 6px 18px 5px !important;
+	_padding: 6px 18px 3px !important;
+}
+/*其他按钮文字颜色*/
+.btn_error,
+.btn_error:hover,
+.btn_success,
+.btn_success:hover,
+.btn_submit,
+.btn_submit:hover{
+  color: #ffffff !important;
+}
+
+.btn em {
+    font-family: Arial;
+    font-size: 10px;
+    font-style: normal;
+    padding-left: 2px;
+    vertical-align: 1px;
+}
+
+.btn:hover {
+    background-position: 0 -40px;
+    color: #333333;
+    text-decoration: none;
+}
+.btn:active {
+    background-position: 0 -81px;
+}
+.btn_big {
+    border-radius: 2px 2px 2px 2px;
+    font-size: 14px;
+    line-height: normal;
+    padding: 6px 18px;
+}
+
+.btn_error, .btn_error:hover, .btn_success, .btn_success:hover, .btn_submit, .btn_submit:hover {
+    color: #FFFFFF !important;
+}
+
+.btn_submit {
+    background-color: #3B7DC3;
+    background-position: 0 -120px;
+    border-color: #0F75A4 #0E6191 #0C497C;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    padding-left:25px;
+	padding-right:25px;
+	position:relative;
+}
+
+.btn_submit:hover {
+    background-position: 0 -160px;
+}
+
+.btn_submit:active {
+    background-position: 0 -201px;
+    border-color: #0C487B #0E5D8E #0F75A3;
+}
+
+.mr20 {
+    margin-right: 20px !important;
 }
