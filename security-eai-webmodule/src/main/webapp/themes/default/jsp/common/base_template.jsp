@@ -31,24 +31,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div id="panel">
 				<div id="sidebar">
 					<tiles:insertAttribute name="info" />
-					<h3>统一账号介绍</h3>
+					<h3>统一账号介绍/Introduce Unified Account</h3>
 					<div class="desc">
-						<div class="text">由上海通用汽车统一身份管理系统产生，统一颁发.</div>
+						<div class="text">由上海通用汽车统一身份管理系统产生，统一颁发./By Shanghai General Motors unified identity management system to produce a unified award.</div>
 					</div>
-					<h3>统一账号管理</h3>
+					<h3>统一账号管理/Unified Account Management</h3>
 					<div class="desc">
-						<div class="text">统一账号（SUID）是SGM认证中心颁发的用户登录名，供登录信息系统使用。</div>
+						<div class="text">统一账号（SUID）是SGM认证中心颁发的用户登录名，供登录信息系统使用。/Unified account (SUID) is SGM Certification Center user login name for the login information systems.</div>
 						<ol>
-							<li>忘记了统一账号？：点击“<a
-								href="loseuser.do">找回统一账号</a>”
+							<li>忘记了统一账号？/Forgot unified account?：点击/Click“<a
+								href="loseuser.do">找回统一账号/Forget unified account</a>”
 							</li>
 						</ol>
 					</div>
-					<h3>技术支持热线</h3>
+					<h3>技术支持热线/Technical Support Hotline</h3>
 					<div class="desc">
 						<ol>
-							<li>电话：022-58581082</li>
-							<li>邮箱：admin@shanghaigm.com</li>
+							<li>电话/Phone：022-58581082</li>
+							<li>邮箱/Email：admin@shanghaigm.com</li>
 						</ol>
 					</div>
 				</div>
