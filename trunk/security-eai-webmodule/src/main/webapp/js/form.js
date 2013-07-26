@@ -85,6 +85,43 @@ function sendsms2() {
 	});
 }
 
+function sendsms3() {
+	$.ajax( {
+		type : "post",
+		url : "getsmscode.do",
+		dataType:"json",
+        data:{
+            "j_username":$('#j_username').val(),
+            "j_checkcode":$('#j_checkcode').val()
+        },
+		success : function(msg) {
+			if(msg.status=='fail') {
+				$('#wizard').smartWizard('showMessage', msg.msg);
+			} else if(msg.status=='success') {
+				updateTimeLabel(60);
+				
+				var mobile =  msg.mobile;
+				if(mobile.length==11) {
+					$("#lb_usr_mobile").text(" " + mobile.substring(0,3) + "-XXXX-" + mobile.substring(7,11) + " ");
+				} else {
+					$("#lb_usr_mobile").text("错误的手机号/ error mobile number");
+				}
+				
+				$("#lb_username").text(msg.displayname);
+				$("#lb_userid").text(msg.username);
+				
+				//setMsg('info', msg.code);
+				$("#j_smscode").val(msg.code);
+				$("#j_useruid").val(msg.username);
+			}
+		},
+		error:function(html){
+			$('#wizard').smartWizard('showMessage', "提交数据失败，代码:" +html.status+ "，请稍候再试");
+			//alert("提交数据失败，代码:" +html.status+ "，请稍候再试");
+		}
+	});
+}
+
 function updateTimeLabel(time) {
     var btn = $("#bnt_sms");
     

@@ -41,7 +41,7 @@ function loseuserStepTwo(issend) {
 				
 				var mobile =  msg.mobile;
 				if(mobile.length==11) {
-					$("#lb_usr_mobile").text(" " + mobile.substring(0,3) + "-XXXX-" + mobile.substring(7,11) + " ");
+					$('[id=lb_usr_mobile]').text(" " + mobile.substring(0,3) + "-XXXX-" + mobile.substring(7,11) + " ");
 				} else {
 					$("#lb_usr_mobile").text("错误的手机号/ error mobile number: " + mobile);
 				}
@@ -116,6 +116,11 @@ $(document).ready(function() {
 		// get the current step number
 		var step_num = obj.attr('rel');
 		if(step_num==1) {
+			
+			if(!validateLoseUser(obj)) {
+				return false;
+			}
+			
 			if(!loseuserStepOne()){
 				$('#wizard').smartWizard('showMessage', "验证码错误");
 				return false;
@@ -133,5 +138,16 @@ $(document).ready(function() {
 
 		return true;
 	}
+	
+	$('#j_idcard,#j_checkcode').poshytip({
+	    className : 'tip-yellowsimple',
+	    showOn : 'none',
+	    alignTo : 'target',
+	    alignX : 'inner-left',
+	    offsetX : 50,
+	    offsetY : 5,
+	    fade : false,
+	    slide : true
+	  });
 
 });

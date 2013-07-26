@@ -112,6 +112,11 @@ $(document).ready(function() {
 		// get the current step number
 		var step_num = obj.attr('rel');
 		if(step_num==1) {
+			
+			if(!validateRegMobile(obj)) {
+				return false;
+			}
+			
 			if(!regmobileStepOne()){
 				$('#wizard').smartWizard('showMessage', "验证码错误");
 				return false;
@@ -122,5 +127,16 @@ $(document).ready(function() {
 		} 
 		return true;
 	}
+	
+	$('#j_mobile,#j_checkcode,#j_smscode').poshytip({
+	    className : 'tip-yellowsimple',
+	    showOn : 'none',
+	    alignTo : 'target',
+	    alignX : 'inner-left',
+	    offsetX : 50,
+	    offsetY : 5,
+	    fade : false,
+	    slide : true
+	  });
 
 });

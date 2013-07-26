@@ -38,28 +38,28 @@
 			                <img id="j_checkcodeImgCode" src="Kaptcha.jpg"
 			                  style="height: 27px; width: 75px; cursor: hand; display: block; float: left; margin-left: 10px; margin-top: 3px;" title="看不清，请点击"
 			                  onclick="javascript:updateCheckCodeImg()"/>
-			                <span style="display: block; float: left; text-align:center; line-height: 250%;"><font size="2px"> 点击图片更新验证码</font></span>
+			                <span style="display: block; float: left; text-align:center; line-height: 250%;"><font size="2px">点击更新/Click to refresh code</font></span>
 			                 <div style="clear:both; height:0;overflow:hidden;"></div>
 			                 
 			                <label class="float-left normal-label">短信验证码/SMS Check Code</label>
 			                <input type="text" tabindex="4" name="j_smscode" id="j_smscode" class="textCKcode" style="display: block; float: left;"/>
-			                <input type="button" tabindex="5" name="bnt_sms" id="bnt_sms" value="发送/Send" onclick="sendsms2()" class="btn btn_big" style="display: block; float: left;"/>
+			                <input type="button" tabindex="5" name="bnt_sms" id="bnt_sms" value="发送/Send" onclick="sendsms3()" class="btn btn_big" style="display: block; float: left;"/>
 			                <label id="lb_tipsms" class="float-left normal-label" style="line-height: 250%;"></label>
 			               	<div style="clear:both; height:0;overflow:hidden;"></div>
 			               
 			                <label class="float-left normal-label">短信验证码将通过短信发送到您的手机.</label>
 			                <label class="float-left normal-label">SMS check code will be sent to the registered mobile phone.</label>
-			                <label id="lb_usr_mobile" class="float-left normal-label"></label>
+			                <label id="lb_usr_mobile" class="float-left normal-label" style="color:red;"></label>
 
 					</div>
 					<div id="step-2" style="padding-top: 20px; padding-left: 20px;">
 						 <label class="normal-label float-left">姓名/Name:</label>
-			             <label id="lb_username" class="normal-label">张三</label>
+			             <label id="lb_username" class="normal-label"></label>
 			             
 			             <label class="normal-label float-left">用户名/Username:</label>
-			             <label id="lb_userid" class="normal-label">User001</label>
+			             <label id="lb_userid" class="normal-label"></label>
 			             
-			             
+			             <br/><br/>
 			             <label for="ac_username" class="normal-label float-left">新口令/New Password</label>
 			             <input type="password" tabindex="7" name="j_npassword" id="j_npassword" class="textinput" style="display: block; "/>
 			             

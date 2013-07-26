@@ -36,7 +36,7 @@
 			               		<img id="j_checkcodeImgCode" src="Kaptcha.jpg"
 				                  style="height: 27px; width: 75px; cursor: hand; display: block; float: left; margin-left: 10px; margin-top: 3px;" title="看不清，请点击"
 				                  onclick="javascript:updateCheckCodeImg()"/>
-				                  <span style="display: block; float: left; text-align:center; line-height: 250%;" ><font size="2px"> 点击图片更新验证码</font></span>
+				                  <span style="display: block; float: left; text-align:center; line-height: 250%;" ><font size="2px">点击更新/Click to refresh code</font></span>
 			               	</div>
 
 					</div>
@@ -50,8 +50,10 @@
 			               	
 			               		<label class="normal-label">用户名将通过短信发送到您的手机.</label>
 			               		<label class="normal-label">Your username will be sent to the registered mobile phone. </label>
-			               		<label id="lb_usr_mobile" class="float-left normal-label"></label>
+			               		<label id="lb_usr_mobile" class="float-left normal-label" style="color:red;"></label>
 			               		
+			               		<br/>
+			               		<br/>
 			               		<label class="float-left normal-label">如果手机号码不正确，请联系人力资源部修改.</label>
 			               		<label class="float-left normal-label">If this mobile number is wrong, please contact with HR. </label>
 			               	</div>
@@ -64,7 +66,7 @@
 			               	
 			               		<label class="normal-label">您的用户名已经发出到如下手机：</label>
 			               		<label class="normal-label">Your username has been sent to the mobile: </label>
-			               		<label id="lb_usr_mobile" class="float-left normal-label"></label>
+			               		<label id="lb_usr_mobile" class="float-left normal-label" style="color:red;"></label>
 			               	</div>
 						
 					</div>

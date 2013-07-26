@@ -13,6 +13,7 @@ function losepwdStepOne() {
         },
 		success : function(msg) {
 			if(msg.status=='success') {
+				
 				result = true;
 			}
 		},
@@ -89,13 +90,28 @@ $(document).ready(function() {
 		} else if(step_num==2) {
 			$('.buttonNext').hide();
 			$('.buttonFinish').show();
+			
+			//$('.buttonFinish').attr("onclick", "return checkPwd(this);");
 		}
 		return true;
 	}
+	
+	function checkPwd(){
+		if(!validateLosePwdTwo()) {
+			return false;
+		}
+	}
 
 	function onFinishCallback() {
+		//alert("start...");
+		if(!validateLosePwdTwo()) {
+			//alert("error");
+			return false;
+		}
+		
 		//$('#wizard').smartWizard('showMessage', 'Finish Clicked');
-		return losepwdStepSubmit();
+		losepwdStepSubmit();
+		
 	}  
 
 	function leavestepCallback(obj) {
@@ -103,6 +119,11 @@ $(document).ready(function() {
 		var step_num = obj.attr('rel');
 		//$('#wizard').smartWizard('showMessage', step_num);
 		if(step_num==1) {
+			
+			if(!validateLosePwdOne(obj)) {
+				return false;
+			}
+			
 			if(!losepwdStepOne()){
 				$('#wizard').smartWizard('showMessage', "短信验证错误");
 				return false;
@@ -111,6 +132,17 @@ $(document).ready(function() {
 
 		return true;
 	}
+	
+	$('#j_username,#j_checkcode,#j_smscode,#j_npassword,#j_npassword2').poshytip({
+	    className : 'tip-yellowsimple',
+	    showOn : 'none',
+	    alignTo : 'target',
+	    alignX : 'inner-left',
+	    offsetX : 50,
+	    offsetY : 5,
+	    fade : false,
+	    slide : true
+	  });
 
 });
 

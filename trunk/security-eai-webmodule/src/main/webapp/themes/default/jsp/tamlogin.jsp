@@ -38,7 +38,7 @@
 	                <img id="j_checkcodeImgCode" src="Kaptcha.jpg"
 	                  style="height: 27px; width: 75px; cursor: hand; display: block; float: left; margin-left: 10px; margin-top: 3px;" title="看不清，请点击"
 	                  onclick="javascript:updateCheckCodeImg()"/>
-	                <span style="display: block; float: left; line-height:250%;text-align:center;font-size: 12px;">点击图片更新验证码</span>
+	                <span style="display: block; float: left; line-height:250%;text-align:center;font-size: 12px;">点击更新/Click to refresh code</span>
 	                <div style="clear:both; height:0;overflow:hidden;"></div>
 	                <div class="aclogin-action">
 	                  <div class="fl-left">
