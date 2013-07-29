@@ -18,7 +18,7 @@ function losepwdStepOne() {
 			}
 		},
 		error:function(html){
-			$('#wizard').smartWizard('showMessage', "提交数据失败，代码:" +html.status+ "，请稍候再试");
+			$('#wizard').smartWizard('showMessage', "提交数据失败，代码:" +html.status+ "，请稍候再试" + "/Failed to submit data, code:" + html.status + ", please try again later.");
 		}
 	});
 	
@@ -43,14 +43,14 @@ function losepwdStepSubmit() {
 			if(msg.status=='success') {
 				result = true;
 				//$("#j_useruid").val(msg.usrename);
-				$('#wizard').smartWizard('showMessage', "修改密码成功！");
+				$('#wizard').smartWizard('showMessage', "修改密码成功！/Change password success!");
 				
 			} else {
 				$('#wizard').smartWizard('showMessage', msg.msg);
 			}
 		},
 		error:function(html){
-			$('#wizard').smartWizard('showMessage', "提交数据失败，代码:" +html.status+ "，请稍候再试");
+			$('#wizard').smartWizard('showMessage', "提交数据失败，代码:" +html.status+ "，请稍候再试" + "/Failed to submit data, code:" + html.status + ", please try again later.");
 		}
 	});
 	
@@ -110,8 +110,12 @@ $(document).ready(function() {
 		}
 		
 		//$('#wizard').smartWizard('showMessage', 'Finish Clicked');
-		losepwdStepSubmit();
+		if(!losepwdStepSubmit()) {
+			return false;
+		}
 		
+		//gotourl
+		location.href=$("#gotourl").val();
 	}  
 
 	function leavestepCallback(obj) {
@@ -125,7 +129,7 @@ $(document).ready(function() {
 			}
 			
 			if(!losepwdStepOne()){
-				$('#wizard').smartWizard('showMessage', "短信验证错误");
+				$('#wizard').smartWizard('showMessage', "短信验证错误/Validation error messages");
 				return false;
 			} 
 		}

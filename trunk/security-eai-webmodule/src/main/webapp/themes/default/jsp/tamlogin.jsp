@@ -25,7 +25,7 @@
 	               	</div>
 					
 	               	<div style="clear:both; height:0;overflow:hidden;"></div>
-	                <div style="display: block; float: left;"><input type="text" tabindex="1" name="j_username" id="j_username" class="textinput" /></div>
+	                <div style="display: block; float: left;"><input type="text" tabindex="1" name="j_username" id="j_username" class="textinput" value="<%=request.getAttribute("j_username") != null ? request.getAttribute("j_username") : ""%>"/></div>
 	                <div id="forgotbox" style="display: block; float: left;text-align:center" ><a tabindex="5" href="loseuser.do" class="forgotpass">忘记用户名/Forget Username?</a></div>
 	                <div style="clear:both; height:0;overflow:hidden;"></div>
 	                <label class="float-left"><spring:message code="logon.form.password" /></label>

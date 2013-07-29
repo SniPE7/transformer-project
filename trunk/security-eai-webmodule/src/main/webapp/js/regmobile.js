@@ -18,7 +18,7 @@ function regmobileStepOne() {
 			}
 		},
 		error:function(html){
-			$('#wizard').smartWizard('showMessage', "提交数据失败，代码:" +html.status+ "，请稍候再试");
+			$('#wizard').smartWizard('showMessage', "提交数据失败，代码:" +html.status+ "，请稍候再试" + "/Failed to submit data, code:" + html.status + ", please try again later.");
 		}
 	});
 	
@@ -47,14 +47,14 @@ function regmobileStepTwo() {
 				if(mobile.length==11) {
 					$("#lb_usr_mobile").text(" " + mobile.substring(0,3) + "-XXXX-" + mobile.substring(7,11) + " ");
 				} else {
-					$("#lb_usr_mobile").text("错误的手机号/ error mobile number: " + mobile);
+					$("#lb_usr_mobile").text("错误的手机号/ Error mobile number: " + mobile);
 				}
 			} else {
-				$('#wizard').smartWizard('showMessage', "修改手机号失败，请稍候再试");
+				$('#wizard').smartWizard('showMessage', "修改手机号失败，请稍候再试" + "/Modify phone number failed, please try again later");
 			}
 		},
 		error:function(html){
-			$('#wizard').smartWizard('showMessage', "修改手机号失败，代码:" +html.status+ "，请稍候再试");
+			$('#wizard').smartWizard('showMessage', "修改手机号失败，代码:" +html.status+ "，请稍候再试/Modifying phone number failed, code:" + html.status + ", please try again later.");
 		}
 	});
 	
@@ -118,7 +118,7 @@ $(document).ready(function() {
 			}
 			
 			if(!regmobileStepOne()){
-				$('#wizard').smartWizard('showMessage', "验证码错误");
+				$('#wizard').smartWizard('showMessage', "验证码错误/Verification code error.");
 				return false;
 			} else {
 				$(".buttonNext").hide();

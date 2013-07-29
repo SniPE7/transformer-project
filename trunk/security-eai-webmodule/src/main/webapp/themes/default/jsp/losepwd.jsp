@@ -68,7 +68,7 @@
 			             <input type="password" tabindex="8" name="j_npassword2" id="j_npassword2" class="textinput" style="display: block; "/>
 
 					</div>
-
+					<input type="hidden" id="gotourl" name="gotourl" value="<%=request.getAttribute("gotoUrl") != null ? request.getAttribute("gotoUrl") : "#"%>" />
 				</div><!-- End SmartWizard Content -->
         </div><!-- End of #content -->
         

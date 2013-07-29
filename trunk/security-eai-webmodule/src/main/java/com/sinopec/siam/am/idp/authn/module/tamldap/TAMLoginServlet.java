@@ -178,11 +178,13 @@ public class TAMLoginServlet extends HttpServlet {
       request.setAttribute("actionUrl", buildServletUrl(request));
       redirectToPage(request, response, "/modify_password.do");
     } catch (DetailLoginException e) {    
+      request.setAttribute("j_username", username);
       request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, e.getLoginErrorKey());
       request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, e.getLoginErrorArgs());
       request.setAttribute(failureParam, "true");
       redirectToPage(request, response, loginPage);
     } catch (LoginException e) {
+      request.setAttribute("j_username", username);
       request.setAttribute(failureParam, "true");
       log.error(String.format("Authntication error : %s", e.getMessage()));
       redirectToPage(request, response, loginPage);

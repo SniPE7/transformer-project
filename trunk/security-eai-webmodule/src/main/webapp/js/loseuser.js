@@ -15,7 +15,7 @@ function loseuserStepOne() {
 			}
 		},
 		error:function(html){
-			$('#wizard').smartWizard('showMessage', "提交数据失败，代码:" +html.status+ "，请稍候再试");
+			$('#wizard').smartWizard('showMessage', "提交数据失败，代码:" +html.status+ "，请稍候再试" + "/Failed to submit data, code:" + html.status + ", please try again later.");
 		}
 	});
 	
@@ -50,7 +50,7 @@ function loseuserStepTwo(issend) {
 			}
 		},
 		error:function(html){
-			$('#wizard').smartWizard('showMessage', "提交数据失败，代码:" +html.status+ "，请稍候再试");
+			$('#wizard').smartWizard('showMessage', "提交数据失败，代码:" +html.status+ "，请稍候再试" + "/Failed to submit data, code:" + html.status + ", please try again later.");
 		}
 	});
 	
@@ -86,6 +86,10 @@ $(document).ready(function() {
 	function onFinishCallback() {
 		//$('#wizard').smartWizard('showMessage', 'Finish Clicked');
 		//return losepwdStepSubmit();
+		
+		//gotourl
+		location.href=$("#gotourl").val();
+		
 		return true;
 	}  
 	
@@ -122,14 +126,14 @@ $(document).ready(function() {
 			}
 			
 			if(!loseuserStepOne()){
-				$('#wizard').smartWizard('showMessage', "验证码错误");
+				$('#wizard').smartWizard('showMessage', "验证码错误/Verification code error.");
 				return false;
 			} else {
 				$(".buttonNext").text("发送用户名/Send");
 			}
 		} else if(step_num==2) {
 			if(!loseuserStepTwo("true")){
-				$('#wizard').smartWizard('showMessage', "短信发送失败");
+				$('#wizard').smartWizard('showMessage', "短信验证错误/Validation error messages");
 				return false;
 			} else {
 				$(".buttonNext").hide();

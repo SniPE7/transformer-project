@@ -26,6 +26,10 @@ import com.ibm.itim.ws.exceptions.WSInvalidPasswordException;
 import com.ibm.itim.ws.exceptions.WSPasswordRuleException;
 import com.sinopec.siam.am.idp.authn.service.UserPassService;
 
+import edu.internet2.middleware.shibboleth.common.util.HttpHelper;
+import edu.internet2.middleware.shibboleth.idp.authn.LoginContextEntry;
+import edu.internet2.middleware.shibboleth.idp.util.HttpServletHelper;
+
 /**
  * Íü¼ÇÃÜÂë Controller¡£
  * 
@@ -50,9 +54,19 @@ public class LosePwdController extends BaseController {
    */
   @RequestMapping(value = "/losepwd.do", method = { RequestMethod.GET, RequestMethod.POST, RequestMethod.HEAD })
   public ModelAndView handleRequestInternal(HttpServletRequest request) {
-    ModelAndView mav = new ModelAndView("/lose/password");
-    super.setModelAndView(mav, request);
-    return mav;
+	  
+	  HttpSession session = request.getSession(false);
+	  if(session !=null) {
+		  LoginContextEntry entry = (LoginContextEntry) session.getAttribute(HttpServletHelper.LOGIN_CTX_KEY_NAME);
+		  if(entry!=null) {
+			  String realUrl = request.getContextPath() + "/" + entry.getLoginContext().getAccessEnforcerURL();
+			  request.setAttribute("gotoUrl", realUrl);
+		  }
+	  }
+	  
+	    ModelAndView mav = new ModelAndView("/lose/password");
+	    super.setModelAndView(mav, request);
+	    return mav;
   }
   
 	/**

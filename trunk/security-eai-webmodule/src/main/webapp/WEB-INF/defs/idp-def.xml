@@ -13,6 +13,16 @@
 		<put-attribute name="footer" value="/WEB-INF/views/common/login_footer.jsp" />
 	</definition>
 	
+	<!-- info template view -->
+	<definition name="tiles.infoTemplate" template="/WEB-INF/views/common/info_template.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="head" value="/WEB-INF/views/common/themes.jsp" />
+		<put-attribute name="banner" value="/WEB-INF/views/common/info_banner.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="info" value="/WEB-INF/views/common/login_user_info.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/common/login_footer.jsp" />
+	</definition>
+	
 	<!-- user password login view -->
   <definition name="/login/userpass/loginform" extends="tiles.baseTemplate">
     <put-attribute name="title" value="logon.title.login" />
@@ -92,7 +102,7 @@
   </definition>
   
   <!-- login user info view -->
-  <definition name="/login/info" extends="tiles.baseTemplate">
+  <definition name="/login/info" extends="tiles.infoTemplate">
     <put-attribute name="title" value="logon.title.login" />
     <put-attribute name="info" value="/WEB-INF/views/common/login_user_info.jsp" />
   </definition>

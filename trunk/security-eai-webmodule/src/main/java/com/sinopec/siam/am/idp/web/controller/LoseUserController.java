@@ -24,6 +24,9 @@ import com.google.code.kaptcha.Constants;
 import com.sinopec.siam.am.idp.authn.service.UserService;
 import com.sinopec.siam.am.idp.entity.LdapUserEntity;
 
+import edu.internet2.middleware.shibboleth.idp.authn.LoginContextEntry;
+import edu.internet2.middleware.shibboleth.idp.util.HttpServletHelper;
+
 /**
  * 忘记用户名 Controller。
  * 
@@ -58,9 +61,19 @@ public class LoseUserController extends BaseController {
    */
   @RequestMapping(value = "/loseuser.do", method = { RequestMethod.GET, RequestMethod.POST, RequestMethod.HEAD })
   public ModelAndView handleRequestInternal(HttpServletRequest request) {
-    ModelAndView mav = new ModelAndView("/lose/user");
-    super.setModelAndView(mav, request);
-    return mav;
+	  
+	  HttpSession session = request.getSession(false);
+	  if(session !=null) {
+		  LoginContextEntry entry = (LoginContextEntry) session.getAttribute(HttpServletHelper.LOGIN_CTX_KEY_NAME);
+		  if(entry!=null) {
+			  String realUrl = request.getContextPath() + "/" + entry.getLoginContext().getAccessEnforcerURL();
+			  request.setAttribute("gotoUrl", realUrl);
+		  }
+	  }
+	  
+	    ModelAndView mav = new ModelAndView("/lose/user");
+	    super.setModelAndView(mav, request);
+	    return mav;
   }
   
   /**
