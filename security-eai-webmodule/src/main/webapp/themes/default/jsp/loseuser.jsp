@@ -70,7 +70,7 @@
 			               	</div>
 						
 					</div>
-
+					<input type="hidden" id="gotourl" name="gotourl" value="<%=request.getAttribute("gotoUrl") != null ? request.getAttribute("gotoUrl") : "#"%>" />
 				</div><!-- End SmartWizard Content -->
         </div><!-- End of #content -->
         

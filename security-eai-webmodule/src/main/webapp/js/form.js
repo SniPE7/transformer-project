@@ -47,7 +47,7 @@ function sendsms() {
 			}
 		},
 		error:function(html){
-			setMsg('info', "提交数据失败，代码:" +html.status+ "，请稍候再试");
+			setMsg('info', "提交数据失败，代码:" +html.status+ "，请稍候再试" + "/Failed to submit data, code:" + html.status + ", please try again later.");
 		}
 	});
 }
@@ -71,7 +71,7 @@ function sendsms2() {
 				if(mobile.length==11) {
 					$("#lb_usr_mobile").text(" " + mobile.substring(0,3) + "-XXXX-" + mobile.substring(7,11) + " ");
 				} else {
-					$("#lb_usr_mobile").text("错误的手机号/ error mobile number");
+					$("#lb_usr_mobile").text("错误的手机号/ Error Mobile Number");
 				}
 				//setMsg('info', msg.code);
 				$("#j_smscode").val(msg.code);
@@ -79,7 +79,7 @@ function sendsms2() {
 			}
 		},
 		error:function(html){
-			$('#wizard').smartWizard('showMessage', "提交数据失败，代码:" +html.status+ "，请稍候再试");
+			$('#wizard').smartWizard('showMessage', "提交数据失败，代码:" +html.status+ "，请稍候再试" + "/Failed to submit data, code:" + html.status + ", please try again later.");
 			//alert("提交数据失败，代码:" +html.status+ "，请稍候再试");
 		}
 	});
@@ -104,7 +104,7 @@ function sendsms3() {
 				if(mobile.length==11) {
 					$("#lb_usr_mobile").text(" " + mobile.substring(0,3) + "-XXXX-" + mobile.substring(7,11) + " ");
 				} else {
-					$("#lb_usr_mobile").text("错误的手机号/ error mobile number");
+					$("#lb_usr_mobile").text("错误的手机号/ Error Mobile Mumber");
 				}
 				
 				$("#lb_username").text(msg.displayname);
@@ -116,7 +116,7 @@ function sendsms3() {
 			}
 		},
 		error:function(html){
-			$('#wizard').smartWizard('showMessage', "提交数据失败，代码:" +html.status+ "，请稍候再试");
+			$('#wizard').smartWizard('showMessage', "提交数据失败，代码:" +html.status+ "，请稍候再试" + "/Failed to submit data, code:" + html.status + ", please try again later.");
 			//alert("提交数据失败，代码:" +html.status+ "，请稍候再试");
 		}
 	});
@@ -129,7 +129,7 @@ function updateTimeLabel(time) {
     btn.val("" + (time--) + "秒");
     
     var a_sendcode = jQuery("#a_sendcode");
-    btn.val(time <= 0 ? "发送/Send": ("" + (time) + "秒"));
+    btn.val(time <= 0 ? "发送/Send": ("" + (time) + "秒Second"));
     var hander = setInterval(function() {
         if (time <= 0) {
         	btn.attr("disabled", false);
@@ -142,7 +142,7 @@ function updateTimeLabel(time) {
         } else {
             btn.attr("disabled", true);
             //a_sendcode.attr("disabled", true);
-            btn.val("" + (time--) + "秒");
+            btn.val("" + (time--) + "秒Second");
             jQuery("#lb_tipsms").text("60秒后可以再次重发/Your can re-send until 60");
         }
     },

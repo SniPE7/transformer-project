@@ -362,9 +362,26 @@
 			<param-value>35</param-value>
 		</init-param>
 	</servlet>
+
 	<servlet-mapping>
 		<servlet-name>Kaptcha</servlet-name>
 		<url-pattern>/Kaptcha.jpg</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<description>注销接口 先清理本地session 然后转向webseal注销url</description>
+		<display-name>SSOLogoutServlet</display-name>
+		<servlet-name>SSOLogoutServlet</servlet-name>
+		<servlet-class>com.sinopec.siam.am.idp.authn.module.SSOLogoutServlet</servlet-class>
+		<init-param>
+			<param-name>sloPath</param-name>
+			<param-value>login/info.do</param-value>
+		</init-param>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>SSOLogoutServlet</servlet-name>
+		<url-pattern>/SSOLogout</url-pattern>
 	</servlet-mapping>
 
 	<error-page>

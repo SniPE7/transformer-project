@@ -25,7 +25,7 @@
 	               	</div>
 					
 	               	<div style="clear:both; height:0;overflow:hidden;"></div>
-	                <div style="display: block; float: left;"><input type="text" tabindex="1" name="j_username" id="j_username" class="textinput"/></div>
+	                <div style="display: block; float: left;"><input type="text" tabindex="1" name="j_username" id="j_username" class="textinput" value="<%=request.getAttribute("j_username") != null ? request.getAttribute("j_username") : ""%>"/></div>
 	                <div id="forgotbox" style="display: block; float: left;text-align:center"><a tabindex="9" href="loseuser.do" class="forgotpass">忘记用户名/Forget Username?</a></div>
 	                <div style="clear:both; height:0;overflow:hidden;"></div>
 	               
@@ -45,7 +45,7 @@
 	               
 	                <label class="float-left">密码将通过短信发送到您的手机.</label>
 	                <label class="float-left">SMS password will be sent to the registered mobile phone.</label>
-	                <label id="lb_usr_mobile" class="float-left"></label>
+	                <label id="lb_usr_mobile" class="float-left" style="color:red;"></label>
 	                
 	                <div class="aclogin-action" style="display: block; clear: both;">
 	                  <div class="fl-left">

@@ -32,11 +32,12 @@ $().ready(function() {
     className : 'tip-yellowsimple',
     showOn : 'none',
     alignTo : 'target',
-    alignX : 'inner-left',
+    alignX : 'center',
     offsetX : 50,
     offsetY : 5,
     fade : false,
-    slide : true
+    slide : true,
+    timeOnScreen : 2000
   });
   whoami();
 });
@@ -70,6 +71,8 @@ function validateField(id, regex, errormsg, trim) {
 function showMsg(id, errormsg){
   $(id).poshytip('update', errormsg);
   $(id).poshytip('show');
+  //$(id).poshytip('hide');
+  //$(id).poshytip('hideDelayed', 2000);
 }
 
 // validate login fields

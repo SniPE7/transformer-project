@@ -119,4 +119,12 @@
     </property>
   </bean>
 
+ <bean id="siam.sp.webseal.eai.handler" class="com.sinopec.siam.am.idp.authn.module.WebSEALEAIPostAuthenHandler">
+    <property name="eaiXAttrsName" value="am-eai-xattrs"></property>
+    <property name="tagValuePrefix" value="tagvalue_"></property>
+    <property name="eaiUseridName" value="am-eai-user-id"></property>
+    <property name="eaiAuthenLevenName" value="am-eai-auth-level"></property>
+    <property name="authenLevelDirector" ref="authenLevelDirector"></property>
+  </bean>
+  
 </beans>
