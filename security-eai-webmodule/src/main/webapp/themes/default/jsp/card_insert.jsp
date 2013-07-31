@@ -9,15 +9,32 @@ function check() {
 var init = 0;
 
 function checkCardStatus() {
-//alert("1");
-	$("#carduid").attr("value", "0A0F849E");
+	var badgeTool = document.getElementById("badgeTool");
+	if (badgeTool == "undifined")
+	{
+		alert("未安装ActiveX控件。");
+		return;
+	}
+
+	var cardUid = "";
 	
-	$("#cardForm").attr("action", "card/selectop.do");
-	$("#cardForm").submit();
+	cardUid = badgeTool.GetCardUID();
+	if (cardUid.length > 0) {
+		clearInterval(cardTimer);
+
+		// alert("Card UID=" + cardUid);
+		$("#carduid").attr("value", cardUid);
+		
+		$("#cardForm").attr("action", "card/selectop.do");
+		$("#cardForm").submit();
+	}
 }
 
 cardTimer = setInterval("checkCardStatus();", 1000);
+
 </script>
+
+<object id="badgeTool" style="display:none" classid="clsid:395E6CF3-3084-487D-9606-EDAA8B2C4E3C"></object>
 
 <div id="content" class="conten-login">
 			<div class="aui-message error invisible" id="errorDivMsg">
