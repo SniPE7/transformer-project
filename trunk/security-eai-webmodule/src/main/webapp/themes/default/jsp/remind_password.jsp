@@ -18,23 +18,27 @@
                 <fieldset>
                   <label class="float-left"><spring:message code="modifyPass.form.username" />：</label>
                   <div class="aclogin-action">
-                    <input type="hidden" name="j_username" id="j_username" class="textinput" 
-                    READONLY 
-                    value="<%=request.getAttribute("j_username") != null ? 
-                        request.getAttribute("j_username") : ""%>" />
-                    <input type="text" name="show_username" id="show_username" class="textinput" 
-                    READONLY 
-                    value="<%=request.getAttribute("show_username") != null ? 
-                        request.getAttribute("show_username") : ""%>" />
-                    <input type="submit"
-                      value="<spring:message code="modifyPass.form.modify" />"
-                      title="Press Alt+Shift+s to submit this form" name="commit"
-                      id="login-form-submit" class="button" accesskey="s" />
-                    <input type="button"
-                      value="<spring:message code="modifyPass.form.skip" />"
-                      title="Press Alt+Shift+c to submit this form" name="skip"
-                      id="login-form-cancel" class="button" accesskey="c"
-                      onclick="cancelRestPassword()" />
+                  <div>
+		                    <input type="hidden" name="j_username" id="j_username" class="textinput" 
+		                    READONLY 
+		                    value="<%=request.getAttribute("j_username") != null ? 
+		                        request.getAttribute("j_username") : ""%>" />
+		                    <input type="text" name="show_username" id="show_username" class="textinput" 
+		                    READONLY 
+		                    value="<%=request.getAttribute("show_username") != null ? 
+		                        request.getAttribute("show_username") : ""%>" />
+                        </div>
+                        <div>
+		                    <input type="submit"
+		                      value="<spring:message code="modifyPass.form.modify" />"
+		                      title="Press Alt+Shift+s to submit this form" name="commit"
+		                      id="login-form-submit" class="btn btn_big btn_submit mr20" accesskey="s" />
+		                    <input type="button"
+		                      value="<spring:message code="modifyPass.form.skip" />"
+		                      title="Press Alt+Shift+c to submit this form" name="skip"
+		                      id="login-form-cancel" class="btn btn_big btn_submit mr20" accesskey="c"
+		                      onclick="cancelRestPassword()" />
+                      </div>
                     <div class="clearfix">&nbsp;</div>
                   </div>
                 </fieldset>
