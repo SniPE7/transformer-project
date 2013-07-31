@@ -20,20 +20,20 @@
 					<div id="step-1" style="padding-top: 20px; padding-left: 20px;">
 
 			               	<div id="name-info" style="display: block;"> 
-			               		<div><label class="normal-label" style="line-height: 24px;">姓名/Name:</label></div>
-			               		<div><label class="normal-label" id="name" style="line-height: 24px; margin-bottom: 5px; font-weight:normal;">   <%=request.getAttribute("j_username") != null ? request.getAttribute("j_username") : ""%></label></div>
+			               		<div><label class="normal-label" style="line-height: 20px;">姓名/Name:</label></div>
+			               		<div><label class="normal-label" id="name" style="line-height: 20px; margin-bottom: 2px; margin-left: 20px; font-weight:normal;"> <%=request.getAttribute("j_username") != null ? request.getAttribute("j_username") : ""%></label></div>
 			               	</div>
 			               	<div style="clear:both; height:0;overflow:hidden;"></div>
 			               	
 			               	<div id="id-info" style="display: block;"> 
-			               		<div><label class="normal-label" style="line-height: 24px;">用户名/Username:</label></div>
-			               		<div><label id="usernmae" class="normal-label" style="line-height: 24px; margin-bottom: 10px; font-weight:normal;">   <%=request.getAttribute("show_username") != null ? request.getAttribute("show_username") : ""%></label></div>
+			               		<div><label class="normal-label" style="line-height: 20px;">用户名/Username:</label></div>
+			               		<div><label id="usernmae" class="normal-label" style="line-height: 20px; margin-bottom: 10px; margin-left: 20px; font-weight:normal;"> <%=request.getAttribute("show_username") != null ? request.getAttribute("show_username") : ""%></label></div>
 			               	</div>
 			               	<div style="clear:both; height:0;overflow:hidden;"></div>
 			               	
 			               	<div id="mobile-info" style="display: block;"> 
-			               		<div><label class="float-left normal-label" style="display: block;">手机/Mobile</label></div>
-			               		<div ><input type="text" tabindex="1" name="j_mobile" id="j_mobile" class="textinput"/></div>
+			               		<label class="float-left normal-label" style="display: block;">手机/Mobile</label>
+			               		<input type="text" tabindex="1" name="j_mobile" id="j_mobile" class="textinput"/>
 			               	</div>
 			               	<div style="clear:both; height:0;overflow:hidden;"></div>
 			               	

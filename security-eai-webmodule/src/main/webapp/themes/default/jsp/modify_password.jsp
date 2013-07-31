@@ -37,7 +37,7 @@
                     <input type="submit"
                       value="<spring:message code="modifyPass.form.modify" />"
                       title="Press Alt+Shift+s to submit this form" name="login"
-                      id="login-form-submit" class="button" accesskey="s" />
+                      id="login-form-submit" class="btn btn_big btn_submit mr20" accesskey="s" />
                     <div class="clearfix">&nbsp;</div>
                   </div>
                 </fieldset>
