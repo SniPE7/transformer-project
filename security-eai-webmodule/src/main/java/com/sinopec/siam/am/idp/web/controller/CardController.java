@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.code.kaptcha.Constants;
 import com.ibm.siam.am.idp.authn.entity.CardRegisterEntity;
+import com.ibm.siam.am.idp.authn.service.MatchCodeService;
 import com.sinopec.siam.am.idp.authn.service.PersonService;
 import com.sinopec.siam.am.idp.authn.service.UserService;
 import com.sinopec.siam.am.idp.entity.LdapUserEntity;
@@ -40,6 +41,10 @@ public class CardController extends BaseController {
 	@Autowired
 	@Qualifier("personService")
 	PersonService personService;
+
+	@Autowired
+	@Qualifier("matchCodeService")
+	MatchCodeService matchCodeService;
 	
 	@RequestMapping(value = "/card/insert.do", method = { RequestMethod.GET,
 			RequestMethod.POST, RequestMethod.HEAD })
@@ -60,9 +65,11 @@ public class CardController extends BaseController {
 			cardRegisterEntity = new CardRegisterEntity();
 		}
 		String cardUid = (String) request.getParameter("carduid");
-		cardRegisterEntity.setCardUid(cardUid);
-		// TODO get match code
-		cardRegisterEntity.setMatchCode("43729348");
+		if (cardUid != null && cardUid.length() > 0) {
+			cardRegisterEntity.setCardUid(cardUid);
+			// TODO get match code
+			cardRegisterEntity.setMatchCode(matchCodeService.getMatchCode(cardUid));
+		}
 		session.setAttribute("cardRegisterEntity", cardRegisterEntity);
 
 		ModelAndView mav = new ModelAndView("/card/selectop");
@@ -99,10 +106,18 @@ public class CardController extends BaseController {
 			cardRegisterEntity = new CardRegisterEntity();
 		}
 		cardRegisterEntity.setOptype(0);
-		cardRegisterEntity.setIdNumber((String) request
-				.getParameter("id_number"));
-		cardRegisterEntity.setEmployeeNumber((String) request
-				.getParameter("employee_number"));
+		
+		String idNumber = (String) request.getParameter("id_number");
+		
+		if (idNumber != null && idNumber.length()>0) {
+		cardRegisterEntity.setIdNumber(idNumber);
+		}
+		
+		String emNumber = (String) request.getParameter("employee_number");
+		
+		if (emNumber != null && emNumber.length() > 0) {
+			cardRegisterEntity.setEmployeeNumber(emNumber);
+		}
 		session.setAttribute("cardRegisterEntity", cardRegisterEntity);
 
 		AndFilter filter = new AndFilter();
@@ -251,15 +266,15 @@ public class CardController extends BaseController {
 			UserService userService = getUserService();
 			
 			boolean isUserPassed = userService.authenticateByUserDnPassword(cardRegisterEntity.getDn(), password);					
-//			if (!isUserPassed){
-//				request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "card.error.usernamePasswordError");
-//				request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, null);
-//				request.setAttribute(failureParam, "true");
-//				
-//				ModelAndView mav = new ModelAndView("/card/newreg_verify_user");
-//				super.setModelAndView(mav, request);
-//				return mav;
-//			}
+			if (!isUserPassed){
+				request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "card.error.usernamePasswordError");
+				request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, null);
+				request.setAttribute(failureParam, "true");
+				
+				ModelAndView mav = new ModelAndView("/card/newreg_verify_user");
+				super.setModelAndView(mav, request);
+				return mav;
+			}
 			
 			try {
 		    	Map<String, String> attrs = new HashMap<String, String>();
