@@ -34,7 +34,6 @@ public class MatchCodeServiceImpl implements MatchCodeService {
 			pw.println(cardUid);
 
 			String info = br.readLine();
-			info = info.replace("\n", "");
 			
 			socket.close();
 			
