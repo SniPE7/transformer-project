@@ -1,6 +1,8 @@
 function loseuserStepOne() {
 	var result = false;
 	
+	loading('请求中...', 1);
+	
 	$.ajax( {
 		type : "post",
 		url : "checkcode.do",
@@ -13,8 +15,10 @@ function loseuserStepOne() {
 			if(msg.status=='success') {
 				result = true;
 			}
+			unloading();
 		},
 		error:function(html){
+			unloading();
 			$('#wizard').smartWizard('showMessage', "提交数据失败，代码:" +html.status+ "，请稍候再试" + "/Failed to submit data, code:" + html.status + ", please try again later.");
 		}
 	});
@@ -24,7 +28,7 @@ function loseuserStepOne() {
 
 function loseuserStepTwo(issend) {
 	var result = false;
-	
+	loading('请求中...', 1);
 	$.ajax( {
 		type : "post",
 		url : "checkidcard.do",
@@ -48,8 +52,11 @@ function loseuserStepTwo(issend) {
 			} else {
 				//$('#wizard').smartWizard('showMessage', "提交数据失败，请稍候再试");
 			}
+			
+			unloading();
 		},
 		error:function(html){
+			unloading();
 			$('#wizard').smartWizard('showMessage', "提交数据失败，代码:" +html.status+ "，请稍候再试" + "/Failed to submit data, code:" + html.status + ", please try again later.");
 		}
 	});

@@ -1,7 +1,8 @@
 //check smscode
 function regmobileStepOne() {
 	var result = false;
-	
+	loading('请求中...', 1);
+
 	$.ajax( {
 		type : "post",
 		url : "checksmscode.do",
@@ -16,8 +17,12 @@ function regmobileStepOne() {
 			if(msg.status=='success') {
 				result = true;
 			}
+			unloading();
+
 		},
 		error:function(html){
+			unloading();
+
 			$('#wizard').smartWizard('showMessage', "提交数据失败，代码:" +html.status+ "，请稍候再试" + "/Failed to submit data, code:" + html.status + ", please try again later.");
 		}
 	});
@@ -28,7 +33,8 @@ function regmobileStepOne() {
 //modify mobile
 function regmobileStepTwo() {
 	var result = false;
-	
+	loading('请求中..', 1);
+
 	$.ajax( {
 		type : "post",
 		url : "changemobile.do",
@@ -52,8 +58,12 @@ function regmobileStepTwo() {
 			} else {
 				$('#wizard').smartWizard('showMessage', "修改手机号失败，请稍候再试" + "/Modify phone number failed, please try again later");
 			}
+			unloading();
+
 		},
 		error:function(html){
+			unloading();
+
 			$('#wizard').smartWizard('showMessage', "修改手机号失败，代码:" +html.status+ "，请稍候再试/Modifying phone number failed, code:" + html.status + ", please try again later.");
 		}
 	});

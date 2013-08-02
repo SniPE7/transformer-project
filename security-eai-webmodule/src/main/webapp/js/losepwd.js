@@ -1,6 +1,7 @@
 function losepwdStepOne() {
 	var result = false;
-	
+	loading('请求中..', 1);
+
 	$.ajax( {
 		type : "post",
 		url : "checksmscode.do",
@@ -16,8 +17,10 @@ function losepwdStepOne() {
 				
 				result = true;
 			}
+			unloading();
 		},
 		error:function(html){
+			unloading();
 			$('#wizard').smartWizard('showMessage', "提交数据失败，代码:" +html.status+ "，请稍候再试" + "/Failed to submit data, code:" + html.status + ", please try again later.");
 		}
 	});
@@ -28,7 +31,8 @@ function losepwdStepOne() {
 
 function losepwdStepSubmit() {
 	var result = false;
-	
+	loading('请求中..', 1);
+
 	$.ajax( {
 		type : "post",
 		url : "changelosepwd.do",
@@ -48,8 +52,12 @@ function losepwdStepSubmit() {
 			} else {
 				$('#wizard').smartWizard('showMessage', msg.msg);
 			}
+			unloading();
+
 		},
 		error:function(html){
+			unloading();
+
 			$('#wizard').smartWizard('showMessage', "提交数据失败，代码:" +html.status+ "，请稍候再试" + "/Failed to submit data, code:" + html.status + ", please try again later.");
 		}
 	});

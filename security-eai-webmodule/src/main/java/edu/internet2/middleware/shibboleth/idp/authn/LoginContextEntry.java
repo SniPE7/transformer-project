@@ -17,9 +17,11 @@
 
 package edu.internet2.middleware.shibboleth.idp.authn;
 
+import org.joda.time.DateTime;
+import org.opensaml.util.storage.AbstractExpiringObject;
 
 /** Storage service entry for login contexts. */
-public class LoginContextEntry {
+public class LoginContextEntry extends AbstractExpiringObject {
 
     /** Serial version UID. */
     private static final long serialVersionUID = -1528197153404835381L;
@@ -34,6 +36,7 @@ public class LoginContextEntry {
      * @param lifetime lifetime of the entry
      */
     public LoginContextEntry(LoginContext ctx, long lifetime) {
+        super(new DateTime().plus(lifetime));
         loginCtx = ctx;
     }
 

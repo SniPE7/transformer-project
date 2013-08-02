@@ -57,6 +57,8 @@ public class LoginContext implements Serializable {
     /** Serial version UID. */
     private static final long serialVersionUID = -8764003758734956911L;
 
+    /** Entity ID of the relying party. */
+    private String relyingPartyId;
     /** Should user authentication be forced. */
     private boolean forceAuth;
 
@@ -68,6 +70,9 @@ public class LoginContext implements Serializable {
 
     /** The Access Enforcer URL. */
     private String accessEnforcerURL;
+	
+	/** The ProfileHandler URL. */
+    private String profileHandlerURL;
 
     /** The authentication engine's URL. */
     private String authnEngineURL;
@@ -232,6 +237,15 @@ public class LoginContext implements Serializable {
     public synchronized String getAccessEnforcerURL() {
         return accessEnforcerURL;
     }
+	
+	    /**
+     * Gets the ProfileHandler URL.
+     * 
+     * @return the URL of the profile handler that is invoking the Authentication Manager.
+     */
+    public synchronized String getProfileHandlerURL() {
+        return profileHandlerURL;
+    }
 
     /**
      * Get an optional property object.
@@ -244,6 +258,14 @@ public class LoginContext implements Serializable {
         return propsMap.get(key);
     }
 
+    /**
+     * Gets the entity ID of the relying party.
+     * 
+     * @return entity ID of the relying party
+     */
+    public synchronized String getRelyingPartyId() {
+        return relyingPartyId;
+    }
 
     /**
      * Return the acceptable authentication handler URIs, in preference order, for authenticating this user. If no
@@ -422,6 +444,15 @@ public class LoginContext implements Serializable {
     public synchronized void setAccessEnforcerURL(String url) {
         accessEnforcerURL = url;
     }
+	
+	    /**
+     * Sets the ProfileHandler URL.
+     * 
+     * @param url The URL of the profile handler that invoked the AuthenticationManager/
+     */
+    public synchronized void setProfileHandlerURL(String url) {
+        profileHandlerURL = url;
+    }
 
     /**
      * Sets an optional property object.
@@ -435,6 +466,14 @@ public class LoginContext implements Serializable {
         propsMap.put(key, obj);
     }
 
+    /**
+     * Gets the entity ID of the relying party.
+     * 
+     * @param id entity ID of the relying party
+     */
+    public synchronized void setRelyingParty(String id) {
+        relyingPartyId = id;
+    }
 
     /**
      * Sets the {@link edu.internet2.middleware.shibboleth.idp.session.Session} ID.

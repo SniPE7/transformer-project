@@ -50,7 +50,7 @@ public class CommonLdapLoginModuleTest extends TestCase {
    * Test method for {@link edu.vt.middleware.ldap.jaas.LdapLoginModule#login()}.
    */
   public void testLoginCaseNoReturnAnyAttributes() throws Exception {
-    CommonLdapLoginModule lm = new CommonLdapLoginModule();
+    CommonLdapAuthLoginModule lm = new CommonLdapAuthLoginModule();
     lm.setApplicationContext(this.contextLoaderListener.getCurrentWebApplicationContext());
     Subject subject = new Subject();
     CallbackHandler callbackHandler = new CallbackHandler() {
@@ -81,9 +81,9 @@ public class CommonLdapLoginModuleTest extends TestCase {
     ok = lm.commit();
     assertTrue(ok);
     
-    assertEquals("fangzy", sharedState.get(CommonLdapLoginModule.LOGIN_NAME));
-    assertEquals("uid=fangzy,cn=users,dc=SINOPEC,dc=COM", sharedState.get(CommonLdapLoginModule.LOGIN_DN));
-    assertNotNull(sharedState.get(CommonLdapLoginModule.LOGIN_PASSWORD));
+    assertEquals("fangzy", sharedState.get(CommonLdapAuthLoginModule.LOGIN_NAME));
+    assertEquals("uid=fangzy,cn=users,dc=SINOPEC,dc=COM", sharedState.get(CommonLdapAuthLoginModule.LOGIN_DN));
+    assertNotNull(sharedState.get(CommonLdapAuthLoginModule.LOGIN_PASSWORD));
     
     List<Principal> principals = new ArrayList<Principal>(subject.getPrincipals());
     assertEquals(1, principals.size());
@@ -94,7 +94,7 @@ public class CommonLdapLoginModuleTest extends TestCase {
    * Test method for {@link edu.vt.middleware.ldap.jaas.LdapLoginModule#login()}.
    */
   public void testLoginCaseReturnAllAttributes() throws Exception {
-    CommonLdapLoginModule lm = new CommonLdapLoginModule();
+    CommonLdapAuthLoginModule lm = new CommonLdapAuthLoginModule();
     lm.setApplicationContext(this.contextLoaderListener.getCurrentWebApplicationContext());
     Subject subject = new Subject();
     CallbackHandler callbackHandler = new CallbackHandler() {
@@ -126,9 +126,9 @@ public class CommonLdapLoginModuleTest extends TestCase {
     ok = lm.commit();
     assertTrue(ok);
     
-    assertEquals("fangzy", sharedState.get(CommonLdapLoginModule.LOGIN_NAME));
-    assertEquals("uid=fangzy,cn=users,dc=SINOPEC,dc=COM", sharedState.get(CommonLdapLoginModule.LOGIN_DN));
-    assertNotNull(sharedState.get(CommonLdapLoginModule.LOGIN_PASSWORD));
+    assertEquals("fangzy", sharedState.get(CommonLdapAuthLoginModule.LOGIN_NAME));
+    assertEquals("uid=fangzy,cn=users,dc=SINOPEC,dc=COM", sharedState.get(CommonLdapAuthLoginModule.LOGIN_DN));
+    assertNotNull(sharedState.get(CommonLdapAuthLoginModule.LOGIN_PASSWORD));
     
     List<Principal> principals = new ArrayList<Principal>(subject.getPrincipals());
     assertEquals(1, principals.size());

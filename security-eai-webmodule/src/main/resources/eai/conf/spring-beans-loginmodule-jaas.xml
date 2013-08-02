@@ -21,6 +21,83 @@
     class="com.sinopec.siam.am.idp.authn.SpringBasedLoginContextManager">
     <property name="configuration" ref="jaasConfiguration"></property>
     <property name="loginContextClassName" value="com.sinopec.siam.am.idp.authn.AuditableSpringLoginContext"></property>
+    <property name="loginModuleEventListener" ref="loginEventListen"></property>
+    <property name="loginContextEventListener">
+      <bean class=" com.sinopec.siam.am.idp.authn.ChainLoginContextEventListener">
+        <constructor-arg>
+          <list>
+            <!-- For Audit events -->
+            <ref bean="loginEventListen" />
+          </list>
+        </constructor-arg>
+      </bean>
+    </property>
   </bean>
+  
+  <bean id="loginEventListen" class="com.sinopec.siam.am.idp.authn.AuditLoginEventListener">
+    <property name="auditEventRecognizer">
+      <bean class="com.sinopec.siam.am.idp.audit.ChainAuditEventRecognizer">
+        <constructor-arg>
+          <list>
+            <bean class="com.sinopec.siam.am.idp.audit.UserLockAuditEventRecognizer">
+              <property name="storageService" ref="shibboleth.StorageService"/>
+              <property name="logModuleNameMappingPath" value="${idp.loginmodule.audit.namemappingpath}"/>
+            </bean>
+<!--        
+            <bean class="com.sinopec.siam.am.idp.audit.CommonLdapLoginEventRecognizer">
+              <property name="storageService" ref="shibboleth.StorageService"/>
+              <property name="logModuleNameMappingPath" value="${idp.loginmodule.audit.namemappingpath}"/>
+            </bean> 
+
+            <bean class="com.sinopec.siam.am.idp.audit.LoginContextAuditEventRecognizer">
+              <property name="storageService" ref="shibboleth.StorageService"/>
+              <property name="logModuleNameMappingPath" value="${idp.loginmodule.audit.namemappingpath}"/>
+            </bean>
+-->
+            <bean class="com.sinopec.siam.am.idp.audit.PassPastDueLdapAuditEventRecognizer">
+              <property name="storageService" ref="shibboleth.StorageService"/>
+              <property name="logModuleNameMappingPath" value="${idp.loginmodule.audit.namemappingpath}"/>
+            </bean>
+            <bean class="com.sinopec.siam.am.idp.audit.PassResetLdapAuditEventRecognizer">
+              <property name="storageService" ref="shibboleth.StorageService"/>
+              <property name="logModuleNameMappingPath" value="${idp.loginmodule.audit.namemappingpath}"/>
+            </bean>
+            <!-- <bean class="com.sinopec.siam.am.idp.audit.SetPasswordHintAuditEventRecognizer">
+              <property name="storageService" ref="shibboleth.StorageService"/>
+              <property name="logModuleNameMappingPath" value="${idp.loginmodule.audit.namemappingpath}"/>
+            </bean> -->
+            <bean class="com.sinopec.siam.am.idp.audit.TamAndADMappingAuditEventRecognizer">
+              <property name="storageService" ref="shibboleth.StorageService"/>
+              <property name="logModuleNameMappingPath" value="${idp.loginmodule.audit.namemappingpath}"/>
+            </bean>
+            <bean class="com.sinopec.siam.am.idp.audit.UpdateUserLockAuditEventRecognizer">
+              <property name="storageService" ref="shibboleth.StorageService"/>
+              <property name="logModuleNameMappingPath" value="${idp.loginmodule.audit.namemappingpath}"/>
+            </bean>
+            <bean class="com.sinopec.siam.am.idp.audit.UserAcctValidAuditEventRecognizer">
+              <property name="storageService" ref="shibboleth.StorageService"/>
+              <property name="logModuleNameMappingPath" value="${idp.loginmodule.audit.namemappingpath}"/>
+            </bean>
+           <bean class="com.sinopec.siam.am.idp.audit.LoginContextEventRecognizer">
+              <property name="storageService" ref="shibboleth.StorageService"/>
+              <property name="logModuleNameMappingPath" value="${idp.loginmodule.audit.namemappingpath}"/>
+            </bean>
+          </list>
+        </constructor-arg>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="shibboleth.StorageService" class="edu.internet2.middleware.shibboleth.common.util.EventingMapBasedStorageService"/>
+
+  <bean id="shibboleth.StorageServiceSweeper" class="org.opensaml.util.storage.ExpiringObjectStorageServiceSweeper">
+      <constructor-arg ref="shibboleth.TaskTimer"/>
+      <constructor-arg ref="shibboleth.StorageService"/>
+      <constructor-arg value="600000" type="long"/>
+  </bean>
+   
+  <bean id="shibboleth.TaskTimer" class="java.util.Timer" destroy-method="cancel">
+       <constructor-arg value="true" type="boolean"/>
+   </bean>
   
 </beans>
