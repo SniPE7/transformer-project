@@ -288,7 +288,7 @@
         </bean>
         <!-- TAM and AD Mapping Login Module -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.tamldap.TamAndADMappingLoginModule"></property>
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.TamMappingLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -302,7 +302,7 @@
               </bean>
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="returnAttributeNames"></property>
-                <property name="value" value="${idp.loginmodule.login.returnAttributeNames}"></property>
+                <property name="value" value="${eai.loginmodule.login.returnAttributeNames}"></property>
               </bean>
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="userServiceBeanId"></property>
@@ -516,7 +516,7 @@
        
         <!-- TAM and AD Mapping Login Module -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.tamldap.TamAndADMappingLoginModule"></property>
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.TamMappingLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -530,7 +530,7 @@
               </bean>
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="returnAttributeNames"></property>
-                <property name="value" value="${idp.loginmodule.login.returnAttributeNames}"></property>
+                <property name="value" value="${eai.loginmodule.login.returnAttributeNames}"></property>
               </bean>
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="userServiceBeanId"></property>
@@ -759,7 +759,7 @@
         </bean>
         <!-- TAM and AD Mapping Login Module -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.tamldap.TamAndADMappingLoginModule"></property>
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.TamMappingLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -773,7 +773,7 @@
               </bean>
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="returnAttributeNames"></property>
-                <property name="value" value="${idp.loginmodule.login.returnAttributeNames}"></property>
+                <property name="value" value="${eai.loginmodule.login.returnAttributeNames}"></property>
               </bean>
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="userServiceBeanId"></property>
@@ -834,7 +834,7 @@
           </property>
         </bean>
         <!-- Password Remind Login Module -->
-        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+      <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
           <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.UserPassRemindLdapLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
@@ -864,7 +864,6 @@
               <!-- Define how to search user by username, {0} mean username -->
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="userFilter"></property>
-                <!-- <property name="value" value="(&amp;(uid={0})(objectclass=inetOrgPerson))"></property>-->
                 <property name="value" value="(&amp;(uid={0})(objectclass=inetOrgPerson))"></property> 
               </bean>
               <!-- Define spring ldap template bean name -->
@@ -891,7 +890,7 @@
               </bean>
             </list>
           </property>
-        </bean>
+        </bean> 
         
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
           <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.ValidateReAuthenLoginModule"></property>
@@ -911,7 +910,7 @@
           <property name="moduleFlag" value="SUFFICIENT"></property>
         </bean>
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.CommonLdapLoginModule"></property>
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.CommonLdapAuthLoginModule"></property>
           <property name="moduleFlag" value="SUFFICIENT"></property>
           <property name="moduleOptions">
             <list>
@@ -934,7 +933,7 @@
               <!-- Define login user return attribute name -->
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="returnAttributeNames"></property>
-                <property name="value" value="${idp.loginmodule.login.returnAttributeNames}"></property>
+                <property name="value" value="${eai.loginmodule.login.returnAttributeNames}"></property>
               </bean>
               <!-- Define spring ldap template bean name -->
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">

@@ -27,7 +27,7 @@ import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.core.support.AbstractContextMapper;
 
-import com.sinopec.siam.am.idp.authn.module.CommonLdapLoginModule.DnAndAttributes;
+import com.sinopec.siam.am.idp.authn.module.CommonLdapAuthLoginModule.DnAndAttributes;
 import com.sinopec.siam.am.idp.authn.principal.UserPrincipal;
 
 /**

@@ -19,17 +19,39 @@ package edu.internet2.middleware.shibboleth.idp.session;
 
 import java.security.Principal;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.security.auth.Subject;
 
+import org.joda.time.DateTime;
+import org.joda.time.chrono.ISOChronology;
+
+import edu.internet2.middleware.shibboleth.common.session.SessionEvent;
+import edu.internet2.middleware.shibboleth.common.session.SessionEventType;
+import edu.internet2.middleware.shibboleth.common.session.SessionManager;
+
 /** Base class for Shibboleth sessions. */
-public abstract class AbstractSession implements Session {
+public abstract class AbstractSession implements Session, SessionManagerAware {
 
   /** Serial version UID. */
   private static final long serialVersionUID = 4726780089406295821L;
 
+  /**
+   * Refer to manager container
+   */
+  private transient SessionManager<Session> sessionManager = null;
+
+  /** The session ID. */
+  private final String sessionId;
+
   /** Subject of this session. */
   private Subject subject;
+
+  /** Session inactivity timeout in milliseconds. */
+  private long inactivityTimeout;
+
+  /** The last activity time of the user. */
+  private long lastActivity;
 
   /**
    * Constructor.
@@ -39,8 +61,43 @@ public abstract class AbstractSession implements Session {
    * @param timeout
    *          inactivity timeout for the session in milliseconds
    */
-  public AbstractSession() {
+  public AbstractSession(String id, long timeout) {
+    sessionId = id;
     subject = new Subject();
+    inactivityTimeout = timeout;
+    lastActivity = new DateTime().toDateTime(ISOChronology.getInstanceUTC()).getMillis();
+  }
+  
+  
+  /**
+   * Constructor.
+   * 
+   * @param id
+   *          ID of the session
+   * @param timeout
+   *          inactivity timeout for the session in milliseconds
+   */
+  public AbstractSession() {
+	sessionId = UUID.randomUUID().toString();
+    subject = new Subject();
+  }
+  
+  
+
+  public SessionManager<Session> getSessionManager() {
+    return sessionManager;
+  }
+
+  /* (non-Javadoc)
+   * @see edu.internet2.middleware.shibboleth.common.session.impl.SessionManagerAware#setSessionManager(edu.internet2.middleware.shibboleth.common.session.SessionManager)
+   */
+  public void setSessionManager(SessionManager<Session> sessionManager) {
+    this.sessionManager = sessionManager;
+  }
+
+  /** {@inheritDoc} */
+  public synchronized String getSessionID() {
+    return sessionId;
   }
 
   /** {@inheritDoc} */
@@ -51,6 +108,8 @@ public abstract class AbstractSession implements Session {
   /** {@inheritDoc} */
   public synchronized void setSubject(Subject newSubject) {
     subject = newSubject;
+    // Notify session listner
+    fireEvent(SessionEventType.CHANGED);
   }
 
   /** {@inheritDoc} */
@@ -63,4 +122,29 @@ public abstract class AbstractSession implements Session {
     }
   }
 
+  /** {@inheritDoc} */
+  public synchronized long getInactivityTimeout() {
+    return inactivityTimeout;
+  }
+
+  /** {@inheritDoc} */
+  public synchronized DateTime getLastActivityInstant() {
+    return new DateTime(lastActivity, ISOChronology.getInstanceUTC());
+  }
+
+  /** {@inheritDoc} */
+  public synchronized void setLastActivityInstant(DateTime activity) {
+    lastActivity = activity.toDateTime(ISOChronology.getInstanceUTC()).getMillis();
+
+    fireEvent(SessionEventType.CHANGED);
+  }
+
+  /**
+   * @param eventType
+   */
+  protected void fireEvent(SessionEventType eventType) {
+    if (this.sessionManager != null && this.sessionManager.getSessionManagerListener() != null) {
+      this.sessionManager.getSessionManagerListener().fireEvent(new SessionEvent<Session>(eventType, this));
+    }
+  }
 }

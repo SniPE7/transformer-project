@@ -19,15 +19,27 @@ package edu.internet2.middleware.shibboleth.idp.session;
 
 import javax.security.auth.Subject;
 
-
 /**
  * Session information for user logged into the IdP.
  */
-public interface Session {
+public interface Session extends edu.internet2.middleware.shibboleth.common.session.Session {
 
     /** Name of the HTTP request attribute to which a users IdP session is bound. */
-    public static final String HTTP_SESSION_BINDING_ATTRIBUTE = "EAI_APP_SESS";
+    public static final String HTTP_SESSION_BINDING_ATTRIBUTE = "ShibbolethIdPSession";
 
+    /**
+     * A secret associated with this session.
+     * 
+     * @return secret associated with this session
+     */
+    public byte[] getSessionSecret();
+
+    /**
+     * Gets the methods by which the user has authenticated to the IdP.
+     * 
+     * @return methods by which the user has authenticated to the IdP
+     */
+    //public Map<String, AuthenticationMethodInformation> getAuthenticationMethods();
     /**
      * Get the method by name which the user has authenticated to the IdP.
      * @param name
@@ -72,10 +84,10 @@ public interface Session {
      * @param authenticationMethod
      */
     public void addServiceInformation(ServiceInformation servicesInformation);
-
 		public Subject getSubject();
     
 		public void setSubject(Subject subject);
 		
 		public String getPrincipalName();
+    
 }

@@ -40,6 +40,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.joda.time.DateTime;
+import org.opensaml.util.storage.StorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -53,12 +54,16 @@ import com.sinopec.siam.am.idp.authn.util.AuthencationUtil;
 import edu.internet2.middleware.shibboleth.common.profile.AbstractErrorHandler;
 import edu.internet2.middleware.shibboleth.common.profile.NoProfileHandlerException;
 import edu.internet2.middleware.shibboleth.common.profile.ProfileException;
+import edu.internet2.middleware.shibboleth.common.relyingparty.RelyingPartyConfigurationManager;
+import edu.internet2.middleware.shibboleth.common.session.SessionManager;
 import edu.internet2.middleware.shibboleth.common.util.HttpHelper;
 import edu.internet2.middleware.shibboleth.idp.authn.AuthenticationException;
 import edu.internet2.middleware.shibboleth.idp.authn.ForceAuthenticationException;
 import edu.internet2.middleware.shibboleth.idp.authn.LoginContext;
+import edu.internet2.middleware.shibboleth.idp.authn.LoginContextEntry;
 import edu.internet2.middleware.shibboleth.idp.authn.LoginHandler;
 import edu.internet2.middleware.shibboleth.idp.authn.UsernamePrincipal;
+import edu.internet2.middleware.shibboleth.idp.profile.IdPProfileHandlerManager;
 import edu.internet2.middleware.shibboleth.idp.session.AuthenticationMethodInformation;
 import edu.internet2.middleware.shibboleth.idp.session.ServiceInformation;
 import edu.internet2.middleware.shibboleth.idp.session.Session;
@@ -66,7 +71,10 @@ import edu.internet2.middleware.shibboleth.idp.session.impl.AuthenticationMethod
 import edu.internet2.middleware.shibboleth.idp.session.impl.ServiceInformationImpl;
 import edu.internet2.middleware.shibboleth.idp.session.impl.SessionImpl;
 import edu.internet2.middleware.shibboleth.idp.util.HttpServletHelper;
+import edu.vt.middleware.ldap.bean.LdapAttribute;
+import edu.vt.middleware.ldap.bean.LdapAttributes;
 import edu.vt.middleware.ldap.jaas.LdapPrincipal;
+import edu.vt.middleware.ldap.jaas.LdapRole;
 
 /** Manager responsible for handling authentication requests. */
 public class AuthenticationEngine extends HttpServlet {
@@ -124,13 +132,21 @@ public class AuthenticationEngine extends HttpServlet {
 	 * Storage service used to store {@link LoginContext}s while authentication is
 	 * in progress.
 	 */
-	// private static StorageService<String, LoginContextEntry> storageService;
+	private static StorageService<String, LoginContextEntry> storageService;
+	
+	  private RelyingPartyConfigurationManager relayPartyManager;
+	
+	 /** Profile handler manager. */
+	  private IdPProfileHandlerManager handlerManager;
 
 	/**
 	 * Whether the public credentials of a {@link Subject} are retained after
 	 * authentication.
 	 */
 	private boolean retainSubjectsPublicCredentials;
+	
+	  /** Session manager. */
+	  private SessionManager<Session> sessionManager;
 
 	/**
 	 * Whether the private credentials of a {@link Subject} are retained after
@@ -158,6 +174,11 @@ public class AuthenticationEngine extends HttpServlet {
 			retainSubjectsPublicCredentials = false;
 		}
 		context = config.getServletContext();
+		
+		handlerManager = HttpServletHelper.getProfileHandlerManager(context);
+	    sessionManager = HttpServletHelper.getSessionManager(context);
+	    storageService = HttpServletHelper.getLoginContextStorageService(context);
+	    relayPartyManager = HttpServletHelper.getRelyingPartyConfigurationManager(context);
 
 		// Get Spring Bean Factory
 		ApplicationContext appContext = ContextLoader.getCurrentWebApplicationContext();
@@ -708,8 +729,13 @@ public class AuthenticationEngine extends HttpServlet {
 		Session userSession = (Session) session.getAttribute(Session.HTTP_SESSION_BINDING_ATTRIBUTE);
 		if (userSession == null) {
 			LOG.debug("Creating shibboleth session for principal {}", authenticationPrincipal.getName());
+			
 			userSession = new SessionImpl();
+			
+			//userSession = (Session) sessionManager.createSession();
+			loginContext.setSessionID(userSession.getSessionID());
 			session.setAttribute(Session.HTTP_SESSION_BINDING_ATTRIBUTE, userSession);
+			
 		}
 
 		// Merge the information in the current session subject with the information
@@ -763,6 +789,17 @@ public class AuthenticationEngine extends HttpServlet {
     for (LdapPrincipal lp: authenticationSubject.getPrincipals(LdapPrincipal.class)) {
       principal.setUid(lp.getName());
       principal.setCn(lp.getName());
+      
+      for(LdapAttribute attr : lp.getLdapAttributes().getAttributes()) {
+    	  String attrName = attr.getName();
+    	  List<String> values = new ArrayList<String>();
+    	  for (String attrValue : attr.getStringValues()) {
+    		  values.add(attrValue);
+            }
+    	  
+    	  principal.setAttribute(attrName, values);
+      }
+      
     }
     session.setAttribute(SSOPrincipal.NAME_OF_SESSION_ATTR, principal);
   }

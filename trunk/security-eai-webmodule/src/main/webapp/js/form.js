@@ -148,3 +148,26 @@ function updateTimeLabel(time) {
     },
     1000);
 }
+
+
+//加载信息
+function loading(name, overlay) {
+	$('body').append('<div id="loading"><div id="overlay"></div><div id="preloader">' + name + '...</div></div>');
+    /*if (overlay == 1) {
+        $('#overlay').css('opacity', 0.1).fadeIn(function() {
+            $('#preloader').fadeIn();
+        });
+        return false;
+    }
+    $('#preloader').fadeIn();*/
+   
+    $('#overlay').css('opacity', 0.1).show();
+    $('#preloader').show();
+}
+
+function unloading() {
+	setTimeout($("#loading").remove(), 500);
+   /* $('#preloader').fadeOut('fast', function() {
+        $('#overlay').fadeOut();
+    });*/
+}

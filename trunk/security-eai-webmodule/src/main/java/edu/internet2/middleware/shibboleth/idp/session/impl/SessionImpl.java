@@ -18,12 +18,15 @@
 package edu.internet2.middleware.shibboleth.idp.session.impl;
 
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.security.auth.Subject;
 
+import edu.internet2.middleware.shibboleth.common.session.SessionEventType;
 import edu.internet2.middleware.shibboleth.idp.authn.UsernamePrincipal;
 import edu.internet2.middleware.shibboleth.idp.session.AbstractSession;
 import edu.internet2.middleware.shibboleth.idp.session.AuthenticationMethodInformation;
@@ -36,17 +39,43 @@ public class SessionImpl extends AbstractSession implements Session {
     /** Serial version UID. */
     private static final long serialVersionUID = 2927868242208211623L;
     
+    /** Secret key associated with the session. */
+    private byte[] sessionSecret;
+
     /** The list of methods used to authenticate the user. */
-    private Map<String, AuthenticationMethodInformation> authnMethods = new HashMap<String, AuthenticationMethodInformation>();
+    private Map<String, AuthenticationMethodInformation> authnMethods;
 
     /** The list of services to which the user has logged in. */
-    private Map<String, ServiceInformation> servicesInformation = new HashMap<String, ServiceInformation>();
+    private Map<String, ServiceInformation> servicesInformation;
     
     public SessionImpl() {
 	    super();
+	    
+        authnMethods = new HashMap<String, AuthenticationMethodInformation>();
+        servicesInformation = new HashMap<String, ServiceInformation>();
     }
 
-		/** {@inheritDoc} */
+    /**
+     * Constructor.
+     * 
+     * @param sessionId ID of the session
+     * @param secret a secret to associate with the session
+     * @param timeout inactivity timeout for the session in milliseconds
+     */
+    public SessionImpl(String sessionId, byte[] secret, long timeout) {
+        super(sessionId, timeout);
+
+        sessionSecret = secret;
+        authnMethods = new ConcurrentHashMap<String, AuthenticationMethodInformation>(2);
+        servicesInformation = new ConcurrentHashMap<String, ServiceInformation>(2);
+    }
+
+    /** {@inheritDoc} */
+    public synchronized byte[] getSessionSecret() {
+        return sessionSecret;
+    }
+
+    /** {@inheritDoc} */
     public synchronized AuthenticationMethodInformation[] getAuthenticationMethods() {
         return authnMethods.values().toArray(new AuthenticationMethodInformation[0]);
     }
@@ -57,6 +86,8 @@ public class SessionImpl extends AbstractSession implements Session {
 
     public synchronized void addAuthenticationMethod(AuthenticationMethodInformation authenticationMethod) {
       this.authnMethods.put(authenticationMethod.getAuthenticationMethod(), authenticationMethod);
+      // Notify session listner
+      fireEvent(SessionEventType.CHANGED);
     }
 
     /** {@inheritDoc} */
@@ -70,6 +101,9 @@ public class SessionImpl extends AbstractSession implements Session {
 
     public void addServiceInformation(ServiceInformation servicesInformation) {
       this.servicesInformation.put(servicesInformation.getEntityID(), servicesInformation);
+
+      // Notify session listner
+      fireEvent(SessionEventType.CHANGED);
     }
     /**
      * Gets the service information for the given entity ID.
@@ -104,10 +138,9 @@ public class SessionImpl extends AbstractSession implements Session {
         return principals.iterator().next().getName();
     }
 
-
-		@Override
+    @Override
     public String toString() {
-	    return "SessionImpl [authnMethods=" + authnMethods + ", servicesInformation=" + servicesInformation + ", subject=" + this.getSubject() + "]";
+      return String.format("SessionImpl [sessionSecret=%s, authnMethods=%s, servicesInformation=%s]", Arrays.toString(sessionSecret), authnMethods, servicesInformation);
     }
 
 
