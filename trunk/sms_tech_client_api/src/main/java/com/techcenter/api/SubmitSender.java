@@ -48,7 +48,6 @@ public class SubmitSender implements ISubmitSender {
 		ssm.setContentString(msg); // 消息的内容
 		//ssm.setSrcNumber(""); // 下发的源号码
 		ssm.setDestMobile(destMobile); // 目的手机号
-		
 		//send to mq
 		try {
 			bResult = this.sendQueue.push(ssm);
@@ -65,7 +64,8 @@ public class SubmitSender implements ISubmitSender {
 		ssm.setMessagePriority((short) 3); // 消息的优先级：0 最低 --- 3 最高
 		ssm.setReportType((short) 0); // 是否需要状态报告：0 不需要；1 需要
 		ssm.setSequenceId(System.currentTimeMillis()); // 唯一序列号
-		ssm.setProductID(Global.getInstance().clientId); // 产品id
+		//ssm.setProductID(Global.getInstance().clientId); // 产品id
+		ssm.setProductID(Global.getInstance().productId); // 产品id
 		//ssm.setMessageFormat((short) 32); // 消息的编码格式 15 GBK编码 32 长短信
 		//ssm.setContentString("一二三四五六七八九十"); // 消息的内容
 		//ssm.setSrcNumber(""); // 下发的源号码

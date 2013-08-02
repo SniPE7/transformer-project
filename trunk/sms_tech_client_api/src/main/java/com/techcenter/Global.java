@@ -38,17 +38,19 @@ public class Global {
 
 	private static Global global = null;
 	// ip地址
-	public String ip = "192.168.1.61";
+	public String ip = "10.203.27.202";
 	// 端口
 	public int port = 1236;
 	// 客户端ID
-	public int clientId = 1006;
+	public int clientId = 1181;
+	// Product ID (通道组)
+	public int productId = 743;
 	// 滑动窗口大小
 	public int controlWindowSize = 500;
 	// 登录用户名
-	public String loginName = "1006";
+	public String loginName = "LDAPDev1";
 	// 密码
-	public String password = "1006";
+	public String password = "123456";
 	// idle时间
 	public int idleTime = 10;
 	// 接收端口缓冲大小
@@ -56,11 +58,12 @@ public class Global {
 	// 发送端口缓冲大小
 	public int outBufferSize = 1024;
 	public String longCode = "";
-	public String resourceFilePath = "D:/logs";
-	public String copyPath = "D:/copyBak";
-	public String resourceIdFilePath = "d:/properties";
-	public String submitBakPath = "d:/submitBak";
-	public String submitPath = "d:/submit";
+	public String submitPath = "D:/temp/sms/submit";
+  	public String resourceFilePath = "D:/temp/sms/resource";
+	public String copyPath = "D:/temp/sms/copy";
+	public String resourceIdFilePath = "D:/temp/sms/properties";
+	public String submitBakPath = "D:/temp/sms/submitBak";
+
 	private MemoryQueue queue = new MemoryQueue();
 	private int keepDate = 7;
 	public long maxQueueSize = 10000;

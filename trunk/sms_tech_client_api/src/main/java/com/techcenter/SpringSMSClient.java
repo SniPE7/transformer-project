@@ -32,6 +32,10 @@ public class SpringSMSClient {
 		Global.getInstance().clientId = clientId;
 	}
 
+	public void setProductId(int productId) {
+		Global.getInstance().productId = productId;
+	}
+
 	public void setControlWindowSize(int controlWindowSize) {
 		Global.getInstance().controlWindowSize = controlWindowSize;
 	}
@@ -176,6 +180,7 @@ public class SpringSMSClient {
 		ClientIoHandler mohandler = new ClientIoHandler();
 		//设置ClientId
 		mohandler.setClientId(g.clientId);
+		
 		//设置滑动窗口大小
 		mohandler.setControlWindowsSize(g.controlWindowSize);
 		//设置登录用户名
