@@ -3,27 +3,30 @@
 <properties>
   <comment>Send SMS Configure</comment>
   <!-- IP -->
-  <entry key="eai.sms.api.ip">211.151.48.100</entry>
+  <entry key="eai.sms.api.ip">10.203.27.202</entry>
    <!-- port -->
   <entry key="eai.sms.api.port">1236</entry>
    <!-- clientId -->
-  <entry key="eai.sms.api.clientId">1111</entry>
+  <entry key="eai.sms.api.clientId">1181</entry>
+   <!-- productId -->
+  <entry key="eai.sms.api.productId">743</entry>
    <!-- loginName -->
-  <entry key="eai.sms.api.loginName">smstest</entry>
+  <entry key="eai.sms.api.loginName">LDAPDev1</entry>
    <!-- password -->
-  <entry key="eai.sms.api.password">smstest</entry>
+  <entry key="eai.sms.api.password">123456</entry>
    <!-- longCode -->
   <entry key="eai.sms.api.longCode"></entry>
    <!-- submitPath -->
-  <entry key="eai.sms.api.submitPath">./submit</entry>
+  <entry key="eai.sms.api.submitPath">D:/temp/sms/submit</entry>
    <!-- resourceFilePath -->
-  <entry key="eai.sms.api.resourceFilePath">./resource</entry>
+  <entry key="eai.sms.api.resourceFilePath">D:/temp/sms/resource</entry>
    <!-- copyPath -->
-  <entry key="eai.sms.api.copyPath">./resourceBak</entry>
+  <entry key="eai.sms.api.copyPath">D:/temp/sms/copy</entry>
    <!-- resourceIdFilePath -->
-  <entry key="eai.sms.api.resourceIdFilePath">./properties</entry>
+  <entry key="eai.sms.api.resourceIdFilePath">D:/temp/sms/properties</entry>
    <!-- submitBakPath -->
-  <entry key="eai.sms.api.submitBakPath">./</entry>
+  <entry key="eai.sms.api.submitBakPath">D:/temp/sms/submitBak</entry>
+  
    <!-- controlWindowSize -->
   <entry key="eai.sms.api.controlWindowSize">16</entry>
   <!-- keepDate -->
