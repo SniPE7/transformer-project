@@ -5,6 +5,7 @@
   	<property name="ip" value="${eai.sms.api.ip}"></property>
   	<property name="port" value="${eai.sms.api.port}"></property>
   	<property name="clientId" value="${eai.sms.api.clientId}"></property>
+  	<property name="productId" value="${eai.sms.api.productId}"></property>
   	<property name="loginName" value="${eai.sms.api.loginName}"></property>
   	<property name="password" value="${eai.sms.api.password}"></property>
   	<property name="longCode" value="${eai.sms.api.longCode}"></property>
