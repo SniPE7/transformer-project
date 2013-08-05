@@ -52,6 +52,7 @@ function losepwdStepSubmit() {
 			} else {
 				$('#wizard').smartWizard('showMessage', msg.msg);
 			}
+			
 			unloading();
 
 		},

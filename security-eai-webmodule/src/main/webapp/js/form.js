@@ -165,8 +165,14 @@ function loading(name, overlay) {
     $('#preloader').show();
 }
 
+function dounload() {
+	$("#loading").remove();
+}
+
 function unloading() {
-	setTimeout($("#loading").remove(), 500);
+	
+	
+	setTimeout(dounload, 500);
    /* $('#preloader').fadeOut('fast', function() {
         $('#overlay').fadeOut();
     });*/
