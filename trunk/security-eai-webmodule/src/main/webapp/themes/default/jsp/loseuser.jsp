@@ -10,17 +10,17 @@
 						<li>
 							<a href="#step-1" onclick="return false" onfocus="this.blur()"> <span class="stepNumber">1</span> <span class="stepDesc"> 输入验证信息
 								<br />
-								<small></small> </span> </a>
+								<small>Enter user information</small> </span> </a>
 						</li>
 						<li>
 							<a href="#step-2" onclick="return false" onfocus="this.blur()"> <span class="stepNumber">2</span> <span class="stepDesc"> 确认手机号
 								<br />
-								<small></small> </span> </a>
+								<small>Confirm phone number</small> </span> </a>
 						</li>
 						<li>
 							<a href="#step-3" onclick="return false" onfocus="this.blur()"> <span class="stepNumber">3</span> <span class="stepDesc"> 发送用户名
 								<br />
-								<small></small> </span> </a>
+								<small>Send the user name</small> </span> </a>
 						</li>
 					</ul>
 					<div id="step-1" style="padding-top: 20px; padding-left: 20px;">

@@ -9,12 +9,12 @@
 						<li>
 							<a href="#step-1" onclick="return false" onfocus="this.blur()"> <span class="stepNumber">1</span> <span class="stepDesc"> 填写手机号
 								<br />
-								<small></small> </span> </a>
+								<small>Enter phone number</small> </span> </a>
 						</li>
 						<li>
 							<a href="#step-2" onclick="return false" onfocus="this.blur()"> <span class="stepNumber">2</span> <span class="stepDesc"> 注册
 								<br />
-								<small></small> </span> </a>
+								<small>Registration</small> </span> </a>
 						</li>
 					</ul>
 					<div id="step-1" style="padding-top: 20px; padding-left: 20px;">
