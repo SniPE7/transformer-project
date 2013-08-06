@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<script type="text/javascript">
+function toLogin() {
+	$("#cardForm").attr("action", "login/info.do");
+	$("#cardForm").submit();
+}
+</script>
+
 	      <div id="content" class="conten-login">
 			<div class="aui-message error invisible" id="errorDivMsg">
 			  <!-- shown with class="aui-message error" -->
@@ -23,7 +30,7 @@
 <br />
 	                <div class="aclogin-action">
 
-	                  <input type="button" tabindex="7" value="转入登录页面/Go to Login Page" />
+	                  <input type="button" tabindex="7" value="转入登录页面/Go to Login Page" onclick="toLogin();" />
 	                  
 	                  <div class="clearfix">&nbsp;</div>
 	                </div>
