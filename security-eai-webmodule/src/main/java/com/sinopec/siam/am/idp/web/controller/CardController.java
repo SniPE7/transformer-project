@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
@@ -33,7 +34,7 @@ import edu.internet2.middleware.shibboleth.idp.authn.LoginHandler;
 public class CardController extends BaseController {
 	/** UserService Bean ID */
 	private String userServiceBeanId = "tamLdapUserService";
-
+	Logger log;
 	private String tamAdMappingFilter = "(&(sprolelist={})(objectclass=inetorgperson))";
 	
 	private String failureParam = "loginFailed";
@@ -67,7 +68,6 @@ public class CardController extends BaseController {
 		String cardUid = (String) request.getParameter("carduid");
 		if (cardUid != null && cardUid.length() > 0) {
 			cardRegisterEntity.setCardUid(cardUid);
-			// TODO get match code
 			cardRegisterEntity.setMatchCode(matchCodeService.getMatchCode(cardUid));
 		}
 		session.setAttribute("cardRegisterEntity", cardRegisterEntity);
@@ -165,7 +165,7 @@ public class CardController extends BaseController {
 
 		String loginFlag = ldapUserEntity.getValueAsString("alloweprptservice");
 		ModelAndView mav;
-		if ("false".compareToIgnoreCase(loginFlag)==0) {
+		if (loginFlag == null || "false".compareToIgnoreCase(loginFlag)==0) {
 			cardRegisterEntity.setOptype(1);
 			mav = new ModelAndView("/card/newreg_verify_user");
 		} else {
