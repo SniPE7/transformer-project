@@ -4,10 +4,11 @@
 	<comment>EAI main configuration file</comment>
 
 	<!-- TAM LDAP Server -->
-	<entry key="eai.tam.ldap.url">ldap://ldap.shanghaigm.com:3890</entry>
-	<entry key="eai.tam.ldap.user.baseDn">DC=JKE,DC=COM</entry>
+	<entry key="eai.tam.ldap.url">ldap://210.75.71.39:389</entry>
+	<entry key="eai.tam.ldap.user.baseDn">dc=tam,DC=SGMAM,DC=COM</entry>
 	<entry key="eai.tam.ldap.userDn">cn=root</entry>
-	<entry key="eai.tam.ldap.password">smartway</entry>
+	<entry key="eai.tam.ldap.password">Passw0rd</entry>
+ 
     <!-- WebSEAL SecurityAuthority BaseDN -->
     <entry key="eai.tam.ldap.secauthority.baseDN">cn=Users,SECAUTHORITY=DEFAULT</entry>
     <!-- WebSEAL Security Authority: Attribute name for username -->
@@ -16,16 +17,16 @@
   
 
 	<!-- TIM LDAP Server -->
-	<entry key="eai.tim.ldap.url">ldap://ldap.shanghaigm.com:3890</entry>
+	<entry key="eai.tim.ldap.url">ldap://210.75.71.39:489</entry>
 	<entry key="eai.tim.ldap.userDn">cn=root</entry>
-	<entry key="eai.tim.ldap.password">smartway</entry>
-  <!-- TIM Ldap BaseDN -->
-  <entry key="eai.tim.ldap.userBaseDN">OU=ITIM,ou=JKE,DC=ITIM</entry>
+	<entry key="eai.tim.ldap.password">Passw0rd</entry>
+	<!-- TIM Ldap BaseDN -->
+	<entry key="eai.tim.ldap.userBaseDN">DC=SGM,DC=COM</entry>
 	
 	<!-- TIM API Server -->
-	<entry key="eai.tim.api.soapEndpoint">http://ldap.shanghaigm.com:9080/ITIMWebServices</entry>
-	<!-- ITIM 管理账号 -->
+	<entry key="eai.tim.api.soapEndpoint">http://10.203.2.177:9080/ITIMWebServices</entry>
+	<!-- ITIM Admin user -->
 	<entry key="eai.itim.manager.principal">itim manager</entry>
-	<entry key="eai.itim.manager.credentials">smartway</entry>
+	<entry key="eai.itim.manager.credentials">Tivoli01</entry>
 
 </properties>

@@ -1,14 +1,16 @@
 package com.ibm.siam.am.idp.authn.service;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * Match Code Service Interface
@@ -17,14 +19,24 @@ import java.net.UnknownHostException;
  * @since 2013-7-26
  */
 public class MatchCodeServiceImpl implements MatchCodeService {
-	private String server = "10.6.69.4";
-	private int port = 10007;
+	private final Logger log = LoggerFactory
+			.getLogger(LdapUserServiceImpl.class);
+
+	@Autowired
+	@Qualifier("tcpConnectionPool")
+	private TcpConnectionPool tcpConnectionPool;
 
 	public String getMatchCode(String cardUid) {
 		Socket socket = null;
 
 		try {
-			socket = new Socket(server, port);
+			socket = new Socket("10.6.69.4", 10007);
+			
+//			tcpConnectionPool = new TcpConnectionPool();
+//			tcpConnectionPool.init();
+//			
+//			socket = tcpConnectionPool.getConnection();
+			
 			InputStream in = socket.getInputStream();
 			OutputStream out = socket.getOutputStream();
 
@@ -34,19 +46,15 @@ public class MatchCodeServiceImpl implements MatchCodeService {
 			pw.println(cardUid);
 
 			String info = br.readLine();
-			
+
 			socket.close();
-			
+//			tcpConnectionPool.returnConnection(socket);
+
 			return info;
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
+			log.error(e.toString());
 		} finally {
-			if (socket != null) {
-				try {
-					socket.close();
-				} catch (IOException e) {
-				}
-			}
 		}
 
 		return null;
@@ -58,19 +66,16 @@ public class MatchCodeServiceImpl implements MatchCodeService {
 		System.out.println(matchCode);
 	}
 
-	public String getServer() {
-		return server;
+	public TcpConnectionPool getTcpConnectionPool() {
+		return tcpConnectionPool;
 	}
 
-	public void setServer(String server) {
-		this.server = server;
+	public void setTcpConnectionPool(TcpConnectionPool tcpConnectionPool) {
+		this.tcpConnectionPool = tcpConnectionPool;
 	}
 
-	public int getPort() {
-		return port;
+	public Logger getLog() {
+		return log;
 	}
 
-	public void setPort(int port) {
-		this.port = port;
-	}
 }
