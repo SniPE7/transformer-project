@@ -103,6 +103,11 @@
       <param-name>eaiAuthen</param-name>
       <param-value>true</param-value>
     </init-param>
+    <init-param>
+      <description>Default URL after authenticated</description>
+      <param-name>AfterAuthenDefaultURL</param-name>
+      <param-value>/</param-value>
+    </init-param>
   </filter>
   <filter-mapping>
     <filter-name>com.ibm.siam.am.idp.authn.AccessEnforcer</filter-name>
