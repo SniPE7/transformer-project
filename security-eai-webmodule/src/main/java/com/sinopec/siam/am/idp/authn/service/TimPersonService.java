@@ -147,7 +147,7 @@ public class TimPersonService implements PersonService {
 				wsAttrs.add(wsAttr);
 			} 
 			
-			wsItimService.modifyPerson(wsSession, userEntity.getValueAsString(userOwnerLdapAttribute), wsAttrs.toArray(new WSAttribute[]{}), scheduledTime);
+			wsItimService.modifyPerson(wsSession, userEntity.getValueAsString(userOwnerLdapAttribute), wsAttrs.toArray(new WSAttribute[]{}), null);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -183,7 +183,7 @@ public class TimPersonService implements PersonService {
 			WSSession wsSession = wsItimService.login(itimManager, itimManagerPwd);
 			
 			String personDn = userEntity.getValueAsString("owner");
-			wsItimService.synchPasswords(wsSession, personDn, password, scheduledTime , false);
+			wsItimService.synchPasswords(wsSession, personDn, password, null , false);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("updatePerson fail: ", e);
