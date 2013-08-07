@@ -1,5 +1,7 @@
 package com.sinopec.siam.am.idp.web.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +33,8 @@ public class RegMobileController extends BaseController {
 	
 	private final Logger log = LoggerFactory.getLogger(RegMobileController.class);
 	
+	private static final String DATE_FORMAT = "yyyyMMddHHmmssZ";
+
 	@Autowired
 	@Qualifier("personService")
 	PersonService personService;
@@ -87,6 +91,8 @@ public class RegMobileController extends BaseController {
 	    try {
 	    	Map<String, String> attrs = new HashMap<String, String>();
 	    	attrs.put("mobile", newMobile);
+	    	SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
+	    	attrs.put("SGMMobileTime", df.format(new Date()));
 	    	personService.updatePerson(userid, attrs);
 	    } catch (Exception e) {
 	    	msg = String.format("update mobile Exception. username:%s", userid);
