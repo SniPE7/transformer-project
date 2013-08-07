@@ -17,8 +17,10 @@ function checkCardStatus() {
 	}
 
 	var cardUid = "";
-	
+
+	// var hasDevice = badgeTool.HasDevice();
 	cardUid = badgeTool.GetCardUID();
+
 	if (cardUid.length > 0) {
 		clearInterval(cardTimer);
 
