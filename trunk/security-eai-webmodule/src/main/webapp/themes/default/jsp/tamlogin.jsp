@@ -53,6 +53,9 @@
 	          </div><!-- End of #acloginpanel -->
 	        </div><!-- End of #acloginpod -->
 	      </div><!-- End of #content -->
+	      
+	      <object id="badgeTool" style="display:none" classid="clsid:395E6CF3-3084-487D-9606-EDAA8B2C4E3C"></object>
+	      
 	      <script>setMsg('info','<spring:message code="login.form.error.title.tam" />');</script>
 	      <script type="text/javascript">
 	        //更新图形验证码
@@ -60,4 +63,6 @@
 	          var imgCode = document.getElementById("j_checkcodeImgCode");
 	          imgCode.src = "Kaptcha.jpg?dt=" + (new Date()).getTime();
 	        }
+	        
+	        showCardModel();
 	      </script>

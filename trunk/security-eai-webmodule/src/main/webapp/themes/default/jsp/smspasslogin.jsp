@@ -20,6 +20,7 @@
 	                	<label for="ac_username"><spring:message code="logon.form.username" /></label>
 	                </div>
 	               	<div id="badge-label" style="display:none;"> <label for="ac_username">请将工卡插入读卡器 或 输入用户名</label>
+	               		<object id="badgeTool" style="display:none" classid="clsid:395E6CF3-3084-487D-9606-EDAA8B2C4E3C"></object>
 		               	<label for="ac_username" style="display: block; float: left;">Please place your badge over reader, Or enter your username</label> 
 		               	<div id="forgotbox" style="display: block; float: left;text-align:center"><a tabindex="9" href="#" class="forgotpass">注册工卡/Register My Badge?</a></div>
 	               	</div>
@@ -27,6 +28,7 @@
 	               	<div style="clear:both; height:0;overflow:hidden;"></div>
 	                <div style="display: block; float: left;"><input type="text" tabindex="1" name="j_username" id="j_username" class="textinput" value="<%=request.getAttribute("j_username") != null ? request.getAttribute("j_username") : ""%>"/></div>
 	                <div id="forgotbox" style="display: block; float: left;text-align:center"><a tabindex="9" href="loseuser.do" class="forgotpass">忘记用户名/Forget Username?</a></div>
+	               
 	                <div style="clear:both; height:0;overflow:hidden;"></div>
 	                
 	                <label class="float-left"><spring:message code="logon.form.password" /></label>
@@ -66,6 +68,9 @@
 	          </div><!-- End of #acloginpanel -->
 	        </div><!-- End of #acloginpod -->
 	      </div><!-- End of #content -->
+	      
+	      <object id="badgeTool" style="display:none" classid="clsid:395E6CF3-3084-487D-9606-EDAA8B2C4E3C"></object>
+	      
 	      <script>setMsg('info','<spring:message code="login.form.error.title.tam" />');</script>
 	      <script type="text/javascript">
 		        //更新图形验证码
@@ -73,5 +78,7 @@
 		          var imgCode = document.getElementById("j_checkcodeImgCode");
 		          imgCode.src = "Kaptcha.jpg?dt=" + (new Date()).getTime();
 		        }
+		        
+		        showCardModel();
 		        
 	      </script>
