@@ -416,11 +416,11 @@
               </bean>
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="mobileAttrName"></property>
-                <property name="value" value="mobile"></property>
+                <property name="value" value="${eai.loginmodule.user.search.mobileattrname}"></property>
               </bean>
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="mobileUpdateAttrName"></property>
-                <property name="value" value="SGMMobileTime"></property>
+                <property name="value" value="${eai.loginmodule.user.search.mobileupdateattrname}"></property>
               </bean>
             </list>
           </property>
@@ -644,11 +644,13 @@
               </bean>
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="mobileAttrName"></property>
-                <property name="value" value="mobile"></property>
+                <property name="value" value="${eai.loginmodule.user.search.mobileattrname}"></property>
               </bean>
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="mobileUpdateAttrName"></property>
-                <property name="value" value="SGMMobileTime"></property>
+
+                <property name="value" value="${eai.loginmodule.user.search.mobileupdateattrname}"></property>
+
               </bean>
             </list>
           </property>
@@ -882,11 +884,13 @@
               </bean>
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="mobileAttrName"></property>
-                <property name="value" value="mobile"></property>
+                <property name="value" value="${eai.loginmodule.user.search.mobileattrname}"></property>
               </bean>
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="mobileUpdateAttrName"></property>
-                <property name="value" value="SGMMobileTime"></property>
+
+                <property name="value" value="${eai.loginmodule.user.search.mobileupdateattrname}"></property>
+
               </bean>
             </list>
           </property>

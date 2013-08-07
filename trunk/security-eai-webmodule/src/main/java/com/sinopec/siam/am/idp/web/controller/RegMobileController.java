@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,11 +34,17 @@ public class RegMobileController extends BaseController {
 	
 	private final Logger log = LoggerFactory.getLogger(RegMobileController.class);
 	
-	private static final String DATE_FORMAT = "yyyyMMddHHmmssZ";
-
 	@Autowired
 	@Qualifier("personService")
 	PersonService personService;
+	
+	@Value("#{beanProperties['eai.loginmodule.user.search.mobileattrname']}")
+	private String mobileTag = "mobile";
+	
+	@Value("#{beanProperties['eai.loginmodule.user.search.mobileupdateattrname']}")
+	private String mobileUpdateTag = "mobileTime";
+	
+	private static final String DATE_FORMAT = "yyyyMMddHHmm'Z'";
 	
   /**
    * 返回页面。
@@ -47,7 +54,19 @@ public class RegMobileController extends BaseController {
    */
   @RequestMapping(value = "/regmobile.do", method = { RequestMethod.GET, RequestMethod.POST, RequestMethod.HEAD })
   public ModelAndView handleRequestInternal(HttpServletRequest request) {
-    ModelAndView mav = new ModelAndView("/lose/regmobile");
+	request.setAttribute("j_username", request.getParameter("j_username"));
+	request.setAttribute("gotoUrl", request.getParameter("gotourl"));
+    request.setAttribute("show_username",  request.getParameter("show_username"));
+    request.setAttribute("op", request.getParameter("op"));
+    
+    ModelAndView mav = new ModelAndView("/regmobile");
+    super.setModelAndView(mav, request);
+    return mav;
+  }
+  
+  @RequestMapping(value = "/remind_mobile.do", method = { RequestMethod.GET, RequestMethod.POST, RequestMethod.HEAD })
+  public ModelAndView handleRemindBindMobile(HttpServletRequest request) {
+    ModelAndView mav = new ModelAndView("/remind_mobile");
     super.setModelAndView(mav, request);
     return mav;
   }
@@ -90,9 +109,12 @@ public class RegMobileController extends BaseController {
 		// 修改TIM口令（API）
 	    try {
 	    	Map<String, String> attrs = new HashMap<String, String>();
-	    	attrs.put("mobile", newMobile);
-	    	SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
-	    	attrs.put("SGMMobileTime", df.format(new Date()));
+	    	attrs.put(mobileTag, newMobile);
+	    	
+	    	if(mobileUpdateTag!=null && !"".equals(mobileUpdateTag)) {
+	    		attrs.put(mobileUpdateTag, getDateNow());
+	    	}
+
 	    	personService.updatePerson(userid, attrs);
 	    } catch (Exception e) {
 	    	msg = String.format("update mobile Exception. username:%s", userid);
@@ -108,5 +130,12 @@ public class RegMobileController extends BaseController {
 		return smsInfo;
 
 	}
-  
+	
+	private String getDateNow() {
+		Date now = new Date();
+	    SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
+	    
+	    return df.format(now);
+	    //return "201308060308Z";
+	}
 }

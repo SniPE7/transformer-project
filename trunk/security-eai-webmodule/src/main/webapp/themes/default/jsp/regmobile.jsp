@@ -80,6 +80,7 @@
 				<input type="hidden" name="j_username" id="j_username" value="<%=request.getAttribute("j_username") != null ? request.getAttribute("j_username") : ""%>" />
                     
         </form>
+        <input type="hidden" id="gotourl" name="gotourl" value="<%=request.getAttribute("gotoUrl") != null ? request.getAttribute("gotoUrl") : "#"%>" />
         
         <script type="text/javascript" src="themes/default/js/jquery.smartWizard-2.0.js"></script>
         <script type="text/javascript" src="js/regmobile.js"></script>
