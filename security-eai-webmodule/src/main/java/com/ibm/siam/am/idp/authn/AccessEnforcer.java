@@ -57,6 +57,8 @@ public class AccessEnforcer implements Filter {
    * WebSEAL EAI parameter: WebSEAL will set this parameter into http request, and request EAI challenge user for specified authen level.
    */
   private String AUTHN_LEVEL_FIELD  = "AUTHNLEVEL";
+
+	private String defaultWebSEALURL = "/";
   
   /*
   static {
@@ -87,8 +89,14 @@ public class AccessEnforcer implements Filter {
     this.eaiAuthen = (e == null)?false:Boolean.parseBoolean(e);
     log.info(String.format("[%s]:EAI Authen {[%s]}", fConfig.getFilterName(), this.eaiAuthen));
     
+    String u = this.filterConfig.getInitParameter("AfterAuthenDefaultURL");
+    this.defaultWebSEALURL = (u == null)?"/":u;
+    log.info(String.format("[%s]:EAI Authen default redirect URL{[%s]}", fConfig.getFilterName(), this.defaultWebSEALURL));
+
     String s = this.filterConfig.getInitParameter("AUTHN_LEVEL_FIELD");
     this.AUTHN_LEVEL_FIELD = (s != null && s.trim().length() > 0)?s:"AUTHNLEVEL";
+    log.info(String.format("[%s]:EAI Authen AUTHN_LEVEL_FIELD {[%s]}", fConfig.getFilterName(), this.AUTHN_LEVEL_FIELD));
+    
   }
 
   /**
@@ -111,6 +119,24 @@ public class AccessEnforcer implements Filter {
     if (log.isDebugEnabled()) {
        dumpToLog(httpRequest);
     }
+    
+    String tamOp = httpRequest.getParameter("TAM_OP");
+    if (tamOp != null && tamOp.equals("logout") ) {
+    	if (this.isAuthenticated(httpRequest)) {
+    		 if (log.isDebugEnabled()) {
+    			  log.debug("TAM_OP=logout, destroy current session.");
+    		 }
+    		 httpRequest.getSession(false).invalidate();
+    	}
+    } else if (tamOp != null && tamOp.equals("login_success") ) {
+    	if (this.isAuthenticated(httpRequest)) {
+	   		 if (log.isDebugEnabled()) {
+	   			  log.debug(String.format("TAM_OP=login_success, redirect to default URL: [%s]", defaultWebSEALURL));
+	   		 }
+	   		 httpResponse.sendRedirect(defaultWebSEALURL );
+				 return;
+   	  }
+   }
     
     ApplicationContext applicationContext = WebApplicationContextUtils.getWebApplicationContext(filterConfig.getServletContext());
     // Need to authenticate?
