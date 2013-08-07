@@ -29,9 +29,9 @@ function nextstep() {
 	              <fieldset>
 
 	                <label for="ac_username">请填写您已经注册的手机/Please input your registered mobile phone:</label>
-	                <input type="text" tabindex="1" name="mobile" id="mobile" class="textinput" value="3333" />
+	                <input type="text" tabindex="1" name="mobile" id="mobile" class="textinput" value="" maxlength="11" />
 	                <label class="float-left">密码/Password</label>
-	                <input type="password" tabindex="2" name="j_password" id="j_password" class="textinput" value="Pass1234" />
+	                <input type="password" tabindex="2" name="j_password" id="j_password" class="textinput" value="" />
 
 	                <label class="float-left"><spring:message code="logon.form.checkcode" /></label>
 	                <input type="text" tabindex="3" name="j_checkcode" id="j_checkcode" class="textCKcode" style="display: block; float: left;"/>

@@ -33,7 +33,7 @@ function nextstep() {
 <br />
 
 	                <label for="ac_username">身份证号/ID Number</label>
-	                <input type="text" tabindex="1" name="id_number" id="id_number" class="textinput" />
+	                <input type="text" tabindex="1" name="id_number" id="id_number" class="textinput" maxlength="18" />
 	                <label class="float-left">员工号/Employee Number</label>
 	                <input type="text" tabindex="2" name="employee_number" id="employee_number" class="textinput"/>
 
