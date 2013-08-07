@@ -17,8 +17,7 @@ function toLogin() {
 
 	        <div id="acloginpod">
 	          <div id="acloginpanel" class="loginpanel">
-	            <form class="aui cmxform" method="post" id="authenForm" name="loginForm"
-	              action="${actionUrl}" onSubmit="return validate(this);">
+	            <form class="aui cmxform" method="post" id="cardForm" name="cardForm" action="${actionUrl}">
 	              <input type="hidden" name="op" value="login" />
 	              <fieldset>
 	                <legend>
