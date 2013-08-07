@@ -244,7 +244,7 @@ function showCardModel(){
 function fillCardUid(){
 	var cardUid = getCardUid();
 	if (cardUid.length > 0) {
-		clearInterval(cardTimer);
+		//clearInterval(cardTimer);
 		
 		$("#j_username").val(cardUid);
 	}
