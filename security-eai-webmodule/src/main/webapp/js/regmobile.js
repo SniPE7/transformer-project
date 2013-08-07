@@ -78,9 +78,11 @@ function updateCheckCodeImg() {
 }
 
 function finshRegMobile(){
-  $("#authenForm").attr("action", document.location.href);
+  $("#authenForm").attr("action", $("#gotourl").val());
   //$("#op").val("remindpassword");
   $("#authenForm").submit();
+	//gotourl
+	//location.href=$("#gotourl").val();
 }
 
 $(document).ready(function() {
@@ -106,12 +108,9 @@ $(document).ready(function() {
 	function showstepCallback(obj) {
 		var step_num = obj.attr('rel');
 		if(step_num==2) {
-			if(!regmobileStepTwo()){
-				$('.buttonNext').hide();
-				$('.buttonFinish').show();
-				//$(".buttonNext").hide();
-				//return false;
-			}
+			
+			$('.buttonNext').hide();
+			$('.buttonFinish').show();
 		} else if (step_num==1) {
 			$('.buttonFinish').hide();
 		}
@@ -129,6 +128,8 @@ $(document).ready(function() {
 			
 			if(!regmobileStepOne()){
 				$('#wizard').smartWizard('showMessage', "验证码错误/Verification code error.");
+				return false;
+			} else if(!regmobileStepTwo()){
 				return false;
 			} else {
 				$(".buttonNext").hide();

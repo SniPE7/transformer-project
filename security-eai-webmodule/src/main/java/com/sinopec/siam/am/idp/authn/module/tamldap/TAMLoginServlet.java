@@ -144,7 +144,7 @@ public class TAMLoginServlet extends HttpServlet {
 
         request.setAttribute("op", "modifymobile");
         request.setAttribute("actionUrl", buildServletUrl(request));
-        redirectToPage(request, response, "/regmobile.do");
+        redirectToPage(request, response, "/remind_mobile.do");
      } catch (MissingPasswordHintLoginException e) {
       request.setAttribute("j_username", e.getUsername());
       request.setAttribute("hintQuestionCandidate", e.getQuestionCandidateAttributes());

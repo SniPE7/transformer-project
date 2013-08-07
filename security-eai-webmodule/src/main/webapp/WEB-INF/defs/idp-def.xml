@@ -52,6 +52,12 @@
     <put-attribute name="title" value="modifyPass.title.remindPass" />
     <put-attribute name="body" value="/WEB-INF/views/remind_password.jsp" />
   </definition>
+  
+  	<!-- remind bind mobile view -->
+  <definition name="/remind_mobile" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="regmobile.info.remind.title" />
+    <put-attribute name="body" value="/WEB-INF/views/remind_mobile.jsp" />
+  </definition>
 	
 	<!-- client cert login failure view -->
 	<definition name="/login/cert/loginform" extends="tiles.baseTemplate">
@@ -160,7 +166,7 @@
 	</definition>
 	
 	<!-- 注册手机号 -->
-	<definition name="/lose/regmobile" extends="tiles.commom.base">
+	<definition name="/regmobile" extends="tiles.commom.base">
 		<put-attribute name="title" value="accout.title.changemobile" />
 		<put-attribute name="body"
 			value="/WEB-INF/views/regmobile.jsp" />

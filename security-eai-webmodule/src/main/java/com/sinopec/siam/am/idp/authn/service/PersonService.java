@@ -2,13 +2,6 @@ package com.sinopec.siam.am.idp.authn.service;
 
 import java.util.Map;
 
-/**
- * ��Ա�����޸ķ���ӿ�
- * 
- * @author zhangxianwen
- * @since 2012-6-20 ����9:35:40
- */
-
 public interface PersonService {
 
 	/**

@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="edu.internet2.middleware.shibboleth.idp.authn.LoginHandler" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
         <div id="content">
           <div class="aui-message error invisible" id="errorDivMsg">
@@ -45,4 +46,13 @@
             </div><!-- End of #acloginpanel -->
           </div><!-- End of #acloginpod -->
         </div><!-- End of #content -->
-        <script>setMsg('info','<spring:message code="modifyPass.info.userpass.policy" />');</script>
+        <% 
+        	String infoTag = request.getAttribute(LoginHandler.AUTHENTICATION_INFO_KEY) != null ?  request.getAttribute(LoginHandler.AUTHENTICATION_INFO_KEY).toString() : "";
+        	if(!"".equals(infoTag)) {
+        		%>
+        		<script>setMsg('info', '<spring:message code="<%=infoTag%>"  />');</script>
+        		<%
+        	}
+        %>
+        
+        <script>setMsg('info', '<spring:message code="modifyPass.info.userpass.policy" />');</script>

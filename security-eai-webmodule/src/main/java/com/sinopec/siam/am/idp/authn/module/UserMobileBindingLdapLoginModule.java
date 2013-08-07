@@ -9,7 +9,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.SearchControls;
@@ -40,7 +39,8 @@ import com.sinopec.siam.am.idp.authn.principal.UserPrincipal;
 public class UserMobileBindingLdapLoginModule extends AbstractSpringLoginModule {
 	
 	private static Log logger = LogFactory.getLog(UserMobileBindingLdapLoginModule.class);
-	private static final String DATE_FORMAT = "yyyyMMddHHmmssZ";
+
+	private static final String DATE_FORMAT = "yyyyMMddHHmm'Z'";
 
   /** 人员操作服务Bean ID */
   private String ldapTemplateBeanName = "tamLdapTemplate";
@@ -153,23 +153,32 @@ public class UserMobileBindingLdapLoginModule extends AbstractSpringLoginModule 
     } else {  	  
 		try {
 			mobile = dnAndAttrs.getAttributes().get(mobileAttrName).get(0);
-			Attribute mobileUpdateAttr = dnAndAttrs.getAttributes().get(mobileUpdateAttrName);
-			if (mobileUpdateAttr != null) {
-			   mobileLastDate = convertPwdChangeTime((String)mobileUpdateAttr.get(0));
-			}
+			
+	    	if(checkMobileUpdateTime()) {
+				Attribute mobileUpdateAttr = dnAndAttrs.getAttributes().get(mobileUpdateAttrName);
+				if (mobileUpdateAttr != null) {
+				   mobileLastDate = convertPwdChangeTime((String)mobileUpdateAttr.get(0));
+				}
+	    	}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
     }
     
-    if(null==mobile || "".equals(mobile) || null==mobileLastDate) {
+    if(null==mobile || "".equals(mobile)) {
     	throw new UserMobileBindingLoginException((String)sharedState.get(LOGIN_NAME), String.format("[%s]'s mobile not set, need to set mobile.", (String)sharedState.get(LOGIN_NAME)));
     }
     
-    mobileLastDate.setTime(mobileLastDate.getTime() + personMobilePastDueTime);
-    if (mobileLastDate.compareTo(new Date()) <= 0) {
-      throw new UserMobileBindingLoginException((String)sharedState.get(LOGIN_NAME), String.format("[%s]'s mobile expired, need to change mobile.", (String)sharedState.get(LOGIN_NAME)));
+    if(checkMobileUpdateTime()) {
+    	if(mobileLastDate==null) {
+  	      throw new UserMobileBindingLoginException((String)sharedState.get(LOGIN_NAME), String.format("[%s]'s mobile expired, need to change mobile.", (String)sharedState.get(LOGIN_NAME)));
+    	}
+    	
+	    mobileLastDate.setTime(mobileLastDate.getTime() + personMobilePastDueTime);
+	    if (mobileLastDate.compareTo(new Date()) <= 0) {
+	      throw new UserMobileBindingLoginException((String)sharedState.get(LOGIN_NAME), String.format("[%s]'s mobile expired, need to change mobile.", (String)sharedState.get(LOGIN_NAME)));
+	    }
     }
     //mobileLastDate.setTime(mobileLastDate.getTime() - personMobilePastDueTime);
     
@@ -228,7 +237,8 @@ public class UserMobileBindingLdapLoginModule extends AbstractSpringLoginModule 
 	      String s = dateTimeStr;
 	      if (s.endsWith(".0Z")) {
 	        s = s.substring(0, s.length() - 3);
-	        s += "-0000";
+	        //s += "-0000";
+	        s += "Z";
 	      }
 	      return df.parse(s);
 	    } catch (ParseException e) {
@@ -242,6 +252,14 @@ public class UserMobileBindingLdapLoginModule extends AbstractSpringLoginModule 
    */
   private LdapTemplate getLdapTemplate() {
     return (LdapTemplate) this.applicationContext.getBean(ldapTemplateBeanName, LdapTemplate.class);
+  }
+  
+  private boolean checkMobileUpdateTime() {
+	  if(mobileUpdateAttrName!=null && !"".equals(mobileUpdateAttrName)) {
+		  return true;
+	  }
+	  
+	  return false;
   }
 
 }
