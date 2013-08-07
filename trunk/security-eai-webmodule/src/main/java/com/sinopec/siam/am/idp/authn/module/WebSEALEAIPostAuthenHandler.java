@@ -110,6 +110,13 @@ public class WebSEALEAIPostAuthenHandler implements PostAuthenticationCallback {
     SSOPrincipal principal = (SSOPrincipal) session.getAttribute(SSOPrincipal.NAME_OF_SESSION_ATTR);
     // Pass UID
     String userid = principal.getUid();
+    List<String> uidVs = principal.getValueAsList("uid");
+    if (uidVs != null && uidVs.size() > 0) {
+    	 String t = uidVs.get(0);
+    	 if ( t != null && t.trim().length() > 0) {
+    		 userid = t;
+    	 }
+    }
     if (log.isDebugEnabled()) {
       log.debug(String.format("Set EAI HTTP Header [%s=%s]", this.eaiUseridName, userid));
     }
