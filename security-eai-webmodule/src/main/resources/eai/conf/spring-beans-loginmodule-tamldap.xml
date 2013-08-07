@@ -648,7 +648,7 @@
               </bean>
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="mobileUpdateAttrName"></property>
-                <property name="value" value="mobileUpdateTime"></property>
+                <property name="value" value="SGMMobileTime"></property>
               </bean>
             </list>
           </property>
@@ -886,7 +886,7 @@
               </bean>
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="mobileUpdateAttrName"></property>
-                <property name="value" value="mobileUpdateTime"></property>
+                <property name="value" value="SGMMobileTime"></property>
               </bean>
             </list>
           </property>
