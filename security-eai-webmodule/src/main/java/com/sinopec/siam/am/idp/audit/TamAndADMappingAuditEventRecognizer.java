@@ -5,7 +5,7 @@ package com.sinopec.siam.am.idp.audit;
 
 import com.sinopec.siam.am.idp.authn.LoginContextEvent;
 import com.sinopec.siam.am.idp.authn.LoginModuleEvent;
-import com.sinopec.siam.am.idp.authn.module.tamldap.TamAndADMappingLoginModule;
+import com.sinopec.siam.am.idp.authn.module.TamMappingLoginModule;
 import com.sinopec.siam.audit.model.W7Event;
 
 /**
@@ -27,7 +27,7 @@ public class TamAndADMappingAuditEventRecognizer extends AbstractAuditEventRecog
   @Override
   protected boolean isAuditEvent(LoginModuleEvent event) {
     return event.getPhase().name().equals("LOGIN") 
-        && event.getLoginModuleEntry().getLoginModuleName().equals(TamAndADMappingLoginModule.class.getName());
+        && event.getLoginModuleEntry().getLoginModuleName().equals(TamMappingLoginModule.class.getName());
   }
 
   /* (non-Javadoc)
@@ -43,7 +43,7 @@ public class TamAndADMappingAuditEventRecognizer extends AbstractAuditEventRecog
    */
   @Override
   protected void completeAuditEvent(LoginModuleEvent event, W7Event w7Event) {
-    w7Event.getWhat().setVerb(readValue(TamAndADMappingLoginModule.class.getSimpleName()));
+    w7Event.getWhat().setVerb(readValue(TamMappingLoginModule.class.getSimpleName()));
   }
 
   /* (non-Javadoc)

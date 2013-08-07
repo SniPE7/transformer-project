@@ -177,3 +177,76 @@ function unloading() {
         $('#overlay').fadeOut();
     });*/
 }
+
+
+/***  工卡模块  ***/
+
+function checkCardDevice() {
+	var result = false;
+	
+	var badgeTool = document.getElementById("badgeTool");
+	if (badgeTool == "undifined")
+	{	
+		//没有安装读卡器控件,默认只支持用户名
+		//alert("未安装ActiveX控件。");
+		return false;
+	}
+
+	var hasDevice = badgeTool.HasDevice();
+	if(hasDevice) {
+		result = true; 
+	}
+	
+	return result;
+}
+
+function getCardUid() {
+	var result = "";
+	
+	var badgeTool = document.getElementById("badgeTool");
+	if (badgeTool == "undifined")
+	{
+		//alert("未安装ActiveX控件。");
+		return result;
+	}
+
+	var cardUid = "";	
+	var hasDevice = badgeTool.HasDevice();
+	if(hasDevice) {
+		cardUid = badgeTool.GetCardUID();
+		if (cardUid!=null && cardUid.length > 0) {
+			result = cardUid;
+		}
+	}
+	
+	return result;
+}
+
+
+//工卡读取定时器
+var cardTimer;
+
+function showCardModel(){
+	if(checkCardDevice()) {
+		//display tag card
+		$("#normal-label").hide();
+		$("#badge-label").show();
+		
+		cardTimer = setInterval("fillCardUid();", 1000);
+
+	} else {
+		//display only username
+		$("#badge-label").hide();
+		$("#normal-label").show();
+	}
+}
+
+function fillCardUid(){
+	var cardUid = getCardUid();
+	if (cardUid.length > 0) {
+		clearInterval(cardTimer);
+		
+		$("#j_username").val(cardUid);
+	}
+}
+
