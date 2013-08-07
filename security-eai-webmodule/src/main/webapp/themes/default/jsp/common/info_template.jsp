@@ -34,7 +34,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<h3>技术支持热线/Technical Support Hotline</h3>
 					<div class="desc">
 						<ol>
-							<li>电话/Phone：022-58581082</li>
+							<li>电话/Phone：021-12345678</li>
 							<li>邮箱/Email：admin@shanghaigm.com</li>
 						</ol>
 					</div>
