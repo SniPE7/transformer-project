@@ -21,7 +21,7 @@
 	                </div>
 	               	<div id="badge-label" style="display:none;"> <label for="ac_username">请将工卡插入读卡器 或 输入用户名</label>
 		               	<label for="ac_username" style="display: block; float: left;">Please place your badge over reader, Or enter your username</label> 
-		               	<div id="forgotbox" style="display: block; float: left;text-align:center"><a tabindex="6" href="#" class="forgotpass">注册工卡/Register My Badge?</a></div>
+		               	<div id="forgotbox" style="display: block; float: left;text-align:center"><a tabindex="6" href="./card/insert.do" class="forgotpass">注册工卡/Register My Badge?</a></div>
 	               	</div>
 					
 	               	<div style="clear:both; height:0;overflow:hidden;"></div>
