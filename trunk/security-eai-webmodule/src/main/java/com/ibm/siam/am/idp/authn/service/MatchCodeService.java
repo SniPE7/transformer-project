@@ -7,6 +7,6 @@ package com.ibm.siam.am.idp.authn.service;
  */
 public interface MatchCodeService {
   
-  public String getMatchCode(String cardUid);
+  public String getMatchCode(String cardUid) throws Exception;
   
 }

@@ -26,44 +26,38 @@ public class MatchCodeServiceImpl implements MatchCodeService {
 	@Qualifier("tcpConnectionPool")
 	private TcpConnectionPool tcpConnectionPool;
 
-	public String getMatchCode(String cardUid) {
+	public String getMatchCode(String cardUid) throws Exception {
+		log.debug("enter getMatchCode");
 		Socket socket = null;
 
 		try {
-			socket = new Socket("10.6.69.4", 10007);
-			
-//			tcpConnectionPool = new TcpConnectionPool();
-//			tcpConnectionPool.init();
-//			
-//			socket = tcpConnectionPool.getConnection();
-			
+			tcpConnectionPool.init();
+			socket = tcpConnectionPool.getConnection();
+
 			InputStream in = socket.getInputStream();
 			OutputStream out = socket.getOutputStream();
 
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			PrintWriter pw = new PrintWriter(out, true);
-
 			pw.println(cardUid);
 
 			String info = br.readLine();
-
-			socket.close();
-//			tcpConnectionPool.returnConnection(socket);
 
 			return info;
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			log.error(e.toString());
+			// throw e;
+			return null;
 		} finally {
+			if (socket != null) {
+				try {
+					tcpConnectionPool.returnConnection(socket);
+				} catch (Exception ex) {
+				}
+			}
+			log.debug("exit getMatchCode");
 		}
-
-		return null;
-	}
-
-	public static void main(String args[]) {
-		MatchCodeServiceImpl mc = new MatchCodeServiceImpl();
-		String matchCode = mc.getMatchCode("9E70DFCAFB");
-		System.out.println(matchCode);
 	}
 
 	public TcpConnectionPool getTcpConnectionPool() {
@@ -72,10 +66,6 @@ public class MatchCodeServiceImpl implements MatchCodeService {
 
 	public void setTcpConnectionPool(TcpConnectionPool tcpConnectionPool) {
 		this.tcpConnectionPool = tcpConnectionPool;
-	}
-
-	public Logger getLog() {
-		return log;
 	}
 
 }
