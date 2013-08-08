@@ -72,13 +72,13 @@ public class CommonLdapAuthLoginModule extends AbstractSpringLoginModule impleme
   private String[] returnAttributeNames = null;
 
   /** Whether ldap principal data should be set. */
-  private boolean setLdapPrincipal = true;
+  private boolean setLdapPrincipal = false;
 
   /** Whether credentials should be stored in the shared state map. */
   private boolean storePass;
 
   /** Whether ldap dn principal data should be set. */
-  private boolean setLdapDnPrincipal;
+  private boolean setLdapDnPrincipal = false;
 
   /**
    * Spring LDAP template bean name
@@ -297,7 +297,7 @@ public class CommonLdapAuthLoginModule extends AbstractSpringLoginModule impleme
 
   /** {@inheritDoc} */
   public void initialize(final Subject subject, final CallbackHandler callbackHandler, final Map<String, ?> sharedState, final Map<String, ?> options) {
-    this.setLdapPrincipal = true;
+    //this.setLdapPrincipal = true;
 
     super.initialize(subject, callbackHandler, sharedState, options);
 
