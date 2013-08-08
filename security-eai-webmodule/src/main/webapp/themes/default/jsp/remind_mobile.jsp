@@ -5,7 +5,7 @@
           <div id="msg" class="aui-message warning">
 		        <span class="aui-icon icon-warning"></span>
 		        <p>
-		          <spring:message code="regmobile.info.remind" arguments="${authnArguments}"/>
+		          <spring:message code="${authnErrorTip}" arguments="${authnArguments}"/>
 		        </p>
 		      </div>
           <div id="acloginpod">

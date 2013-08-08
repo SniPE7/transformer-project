@@ -152,7 +152,9 @@ public class UserMobileBindingLdapLoginModule extends AbstractSpringLoginModule 
 	      throw new LoginException(String.format("No authentication, username not found. username:%s ", username));
     } else {  	  
 		try {
-			mobile = dnAndAttrs.getAttributes().get(mobileAttrName).get(0);
+			if(null!=dnAndAttrs.getAttributes().get(mobileAttrName)) {
+				mobile = dnAndAttrs.getAttributes().get(mobileAttrName).get(0);
+			}
 			
 	    	if(checkMobileUpdateTime()) {
 				Attribute mobileUpdateAttr = dnAndAttrs.getAttributes().get(mobileUpdateAttrName);
@@ -167,17 +169,20 @@ public class UserMobileBindingLdapLoginModule extends AbstractSpringLoginModule 
     }
     
     if(null==mobile || "".equals(mobile)) {
-    	throw new UserMobileBindingLoginException((String)sharedState.get(LOGIN_NAME), String.format("[%s]'s mobile not set, need to set mobile.", (String)sharedState.get(LOGIN_NAME)));
+    	//throw new UserMobileBindingLoginException((String)sharedState.get(LOGIN_NAME), String.format("[%s]'s mobile not set, need to set mobile.", (String)sharedState.get(LOGIN_NAME)));
+    	throw new UserMobileBindingLoginException(username, "regmobile.info.remind.no", "",  String.format("[%s]'s mobile have not bind, need to bind mobile.", username));
     }
     
     if(checkMobileUpdateTime()) {
     	if(mobileLastDate==null) {
-  	      throw new UserMobileBindingLoginException((String)sharedState.get(LOGIN_NAME), String.format("[%s]'s mobile expired, need to change mobile.", (String)sharedState.get(LOGIN_NAME)));
+  	      //throw new UserMobileBindingLoginException((String)sharedState.get(LOGIN_NAME), String.format("[%s]'s mobile expired, need to change mobile.", (String)sharedState.get(LOGIN_NAME)));
+    		throw new UserMobileBindingLoginException(username, "regmobile.info.remind.expire",(String) mobile,  String.format("[%s]'s mobile expired, need to change mobile.", username));
     	}
     	
 	    mobileLastDate.setTime(mobileLastDate.getTime() + personMobilePastDueTime);
 	    if (mobileLastDate.compareTo(new Date()) <= 0) {
-	      throw new UserMobileBindingLoginException((String)sharedState.get(LOGIN_NAME), String.format("[%s]'s mobile expired, need to change mobile.", (String)sharedState.get(LOGIN_NAME)));
+	      //throw new UserMobileBindingLoginException((String)sharedState.get(LOGIN_NAME), String.format("[%s]'s mobile expired, need to change mobile.", (String)sharedState.get(LOGIN_NAME)));
+    		throw new UserMobileBindingLoginException(username, "regmobile.info.remind.expire",(String) mobile,  String.format("[%s]'s mobile expired, need to change mobile.", username));
 	    }
     }
     //mobileLastDate.setTime(mobileLastDate.getTime() - personMobilePastDueTime);
