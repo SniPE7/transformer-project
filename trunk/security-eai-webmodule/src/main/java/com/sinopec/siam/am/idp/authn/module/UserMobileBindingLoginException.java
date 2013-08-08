@@ -37,6 +37,13 @@ public class UserMobileBindingLoginException extends LoginException {
     this.loginErrorArgs = loginErrorArgs;
   }
   
+  public UserMobileBindingLoginException(String targetUsername, String loginErrorKey, String loginErrorArgs, String msg) {
+	    super(msg);
+	    this.loginErrorKey = loginErrorKey;
+	    this.loginErrorArgs = loginErrorArgs;
+	    this.username = targetUsername;
+	  }
+  
   /**
    * @param msg
    */

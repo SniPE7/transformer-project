@@ -72,9 +72,7 @@ import edu.internet2.middleware.shibboleth.idp.session.impl.ServiceInformationIm
 import edu.internet2.middleware.shibboleth.idp.session.impl.SessionImpl;
 import edu.internet2.middleware.shibboleth.idp.util.HttpServletHelper;
 import edu.vt.middleware.ldap.bean.LdapAttribute;
-import edu.vt.middleware.ldap.bean.LdapAttributes;
 import edu.vt.middleware.ldap.jaas.LdapPrincipal;
-import edu.vt.middleware.ldap.jaas.LdapRole;
 
 /** Manager responsible for handling authentication requests. */
 public class AuthenticationEngine extends HttpServlet {
@@ -200,7 +198,10 @@ public class AuthenticationEngine extends HttpServlet {
 			ProfileException profileException = new ProfileException(msg);
 			httpRequest.setAttribute(AbstractErrorHandler.ERROR_KEY, profileException);
 
-			forwardRequest("/error.do", httpRequest, httpResponse);
+			//forwardRequest("/error.do", httpRequest, httpResponse);
+			
+			forwardRequest("/SSOLogout", httpRequest, httpResponse);
+			
 			return;
 		}
 
@@ -240,7 +241,9 @@ public class AuthenticationEngine extends HttpServlet {
 			LOG.error(msg);
 			ProfileException profileException = new ProfileException(msg);
 			httpRequest.setAttribute(AbstractErrorHandler.ERROR_KEY, profileException);
-			forwardRequest("/error.do", httpRequest, httpResponse);
+			//forwardRequest("/error.do", httpRequest, httpResponse);
+			forwardRequest("/SSOLogout", httpRequest, httpResponse);
+			
 		} else {
 			forwardRequest(loginContext.getAuthenticationEngineURL(), httpRequest, httpResponse);
 		}
@@ -264,7 +267,9 @@ public class AuthenticationEngine extends HttpServlet {
 			LOG.error(msg);
 			ProfileException profileException = new ProfileException(msg);
 			httpRequest.setAttribute(AbstractErrorHandler.ERROR_KEY, profileException);
-			forwardRequest("/error.do", httpRequest, httpResponse);
+			//forwardRequest("/error.do", httpRequest, httpResponse);
+			forwardRequest("/SSOLogout", httpRequest, httpResponse);
+			
 			return;
 		}
 

@@ -357,6 +357,7 @@ public class CommonLdapAuthLoginModule extends AbstractSpringLoginModule impleme
       Exception authEx = null;
       Attributes attrs = null;
       String userDn = null;
+      String userUid = null;
       
       DnAndAttributes dnAndAttrs = this.searchUserDNByAccount(nameCb.getName());
       if (dnAndAttrs == null){
@@ -371,6 +372,8 @@ public class CommonLdapAuthLoginModule extends AbstractSpringLoginModule impleme
         userDn = dnAndAttrs.getDn();
         attrs = dnAndAttrs.getAttributes();
         ctx = getLdapTemplate().getContextSource().getReadOnlyContext();
+        
+        userUid = dnAndAttrs.getAttributes().get("uid").get(0).toString();
         
         try {
           checkPassword(ctx, userDn, nameCb.getName(), passCb.getPassword());
@@ -400,7 +403,7 @@ public class CommonLdapAuthLoginModule extends AbstractSpringLoginModule impleme
       } else {
         
         if (this.setLdapPrincipal) {
-          final LdapPrincipal lp = new LdapPrincipal(nameCb.getName());
+          final LdapPrincipal lp = new LdapPrincipal(userUid);
           if (attrs != null) {
             lp.getLdapAttributes().addAttributes(attrs);
           }
