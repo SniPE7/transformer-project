@@ -45,262 +45,266 @@ import edu.internet2.middleware.shibboleth.idp.authn.provider.UsernamePasswordCr
 
 public class TAMLoginServlet extends HttpServlet {
 
-  /**
-   * Http Session的Attribute name, 用于存放LoginContext shareState中用于在HttpSession层级共享的信息.
-   */
-  private static final String LOGIN_MODULE_SHARED_STATE_IN_SESSION = "__LOGIN_MODULE_SHARED_STATE";
+	/**
+	 * Http Session的Attribute name, 用于存放LoginContext shareState中用于在HttpSession层级共享的信息.
+	 */
+	private static final String LOGIN_MODULE_SHARED_STATE_IN_SESSION = "__LOGIN_MODULE_SHARED_STATE";
 
-  private static final long serialVersionUID = -4980199746586492039L;
+	private static final long serialVersionUID = -4980199746586492039L;
 
-  /** Class logger. */
-  private final Logger log = LoggerFactory.getLogger(TAMLoginServlet.class);
+	/** Class logger. */
+	private final Logger log = LoggerFactory.getLogger(TAMLoginServlet.class);
 
-  /** The authentication method returned to the authentication engine. */
-  private String authenticationMethod = "urn:oasis:names:tc:SAML:2.0:ac:classes:TAMUsernamePassword";
+	/** The authentication method returned to the authentication engine. */
+	private String authenticationMethod = "urn:oasis:names:tc:SAML:2.0:ac:classes:TAMUsernamePassword";
 
-  /** Name of JAAS configuration used to authenticate users. */
-  private String jaasConfigName = "TamLdapUserPassAuth";
+	/** Name of JAAS configuration used to authenticate users. */
+	private String jaasConfigName = "TamLdapUserPassAuth";
 
-  /**
-   * init-param which can be passed to the servlet to override the default JAAS
-   * config.
-   */
-  private final String jaasInitParam = "jaasConfigName";
+	/**
+	 * init-param which can be passed to the servlet to override the default JAAS
+	 * config.
+	 */
+	private final String jaasInitParam = "jaasConfigName";
 
-  /** Login page name. */
-  private String loginPage = "/login/tam/loginform.do";
+	/** Login page name. */
+	private String loginPage = "/login/tam/loginform.do";
 
-  /** Parameter name to indicate login failure. */
-  private String failureParam = "loginFailed";
+	/** Parameter name to indicate login failure. */
+	private String failureParam = "loginFailed";
 
-  /** {@inheritDoc} */
-  public void init(ServletConfig config) throws ServletException {
-    super.init(config);
+	/** {@inheritDoc} */
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
 
-    if (getInitParameter(jaasInitParam) != null) {
-      jaasConfigName = getInitParameter(jaasInitParam);
-    }
+		if (getInitParameter(jaasInitParam) != null) {
+			jaasConfigName = getInitParameter(jaasInitParam);
+		}
 
-    if (getInitParameter("loginPage") != null) {
-      loginPage = getInitParameter("loginPage");
-    }
+		if (getInitParameter("loginPage") != null) {
+			loginPage = getInitParameter("loginPage");
+		}
 
-    if (getInitParameter(failureParam) != null) {
-      failureParam = getInitParameter(failureParam);
-    }
+		if (getInitParameter(failureParam) != null) {
+			failureParam = getInitParameter(failureParam);
+		}
 
-    String method = config.getInitParameter(LoginHandler.AUTHENTICATION_METHOD_KEY);
-    if (method != null) {
-      authenticationMethod = method;
-    }
+		String method = config.getInitParameter(LoginHandler.AUTHENTICATION_METHOD_KEY);
+		if (method != null) {
+			authenticationMethod = method;
+		}
 
-  }
+	}
 
-  /** {@inheritDoc} */
-  protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    String username = request.getParameter("j_username");
-    String password = request.getParameter("j_password");
+	/** {@inheritDoc} */
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String username = request.getParameter("j_username");
+		String password = request.getParameter("j_password");
 
-    if (username == null) {
-      // 没有提交用户名, 转入登录表单页面
-      redirectToPage(request, response, loginPage);
-      return;
-    }
+		if (username == null) {
+			// 没有提交用户名, 转入登录表单页面
+			redirectToPage(request, response, loginPage);
+			return;
+		}
 
-    username = username.trim();
+		username = username.trim();
 
-    try {
-      authenticateUser(request, response, username, password);
-      //移动登录过程中临时使用的Session值
-      request.getSession(false).removeAttribute(Constants.KAPTCHA_SESSION_KEY);
-      request.getSession(false).removeAttribute(AbstractSpringLoginModule.PRINCIPAL_NAME_KEY);
-      request.getSession(false).removeAttribute(AbstractSpringLoginModule.PRINCIPAL_DN_KEY);
-      request.getSession(false).removeAttribute(AbstractSpringLoginModule.PRINCIPAL_PASSWORD_KEY);
-      request.getSession(false).removeAttribute(LoginHandler.PRINCIPAL_UPDATE_PASSWORD_SUCCESS_KEY);
-      
-      AuthenticationEngine.returnToAuthenticationEngine(this.getServletContext(), request, response);
-    } catch (PasswordReminderLoginException e) {
-      // 捕获异常，转移到口令即将过期的提醒页面
-      // 统一ID
-      request.setAttribute("j_username", e.getUsername());
-      // 登录ID
-      request.setAttribute("show_username", username);
-      request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, e.getLoginErrorKey());
-      request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, e.getLoginErrorArgs());
-      request.getSession(false).setAttribute(LoginHandler.PRINCIPAL_UPDATE_PASSWORD_SUCCESS_KEY, "true");
+		try {
+			authenticateUser(request, response, username, password);
+			// 移动登录过程中临时使用的Session值
+			request.getSession(false).removeAttribute(Constants.KAPTCHA_SESSION_KEY);
+			request.getSession(false).removeAttribute(AbstractSpringLoginModule.PRINCIPAL_NAME_KEY);
+			request.getSession(false).removeAttribute(AbstractSpringLoginModule.PRINCIPAL_DN_KEY);
+			request.getSession(false).removeAttribute(AbstractSpringLoginModule.PRINCIPAL_PASSWORD_KEY);
+			request.getSession(false).removeAttribute(LoginHandler.PRINCIPAL_UPDATE_PASSWORD_SUCCESS_KEY);
 
-      request.setAttribute("op", "remindpassword");
-      request.setAttribute("actionUrl", buildServletUrl(request));
-      redirectToPage(request, response, "/remind_password.do");
-    } catch (UserMobileBindingLoginException e) {
-        // 捕获异常，转移到修改手机号的提醒页面
-        // 统一ID
-        request.setAttribute("j_username", e.getUsername());
-        // 登录ID
-        request.setAttribute("show_username", username);
-        request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, e.getLoginErrorKey());
-        request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, e.getLoginErrorArgs());
-        request.getSession(false).setAttribute(LoginHandler.PRINCIPAL_UPDATE_MOBILE_SUCCESS_KEY, "true");
+			AuthenticationEngine.returnToAuthenticationEngine(this.getServletContext(), request, response);
+		} catch (PasswordReminderLoginException e) {
+			// 捕获异常，转移到口令即将过期的提醒页面
+			// 统一ID
+			request.setAttribute("j_username", e.getUsername());
+			// 登录ID
+			request.setAttribute("show_username", username);
+			request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, e.getLoginErrorKey());
+			request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, e.getLoginErrorArgs());
+			request.getSession(false).setAttribute(LoginHandler.PRINCIPAL_UPDATE_PASSWORD_SUCCESS_KEY, "true");
 
-        request.setAttribute("op", "modifymobile");
-        request.setAttribute("actionUrl", buildServletUrl(request));
-        redirectToPage(request, response, "/remind_mobile.do");
-     } catch (MissingPasswordHintLoginException e) {
-      request.setAttribute("j_username", e.getUsername());
-      request.setAttribute("hintQuestionCandidate", e.getQuestionCandidateAttributes());
-      request.setAttribute(LoginHandler.AUTHENTICATION_INFO_KEY, "passhint.form.info.hint.isNull");
+			request.setAttribute("op", "remindpassword");
+			request.setAttribute("actionUrl", buildServletUrl(request));
+			redirectToPage(request, response, "/remind_password.do");
+		} catch (UserMobileBindingLoginException e) {
+			// 捕获异常，转移到修改手机号的提醒页面
+			// 统一ID
+			request.setAttribute("j_username", e.getUsername());
+			// 登录ID
+			request.setAttribute("show_username", username);
+			request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, e.getLoginErrorKey());
+			request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, e.getLoginErrorArgs());
+			request.getSession(false).setAttribute(LoginHandler.PRINCIPAL_UPDATE_MOBILE_SUCCESS_KEY, "true");
 
-      request.setAttribute("op", "setPasswordHint");
-      request.setAttribute("actionUrl", buildServletUrl(request));
-      redirectToPage(request, response, "/set_password_hint.do");
-    } catch (UpdatePasswordHintLoginException e) {
-      request.setAttribute("j_username", e.getUsername());
-      request.setAttribute("hintQuestionCandidate", e.getQuestionCandidateAttributes());
-      request.setAttribute(LoginHandler.AUTHENTICATION_INFO_KEY, e.getLoginErrorKey());
+			request.setAttribute("op", "modifymobile");
+			request.setAttribute("actionUrl", buildServletUrl(request));
+			redirectToPage(request, response, "/remind_mobile.do");
+		} catch (MissingPasswordHintLoginException e) {
+			request.setAttribute("j_username", e.getUsername());
+			request.setAttribute("hintQuestionCandidate", e.getQuestionCandidateAttributes());
+			request.setAttribute(LoginHandler.AUTHENTICATION_INFO_KEY, "passhint.form.info.hint.isNull");
 
-      request.setAttribute("op", "setPasswordHint");
-      request.setAttribute("actionUrl", buildServletUrl(request));
-      redirectToPage(request, response, "/set_password_hint.do");
-    } catch (NeedChangePasswordLoginException e) {    
-      request.setAttribute("j_username", e.getUsername());
-      request.setAttribute("show_username", username);
-      request.setAttribute(LoginHandler.AUTHENTICATION_INFO_KEY, "modifyPass.info.userpass.reset");
+			request.setAttribute("op", "setPasswordHint");
+			request.setAttribute("actionUrl", buildServletUrl(request));
+			redirectToPage(request, response, "/set_password_hint.do");
+		} catch (UpdatePasswordHintLoginException e) {
+			request.setAttribute("j_username", e.getUsername());
+			request.setAttribute("hintQuestionCandidate", e.getQuestionCandidateAttributes());
+			request.setAttribute(LoginHandler.AUTHENTICATION_INFO_KEY, e.getLoginErrorKey());
 
-      request.setAttribute("op", "resetpasswordreset");
-      request.setAttribute("actionUrl", buildServletUrl(request));
-      redirectToPage(request, response, "/modify_password.do");
-    } catch (PasswordExpiredLoginException e) {    
-      request.setAttribute("j_username", e.getUsername());
-      request.setAttribute("show_username", username);
-      request.setAttribute(LoginHandler.AUTHENTICATION_INFO_KEY, "modifyPass.info.userpass.pastDue");
+			request.setAttribute("op", "setPasswordHint");
+			request.setAttribute("actionUrl", buildServletUrl(request));
+			redirectToPage(request, response, "/set_password_hint.do");
+		} catch (NeedChangePasswordLoginException e) {
+			request.setAttribute("j_username", e.getUsername());
+			request.setAttribute("show_username", username);
+			request.setAttribute(LoginHandler.AUTHENTICATION_INFO_KEY, "modifyPass.info.userpass.reset");
 
-      request.setAttribute("op", "resetpassword");
-      request.setAttribute("actionUrl", buildServletUrl(request));
-      redirectToPage(request, response, "/modify_password.do");
-    } catch (DetailLoginException e) {    
-      request.setAttribute("j_username", username);
-      request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, e.getLoginErrorKey());
-      request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, e.getLoginErrorArgs());
-      request.setAttribute(failureParam, "true");
-      redirectToPage(request, response, loginPage);
-    } catch (LoginException e) {
-      request.setAttribute("j_username", username);
-      request.setAttribute(failureParam, "true");
-      log.error(String.format("Authntication error : %s", e.getMessage()));
-      redirectToPage(request, response, loginPage);
-    }
-  }
+			request.setAttribute("op", "resetpasswordreset");
+			request.setAttribute("actionUrl", buildServletUrl(request));
+			redirectToPage(request, response, "/modify_password.do");
+		} catch (PasswordExpiredLoginException e) {
+			request.setAttribute("j_username", e.getUsername());
+			request.setAttribute("show_username", username);
+			request.setAttribute(LoginHandler.AUTHENTICATION_INFO_KEY, "modifyPass.info.userpass.pastDue");
 
-  /**
-   * 构建 Servlet 的Url。
-   * 
-   * @param request
-   * @return string url
-   */
-  private String buildServletUrl(HttpServletRequest request) {
-    StringBuilder actionUrlBuilder = new StringBuilder();
+			request.setAttribute("op", "resetpassword");
+			request.setAttribute("actionUrl", buildServletUrl(request));
+			redirectToPage(request, response, "/modify_password.do");
+		} catch (DetailLoginException e) {
+			request.setAttribute("j_username", username);
+			request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, e.getLoginErrorKey());
+			request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, e.getLoginErrorArgs());
+			request.setAttribute(failureParam, "true");
+			redirectToPage(request, response, loginPage);
+		} catch (LoginException e) {
+			request.setAttribute("j_username", username);
+			request.setAttribute(failureParam, "true");
+			log.error(String.format("Authntication error : %s", e.getMessage()));
+			redirectToPage(request, response, loginPage);
+		}
+	}
 
-    if (!"".equals(request.getContextPath())) {
-      actionUrlBuilder.append(request.getContextPath());
-    }
+	/**
+	 * 构建 Servlet 的Url。
+	 * 
+	 * @param request
+	 * @return string url
+	 */
+	private String buildServletUrl(HttpServletRequest request) {
+		StringBuilder actionUrlBuilder = new StringBuilder();
 
-    actionUrlBuilder.append(request.getServletPath());
-    return actionUrlBuilder.toString();
-  }
+		if (!"".equals(request.getContextPath())) {
+			actionUrlBuilder.append(request.getContextPath());
+		}
 
-  /**
-   * Sends the user to the page.
-   * 
-   * @param request
-   *          current request
-   * @param response
-   *          current response
-   * @param redirectUrl
-   *          redirectUrl
-   */
-  protected void redirectToPage(HttpServletRequest request, HttpServletResponse response, String redirectUrl) {
-    try {
-      request.getRequestDispatcher(redirectUrl).forward(request, response);
-      log.debug("Redirecting to page {}", redirectUrl);
-    } catch (IOException e) {
-      log.error("Unable to redirect to page.", e);
-    } catch (ServletException e) {
-      log.error("Unable to redirect to page.", e);
-    }
-  }
+		actionUrlBuilder.append(request.getServletPath());
+		return actionUrlBuilder.toString();
+	}
 
-  /**
-   * Authenticate a username and password against JAAS. If authentication
-   * succeeds the name of the first principal, or the username if that is empty,
-   * and the subject are placed into the request in their respective attributes.
-   * 
-   * @param request
-   *          current authentication request
-   * @param response
-   *          current authentication response
-   * @param username
-   *          the principal name of the user to be authenticated
-   * @param password
-   *          the password of the user to be authenticated
-   * @throws LoginException
-   *           thrown if there is a problem authenticating the user
-   */
-  protected void authenticateUser(HttpServletRequest request, HttpServletResponse response, String username, String password) throws LoginException {
-    log.debug("Attempting to authenticate user [{}]", username);
-    log.debug("Attempting to authenticate session [{}], code [{}]",request.getSession(false), request.getSession(false).getAttribute(Constants.KAPTCHA_SESSION_KEY));
+	/**
+	 * Sends the user to the page.
+	 * 
+	 * @param request
+	 *          current request
+	 * @param response
+	 *          current response
+	 * @param redirectUrl
+	 *          redirectUrl
+	 */
+	protected void redirectToPage(HttpServletRequest request, HttpServletResponse response, String redirectUrl) {
+		try {
+			request.getRequestDispatcher(redirectUrl).forward(request, response);
+			log.debug("Redirecting to page {}", redirectUrl);
+		} catch (IOException e) {
+			log.error("Unable to redirect to page.", e);
+		} catch (ServletException e) {
+			log.error("Unable to redirect to page.", e);
+		}
+	}
 
-    TAMCallbackHandler cbh = new TAMCallbackHandler(username, password, request);
+	/**
+	 * Authenticate a username and password against JAAS. If authentication
+	 * succeeds the name of the first principal, or the username if that is empty,
+	 * and the subject are placed into the request in their respective attributes.
+	 * 
+	 * @param request
+	 *          current authentication request
+	 * @param response
+	 *          current authentication response
+	 * @param username
+	 *          the principal name of the user to be authenticated
+	 * @param password
+	 *          the password of the user to be authenticated
+	 * @throws LoginException
+	 *           thrown if there is a problem authenticating the user
+	 */
+	protected void authenticateUser(HttpServletRequest request, HttpServletResponse response, String username, String password) throws LoginException {
+		log.debug("Attempting to authenticate user [{}]", username);
+		if (request.getSession(false) != null) {
+			if (log.isDebugEnabled()) {
+				log.debug("Attempting to authenticate session [{}], code [{}]", request.getSession(false), request.getSession(false).getAttribute(Constants.KAPTCHA_SESSION_KEY));
+			}
+		}
 
-    // Get Spring Bean Factory
-    ApplicationContext appContext = ContextLoader.getCurrentWebApplicationContext();
-    LoginContextManager loginContextManager = appContext.getBean("loginContextManager", LoginContextManager.class);
-    // 构造一个LoginContext的shareState对象，并从HttpSession中恢复需要共享的信息
-    Map<?, ?> shareState = getLoginModuleShareState(request);
-    LoginContext jaasLoginCtx = loginContextManager.getLoginContext(jaasConfigName, null, cbh, shareState);
-    try {
-      jaasLoginCtx.login();
-      log.debug("Successfully authenticated user {}", username);
+		TAMCallbackHandler cbh = new TAMCallbackHandler(username, password, request);
 
-      Subject loginSubject = jaasLoginCtx.getSubject();
-      Set<Principal> principals = loginSubject.getPrincipals();
+		// Get Spring Bean Factory
+		ApplicationContext appContext = ContextLoader.getCurrentWebApplicationContext();
+		LoginContextManager loginContextManager = appContext.getBean("loginContextManager", LoginContextManager.class);
+		// 构造一个LoginContext的shareState对象，并从HttpSession中恢复需要共享的信息
+		Map<?, ?> shareState = getLoginModuleShareState(request);
+		LoginContext jaasLoginCtx = loginContextManager.getLoginContext(jaasConfigName, null, cbh, shareState);
+		try {
+			jaasLoginCtx.login();
+			log.debug("Successfully authenticated user {}", username);
 
-      Set<Object> publicCredentials = loginSubject.getPublicCredentials();
+			Subject loginSubject = jaasLoginCtx.getSubject();
+			Set<Principal> principals = loginSubject.getPrincipals();
 
-      Set<Object> privateCredentials = loginSubject.getPrivateCredentials();
-      privateCredentials.add(new UsernamePasswordCredential(username, password));
+			Set<Object> publicCredentials = loginSubject.getPublicCredentials();
 
-      Subject userSubject = new Subject(false, principals, publicCredentials, privateCredentials);
-      request.setAttribute(LoginHandler.SUBJECT_KEY, userSubject);
-      request.setAttribute(LoginHandler.AUTHENTICATION_METHOD_KEY, authenticationMethod);
-      request.getSession(true).removeAttribute(Constants.KAPTCHA_SESSION_KEY);
-      // 清除在HttpSession中保存的LoginContext session级的共享状态
-      request.getSession(true).removeAttribute(LOGIN_MODULE_SHARED_STATE_IN_SESSION);
-    } catch (LoginException e) {
-      // LoginContext调用完成, 检查其shareState是否有需要在HttpSession层级共享的状态, 若有则更新到HttpSession中
-      updateShareState(request, shareState);
-      throw e;
-    }
-  }
+			Set<Object> privateCredentials = loginSubject.getPrivateCredentials();
+			privateCredentials.add(new UsernamePasswordCredential(username, password));
 
-  /**
-   * @param request
-   * @param shareState
-   */
-  private void updateShareState(HttpServletRequest request, Map<?, ?> shareState) {
-    Map<?, ?> sessionState = AbstractSpringLoginModule.getAllSessionLevelState(shareState);
-    request.getSession(true).setAttribute(LOGIN_MODULE_SHARED_STATE_IN_SESSION, sessionState);
-  }
+			Subject userSubject = new Subject(false, principals, publicCredentials, privateCredentials);
+			request.setAttribute(LoginHandler.SUBJECT_KEY, userSubject);
+			request.setAttribute(LoginHandler.AUTHENTICATION_METHOD_KEY, authenticationMethod);
+			request.getSession(true).removeAttribute(Constants.KAPTCHA_SESSION_KEY);
+			// 清除在HttpSession中保存的LoginContext session级的共享状态
+			request.getSession(true).removeAttribute(LOGIN_MODULE_SHARED_STATE_IN_SESSION);
+		} catch (LoginException e) {
+			// LoginContext调用完成, 检查其shareState是否有需要在HttpSession层级共享的状态, 若有则更新到HttpSession中
+			updateShareState(request, shareState);
+			throw e;
+		}
+	}
 
-  /**
-   * @param request
-   * @return
-   */
-  private Map<?, ?> getLoginModuleShareState(HttpServletRequest request) {
-    Map<?, ?> shareState =  new HashMap<String, Object>();
-    Map<?, ?> sessionState = (Map<?, ?>) request.getSession(true).getAttribute(LOGIN_MODULE_SHARED_STATE_IN_SESSION);
-    if (sessionState != null && !sessionState.isEmpty()) {
-      AbstractSpringLoginModule.setAllSessionLevelState(shareState, sessionState);
-    }
-    return shareState;
-  }
+	/**
+	 * @param request
+	 * @param shareState
+	 */
+	private void updateShareState(HttpServletRequest request, Map<?, ?> shareState) {
+		Map<?, ?> sessionState = AbstractSpringLoginModule.getAllSessionLevelState(shareState);
+		request.getSession(true).setAttribute(LOGIN_MODULE_SHARED_STATE_IN_SESSION, sessionState);
+	}
+
+	/**
+	 * @param request
+	 * @return
+	 */
+	private Map<?, ?> getLoginModuleShareState(HttpServletRequest request) {
+		Map<?, ?> shareState = new HashMap<String, Object>();
+		Map<?, ?> sessionState = (Map<?, ?>) request.getSession(true).getAttribute(LOGIN_MODULE_SHARED_STATE_IN_SESSION);
+		if (sessionState != null && !sessionState.isEmpty()) {
+			AbstractSpringLoginModule.setAllSessionLevelState(shareState, sessionState);
+		}
+		return shareState;
+	}
 }
