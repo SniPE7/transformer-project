@@ -270,6 +270,11 @@
                 <property name="name" value="checkSMS"></property>
                 <property name="value" value="true"></property>
               </bean>
+              <!-- Define login user return attribute name -->
+				<bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+					<property name="name" value="returnAttributeNames"></property>
+					<property name="value" value="${eai.loginmodule.login.returnAttributeNames}"></property>
+				</bean>
             </list>
           </property>
         </bean>
@@ -497,6 +502,11 @@
                 <property name="name" value="checkSMS"></property>
                 <property name="value" value="true"></property>
               </bean>
+              <!-- Define login user return attribute name -->
+				<bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+					<property name="name" value="returnAttributeNames"></property>
+					<property name="value" value="${eai.loginmodule.login.returnAttributeNames}"></property>
+				</bean>
             </list>
           </property>
         </bean>
@@ -756,6 +766,11 @@
                 <property name="name" value="checkSMS"></property>
                 <property name="value" value="false"></property>
               </bean>
+              <!-- Define login user return attribute name -->
+				<bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+					<property name="name" value="returnAttributeNames"></property>
+					<property name="value" value="${eai.loginmodule.login.returnAttributeNames}"></property>
+				</bean>
             </list>
           </property>
         </bean>

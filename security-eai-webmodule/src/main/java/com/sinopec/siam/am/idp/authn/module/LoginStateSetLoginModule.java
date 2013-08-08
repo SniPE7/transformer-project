@@ -18,6 +18,7 @@ import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.auth.login.LoginException;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -28,6 +29,9 @@ import org.springframework.ldap.core.support.AbstractContextMapper;
 import com.sinopec.siam.am.idp.authn.module.CommonLdapAuthLoginModule.DnAndAttributes;
 import com.sinopec.siam.am.idp.authn.principal.UserPrincipal;
 import com.sinopec.siam.am.idp.authn.provider.FormOperationCallback;
+
+import edu.vt.middleware.ldap.jaas.LdapDnPrincipal;
+import edu.vt.middleware.ldap.jaas.LdapPrincipal;
 
 /**
  * SMS Code 模式下设置用户登录，从而可以获取 ldap属性信息 LoginModule
@@ -54,6 +58,13 @@ public class LoginStateSetLoginModule extends AbstractSpringLoginModule {
 	   */
 	  private String baseDn = "";
 	  
+	  private String[] returnAttributeNames = null;
+
+	  /**
+	   * true --- Subtree scope for searching user
+	   */
+	  private Boolean subTree = true;
+	  
 	  /**
 	   * checkSMS
 	   */
@@ -62,7 +73,11 @@ public class LoginStateSetLoginModule extends AbstractSpringLoginModule {
 	  /** 登录操作的标识 */
 	  private String loginOptFlag = "login";
 
-	  
+	  /** Whether ldap principal data should be set. */
+	  private boolean setLdapPrincipal = true;
+
+	  /** Whether ldap dn principal data should be set. */
+	  private boolean setLdapDnPrincipal = false;
 
 	  /** {@inheritDoc} */
 	  @SuppressWarnings("unchecked")
@@ -105,16 +120,40 @@ public class LoginStateSetLoginModule extends AbstractSpringLoginModule {
 			      throw new LoginException(String.format("No authentication, session username is null or unequal usernmae. username:%s, sessionUsername:%s", username, username));
 			    }
 		    }
+		    
+		  //设置共享用户信息
+    	  String loginName = username;
+          Attributes attrs = null;
+          String userDn = null;
 	    
 	      DnAndAttributes dnAndAttrs = this.searchUserDNByAccount(username);
 	      if (dnAndAttrs == null){
 	    	  log.warn(String.format("No authentication, username not found. username:%s ", username));
 		      throw new LoginException(String.format("No authentication, username not found. username:%s ", username));
 	      } else {
-		    	//设置共享用户信息
-	    	  String loginName = username;
+	    	  
 			try {
+				userDn = dnAndAttrs.getDn();
+		        attrs = dnAndAttrs.getAttributes();
 				loginName = dnAndAttrs.getAttributes().get("uid").get(0).toString();
+				
+				if (this.setLdapPrincipal) {
+		          final LdapPrincipal lp = new LdapPrincipal(loginName);
+		          if (attrs != null) {
+		            lp.getLdapAttributes().addAttributes(attrs);
+		          }
+		     	  this.principals.add(lp);
+		          this.setSessionLevelState("SUBJECT.PRICIPAL.LDAPPRINCIPAL", lp);
+		        }
+
+		        if (userDn != null && this.setLdapDnPrincipal) {
+		          final LdapDnPrincipal lp = new LdapDnPrincipal(userDn);
+		          if (attrs != null) {
+		            lp.getLdapAttributes().addAttributes(attrs);
+		          }
+		          this.principals.add(lp);
+		        }
+				
 			} catch (NamingException e) {
 				e.printStackTrace();
 			}
@@ -126,10 +165,10 @@ public class LoginStateSetLoginModule extends AbstractSpringLoginModule {
 	    
 	    
 	    // 用户校验，通过LADP查询捆绑人员uid信息，存储Subject
-	    UserPrincipal principal = new UserPrincipal();
-	    principal.setName(username);
+	   /* UserPrincipal principal = new UserPrincipal();
+	    principal.setName(loginName);
 	
-	    principals.add(principal);
+	    principals.add(principal);*/
 	
 	    authenticated = true;
 	    return true;
@@ -156,14 +195,14 @@ public class LoginStateSetLoginModule extends AbstractSpringLoginModule {
 	        logger.debug(String.format("Search user DN by filter [%s], base [%s]", filter, baseDn));
 	      }
 	      SearchControls controls = new SearchControls();
-	      controls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+	      //controls.setSearchScope(SearchControls.SUBTREE_SCOPE);
 	      
-	      /*controls.setReturningAttributes(this.returnAttributeNames);
+	      controls.setReturningAttributes(this.returnAttributeNames);
 	      if (this.subTree) {
 	         controls.setSearchScope(SearchControls.SUBTREE_SCOPE);
 	      } else {
 	        controls.setSearchScope(SearchControls.ONELEVEL_SCOPE);
-	      }*/
+	      }
 	      
 	      List<DnAndAttributes> result = (List<DnAndAttributes>)this.getLdapTemplate().search(baseDn, filter, controls, new AbstractContextMapper() {
 	
@@ -205,6 +244,10 @@ public class LoginStateSetLoginModule extends AbstractSpringLoginModule {
 	      final String value = (String) options.get(key);
 	      if (key.equalsIgnoreCase("userFilter")) {
 	        this.userFilter = value;
+	      } else if (key.equalsIgnoreCase("subTree")) {
+	          this.subTree  = Boolean.valueOf(value);
+	      } else if (key.equalsIgnoreCase("returnAttributeNames")) {
+	        this.returnAttributeNames = StringUtils.split(value, ',');
 	      } else if (key.equalsIgnoreCase("ldapTemplateBeanName")) {
 	        this.ldapTemplateBeanName = value;
 	      } else if (key.equalsIgnoreCase("baseDn")) {
@@ -213,7 +256,11 @@ public class LoginStateSetLoginModule extends AbstractSpringLoginModule {
 		        this.checkSMS = Boolean.parseBoolean(value);
 		  } else if (key.equalsIgnoreCase("loginOptFlag")) {
 			    this.loginOptFlag = value;
-		  } 
+		  } else if (key.equalsIgnoreCase("setLdapPrincipal")) {
+		        this.setLdapPrincipal = Boolean.valueOf(value);
+	      } else if (key.equalsIgnoreCase("setLdapDnPrincipal")) {
+	        this.setLdapDnPrincipal = Boolean.valueOf(value);
+	      }
 	    }
 
 	    this.principals = new TreeSet<Principal>();
