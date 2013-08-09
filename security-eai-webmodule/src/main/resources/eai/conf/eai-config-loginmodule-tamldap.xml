@@ -43,9 +43,11 @@
   <entry key="eai.loginmodule.usermobile.pastDue.time">2592000000</entry>
   
   <!--  用户查询过滤器 -->
-  <entry key="eai.loginmodule.user.search.filter">(&amp;(|(uid={0})(SGMBadgeUID={0}))(objectclass=inetOrgPerson))</entry>
+  <entry key="eai.loginmodule.user.search.filter">(&amp;(|(uid={0})(SGMBadgeUID={0})(SGMBadgeCode={0}))(objectclass=inetOrgPerson))</entry>
   <!--  根据身份证号查询用户过滤器 -->
   <entry key="eai.loginmodule.user.search.idcardfilter">(|(SGMCertID={0})(SGMCertID={1}))</entry>
+  <!--  根据MATCHCode查询用户过滤器 -->
+  <entry key="eai.loginmodule.user.search.matchcodefilter">(&amp;(|(uid={0})(SGMBadgeCode={0}))(objectclass=inetOrgPerson))</entry>
   <!--  用户的手机号属性名称 -->
   <entry key="eai.loginmodule.user.search.mobileattrname">mobile</entry>
   <!--  用户的手机号修改时间属性名称 SGMMobileTime -->
