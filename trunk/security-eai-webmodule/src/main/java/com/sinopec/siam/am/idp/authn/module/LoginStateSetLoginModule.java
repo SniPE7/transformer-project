@@ -188,7 +188,21 @@ public class LoginStateSetLoginModule extends AbstractSpringLoginModule {
 	   * @return
 	   */
 	  private DnAndAttributes searchUserDNByAccount(String userName) {
-	    String filter = MessageFormat.format(this.userFilter, userName);
+	  	String filter = null;
+	  			
+	  	String matchCode = (String)this.sharedState.get(SGMMatchCodeAuthLoginModule.LOGIN_MATCHCODE);
+	  	if (matchCode != null && matchCode.trim().length() > 0) {
+	  		 // 支持通过MatchCode来查询用户
+	  		 filter = MessageFormat.format(this.userFilter, matchCode);
+	  		 if (log.isDebugEnabled()) {
+	  			  log.debug(String.format("search user by MATCHCode, filter: [%s]", filter));
+	  		 }
+	  	} else {  	
+	  		filter = MessageFormat.format(this.userFilter, userName);
+  		  if (log.isDebugEnabled()) {
+  			  log.debug(String.format("search user by username or cardID, filter: [%s]", filter));
+	 		  }
+	  	}
 	
 	    try {
 	      if (logger.isDebugEnabled()) {
