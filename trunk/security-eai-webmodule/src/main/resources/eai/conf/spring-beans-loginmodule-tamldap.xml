@@ -110,7 +110,7 @@
   </bean>
 
   <!-- ========================================================================================================= -->
-  <!-- TIM User Pass Service -->
+  <!-- TAM User Pass Service -->
   <!-- ========================================================================================================= -->
   <bean id="timUserPassService" class="com.sinopec.siam.am.idp.authn.service.TamUserPassServiceImpl">
     <property name="ldapTemplate" ref="tamLdapTemplate"></property>
@@ -126,20 +126,35 @@
     <property name="userOwnerLdapAttribute" value="${eai.loginmodule.tim.ldap.userOwnerLdapAttribute}"></property>
   </bean>
   
-  <!-- ========================================================================================================= -->
-  <!-- TIM Person Service -->
-  <!-- ========================================================================================================= -->
-  <bean id="personService" class="com.sinopec.siam.am.idp.authn.service.TimPersonService">
-    <property name="ldapTemplate" ref="timLdapTemplate"></property>
-    <property name="ldapUserBaseDN" value="${eai.tim.ldap.userBaseDN}"></property>
-    <property name="userNameLdapAttribute" value="${eai.loginmodule.tim.ldap.userNameAttribute}"></property>
-    <property name="timSoapEndpoint" value="${eai.tim.api.soapEndpoint}"></property>
-    <property name="itimManager" value="${eai.itim.manager.principal}"></property>
-    <property name="itimManagerPwd" value="${eai.itim.manager.credentials}"></property>
-    <property name="notifyByMail" value="false"></property>
-    <property name="userOwnerLdapAttribute" value="${eai.loginmodule.tim.ldap.userOwnerLdapAttribute}"></property>
+  <bean id="personService" class="com.sinopec.siam.am.idp.authn.service.ComboPersonService">
+    <property name="timPersonService">
+      <!-- ========================================================================================================= -->
+      <!-- TIM Person Service -->
+      <!-- ========================================================================================================= -->
+      <bean class="com.sinopec.siam.am.idp.authn.service.TimPersonService">
+        <property name="ldapTemplate" ref="timLdapTemplate"></property>
+        <property name="ldapUserBaseDN" value="${eai.tim.ldap.userBaseDN}"></property>
+        <property name="userNameLdapAttribute" value="${eai.loginmodule.tim.ldap.userNameAttribute}"></property>
+        <property name="timSoapEndpoint" value="${eai.tim.api.soapEndpoint}"></property>
+        <property name="itimManager" value="${eai.itim.manager.principal}"></property>
+        <property name="itimManagerPwd" value="${eai.itim.manager.credentials}"></property>
+        <property name="notifyByMail" value="false"></property>
+        <property name="userOwnerLdapAttribute" value="${eai.loginmodule.tim.ldap.userOwnerLdapAttribute}"></property>
+      </bean>
+    </property>
+    <property name="tamPersonService">
+      <!-- ========================================================================================================= -->
+      <!-- TAM Person Service -->
+      <!-- ========================================================================================================= -->
+      <bean class="com.sinopec.siam.am.idp.authn.service.TamPersonService">
+        <property name="ldapTemplate" ref="tamLdapTemplate"></property>
+        <property name="ldapUserBaseDN" value="${eai.tam.ldap.user.baseDn}"></property>
+        <property name="ldapSecurityUserBaseDN" value="${eai.tam.ldap.secauthority.baseDN}"></property>
+        <property name="ldapSecurityUserNameAttr" value="${eai.tam.ldap.secauthority.userNameAttr}"></property>
+      </bean>
+    </property>
   </bean>
-
+  
   <!-- ========================================================================================================= -->
   <!-- TAM Local User Lock Service -->
   <!-- ========================================================================================================= -->
