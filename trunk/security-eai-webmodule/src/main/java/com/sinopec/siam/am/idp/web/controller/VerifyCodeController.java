@@ -70,6 +70,7 @@ public class VerifyCodeController extends BaseController {
 		
 		String userid = request.getParameter("j_username");
 		String checkcode = request.getParameter("j_checkcode");
+		mobile = request.getParameter("j_mobile");
 		
 		HttpSession session = request.getSession(false);
 		if(null==session || !checkcode.equalsIgnoreCase((String) session.getAttribute(Constants.KAPTCHA_SESSION_KEY))) {
@@ -92,7 +93,10 @@ public class VerifyCodeController extends BaseController {
 			msg = String.format("Find more than one user by filter,filter:%s.", filter);
 			log.info(msg);
 		} else {
-			mobile = ldapUserEntitys.get(0).getValueAsString(userMobileAttribute);
+			if(mobile==null || "".equals(mobile)) {
+				mobile = ldapUserEntitys.get(0).getValueAsString(userMobileAttribute);
+			}
+			
 			displayName = ldapUserEntitys.get(0).getValueAsString(displayNameAttribute);
 			username = ldapUserEntitys.get(0).getUid();
 			// if null to display error info
