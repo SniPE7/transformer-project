@@ -54,51 +54,51 @@ public class CommonLdapAuthLoginModule extends AbstractSpringLoginModule impleme
   private static Log logger = LogFactory.getLog(CommonLdapAuthLoginModule.class);
   
   /** ��¼��֤Դֵ */
-  private String authnSource = "SIAM";
+  protected String authnSource = "SIAM";
 
   /**
    * Filter to find user
    */
-  private String userFilter = "(&(uid={0})(objectclass=inetOrgPerson))";
+  protected String userFilter = "(&(uid={0})(objectclass=inetOrgPerson))";
 
   /**
    * Filter to compare password
    */
-  private String passwordFilter = "(userpassword={0})";
+  protected String passwordFilter = "(userpassword={0})";
   
   /**
    * Set returned attributes
    */
-  private String[] returnAttributeNames = null;
+  protected String[] returnAttributeNames = null;
 
   /** Whether ldap principal data should be set. */
-  private boolean setLdapPrincipal = false;
+  protected boolean setLdapPrincipal = false;
 
   /** Whether credentials should be stored in the shared state map. */
-  private boolean storePass;
+  protected boolean storePass;
 
   /** Whether ldap dn principal data should be set. */
-  private boolean setLdapDnPrincipal = false;
+  protected boolean setLdapDnPrincipal = false;
 
   /**
    * Spring LDAP template bean name
    */
-  private String ldapTemplateBeanName = "tamLdapTemplate";
+  protected String ldapTemplateBeanName = "tamLdapTemplate";
   
   /**
    * �Ƿ�ʹ��bindģʽ
    */
-  private boolean bindMode = false;
+  protected boolean bindMode = false;
   
   /**
    * LDAP baseDN
    */
-  private String baseDn = "";
+  protected String baseDn = "";
 
   /**
    * true --- Subtree scope for searching user
    */
-  private Boolean subTree = true;
+  protected Boolean subTree = true;
 
   public static class DnAndAttributes {
     private String dn = null;
@@ -187,7 +187,7 @@ public class CommonLdapAuthLoginModule extends AbstractSpringLoginModule impleme
   /**
    * @return
    */
-  private LdapTemplate getLdapTemplate() {
+  protected LdapTemplate getLdapTemplate() {
     return (LdapTemplate) this.applicationContext.getBean(ldapTemplateBeanName, LdapTemplate.class);
   }
 
