@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+
+<object id="badgeTool" style="display:none" classid="clsid:395E6CF3-3084-487D-9606-EDAA8B2C4E3C" codebase='/eaiweb/control/BadgeTool.cab#version=1,0,0,0'></object>
+
 	      <div id="content" class="conten-login">
 	        <div class="aui-message error invisible" id="errorDivMsg">
             <!-- shown with class="aui-message error" -->
@@ -20,7 +23,6 @@
 	                	<label for="ac_username"><spring:message code="logon.form.username" /></label>
 	                </div>
 	               	<div id="badge-label" style="display:none;"> <label for="ac_username">请将工卡插入读卡器 或 输入用户名</label>
-	               		<object id="badgeTool" style="display:none" classid="clsid:395E6CF3-3084-487D-9606-EDAA8B2C4E3C"></object>
 		               	<label for="ac_username" style="display: block; float: left;">Please place your badge over reader, Or enter your username</label> 
 		               	<div id="forgotbox" style="display: block; float: left;text-align:center"><a tabindex="9" href="./card/insert.do" class="forgotpass">注册工卡/Register My Badge?</a></div>
 	               	</div>
@@ -68,9 +70,7 @@
 	          </div><!-- End of #acloginpanel -->
 	        </div><!-- End of #acloginpod -->
 	      </div><!-- End of #content -->
-	      
-	      <object id="badgeTool" style="display:none" classid="clsid:395E6CF3-3084-487D-9606-EDAA8B2C4E3C"></object>
-	      
+	      	      
 	      <script>setMsg('info','<spring:message code="login.form.error.title.tam" />');</script>
 	      <script type="text/javascript">
 		        //更新图形验证码
