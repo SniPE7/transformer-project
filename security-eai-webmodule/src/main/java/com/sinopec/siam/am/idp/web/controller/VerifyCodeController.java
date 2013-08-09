@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.code.kaptcha.Constants;
+import com.ibm.siam.am.idp.authn.service.MatchCodeService;
 import com.sinopec.siam.am.idp.authn.service.UserService;
 import com.sinopec.siam.am.idp.authn.util.dyncpwd.DyncUtil;
 import com.sinopec.siam.am.idp.entity.LdapUserEntity;
@@ -39,6 +40,9 @@ public class VerifyCodeController extends BaseController {
 	@Autowired
 	@Qualifier("tamLdapUserService")
 	private UserService userService;
+	
+	@Autowired
+	private MatchCodeService matchCodeService;
 	
 	@Autowired
 	private SpringSMSClient smsClient;
@@ -84,9 +88,27 @@ public class VerifyCodeController extends BaseController {
 
 		// get mobileno from ldap by userid or badgeid
 		String filter = MessageFormat.format(smsFilter, userid);
-
 		List<LdapUserEntity> ldapUserEntitys = userService.searchByFilter(filter);
-		if (ldapUserEntitys.size() == 0) {
+		
+		// 支持通过MatchCode来查询用户
+		if (ldapUserEntitys==null || ldapUserEntitys.size() == 0) {
+			String cardUID = userid;
+			try {
+				String cardMatchCode = matchCodeService.getMatchCode(cardUID);
+				
+				filter = MessageFormat.format(smsFilter, cardMatchCode);
+				ldapUserEntitys = userService.searchByFilter(filter);
+				
+			} catch (Exception e) {
+				if (log.isDebugEnabled()) {
+					log.debug(String.format("Search user DN exception", e.getMessage()));
+				}
+			}
+		}
+		
+		
+		
+		if (ldapUserEntitys==null || ldapUserEntitys.size() == 0) {
 			msg = String.format("Username not exists, filter: %s.", filter);
 			log.info(msg);
 		} else if (ldapUserEntitys.size() > 1) {
