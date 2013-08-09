@@ -112,12 +112,13 @@
   <!-- ========================================================================================================= -->
   <!-- TIM User Pass Service -->
   <!-- ========================================================================================================= -->
-  <bean id="timUserPassService" class="com.sinopec.siam.am.idp.authn.service.TimLdapUserPassServiceImpl">
-    <property name="ldapTemplate" ref="timLdapTemplate"></property>
-    <property name="ldapUserBaseDN" value="${eai.tim.ldap.userBaseDN}"></property>
-    <property name="userNameLdapAttribute" value="${eai.loginmodule.tim.ldap.userNameAttribute}"></property>
-    <property name="userPassLastChangedLdapAttribute" value="${eai.loginmodule.tim.ldap.userPassLastChangedAttribute}"></property>
-    <property name="userPassResetStateLdapAttribute" value="${eai.loginmodule.tim.ldap.userPassResetStateLdapAttribute}"></property>
+  <bean id="timUserPassService" class="com.sinopec.siam.am.idp.authn.service.TamUserPassServiceImpl">
+    <property name="ldapTemplate" ref="tamLdapTemplate"></property>
+    <property name="ldapUserBaseDN" value="${eai.tam.ldap.secauthority.baseDN}"></property>
+    <property name="userNameLdapAttribute" value="${eai.tam.ldap.secauthority.userNameAttr}"></property>
+    <property name="userPassLastChangedLdapAttribute" value="secPwdLastChanged"></property>
+    <property name="userPassResetStateLdapAttribute" value="secPwdValid"></property>
+    
     <property name="timSoapEndpoint" value="${eai.tim.api.soapEndpoint}"></property>
     <property name="itimManager" value="${eai.itim.manager.principal}"></property>
     <property name="itimManagerPwd" value="${eai.itim.manager.credentials}"></property>
@@ -339,7 +340,7 @@
         </bean>
         <!-- User Pass Past Due Login Module -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.UserPassPastDueLdapLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.UserPassPastDueLdapLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -572,7 +573,7 @@
         </bean>
         <!-- User Pass Past Due Login Module -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.UserPassPastDueLdapLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.UserPassPastDueLdapLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -822,7 +823,7 @@
         </bean>
         <!-- User Pass Past Due Login Module -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.UserPassPastDueLdapLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.UserPassPastDueLdapLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
