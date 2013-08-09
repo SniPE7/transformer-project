@@ -116,7 +116,7 @@ public class TimPersonService implements PersonService {
 
 	public void updatePerson(String username, Map<String, String> attrs) throws PersonNotFoundException, MultiplePersonFoundException, PersonServiceException {
 		if (log.isDebugEnabled()) {
-			log.debug("Update User Pass by username [{}]", username);
+			log.debug("Update User by username [{}], attrs[{}]", username, attrs);
 		}
 
 		List<LdapUserEntity> result = getUserByUsername(username);
@@ -144,7 +144,11 @@ public class TimPersonService implements PersonService {
 				wsAttrs.add(wsAttr);
 			} 
 			
-			wsItimService.modifyPerson(wsSession, userEntity.getValueAsString(userOwnerLdapAttribute), wsAttrs.toArray(new WSAttribute[]{}), null);
+			String personDN = userEntity.getValueAsString(userOwnerLdapAttribute);
+			if (log.isDebugEnabled()) {
+				 log.debug(String.format("modify person[%s], wsAttrs:[%s], session[%s]", personDN, wsAttrs));
+			}
+			wsItimService.modifyPerson(wsSession, personDN, wsAttrs.toArray(new WSAttribute[]{}), null);
 
 		} catch (Exception e) {
 			log.error(String.format("fail to update person[%s] with attrs:[%s]", username, attrs), e);
@@ -177,6 +181,8 @@ public class TimPersonService implements PersonService {
 			WSItimService wsItimService = webServiceFactory.getWSItimService();
 			Calendar scheduledTime = Calendar.getInstance();
 			scheduledTime.setTime(new Date());
+			// TIM WS 不允许修改口令时设置null为Schedule, 所以临时向前调整30分钟
+			scheduledTime.add(Calendar.MINUTE, -30);
 			WSSession wsSession = wsItimService.login(itimManager, itimManagerPwd);
 			
 			String personDn = userEntity.getValueAsString("owner");
