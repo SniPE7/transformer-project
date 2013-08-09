@@ -22,6 +22,10 @@ import com.ibm.itim.ws.exceptions.WSApplicationException;
 import com.ibm.itim.ws.exceptions.WSInvalidPasswordException;
 import com.ibm.itim.ws.exceptions.WSPasswordRuleException;
 import com.sinopec.siam.am.idp.authn.module.AbstractSpringLoginModule;
+import com.sinopec.siam.am.idp.authn.service.MultiplePersonFoundException;
+import com.sinopec.siam.am.idp.authn.service.PersonNotFoundException;
+import com.sinopec.siam.am.idp.authn.service.PersonService;
+import com.sinopec.siam.am.idp.authn.service.PersonServiceException;
 import com.sinopec.siam.am.idp.authn.service.UserPassService;
 
 import edu.internet2.middleware.shibboleth.idp.authn.LoginHandler;
@@ -70,8 +74,8 @@ public class ModifyPasswordServlet extends HttpServlet {
   /** Modify page name. */
   private String modifyPasswordPage = "/modify_password.do";
 
-  /** 用户口令服务Bean ID */
-  private String userPassServiceBeanId = "timUserPassService";
+  /** 用户服务Bean ID */
+  private String personServiceBeanId = "personService";
 
   /** Class logger. */
   private final Logger log = LoggerFactory.getLogger(ModifyPasswordServlet.class);
@@ -112,8 +116,8 @@ public class ModifyPasswordServlet extends HttpServlet {
       modifyPasswordPage = getInitParameter("modifyPasswordPage");
     }
 
-    if (getInitParameter("userPassServiceBeanId") != null) {
-      userPassServiceBeanId = getInitParameter("userPassServiceBeanId");
+    if (getInitParameter("personServiceBeanId") != null) {
+    	personServiceBeanId = getInitParameter("personServiceBeanId");
     }
 
   }
@@ -216,11 +220,12 @@ public class ModifyPasswordServlet extends HttpServlet {
 
   private boolean modifyPassword(HttpServletRequest request, String username, String nPassword) {
 
-    UserPassService userPassService = getUserPassService();
+    PersonService personService = getPersonService();
 
     // 修改TIM口令（API）
     try {
-      userPassService.updatePassword(username, nPassword);
+    	personService.updatePassword(username, nPassword);
+    	/*
     } catch (MalformedURLException e) {
       log.error(String.format("Create ITIMWebServiceFactory Exception. username:%s", username), e);
       request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "modifyPass.error.failure");
@@ -245,19 +250,55 @@ public class ModifyPasswordServlet extends HttpServlet {
       log.error(String.format("Remote Exception. username:%s", username), e);
       request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "modifyPass.error.failure");
       return false;
+    */
+    } catch (PersonNotFoundException e) {
+      log.error(String.format("Remote Exception. username:%s", username), e);
+      request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "modifyPass.error.failure");
+      return false;
+    } catch (MultiplePersonFoundException e) {
+      log.error(String.format("Remote Exception. username:%s", username), e);
+      request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "modifyPass.error.failure");
+      return false;
+    } catch (PersonServiceException e) {
+	    Throwable cause = e.getCause();
+	    if (cause == null) {
+	      log.error(String.format("Remote Exception. username:%s", username), e);
+	      request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "modifyPass.error.failure");
+	      return false;
+	    } else {
+	    if (cause instanceof MalformedURLException) {
+	      log.error(String.format("Create ITIMWebServiceFactory Exception. username:%s", username), e);
+	      request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "modifyPass.error.failure");
+	      return false;
+	    } else if (cause instanceof ServiceException ) {
+	      log.error(String.format("Get WSItimService Exception. username:%s", username), e);
+	      request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "modifyPass.error.failure");
+	      return false;
+	    } else if (cause instanceof WSInvalidPasswordException ) {
+	      log.error(String.format("Invalid Password Exception. username:%s", username), e);
+	      request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "modifyPass.error.userpass.rule");
+	      return false;
+	    } else if (cause instanceof WSApplicationException) {
+	      log.error(String.format("WSApplication Exception. username:%s", username), e);
+	      request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "modifyPass.error.failure");
+	      return false;
+	    } else if (cause instanceof WSPasswordRuleException) {
+	      log.error(String.format("Password Rule Exception. username:%s", username), e);
+	      request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "modifyPass.error.userpass.rule");
+	      return false;
+	    } else if (cause instanceof RemoteException ) {
+	      log.error(String.format("Remote Exception. username:%s", username), e);
+	      request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "modifyPass.error.failure");
+	      return false;
+	    }
+	    }
     }
     return true;
   }
 
-  /**
-   * 获取用户密码服务Bean
-   * 
-   * @return UserPassService
-   */
-  private UserPassService getUserPassService() {
+  private PersonService getPersonService() {
     // Get Spring Bean Factory
     ApplicationContext appContext = ContextLoader.getCurrentWebApplicationContext();
-    return appContext.getBean(this.userPassServiceBeanId, UserPassService.class);
+    return appContext.getBean(this.personServiceBeanId, PersonService.class);
   }
-
 }
