@@ -192,9 +192,13 @@ function checkCardDevice() {
 		return false;
 	}
 
-	var hasDevice = badgeTool.HasDevice();
-	if(hasDevice) {
-		result = true; 
+	try {
+		var hasDevice = badgeTool.HasDevice();
+		if(hasDevice) {
+			result = true; 
+		}
+	} catch(Exception) {
+		return false;
 	}
 	
 	return result;
