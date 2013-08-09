@@ -199,7 +199,7 @@ public class CommonLdapAuthLoginModule extends AbstractSpringLoginModule impleme
    * @param userName
    * @return
    */
-  protected DnAndAttributes searchUserDNByAccount(String userName) {
+  protected DnAndAttributes searchUserDNByUsername(String userName) {
     String filter = MessageFormat.format(this.userFilter, userName);
 
     try {
@@ -361,7 +361,7 @@ public class CommonLdapAuthLoginModule extends AbstractSpringLoginModule impleme
       String userDn = null;
       String userUid = null;
       
-      DnAndAttributes dnAndAttrs = this.searchUserDNByAccount(nameCb.getName());
+      DnAndAttributes dnAndAttrs = this.searchUserDNByUsername(nameCb.getName());
       if (dnAndAttrs == null){
         //Login Authentication Code
         if(this.getSessionLevelState(AbstractLoginModule.LOGIN_AUTH_CODE_KEY) == null){
