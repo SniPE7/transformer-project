@@ -1,10 +1,12 @@
 package com.sinopec.siam.am.idp.authn.module;
 
 import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.SearchControls;
 import javax.security.auth.Subject;
@@ -18,6 +20,10 @@ import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.ldap.core.support.AbstractContextMapper;
 
 import com.ibm.siam.am.idp.authn.service.MatchCodeService;
+import com.sinopec.siam.am.idp.authn.service.MultiplePersonFoundException;
+import com.sinopec.siam.am.idp.authn.service.PersonNotFoundException;
+import com.sinopec.siam.am.idp.authn.service.PersonService;
+import com.sinopec.siam.am.idp.authn.service.PersonServiceException;
 
 /**
  * 针对SGM MatchCode定制的认证模块.处理机制如下： <br/>
@@ -35,6 +41,12 @@ public class SGMMatchCodeAuthLoginModule extends CommonLdapAuthLoginModule {
   
 	private String matchCodeServiceBeanName = null;
 
+	private String personServiceBeanName = null;
+	
+	private String uid = null;
+	private String cardUID = null;
+	private String cardMatchCode = null;
+
 	public SGMMatchCodeAuthLoginModule() {
 		super();
 	}
@@ -44,6 +56,13 @@ public class SGMMatchCodeAuthLoginModule extends CommonLdapAuthLoginModule {
 	 */
 	protected MatchCodeService getMatchCodeService() {
 		return (MatchCodeService) this.applicationContext.getBean(matchCodeServiceBeanName, MatchCodeService.class);
+	}
+
+	/**
+	 * @return
+	 */
+	protected PersonService getPersonService() {
+		return (PersonService) this.applicationContext.getBean(personServiceBeanName, PersonService.class);
 	}
 
 	@Override
@@ -59,6 +78,8 @@ public class SGMMatchCodeAuthLoginModule extends CommonLdapAuthLoginModule {
 			final String value = (String) options.get(key);
 			if (key.equalsIgnoreCase("matchCodeServiceBeanName")) {
 				this.matchCodeServiceBeanName = value;
+			} else if (key.equalsIgnoreCase("personServiceBeanName")) {
+				this.personServiceBeanName = value;
 			}
 		}
 	}
@@ -66,15 +87,27 @@ public class SGMMatchCodeAuthLoginModule extends CommonLdapAuthLoginModule {
 	@Override
   public boolean login() throws LoginException {
 	  boolean success = super.login();
-	  // Success, update CardUID into User entry
+	  // Success, and update cardUID into person entry
+	  PersonService personService = this.getPersonService();
+		Map<String, String> attrs = new HashMap<String, String>();
+		attrs.put("sgmBadgeId", this.cardUID);
+	  try {
+	    personService.updatePerson(this.uid, attrs);
+    } catch (PersonNotFoundException e) {
+	    log.warn(String.format("Failure to update sgmBadgeId[%s] for uid[%s]", this.cardUID, this.uid));
+    } catch (MultiplePersonFoundException e) {
+	    log.warn(String.format("Failure to update sgmBadgeId[%s] for uid[%s]", this.cardUID, this.uid));
+    } catch (PersonServiceException e) {
+	    log.warn(String.format("Failure to update sgmBadgeId[%s] for uid[%s]", this.cardUID, this.uid));
+    }
 	  return success;
   }
 
 	@Override
 	protected DnAndAttributes searchUserDNByUsername(String userName) {
-		String cardMatchCode = null;
+		cardMatchCode = null;
 		try {
-			String cardUID = userName;
+			cardUID = userName;
 			MatchCodeService matchCodeService = this.getMatchCodeService();
 			cardMatchCode = matchCodeService.getMatchCode(cardUID);
 		} catch (Exception e) {
@@ -106,6 +139,7 @@ public class SGMMatchCodeAuthLoginModule extends CommonLdapAuthLoginModule {
 				}
 			});
 			if (result.size() == 1) {
+				this.uid = result.get(0).getAttributes().get("uid").get(0).toString();
 			  // Update shareState for LoginStateSetLoginModule
 			  this.sharedState.put(LOGIN_MATCHCODE, cardMatchCode);
 				return result.get(0);
@@ -113,6 +147,11 @@ public class SGMMatchCodeAuthLoginModule extends CommonLdapAuthLoginModule {
 				return null;
 			}
 		} catch (EmptyResultDataAccessException e) {
+			if (logger.isDebugEnabled()) {
+				logger.debug(String.format("Search user DN exception", e.getMessage()));
+			}
+			return null;
+		} catch (NamingException e) {
 			if (logger.isDebugEnabled()) {
 				logger.debug(String.format("Search user DN exception", e.getMessage()));
 			}

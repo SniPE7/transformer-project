@@ -114,7 +114,7 @@ public class TimPersonService implements PersonService {
 		return log;
 	}
 
-	public void updatePerson(String username, Map<String, String> attrs) {
+	public void updatePerson(String username, Map<String, String> attrs) throws PersonNotFoundException, MultiplePersonFoundException, PersonServiceException {
 		if (log.isDebugEnabled()) {
 			log.debug("Update User Pass by username [{}]", username);
 		}
@@ -122,13 +122,10 @@ public class TimPersonService implements PersonService {
 		List<LdapUserEntity> result = getUserByUsername(username);
 		if (result.size() == 0) {
 			log.error("Username not exists, username [{}]", username);
-			throw new RuntimeException(String.format(
-					"Username not exists, username[%s]", username));
+			throw new PersonNotFoundException(String.format("Username not exists, username[%s]", username));
 		} else if (result.size() > 1) {
 			log.error("Find more than one user, username [{}]", username);
-			throw new RuntimeException(String.format(
-					"Find more than one user by username, username[%s]",
-					username));
+			throw new MultiplePersonFoundException(String.format("Find more than one user by username, username[%s]",	username));
 		}
 		LdapUserEntity userEntity = result.get(0);
 		ITIMWebServiceFactory webServiceFactory;
@@ -150,13 +147,13 @@ public class TimPersonService implements PersonService {
 			wsItimService.modifyPerson(wsSession, userEntity.getValueAsString(userOwnerLdapAttribute), wsAttrs.toArray(new WSAttribute[]{}), null);
 
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException("updatePerson fail: ", e);
+			log.error(String.format("fail to update person[%s] with attrs:[%s]", username, attrs), e);
+			throw new PersonServiceException(String.format("fail to update person[%s] with attrs:[%s]", username, attrs), e);
 		}
 
 	}
 	
-	public void updatePassword(String username, String password) {
+	public void updatePassword(String username, String password) throws PersonNotFoundException, MultiplePersonFoundException, PersonServiceException {
 		if (log.isDebugEnabled()) {
 			log.debug("Update User Pass by username [{}]", username);
 		}
@@ -164,11 +161,11 @@ public class TimPersonService implements PersonService {
 		List<LdapUserEntity> result = getUserByUsername(username);
 		if (result.size() == 0) {
 			log.error("Username not exists, username [{}]", username);
-			throw new RuntimeException(String.format(
+			throw new PersonNotFoundException(String.format(
 					"Username not exists, username[%s]", username));
 		} else if (result.size() > 1) {
 			log.error("Find more than one user, username [{}]", username);
-			throw new RuntimeException(String.format(
+			throw new MultiplePersonFoundException(String.format(
 					"Find more than one user by username, username[%s]",
 					username));
 		}
@@ -185,8 +182,8 @@ public class TimPersonService implements PersonService {
 			String personDn = userEntity.getValueAsString("owner");
 			wsItimService.synchPasswords(wsSession, personDn, password, null , false);
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException("updatePerson fail: ", e);
+			log.error(String.format("fail to update password[%s]", username), e);
+			throw new PersonServiceException(String.format("fail to update password[%s]", username), e);
 		}
 	}
 
