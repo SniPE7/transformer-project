@@ -130,10 +130,14 @@ public class AccessEnforcer implements Filter {
     	}
     } else if (tamOp != null && tamOp.equals("login_success") ) {
     	if (this.isAuthenticated(httpRequest)) {
+    		 String redirectUrl = defaultWebSEALURL;
+    		 if (!redirectUrl.toLowerCase().startsWith("http")) {
+    			 redirectUrl = String.format("%s://%s%s", request.getParameter("PROTOCOL"), request.getParameter("HOSTNAME"), defaultWebSEALURL);
+    		 }
 	   		 if (log.isDebugEnabled()) {
-	   			  log.debug(String.format("TAM_OP=login_success, redirect to default URL: [%s]", defaultWebSEALURL));
+	   			  log.debug(String.format("TAM_OP=login_success, redirect to default URL: [%s]", redirectUrl));
 	   		 }
-	   		 httpResponse.sendRedirect(defaultWebSEALURL );
+	   		 httpResponse.sendRedirect(redirectUrl );
 				 return;
    	  }
    }
