@@ -18,18 +18,28 @@ function checkCardStatus() {
 
 	var cardUid = "";
 
-	// var hasDevice = badgeTool.HasDevice();
-	cardUid = badgeTool.GetCardUID();
+	try {
+		var hasDevice = badgeTool.HasDevice();
+		if (hasDevice == "0") {
+			return;
+		}
 
-	if (cardUid.length > 0) {
+		cardUid = badgeTool.GetCardUID();
+
+		if (cardUid.length > 0) {
+			clearInterval(cardTimer);
+
+			// alert("Card UID=" + cardUid);
+			$("#carduid").attr("value", cardUid);
+			
+			$("#cardForm").attr("action", "card/selectop.do");
+			$("#cardForm").submit();
+		}
+	} catch (Exception) {
 		clearInterval(cardTimer);
-
-		// alert("Card UID=" + cardUid);
-		$("#carduid").attr("value", cardUid);
-		
-		$("#cardForm").attr("action", "card/selectop.do");
-		$("#cardForm").submit();
+		return;
 	}
+
 }
 
 cardTimer = setInterval("checkCardStatus();", 1000);
