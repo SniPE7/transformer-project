@@ -192,12 +192,14 @@ public class CommonLdapAuthLoginModule extends AbstractSpringLoginModule impleme
   }
 
   /**
-   * Get LDAP dn
+   * 根据登录时用户输入的信息，在LDAP中查询对应的目录条目.<br/>
+   * 
+   * 未找到返回null。
    * 
    * @param userName
    * @return
    */
-  private DnAndAttributes searchUserDNByAccount(String userName) {
+  protected DnAndAttributes searchUserDNByAccount(String userName) {
     String filter = MessageFormat.format(this.userFilter, userName);
 
     try {
