@@ -87,6 +87,9 @@ public class SGMMatchCodeAuthLoginModule extends CommonLdapAuthLoginModule {
 	@Override
   public boolean login() throws LoginException {
 	  boolean success = super.login();
+	  if (!success) {
+	  	 return success;
+	  }
 	  // Success, and update cardUID into person entry
 	  PersonService personService = this.getPersonService();
 		Map<String, String> attrs = new HashMap<String, String>();
