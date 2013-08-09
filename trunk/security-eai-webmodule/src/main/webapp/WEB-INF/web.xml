@@ -106,7 +106,7 @@
     <init-param>
       <description>Default URL after authenticated</description>
       <param-name>AfterAuthenDefaultURL</param-name>
-      <param-value>/</param-value>
+      <param-value>/index.html</param-value>
     </init-param>
   </filter>
   <filter-mapping>
