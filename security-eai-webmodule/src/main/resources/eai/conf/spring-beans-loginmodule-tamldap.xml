@@ -1030,10 +1030,15 @@
                 <property name="name" value="bindMode"></property>
                 <property name="value" value="false"></property>
               </bean>
-              <!-- Define spring ldap template bean name -->
+              <!-- Define MatchCodeService bean name -->
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="matchCodeServiceBeanName"></property>
                 <property name="value" value="matchCodeService"></property>
+              </bean>
+              <!-- Define PersonService bean name -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="personServiceBeanName"></property>
+                <property name="value" value="personService"></property>
               </bean>
             </list>
           </property>
