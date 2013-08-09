@@ -59,7 +59,8 @@ function sendsms2() {
 		dataType:"json",
         data:{
             "j_username":$('#j_username').val(),
-            "j_checkcode":$('#j_checkcode').val()
+            "j_checkcode":$('#j_checkcode').val(),
+            "j_mobile":$('#j_mobile').val()
         },
 		success : function(msg) {
 			if(msg.status=='fail') {
