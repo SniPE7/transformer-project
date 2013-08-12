@@ -146,7 +146,7 @@ public class TimPersonService implements PersonService {
 			
 			String personDN = userEntity.getValueAsString(userOwnerLdapAttribute);
 			if (log.isDebugEnabled()) {
-				 log.debug(String.format("modify person[%s], wsAttrs:[%s], session[%s]", personDN, wsAttrs));
+				 log.debug(String.format("modify person[%s], wsAttrs:[%s], session[%s]", personDN, wsAttrs, wsSession));
 			}
 			wsItimService.modifyPerson(wsSession, personDN, wsAttrs.toArray(new WSAttribute[]{}), null);
 
