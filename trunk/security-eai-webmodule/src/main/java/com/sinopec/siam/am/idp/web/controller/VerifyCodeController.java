@@ -91,10 +91,12 @@ public class VerifyCodeController extends BaseController {
 		List<LdapUserEntity> ldapUserEntitys = userService.searchByFilter(filter);
 		
 		// 支持通过MatchCode来查询用户
+		String cardMatchCode = "";
 		if (ldapUserEntitys==null || ldapUserEntitys.size() == 0) {
 			String cardUID = userid;
 			try {
-				String cardMatchCode = matchCodeService.getMatchCode(cardUID);
+				cardMatchCode = matchCodeService.getMatchCode(cardUID);
+				//cardMatchCode = "123456789012345678";
 				
 				filter = MessageFormat.format(smsFilter, cardMatchCode);
 				ldapUserEntitys = userService.searchByFilter(filter);
@@ -106,11 +108,12 @@ public class VerifyCodeController extends BaseController {
 			}
 		}
 		
-		
-		
 		if (ldapUserEntitys==null || ldapUserEntitys.size() == 0) {
 			msg = String.format("Username not exists, filter: %s.", filter);
 			log.info(msg);
+			
+			msg = "用户不存在/User does not exist";
+			
 		} else if (ldapUserEntitys.size() > 1) {
 			msg = String.format("Find more than one user by filter,filter:%s.", filter);
 			log.info(msg);
@@ -126,6 +129,8 @@ public class VerifyCodeController extends BaseController {
 	
 				msg = String.format("user'mobile is null, filter:%s.", filter);
 				log.info(msg);
+				
+				msg = String.format("您的手机未绑定，请绑定后再试/Your phone is not binding, please try again after binding");
 			} else {
 				// if get it, send smscode to mobile of user, return mobileno. need callsms api
 				smsCode = DyncUtil.getPassword(userid, "");
@@ -142,6 +147,10 @@ public class VerifyCodeController extends BaseController {
 		smsInfo.put("mobile", mobile);
 		smsInfo.put("username", username);
 		smsInfo.put("displayname", displayName);
+		
+		if(null!=cardMatchCode && !"".equals(cardMatchCode)) {
+			smsInfo.put("matchcode", cardMatchCode);
+		}
 		//smsInfo.put("dn", ldapUserEntitys.get(0).getDn());
 		smsInfo.put("msg", msg);
 		smsInfo.put("status", status);

@@ -488,6 +488,10 @@
                 <property name="name" value="loginOptFlag"></property>
                 <property name="value" value="login"></property>
               </bean>
+               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="checkMatchCode"></property>
+                <property name="value" value="true"></property>
+              </bean>
             </list>
           </property>
         </bean>
