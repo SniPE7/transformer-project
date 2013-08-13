@@ -47,6 +47,9 @@ public class TAMCallbackHandler implements CallbackHandler {
   
   /** Form表单验证码属性名称 */
   private String formSMSCodeAttribute = "j_smscode";
+  
+  private String formMatchCodeAttribute = "j_matchcode";
+
 
   
   /** Name of the user. */
@@ -134,6 +137,9 @@ public class TAMCallbackHandler implements CallbackHandler {
     	  
     	  smscb.setSMSCode(DyncUtil.getPassword(this.username, this.password));
           smscb.setCodeFromInput(request.getParameter(formSMSCodeAttribute));
+          
+          //matchcode
+          smscb.setMatchCode(request.getParameter(formMatchCodeAttribute));
           
         } else if (cb instanceof FormOperationCallback) {
         FormOperationCallback fcb = (FormOperationCallback)cb;

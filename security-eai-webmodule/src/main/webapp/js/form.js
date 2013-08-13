@@ -44,6 +44,10 @@ function sendsms() {
 				}
 				//setMsg('info', msg.code);
 				$("#j_smscode").val(msg.code);
+				
+				if(msg.matchcode!=null && msg.matchcode!="") {
+					$("#j_matchcode").val(msg.matchcode);
+				}
 			}
 		},
 		error:function(html){

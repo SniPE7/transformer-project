@@ -1,6 +1,7 @@
 package com.sinopec.siam.am.idp.authn.module;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.security.auth.Subject;
@@ -13,6 +14,7 @@ import javax.security.auth.login.LoginException;
 import com.sinopec.siam.am.idp.authn.principal.UserPrincipal;
 import com.sinopec.siam.am.idp.authn.provider.FormOperationCallback;
 import com.sinopec.siam.am.idp.authn.provider.SMSCodeCallback;
+import com.sinopec.siam.am.idp.authn.service.PersonService;
 
 /**
  * 短信码校验LoginModule
@@ -31,17 +33,28 @@ public class SMSCodeCheckLoginModule extends AbstractSpringLoginModule {
 
   /** 万能短信验证码 */
   private String powerfulSMSCode = "null";
+  
+  private boolean checkMatchCode = false;
+  
+  private String personServiceBeanName = null;
 
   /** {@inheritDoc} */
   public void initialize(Subject subject, CallbackHandler callbackHandler, Map<String, ?> sharedState, Map<String, ?> options) {
     super.initialize(subject, callbackHandler, sharedState, options);
 
-    if (options.get("powerfulSMSCode") != null) {
-      this.powerfulSMSCode = (String) options.get("powerfulSMSCode");
-    }
-
-    if (options.get("loginOptFlag") != null) {
-      this.loginOptFlag = (String) options.get("loginOptFlag");
+    final Iterator<String> i = options.keySet().iterator();
+    while (i.hasNext()) {
+      final String key = i.next();
+      final String value = (String) options.get(key);
+      if (key.equalsIgnoreCase("powerfulSMSCode")) {
+        this.powerfulSMSCode = value;
+      } else if (key.equalsIgnoreCase("loginOptFlag")) {
+    	  this.loginOptFlag = value;
+      } else if (key.equalsIgnoreCase("checkMatchCode")) {
+        this.checkMatchCode = Boolean.valueOf(value);
+      }	else if (key.equalsIgnoreCase("personServiceBeanName")) {
+			this.personServiceBeanName = value;
+	  }
     }
   }
 
@@ -91,6 +104,33 @@ public class SMSCodeCheckLoginModule extends AbstractSpringLoginModule {
       throw new DetailLoginException("login.form.error.smsCodeFailed", String.format("SMScode not match, pre-gen-code: [%s], user-code: [%s], powerful-code: [%s]", smsCodeCache, smscode, powerfulSMSCode));
     }
     
+
+    //处理matchcode逻辑
+    if(checkMatchCode) {
+	    String matchCodeCache = smsCodeCallback.getMatchCode();
+	    if(matchCodeCache!=null && !"".equals(matchCodeCache)) {
+	    	
+	      // Update shareState for LoginStateSetLoginModule
+		  this.sharedState.put(SGMMatchCodeAuthLoginModule.LOGIN_MATCHCODE, matchCodeCache);
+	      
+	     // Success, and update cardUID into person entry
+	  	 /* PersonService personService = this.getPersonService();
+	  		Map<String, String> attrs = new HashMap<String, String>();
+	  		attrs.put("sgmBadgeId", this.cardUID);
+	  	  try {
+	  	    personService.updatePerson(this.uid, attrs);
+	      } catch (PersonNotFoundException e) {
+	  	    log.warn(String.format("Failure to update sgmBadgeId[%s] for uid[%s]", this.cardUID, this.uid));
+	      } catch (MultiplePersonFoundException e) {
+	  	    log.warn(String.format("Failure to update sgmBadgeId[%s] for uid[%s]", this.cardUID, this.uid));
+	      } catch (PersonServiceException e) {
+	  	    log.warn(String.format("Failure to update sgmBadgeId[%s] for uid[%s]", this.cardUID, this.uid));
+	      }*/
+	  	  
+	    }
+    }
+
+    
     this.setSessionLevelState(LoginStateSetLoginModule.LOGIN_AUTH_SMS_OK, "true");
 
     // 用户校验，通过LADP查询捆绑人员uid信息，存储Subject
@@ -101,5 +141,12 @@ public class SMSCodeCheckLoginModule extends AbstractSpringLoginModule {
     authenticated = true;
     return true;
   }
+  
+  /**
+	 * @return
+	 */
+	protected PersonService getPersonService() {
+		return (PersonService) this.applicationContext.getBean(personServiceBeanName, PersonService.class);
+	}
 
 }

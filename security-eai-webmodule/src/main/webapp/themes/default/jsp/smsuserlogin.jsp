@@ -12,6 +12,7 @@
 	            <form class="aui cmxform" method="post" id="authenForm" name="loginForm"
 	              action="${actionUrl}" onSubmit="return validate(this);">
 	              <input type="hidden" name="op" value="login" />
+	              <input type="hidden" name="j_matchcode" id="j_matchcode" value="" />
 	              <fieldset>
 	                <legend>
 	                  <em>请输入您的统一账号和密码</em>
@@ -63,6 +64,7 @@
 	      </div><!-- End of #content -->
 	      
 	      <object id="badgeTool" style="display:none" classid="clsid:395E6CF3-3084-487D-9606-EDAA8B2C4E3C" codebase='/eaiweb/control/BadgeTool.cab#version=1,0,0,0'></object>
+	      
 	      
 	      <script>setMsg('info','<spring:message code="login.form.error.title.tam" />');</script>
 	      <script type="text/javascript">
