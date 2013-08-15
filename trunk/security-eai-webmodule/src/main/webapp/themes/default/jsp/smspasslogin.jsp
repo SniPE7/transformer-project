@@ -1,15 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <object id="badgeTool" style="display:none" classid="clsid:395E6CF3-3084-487D-9606-EDAA8B2C4E3C" codebase='/eaiweb/control/BadgeTool.cab#version=1,0,0,0'></object>
 
 	      <div id="content" class="conten-login">
-	        <div class="aui-message error invisible" id="errorDivMsg">
-            <!-- shown with class="aui-message error" -->
-          </div>
-          <div class="aui-message info invisible" id="infoDivMsg">
-            <!-- shown with class="aui-message info" -->
-          </div>
+	        
+          
 	        <div id="acloginpod">
 	          <div id="acloginpanel" class="loginpanel">
 	            <form class="aui cmxform" method="post" id="authenForm" name="loginForm"
@@ -67,11 +64,27 @@
 	                </div>
 	              </fieldset>
 	            </form>
+	            
+	            <div id="sgm-auth-types">
+	            	<span style="display: block; float: left; line-height:250%;font-size: 12px;text-align:center">选择认证类型/Change type:      </span>
+		            <c:forTokens items="${param.authenTypes}" delims="," var="authenType">
+							<c:if test="${param.currentAuthen != authenType}">
+								<a href="<%=request.getContextPath() %>/AuthnEngine?currentAuthentication=${authenType}&spAuthentication=${param.spAuthentication}"><spring:message code="${authenType}"/></a>
+							</c:if>
+			  		</c:forTokens> 
+			      </div>
 	          </div><!-- End of #acloginpanel -->
 	        </div><!-- End of #acloginpod -->
 	      </div><!-- End of #content -->
-	      	      
-	      <script>setMsg('info','<spring:message code="login.form.error.title.tam" />');</script>
+	      
+	      <div class="aui-message error invisible" id="errorDivMsg">
+            <!-- shown with class="aui-message error" -->
+          </div>
+          <div class="aui-message info invisible" id="infoDivMsg">
+         	 <!-- shown with class="aui-message info" -->
+          </div>
+          
+	      <!-- <script>setMsg('info','<spring:message code="login.form.error.title.tam" />');</script> -->
 	      <script type="text/javascript">
 		        //更新图形验证码
 		        function updateCheckCodeImg() {

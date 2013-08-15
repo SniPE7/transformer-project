@@ -3,6 +3,9 @@
 <%@ page import="com.sinopec.siam.am.idp.utils.message.I18NMessageUtils"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -26,14 +29,45 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <tiles:insertAttribute name="banner" />
     </div><!-- end of #header -->
     
-    <div id="main">
-      <div id="panel-logout">
-        <div id="sidebar-logout"></div><!-- end of #sidebar -->
-        <tiles:insertAttribute name="body" />
-      </div><!-- End of #panel -->
-      
-      <div class="line"></div>
-    </div><!-- end #main -->
+    <div id="main" style="clear: both; overflow: hidden;">
+			<div id="panel3">
+				<div id="sgmbanner2">
+					   <div class="topleft">
+	                       <img src="themes/default/images/login_left_top.gif" /></div>
+	                   <div class="topcenter">
+	                       <div style="float: left;"><img src="themes/default/images/login_log.gif" /></div>
+	                       <div style="float: left;margin-top:20px;margin-left:20px"><img src="themes/default/images/login_title.png"/></div>
+	                     <c:if test="${not empty title}">
+	                       	<div style="float: right;font-weight: bold;margin-top: 56px;"><spring:message code="${title}"/></div>
+	                      </c:if>
+	                   </div>
+	                   <div class="topright"> <img src="themes/default/images/login_right_top.gif" /></div>
+				</div>
+				<!-- <div class="clear"></div> -->
+				<div id="sgmcontent2">
+	                <div class="contentleft"> 
+	                	<tiles:insertAttribute name="body" />
+	                </div>
+	                <div class="contentright">
+	                    <img src="themes/default/images/login_right.gif" />
+	                </div>
+				</div>
+				<!-- <div class="clear"></div> -->
+				<div id="sgmfooter2">
+	                <div class="footerleft">
+	                    <img src="themes/default/images/login_left_bottom.gif" /></div>
+	                <div class="footerright">
+	                    <img src="themes/default/images/login_right_bottom.gif" />
+	                </div>                
+				</div>
+				<!-- <div class="clear"></div> -->
+			</div>
+			
+			<!-- End of #panel -->
+
+			<!-- <div class="line"></div> -->
+		</div>
+		<!-- end #main -->
     
     <div id="footer">
       <tiles:insertAttribute name="footer" />
