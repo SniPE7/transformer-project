@@ -8,9 +8,10 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 	padding: 0;
 }
 body {
-	color: #686868;
+	color: #ffffff;
 	font-family: simsun,Helvetica,Arial,Verdana,Geneva,sans-serif;
 	font-size: 14px;
+	background: url("../images/page_bg.gif") #dcedf3 repeat-x;
 }
 a {
 	color: navy;
@@ -24,13 +25,13 @@ a:hover {
 	width: 1000px;	
 }
 #banner {
-	height: 60px;
+	height: 30px;
 }
 #logo {
 	background: url("../images/login/logo2.png") no-repeat scroll 0 0 none;
 	display: block;
 	float: left;
-	height: 60px;
+	height: 35px;
 	margin: 10px 0 0 16px;
 	width: 60px;
 }
@@ -76,9 +77,9 @@ a:hover {
 }
 ul#tabs
 {
-	border-bottom: 1px solid #ccc;
-	padding-top: 36px;
-	padding-bottom: 28px;
+	/*border-bottom: 1px solid #ccc;*/
+	padding-top: 6px;
+	padding-bottom: 8px;
 }
 
 ul#tabs li
@@ -122,7 +123,6 @@ ul#tabs li a:hover {
 }
 
 #panel {
-	background: url("../images/login/panel-bg.png") repeat-y scroll 0 0 transparent;
 	margin: 16px auto;
 	width: 100%;
 	min-height: 300px;
@@ -134,11 +134,15 @@ ul#tabs li a:hover {
 .line {
 	border-bottom: 1px solid #ccc;
 }
+
+#footer {
+	margin-top: 20px;
+}
+
 #footer p {
-	color: silver;
+	color: #4D4D4D;
 	font-size: 12px;
-	line-height: normal;
-	padding: 30px 0 0;
+	padding: 5px 0 0;
 	text-align: center;
 	text-transform: uppercase;
 }
@@ -193,21 +197,20 @@ ul#tabs li a:hover {
 
 #content {
 	display: block;
-	float: right;
-	width: 52%;	
+	width: 100%;	
 }
 
 
 
 #acloginpod {
-	background: url("../images/login/acloginpodbg.gif") repeat-x scroll 0 0 #EBEBEB;
+	/*background: url("../images/login/acloginpodbg.gif") repeat-x scroll 0 0 #EBEBEB;
 	border: 1px solid #D3D3D3;
-	border-radius: 7px 7px 7px 7px;
-	width: 450px;
+	border-radius: 7px 7px 7px 7px;*/
+	width: 480px;
 	margin: 20px auto;
 }
 #acloginpod .loginpanel {
-	margin: 22px;
+	margin: 22px 22px 0px 22px;
 }
 #acloginpod form, #acloginpod fieldset {
 	margin: 0 !important;
@@ -218,13 +221,23 @@ ul#tabs li a:hover {
 	position: absolute;
 }
 #acloginpod label , .normal-label{
-	color: #444444;
+	color: #ffffff;
 	display: block;
 	font-size: 12px;
 	margin-bottom: 3px;
 	font-weight: bold;
 	line-height: 18px;
 }
+
+#wizard label , .normal-label{
+	color: #ffffff;
+	display: block;
+	font-size: 12px;
+	margin-bottom: 3px;
+	font-weight: bold;
+	line-height: 18px;
+}
+
 #acloginpod label span.loginerror {
 	color: #8D1C1C;
 	font-size: 10px;
@@ -283,11 +296,19 @@ ul#tabs li a:hover {
 	vertical-align: middle;
 }
 #acloginpod a.forgotpass, .forgotpass {
-	color: #039;
+	color: #ffffff;
 	font-size: 12px;
 	text-decoration:underline;
 	line-height:250%;
 }
+
+#wizard a.forgotpass, .forgotpass {
+	color: #FFFFFF;
+	font-size: 12px;
+	text-decoration:underline;
+	line-height:250%;
+}
+
 .forgotpass {
 	background: url("../images/login/icon-question.png") no-repeat scroll 3px 0 transparent;
 	padding-left: 25px;
@@ -459,20 +480,20 @@ ul#tabs li a:hover {
 	float:left;
 }
 
-/* **********************°´¼ü******************************** */
+/* **********************æŒ‰é”®******************************** */
 /*
 ===================
-ºËĞÄ±³¾°ÕûºÏ
+æ ¸å¿ƒèƒŒæ™¯æ•´åˆ
 ===================
 */
-.btn/*°´Å¥±³¾°*/,
-.core_follow/*È«¾Ö¹Ø×¢°´Å¥*/,
-.pop_deep .ct dt.reward/*´ò¿¨½±Àø½ğ±ÒÍ¼*/,
-.pages a/*·ÖÒ³ÑùÊ½*/,
+.btn/*æŒ‰é’®èƒŒæ™¯*/,
+.core_follow/*å…¨å±€å…³æ³¨æŒ‰é’®*/,
+.pop_deep .ct dt.reward/*æ‰“å¡å¥–åŠ±é‡‘å¸å›¾*/,
+.pages a/*åˆ†é¡µæ ·å¼*/,
 .pages strong,
-.design_mode_edit/*Ä£¿é¹ÜÀí°´Å¥*/,
-#back_top/*·µ»Ø¶¥²¿*/,
-.pop_showmsg/*ÎŞ²Ù×÷ÌáÊ¾*/{
+.design_mode_edit/*æ¨¡å—ç®¡ç†æŒ‰é’®*/,
+#back_top/*è¿”å›é¡¶éƒ¨*/,
+.pop_showmsg/*æ— æ“ä½œæç¤º*/{
 	background:url(../images/core_bg.png);
 }
 
@@ -483,7 +504,7 @@ button::-moz-focus-inner, input::-moz-focus-inner {
 .btn {
     background-color: #F3F3F3;
     background-position: 0 0;
-    border: 1px solid #B1AEAE;
+    border: 1px solid #ffffff;
     border-radius: 2px 2px 2px 2px;
     color: #333333 !important;
     cursor: pointer;
@@ -507,7 +528,8 @@ button.btn_big{
 	*padding: 6px 18px 5px !important;
 	_padding: 6px 18px 3px !important;
 }
-/*ÆäËû°´Å¥ÎÄ×ÖÑÕÉ«*/
+
+/*å…¶ä»–æŒ‰é’®æ–‡å­—é¢œè‰²*/
 .btn_error,
 .btn_error:hover,
 .btn_success,
@@ -532,6 +554,7 @@ button.btn_big{
 }
 .btn:active {
     background-position: 0 -81px;
+    border-color: #0C487B #0E5D8E #0F75A3;
 }
 .btn_big {
     border-radius: 2px 2px 2px 2px;
@@ -611,3 +634,158 @@ h1.read_h1 {
     width: 180px;
     z-index: 10000;
 }
+
+#sgmbanner {
+	width: 100%;
+}
+
+#sgmbanner .topleft{
+	background-image: url("../images/login_top_bg.gif"); 
+	height: 81px;
+	width: 28px;
+	float: left;
+}
+
+#sgmbanner .topcenter {
+	background-image: url("../images/login_top_bg.gif"); 
+	height: 81px;
+	width: 530px;
+	float: left;
+}
+
+#sgmbanner .topright {
+	width: 24px;
+	float: left;
+}
+
+
+#sgmfooter .footerleft{
+	background-image: url("../images/login_bottom_bg.gif"); 
+	height: 13px;
+	width: 558px; 
+	float: left;
+}
+
+#sgmfooter .footerright {
+	width: 24px; 
+	height: 13px;
+	float: left;
+}
+
+#sgmcontent , #sgmfooter, #sgmbanner {
+	clear: both; 
+	overflow: hidden;
+}
+
+#sgmcontent .contentleft{
+	background-image: url("../images/login_bg.gif");
+	background-repeat:repeat-x;
+	background-color:#48aac4;
+	/*height: 480px;*/
+	width: 558px;
+	float: left;
+}
+
+
+#sgmcontent .contentright {
+	background-image: url("../images/login_right_bg.gif");
+	height: 100%;
+	float: left;
+	margin-bottom:-2000px;
+	padding-bottom:2000px;
+}
+
+#panel2 {
+    margin: 16px 200px 0px;
+    overflow: hidden;
+    position: relative;
+    clear: both;
+    width: 100%;
+}
+
+
+#sgm-auth-types {
+	margin-top: 5px;
+}
+
+#sgm-auth-types label {
+	color: #FFFFFF;
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 18px;
+}
+
+#sgm-auth-types a:link, #sgm-auth-types  a:hover, #sgm-auth-types  a:visited
+{
+	color: #FFFFFF;
+    font-size: 12px;
+    line-height: 250%;
+    text-decoration: underline;
+}
+
+/**** for wizard  ****/
+#panel3 {
+    margin: 16px auto;
+    overflow: hidden;
+    position: relative;
+    clear: both;
+    width: 100%;
+}
+
+#sgmbanner2 .topleft{
+	background-image: url("../images/login_top_bg.gif"); 
+	height: 81px;
+	width: 28px;
+	float: left;
+}
+
+#sgmbanner2 .topcenter {
+	background-image: url("../images/login_top_bg.gif"); 
+	height: 81px;
+	width: 930px;
+	float: left;
+}
+
+#sgmbanner2 .topright {
+	width: 24px;
+	float: left;
+}
+
+
+#sgmfooter2 .footerleft{
+	background-image: url("../images/login_bottom_bg.gif"); 
+	height: 13px;
+	width: 958px; 
+	float: left;
+}
+
+#sgmfooter2 .footerright {
+	width: 24px; 
+	height: 13px;
+	float: left;
+}
+
+#sgmcontent2 , #sgmfooter2, #sgmbanner2 {
+	clear: both; 
+	overflow: hidden;
+}
+
+#sgmcontent2 .contentleft{
+	background-image: url("../images/login_bg.gif");
+	background-repeat:repeat-x;
+	background-color:#48aac4;
+	/*height: 480px;*/
+	width: 958px;
+	float: left;
+}
+
+
+#sgmcontent2 .contentright {
+	background-image: url("../images/login_right_bg.gif");
+	height: 100%;
+	float: left;
+	margin-bottom:-2000px;
+	padding-bottom:2000px;
+}
+

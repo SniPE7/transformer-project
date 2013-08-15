@@ -4,6 +4,8 @@
 	import="edu.internet2.middleware.shibboleth.idp.authn.LoginHandler"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -27,38 +29,43 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<!-- end of #header -->
 
-		<div id="main">
-			<div id="panel">
-				<div id="sidebar">
-					<tiles:insertAttribute name="info" />
-					<h3>统一账号介绍/Introduce Unified Account</h3>
-					<div class="desc">
-						<div class="text">由上海通用汽车统一身份管理系统产生，统一颁发./By Shanghai General Motors unified identity management system to produce a unified award.</div>
-					</div>
-					<h3>统一账号管理/Unified Account Management</h3>
-					<div class="desc">
-						<div class="text">统一账号（SUID）是SGM认证中心颁发的用户登录名，供登录信息系统使用。/Unified account (SUID) is SGM Certification Center user login name for the login information systems.</div>
-						<ol>
-							<li>忘记了统一账号？/Forgot unified account?：点击/Click“<a
-								href="loseuser.do" style="text-decoration:underline;">找回统一账号/Forget Unified Account</a>”
-							</li>
-						</ol>
-					</div>
-					<h3>技术支持热线/Technical Support Hotline</h3>
-					<div class="desc">
-						<ol>
-							<li>电话/Phone：021-12345678</li>
-							<li>邮箱/Email：admin@shanghaigm.com</li>
-						</ol>
-					</div>
+		<div id="main" style="clear: both; overflow: hidden;">
+			<div id="panel2">
+				<div id="sgmbanner">
+					   <div class="topleft">
+	                       <img src="themes/default/images/login_left_top.gif" /></div>
+	                   <div class="topcenter">
+	                       <div style="float: left;"><img src="themes/default/images/login_log.gif" /></div>
+	                     <c:if test="${not empty param.currentAuthen}">
+	                       	<div style="float: right;font-weight: bold;margin-top: 56px;"><spring:message code="${param.currentAuthen}"/></div>
+	                      </c:if>
+	                   </div>
+	                   <div class="topright"> <img src="themes/default/images/login_right_top.gif" /></div>
 				</div>
-				<!-- end of #sidebar -->
-
-				<tiles:insertAttribute name="body" />
+				<!-- <div class="clear"></div> -->
+				<div id="sgmcontent">
+	                <div class="contentleft"> 
+	                	<div style="margin: 0px auto;text-align:center; "><img src="themes/default/images/login_title.png"/></div>
+	                	<tiles:insertAttribute name="body" />
+	                </div>
+	                <div class="contentright">
+	                    <img src="themes/default/images/login_right.gif" />
+	                </div>
+				</div>
+				<!-- <div class="clear"></div> -->
+				<div id="sgmfooter">
+	                <div class="footerleft">
+	                    <img src="themes/default/images/login_left_bottom.gif" /></div>
+	                <div class="footerright">
+	                    <img src="themes/default/images/login_right_bottom.gif" />
+	                </div>                
+				</div>
+				<!-- <div class="clear"></div> -->
 			</div>
+			
 			<!-- End of #panel -->
 
-			<div class="line"></div>
+			<!-- <div class="line"></div> -->
 		</div>
 		<!-- end #main -->
 
@@ -67,6 +74,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<!-- end #footer -->
 	</div>
+	
 	<%
     if ("true".equals(request.getAttribute("loginFailed"))) {
       String msgKey = "logon.form.error.default";
