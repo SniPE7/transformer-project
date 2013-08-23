@@ -36,7 +36,7 @@ function nextstep() {
 	              <fieldset>
 
 	                <span style="display: block; clear: both;"><font size="2px">用户名/Username : <%=cardRegisterEntity.getUsername() %></font></span>
-	                <span style="display: block; clear: both;"><font size="2px">姓名/Name : <%=cardRegisterEntity.getName() %></font></span>
+	                <span style="display: block; clear: both;"><font size="2px">姓名/Name : <%= (cardRegisterEntity.getName() == null) ? "" : cardRegisterEntity.getName() %></font></span>
 <br />
 
 	                <label for="ac_username">新口令/New Password</label>
