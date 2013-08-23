@@ -1,14 +1,11 @@
 package com.sinopec.siam.am.idp.web.controller;
 
-import java.net.MalformedURLException;
-import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.rpc.ServiceException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,12 +18,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.code.kaptcha.Constants;
-import com.ibm.itim.ws.exceptions.WSApplicationException;
-import com.ibm.itim.ws.exceptions.WSInvalidPasswordException;
-import com.ibm.itim.ws.exceptions.WSPasswordRuleException;
-import com.sinopec.siam.am.idp.authn.service.UserPassService;
+import com.sinopec.siam.am.idp.authn.service.MultiplePersonFoundException;
+import com.sinopec.siam.am.idp.authn.service.PersonNotFoundException;
+import com.sinopec.siam.am.idp.authn.service.PersonService;
+import com.sinopec.siam.am.idp.authn.service.PersonServiceException;
 
-import edu.internet2.middleware.shibboleth.common.util.HttpHelper;
 import edu.internet2.middleware.shibboleth.idp.authn.LoginContextEntry;
 import edu.internet2.middleware.shibboleth.idp.util.HttpServletHelper;
 
@@ -42,8 +38,8 @@ public class LosePwdController extends BaseController {
 	private final Logger log = LoggerFactory.getLogger(LosePwdController.class);
 	
 	@Autowired
-	@Qualifier("timUserPassService")
-	UserPassService userPassService;
+	@Qualifier("personService")
+	PersonService userPassService;
 	
 	
   /**
@@ -91,7 +87,7 @@ public class LosePwdController extends BaseController {
 		if(null==session || null==checkcode || !checkcode.equalsIgnoreCase((String) session.getAttribute(Constants.KAPTCHA_SESSION_KEY))) {
 			//return false
 			Map<String, String> smsInfo = new HashMap<String, String>();
-			smsInfo.put("msg", "验证码错误");
+			smsInfo.put("msg", "超时,验证码错误/timeout and verification code error");
 			smsInfo.put("status", "fail");
 			
 			return smsInfo;
@@ -103,43 +99,24 @@ public class LosePwdController extends BaseController {
 		//change password
 		// 修改TIM口令（API）
 	    try {
-	      userPassService.updatePassword(userid, newPassword);
-	    } catch (MalformedURLException e) {
-	    	msg = String.format("Create ITIMWebServiceFactory Exception. username:%s", userid);
+			userPassService.updatePassword(userid, newPassword);
+		} catch (PersonNotFoundException e) {
+			msg = String.format("PersonNotFoundException Exception. username:%s", userid);
 	    	log.error(String.format(msg, userid), e);
 	    	
 	    	status = "fail";
-	    } catch (ServiceException e) {
-
-	    	msg = String.format("Get WSItimService Exception. username:%s", userid);
+		} catch (MultiplePersonFoundException e) {
+			msg = String.format("MultiplePersonFoundException Exception. username:%s", userid);
 	    	log.error(String.format(msg, userid), e);
 	    	
 	    	status = "fail";
-	    } catch (WSInvalidPasswordException e) {
-
-	    	msg = String.format("Invalid Password Exception. username:%s", userid);
+		} catch (PersonServiceException e) {
+			msg = String.format("PersonServiceException Exception. username:%s", userid);
 	    	log.error(String.format(msg, userid), e);
 	    	
 	    	status = "fail";
-	    } catch (WSApplicationException e) {
-
-	    	msg = String.format("WSApplication Exception. username:%s", userid);
-	    	log.error(String.format(msg, userid), e);
-	    	
-	    	status = "fail";
-	    } catch (WSPasswordRuleException e) {
-
-	    	msg = String.format("Password Rule Exception. username:%s", userid);
-	    	log.error(String.format(msg, userid), e);
-	    	
-	    	status = "fail";
-	    } catch (RemoteException e) {
-
-	    	msg = String.format("Remote Exception. username:%s", userid);
-	    	log.error(String.format(msg, userid), e);
-	    	
-	    	status = "fail";
-	    }
+		}
+	    
 
 		Map<String, String> smsInfo = new HashMap<String, String>();
 		smsInfo.put("msg", msg);
