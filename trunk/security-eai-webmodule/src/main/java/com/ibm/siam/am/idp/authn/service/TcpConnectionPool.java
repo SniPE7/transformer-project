@@ -1,6 +1,8 @@
 package com.ibm.siam.am.idp.authn.service;
 
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 
 import org.apache.commons.pool.impl.GenericObjectPool;
 import org.slf4j.Logger;
@@ -30,12 +32,26 @@ public class TcpConnectionPool {
 
 	}
 
+	public boolean checkConnection() {
+		try {
+			Socket socket = new Socket();
+			SocketAddress endpoint = new InetSocketAddress(host, port);
+			socket.connect(endpoint, timeout * 1000);
+			socket.close();
+			return true;
+		} catch (Exception ex) {
+			return false;
+		}
+	}
+	
 	public void init() {
+		log.debug("enter init");
 		try {
 			if (isInit) {
 				return;
 			}
 			
+			log.info("Matchcode server connection pool is starting......");
 			TcpPoolableObjectFactory factory = new TcpPoolableObjectFactory();
 			factory.setHost(host);
 			factory.setPort(port);
@@ -48,11 +64,21 @@ public class TcpConnectionPool {
 					GenericObjectPool.WHEN_EXHAUSTED_BLOCK, maxWait, true, true);
 			
 			isInit = true;
+			log.info("Init Matchcode server connection pool success.");
 		} catch (Exception ex) {
-			log.error("Init Matchcode server connections error.");
+			log.error("Init Matchcode server connection pool error.");
 			log.error(ex.getMessage());
 			log.error(ex.toString());
 		}
+		
+		log.debug("exit destroy");
+	}
+	
+	public void destroy() {
+		log.debug("enter destroy");
+		log.info("Matchcode server connection pool is closing......");
+		pool.clear();
+		log.debug("exit destroy");
 	}
 
 	public Socket getConnection() throws Exception {

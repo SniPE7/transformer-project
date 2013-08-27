@@ -1,6 +1,9 @@
 package com.ibm.siam.am.idp.authn.service;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 
 import org.apache.commons.pool.PoolableObjectFactory;
 import org.slf4j.Logger;
@@ -12,7 +15,7 @@ public class TcpPoolableObjectFactory implements PoolableObjectFactory {
 
 	private String host;
 	private int port;
-	private int timeout = 50;
+	private int timeout = 10;
 
 	private String username;
 	private String password;
@@ -30,13 +33,20 @@ public class TcpPoolableObjectFactory implements PoolableObjectFactory {
 		log.debug("exit destroyObject()");
 	}
 
-	public Object makeObject() throws Exception {
+	public Object makeObject() throws IOException {
 		log.debug("enter makeObject()");
 
-		Socket socket = new Socket(host, port);
-		
-		log.debug("exit makeObject()");
-		return socket;
+		try {
+			Socket socket = new Socket();
+			SocketAddress endpoint = new InetSocketAddress(host, port);
+			socket.connect(endpoint, timeout * 1000);
+			log.debug("exit makeObject()");
+			return socket;
+		} catch (IOException ex) {
+			log.error("Connect to Matchcode server error.");
+			log.error(ex.toString());
+			throw ex;
+		}
 	}
 
 	public void passivateObject(Object arg0) throws Exception {
@@ -45,7 +55,6 @@ public class TcpPoolableObjectFactory implements PoolableObjectFactory {
 	}
 
 	public boolean validateObject(Object arg0) {
-		// TODO Auto-generated method stub
 		log.debug("enter validateObject()");
 		log.debug("exit validateObject()");
 		return true;
