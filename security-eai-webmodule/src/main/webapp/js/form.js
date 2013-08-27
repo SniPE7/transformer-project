@@ -246,6 +246,7 @@ function showCardModel(){
 	} else {
 		//display only username
 		$("#badge-label").hide();
+		$("#forgotuid_box").hide();
 		$("#normal-label").show();
 	}
 }
