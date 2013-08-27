@@ -185,7 +185,7 @@
     </logger>
 
     <!-- Root category -->
-    <root level="ERROR">
+    <root level="INFO">
         <appender-ref ref="IDP_PROCESS"/>
         <appender-ref ref="STDOUT"/>
     </root>

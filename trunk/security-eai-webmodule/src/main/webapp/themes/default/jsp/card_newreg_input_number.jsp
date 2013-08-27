@@ -1,6 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
+<%@ page import="com.ibm.siam.am.idp.authn.entity.CardRegisterEntity" %>
+<%
+	CardRegisterEntity cardRegisterEntity = (CardRegisterEntity) session.getAttribute("cardRegisterEntity");
+	if (cardRegisterEntity == null) {
+		cardRegisterEntity = new CardRegisterEntity();
+	}
+%>
+
 <script type="text/javascript">
 function prevstep() {
 	$("#cardForm").attr("action", "card/selectop.do");
@@ -33,9 +41,9 @@ function nextstep() {
 <br />
 
 	                <label for="ac_username">身份证号/ID Number</label>
-	                <input type="text" tabindex="1" name="id_number" id="id_number" class="textinput" maxlength="18" />
+	                <input type="text" tabindex="1" name="id_number" id="id_number" class="textinput" maxlength="18" value="<%=(cardRegisterEntity.getIdNumber()==null)?"":cardRegisterEntity.getIdNumber() %>" />
 	                <label class="float-left">员工号/Employee Number</label>
-	                <input type="text" tabindex="2" name="employee_number" id="employee_number" class="textinput"/>
+	                <input type="text" tabindex="2" name="employee_number" id="employee_number" value="<%=(cardRegisterEntity.getEmployeeNumber()==null)?"":cardRegisterEntity.getEmployeeNumber() %>" class="textinput"/>
 
 	                <div class="aclogin-action">
 	                  <input type="button" tabindex="7" value="上一步" onclick="prevstep();" />

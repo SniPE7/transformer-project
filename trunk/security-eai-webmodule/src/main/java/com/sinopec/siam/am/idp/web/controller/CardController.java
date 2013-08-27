@@ -187,11 +187,11 @@ public class CardController extends BaseController {
 		String loginFlag = ldapUserEntity.getValueAsString("alloweprptservice");
 		ModelAndView mav;
 		if (loginFlag == null || "false".compareToIgnoreCase(loginFlag) == 0) {
-			cardRegisterEntity.setOptype(1);
-			mav = new ModelAndView("/card/newreg_verify_user");
-		} else {
 			cardRegisterEntity.setOptype(0);
 			mav = new ModelAndView("/card/newreg_regist");
+		} else {
+			cardRegisterEntity.setOptype(1);
+			mav = new ModelAndView("/card/newreg_verify_user");
 		}
 		session.setAttribute("cardRegisterEntity", cardRegisterEntity);
 
