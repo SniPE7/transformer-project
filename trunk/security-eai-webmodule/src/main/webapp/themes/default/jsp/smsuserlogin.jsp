@@ -49,10 +49,9 @@
 	                <div class="aclogin-action" style="display: block; clear: both;">
 	                  <div class="fl-left">
 	                  </div>
-	                  <div><button type="submit" id="J_sidebar_login" class="btn btn_big btn_submit mr20" style="float:right">登录/Login</button> </div>
-	                  
-	                  <!-- <input type="image" tabindex="5" value="登录" class="acloginbttn" 
-	                   src="themes/default/images/login/transparent.gif"/> -->
+	                  <div style="margin-top: 25px;">
+	                    <button type="submit" id="J_sidebar_login" class="btn btn_big btn_submit mr20" style="float: left; margin-left: 0px; ">登录/Login</button> 
+	                  </div>
 	                  <div class="clearfix">&nbsp;</div>
 	                </div>
 	              </fieldset>

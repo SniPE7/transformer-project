@@ -32,7 +32,6 @@
 	                
 	                <label class="float-left"><spring:message code="logon.form.password" /></label>
 	                <div style="display: block; float: left;"><input type="password" tabindex="2" name="j_password" id="j_password" class="textinput"/></div>
-	                <div id="forgotpwd_box" style="display: block; float: left;text-align:center"><a tabindex="9" href="losepwd.do" class="forgotpass">忘记密码/Forget Password?</a></div>
 	                <div style="clear:both; height:0;overflow:hidden;"></div>
 	               
 	                <label class="float-left"><spring:message code="logon.form.checkcode" /></label>
@@ -56,10 +55,10 @@
 	                <div class="aclogin-action" style="display: block; clear: both;">
 	                  <div class="fl-left">
 	                  </div>
-	                  <div><button type="submit" id="J_sidebar_login" class="btn btn_big btn_submit mr20" style="float:right">登录/Login</button> </div>
-	                  
-	                  <!-- <input type="image" tabindex="7" value="登录" class="acloginbttn" 
-	                   src="themes/default/images/login/transparent.gif"/> -->
+	                  <div style="margin-top: 25px;">
+	                    <button type="submit" id="J_sidebar_login" class="btn btn_big btn_submit mr20" style="float: left; margin-left: 0px; ">登录/Login</button>
+                      <div id="forgotpwd_box" style="display: block; float: left;text-align:center; vertical-align: bottom; margin-left: 0px;"><a tabindex="6" href="losepwd.do" class="forgotpass">忘记密码/Forget Password?</a></div>
+	                  </div>
 	                  <div class="clearfix">&nbsp;</div>
 	                </div>
 	              </fieldset>
