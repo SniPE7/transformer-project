@@ -49,7 +49,7 @@
 	            </form>
 	            
 			      <div id="sgm-auth-types">
-	            	<span style="display: block; float: left; line-height:250%;font-size: 12px;text-align:center">选择认证类型/Change Login Type:      </span>
+	            	<span style="display: block; float: left; line-height:250%;font-size: 12px;text-align:center">选择认证类型/Login Type:</span>
 		            <c:forTokens items="${param.authenTypes}" delims="," var="authenType">
 							<c:if test="${param.currentAuthen != authenType}">
 								<a href="<%=request.getContextPath() %>/AuthnEngine?currentAuthentication=${authenType}&spAuthentication=${param.spAuthentication}"><spring:message code="${authenType}"/></a>
