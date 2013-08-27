@@ -1,6 +1,7 @@
 package com.ibm.siam.am.idp.authn.service;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -40,7 +41,15 @@ public class MatchCodeServiceImpl implements MatchCodeService {
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			PrintWriter pw = new PrintWriter(out, true);
 			pw.println(cardUid);
+			
+			if (in.available() < 9) { // TODO 9 to 10
+				Thread.sleep(2000);
+			}
 
+			if (in.available() < 9) {
+				throw new IOException("can not get the match code.");
+			}
+			
 			String info = br.readLine();
 
 			return info;
