@@ -26,13 +26,13 @@
 					
 	               	<div style="clear:both; height:0;overflow:hidden;"></div>
 	                <div style="display: block; float: left;"><input type="text" tabindex="1" name="j_username" id="j_username" class="textinput" value="<%=request.getAttribute("j_username") != null ? request.getAttribute("j_username") : ""%>"/></div>
-	                <div id="forgotbox" style="display: block; float: left;text-align:center"><a tabindex="9" href="loseuser.do" class="forgotpass">忘记用户名/Forget Username?</a></div>
+	                <div id="forgotuid_box" style="display: block; float: left;text-align:center"><a tabindex="9" href="loseuser.do" class="forgotpass">忘记用户名/Forget Username?</a></div>
 	               
 	                <div style="clear:both; height:0;overflow:hidden;"></div>
 	                
 	                <label class="float-left"><spring:message code="logon.form.password" /></label>
 	                <div style="display: block; float: left;"><input type="password" tabindex="2" name="j_password" id="j_password" class="textinput"/></div>
-	                <div id="forgotbox" style="display: block; float: left;text-align:center"><a tabindex="9" href="losepwd.do" class="forgotpass">忘记密码/Forget Password?</a></div>
+	                <div id="forgotpwd_box" style="display: block; float: left;text-align:center"><a tabindex="9" href="losepwd.do" class="forgotpass">忘记密码/Forget Password?</a></div>
 	                <div style="clear:both; height:0;overflow:hidden;"></div>
 	               
 	                <label class="float-left"><spring:message code="logon.form.checkcode" /></label>
@@ -66,7 +66,7 @@
 	            </form>
 	            
 	            <div id="sgm-auth-types">
-	            	<span style="display: block; float: left; line-height:250%;font-size: 12px;text-align:center">选择认证类型/Change type:      </span>
+	            	<span style="display: block; float: left; line-height:250%;font-size: 12px;text-align:center">选择认证类型/Change Login Type:      </span>
 		            <c:forTokens items="${param.authenTypes}" delims="," var="authenType">
 							<c:if test="${param.currentAuthen != authenType}">
 								<a href="<%=request.getContextPath() %>/AuthnEngine?currentAuthentication=${authenType}&spAuthentication=${param.spAuthentication}"><spring:message code="${authenType}"/></a>
