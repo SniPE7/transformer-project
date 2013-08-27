@@ -77,7 +77,7 @@
             <!-- shown with class="aui-message info" -->
           </div>
             
-	      <object id="badgeTool" style="display:none" classid="clsid:395E6CF3-3084-487D-9606-EDAA8B2C4E3C" codebase='/eaiweb/control/BadgeTool.cab#version=1,0,0,0'></object>
+	      <object id="badgeTool" style="display:none" classid="clsid:395E6CF3-3084-487D-9606-EDAA8B2C4E3C"></object>
 	      
 	      
 	      <!-- <script>setMsg('info','<spring:message code="login.form.error.title.tam" />');</script> -->

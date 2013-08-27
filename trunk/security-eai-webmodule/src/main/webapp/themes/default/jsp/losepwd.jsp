@@ -71,7 +71,7 @@
 					<input type="hidden" id="gotourl" name="gotourl" value="<%=request.getAttribute("gotoUrl") != null ? request.getAttribute("gotoUrl") : "#"%>" />
 				</div><!-- End SmartWizard Content -->
         </div><!-- End of #content -->
-        	      <object id="badgeTool" style="display:none" classid="clsid:395E6CF3-3084-487D-9606-EDAA8B2C4E3C" codebase='/eaiweb/control/BadgeTool.cab#version=1,0,0,0'></object>
+        	      <object id="badgeTool" style="display:none" classid="clsid:395E6CF3-3084-487D-9606-EDAA8B2C4E3C"></object>
         
          <script type="text/javascript" src="themes/default/js/jquery.smartWizard-2.0.js"></script>
         <script type="text/javascript" src="js/losepwd.js"></script>
