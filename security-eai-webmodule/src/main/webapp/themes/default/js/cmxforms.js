@@ -79,7 +79,7 @@ function showMsg(id, errormsg){
 function validate(form) {
   var flag = validateField("#j_username", /.{1,100}$/, usernameErrormsg, true);
   flag = flag && validateField("#j_password", /.{1,20}$/, passwordErrormsg, false);
-  flag = flag && validateField("#j_checkcode", /^[A-Za-z0-9]{5}$/, checkcodeErrormsg, false);
+  flag = flag && validateField("#j_checkcode", /^[A-Za-z0-9]{4}$/, checkcodeErrormsg, false);
   flag = flag && validateField("#j_smscode", /^[0-9]{6}$/, smscodeErrormsg, false);
   flag = flag && validateField("#j_new_password", /.{1,20}$/, newpasswordErrormsg, false);
   flag = flag && validateField("#j_confirm_password", new RegExp("^" + $.trim($("#j_new_password").val()) + "$"), equalpasswordErrormsg, false);
@@ -91,7 +91,7 @@ function validate(form) {
 //validate loseuser fields
 function validateLoseUser(form) {
   var flag = validateField("#j_idcard", /^[A-Za-z0-9]{18}$/, idcardErrormsg, true);
-  flag = flag && validateField("#j_checkcode", /^[A-Za-z0-9]{5}$/, checkcodeErrormsg, false);
+  flag = flag && validateField("#j_checkcode", /^[A-Za-z0-9]{4}$/, checkcodeErrormsg, false);
 
   return flag;
 }
@@ -100,7 +100,7 @@ function validateLoseUser(form) {
 //validate losepwd stepone fields
 function validateLosePwdOne(form) {
   var flag = validateField("#j_username", /.{1,100}$/, usernameErrormsg, true);
-  flag = flag && validateField("#j_checkcode", /^[A-Za-z0-9]{5}$/, checkcodeErrormsg, false);
+  flag = flag && validateField("#j_checkcode", /^[A-Za-z0-9]{4}$/, checkcodeErrormsg, false);
   flag = flag && validateField("#j_smscode", /^[0-9]{6}$/, smscodeErrormsg, false);
 
   return flag;
@@ -116,7 +116,7 @@ function validateLosePwdTwo() {
 //validate regmobile fields
 function validateRegMobile(form) {
   var flag = validateField("#j_mobile",  /^0?(13[0-9]|15[012356789]|18[0236789]|14[57])[0-9]{8}$/, mobileErrormsg, true);
-  flag = flag && validateField("#j_checkcode", /^[A-Za-z0-9]{5}$/, checkcodeErrormsg, false);
+  flag = flag && validateField("#j_checkcode", /^[A-Za-z0-9]{4}$/, checkcodeErrormsg, false);
   flag = flag && validateField("#j_smscode", /^[0-9]{6}$/, smscodeErrormsg, false);
 
   return flag;
