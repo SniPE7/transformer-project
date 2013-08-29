@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="false" scan="true" scanPeriod="30 seconds">
     <!--  ***************************************************************************************** -->
-    <!--  All IdP logs will be output into ${idp.log.dir} directory.                                -->
+    <!--  All EAI logs will be output into ${eai.log.dir} directory.                                -->
     <!--  If you wan to set other directory, Un-comment the following property and set a directory. -->
     <!--  By default, log directory will output into:                                               -->
     <!--     * WebSphere env, - all logs will output into "WAS_INSTALL/profiles/Cell/logs".         -->
     <!--     * Tomcat env, - all logs will output into "CATALINA_HOME/logs".                        -->
     <!--  ***************************************************************************************** -->
-    <property scope="context" name="idp.log.dir" value="${java.io.tmpdir}"/>
+    <property scope="context" name="eai.log.dir" value="${java.io.tmpdir}"/>
 
     <!-- Guess default log directory -->
-    <if condition='isNull("idp.log.dir")'>
+    <if condition='isNull("eai.log.dir")'>
       <then>
         <!-- Detect which container installed -->
         <if condition='isDefined("user.install.root")'>
           <then>
             <!-- In WAS, output to profiles/Cell/logs -->
-            <property scope="context" name="idp.log.dir" value="${user.install.root}/logs"/>
+            <property scope="context" name="eai.log.dir" value="${user.install.root}/logs"/>
           </then>
         </if>
         <if condition='isDefined("catalina.home")'>
           <then>
             <!-- In Tomcat, output to $CATALINA_HOME/logs -->
-            <property scope="context" name="idp.log.dir" value="${catalina.home}/logs"/>
+            <property scope="context" name="eai.log.dir" value="${catalina.home}/logs"/>
           </then>
         </if>
       </then>
@@ -36,16 +36,16 @@
     <!-- 
         Logging appenders define where and how logging messages are logged.
      -->
-    <appender name="IDP_ACCESS" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${idp.log.dir}/logs/idp-access.log</File>
+    <appender name="EAI_ACCESS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${eai.log.dir}/logs/eai-access.log</File>
 
 <!--         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${idp.log.dir}/logs/idp-access-%d{yyyy-MM-dd}.log</FileNamePattern>
+            <FileNamePattern>${eai.log.dir}/logs/eai-access-%d{yyyy-MM-dd}.log</FileNamePattern>
             <MaxHistory>31</MaxHistory>
         </rollingPolicy> 
 -->
 				<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy"> 
-					<fileNamePattern>${idp.log.dir}/logs/idp-access.%i.log.zip</fileNamePattern> 
+					<fileNamePattern>${eai.log.dir}/logs/eai-access.%i.log.zip</fileNamePattern> 
 					<minIndex>1</minIndex> 
 					<maxIndex>10</maxIndex> 
 				</rollingPolicy> 
@@ -58,11 +58,11 @@
         </encoder>
     </appender>
 
-    <appender name="IDP_AUDIT" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${idp.log.dir}/logs/idp-audit.log</File>
+    <appender name="EAI_AUDIT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${eai.log.dir}/logs/eai-audit.log</File>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${idp.log.dir}/logs/idp-audit-%d{yyyy-MM-dd}.log</FileNamePattern>
+            <FileNamePattern>${eai.log.dir}/logs/eai-audit-%d{yyyy-MM-dd}.log</FileNamePattern>
             <MaxHistory>7</MaxHistory>
         </rollingPolicy>
 
@@ -72,16 +72,16 @@
         </encoder>
     </appender>
     <!-- Core appender for all information -->
-    <appender name="IDP_PROCESS" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${idp.log.dir}/logs/idp-process.log</File>
+    <appender name="EAI_PROCESS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${eai.log.dir}/logs/eai-process.log</File>
         
 <!--         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${idp.log.dir}/logs/idp-process-%d{yyyy-MM-dd}.log</FileNamePattern>
+            <FileNamePattern>${eai.log.dir}/logs/eai-process-%d{yyyy-MM-dd}.log</FileNamePattern>
             <MaxHistory>7</MaxHistory>
         </rollingPolicy> 
 -->
 				<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy"> 
-					<fileNamePattern>${idp.log.dir}/logs/idp-process.%i.log.zip</fileNamePattern> 
+					<fileNamePattern>${eai.log.dir}/logs/eai-process.%i.log.zip</fileNamePattern> 
 					<minIndex>1</minIndex> 
 					<maxIndex>10</maxIndex> 
 				</rollingPolicy> 
@@ -95,11 +95,11 @@
         </encoder>
     </appender>
     <!-- Login audit appender -->
-    <appender name="IDP.LOGIN.AUDIT.LOG.W7.APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${idp.log.dir}/logs/idp-w7-login.log</File>
+    <appender name="EAI.LOGIN.AUDIT.LOG.W7.APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${eai.log.dir}/logs/eai-w7-login.log</File>
         
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${idp.log.dir}/logs/idp-w7-login-%d{yyyy-MM-dd}.log</FileNamePattern>
+            <FileNamePattern>${eai.log.dir}/logs/eai-w7-login-%d{yyyy-MM-dd}.log</FileNamePattern>
             <!-- 90 days -->
             <MaxHistory>92</MaxHistory>
         </rollingPolicy>
@@ -110,17 +110,17 @@
         </encoder>
     </appender>
     <!-- Login audit appender -->
-    <appender name="IDP.METADATA.PROVIDER.APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${idp.log.dir}/logs/idp-metadata.log</File>
+    <appender name="EAI.METADATA.PROVIDER.APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${eai.log.dir}/logs/eai-metadata.log</File>
         
 <!--         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${idp.log.dir}/logs/idp-metadata-%d{yyyy-MM-dd}.log</FileNamePattern>
+            <FileNamePattern>${eai.log.dir}/logs/eai-metadata-%d{yyyy-MM-dd}.log</FileNamePattern>
             90 days
             <MaxHistory>7</MaxHistory>
         </rollingPolicy> -->
         
         <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy"> 
-					<fileNamePattern>${idp.log.dir}/logs/idp-metadata.%i.log.zip</fileNamePattern> 
+					<fileNamePattern>${eai.log.dir}/logs/eai-metadata.%i.log.zip</fileNamePattern> 
 					<minIndex>1</minIndex> 
 					<maxIndex>10</maxIndex> 
 				</rollingPolicy> 
@@ -149,14 +149,14 @@
     
     <logger name="org.apache.catalina" level="ERROR"/>
 
-    <!-- Logs IdP, but not OpenSAML, messages -->
-    <logger name="com.sinopec.siam.am.idp" level="ALL"/>
+    <!-- Logs EAI, but not OpenSAML, messages -->
+    <logger name="com.ibm.siam.*" level="ALL"/>
+    <logger name="com.techcenter" level="INFO"/>
+    <logger name="com.sinopec.siam.*" level="ALL"/>
     <logger name="edu.internet2.middleware.shibboleth" level="ALL"/>
 
-    <!-- Logs OpenSAML, but not IdP, messages -->
+    <!-- Logs OpenSAML, but not EAI, messages -->
     <logger name="org.opensaml" level="INFO"/>
-    
-    <logger name="com.techcenter" level="INFO"/>
     
     <!-- Logs VT LDAP LoginModule related messages, now not yet used -->
     <logger name="edu.vt.middleware.ldap" level="OFF"/>
@@ -164,29 +164,29 @@
     <!-- Logs inbound and outbound protocols messages, set DEBUG to turn on -->
     <logger name="PROTOCOL_MESSAGE" level="OFF" />
     
-    <!-- IDP Access Logger -->
-    <logger name="IDP-Access" level="ALL">
-        <appender-ref ref="IDP_ACCESS"/>
+    <!-- EAI Access Logger -->
+    <logger name="EAI-Access" level="ALL">
+        <appender-ref ref="EAI_ACCESS"/>
     </logger>
     
-    <!-- IDP Common Audit Logger -->
-    <logger name="IDP-Audit" level="ALL">
-        <appender-ref ref="IDP_AUDIT"/>
+    <!-- EAI Common Audit Logger -->
+    <logger name="EAI-Audit" level="ALL">
+        <appender-ref ref="EAI_AUDIT"/>
     </logger>
         
-    <!-- IDP Login Module W7 Log, DEBUG will turn on W7 log, otherwise will turn off -->
-    <logger name="IDP-Login-AUDIT-Logger-W7" level="DEBUG">
-       <appender-ref ref="IDP.LOGIN.AUDIT.LOG.W7.APPENDER"/>
+    <!-- EAI Login Module W7 Log, DEBUG will turn on W7 log, otherwise will turn off -->
+    <logger name="EAI-Login-AUDIT-Logger-W7" level="DEBUG">
+       <appender-ref ref="EAI.LOGIN.AUDIT.LOG.W7.APPENDER"/>
     </logger>
     
-    <!-- IDP Metadata register and download logger -->
+    <!-- EAI Metadata register and download logger -->
     <logger name="com.sinopec.siam.am.ts.metadata.provider.TopologyMetadataProvider" level="DEBUG">
-       <appender-ref ref="IDP.METADATA.PROVIDER.APPENDER"/>
+       <appender-ref ref="EAI.METADATA.PROVIDER.APPENDER"/>
     </logger>
 
     <!-- Root category -->
     <root level="INFO">
-        <appender-ref ref="IDP_PROCESS"/>
+        <appender-ref ref="EAI_PROCESS"/>
         <appender-ref ref="STDOUT"/>
     </root>
 
