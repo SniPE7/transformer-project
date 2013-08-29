@@ -25,15 +25,13 @@
 					
 	               	<div style="clear:both; height:0;overflow:hidden;"></div>
 	                <div style="display: block; float: left;"><input type="text" tabindex="1" name="j_username" id="j_username" class="textinput" value="<%=request.getAttribute("j_username") != null ? request.getAttribute("j_username") : ""%>"/></div>
-	                <div id="forgotuid_box" style="display: block; float: left;text-align:center"><a tabindex="9" href="loseuser.do" class="forgotpass">忘记用户名/Forget Username?</a></div>
 	                <div style="clear:both; height:0;overflow:hidden;"></div>
 	               
 	                <label class="float-left"><spring:message code="logon.form.checkcode" /></label>
 	                <div style="display: block; float: left;"><input type="text" tabindex="2" name="j_checkcode" id="j_checkcode" class="textCKcode"/></div>
 	                <img id="j_checkcodeImgCode" src="Kaptcha.jpg"
-	                  style="height: 27px; width: 75px; cursor: hand; display: block; float: left; margin-left: 10px; margin-top: 3px;" title="看不清，请点击"
+	                  style="height: 27px; width: 75px; cursor: hand; display: block; float: left; margin-left: 10px; margin-top: 3px;" title="点击更新/Click to refresh code" alt="点击更新/Click to refresh code"
 	                  onclick="javascript:updateCheckCodeImg()"/>
-	                <span style="display: block; float: left; line-height:250%;font-size: 12px;text-align:center">点击更新/Click to refresh code</span>
 	                 <div style="clear:both; height:0;overflow:hidden;"></div>
 	                 
 	                <label class="float-left">短信一次性密码/SMS One Time Password</label>
@@ -49,9 +47,11 @@
 	                <div class="aclogin-action" style="display: block; clear: both;">
 	                  <div class="fl-left">
 	                  </div>
-	                  <div style="margin-top: 25px;">
+	                  <div style="margin-top: 15px;">
 	                    <button type="submit" id="J_sidebar_login" class="btn btn_big btn_submit mr20" style="float: left; margin-left: 0px; ">登录/Login</button> 
 	                  </div>
+                    <div style="clear:both; height:0;overflow:hidden;"></div>
+                    <div id="forgotuid_box" style="display: block; float: left;text-align:center;margin-top: 15px;" ><a tabindex="5" href="loseuser.do" class="forgotpass">忘记用户名/Forget Username?</a></div>
 	                  <div class="clearfix">&nbsp;</div>
 	                </div>
 	              </fieldset>
