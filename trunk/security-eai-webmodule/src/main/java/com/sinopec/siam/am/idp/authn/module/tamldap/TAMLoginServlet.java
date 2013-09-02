@@ -101,11 +101,20 @@ public class TAMLoginServlet extends HttpServlet {
 		String username = request.getParameter("j_username");
 		String password = request.getParameter("j_password");
 
-		if (username == null) {
-			// 没有提交用户名, 转入登录表单页面
-			redirectToPage(request, response, loginPage);
-			return;
+		//for upgrade auth level, fill username or cardid
+		Object upgradeUserName = request.getSession(false).getAttribute("j_username");
+		if(username == null && null!=upgradeUserName && !"".equals(upgradeUserName.toString())) {
+		    request.setAttribute("j_username", upgradeUserName.toString().toLowerCase());
+            redirectToPage(request, response, loginPage);
+            return;
 		}
+		
+	    if (username == null) {
+            // 没有提交用户名, 转入登录表单页面
+            redirectToPage(request, response, loginPage);
+            return;
+	    } 
+
 
 		username = username.trim();
 
@@ -117,6 +126,9 @@ public class TAMLoginServlet extends HttpServlet {
 			request.getSession(false).removeAttribute(AbstractSpringLoginModule.PRINCIPAL_DN_KEY);
 			request.getSession(false).removeAttribute(AbstractSpringLoginModule.PRINCIPAL_PASSWORD_KEY);
 			request.getSession(false).removeAttribute(LoginHandler.PRINCIPAL_UPDATE_PASSWORD_SUCCESS_KEY);
+			
+			//for upgrade auth level, fill username or cardid
+			request.getSession(true).setAttribute("j_username", username);
 
 			AuthenticationEngine.returnToAuthenticationEngine(this.getServletContext(), request, response);
 		} catch (PasswordReminderLoginException e) {
