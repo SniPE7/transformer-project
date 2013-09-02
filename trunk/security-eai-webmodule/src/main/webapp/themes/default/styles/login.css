@@ -195,9 +195,8 @@ ul#tabs li a:hover {
 #content {
 	display: block;
 	width: 100%;	
+	min-height: 216px;
 }
-
-
 
 #acloginpod {
 	/*background: url("../images/login/acloginpodbg.gif") repeat-x scroll 0 0 #EBEBEB;
@@ -652,6 +651,10 @@ h1.read_h1 {
 	float: left;
 }
 
+#sgmcontent , #sgmfooter, #sgmbanner {
+	clear: both; 
+	overflow: hidden;
+}
 
 #sgmfooter .footerleft{
 	background-image: url("../images/login_bottom_bg.gif"); 
@@ -661,14 +664,10 @@ h1.read_h1 {
 }
 
 #sgmfooter .footerright {
+	background-image: url("../images/login_right_bottom.gif");
 	width: 24px; 
 	height: 13px;
 	float: left;
-}
-
-#sgmcontent , #sgmfooter, #sgmbanner {
-	clear: both; 
-	overflow: hidden;
 }
 
 #sgmcontent .contentleft{
@@ -755,6 +754,7 @@ h1.read_h1 {
 }
 
 #sgmfooter2 .footerright {
+	background-image: url("../images/login_right_bottom.gif");
 	width: 24px; 
 	height: 13px;
 	float: left;

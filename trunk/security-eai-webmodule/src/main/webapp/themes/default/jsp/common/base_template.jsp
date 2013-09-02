@@ -57,7 +57,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                <div class="footerleft">
 	                    <img src="themes/default/images/login_left_bottom.gif" /></div>
 	                <div class="footerright">
-	                    <img src="themes/default/images/login_right_bottom.gif" />
 	                </div>                
 				</div>
 				<!-- <div class="clear"></div> -->
