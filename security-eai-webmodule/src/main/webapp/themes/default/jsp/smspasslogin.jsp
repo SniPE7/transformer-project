@@ -2,7 +2,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<object id="badgeTool" style="display:none" classid="clsid:395E6CF3-3084-487D-9606-EDAA8B2C4E3C"></object>
+<!-- <object id="badgeTool" style="display:none" classid="clsid:395E6CF3-3084-487D-9606-EDAA8B2C4E3C"></object> -->
 
 	      <div id="content" class="conten-login">
 	        
@@ -19,9 +19,25 @@
 	                <div id="normal-label">
 	                	<label for="ac_username"><spring:message code="logon.form.username" /></label>
 	                </div>
-	               	<div id="badge-label" style="display:none;"> <label for="ac_username">请将工卡插入读卡器 或 输入用户名</label>
-		               	<label for="ac_username" style="display: block; float: left;">Please place your badge over reader, Or enter your username</label> 
-		               	<!-- <div id="forgotbox" style="display: block; float: left;text-align:center"><a tabindex="9" href="./card/insert.do" class="forgotpass">注册工卡/Register My Badge?</a></div> -->
+	               	<div id="badge-label" style="display:none;"> 
+			            <div id="card-tag" style="float:left;">
+		               		<img src="themes/default/images/nocard.png" width="64" height="64" alt="读卡状态">
+		               	</div>
+	               		<div id="card-info" style="float:left;margin-top:10px;">
+		               		<label for="ac_username">请将工卡插入读卡器 或 输入用户名</label>
+			               	<label for="ac_username" style="display: block; float: left;">Please place your badge over reader, Or enter your username</label> 
+			            </div>
+		               	<!-- <div id="forgotbox" style="display: block; float: left;text-align:center"><a tabindex="6" href="./card/insert.do" class="forgotpass">注册工卡/Register My Badge?</a></div> -->
+	               	</div>
+	               	<div id="badge-ok" style="display:none;"> 
+			            <div id="card-tag" style="float:left;">
+		               		<img src="themes/default/images/card.png" width="64" height="64" alt="读卡成功">
+		               	</div>
+	               		<div id="card-info" style="float:left;margin-top:10px;">
+		               		<label for="ac_username">读卡成功！</label>
+			               	<label for="ac_username" style="display: block; float: left;">Successful reader！ </label> 
+			               	<label for="ac_username"></label>
+			            </div>
 	               	</div>
 					
 	               	<div style="clear:both; height:0;overflow:hidden;"></div>

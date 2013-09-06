@@ -16,9 +16,25 @@
 	                <div id="normal-label">
 	                	<label for="ac_username"><spring:message code="logon.form.username" /></label>
 	                </div>
-	               	<div id="badge-label" style="display:none;"> <label for="ac_username">请将工卡插入读卡器 或 输入用户名</label>
-		               	<label for="ac_username" style="display: block; float: left;">Please place your badge over reader, Or enter your username</label> 
+	               	<div id="badge-label" style="display:none;"> 
+			            <div id="card-tag" style="float:left;">
+		               		<img src="themes/default/images/nocard.png" width="64" height="64" alt="读卡状态">
+		               	</div>
+	               		<div id="card-info" style="float:left;margin-top:10px;">
+		               		<label for="ac_username">请将工卡插入读卡器 或 输入用户名</label>
+			               	<label for="ac_username" style="display: block; float: left;">Please place your badge over reader, Or enter your username</label> 
+			            </div>
 		               	<!-- <div id="forgotbox" style="display: block; float: left;text-align:center"><a tabindex="6" href="./card/insert.do" class="forgotpass">注册工卡/Register My Badge?</a></div> -->
+	               	</div>
+	               	<div id="badge-ok" style="display:none;"> 
+			            <div id="card-tag" style="float:left;">
+		               		<img src="themes/default/images/card.png" width="64" height="64" alt="读卡成功">
+		               	</div>
+	               		<div id="card-info" style="float:left;margin-top:10px;">
+		               		<label for="ac_username">读卡成功！</label>
+			               	<label for="ac_username" style="display: block; float: left;">Successful reader！ </label> 
+			               	<label for="ac_username"></label>
+			            </div>
 	               	</div>
 					
 	               	<div style="clear:both; height:0;overflow:hidden;"></div>
@@ -35,15 +51,12 @@
 	                  onclick="javascript:updateCheckCodeImg()"/>
 	                <div style="clear:both; height:0;overflow:hidden;"></div>
 	                <div class="aclogin-action">
-	                  <div class="fl-left">
-	                  </div>
-	                  <div style="margin-top: 15px;">
-	                     <button type="submit" id="J_sidebar_login" class="btn btn_big btn_submit mr20" style="float:left; margin-left: 0px; ">登录/Login</button>
-	                  </div>
-	                  <div style="clear:both; height:0;overflow:hidden;"></div>
-                    <div id="forgotpwd_box" style="display: block; float: left;text-align:center; vertical-align: bottom; margin-left: 0px;margin-top: 15px;"><a tabindex="6" href="losepwd.do" class="forgotpass">忘记密码/Forget Password?</a></div>
-                    <div id="forgotuid_box" style="display: block; float: left;text-align:center;margin-top: 15px;" ><a tabindex="5" href="loseuser.do" class="forgotpass">忘记用户名/Forget Username?</a></div>
-	                  <div class="clearfix">&nbsp;</div>
+		                  <div style="margin-top: 15px;float: left;">
+		                     <button type="submit" id="J_sidebar_login" class="btn btn_big btn_submit mr20">登录/Login</button>
+		                  </div>
+		                  <div style="clear:both; height:0;overflow:hidden;"></div>
+	                    <div id="forgotpwd_box" style="display: block; float: left;text-align:center; vertical-align: bottom; margin-left: 0px;margin-top: 15px;"><a tabindex="6" href="losepwd.do" class="forgotpass">忘记密码/Forget Password?</a></div>
+	                    <div id="forgotuid_box" style="display: block; float: left;text-align:center;margin-top: 15px;" ><a tabindex="5" href="loseuser.do" class="forgotpass">忘记用户名/Forget Username?</a></div>
 	                </div>
 	              </fieldset>
 	            </form>
@@ -60,8 +73,7 @@
 	        </div><!-- End of #acloginpod -->
 	      </div><!-- End of #content -->
 	      
-	      
-	      
+
 	      <div class="aui-message error invisible" id="errorDivMsg">
             <!-- shown with class="aui-message error" -->
           </div>
@@ -69,10 +81,14 @@
             <!-- shown with class="aui-message info" -->
           </div>
 	      
-	      <object id="badgeTool" style="display:none" classid="clsid:395E6CF3-3084-487D-9606-EDAA8B2C4E3C"></object>
 	      
 	      <!-- <script>setMsg('info','<spring:message code="login.form.error.title.tam" />');</script> -->
+	      
+	      
 	      <script type="text/javascript">
+	      	//you can change the screenZoom String to xxx%
+	      	//doBodyZoom(screenZoom);
+	       
 	        //更新图形验证码
 	        function updateCheckCodeImg() {
 	          var imgCode = document.getElementById("j_checkcodeImgCode");
@@ -80,4 +96,5 @@
 	        }
 	        
 	        showCardModel();
+
 	      </script>

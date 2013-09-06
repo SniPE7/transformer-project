@@ -12,6 +12,19 @@ body {
 	font-family: 微软雅黑,simsun,Helvetica,Arial,Verdana,Geneva,sans-serif;
 	font-size: 14px;
 	background: url("../images/page_bg.gif") #dcedf3 repeat-x;
+	
+	zoom: 100%;
+	/*
+	transform:  scale(1.1);
+	
+	-ms-transform: scale(1.1);  
+	-ms-transform-origin:top left; 
+	
+	-moz-transform:scale(1.1);
+	-moz-transform-origin:top left;
+	
+	-webkit-transform:scale(1.1);
+	-webkit-transform-origin:top left;*/
 }
 a {
 	color: navy;
@@ -20,10 +33,17 @@ a {
 a:hover {
 	color: red;
 }
-#header, #main, #footer {
+#main {
 	margin: 0 auto;
-	width: 1000px;	
+	/*width: 600px;*/
+	/*width: 1000px;*/	
 }
+
+#header, #footer {
+	margin: 0 auto;
+	/*width: 1000px;*/	
+}
+
 #banner {
 	height: 30px;
 }
@@ -122,9 +142,9 @@ ul#tabs li a:hover {
 
 #panel {
 	margin: 16px auto;
-	width: 100%;
+	width: 600px;
 	min-height: 300px;
-	position:relative;
+	/*position:relative;*/
 	overflow: auto;
 	overflow-x: hidden;
 	overflow-y: hidden;
@@ -330,7 +350,7 @@ ul#tabs li a:hover {
     min-height: 1em;
     width: 400px;
     padding: 1em 1em 1em 35px;
-    position: relative;
+    /*position: relative;*/
 }
 .aui-message, .aui-message.warning, .aui-message.error, .aui-message.info, .aui-message.success, .aui-message.hint, .aui-message.load {
     color: #333333;
@@ -422,7 +442,7 @@ ul#tabs li a:hover {
 	margin: 16px auto;
 	width: 100%;
 	min-height: 300px;
-	position:relative;
+	/*position:relative;*/
 	overflow: auto;
 	overflow-x: hidden;
 	overflow-y: hidden;
@@ -524,7 +544,6 @@ button.btn_big{
 	_padding: 6px 18px 3px !important;
 }
 
-/*其他按钮文字颜色*/
 .btn_error,
 .btn_error:hover,
 .btn_success,
@@ -567,7 +586,6 @@ button.btn_big{
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
     padding-left:25px;
 	padding-right:25px;
-	position:relative;
 }
 
 .btn_submit:hover {
@@ -689,11 +707,8 @@ h1.read_h1 {
 }
 
 #panel2 {
-    margin: 16px 200px 0px;
-    overflow: hidden;
-    position: relative;
-    clear: both;
-    width: 100%;
+    margin: 16px auto;
+    width: 600px;
 }
 
 
@@ -721,9 +736,8 @@ h1.read_h1 {
 #panel3 {
     margin: 16px auto;
     overflow: hidden;
-    position: relative;
     clear: both;
-    width: 100%;
+    width: 982px;
 }
 
 #sgmbanner2 .topleft{

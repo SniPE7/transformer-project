@@ -24,6 +24,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="js/form.js"></script>
 </head>
 <body>
+	<object id="badgeTool" style="display:none" classid="clsid:395E6CF3-3084-487D-9606-EDAA8B2C4E3C"></object>
+	
   <div id="container">
     <div id="header">
       <tiles:insertAttribute name="banner" />
@@ -72,5 +74,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <tiles:insertAttribute name="footer" />
     </div><!-- end #footer -->
   </div>
+    
+     <script>
+		doBodyZoom(screenZoom);
+	</script>
+	
 </body>
 </html>
