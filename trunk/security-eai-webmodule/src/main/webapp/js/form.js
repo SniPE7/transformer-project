@@ -253,10 +253,75 @@ function showCardModel(){
 
 function fillCardUid(){
 	var cardUid = getCardUid();
-	if (cardUid.length > 0) {
+	if (cardUid.length != 0) {
+	//if (cardUid.length == 0) {
 		//clearInterval(cardTimer);
 		
 		$("#j_username").val(cardUid);
+		
+		$("#badge-label").hide();
+		$("#normal-label").hide();
+		$("#j_username").hide();
+		$("#badge-ok").show();
+	}
+}
+
+/***  屏幕自适应模块  ***/
+var screenZoom = "140%";
+function setBodyZoom(zoomSize) {
+	document.body.style.zoom=zoomSize;
+}
+
+function checkDesktop(){
+	var result = false;
+	
+	var badgeTool = document.getElementById("badgeTool");
+	if (badgeTool == "undifined")
+	{	
+		//没有安装读卡器控件,默认只支持用户名
+		//alert("未安装ActiveX控件。");
+		return false;
+	}
+
+	try {
+		var hasDevice = badgeTool.HasDevice();
+		if(hasDevice) {
+			result = true; 
+		}
+	} catch(Exception) {
+		return false;
+	}
+	
+	//result = false;
+	return result;
+}
+
+//always return 1, 
+// except at non-default zoom levels in IE before version 8
+function GetZoomFactor () {
+	var factor = 1;
+	if (document.body.getBoundingClientRect) {
+	        // rect is only in physical pixel size in IE before version 8 
+	    var rect = document.body.getBoundingClientRect ();
+	    var physicalW = rect.right - rect.left;
+	    var logicalW = document.body.offsetWidth;
+	
+	        // the zoom level is always an integer percent value
+	    factor = Math.round ((physicalW / logicalW) * 100) / 100;
+	}
+	return factor;
+}
+
+function doBodyZoom(zoomSize) {
+	if(checkDesktop()) {
+		setBodyZoom(zoomSize);
+		
+		//var iMove = (document.body.scrollWidth-document.body.offsetWidth/GetZoomFactor())/2;
+		//window.scrollTo(document.body.scrollWidth/2,document.body.scrollHeight/2);
+		//window.scrollTo(iMove, 0);
+		
+		//document.body.style.overflow="scroll";
+	    //document.all.controlscroll.value="hidden";
 	}
 }
 

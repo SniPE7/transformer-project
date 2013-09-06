@@ -7,18 +7,16 @@
   http://tech-laboratory.blogspot.com
 */
 .swMain {
-  position:relative;
   display:block;
   margin:10px 10px;;
   padding:0;
   border: 0px solid #CCC;
   overflow:visible;
-  float:left;
+  /*float:left;*/
   width:960px;
 }
 .swMain .stepContainer {
   display:block;
-  position: relative;
   margin: 0;
   padding:0;    
   border: 0px solid #CCC;    
@@ -29,7 +27,6 @@
 
 .swMain .stepContainer div.content {
   display:block;
-  position: absolute;  
   float:left;
   margin: 0;
   padding:5px;    
@@ -50,7 +47,7 @@
 
 .swMain div.actionBar {
   display:block;
-  position: relative; 
+  /*position: relative;*/ 
   clear:both;
   margin:             3px 0 0 0;   
   border:             0px solid #CCC;
@@ -69,7 +66,7 @@
 
 .swMain .stepContainer .StepTitle {
   display:block;
-  position: relative;
+  /*position: relative;*/
   margin:0;   
   border:1px solid #E0E0E0;
   padding:5px;   
@@ -83,9 +80,9 @@
   -moz-border-radius  : 5px;    
 }
 .swMain ul.anchor {
-  position: relative;
+  /*position: relative;*/
   display:block;
-  float:left;
+  /*float:left;*/
   list-style: none;
   padding: 0px;  
   margin: 10px 0;      
@@ -94,7 +91,7 @@
   background: transparent; /*#EEEEEE */
 }
 .swMain ul.anchor li{ 
-  position: relative; 
+  /*position: relative; */
   display:block;
   margin: 0;
   padding: 0; 
@@ -106,7 +103,7 @@
 /* Anchor Element Style */
 .swMain ul.anchor li a {
   display:block;
-  position:relative;
+  /*position:relative;*/
   float:left;
   margin: 0;
   padding:3px;
@@ -119,7 +116,7 @@
   z-index:99;
 }
 .swMain ul.anchor li a .stepNumber{
-  position:relative;
+  /*position:relative;*/
   float:left;
   width:30px;
   text-align: center;
@@ -128,7 +125,7 @@
   font: bold 45px Verdana, Arial, Helvetica, sans-serif;
 }
 .swMain ul.anchor li a .stepDesc{
-  position:relative;
+  /*position:relative;*/
   display:block;
   float:left;
   text-align: left;
@@ -154,7 +151,7 @@
 }
 
 .swMain ul.anchor li a.done { 
-  position:relative;
+  /*position:relative;*/
   color:#FFF;  
   background: #8CC63F;  
   border: 1px solid #8CC63F;   
@@ -241,7 +238,7 @@
     float: left;
     padding-left:25px;
 	padding-right:25px;
-	position:relative;
+	/*position:relative;*/
 	-moz-border-radius  : 5px; 
   	-webkit-border-radius: 5px; 
 }
@@ -303,7 +300,7 @@
 }
 
 .swMain .loader {
-  position:relative;  
+  /*position:relative;*/  
   display:none;
   float:left;  
   margin: 2px 0 0 2px;
@@ -317,7 +314,7 @@
   z-index:998;
 }
 .swMain .msgBox {
-  position:relative;  
+  /*position:relative;*/  
   display:none;
   float:left;
   margin: 4px 0 0 5px;
@@ -330,6 +327,7 @@
   -webkit-border-radius: 5px;
   z-index:999;
   min-width:200px;  
+  width: 60%;
 }
 .swMain .msgBox .content {
   font: normal 12px Verdana,Arial,Helvetica,sans-serif;
@@ -345,7 +343,7 @@
   margin: 0 0 0 5px;
   outline-style: none;
   padding: 0 2px 0 2px;
-  position: relative;
+  /*position: relative;*/
   text-align: center;
   text-decoration: none;
 }

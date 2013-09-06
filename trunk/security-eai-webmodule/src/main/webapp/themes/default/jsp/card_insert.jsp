@@ -47,7 +47,7 @@ cardTimer = setInterval("checkCardStatus();", 1000);
 </script>
 
 <!-- <object id="badgeTool" style="display:none" classid="clsid:395E6CF3-3084-487D-9606-EDAA8B2C4E3C" codebase='/eaiweb/control/BadgeTool.cab#version=1,0,0,0'></object>  -->
-<object id="badgeTool" style="display:none" classid="clsid:395E6CF3-3084-487D-9606-EDAA8B2C4E3C"></object>
+<!-- <object id="badgeTool" style="display:none" classid="clsid:395E6CF3-3084-487D-9606-EDAA8B2C4E3C"></object> -->
 
 <div id="content" class="conten-login">
 			<div class="aui-message error invisible" id="errorDivMsg">

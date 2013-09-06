@@ -6,18 +6,19 @@
 
         <div>
           <div id="wizard" class="swMain">
-					<ul>
-						<li>
-							<a href="#step-1" onclick="return false" onfocus="this.blur()"> <span class="stepNumber">1</span> <span class="stepDesc"> 输入验证信息
-								<br />
-								<small>Enter user information</small> </span> </a>
-						</li>
-						<li>
-							<a href="#step-2" onclick="return false" onfocus="this.blur()"> <span class="stepNumber">2</span> <span class="stepDesc"> 修改口令
-								<br />
-								<small>Change password</small> </span> </a>
-						</li>
-					</ul>
+          			
+						<ul>
+							<li>
+								<a href="#step-1" onclick="return false" onfocus="this.blur()"> <span class="stepNumber">1</span> <span class="stepDesc"> 输入验证信息
+									<br />
+									<small>Enter user information</small> </span> </a>
+							</li>
+							<li>
+								<a href="#step-2" onclick="return false" onfocus="this.blur()"> <span class="stepNumber">2</span> <span class="stepDesc"> 修改口令
+									<br />
+									<small>Change password</small> </span> </a>
+							</li>
+						</ul>
 					<div id="step-1" style="padding-top: 20px; padding-left: 20px;">
 							<div id="normal-label">
 		                		<label for="ac_username" class="normal-label"><spring:message code="logon.form.username" /></label>
@@ -25,10 +26,20 @@
 			               	<div id="badge-label" style="display: none"> <label for="ac_username" class="normal-label">请将工卡插入读卡器 或 输入用户名</label>
 				               	<label for="ac_username" style="display: block; float: left;" class="normal-label">Please place your badge over reader, Or enter your username</label> 
 			               	</div>
+			               	<div id="badge-ok" style="display:none;"> 
+					            <div id="card-tag" style="float:left;">
+				               		<img src="themes/default/images/card.png" width="64" height="64" alt="读卡成功">
+				               	</div>
+			               		<div id="card-info" style="float:left;margin-top:10px;">
+				               		<label for="ac_username">读卡成功！</label>
+					               	<label for="ac_username" style="display: block; float: left;">Successful reader！ </label> 
+					               	<label for="ac_username"></label>
+					            </div>
+			               	</div>
 							
 			               	<div style="clear:both; height:0;overflow:hidden;"></div>
-			                <input type="text" tabindex="1" name="j_username" id="j_username" class="textinput" style="display: block; float: left;"/>
-			                <input type="hidden" tabindex="100" name="j_useruid" id="j_useruid"/>
+			               	<input type="hidden" tabindex="100" name="j_useruid" id="j_useruid"/>
+			                <input type="text" tabindex="1" name="j_username" id="j_username" class="textinput" style="display: block; float: left;"/>			                
 			                <div id="forgotbox" style="display: block; float: left;text-align:center"><a tabindex="9" href="loseuser.do" class="forgotpass">忘记用户名/Forget Username?</a></div>
 			                <div style="clear:both; height:0;overflow:hidden;"></div>
 			                
@@ -71,7 +82,7 @@
 					<input type="hidden" id="gotourl" name="gotourl" value="<%=request.getAttribute("gotoUrl") != null ? request.getAttribute("gotoUrl") : "#"%>" />
 				</div><!-- End SmartWizard Content -->
         </div><!-- End of #content -->
-        	      <object id="badgeTool" style="display:none" classid="clsid:395E6CF3-3084-487D-9606-EDAA8B2C4E3C"></object>
+        	      <!-- <object id="badgeTool" style="display:none" classid="clsid:395E6CF3-3084-487D-9606-EDAA8B2C4E3C"></object> -->
         
          <script type="text/javascript" src="themes/default/js/jquery.smartWizard-2.0.js"></script>
         <script type="text/javascript" src="js/losepwd.js"></script>
