@@ -265,7 +265,7 @@ public class TAMLoginServlet extends HttpServlet {
 			}
 		}
 
-		TAMCallbackHandler cbh = new TAMCallbackHandler(username, password, request);
+		TAMCallbackHandler cbh = new TAMCallbackHandler(username, password, request, response);
 
 		// Get Spring Bean Factory
 		ApplicationContext appContext = ContextLoader.getCurrentWebApplicationContext();

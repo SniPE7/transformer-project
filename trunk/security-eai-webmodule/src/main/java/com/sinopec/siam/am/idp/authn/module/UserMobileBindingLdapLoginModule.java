@@ -18,6 +18,8 @@ import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.auth.login.LoginException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -28,6 +30,10 @@ import org.springframework.ldap.core.support.AbstractContextMapper;
 
 import com.sinopec.siam.am.idp.authn.module.CommonLdapAuthLoginModule.DnAndAttributes;
 import com.sinopec.siam.am.idp.authn.principal.UserPrincipal;
+import com.sinopec.siam.am.idp.authn.provider.RequestCallback;
+import com.sinopec.siam.am.idp.authn.provider.ResponseCallback;
+
+import edu.internet2.middleware.shibboleth.idp.util.DatatypeHelper;
 
 /**
  * 人员手机号绑定提醒LoginModule（基本Ldap实现）
@@ -38,7 +44,11 @@ import com.sinopec.siam.am.idp.authn.principal.UserPrincipal;
 
 public class UserMobileBindingLdapLoginModule extends AbstractSpringLoginModule {
 	
-	private static Log logger = LogFactory.getLog(UserMobileBindingLdapLoginModule.class);
+  public static final SimpleDateFormat DATE_FORMAT_LAST_REMIND_TIME = new SimpleDateFormat("yyMMddHHmmssZ");
+
+  public static final String ATTR_LAST_REMIND_TIME = "MOBILE_REG_LAST_REMIND_TIME";
+
+  private static Log logger = LogFactory.getLog(UserMobileBindingLdapLoginModule.class);
 
 	private static final String DATE_FORMAT = "yyyyMMddHHmm'Z'";
 
@@ -71,7 +81,12 @@ public class UserMobileBindingLdapLoginModule extends AbstractSpringLoginModule 
   private String mobileUpdateAttrName = "SGMMobileTime";
   
 
-  /** {@inheritDoc} */
+	/**
+	 * 提醒的间隔时间，在此时间范围能，将不再重复提醒
+	 */
+	private int remindIntervalInSeconds = 3600 * 24;
+
+	/** {@inheritDoc} */
   public void initialize(Subject subject, CallbackHandler callbackHandler, Map<String, ?> sharedState,
       Map<String, ?> options) {
     
@@ -104,6 +119,9 @@ public class UserMobileBindingLdapLoginModule extends AbstractSpringLoginModule 
 	  } 
     }
 
+    if (options.get("remindIntervalInSeconds") != null) {
+      this.remindIntervalInSeconds = Integer.valueOf((String) options.get("remindIntervalInSeconds"));
+    }
   }
 
   /** {@inheritDoc} */
@@ -116,8 +134,10 @@ public class UserMobileBindingLdapLoginModule extends AbstractSpringLoginModule 
 
     NameCallback nameCallback = new NameCallback("User Name: ");
     MobileUpdateOperationStatusCallback mobileUpdateCallback = new MobileUpdateOperationStatusCallback();
+    RequestCallback httpRequestCallback = new RequestCallback();
+    ResponseCallback httpResponseCallback = new ResponseCallback();
 
-    Callback[] callbacks = new Callback[] {nameCallback, mobileUpdateCallback};
+    Callback[] callbacks = new Callback[] {nameCallback, mobileUpdateCallback, httpRequestCallback, httpResponseCallback};
     try {
       callbackHandler.handle(callbacks);
     } catch (IOException e) {
@@ -133,7 +153,7 @@ public class UserMobileBindingLdapLoginModule extends AbstractSpringLoginModule 
       throw new DetailLoginException("login.form.error.username.isNull", String.format("username is null; usernsme:%s.", username));
     }
     
-    if(mobileUpdateCallback.isMobileUpdated()){
+    if(mobileUpdateCallback.isMobileUpdated() || needToRemindBaseLastStatus(httpRequestCallback)){
       // 用户校验，通过LADP查询捆绑人员uid信息，存储Subject
       UserPrincipal principal = new UserPrincipal();
       principal.setName(username);
@@ -170,18 +190,28 @@ public class UserMobileBindingLdapLoginModule extends AbstractSpringLoginModule 
     
     if(null==mobile || "".equals(mobile)) {
     	//throw new UserMobileBindingLoginException((String)sharedState.get(LOGIN_NAME), String.format("[%s]'s mobile not set, need to set mobile.", (String)sharedState.get(LOGIN_NAME)));
+      // Set remind time to Cookie
+      Cookie cookie = new Cookie(ATTR_LAST_REMIND_TIME, DATE_FORMAT_LAST_REMIND_TIME.format(new Date()));
+      cookie.setMaxAge(this.remindIntervalInSeconds * 2);
+			httpResponseCallback.getResponse().addCookie(cookie);
     	throw new UserMobileBindingLoginException(username, "regmobile.info.remind.no", "",  String.format("[%s]'s mobile have not bind, need to bind mobile.", username));
     }
     
     if(checkMobileUpdateTime()) {
     	if(mobileLastDate==null) {
   	      //throw new UserMobileBindingLoginException((String)sharedState.get(LOGIN_NAME), String.format("[%s]'s mobile expired, need to change mobile.", (String)sharedState.get(LOGIN_NAME)));
+        Cookie cookie = new Cookie(ATTR_LAST_REMIND_TIME, DATE_FORMAT_LAST_REMIND_TIME.format(new Date()));
+        cookie.setMaxAge(this.remindIntervalInSeconds * 2);
+  			httpResponseCallback.getResponse().addCookie(cookie);
     		throw new UserMobileBindingLoginException(username, "regmobile.info.remind.expire",(String) mobile,  String.format("[%s]'s mobile expired, need to change mobile.", username));
     	}
     	
 	    mobileLastDate.setTime(mobileLastDate.getTime() + personMobilePastDueTime);
 	    if (mobileLastDate.compareTo(new Date()) <= 0) {
 	      //throw new UserMobileBindingLoginException((String)sharedState.get(LOGIN_NAME), String.format("[%s]'s mobile expired, need to change mobile.", (String)sharedState.get(LOGIN_NAME)));
+	      Cookie cookie = new Cookie(ATTR_LAST_REMIND_TIME, DATE_FORMAT_LAST_REMIND_TIME.format(new Date()));
+	      cookie.setMaxAge(this.remindIntervalInSeconds * 2);
+				httpResponseCallback.getResponse().addCookie(cookie);
     		throw new UserMobileBindingLoginException(username, "regmobile.info.remind.expire",(String) mobile,  String.format("[%s]'s mobile expired, need to change mobile.", username));
 	    }
     }
@@ -267,4 +297,45 @@ public class UserMobileBindingLdapLoginModule extends AbstractSpringLoginModule 
 	  return false;
   }
 
+	/**
+	 * 提取是否已经提醒过用户，并据此时间来计算是否此次还需要提醒
+	 * @param httpRequestCallback
+	 * @return
+	 */
+	private boolean needToRemindBaseLastStatus(RequestCallback httpRequestCallback) {
+	  Cookie lastRemindTimeCookie = getCookie(httpRequestCallback.getRequest(), ATTR_LAST_REMIND_TIME);
+    if (lastRemindTimeCookie != null && lastRemindTimeCookie.getValue() != null) {
+    	String v = lastRemindTimeCookie.getValue();
+    	Date lastRemindTime = null;
+    	try {
+	      lastRemindTime = DATE_FORMAT_LAST_REMIND_TIME.parse(v);
+      } catch (ParseException e) {
+      	log.debug("failure to parse lastRemindTime: " + v);
+      }
+    	if (lastRemindTime != null && System.currentTimeMillis() - lastRemindTime.getTime() < remindIntervalInSeconds  * 1000) {
+    		return false;
+    	}
+    }
+    return true;
+  }
+
+  /**
+   * Gets the first {@link Cookie} whose name matches the given name.
+   * 
+   * @param cookieName the cookie name
+   * @param httpRequest HTTP request from which the cookie should be extracted
+   * 
+   * @return the cookie or null if no cookie with that name was given
+   */
+  private static Cookie getCookie(HttpServletRequest httpRequest, String cookieName) {
+      Cookie[] requestCookies = httpRequest.getCookies();
+      if (requestCookies != null) {
+          for (Cookie requestCookie : requestCookies) {
+              if (requestCookie != null && DatatypeHelper.safeEquals(requestCookie.getName(), cookieName)) {
+                  return requestCookie;
+              }
+          }
+      }
+      return null;
+  }
 }
