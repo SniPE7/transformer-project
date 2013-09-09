@@ -36,11 +36,20 @@
   		remindPasswordStatus     ：提醒密码过期开关
   		remindPasswordTime       ：提醒密码过期时间（毫秒）
 	 -->
+  <!-- 口令的过期时间（毫秒）. 2592000000为30天 -->
   <entry key="eai.loginmodule.userpasswd.pastDue.time">2592000000</entry>
-  <entry key="eai.loginmodule.userpasswd.pastDue.remindPasswordTime">2160000000</entry>
+  <!-- 提前提醒口令激将过期的时间（毫秒）. 1209600000为14天 -->
+  <entry key="eai.loginmodule.userpasswd.pastDue.remindPasswordTime">1209600000</entry>
+  <!-- 口令即将过期提醒的时间间隔，小于此时间间隔时，系统不重复提醒. 设置参数为秒 -->
+  <!-- 86400表示提醒间隔为1天 -->
+  <entry key="eai.loginmodule.remind.intervalInSeconds.password.expire">86400</entry>
   
-  <!--  手机号修改过期时间 -->
+  <!--  手机号修改过期时间 ，单位毫秒. 2592000000为30天-->
   <entry key="eai.loginmodule.usermobile.pastDue.time">2592000000</entry>
+  
+  <!-- 需要注册和更新手机号提醒的时间间隔，小于此时间间隔时，系统不重复提醒. 设置参数为秒 -->
+  <!-- 86400表示提醒间隔为1天 -->
+  <entry key="eai.loginmodule.remind.intervalInSeconds.mobile.registration">86400</entry>
   
   <!--  用户查询过滤器 -->
   <entry key="eai.loginmodule.user.search.filter">(&amp;(|(uid={0})(SGMBadgeUID={0})(SGMBadgeCode={0}))(objectclass=inetOrgPerson))</entry>

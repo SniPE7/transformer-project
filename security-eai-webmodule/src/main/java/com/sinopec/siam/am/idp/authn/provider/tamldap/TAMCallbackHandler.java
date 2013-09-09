@@ -8,6 +8,7 @@ import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -21,6 +22,7 @@ import com.sinopec.siam.am.idp.authn.provider.LastAuthenticatedPrincipalCallback
 import com.sinopec.siam.am.idp.authn.provider.PasswordHintQuestionAndAnswerCallback;
 import com.sinopec.siam.am.idp.authn.provider.PasswordUpdateOperationStatusCallback;
 import com.sinopec.siam.am.idp.authn.provider.RequestCallback;
+import com.sinopec.siam.am.idp.authn.provider.ResponseCallback;
 import com.sinopec.siam.am.idp.authn.provider.SMSCodeCallback;
 import com.sinopec.siam.am.idp.authn.util.dyncpwd.DyncUtil;
 
@@ -61,13 +63,15 @@ public class TAMCallbackHandler implements CallbackHandler {
   /** HttpServletRequest会话对象 */
   private HttpServletRequest request;
 
+	private HttpServletResponse response;
+
   /**
    * Constructor
    * 
    * @param username
    *          用户名
    */
-  public TAMCallbackHandler(String username) {
+  protected TAMCallbackHandler(String username) {
     this.username = username;
   }
 
@@ -79,7 +83,7 @@ public class TAMCallbackHandler implements CallbackHandler {
    * @param password
    *          用户密码
    */
-  public TAMCallbackHandler(String username, String password) {
+  protected TAMCallbackHandler(String username, String password) {
     this.username = username;
     this.password = password;
   }
@@ -94,11 +98,12 @@ public class TAMCallbackHandler implements CallbackHandler {
    * @param request
    * @param response
    */
-  public TAMCallbackHandler(String username, String password, HttpServletRequest request) {
+  public TAMCallbackHandler(String username, String password, HttpServletRequest request, HttpServletResponse response) {
     super();
     this.username = username;
     this.password = password;
     this.request = request;
+    this.response = response;
   }
 
   /** {@inheritDoc} */
@@ -117,6 +122,9 @@ public class TAMCallbackHandler implements CallbackHandler {
       } else if (cb instanceof RequestCallback) {
         RequestCallback rqcb = (RequestCallback) cb;
         rqcb.setRequest(request);
+      } else if (cb instanceof ResponseCallback) {
+      	ResponseCallback rqcb = (ResponseCallback) cb;
+        rqcb.setResponse(response);
       } else if (cb instanceof KaptachaCallback) {
         KaptachaCallback kcp = (KaptachaCallback)cb;
         HttpSession session = request.getSession(false);
