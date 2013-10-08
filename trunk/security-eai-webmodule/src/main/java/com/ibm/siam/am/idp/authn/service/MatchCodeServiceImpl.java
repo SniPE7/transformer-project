@@ -21,7 +21,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
  */
 public class MatchCodeServiceImpl implements MatchCodeService {
 	private final Logger log = LoggerFactory
-			.getLogger(LdapUserServiceImpl.class);
+			.getLogger(MatchCodeServiceImpl.class);
 
 	@Autowired
 	@Qualifier("tcpConnectionPool")

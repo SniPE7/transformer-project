@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 public class TcpConnectionPool {
 	private final Logger log = LoggerFactory
-			.getLogger(LdapUserServiceImpl.class);
+			.getLogger(TcpConnectionPool.class);
 
 	private GenericObjectPool pool;
 	private boolean isInit = false;
