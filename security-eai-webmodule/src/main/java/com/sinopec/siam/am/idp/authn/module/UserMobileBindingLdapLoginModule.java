@@ -153,7 +153,7 @@ public class UserMobileBindingLdapLoginModule extends AbstractSpringLoginModule 
       throw new DetailLoginException("login.form.error.username.isNull", String.format("username is null; usernsme:%s.", username));
     }
     
-    if(mobileUpdateCallback.isMobileUpdated() || needToRemindBaseLastStatus(httpRequestCallback)){
+    if(mobileUpdateCallback.isMobileUpdated() || !needToRemindBaseLastStatus(httpRequestCallback)){
       // 用户校验，通过LADP查询捆绑人员uid信息，存储Subject
       UserPrincipal principal = new UserPrincipal();
       principal.setName(username);
