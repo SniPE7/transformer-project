@@ -109,7 +109,8 @@ public class UserPassRemindLdapLoginModule extends AbstractSpringLoginModule {
       throw new DetailLoginException("login.form.error.username.isNull", String.format("username is null; usernsme:%s.", username));
     }
     
-    if(pwdUpdateCallback.isPasswordUpdated() || needToRemindBaseLastStatus(httpRequestCallback)){
+    //modify by xuhong for !, if code is not need remind
+    if(pwdUpdateCallback.isPasswordUpdated() || !needToRemindBaseLastStatus(httpRequestCallback)){
       // 用户校验，通过LADP查询捆绑人员uid信息，存储Subject
       UserPrincipal principal = new UserPrincipal();
       principal.setName(username);
