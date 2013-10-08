@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 public class TcpPoolableObjectFactory implements PoolableObjectFactory {
 	private final Logger log = LoggerFactory
-			.getLogger(LdapUserServiceImpl.class);
+			.getLogger(TcpPoolableObjectFactory.class);
 
 	private String host;
 	private int port;
