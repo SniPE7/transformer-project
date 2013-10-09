@@ -121,6 +121,8 @@ public class UserPassRemindLdapLoginModule extends AbstractSpringLoginModule {
     }
     
     Date userPassLastDate = null;
+    boolean enablePolicy = true;
+
     UserAccountPrincipal userAccountPrincipal = (UserAccountPrincipal) sharedState.get(AbstractLoginModule.LOGIN_USER_ACCOUNT_PRINCIPAL);
     UserPassService userPassService = getUserPassService();
     try {
@@ -130,6 +132,13 @@ public class UserPassRemindLdapLoginModule extends AbstractSpringLoginModule {
         userAccountPrincipal.setPassRecoveryQuestion(userPassService.getPassRecoveryQuestion(ldapUserEntity));
         userAccountPrincipal.setPassLastChanged(userPassService.getPassLastChanged(ldapUserEntity));
         userAccountPrincipal.setPassResetState(userPassService.getPassResetState(ldapUserEntity));
+        
+        // TAM LDAP 可能禁用了用户的口令策略校验, 提取标志
+        String hasPolicy = ldapUserEntity.getValueAsString("secHasPolicy");
+        if (hasPolicy != null && hasPolicy.equalsIgnoreCase("FALSE")) {
+            enablePolicy = false;
+        }
+        
         sharedState.put(AbstractLoginModule.LOGIN_USER_ACCOUNT_PRINCIPAL, userAccountPrincipal);
       }
       userPassLastDate = userAccountPrincipal.getPassLastChanged();
@@ -142,7 +151,7 @@ public class UserPassRemindLdapLoginModule extends AbstractSpringLoginModule {
     userPassLastDate.setTime(userPassLastDate.getTime());
     Date nextPasswordExpiredTime = new Date(userPassLastDate.getTime() + userPassPastDueTime);
     long milliseconds = nextPasswordExpiredTime.getTime() - new Date().getTime();
-    if(milliseconds > 0 && milliseconds < remindPasswordTime){
+    if(enablePolicy && milliseconds > 0 && milliseconds < remindPasswordTime){
       int days = (int) milliseconds / 86400000 + 1;
       PasswordReminderLoginException e = new PasswordReminderLoginException("modifyPass.info.userpass.remind", String.valueOf(days), String.format("[%s]'s password will expire after %s day(s)", username, days));
       e.setUsername(username);
