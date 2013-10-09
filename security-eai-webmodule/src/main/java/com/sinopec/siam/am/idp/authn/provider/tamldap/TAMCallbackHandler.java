@@ -105,6 +105,13 @@ public class TAMCallbackHandler implements CallbackHandler {
     this.request = request;
     this.response = response;
   }
+  
+  public TAMCallbackHandler(String username, String password, HttpServletRequest request) {
+      super();
+      this.username = username;
+      this.password = password;
+      this.request = request;
+    }
 
   /** {@inheritDoc} */
   public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {
