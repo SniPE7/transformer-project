@@ -32,6 +32,8 @@ public class MatchCodeServiceImpl implements MatchCodeService {
 		Socket socket = null;
 
 		try {
+			cardUid = xorCardUid(cardUid);
+			//byte by
 			tcpConnectionPool.init();
 			socket = tcpConnectionPool.getConnection();
 
@@ -43,7 +45,7 @@ public class MatchCodeServiceImpl implements MatchCodeService {
 			pw.println(cardUid);
 			
 			if (in.available() < 9) { // TODO 9 to 10
-				Thread.sleep(2000);
+				Thread.sleep(1000);
 			}
 
 			if (in.available() < 9) {
@@ -56,8 +58,7 @@ public class MatchCodeServiceImpl implements MatchCodeService {
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			log.error(e.toString());
-			// throw e;
-			return null;
+			throw e;
 		} finally {
 			if (socket != null) {
 				try {
@@ -67,6 +68,23 @@ public class MatchCodeServiceImpl implements MatchCodeService {
 			}
 			log.debug("exit getMatchCode");
 		}
+	}
+	
+	private String xorCardUid(String cardUid) {
+		if (cardUid == null || cardUid.length() < 8) {
+			throw new IllegalArgumentException("Card uid is invalid. cardUid=" + cardUid);
+		}
+		int b1 = Integer.parseInt(cardUid.substring(0, 2), 16);		
+		int b2 = Integer.parseInt(cardUid.substring(2, 4), 16);
+		int b3 = Integer.parseInt(cardUid.substring(4, 6), 16);
+		int b4 = Integer.parseInt(cardUid.substring(6, 8), 16);
+		int xor = b1^b2^b3^b4;
+		String xorStr = Integer.toHexString(xor).toUpperCase();
+		if (xorStr.length() < 2) {
+			xorStr = "0" + xorStr;
+		}
+		
+		return cardUid + xorStr;
 	}
 
 	public TcpConnectionPool getTcpConnectionPool() {
