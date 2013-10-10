@@ -259,6 +259,21 @@
             </list>
           </property>
         </bean>
+        
+        <!-- Update Lock State Login Module, Base on previouse login modules, this module will count failure login. -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.UpdateUserLockStateLoginModule"></property>
+          <property name="moduleFlag" value="REQUISITE"></property>
+          <property name="moduleOptions">
+            <list>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userLockServiceBeanId"></property>
+                <property name="value" value="tamLocalUserLockService"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        
         <!-- Check SMS Code Auth Login Module and reflect loingtag to  uid for loginname -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
           <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.LoginStateSetLoginModule"></property>
@@ -294,19 +309,7 @@
             </list>
           </property>
         </bean>
-        <!-- Update Lock State Login Module, Base on previouse login modules, this module will count failure login. -->
-        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.UpdateUserLockStateLoginModule"></property>
-          <property name="moduleFlag" value="REQUISITE"></property>
-          <property name="moduleOptions">
-            <list>
-              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
-                <property name="name" value="userLockServiceBeanId"></property>
-                <property name="value" value="tamLocalUserLockService"></property>
-              </bean>
-            </list>
-          </property>
-        </bean>
+        
         <!-- TAM and AD Mapping Login Module -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
           <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.TamMappingLoginModule"></property>

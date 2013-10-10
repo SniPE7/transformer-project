@@ -275,6 +275,10 @@ function setBodyZoom(zoomSize) {
 function checkDesktop(){
 	var result = false;
 	
+	if(getCookie("ispc")!=null) {
+		return getCookie("ispc");
+	}
+	
 	var badgeTool = document.getElementById("badgeTool");
 	if (badgeTool == "undifined")
 	{	
@@ -291,6 +295,8 @@ function checkDesktop(){
 	} catch(Exception) {
 		return false;
 	}
+	
+	setCookie("ispc", result);
 	
 	//result = false;
 	return result;
@@ -325,3 +331,15 @@ function doBodyZoom(zoomSize) {
 	}
 }
 
+
+function setCookie(name, value, Days) {
+    var exp = new Date(); //new Date("December 31, 9998");
+    exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
+    document.cookie = name + "=" + encodeURIComponent(value) + ";expires=" + exp.toGMTString();
+}
+
+function getCookie(name) { //读取时，忽略键名大小写
+    var reg = new RegExp(["(?:^| )", name, "=([^;]*)"].join(""), "i"),
+    arr = document.cookie.match(reg);
+    return arr ? decodeURIComponent(arr[1]) : null;
+}
