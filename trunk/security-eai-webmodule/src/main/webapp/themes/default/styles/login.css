@@ -399,6 +399,7 @@ ul#tabs li a:hover {
     width: 14px;
     overflow: hidden;
     vertical-align: middle;
+    float: left;
 }
 .aui-message .icon-error {
     background-position: -24px 0;
