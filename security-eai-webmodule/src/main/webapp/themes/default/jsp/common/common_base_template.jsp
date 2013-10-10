@@ -17,6 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
  <tiles:useAttribute name="title" scope="request" />
 <title><spring:message code="${title}" /></title>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="用户, 统一身份, 账号, 认证" />
 <meta name="description" content="上海通用汽车统一身份认证中心" />
