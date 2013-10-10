@@ -93,7 +93,7 @@ public class SGMMatchCodeAuthLoginModule extends CommonLdapAuthLoginModule {
 	  // Success, and update cardUID into person entry
 	  PersonService personService = this.getPersonService();
 		Map<String, String> attrs = new HashMap<String, String>();
-		attrs.put("sgmBadgeId", this.cardUID);
+		attrs.put("SGMBadgeUID", this.cardUID);
 	  try {
 	    personService.updatePerson(this.uid, attrs);
     } catch (PersonNotFoundException e) {
