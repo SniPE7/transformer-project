@@ -107,7 +107,9 @@ $(document).ready(function() {
 				//$('#wizard').smartWizard('showMessage', "验证码错误");
 				$("#nomobile").show();
 				$("#hadmobile").hide();
-				$(".buttonNext").attr("disabled",false);
+				$(".buttonNext").attr("disabled",true);
+				$('.buttonFinish').show();
+				$('.buttonFinish').click( onFinishCallback);
 
 				return true;
 			} else {
