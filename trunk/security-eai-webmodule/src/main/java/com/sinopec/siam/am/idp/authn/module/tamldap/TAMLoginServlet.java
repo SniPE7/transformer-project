@@ -136,7 +136,7 @@ public class TAMLoginServlet extends HttpServlet {
 			// 统一ID
 			request.setAttribute("j_username", e.getUsername());
 			// 登录ID
-			request.setAttribute("show_username", username);
+			request.setAttribute("show_username", e.getUsername());
 			request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, e.getLoginErrorKey());
 			request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, e.getLoginErrorArgs());
 			request.getSession(false).setAttribute(LoginHandler.PRINCIPAL_UPDATE_PASSWORD_SUCCESS_KEY, "true");
@@ -149,7 +149,7 @@ public class TAMLoginServlet extends HttpServlet {
 			// 统一ID
 			request.setAttribute("j_username", e.getUsername());
 			// 登录ID
-			request.setAttribute("show_username", username);
+			request.setAttribute("show_username", e.getUsername());
 			request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, e.getLoginErrorKey());
 			request.setAttribute(LoginHandler.AUTHENTICATION_ARGUMENTS_KEY, e.getLoginErrorArgs());
 			request.getSession(false).setAttribute(LoginHandler.PRINCIPAL_UPDATE_MOBILE_SUCCESS_KEY, "true");
@@ -175,7 +175,7 @@ public class TAMLoginServlet extends HttpServlet {
 			redirectToPage(request, response, "/set_password_hint.do");
 		} catch (NeedChangePasswordLoginException e) {
 			request.setAttribute("j_username", e.getUsername());
-			request.setAttribute("show_username", username);
+			request.setAttribute("show_username", e.getUsername());
 			request.setAttribute(LoginHandler.AUTHENTICATION_INFO_KEY, "modifyPass.info.userpass.reset");
 
 			request.setAttribute("op", "resetpasswordreset");
@@ -183,7 +183,7 @@ public class TAMLoginServlet extends HttpServlet {
 			redirectToPage(request, response, "/modify_password.do");
 		} catch (PasswordExpiredLoginException e) {
 			request.setAttribute("j_username", e.getUsername());
-			request.setAttribute("show_username", username);
+			request.setAttribute("show_username", e.getUsername());
 			request.setAttribute(LoginHandler.AUTHENTICATION_INFO_KEY, "modifyPass.info.userpass.pastDue");
 
 			request.setAttribute("op", "resetpassword");
