@@ -236,6 +236,10 @@ function getCardUid() {
 var cardTimer;
 
 function showCardModel(){
+	
+	//BADGE_SERVICE_LOGIN_MODE=0
+	//setCookie("BADGE_SERVICE_LOGIN_MODE", "0");
+	
 	if(checkCardDevice()) {
 		//display tag card
 		$("#normal-label").hide();
@@ -252,6 +256,10 @@ function showCardModel(){
 }
 
 function fillCardUid(){
+	
+	//BADGE_SERVICE_LOGIN_MODE=0
+	setCookie("BADGE_SERVICE_LOGIN_MODE", "0");
+	
 	var cardUid = getCardUid();
 	if (cardUid.length != 0) {
 	//if (cardUid.length == 0) {
@@ -263,6 +271,8 @@ function fillCardUid(){
 		$("#normal-label").hide();
 		$("#j_username").hide();
 		$("#badge-ok").show();
+		
+		setCookie("BADGE_SERVICE_LOGIN_MODE", "1");
 	}
 }
 
@@ -333,6 +343,10 @@ function doBodyZoom(zoomSize) {
 
 
 function setCookie(name, value, Days) {
+	if(Days==null || Days == "undifined") {
+		Days = 365;
+	}
+	
     var exp = new Date(); //new Date("December 31, 9998");
     exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
     document.cookie = name + "=" + encodeURIComponent(value) + ";expires=" + exp.toGMTString();
