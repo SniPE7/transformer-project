@@ -1,5 +1,8 @@
 package com.sinopec.siam.am.idp.authn.util.dyncpwd;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -25,10 +28,49 @@ public class DyncUtil {
 		// System.out.println("当前时间：" + up.obtainCurrPwd(time,dbSeed));
 
 		String dbSeed = SeedCreate.CreateSeed2(uid);
-		
+
 		//System.out.println("dbSeed：" + dbSeed);
 		
 		return up.obtainCurrPwd(time, dbSeed);
+	}
+	
+	/** 检测用户的动态密码在有效期内是否正确
+     * @param uid  用户id
+     * @param password 被验证的密码
+     * @param minute   几分钟内的有效期
+     * @return true 验证通过； false 验证失败
+     */
+    public static boolean checkPwd(String uid, String password) {
+        return checkPwd(uid, password, 5);
+    }
+	
+	/** 检测用户的动态密码在有效期内是否正确
+	 * @param uid  用户id
+	 * @param password 被验证的密码
+	 * @param minute   几分钟内的有效期
+	 * @return true 验证通过； false 验证失败
+	 */
+	public static boolean checkPwd(String uid, String password, int minute) {
+	    boolean result = false;
+	    
+	    String dbSeed = SeedCreate.CreateSeed2(uid);
+
+        long time = System.currentTimeMillis();
+        
+        String curPwd = up.obtainCurrPwd(time,dbSeed);
+        if(curPwd.equalsIgnoreCase(password)) {
+            return true;
+        } else {
+            String[] timePwds = up.obtainF10Pwds(time, dbSeed);
+            for(String pwd : timePwds) {
+                if(pwd.equalsIgnoreCase(password)) {
+                    return true;
+                }
+            }
+            
+        }
+
+	    return result;
 	}
 
 	/**
@@ -150,12 +192,20 @@ public class DyncUtil {
 	 */
 
 	public static void main(String[] args) {
+	    
+	    SimpleDateFormat strToDate = new SimpleDateFormat ("yyyy-MM-dd-hh:mm:ss:SSS");
+        System.out.println("Time: " + strToDate.format(new Date()));
+        
+        System.out.println("user password : "
+                + SeedCreate.CreateSeed2("Jsmith"));
+        System.out.println("user password : "
+                + SeedCreate.CreateSeed2("jsmith"));
+        
+		System.out.println("user password : "
+				+ DyncUtil.getPassword("jsmith", ""));
 		
 		System.out.println("user password : "
-				+ DyncUtil.getPassword("test1", ""));
-		
-		System.out.println("user password : "
-				+ DyncUtil.getPassword("test2", ""));
+				+ DyncUtil.getPassword("888888", ""));
 		
 		
 		System.out.println("user password : "
@@ -163,10 +213,8 @@ public class DyncUtil {
 		System.out.println("user password : "
 				+ DyncUtil.getPassword("2test", ""));
 		
-		/*SimpleDateFormat strToDate = new SimpleDateFormat ("yyyy-MM-dd-hh:mm:ss:SSS");
 		
-		//System.out.println("Time: " + strToDate.format(new Date()));
-		Date dateStart = new Date();
+		/*Date dateStart = new Date();
 		
 		for (int i = 0; i < 10000; i++) {
 			

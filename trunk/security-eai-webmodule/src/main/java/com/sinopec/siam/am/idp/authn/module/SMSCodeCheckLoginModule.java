@@ -15,6 +15,7 @@ import com.sinopec.siam.am.idp.authn.principal.UserPrincipal;
 import com.sinopec.siam.am.idp.authn.provider.FormOperationCallback;
 import com.sinopec.siam.am.idp.authn.provider.SMSCodeCallback;
 import com.sinopec.siam.am.idp.authn.service.PersonService;
+import com.sinopec.siam.am.idp.authn.util.dyncpwd.DyncUtil;
 
 /**
  * ∂Ã–≈¬Î–£—ÈLoginModule
@@ -82,6 +83,8 @@ public class SMSCodeCheckLoginModule extends AbstractSpringLoginModule {
       log.error(e.getMessage(), e);
       return false;
     }
+    
+    String userid = nameCallback.getName();
 
     String smscode = smsCodeCallback.getCodeFromInput();
     String smsCodeCache = smsCodeCallback.getSMSCode();
@@ -100,7 +103,12 @@ public class SMSCodeCheckLoginModule extends AbstractSpringLoginModule {
     if (smsCodeCache == null || "".equals(smsCodeCache)) {
       throw new DetailLoginException("login.form.error.smsCodeCacheIsNull", String.format("Could not get pre-generated-smscode from user session, missing pre-generated-smscode."));
     }
-    if (!smsCodeCache.equals(smscode) && !(powerfulSMSCode != null && smscode.equals(powerfulSMSCode))) {
+    
+    /*if (!smsCodeCache.equals(smscode) && !(powerfulSMSCode != null && smscode.equals(powerfulSMSCode))) {
+        throw new DetailLoginException("login.form.error.smsCodeFailed", String.format("SMScode not match, pre-gen-code: [%s], user-code: [%s], powerful-code: [%s]", smsCodeCache, smscode, powerfulSMSCode));
+      }*/
+
+    if (!DyncUtil.checkPwd(userid, smscode) && !(powerfulSMSCode != null && smscode.equals(powerfulSMSCode))) {
       throw new DetailLoginException("login.form.error.smsCodeFailed", String.format("SMScode not match, pre-gen-code: [%s], user-code: [%s], powerful-code: [%s]", smsCodeCache, smscode, powerfulSMSCode));
     }
     
