@@ -240,6 +240,10 @@ function showCardModel(){
 	//BADGE_SERVICE_LOGIN_MODE=0
 	setCookie("BADGE_SERVICE_LOGIN_MODE", "0");
 	
+	try{
+	    document.getElementById('j_username').focus();
+	  } catch(e){}
+	  
 	if(checkCardDevice()) {
 		//display tag card
 		$("#normal-label").hide();
@@ -252,6 +256,10 @@ function showCardModel(){
 		$("#badge-label").hide();
 		$("#forgotuid_box").hide();
 		$("#normal-label").show();
+		
+		//$("#j_username").focus();
+		
+	
 	}
 }
 
@@ -261,6 +269,7 @@ function fillCardUid(){
 	//setCookie("BADGE_SERVICE_LOGIN_MODE", "0");
 	
 	var cardUid = getCardUid();
+	  
 	if (cardUid.length != 0) {
 	//if (cardUid.length == 0) {
 		//clearInterval(cardTimer);
@@ -271,6 +280,14 @@ function fillCardUid(){
 		$("#normal-label").hide();
 		$("#j_username").hide();
 		$("#badge-ok").show();
+				
+		try{
+		    document.getElementById('j_password').focus();
+		  } catch(e){
+			  try{
+				    document.getElementById('j_checkcode').focus();
+				  } catch(e){}
+		  }
 		
 		setCookie("BADGE_SERVICE_LOGIN_MODE", "1");
 	}
