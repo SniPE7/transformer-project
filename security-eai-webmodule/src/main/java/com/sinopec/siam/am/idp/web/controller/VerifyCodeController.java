@@ -188,7 +188,7 @@ public class VerifyCodeController extends BaseController {
 			return smsInfo;
 		}
 
-		smsCode = DyncUtil.getPassword(userid, "");
+		/*smsCode = DyncUtil.getPassword(userid, "");
 		if(null==checksmsCode || !checksmsCode.equalsIgnoreCase(smsCode)) {
 			//return false
 			Map<String, String> smsInfo = new HashMap<String, String>();
@@ -196,7 +196,16 @@ public class VerifyCodeController extends BaseController {
 			smsInfo.put("status", "fail");
 			
 			return smsInfo;
-		}
+		}*/
+
+        if(null==checksmsCode || !DyncUtil.checkPwd(userid, checksmsCode)) {
+            //return false
+            Map<String, String> smsInfo = new HashMap<String, String>();
+            smsInfo.put("msg", "¶ÌÐÅÂë´íÎó");
+            smsInfo.put("status", "fail");
+            
+            return smsInfo;
+        }
 		
 		Map<String, String> smsInfo = new HashMap<String, String>();
 		smsInfo.put("msg", msg);

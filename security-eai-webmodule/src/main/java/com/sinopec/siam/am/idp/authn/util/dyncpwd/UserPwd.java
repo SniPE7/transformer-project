@@ -13,7 +13,8 @@ import org.apache.commons.logging.LogFactory;
 
 
 public class UserPwd {
-	protected int period = 60;
+    //时间周期
+	protected int period = 60 * 5;
 
 	protected int codeLen = 6;
 
@@ -23,7 +24,7 @@ public class UserPwd {
 
 	//public static final int timeOff = 4;// 时间间隔为10分钟
 	//modify by xuhong 20101223
-	public static int timeOff = 5;// 时间间隔为5分钟
+	public static int timeOff = 4;// 时间间隔为5分钟
 
 	/* 日志输出对象 */
 	  protected static final Log log = LogFactory.getLog(UserPwd.class);
@@ -176,7 +177,11 @@ public class UserPwd {
 
 
 		// System.out.println(d.toLocaleString());
-		String dbSeed = "5CB64191A2224572E4FD52EA5CC2243E4D5C6F052D429F4704201098696C3163E80840886CC9007529586833D34058DDAC5CD8BBB5AA29EA";
+		//String dbSeed = "5CB64191A2224572E4FD52EA5CC2243E4D5C6F052D429F4704201098696C3163E80840886CC9007529586833D34058DDAC5CD8BBB5AA29EA";
+		//String dbSeed = "53281B1AC85022EDB95C490F1EAB6545001CD94C8B8DC5878CD72973E5D4244324B55F41DE9C7E541E1F62FFAB0D7CE10E9B459B2A937738";
+		
+		String dbSeed = "074A1E7B2F07BEE3D2CFAD9D6C93F9C8976CCFF944DCAC48C28513D933181BBC56D438E46180A0AD00790A0D3244213D0F0DB1965EAB3A5C";
+		//String dbSeed = "530D6BB9368DAA52F4C5050CCEFA71D7CC2EAE125A6990576C76192CD6AD74B63129DA4A09071501090B2CFBAF22B45D825F803138AFF273";
 		
 		System.out.println("当前时间：" + up.obtainCurrPwd(time,dbSeed));
 		
