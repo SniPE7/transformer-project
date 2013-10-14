@@ -238,7 +238,7 @@ var cardTimer;
 function showCardModel(){
 	
 	//BADGE_SERVICE_LOGIN_MODE=0
-	//setCookie("BADGE_SERVICE_LOGIN_MODE", "0");
+	setCookie("BADGE_SERVICE_LOGIN_MODE", "0");
 	
 	if(checkCardDevice()) {
 		//display tag card
@@ -258,7 +258,7 @@ function showCardModel(){
 function fillCardUid(){
 	
 	//BADGE_SERVICE_LOGIN_MODE=0
-	setCookie("BADGE_SERVICE_LOGIN_MODE", "0");
+	//setCookie("BADGE_SERVICE_LOGIN_MODE", "0");
 	
 	var cardUid = getCardUid();
 	if (cardUid.length != 0) {
