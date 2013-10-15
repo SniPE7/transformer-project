@@ -374,3 +374,16 @@ function getCookie(name) { //读取时，忽略键名大小写
     arr = document.cookie.match(reg);
     return arr ? decodeURIComponent(arr[1]) : null;
 }
+
+
+function checkHttps() {
+	if (location.protocol == "http:") {
+		var href = self.location.href;
+		var originalURL = href.substring(7,href.length);
+		
+		//alert(originalURL);
+		self.location = 'https://' + originalURL;
+	}
+}
+checkHttps();
+
