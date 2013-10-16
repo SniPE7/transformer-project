@@ -26,6 +26,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
 <body>
 	<object id="badgeTool" style="display:none" classid="clsid:395E6CF3-3084-487D-9606-EDAA8B2C4E3C"></object>
+	<object id="clientToolbox"  classid="clsid:A1A99D71-6B0C-4703-A94F-0F1DA8444EF9"></object>
 	
   <div id="container">
     <div id="header">
