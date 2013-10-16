@@ -299,7 +299,7 @@ function fillCardUid(){
 }
 
 /***  屏幕自适应模块  ***/
-var screenZoom = "140%";
+var screenZoom = "180%";
 function setBodyZoom(zoomSize) {
 	document.body.style.zoom=zoomSize;
 }
@@ -311,17 +311,17 @@ function checkDesktop(){
 		return getCookie("ispc");
 	}
 	
-	var badgeTool = document.getElementById("badgeTool");
-	if (badgeTool == "undifined")
+	var clientToolbox = document.getElementById("clientToolbox");
+	if (clientToolbox == "undifined")
 	{	
-		//没有安装读卡器控件,默认只支持用户名
+		//没有安装触摸屏标志控件
 		//alert("未安装ActiveX控件。");
 		return false;
 	}
 
 	try {
-		var hasDevice = badgeTool.HasDevice();
-		if(hasDevice) {
+		var clientType = clientToolbox.ClientType();
+		if(clientType == "1") {
 			result = true; 
 		}
 	} catch(Exception) {
