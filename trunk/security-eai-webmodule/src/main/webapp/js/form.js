@@ -263,6 +263,8 @@ function showCardModel(){
 	}
 }
 
+//是否已经填写过卡id
+var isFillCardUid = false;
 function fillCardUid(){
 	
 	//BADGE_SERVICE_LOGIN_MODE=0
@@ -281,13 +283,16 @@ function fillCardUid(){
 		$("#j_username").hide();
 		$("#badge-ok").show();
 				
-		try{
-		    document.getElementById('j_password').focus();
-		  } catch(e){
-			  try{
-				    document.getElementById('j_checkcode').focus();
-				  } catch(e){}
-		  }
+		if(!isFillCardUid) {
+			isFillCardUid = true;
+	 		try{
+			    document.getElementById('j_password').focus();
+			  } catch(e){
+				  try{
+					    document.getElementById('j_checkcode').focus();
+					  } catch(e){}
+			  }
+		}
 		
 		setCookie("BADGE_SERVICE_LOGIN_MODE", "1");
 	}
