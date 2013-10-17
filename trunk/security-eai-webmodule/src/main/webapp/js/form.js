@@ -371,11 +371,11 @@ function setCookie(name, value, Days) {
 	
     var exp = new Date(); //new Date("December 31, 9998");
     exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
-    document.cookie = name + "=" + encodeURIComponent(value) + ";expires=" + exp.toGMTString();
+    document.cookie = name + "=" + encodeURIComponent(value) + ";path=/;expires=" + exp.toGMTString();
 }
 
 function getCookie(name) { //读取时，忽略键名大小写
-    var reg = new RegExp(["(?:^| )", name, "=([^;]*)"].join(""), "i"),
+    var reg = new RegExp(["(?:^| )", name, "=([^;]*)"].join(""), "i");
     arr = document.cookie.match(reg);
     return arr ? decodeURIComponent(arr[1]) : null;
 }
@@ -391,4 +391,5 @@ function checkHttps() {
 	}
 }
 checkHttps();
+
 
