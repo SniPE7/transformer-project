@@ -190,7 +190,7 @@ function checkCardDevice() {
 	var result = false;
 	
 	var badgeTool = document.getElementById("badgeTool");
-	if (badgeTool == "undifined")
+	if (badgeTool==null || badgeTool == "undefined")
 	{	
 		//没有安装读卡器控件,默认只支持用户名
 		//alert("未安装ActiveX控件。");
@@ -212,8 +212,8 @@ function checkCardDevice() {
 function getCardUid() {
 	var result = "";
 	
-	var badgeTool = document.getElementById("badgeTool");
-	if (badgeTool == "undifined")
+	var badgeTool = document.getElementById("badgeTooldd");
+	if (badgeTool==null || badgeTool == "undefined")
 	{
 		//alert("未安装ActiveX控件。");
 		return result;
@@ -312,7 +312,7 @@ function checkDesktop(){
 	}
 	
 	var clientToolbox = document.getElementById("clientToolbox");
-	if (clientToolbox == "undifined")
+	if (clientToolbox==null || clientToolbox == "undefined")
 	{	
 		//没有安装触摸屏标志控件
 		//alert("未安装ActiveX控件。");
@@ -365,7 +365,7 @@ function doBodyZoom(zoomSize) {
 
 
 function setCookie(name, value, Days) {
-	if(Days==null || Days == "undifined") {
+	if(Days==null || Days == "undefined") {
 		Days = 365;
 	}
 	
