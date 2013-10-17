@@ -212,7 +212,7 @@ function checkCardDevice() {
 function getCardUid() {
 	var result = "";
 	
-	var badgeTool = document.getElementById("badgeTooldd");
+	var badgeTool = document.getElementById("badgeTool");
 	if (badgeTool==null || badgeTool == "undefined")
 	{
 		//alert("未安装ActiveX控件。");
@@ -305,7 +305,7 @@ function setBodyZoom(zoomSize) {
 }
 
 function checkDesktop(){
-	var result = false;
+	var result = true;
 	
 	if(getCookie("ispc")!=null) {
 		return getCookie("ispc");
@@ -316,16 +316,16 @@ function checkDesktop(){
 	{	
 		//没有安装触摸屏标志控件
 		//alert("未安装ActiveX控件。");
-		return false;
+		return true;
 	}
 
 	try {
 		var clientType = clientToolbox.ClientType();
 		if(clientType == "1") {
-			result = true; 
+			result = false; 
 		}
 	} catch(Exception) {
-		return false;
+		return true;
 	}
 	
 	setCookie("ispc", result);
@@ -351,7 +351,8 @@ function GetZoomFactor () {
 }
 
 function doBodyZoom(zoomSize) {
-	if(checkDesktop()) {
+	var ispc = checkDesktop();
+	if(ispc==false || ispc=="false") {
 		setBodyZoom(zoomSize);
 		
 		//var iMove = (document.body.scrollWidth-document.body.offsetWidth/GetZoomFactor())/2;
