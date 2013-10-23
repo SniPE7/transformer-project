@@ -115,7 +115,20 @@ public class AccessEnforcer implements Filter {
     // Cast to HttpServletXXXX
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     HttpServletResponse httpResponse = (HttpServletResponse) response;
+    
+    String reURL = request.getParameter("URL");
+    String level = request.getParameter("AUTHNLEVEL");
+    if(level!=null && reURL!=null && !"".equals(reURL)) {
+        HttpSession session = httpRequest.getSession(true);
 
+        String pro = request.getParameter("PROTOCOL");
+        String hst = request.getParameter("HOSTNAME");
+        String appUrl = pro + "://" + hst + reURL;
+        session.setAttribute("eai-redir-url-header", appUrl);
+    }
+    //log.info(String.format("url is level: %s", pro + "://" + hst + reURL + "[" + level + "]"));
+
+    
     if (log.isDebugEnabled()) {
        dumpToLog(httpRequest);
     }

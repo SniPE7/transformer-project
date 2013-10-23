@@ -106,6 +106,13 @@ public class WebSEALEAIPostAuthenHandler implements PostAuthenticationCallback {
     }
     // httpResponse.setContentType("text/html;charset=UTF-8");
     // httpResponse.setCharacterEncoding("UTF-8");
+    
+    Object redirUrl = session.getAttribute("eai-redir-url-header");
+    if(redirUrl!=null) {
+        httpResponse.setHeader("am-eai-redir-url", redirUrl.toString());
+        session.removeAttribute("eai-redir-url-header");
+    }
+
 
     SSOPrincipal principal = (SSOPrincipal) session.getAttribute(SSOPrincipal.NAME_OF_SESSION_ATTR);
     // Pass UID
