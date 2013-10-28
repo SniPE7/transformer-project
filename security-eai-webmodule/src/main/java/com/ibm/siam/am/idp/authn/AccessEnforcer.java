@@ -124,6 +124,7 @@ public class AccessEnforcer implements Filter {
         String pro = request.getParameter("PROTOCOL");
         String hst = request.getParameter("HOSTNAME");
         String appUrl = pro + "://" + hst + reURL;
+        log.info("set session's eai-redir-url-header=" + appUrl);
         session.setAttribute("eai-redir-url-header", appUrl);
     }
     //log.info(String.format("url is level: %s", pro + "://" + hst + reURL + "[" + level + "]"));
