@@ -52,10 +52,22 @@
         
         <script>
         function cancelBindMobile(){
-          $("#authenForm").attr("action", document.location.href);
+          //$("#authenForm").attr("action", document.location.href);
+          //$("#authenForm").attr("action", getContextPath() + "/Authn/TAMUserPassAuth");
+          $("#authenForm").attr("action", "<%=request.getSession(false).getAttribute("eai-authn-url")%>");
           //$("#op").val("remindpassword");
           $("#authenForm").submit();
         }
         
-        $("#gotourl").val(location.href);
+        function getContextPath(){
+            var contextPath = document.location.pathname;
+            var index =contextPath.substr(1).indexOf("/");
+            contextPath = contextPath.substr(0,index+1);
+            delete index;
+            return contextPath;
+       }
+        //alert(getContextPath() + "/Authn/TAMUserPassAuth");
+        //$("#gotourl").val(location.href);
+        //$("#gotourl").val(getContextPath() + "/Authn/TAMUserPassAuth");
+        $("#gotourl").val("<%=request.getSession(false).getAttribute("eai-authn-url")%>");
         </script>
