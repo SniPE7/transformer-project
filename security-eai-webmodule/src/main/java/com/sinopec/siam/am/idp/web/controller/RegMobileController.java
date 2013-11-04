@@ -46,6 +46,10 @@ public class RegMobileController extends BaseController {
 	
 	private static final String DATE_FORMAT = "yyyyMMddHHmm'Z'";
 	
+	//private static final String AuthnPage = "/eaiweb/Authn/TAMUserPassAuth?authenTypes=urn_oasis_names_tc_SAML_2.0_ac_classes_TAMUsernamePassword%2Curn_oasis_names_tc_SAML_2.0_ac_classes_SMSUserPassAuth%2Curn_oasis_names_tc_SAML_2.0_ac_classes_SMSUserAuth%2C&spAuthentication=urn_oasis_names_tc_SAML_2.0_ac_classes_TAMUsernamePassword&currentAuthen=urn_oasis_names_tc_SAML_2.0_ac_classes_TAMUsernamePassword";
+	@Value("#{beanProperties['eai.loginmodule.authnpage']}")
+	private static final String AuthnPage = "/Authn/TAMUserPassAuth";
+	
   /**
    * ∑µªÿ“≥√Ê°£
    * 
@@ -55,7 +59,24 @@ public class RegMobileController extends BaseController {
   @RequestMapping(value = "/regmobile.do", method = { RequestMethod.GET, RequestMethod.POST, RequestMethod.HEAD })
   public ModelAndView handleRequestInternal(HttpServletRequest request) {
 	request.setAttribute("j_username", request.getParameter("j_username"));
-	request.setAttribute("gotoUrl", request.getParameter("gotourl"));
+	
+	
+	/*HttpSession session = request.getSession(true);
+	String realUrl = "";
+	Object redirUrl = session.getAttribute("eai-redir-url-header");
+    if(redirUrl!=null) {
+        realUrl = redirUrl.toString();
+    } else {
+        realUrl = request.getParameter("gotourl");
+    }*/
+	
+	Object authnUrl = request.getSession(false).getAttribute("eai-authn-url");
+    if(authnUrl!=null && !"".equals(authnUrl)) {
+        request.setAttribute("gotoUrl", authnUrl.toString());
+    } else {
+        request.setAttribute("gotoUrl", request.getContextPath() + AuthnPage);
+    }
+    
     request.setAttribute("show_username",  request.getParameter("show_username"));
     request.setAttribute("op", request.getParameter("op"));
     

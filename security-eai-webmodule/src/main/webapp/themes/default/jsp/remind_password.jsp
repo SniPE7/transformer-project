@@ -48,7 +48,8 @@
         </div><!-- End of #content -->
         <script>
         function cancelRestPassword(){
-          $("#authenForm").attr("action", document.location.href);
+          //$("#authenForm").attr("action", document.location.href);
+          $("#authenForm").attr("action", "<%=request.getSession(false).getAttribute("eai-authn-url")%>");
           //$("#op").val("remindpassword");
           $("#authenForm").submit();
         }

@@ -171,7 +171,7 @@ public class ModifyPasswordServlet extends HttpServlet {
       return;
     }
 
-    if (!password.equals(sessionPassword)) {
+    if (!password.equals(sessionPassword) && !"javax.security.auth.login.password".equals(sessionPassword)) {
       request.setAttribute(failureParam, "true");
       request.setAttribute(usernameAttribute, username);
       request.setAttribute(showUsernameAttribute, showUsername);
@@ -184,7 +184,15 @@ public class ModifyPasswordServlet extends HttpServlet {
     boolean modifyPassword = modifyPassword(request, username, nPassword);
     if (modifyPassword) {
       request.getSession(false).setAttribute(LoginHandler.PRINCIPAL_UPDATE_PASSWORD_SUCCESS_KEY, "true");
-      redirectToPage(request, response, authnPage);
+      //redirectToPage(request, response, authnPage);
+      Object authnUrl = request.getSession(false).getAttribute("eai-authn-url");
+      if(authnUrl!=null && !"".equals(authnUrl)) {
+          String url = authnUrl.toString();
+          redirectToPage(request, response, url.substring(url.indexOf("/", 1)));
+      } else {
+          redirectToPage(request, response, authnPage);
+      }
+      
       return;
     }
 

@@ -66,7 +66,13 @@ public class LoseUserController extends BaseController {
 	  if(session !=null) {
 		  LoginContextEntry entry = (LoginContextEntry) session.getAttribute(HttpServletHelper.LOGIN_CTX_KEY_NAME);
 		  if(entry!=null) {
-			  String realUrl = request.getContextPath() + "/" + entry.getLoginContext().getAccessEnforcerURL();
+			  String realUrl = "";
+			  Object redirUrl = session.getAttribute("eai-redir-url-header");
+              if(redirUrl!=null) {
+                  realUrl = redirUrl.toString();
+              } else {
+                  realUrl = request.getContextPath() + "/" + entry.getLoginContext().getAccessEnforcerURL();
+              }
 			  request.setAttribute("gotoUrl", realUrl);
 		  }
 	  }

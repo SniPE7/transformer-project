@@ -102,7 +102,7 @@ public class TAMLoginServlet extends HttpServlet {
 		String password = request.getParameter("j_password");
 
 		//for upgrade auth level, fill username or cardid
-		Object upgradeUserName = request.getSession(false).getAttribute("j_username");
+		Object upgradeUserName = request.getSession(true).getAttribute("j_username");
 		if(username == null && null!=upgradeUserName && !"".equals(upgradeUserName.toString())) {
 		    request.setAttribute("j_username", upgradeUserName.toString().toLowerCase());
             redirectToPage(request, response, loginPage);
@@ -114,6 +114,15 @@ public class TAMLoginServlet extends HttpServlet {
             redirectToPage(request, response, loginPage);
             return;
 	    } 
+
+	   //保存认证时的url，供后端loginmodule转向返回时使用
+	   String authnPage = request.getRequestURI();
+       String params = request.getQueryString();
+       if(params!=null && !"".equals(params)) {
+           authnPage += "?" + params;
+       }
+       request.getSession(false).setAttribute("eai-authn-url", authnPage);
+       
 
 
 		username = username.trim();

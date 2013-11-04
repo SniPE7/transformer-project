@@ -136,6 +136,9 @@ public class SMSCodeCheckLoginModule extends AbstractSpringLoginModule {
 	      }*/
 	  	  
 	    }
+	    
+	    //this.setSessionLevelState(AbstractSpringLoginModule.PRINCIPAL_PASSWORD_KEY, "xxx".toCharArray());
+	    this.sharedState.put(LOGIN_PASSWORD, LOGIN_PASSWORD.toCharArray());
     }
 
     
