@@ -53,7 +53,7 @@
 	                <label class="float-left">短信一次性密码/SMS One Time Password</label>
 	                <div style="display: block; float: left;"><input type="text" tabindex="3" name="j_smscode" id="j_smscode" class="textCKcode"/></div>
 	                <input type="button" tabindex="4" name="bnt_sms" id="bnt_sms" value="发送/Send" onclick="sendsms()" class="btn btn_big" style="display: block; float: left;"/>
-	                <label id="lb_tipsms" class="float-left"></label>
+	                <label id="lb_tipsms" class="float-left"  style="width: 160px;"></label>
 	               	<div style="clear:both; height:0;overflow:hidden;"></div>
 	               
 	                <label class="float-left">密码将通过短信发送到您的手机.</label>
