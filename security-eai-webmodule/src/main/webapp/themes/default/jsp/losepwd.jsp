@@ -55,7 +55,7 @@
 			                <label class="float-left normal-label">短信验证码/SMS Check Code</label>
 			                <input type="text" tabindex="4" name="j_smscode" id="j_smscode" class="textCKcode" style="display: block; float: left;"/>
 			                <input type="button" tabindex="5" name="bnt_sms" id="bnt_sms" value="发送/Send" onclick="sendsms3()" class="btn btn_big" style="display: block; float: left;"/>
-			                <label id="lb_tipsms" class="float-left normal-label" style="line-height: 250%;"></label>
+			                <label id="lb_tipsms" class="float-left normal-label" style="line-height: 250%; width: 320px;"></label>
 			               	<div style="clear:both; height:0;overflow:hidden;"></div>
 			               
 			                <label class="float-left normal-label">短信验证码将通过短信发送到您的手机.</label>

@@ -54,7 +54,7 @@
 					                <input type="text" tabindex="4" name="j_smscode" id="j_smscode" class="textCKcode" style="display: block; float: left;"/>
 					                <input type="button" tabindex="5" name="bnt_sms" id="bnt_sms" class="btn btn_big" value="发送/Send" onclick="sendsms2()" style="display: block; float: left;"/>
 				                </div>
-				                <label id="lb_tipsms" class="float-left normal-label" style="line-height:250%;"></label>
+				                <label id="lb_tipsms" class="float-left normal-label" style="line-height:250%;  width: 320px;"></label>
 				            </div>
 							<div style="clear:both; height:0;overflow:hidden;"></div>
 
