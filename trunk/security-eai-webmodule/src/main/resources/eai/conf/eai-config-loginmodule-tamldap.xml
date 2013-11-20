@@ -2,6 +2,7 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
   <comment>IDP LoginModule TAM LDAP configuration file</comment>
+  <entry key="eai.loginmodule.userlock.userNameAttr">principalName</entry>
   <!-- 最多失败次数 -->
   <entry key="eai.loginmodule.userlock.maxFailedNumber">10</entry>
   <!-- 解锁时间间隔 -->
