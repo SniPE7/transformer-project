@@ -159,7 +159,7 @@
   <!-- TAM Local User Lock Service -->
   <!-- ========================================================================================================= -->
   <bean id="tamLocalUserLockService" class="com.sinopec.siam.am.idp.authn.service.LocalUserLockService">
-    <property name="userNameAttr" value="${eai.loginmodule.secauthority.ldap.userNameAttr}"></property>
+    <property name="userNameAttr" value="${eai.loginmodule.userlock.userNameAttr}"></property>
     
     <property name="maxFailedNumber" value="${eai.loginmodule.userlock.maxFailedNumber}"></property>
     <property name="unLockTimeInterval" value="${eai.loginmodule.userlock.unLockTimeInterval}"></property>
@@ -670,7 +670,7 @@
                 <property name="value" value="${eai.loginmodule.remind.intervalInSeconds.password.expire}"></property>
               </bean>
             </list>
-          </property>
+          </property> 
         </bean>
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
           <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.ValidateReAuthenLoginModule"></property>
