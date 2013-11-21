@@ -109,10 +109,12 @@
       <param-value>/index.html</param-value>
     </init-param>
   </filter>
+  
   <filter-mapping>
     <filter-name>com.ibm.siam.am.idp.authn.AccessEnforcer</filter-name>
     <url-pattern>/login/info.do</url-pattern>
   </filter-mapping>
+
    
 
 	<!-- Authentication Engine Entry Point -->
@@ -380,7 +382,7 @@
 		<servlet-class>com.sinopec.siam.am.idp.authn.module.SSOLogoutServlet</servlet-class>
 		<init-param>
 			<param-name>sloPath</param-name>
-			<param-value>login/info.do</param-value>
+			<param-value>/pkmslogout</param-value>
 		</init-param>
 	</servlet>
 	

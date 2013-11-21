@@ -12,8 +12,6 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sinopec.siam.am.idp.authn.module.tamldap.TAMLoginServlet;
-
 /**
  * 注销接口 先清理本地session 然后转向webseal注销url Servlet implementation class
  * SSOLogoutServlet
@@ -22,7 +20,7 @@ public class SSOLogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/** Class logger. */
-	private final Logger log = LoggerFactory.getLogger(TAMLoginServlet.class);
+	private final Logger log = LoggerFactory.getLogger(SSOLogoutServlet.class);
 
 	/** SSO logout path */
 	private String sloPath;
