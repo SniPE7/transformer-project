@@ -400,5 +400,10 @@
 		<error-code>404</error-code>
 		<location>/error404.do</location>
 	</error-page>
+	
+	<!--30分钟-->
+	<session-config>
+	    <session-timeout>30</session-timeout>
+	</session-config>
 
 </web-app>
