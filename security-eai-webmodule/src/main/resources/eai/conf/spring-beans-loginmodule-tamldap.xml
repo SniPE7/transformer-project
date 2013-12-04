@@ -188,6 +188,11 @@
         </bean>
       </list>
     </property>
+    <property name="quartzProperties">
+        <props>
+            <prop key="org.quartz.threadPool.threadCount">1</prop>
+        </props>
+    </property>
   </bean>
   
   <!-- ========================================================================================================= -->
