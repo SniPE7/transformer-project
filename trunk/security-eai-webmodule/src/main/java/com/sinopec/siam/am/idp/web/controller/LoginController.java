@@ -149,8 +149,10 @@ public class LoginController extends BaseController {
 		HttpSession session = request.getSession(false);
 		if (session != null) {
 			Session userSession = (Session) session.getAttribute(Session.HTTP_SESSION_BINDING_ATTRIBUTE);
-			request.setAttribute("PrincipalName", userSession.getPrincipalName());
-			request.setAttribute("ServiceInformation", userSession.getServicesInformation());
+			if(userSession!=null) {
+			    request.setAttribute("PrincipalName", userSession.getPrincipalName());
+		        request.setAttribute("ServiceInformation", userSession.getServicesInformation());
+			}
 		}
 		super.setModelAndView(mav, request);
 		return mav;
