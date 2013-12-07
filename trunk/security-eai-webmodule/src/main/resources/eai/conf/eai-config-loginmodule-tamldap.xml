@@ -17,7 +17,7 @@
   <entry key="eai.loginmodule.userlock.ldap.lockStateAttr">secacctvalid</entry>
   
   <!--<entry key="eai.loginmodule.login.returnAttributeNames">cn,sn,telephoneNumber,seeAlso,description,title,x121Address,registeredAddress,destinationIndicator,preferredDeliveryMethod,telexNumber,teletexTerminalIdentifier,internationalISDNNumber,facsimileTelephoneNumber,street,postalAddress,postalCode,postOfficeBox,physicalDeliveryOfficeName,ou,st,l,businessCategory,departmentNumber,employeeNumber,employeeType,givenName,initials,labeledURI,mail,manager,pager,preferredLanguage,roomNumber,secretary,uid,displayName,o,userPKCS12,c,spPinYinName,spPinYinShortName,spIdentityType,spGender,spCountry,spOrgShortName,spOrgNumber,spDeptManagerName,spDeptManagerNumber,spPositionName,spPositionNumber,spPositionStatus,spEmployeeLevel,spTitleNumber,spTitleLevel,spTitleCategory,spPluralityStatus,spPluralityParents,spTransferStatus,spTransferParents,spStartTime,spEndTime,spEntryStatus,spAppendStatus,spUpdateDate,spRoleList,spAllowShow,spParents,ibm-allgroups</entry>-->
-  <entry key="eai.loginmodule.login.returnAttributeNames">cn,mobile</entry>
+  <entry key="eai.loginmodule.login.returnAttributeNames">uid,cn,mobile</entry>
 
   
   <!-- TIM Ldap参数 -->
