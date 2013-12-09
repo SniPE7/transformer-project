@@ -119,6 +119,11 @@ public class AccessEnforcer implements Filter {
     String reURL = request.getParameter("URL");
     String level = request.getParameter("AUTHNLEVEL");
     if(level!=null && reURL!=null && !"".equals(reURL)) {
+        
+        if(reURL.toLowerCase().indexOf("pkmslogout")>=0) {
+            reURL = "/";
+        }
+        
         HttpSession session = httpRequest.getSession(true);
 
         String pro = request.getParameter("PROTOCOL");
