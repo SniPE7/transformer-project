@@ -164,7 +164,7 @@ public class UserMobileBindingLdapLoginModule extends AbstractSpringLoginModule 
     }
     
     Date mobileLastDate = null;
-    Object mobile = null;
+    String mobile = null;
     
     DnAndAttributes dnAndAttrs = this.searchUserDNByAccount(username);
     if (dnAndAttrs == null){
@@ -173,7 +173,7 @@ public class UserMobileBindingLdapLoginModule extends AbstractSpringLoginModule 
     } else {  	  
 		try {
 			if(null!=dnAndAttrs.getAttributes().get(mobileAttrName)) {
-				mobile = dnAndAttrs.getAttributes().get(mobileAttrName).get(0);
+				mobile = (String)dnAndAttrs.getAttributes().get(mobileAttrName).get(0);
 			}
 			
 	    	if(checkMobileUpdateTime()) {
@@ -191,11 +191,19 @@ public class UserMobileBindingLdapLoginModule extends AbstractSpringLoginModule 
     if(null==mobile || "".equals(mobile)) {
     	//throw new UserMobileBindingLoginException((String)sharedState.get(LOGIN_NAME), String.format("[%s]'s mobile not set, need to set mobile.", (String)sharedState.get(LOGIN_NAME)));
       // Set remind time to Cookie
-      Cookie cookie = new Cookie(ATTR_LAST_REMIND_TIME, DATE_FORMAT_LAST_REMIND_TIME.format(new Date()));
-      cookie.setMaxAge(this.remindIntervalInSeconds * 2);
-			httpResponseCallback.getResponse().addCookie(cookie);
+      
+        //Cookie cookie = new Cookie(ATTR_LAST_REMIND_TIME, DATE_FORMAT_LAST_REMIND_TIME.format(new Date()));
+        //cookie.setMaxAge(this.remindIntervalInSeconds * 2);
+	    //httpResponseCallback.getResponse().addCookie(cookie);
     	throw new UserMobileBindingLoginException(username, "regmobile.info.remind.no", "",  String.format("[%s]'s mobile have not bind, need to bind mobile.", username));
     }
+    
+    try {
+        //mask the mobile
+        mobile = mobile.substring(0, 3) + "-XXXX-" + mobile.substring(8);
+    } catch(Exception err) {
+    }
+    
     
     if(checkMobileUpdateTime()) {
     	if(mobileLastDate==null) {
