@@ -299,7 +299,7 @@ function fillCardUid(){
 }
 
 /***  屏幕自适应模块  ***/
-var screenZoom = "180%";
+var screenZoom = "150%";
 function setBodyZoom(zoomSize) {
 	document.body.style.zoom=zoomSize;
 }
