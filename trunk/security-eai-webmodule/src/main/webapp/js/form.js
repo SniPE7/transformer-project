@@ -304,6 +304,7 @@ function fillCardUid(){
 
 		$("#j_username").val("");
 		$("#j_username").show();
+		$("#j_username").focus();
 	}
 }
 
