@@ -265,6 +265,8 @@ function showCardModel(){
 
 //是否已经填写过卡id
 var isFillCardUid = false;
+//读到卡后移走的第一次事件
+var isFirstCheck = true;
 function fillCardUid(){
 	
 	//BADGE_SERVICE_LOGIN_MODE=0
@@ -294,17 +296,21 @@ function fillCardUid(){
 			  }
 		}
 		
+		isFirstCheck = true;
+		
 		setCookie("BADGE_SERVICE_LOGIN_MODE", "1");
 	} else {
-		$("#badge-label").hide();
-		$("#badge-ok").hide();
-		$("#forgotuid_box").hide();
-		
-		$("#normal-label").show();
+		if(isFirstCheck) {
+			isFirstCheck = false;
+			
+			$("#badge-label").show();
+			$("#badge-ok").hide();
+			$("#forgotuid_box").hide();
 
-		$("#j_username").val("");
-		$("#j_username").show();
-		$("#j_username").focus();
+			$("#j_username").val("");
+			$("#j_username").show();
+			$("#j_username").focus();
+		}
 	}
 }
 
