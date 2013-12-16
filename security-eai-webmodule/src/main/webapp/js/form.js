@@ -295,6 +295,15 @@ function fillCardUid(){
 		}
 		
 		setCookie("BADGE_SERVICE_LOGIN_MODE", "1");
+	} else {
+		$("#badge-label").hide();
+		$("#badge-ok").hide();
+		$("#forgotuid_box").hide();
+		
+		$("#normal-label").show();
+
+		$("#j_username").val("");
+		$("#j_username").show();
 	}
 }
 
