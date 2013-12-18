@@ -48,7 +48,7 @@ public class VerifyCodeController extends BaseController {
 	private SpringSMSClient smsClient;
 	
 	@Value("#{beanProperties['eai.loginmodule.user.search.filter']}")
-	private String smsFilter = "(&amp;(|(uid={0})(badgeid={0}))(objectclass=inetOrgPerson))";
+	private String smsFilter = "(&(|(uid={0})(badgeid={0}))(objectclass=inetOrgPerson))";
 	
 	@Value("#{beanProperties['eai.loginmodule.user.search.mobileattrname']}")
 	private String userMobileAttribute = "mobile";

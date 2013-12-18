@@ -99,14 +99,15 @@ public class LosePwdController extends BaseController {
 			
 			return smsInfo;
 		}
-
-		//清理验证码
-		session.removeAttribute(Constants.KAPTCHA_SESSION_KEY);
 		
 		//change password
 		// 修改TIM口令（API）
 	    try {
 			userPassService.updatePassword(userid, newPassword);
+			
+			//清理验证码
+	        session.removeAttribute(Constants.KAPTCHA_SESSION_KEY);
+	        
 		} catch (PersonNotFoundException e) {
 			msg = String.format("PersonNotFoundException Exception. username:%s", userid);
 	    	log.error(String.format(msg, userid), e);

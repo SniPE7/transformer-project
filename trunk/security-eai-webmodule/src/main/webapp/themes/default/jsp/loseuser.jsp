@@ -42,7 +42,7 @@
 					</div>
 					<div id="step-2"  style="padding-top: 20px; padding-left: 20px;">
 							 <div id="nomobile" style="display: none;"> 
-								<label class="normal-label">你目前没有注册的手机信息，请联系人力资源部修改.</label>
+								<label class="normal-label">您目前没有注册的手机信息，请联系人力资源部修改.</label>
 			               		<label class="normal-label">Could not found your mobile number, please contact with HR. </label>
 			               	</div>
 			               	
