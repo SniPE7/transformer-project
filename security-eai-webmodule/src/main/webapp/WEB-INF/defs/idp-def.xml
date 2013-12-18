@@ -158,6 +158,13 @@
 			value="/WEB-INF/views/losepwd.jsp" />
 	</definition>
 	
+	<!-- 首次注册 -->
+	<definition name="/reg/firstlogin" extends="tiles.commom.base">
+		<put-attribute name="title" value="accout.title.firstreg" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/firstreg.jsp" />
+	</definition>
+	
 	<!-- 忘记用户名 -->
 	<definition name="/lose/user" extends="tiles.commom.base">
 		<put-attribute name="title" value="accout.title.loseuser" />

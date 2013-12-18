@@ -121,3 +121,29 @@ function validateRegMobile(form) {
 
   return flag;
 }
+
+//validate first login stepone fields
+function validateFirstLoginOne(form) {
+  var flag = validateField("#j_username", /.{1,100}$/, usernameErrormsg, true);
+  flag = flag && validateField("#j_idcard", /^[A-Za-z0-9]{18}$/, idcardErrormsg, false);
+  flag = flag && validateField("#j_checkcode", /^[A-Za-z0-9]{4}$/, checkcodeErrormsg, false);
+
+  return flag;
+}
+
+//validate first login steptwofields
+function validateFirstLoginTwo(form) {
+  var flag = validateField("#j_mobile", /^0?(13[0-9]|15[012356789]|18[0236789]|14[57])[0-9]{8}$/, mobileErrormsg, true);
+  flag = flag && validateField("#j_checkcode2", /^[A-Za-z0-9]{4}$/, checkcodeErrormsg, false);
+  flag = flag && validateField("#j_smscode", /^[0-9]{6}$/, smscodeErrormsg, false);
+
+  return flag;
+}
+
+//validate first login stepsubmit fields
+function validateFirstLoginSubmit(form) {
+  var flag = validateField("#j_npassword",  /.{1,20}$/, newpasswordErrormsg, false);
+  flag = flag && validateField("#j_npassword2", new RegExp("^" + $.trim($("#j_npassword").val()) + "$"), equalpasswordErrormsg, false);
+
+  return flag;
+}

@@ -71,11 +71,11 @@
 			             <label id="lb_userid" class="normal-label"></label>
 			             
 			             <br/><br/>
-			             <label for="ac_username" class="normal-label float-left">新口令/New Password</label>
+			             <label for="ac_username" class="normal-label float-left">新密码/New Password</label>
 			             <input type="password" tabindex="7" name="j_npassword" id="j_npassword" class="textinput" style="display: block; "/>
 			             
 			             
-			             <label for="ac_username" class="normal-label float-left">新口令/New Password</label>
+			             <label for="ac_username" class="normal-label float-left">确认新密码/Affirm New Password</label>
 			             <input type="password" tabindex="8" name="j_npassword2" id="j_npassword2" class="textinput" style="display: block; "/>
 
 					</div>
