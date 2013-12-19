@@ -150,13 +150,13 @@
     <logger name="org.apache.catalina" level="ERROR"/>
 
     <!-- Logs EAI, but not OpenSAML, messages -->
-    <logger name="com.ibm.siam.*" level="ERROR"/>
-    <logger name="com.techcenter" level="ERROR"/>
-    <logger name="com.sinopec.siam.*" level="ERROR"/>
-    <logger name="edu.internet2.middleware.shibboleth" level="ERROR"/>
+    <logger name="com.ibm.siam.*" level="ALL"/>
+    <logger name="com.techcenter" level="INFO"/>
+    <logger name="com.sinopec.siam.*" level="ALL"/>
+    <logger name="edu.internet2.middleware.shibboleth" level="ALL"/>
 
     <!-- Logs OpenSAML, but not EAI, messages -->
-    <logger name="org.opensaml" level="ERROR"/>
+    <logger name="org.opensaml" level="INFO"/>
     
     <!-- Logs VT LDAP LoginModule related messages, now not yet used -->
     <logger name="edu.vt.middleware.ldap" level="OFF"/>
@@ -165,22 +165,27 @@
     <logger name="PROTOCOL_MESSAGE" level="OFF" />
     
     <!-- EAI Access Logger -->
-    <logger name="EAI-Access" level="OFF">
+    <logger name="EAI-Access" level="ALL">
         <appender-ref ref="EAI_ACCESS"/>
     </logger>
     
     <!-- EAI Common Audit Logger -->
-    <logger name="EAI-Audit" level="OFF">
+    <logger name="EAI-Audit" level="ALL">
         <appender-ref ref="EAI_AUDIT"/>
     </logger>
         
     <!-- EAI Login Module W7 Log, DEBUG will turn on W7 log, otherwise will turn off -->
-    <logger name="EAI-Login-AUDIT-Logger-W7" level="OFF">
+    <logger name="EAI-Login-AUDIT-Logger-W7" level="DEBUG">
        <appender-ref ref="EAI.LOGIN.AUDIT.LOG.W7.APPENDER"/>
+    </logger>
+    
+    <!-- EAI Metadata register and download logger -->
+    <logger name="com.sinopec.siam.am.ts.metadata.provider.TopologyMetadataProvider" level="DEBUG">
+       <appender-ref ref="EAI.METADATA.PROVIDER.APPENDER"/>
     </logger>
 
     <!-- Root category -->
-    <root level="ERROR">
+    <root level="INFO">
         <appender-ref ref="EAI_PROCESS"/>
         <appender-ref ref="STDOUT"/>
     </root>
