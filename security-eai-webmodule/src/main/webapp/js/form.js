@@ -303,6 +303,9 @@ function fillCardUid(){
 		if(isFirstCheck) {
 			isFirstCheck = false;
 			
+			$("#errorDivMsg").addClass("invisible");
+			$("#infoDivMsg").addClass("invisible");
+
 			$("#badge-label").show();
 			$("#badge-ok").hide();
 			$("#forgotuid_box").hide();
