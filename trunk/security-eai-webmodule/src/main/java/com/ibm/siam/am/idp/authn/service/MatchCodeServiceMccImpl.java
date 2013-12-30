@@ -1,12 +1,9 @@
 package com.ibm.siam.am.idp.authn.service;
 
-import java.net.URL;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ibm.siam.am.idp.mcc.Com3Service;
-import com.ibm.siam.am.idp.mcc.ICodeTrans;
+import com.ibm.siam.am.idp.mcc.MatchCodeClient;
 
 /**
  * Match Code Service Interface
@@ -18,8 +15,12 @@ public class MatchCodeServiceMccImpl implements MatchCodeService {
 	private final Logger log = LoggerFactory
 			.getLogger(MatchCodeServiceMccImpl.class);
 
-	private String wsdlLocation1 = "http://10.6.69.4:8000/MatchCode?wsdl";
-	private String wsdlLocation2 = "http://10.6.69.4:8000/MatchCode?wsdl";
+	//private String wsdlLocation1 = "http://10.6.69.4:8000/MatchCode?wsdl";
+	//private String wsdlLocation2 = "http://10.6.69.4:8000/MatchCode?wsdl";
+	
+	private String wsdlLocation1 = "http://192.168.134.1:8000/BasicHttpBinding_ICodeTrans?WSDL";
+    private String wsdlLocation2 = "http://192.168.134.1:8000/BasicHttpBinding_ICodeTrans?WSDL";
+	
 	private String reverse = "0";
 
 	public String getMatchCode(String cardUid) throws Exception {
@@ -36,7 +37,7 @@ public class MatchCodeServiceMccImpl implements MatchCodeService {
 
 			String info;
 
-			Com3Service wsClient;
+			/*Com3Service wsClient;
 			ICodeTrans wsInterface;
 
 			URL url = null;
@@ -68,7 +69,33 @@ public class MatchCodeServiceMccImpl implements MatchCodeService {
 				} catch (Exception e) {
 					throw e;
 				}
-			}
+			}*/
+			
+			MatchCodeClient client = null;
+			try {
+			    client = new MatchCodeClient(wsdlLocation1);
+                // 12345678->38261475->53168472
+                String code = client.getMatchCode(cid);
+                info = code.substring(4, 5) + code.substring(2, 3)
+                        + code.substring(0, 1) + code.substring(5, 6)
+                        + code.substring(7, 8) + code.substring(3, 4)
+                        + code.substring(6, 7) + code.substring(1, 2);
+
+            } catch (Exception ex) {
+                try {
+                    client = new MatchCodeClient(wsdlLocation2);
+                    // 12345678->38261475->53168472
+                    String code = client.getMatchCode(cid);
+                    
+                    info = code.substring(4, 5) + code.substring(2, 3)
+                            + code.substring(0, 1) + code.substring(5, 6)
+                            + code.substring(7, 8) + code.substring(3, 4)
+                            + code.substring(6, 7) + code.substring(1, 2);
+
+                } catch (Exception e) {
+                    throw e;
+                }
+            }
 
 			log.info("Get match code success.");
 			return info;
