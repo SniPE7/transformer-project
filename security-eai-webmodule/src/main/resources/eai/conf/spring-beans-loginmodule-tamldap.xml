@@ -1092,6 +1092,14 @@
                 <property name="name" value="personServiceBeanName"></property>
                 <property name="value" value="personService"></property>
               </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="sgmBadgeUIDName"></property>
+                <property name="value" value="SGMBadgeUID"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="sgmBadgeTimeName"></property>
+                <property name="value" value="SGMBadgeTime"></property>
+              </bean>
             </list>
           </property>
         </bean>

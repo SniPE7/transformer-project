@@ -1,6 +1,8 @@
 package com.sinopec.siam.am.idp.authn.module;
 
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -38,6 +40,13 @@ public class SGMMatchCodeAuthLoginModule extends CommonLdapAuthLoginModule {
 
   /** Constant for login name stored in shared state. */
   public static final String LOGIN_MATCHCODE = "login.match.code";
+  
+  private static final String DATE_FORMAT = "yyyyMMddHHmm'Z'";
+
+  private String sgmBadgeUIDName = "SGMBadgeUID";
+  private String sgmBadgeTimeName = "SGMBadgeTime";
+
+  
   
 	private String matchCodeServiceBeanName = null;
 
@@ -80,7 +89,11 @@ public class SGMMatchCodeAuthLoginModule extends CommonLdapAuthLoginModule {
 				this.matchCodeServiceBeanName = value;
 			} else if (key.equalsIgnoreCase("personServiceBeanName")) {
 				this.personServiceBeanName = value;
-			}
+			} else if (key.equalsIgnoreCase("sgmBadgeUIDName")) {
+                this.sgmBadgeUIDName = value;
+            } else if (key.equalsIgnoreCase("sgmBadgeTimeName")) {
+                this.sgmBadgeTimeName = value;
+            }
 		}
 	}
 
@@ -93,7 +106,8 @@ public class SGMMatchCodeAuthLoginModule extends CommonLdapAuthLoginModule {
 	  // Success, and update cardUID into person entry
 	  PersonService personService = this.getPersonService();
 		Map<String, String> attrs = new HashMap<String, String>();
-		attrs.put("SGMBadgeUID", this.cardUID);
+		attrs.put(sgmBadgeUIDName, this.cardUID);
+		attrs.put(sgmBadgeTimeName, getDateNow());
 	  try {
 	    personService.updatePerson(this.uid, attrs);
     } catch (PersonNotFoundException e) {
@@ -161,5 +175,13 @@ public class SGMMatchCodeAuthLoginModule extends CommonLdapAuthLoginModule {
 			return null;
 		}
 	}
+	
+	private String getDateNow() {
+        Date now = new Date();
+        SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
+        
+        return df.format(now);
+        //return "201308060308Z";
+    }
 
 }
