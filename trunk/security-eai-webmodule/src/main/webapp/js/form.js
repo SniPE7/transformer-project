@@ -43,7 +43,7 @@ function sendsms() {
 					$("#lb_usr_mobile").text("错误的手机号/ error mobile number");
 				}
 				//setMsg('info', msg.code);
-				$("#j_smscode").val(msg.code);
+				//$("#j_smscode").val(msg.code);
 				
 				if(msg.matchcode!=null && msg.matchcode!="") {
 					$("#j_matchcode").val(msg.matchcode);
@@ -79,7 +79,7 @@ function sendsms2() {
 					$("#lb_usr_mobile").text("错误的手机号/ Error Mobile Number");
 				}
 				//setMsg('info', msg.code);
-				$("#j_smscode").val(msg.code);
+				//$("#j_smscode").val(msg.code);
 				$("#j_useruid").val(msg.username);
 			}
 		},
@@ -116,7 +116,7 @@ function sendsms3() {
 				$("#lb_userid").text(msg.username);
 				
 				//setMsg('info', msg.code);
-				$("#j_smscode").val(msg.code);
+				//$("#j_smscode").val(msg.code);
 				$("#j_useruid").val(msg.username);
 			}
 		},
@@ -273,6 +273,7 @@ function fillCardUid(){
 	//setCookie("BADGE_SERVICE_LOGIN_MODE", "0");
 	
 	var cardUid = getCardUid();
+	//var cardUid = "10001";
 	  
 	if (cardUid.length != 0) {
 	//if (cardUid.length == 0) {

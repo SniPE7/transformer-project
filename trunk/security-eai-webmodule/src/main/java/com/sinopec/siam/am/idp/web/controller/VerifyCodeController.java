@@ -55,6 +55,9 @@ public class VerifyCodeController extends BaseController {
 	
 	@Value("#{beanProperties['eai.loginmodule.user.search.displayattrname']}")
 	private String displayNameAttribute = "displayName";
+	
+	@Value("#{beanProperties['eai.template.sms']}")
+    private String templateSMS = "您的短信验证是${smscode}";
 
 	/**
 	 * 获取短信动态密码 登录获取短信动态密码
@@ -135,7 +138,7 @@ public class VerifyCodeController extends BaseController {
 				// if get it, send smscode to mobile of user, return mobileno. need callsms api
 				smsCode = DyncUtil.getPassword(userid, "");
 				//send sms
-				String sendMsg = "您的短信验证是 " + smsCode;
+				String sendMsg = templateSMS.replace("${smscode}", smsCode);
 				smsClient.getSubmitSender().send(mobile, sendMsg);
 				
 				log.info("get user sms code is :" + smsCode);
@@ -154,7 +157,7 @@ public class VerifyCodeController extends BaseController {
 		//smsInfo.put("dn", ldapUserEntitys.get(0).getDn());
 		smsInfo.put("msg", msg);
 		smsInfo.put("status", status);
-		smsInfo.put("code", smsCode);
+		//smsInfo.put("code", smsCode);
 
 		return smsInfo;
 
