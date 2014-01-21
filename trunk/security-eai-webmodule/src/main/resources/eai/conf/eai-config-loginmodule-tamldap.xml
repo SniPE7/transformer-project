@@ -68,5 +68,8 @@
   <!--  用户的显示属性名称 -->
   <entry key="eai.loginmodule.user.search.displayattrname">givenName</entry>
   
+  <!--  发送短信验证码的模版  -->
+  <entry key="eai.template.sms">您的短信验证是${smscode}</entry>
+  
 
 </properties>
