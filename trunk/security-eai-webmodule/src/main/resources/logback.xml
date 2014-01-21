@@ -180,7 +180,7 @@
     </logger>
 
     <!-- Root category -->
-    <root level="ERROR">
+    <root level="INFO">
         <appender-ref ref="EAI_PROCESS"/>
         <appender-ref ref="STDOUT"/>
     </root>
