@@ -158,6 +158,20 @@
 			value="/WEB-INF/views/losepwd.jsp" />
 	</definition>
 	
+	<!-- 忘记密码By邮件 -->
+	<definition name="/lose/resetpwdbymail" extends="tiles.commom.base">
+		<put-attribute name="title" value="accout.title.losepwd" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/resetpwdbymail.jsp" />
+	</definition>
+	
+	<!-- 设置密码By邮件 -->
+	<definition name="/lose/setpwdbymail" extends="tiles.commom.base">
+		<put-attribute name="title" value="accout.title.losepwd" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/setpwdbymail.jsp" />
+	</definition>
+	
 	<!-- 首次注册 -->
 	<definition name="/reg/firstlogin" extends="tiles.commom.base">
 		<put-attribute name="title" value="accout.title.firstreg" />

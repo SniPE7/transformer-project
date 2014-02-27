@@ -71,5 +71,26 @@
   <!--  发送短信验证码的模版  -->
   <entry key="eai.template.sms">您的短信验证是${smscode}</entry>
   
-
+  <!--  加密秘钥  -->
+  <entry key="eai.loginmodule.cry.key">012=456789ab-def</entry>
+  <!--  发送重置密码验证URL前缀 -->
+  <entry key="eai.loginmodule.resetpwd.active.url">https://192.168.134.146/eaiweb/setpwdbymail.do?sid=</entry>
+  <!--  发送重置密码验证URL的时效  -->
+  <entry key="eai.loginmodule.resetpwd.active.timeout">1800000</entry>
+  <!--  发送重置密码验证邮件的标题  -->
+  <entry key="eai.loginmodule.resetpwd.mail.title">用户密码修复</entry>
+  <!--  发送重置密码验证邮件的模版内容  -->
+  <entry key="eai.loginmodule.resetpwd.mail.content">请您点击下面链接来修复登录密码:${activeurl}  为了确保您的帐号安全，该链接仅30分钟内访问有效。</entry>
+  
+  <!--  邮件服务器SMTP IP or hostname  -->
+  <entry key="eai.loginmodule.mail.smtp">smtp.163.com</entry>
+  <!--  邮件服务器 验证用户  -->
+  <entry key="eai.loginmodule.mail.userid">xrogzu@163.com</entry>
+  <!--  邮件服务器 验证用户密码  -->
+  <entry key="eai.loginmodule.mail.password">000000</entry>
+  <!--  邮件服务器 验证用户显示名称  -->
+  <entry key="eai.loginmodule.mail.username">用户管理员</entry>
+  
+  <!--  内外网标识  -->
+  <entry key="eai.loginmodule.isinternet">false</entry>
 </properties>
