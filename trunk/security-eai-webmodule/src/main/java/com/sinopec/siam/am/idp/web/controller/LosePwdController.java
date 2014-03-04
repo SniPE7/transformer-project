@@ -56,14 +56,14 @@ public class LosePwdController extends BaseController {
     @RequestMapping(value = "/losepwd.do", method = { RequestMethod.GET, RequestMethod.POST, RequestMethod.HEAD })
     public ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) {
 
-        if(isInternet) {
+        /*if(isInternet) {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/resetpwdbymail.do");
             try {
                 dispatcher.forward(request, response);
             } catch (ServletException e) {
             } catch (IOException e) {
             }
-        }
+        }*/
 
         HttpSession session = request.getSession(false);
         if (session != null) {

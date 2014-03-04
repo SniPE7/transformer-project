@@ -70,10 +70,10 @@ public class ResetPwdByMailController extends BaseController {
     private String userMailAttribute = "mail";
 	
     @Value("#{beanProperties['eai.loginmodule.cry.key']}")
-	private static String key = "012=456789ab-def";
+	private String key = "012=456789ab-def";
 
     @Value("#{beanProperties['eai.loginmodule.resetpwd.active.url']}")
-	private static String mailUrl = "https://192.168.134.146/eaiweb/setpwdbymail.do?sid=";
+	private String mailUrl = "https://192.168.134.146/eaiweb/setpwdbymail.do?sid=";
 	
 	private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
@@ -97,6 +97,30 @@ public class ResetPwdByMailController extends BaseController {
 	
 	@Value("#{beanProperties['eai.loginmodule.mail.username']}")
 	private String mailUserName = "用户管理员";
+	
+	@RequestMapping(value = "/setpwdchoose.do", method = { RequestMethod.GET, RequestMethod.POST, RequestMethod.HEAD })
+	  public ModelAndView chooseTypeSetPwd(HttpServletRequest request, HttpServletResponse response) {
+	      
+	      HttpSession session = request.getSession(false);
+	      if(session !=null) {
+	          LoginContextEntry entry = (LoginContextEntry) session.getAttribute(HttpServletHelper.LOGIN_CTX_KEY_NAME);
+	          if(entry!=null) {
+	              String realUrl = "";
+	              Object redirUrl = session.getAttribute("eai-redir-url-header");
+	                if(redirUrl!=null) {
+	                    realUrl = redirUrl.toString();
+	                } else {
+	                    realUrl = request.getContextPath() + "/" + entry.getLoginContext().getAccessEnforcerURL();
+	                }
+	                
+	              request.setAttribute("gotoUrl", realUrl);
+	          }
+	      }
+	      
+	        ModelAndView mav = new ModelAndView("/lose/setpwdchoose");
+	        super.setModelAndView(mav, request);
+	        return mav;
+	  }
 	
   /**
    * 返回页面。
