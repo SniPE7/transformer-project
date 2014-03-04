@@ -55,7 +55,7 @@
 		                     <button type="submit" id="J_sidebar_login" class="btn btn_big btn_submit mr20">登录/Login</button>
 		                  </div>
 		                  <div style="clear:both; height:0;overflow:hidden;"></div>
-	                    <div id="forgotpwd_box" style="display: block; float: left;text-align:center; vertical-align: bottom; margin-left: 0px;margin-top: 15px;"><a tabindex="6" href="losepwd.do" class="forgotpass">忘记密码/Forget Password?</a></div>
+	                    <div id="forgotpwd_box" style="display: block; float: left;text-align:center; vertical-align: bottom; margin-left: 0px;margin-top: 15px;"><a tabindex="6" href="setpwdchoose.do" class="forgotpass">忘记密码/Forget Password?</a></div>
 	                    <div id="forgotuid_box" style="display: none; float: left;text-align:center;margin-top: 15px;" ><a tabindex="5" href="loseuser.do" class="forgotpass">忘记用户名/Forget Username?</a></div>	                    
 	                    <div id="firstlogin_box" style="display: block; float: left;text-align:center; vertical-align: bottom; margin-left: 0px;margin-top: 15px;"><a tabindex="6" href="reg/firstlogin.do" class="forgotpass">首次登陆?/First Login?</a></div>
 	                </div>

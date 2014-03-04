@@ -65,7 +65,9 @@ public class EmailSendTool {
 		Authenticator auth = new Email_Autherticator(); // 进行邮件服务器用户认证
 		props.put("mail.smtp.host", host);
 		props.put("mail.smtp.auth", "true");
-		Session session = Session.getDefaultInstance(props, auth);
+		
+		//Session session = Session.getDefaultInstance(props, auth);
+		Session session = Session.getInstance(props, auth);
 		// 设置session,和邮件服务器进行通讯。
 		MimeMessage message = new MimeMessage(session);
 		// message.setContent("foobar, "application/x-foobar"); // 设置邮件格式
