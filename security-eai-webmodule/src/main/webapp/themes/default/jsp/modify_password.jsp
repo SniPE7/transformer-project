@@ -8,7 +8,10 @@
           <div class="aui-message info invisible" id="infoDivMsg">
             <!-- shown with class="aui-message info" -->
           </div>
-          <div id="acloginpod">
+<%
+          String infoTag = request.getAttribute(LoginHandler.AUTHENTICATION_INFO_KEY) != null ?  request.getAttribute(LoginHandler.AUTHENTICATION_INFO_KEY).toString() : "";
+%>
+          <div id="acloginpod" <%=("user.modify.password.success".equals(infoTag))?"style='display:none;'":"" %>>
             <div id="acloginpanel" class="loginpanel">
               <form class="aui cmxform" method="post" id="authenForm" 
                 name="loginForm" onSubmit="return validate(this);"
@@ -47,12 +50,12 @@
           </div><!-- End of #acloginpod -->
         </div><!-- End of #content -->
         <% 
-        	String infoTag = request.getAttribute(LoginHandler.AUTHENTICATION_INFO_KEY) != null ?  request.getAttribute(LoginHandler.AUTHENTICATION_INFO_KEY).toString() : "";
         	if(!"".equals(infoTag)) {
         		%>
         		<script>setMsg('info', '<spring:message code="<%=infoTag%>"  />');</script>
         		<%
         	}
         %>
-        
+        <% if (!"user.modify.password.success".equals(infoTag)) { %>
         <script>setMsg('info', '<spring:message code="modifyPass.info.userpass.policy" />');</script>
+        <% } %>
