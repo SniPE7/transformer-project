@@ -12,7 +12,7 @@
   <% 
      Throwable error = (Throwable) request.getAttribute(AbstractErrorHandler.ERROR_KEY);
   %>
-  <strong><spring:message code="error.message.title"/><%= error.getMessage()%></strong>
+  <strong><spring:message code="error.message.title"/><%= (error != null)?error.getMessage():""%></strong>
                 </fieldset>
             </div><!-- End of #acloginpanel -->
           </div><!-- End of #acloginpod -->
