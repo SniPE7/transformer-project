@@ -148,7 +148,10 @@ public class AccessEnforcer implements Filter {
         if (log.isDebugEnabled()) {
           log.debug(String.format("TAM_OP=logout, redirect to URL: [%s]", redirectUrl));
         }
-        httpResponse.sendRedirect(redirectUrl );
+        //httpResponse.sendRedirect(redirectUrl);
+        httpResponse.setContentType("text/html");
+        httpResponse.getWriter().println(String.format("<script language='javascript'>var protocol='%s';var host='%s';var uri='%s';window.location=protocol + '://' + host + uri;</script>", request.getParameter("PROTOCOL"), request.getParameter("HOSTNAME"), reURL));
+        httpResponse.flushBuffer();
         return;
       }
     } else if ("help".equals(tamOp) && "/pkmspasswd".equals(reURL)) {
