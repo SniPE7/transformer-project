@@ -25,6 +25,7 @@ import com.sinopec.siam.am.idp.themes.ThemesUtils;
 import edu.internet2.middleware.shibboleth.common.profile.AbstractErrorHandler;
 import edu.internet2.middleware.shibboleth.common.util.HttpHelper;
 import edu.internet2.middleware.shibboleth.idp.authn.LoginContext;
+import edu.internet2.middleware.shibboleth.idp.authn.LoginHandler;
 import edu.internet2.middleware.shibboleth.idp.util.HttpServletHelper;
 
 
@@ -59,6 +60,8 @@ public class AccessEnforcer implements Filter {
   private String AUTHN_LEVEL_FIELD  = "AUTHNLEVEL";
 
 	private String defaultWebSEALURL = "/";
+	
+  private String logoutCustomeizedPageURI = "/html/%s";
   
   /*
   static {
@@ -97,6 +100,9 @@ public class AccessEnforcer implements Filter {
     this.AUTHN_LEVEL_FIELD = (s != null && s.trim().length() > 0)?s:"AUTHNLEVEL";
     log.info(String.format("[%s]:EAI Authen AUTHN_LEVEL_FIELD {[%s]}", fConfig.getFilterName(), this.AUTHN_LEVEL_FIELD));
     
+    String tmp = this.filterConfig.getInitParameter("LogoutCustomeizedHtmlURI");
+    this.logoutCustomeizedPageURI = (tmp == null)?"/html/%s":tmp;
+    log.info(String.format("[%s]:EAI Logout redirect URL{[%s]}", fConfig.getFilterName(), this.logoutCustomeizedPageURI));
   }
 
   /**
@@ -116,7 +122,50 @@ public class AccessEnforcer implements Filter {
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     HttpServletResponse httpResponse = (HttpServletResponse) response;
     
+    String tamOp = httpRequest.getParameter("TAM_OP");
     String reURL = request.getParameter("URL");
+    if ("logout".equals(tamOp)) {
+      // Logout Operation
+      if (this.isAuthenticated(httpRequest)) {
+           if (log.isDebugEnabled()) {
+                log.debug("TAM_OP=logout, destroy current session.");
+           }
+           httpRequest.getSession(false).invalidate();
+      }
+      // 支持pkmslogout, 确保可以支持pkmslogout?filename的方式
+      if (reURL.toLowerCase().indexOf("pkmslogout") >= 0) {
+        if (reURL.toLowerCase().indexOf("?filename=") >= 0) {
+          // To WebSEAL Req: pkmslogout?filename=cilogout.html
+          // To EAI Req:
+          // http://localhost/eaiweb/login/info.do?TAM_OP=logout&USERNAME=s6uqqg&ERROR_CODE=0x00000000&ERROR_TEXT=HPDBA0521I%20%20%20Successful%20completion&METHOD=GET&URL=%2Fpkmslogout%3Ffilename%3Dcilogout.html&REFERER=&HOSTNAME=10.203.2.180&AUTHNLEVEL=&FAILREASON=&PROTOCOL=http&OLDSESSION=
+          String filename = reURL.substring("/pkmslogout?filename=".length());
+          reURL = String.format(logoutCustomeizedPageURI, filename);
+        } else {
+          reURL = "/";
+          reURL = defaultWebSEALURL;
+        }
+        String redirectUrl = request.getParameter("PROTOCOL") + "://" + request.getParameter("HOSTNAME") + reURL;
+        if (log.isDebugEnabled()) {
+          log.debug(String.format("TAM_OP=logout, redirect to URL: [%s]", redirectUrl));
+        }
+        httpResponse.sendRedirect(redirectUrl );
+        return;
+      }
+    } else if ("help".equals(tamOp) && "/pkmspasswd".equals(reURL)) {
+      //httpRequest.getSession().setAttribute("j_username", "jsmith");
+      if (httpRequest.getSession(false) != null && httpRequest.getSession(false).getAttribute("j_username") != null) {
+         String username = (String)httpRequest.getSession(false).getAttribute("j_username");
+         request.setAttribute("j_username",username);
+         request.setAttribute("show_username", username);
+         //request.setAttribute(LoginHandler.AUTHENTICATION_INFO_KEY, "modifyPass.info.userpass.changePwdByUser");
+
+         request.setAttribute("op", "changePwdByUser");  
+         request.setAttribute("actionUrl", buildServletUrl((HttpServletRequest)request));
+         request.getRequestDispatcher("/modify_password.do").forward(request, response);
+         return;
+      }
+    }
+
     String level = request.getParameter("AUTHNLEVEL");
     if(level!=null && reURL!=null && !"".equals(reURL)) {
         
@@ -139,7 +188,6 @@ public class AccessEnforcer implements Filter {
        dumpToLog(httpRequest);
     }
     
-    String tamOp = httpRequest.getParameter("TAM_OP");
     if (tamOp != null && tamOp.equals("logout") ) {
     	if (this.isAuthenticated(httpRequest)) {
     		 if (log.isDebugEnabled()) {
@@ -194,6 +242,23 @@ public class AccessEnforcer implements Filter {
     // Authenticated and matched authen method, do business
     chain.doFilter(request, response);
     return;
+  }
+
+  /**
+   * 构建 Servlet 的Url。
+   * 
+   * @param request
+   * @return string url
+   */
+  private String buildServletUrl(HttpServletRequest request) {
+      StringBuilder actionUrlBuilder = new StringBuilder();
+
+      if (!"".equals(request.getContextPath())) {
+          actionUrlBuilder.append(request.getContextPath());
+      }
+
+      actionUrlBuilder.append(request.getServletPath());
+      return actionUrlBuilder.toString();
   }
 
   /**
