@@ -2,6 +2,7 @@
  * 执行验证。
  */
 var usernameErrormsg = '账号不合法，请重新输入/account is invalid, please re-enter';
+var idCardErrormsg = '请将工卡放入读卡器/Please put your ID Card into card reader';
 var passwordErrormsg = '账号密码不合法，请重新输入/password is invalid, please re-enter';
 var checkcodeErrormsg = '验证码不合法，请重新输入/verification code is invalid, please re-enter';
 var smscodeErrormsg = '短信码不合法，请重新输入/sms code is invalid, please re-enter';
@@ -9,8 +10,8 @@ var newpasswordErrormsg = '新密码不合法，请重新输入/password is inva
 var confirmpasswordErrormsg = '确认新密码不合法，请重新输入/password is invalid, please re-enter';
 var equalpasswordErrormsg = '确认新密码与新密码不相同，请重新输入/the two password is not the same, please re-enter';
 
-var idcardErrormsg = '身份证输入不有误，请重新输入/ idcard is invalid, please re-enter';
-var mobileErrormsg = '手机号输入不有误，请重新输入/ mobile is invalid, please re-enter';
+var idcardErrormsg = '身份证输入有误，请重新输入/ idcard is invalid, please re-enter';
+var mobileErrormsg = '手机号输入有误，请重新输入/ mobile is invalid, please re-enter';
 
 $().ready(function() {
   $("#sidebar").collapse({
@@ -28,7 +29,7 @@ $().ready(function() {
     }
   });
   
-  $('#j_username,#j_password,#j_checkcode,#j_smscode,#j_new_password,#j_confirm_password').poshytip({
+  $('#j_username,#j_password,#j_checkcode,#j_checkcode2,#j_smscode,#j_new_password,#j_confirm_password').poshytip({
     className : 'tip-yellowsimple',
     showOn : 'none',
     alignTo : 'target',
@@ -89,10 +90,16 @@ function validateEquals(id1, id2, errormsg, trim) {
 
 //显示提示信息
 function showMsg(id, errormsg){
+	if($(id).attr("type")=="hidden")
+	{
+		alert(errormsg);
+	}
+	else{
   $(id).poshytip('update', errormsg);
   $(id).poshytip('show');
   //$(id).poshytip('hide');
   //$(id).poshytip('hideDelayed', 2000);
+	}
 }
 
 // validate login fields
@@ -144,7 +151,7 @@ function validateRegMobile(form) {
 
 //validate first login stepone fields
 function validateFirstLoginOne(form) {
-  var flag = validateField("#j_username", /.{1,100}$/, usernameErrormsg, true);
+  var flag = validateField("#j_username", /.{1,100}$/, idCardErrormsg, true);
   flag = flag && validateField("#j_idcard", /^[A-Za-z0-9]{18}$/, idcardErrormsg, false);
   flag = flag && validateField("#j_checkcode", /^[A-Za-z0-9]{4}$/, checkcodeErrormsg, false);
 
@@ -155,7 +162,7 @@ function validateFirstLoginOne(form) {
 function validateFirstLoginTwo(form) {
   var flag = validateField("#j_mobile", /^0?(13[0-9]|15[012356789]|18[0236789]|14[57])[0-9]{8}$/, mobileErrormsg, true);
   flag = flag && validateField("#j_checkcode2", /^[A-Za-z0-9]{4}$/, checkcodeErrormsg, false);
-  flag = flag && validateField("#j_smscode", /^[0-9]{6}$/, smscodeErrormsg, false);
+//flag = flag && validateField("#j_smscode", /^[0-9]{6}$/, smscodeErrormsg, false);
 
   return flag;
 }
