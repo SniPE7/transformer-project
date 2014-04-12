@@ -67,6 +67,26 @@ function validateField(id, regex, errormsg, trim) {
   return true;
 }
 
+//validate field
+function validateEquals(id1, id2, errormsg, trim) {
+  var value1 = trim ? $.trim($(id1).val()) : $(id1).val();
+  if(undefined == value1){
+    return true;
+  }
+  
+  var value2 = trim ? $.trim($(id2).val()) : $(id2).val();
+  if(undefined == value2){
+    return true;
+  }
+  
+  if (value1 != value2) {
+    showMsg(id1, errormsg);
+    return false;
+  }
+  $(id).poshytip('hide');
+  return true;
+}
+
 //显示提示信息
 function showMsg(id, errormsg){
   $(id).poshytip('update', errormsg);
@@ -82,7 +102,7 @@ function validate(form) {
   flag = flag && validateField("#j_checkcode", /^[A-Za-z0-9]{4}$/, checkcodeErrormsg, false);
   flag = flag && validateField("#j_smscode", /^[0-9]{6}$/, smscodeErrormsg, false);
   flag = flag && validateField("#j_new_password", /.{1,20}$/, newpasswordErrormsg, false);
-  flag = flag && validateField("#j_confirm_password", new RegExp("^" + $.trim($("#j_new_password").val()) + "$"), equalpasswordErrormsg, false);
+  flag = flag && validateEquals("#j_confirm_password", "#j_new_password", equalpasswordErrormsg, false);
 
   return flag;
 }
