@@ -173,6 +173,9 @@ public class ModifyPasswordServlet extends HttpServlet {
        
        // Check old password
        UserService tamService = this.getTamLdapUserService();
+       request.setAttribute(usernameAttribute, username);
+       request.setAttribute(showUsernameAttribute, showUsername);
+       request.setAttribute(optFlagAttribute, op);
        List<LdapUserEntity> users = tamService.searchByUid(username);
        if (users == null || users.size() != 1) {
          request.setAttribute(failureParam, "true");
@@ -189,9 +192,6 @@ public class ModifyPasswordServlet extends HttpServlet {
           return;
        }
        boolean modifyPassword = modifyPassword(request, username, nPassword);
-       request.setAttribute(usernameAttribute, username);
-       request.setAttribute(showUsernameAttribute, showUsername);
-       request.setAttribute(optFlagAttribute, op);
        if (modifyPassword) {
          // 修改口令成功
          request.getSession(false).setAttribute(LoginHandler.PRINCIPAL_UPDATE_PASSWORD_SUCCESS_KEY, "true");
