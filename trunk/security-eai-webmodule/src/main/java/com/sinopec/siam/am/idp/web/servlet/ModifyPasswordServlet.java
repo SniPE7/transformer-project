@@ -3,6 +3,7 @@ package com.sinopec.siam.am.idp.web.servlet;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.RemoteException;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletConfig;
@@ -26,7 +27,8 @@ import com.sinopec.siam.am.idp.authn.service.MultiplePersonFoundException;
 import com.sinopec.siam.am.idp.authn.service.PersonNotFoundException;
 import com.sinopec.siam.am.idp.authn.service.PersonService;
 import com.sinopec.siam.am.idp.authn.service.PersonServiceException;
-import com.sinopec.siam.am.idp.authn.service.UserPassService;
+import com.sinopec.siam.am.idp.authn.service.UserService;
+import com.sinopec.siam.am.idp.entity.LdapUserEntity;
 
 import edu.internet2.middleware.shibboleth.idp.authn.LoginHandler;
 
@@ -77,6 +79,11 @@ public class ModifyPasswordServlet extends HttpServlet {
   /** 用户服务Bean ID */
   private String personServiceBeanId = "personService";
 
+  /**
+   * tamLdapUserService Bean ID
+   */
+  private String tamLdapUserServiceBeanId = "tamLdapUserService";
+
   /** Class logger. */
   private final Logger log = LoggerFactory.getLogger(ModifyPasswordServlet.class);
 
@@ -120,10 +127,86 @@ public class ModifyPasswordServlet extends HttpServlet {
     	personServiceBeanId = getInitParameter("personServiceBeanId");
     }
 
+    if (getInitParameter("tamLdapUserServiceBeanId") != null) {
+      tamLdapUserServiceBeanId = getInitParameter("tamLdapUserServiceBeanId");
+  }
+
   }
 
   /** {@inheritDoc} */
   protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    String op = request.getParameter("op");
+    if ("changePwdByUser".equals(op)) {
+       // 用户主动发起的口令修改
+       String username = request.getParameter(usernameAttribute);
+       String showUsername = request.getParameter(showUsernameAttribute);
+       String password = request.getParameter(passwordAttribute);
+       String nPassword = request.getParameter(newPassAttribute);
+       if (StringUtils.isEmpty(username) || StringUtils.isEmpty(showUsername)) {
+         request.setAttribute(failureParam, "true");
+         request.setAttribute(usernameAttribute, username);
+         request.setAttribute(showUsernameAttribute, showUsername);
+         request.setAttribute(optFlagAttribute, modifyPasswordFlag);
+         request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "modifyPass.error.username.isNull");
+         redirectToPage(request, response, modifyPasswordPage);
+         return;
+       }
+       if (StringUtils.isEmpty(password)) {
+         request.setAttribute(failureParam, "true");
+         request.setAttribute(usernameAttribute, username);
+         request.setAttribute(showUsernameAttribute, showUsername);
+         request.setAttribute(optFlagAttribute, modifyPasswordFlag);
+         request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "modifyPass.error.userpass.isNull");
+         redirectToPage(request, response, modifyPasswordPage);
+         return;
+       }
+
+       if (StringUtils.isEmpty(nPassword)) {
+         request.setAttribute(failureParam, "true");
+         request.setAttribute(usernameAttribute, username);
+         request.setAttribute(showUsernameAttribute, showUsername);
+         request.setAttribute(optFlagAttribute, modifyPasswordFlag);
+         request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "modifyPass.error.usernewpass.isNull");
+         redirectToPage(request, response, modifyPasswordPage);
+         return;
+       }
+       
+       // Check old password
+       UserService tamService = this.getTamLdapUserService();
+       List<LdapUserEntity> users = tamService.searchByUid(username);
+       if (users == null || users.size() != 1) {
+         request.setAttribute(failureParam, "true");
+         request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "modifyPass.error.failure");
+         redirectToPage(request, response, modifyPasswordPage);
+         return;
+       }
+       boolean oldPasswordSuccess = tamService.authenticateByUserDnPassword(users.get(0).getDn(), password);
+       if (!oldPasswordSuccess) {
+          // 原始口令错误，认证失败
+          request.setAttribute(failureParam, "true");
+          request.setAttribute(LoginHandler.AUTHENTICATION_ERROR_TIP_KEY, "user.modify.password.wrongOldPassword");
+          redirectToPage(request, response, modifyPasswordPage);
+          return;
+       }
+       boolean modifyPassword = modifyPassword(request, username, nPassword);
+       request.setAttribute(usernameAttribute, username);
+       request.setAttribute(showUsernameAttribute, showUsername);
+       request.setAttribute(optFlagAttribute, op);
+       if (modifyPassword) {
+         // 修改口令成功
+         request.getSession(false).setAttribute(LoginHandler.PRINCIPAL_UPDATE_PASSWORD_SUCCESS_KEY, "true");
+         request.setAttribute(LoginHandler.AUTHENTICATION_INFO_KEY, "user.modify.password.success");
+         redirectToPage(request, response, modifyPasswordPage);
+         return;
+       } else {
+         // 修改口令失败
+         request.setAttribute(failureParam, "true");
+         redirectToPage(request, response, modifyPasswordPage);
+         return;
+       }
+    }
+    
+    // 登录过程发生的强制用户修改口令等场景.
     String username = request.getParameter(usernameAttribute);
     String showUsername = request.getParameter(showUsernameAttribute);
     String password = request.getParameter(passwordAttribute);
@@ -308,5 +391,11 @@ public class ModifyPasswordServlet extends HttpServlet {
     // Get Spring Bean Factory
     ApplicationContext appContext = ContextLoader.getCurrentWebApplicationContext();
     return appContext.getBean(this.personServiceBeanId, PersonService.class);
+  }
+
+  private UserService getTamLdapUserService() {
+    // Get Spring Bean Factory
+    ApplicationContext appContext = ContextLoader.getCurrentWebApplicationContext();
+    return appContext.getBean(this.tamLdapUserServiceBeanId , UserService.class);
   }
 }
