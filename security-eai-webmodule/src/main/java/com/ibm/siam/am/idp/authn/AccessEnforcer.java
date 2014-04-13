@@ -124,7 +124,10 @@ public class AccessEnforcer implements Filter {
     
     String tamOp = httpRequest.getParameter("TAM_OP");
     String reURL = request.getParameter("URL");
-    if ("logout".equals(tamOp)) {
+    if ("error".equals(tamOp)) {
+       handleErrorOP(request, httpRequest, httpResponse);
+       return;
+    } else if ("logout".equals(tamOp)) {
       // Logout Operation
       if (this.isAuthenticated(httpRequest)) {
            if (log.isDebugEnabled()) {
@@ -245,6 +248,31 @@ public class AccessEnforcer implements Filter {
     // Authenticated and matched authen method, do business
     chain.doFilter(request, response);
     return;
+  }
+
+  /**
+   * @param request
+   * @param httpRequest
+   * @param httpResponse
+   * @throws ServletException
+   * @throws IOException
+   */
+  private void handleErrorOP(ServletRequest request, HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
+    String msg = String.format("ERROR_CODE=%s<br/>ERROR_TEXT=%s<br/>METHOD=%s<br/>URL=%s<br/>HOSTNAME=%s<br/>FAILREASON=%s<br/>PROTOCOL=%s<br/>", 
+                      request.getParameter("ERROR_CODE"), 
+                      request.getParameter("ERROR_TEXT"), 
+                      request.getParameter("METHOD"), 
+                      request.getParameter("URL"), 
+                      request.getParameter("HOSTNAME"), 
+                      request.getParameter("FAILREASON"), 
+                      request.getParameter("PROTOCOL"));
+    Exception e = new Exception(msg);
+    request.setAttribute(AbstractErrorHandler.ERROR_KEY, e);
+    
+//      if ("Not Found".equals(request.getParameter("ERROR_TEXT"))) {
+//         httpResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
+//      }
+    httpRequest.getRequestDispatcher("/error.do").forward(httpRequest, httpResponse);
   }
 
   /**
