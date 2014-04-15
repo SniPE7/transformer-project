@@ -46,13 +46,22 @@
 			               	<input type="hidden" tabindex="100" name="j_useruid" id="j_useruid"/>
 			                <input type="text" tabindex="1" name="j_username" id="j_username" class="textinput" style="display: block; float: left;"/>			                
 			                <div style="clear:both; height:0;overflow:hidden;"></div>
-
+					              
+	                <label class="float-left"><spring:message code="logon.form.checkcode" /></label>
+	                <div style="display: block; float: left;"><input type="text" tabindex="3" name="j_checkcode" id="j_checkcode" class="textCKcode" /></div>
+<!--	                <img id="j_checkcodeImgCode" src="Kaptcha.jpg"
+	                  style="height: 27px; width: 75px; cursor: hand; display: block; float: left; margin-left: 10px; margin-top: 3px;" title="点击更新/Click to refresh code" alt="点击更新/Click to refresh"
+	                  onclick="javascript:updateCheckCodeImg()"/>
+-->	                <img id="j_checkcodeImgCode" src="Kaptcha.jpg"
+	                  style="height: 27px; width: 75px; cursor: hand; display: block; float: left; margin-left: 10px; margin-top: 3px;" onclick="javascript:updateCheckCodeImg()"/>点击更新/Click to refresh
+					<div style="clear:both; height:0;overflow:hidden;"></div>
 					</div>
 					<div id="step-2" style="padding-top: 20px; padding-left: 20px;">
+						<label id="j_msg" class="float-left normal-label" style="color:red;"></label>
 						<div id="nomail" style="display: none;"> 
-							<label class="normal-label">您的安全邮箱地址没有设置,请联系HR.</label>
+							<label class="normal-label">您的安全邮箱地址没有设置,请联系SGM IT.</label>
 		               		<label class="normal-label">Your safe email address is not set, please contact with HR. </label>
-		               		<label class="normal-label"><a href="resetpwdbymail.do">重新找回密码/To reclaim the password</a> </label>
+		               	<!--	<label class="normal-label"><a href="resetpwdbymail.do">重新找回密码/To reclaim the password</a> </label>-->
 		               	</div>
 		               	
 		               	<div id="novalidate" style="display: none;"> 
@@ -63,8 +72,8 @@
 		               	
 		               	<div id="mail" style="display: none;"> 
 		               		<label id="lb-mail" class="float-left normal-label" style="color:red;"></label>
-		               		<label class="normal-label">密码找回邮件发送成功，请您注意接收邮件！</label>
-		               		<label class="normal-label">Password back email successfully, please pay attention to receive mail! </label>
+		               		<label class="normal-label">密码找回邮件已发到上述邮箱，请您注意接收邮件！</label>
+		               		<label class="normal-label">Password reset email has been sent to above your mailbox, please check your email! </label>
 		               		
 		            	</div>
 
@@ -89,5 +98,15 @@
         <script type="text/javascript" src="js/resetpwdbymail.js"></script>
         <script type="text/javascript">
 		        showCardModel();
+		</script>
+		<script type="text/javascript">
+	      	//you can change the screenZoom String to xxx%
+			//doBodyZoom(screenZoom);
+	       
+	        //更新图形验证码
+	        function updateCheckCodeImg() {
+	          var imgCode = document.getElementById("j_checkcodeImgCode");
+	          imgCode.src = "Kaptcha.jpg?dt=" + (new Date()).getTime();
+	        }
 	      </script>
        

@@ -48,8 +48,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<!-- <div class="clear"></div> -->
 				<div id="sgmcontent">
 	                <div class="contentleft"> 
-	                	<div style="margin: 0px auto;text-align:center; "><img src="themes/default/images/login_title.png"/></div>
-	                	<tiles:insertAttribute name="body" />
+        <div style="margin: 0px auto;text-align:center; "><!--<img src="themes/default/images/login_title1.PNG"/>-->SGM Unified Identity Management Platform<br>
+		上海通用汽车统一身份管理平台</div>
+
+	               	<tiles:insertAttribute name="body" />
 	                </div>
 	                <div class="contentright">
 	                    <img src="themes/default/images/login_right.gif" />

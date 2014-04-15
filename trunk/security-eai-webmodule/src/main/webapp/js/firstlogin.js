@@ -14,8 +14,8 @@ function loginFirstStepOne() {
         },
 		success : function(msg) {
 			if(msg.status=='success') {
-				$('#lb_username').text(msg.displayname);
-				$('#lb_userid').text(msg.username);
+				$('#lb_username').text("姓名/Name: " + msg.displayname);
+				$('#lb_userid').text("用户名/Username: " + msg.username);
 				$('#j_useruid').val(msg.username);
 				
 				if(msg.mobile!=null && msg.mobile!="undefined" && msg.mobile!="") {
@@ -42,7 +42,7 @@ function losepwdStepTwo() {
 	var result = false;
 	loading('请求中..', 1);
 
-	$.ajax( {
+/**	$.ajax( {
 		type : "post",
 		url : "checksmscode.do",
 		dataType:"json",
@@ -50,8 +50,17 @@ function losepwdStepTwo() {
         data:{
             "j_username":$('#j_username').val(),
             "j_checkcode":$('#j_checkcode2').val(),
-            "j_smscode":$('#j_smscode').val()
-        },
+            "j_smscode":$('#j_smscode').val() 
+		},
+*/
+	$.ajax( {
+		type : "post",
+		url : "checkcode.do",
+		dataType:"json",
+		async: false,
+        data:{
+            "j_checkcode":$('#j_checkcode2').val()
+		},
 		success : function(msg) {
 			if(msg.status=='success') {
 				
@@ -69,6 +78,7 @@ function losepwdStepTwo() {
 }
 
 function changeStepSubmit() {
+
 	var result = false;
 	loading('请求中..', 1);
 
@@ -110,6 +120,10 @@ function goback() {
 	location.href = location.href;
 	return true;
 }
+function goback1() {
+	history.go(-1);
+	return true;
+}
 
 function fsendsms() {
 	$('#j_checkcode').val($('#j_checkcode2').val());
@@ -139,7 +153,23 @@ $(document).ready(function() {
 		var step_num = obj.attr('rel');
 		
 		if (step_num==1) {
-			$('.buttonFinish').hide();
+			if(checkCardDevice()){
+			//$('.buttonFinish').hide();
+			$('.buttonFinish').show();
+				$('.buttonFinish').text("返回/Return");
+				$('.buttonFinish').attr("href", "javascript:goback1()");
+				$('.buttonFinish').unbind("click");
+				$(".buttonFinish").attr("class", "buttonFinish");
+			}else{
+				$("#idcard").hide();
+				$("#Kaptcha").hide();
+				$(".buttonNext").hide();
+				$('.buttonFinish').show();
+				$('.buttonFinish').text("返回/Return");
+				$('.buttonFinish').attr("href", "javascript:goback1()");
+				$('.buttonFinish').unbind("click");
+				$(".buttonFinish").attr("class", "buttonFinish");
+			}
 		} else if (step_num==2) {
 						
 			if(!loginFirstStepOne()){
@@ -163,8 +193,23 @@ $(document).ready(function() {
 			}
 			
 		} else if(step_num==3) {
-			$('.buttonNext').hide();
-			$('.buttonFinish').show();			
+			if(losepwdStepTwo()){
+				$("#newPass").show();
+				$("#codeValidation").hide();
+				$('.buttonNext').hide();
+				$('.buttonFinish').show();	
+			}else
+			{
+				$("#newPass").hide();
+				$('.buttonNext').hide();
+				$("#codeValidation").show();
+				$('.buttonFinish').show();
+				$('.buttonFinish').text("返回/Return");
+				$('.buttonFinish').attr("href", "javascript:goback1()");
+				$('.buttonFinish').unbind("click");
+				$(".buttonFinish").attr("class", "buttonFinish");
+
+			}
 		}
 		return true;
 	}
@@ -194,11 +239,11 @@ $(document).ready(function() {
 				return false;
 			}
 			
-			if(!losepwdStepTwo()) {
+/**			if(!losepwdStepTwo()) {
 				$('#wizard').smartWizard('showMessage', "短信验证错误/Validation error messages");
 				return false;
 			}
-		}
+	*/	}
 
 		return true;
 	}
