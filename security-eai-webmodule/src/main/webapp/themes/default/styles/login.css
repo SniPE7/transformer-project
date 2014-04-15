@@ -10,7 +10,7 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 body {
 	color: #ffffff;
 	font-family: 微软雅黑,simsun,Helvetica,Arial,Verdana,Geneva,sans-serif;
-	font-size: 14px;
+	font-size: 16px;
 	background: url("../images/page_bg.gif") #dcedf3 repeat-x;
 	
 	zoom: 100%;
@@ -45,7 +45,7 @@ a:hover {
 }
 
 #banner {
-	height: 30px;
+	height: 90px;
 }
 #logo {
 	background: url("../images/login/logo2.png") no-repeat scroll 0 0 none;
@@ -159,7 +159,7 @@ ul#tabs li a:hover {
 
 #footer p {
 	color: #4D4D4D;
-	font-size: 12px;
+	font-size: 16px;
 	padding: 5px 0 0;
 	text-align: center;
 	text-transform: uppercase;
@@ -223,10 +223,12 @@ ul#tabs li a:hover {
 	border: 1px solid #D3D3D3;
 	border-radius: 7px 7px 7px 7px;*/
 	width: 480px;
-	margin: 20px auto;
+	margin-left: 70px;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 #acloginpod .loginpanel {
-	margin: 22px 22px 0px 22px;
+	margin: 2px 2px 0px 2px;
 }
 #acloginpod form, #acloginpod fieldset {
 	margin: 0 !important;
@@ -239,16 +241,16 @@ ul#tabs li a:hover {
 #acloginpod label , .normal-label{
 	color: #ffffff;
 	display: block;
-	font-size: 12px;
+	font-size: 16px;
 	margin-bottom: 3px;
-	font-weight: bold;
+/*	font-weight: bold;*/
 	line-height: 18px;
 }
 
 #wizard label , .normal-label{
 	color: #ffffff;
 	display: block;
-	font-size: 12px;
+	font-size: 16px;
 	margin-bottom: 3px;
 	font-weight: bold;
 	line-height: 18px;
@@ -303,7 +305,7 @@ ul#tabs li a:hover {
 #acloginpod .aclogin-action label {
 	border-bottom: 1px solid #D3D3D3;
 	color: #777777;
-	font-size: 12px;
+	font-size: 16px;
 	margin: 0 0 7px;
 	padding: 0 0 5px;
 }
@@ -312,14 +314,14 @@ ul#tabs li a:hover {
 }
 #acloginpod a.forgotpass, .forgotpass {
 	color: #ffffff;
-	font-size: 12px;
+	font-size: 16px;
 	text-decoration:underline;
 	line-height:250%;
 }
 
 #wizard a.forgotpass, .forgotpass {
 	color: #FFFFFF;
-	font-size: 12px;
+	font-size: 16px;
 	text-decoration:underline;
 	line-height:250%;
 }
@@ -484,7 +486,7 @@ ul#tabs li a:hover {
 #logoutcontent iframe{
 /* 	border: 1px solid #D3D3D3; */
 	overflow:hidden;
-	font-size: 12px;
+	font-size: 16px;
 	color: #686868;
 	width: 100px;
 	height:18px;
@@ -720,7 +722,7 @@ h1.read_h1 {
 #sgm-auth-types label {
 	color: #FFFFFF;
     display: block;
-    font-size: 12px;
+    font-size: 16px;
     font-weight: bold;
     line-height: 18px;
 }
@@ -728,7 +730,7 @@ h1.read_h1 {
 #sgm-auth-types a:link, #sgm-auth-types  a:hover, #sgm-auth-types  a:visited
 {
 	color: #FFFFFF;
-    font-size: 12px;
+    font-size: 16px;
     line-height: 250%;
     text-decoration: underline;
 }

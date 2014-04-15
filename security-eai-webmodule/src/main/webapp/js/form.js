@@ -19,6 +19,7 @@ function setMsg(type, txt) {
   var p = document.createElement("p");
   p.appendChild(document.createTextNode(txt));
   divMsg.appendChild(p);
+  $("#blank").show();
 }
 
 function sendsms() {
@@ -256,7 +257,8 @@ function showCardModel(){
 		$("#badge-label").hide();
 		$("#forgotuid_box").hide();
 		$("#normal-label").show();
-		
+		$("#firstlogin_box").hide();
+		$("#j_username").val("");
 		//$("#j_username").focus();
 		
 	
@@ -318,9 +320,19 @@ function fillCardUid(){
 	}
 }
 
-/***  屏幕自适应模块  ***/
+//screen size setting for factory 
 var screenZoom = "150%";
+
+
+
+
+function setBodyZoomDefault(){
+	var defaultSize = "80%";
+	document.body.style.zoom=defaultSize;
+}
+
 function setBodyZoom(zoomSize) {
+	
 	document.body.style.zoom=zoomSize;
 }
 
@@ -381,7 +393,8 @@ function doBodyZoom(zoomSize) {
 		
 		//document.body.style.overflow="scroll";
 	    //document.all.controlscroll.value="hidden";
-	}
+	}else
+		setBodyZoomDefault();
 }
 
 

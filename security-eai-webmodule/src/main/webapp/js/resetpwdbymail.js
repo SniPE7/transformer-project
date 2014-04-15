@@ -1,13 +1,40 @@
 function validateLosePwdOne(form) {
-  var flag = validateField("#j_username", /.{1,100}$/, usernameErrormsg, true);
+  var result = validateField("#j_username", /.{1,100}$/, usernameErrormsg, true);
 
-  return flag;
+  return result;
 }
 
 function resetPwdStepOne() {
 	var result = false;
 	loading('请求中..', 1);
 
+	$.ajax( {
+		type : "post",
+		url : "checkcode.do",
+		dataType:"json",
+		async: false,
+        data:{
+            "j_checkcode":$('#j_checkcode').val()
+		},
+		success : function(msg) {
+			if(msg.status=='fail') {
+				$("#nomail").hide();
+				$('[id=j_msg]').text(msg.msg);
+				result = false;
+			} else if(msg.status=='success') {
+				
+				result = true;
+			}
+			unloading();
+		},
+		error:function(html){
+			unloading();
+			$('#wizard').smartWizard('showMessage', "提交数据失败，代码:" +html.status+ "，请稍候再试" + "/Failed to submit data, code:" + html.status + ", please try again later.");
+		}
+	});
+
+	if(result){
+		result =false;
 	$.ajax( {
 		type : "post",
 		url : "resetpwd/sendmail.do",
@@ -18,18 +45,24 @@ function resetPwdStepOne() {
         },
 		success : function(msg) {
 			if(msg.status=='success') {
-				//alert(msg.mail);
-				$('[id=lb-mail]').text(msg.mail);
-				result = true;
-			}
+				var mail = msg.mail;
+				
+				if(mail !=null && mail.length >0 ){
+					$('[id=lb-mail]').text(mail.substring(0,1)+ "***" + mail.substring(mail.indexOf("@"),mail.length));
+					result = true;
+				}else
+				{
+					S("#nomail").show();
+				}
+			}else
+				$('[id=j_msg]').text(msg.msg);
 			unloading();
 		},
 		error:function(html){
 			unloading();
 			$('#wizard').smartWizard('showMessage', "提交数据失败，代码:" +html.status+ "，请稍候再试" + "/Failed to submit data, code:" + html.status + ", please try again later.");
 		}
-	});
-	
+	});}
 	return result;
 }
 
@@ -55,7 +88,7 @@ $(document).ready(function() {
 			
 			if(!resetPwdStepOne()) {
 				$("#mail").hide();
-				$("#nomail").show();
+			//	$("#nomail").show();
 			} else {
 				$("#nomail").hide();
 				$("#mail").show();

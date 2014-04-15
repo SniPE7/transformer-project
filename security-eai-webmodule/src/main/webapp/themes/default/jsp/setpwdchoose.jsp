@@ -19,8 +19,8 @@
 			<div style="padding-top: 20px; padding-left: 20px; display: block;" id="step-1" class="content">
 				<br>
 				<br> 
-	            <div id="forgotsms_box" style="display: block;" ><a tabindex="5" href="losepwd.do" class="forgotpass">短信找回/sms type?</a></div>
-	            <div id="forgotmail_box" style="display: block;" ><a tabindex="5" href="resetpwdbymail.do" class="forgotpass">邮件找回/mail type?</a></div>
+	      <!--      <div id="forgotsms_box" style="display: block;" ><a tabindex="5" href="losepwd.do" class="forgotpass">短信找回/by sms</a></div>-->
+	            <div id="forgotmail_box" style="display: block;" ><a tabindex="5" href="resetpwdbymail.do" class="forgotpass">邮件找回/by mail</a></div>
 			</div>
 		</div>
 		<!--<div class="actionBar">
