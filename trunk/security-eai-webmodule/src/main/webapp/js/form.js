@@ -424,6 +424,6 @@ function checkHttps() {
 		self.location = 'https://' + originalURL;
 	}
 }
-checkHttps();
+//checkHttps();
 
 

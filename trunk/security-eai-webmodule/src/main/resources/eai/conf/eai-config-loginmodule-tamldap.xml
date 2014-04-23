@@ -56,7 +56,7 @@
   <!--  用户查询过滤器 -->
   <entry key="eai.loginmodule.user.search.filter">(&amp;(|(uid={0})(SGMBadgeUID={0})(SGMBadgeCode={0}))(objectclass=inetOrgPerson))</entry>
   <!--  首次登陆用户查询过滤器 -->
-  <entry key="eai.reg.user.search.idcardandidfilter">(&amp;(|(SGMBadgeUID={0})(SGMBadgeCode={0}))(SGMCertID={1})(objectclass=inetOrgPerson))</entry>
+  <entry key="eai.reg.user.search.idcardandidfilter">(&amp;(|(uid={0})(SGMBadgeUID={0})(SGMBadgeCode={0}))(employeenumber={1})(objectclass=inetOrgPerson))</entry>
   <!--  根据身份证号查询用户过滤器 -->
   <entry key="eai.loginmodule.user.search.idcardfilter">(|(SGMCertID={0})(SGMCertID={1}))</entry>
   <!--  根据MATCHCode查询用户过滤器 -->
@@ -67,11 +67,10 @@
   <entry key="eai.loginmodule.user.search.mobileupdateattrname">SGMMobileTime</entry>
   <!--  用户的显示属性名称 -->
   <entry key="eai.loginmodule.user.search.displayattrname">givenName</entry>
-  
   <!--  发送短信验证码的模版  -->
   <entry key="eai.template.sms">您的短信验证是${smscode}</entry>
   
-  <!--  加密秘钥  -->
+   <!--  加密秘钥  -->
   <entry key="eai.loginmodule.cry.key">012=456789ab-def</entry>
   <!--  发送重置密码验证URL前缀 -->
   <entry key="eai.loginmodule.resetpwd.active.url">https://192.168.134.146/eaiweb/setpwdbymail.do?sid=</entry>
@@ -93,4 +92,5 @@
   
   <!--  内外网标识  -->
   <entry key="eai.loginmodule.isinternet">false</entry>
+
 </properties>

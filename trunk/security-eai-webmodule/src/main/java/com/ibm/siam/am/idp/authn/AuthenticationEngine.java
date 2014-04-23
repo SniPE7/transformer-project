@@ -200,7 +200,12 @@ public class AuthenticationEngine extends HttpServlet {
 
 			//forwardRequest("/error.do", httpRequest, httpResponse);
 			
-			forwardRequest("/SSOLogout", httpRequest, httpResponse);
+			//forwardRequest("/SSOLogout", httpRequest, httpResponse);
+	        HttpSession session = httpRequest.getSession(false);
+			if(session!=null) {
+		         String appUrl = (String)session.getAttribute("eai-redir-url-header");
+		         httpResponse.sendRedirect(appUrl);
+			}
 			
 			return;
 		}
@@ -232,6 +237,7 @@ public class AuthenticationEngine extends HttpServlet {
 	 *          current HTTP request
 	 * @param httpResponse
 	 *          current HTTP response
+	 * @throws IOException 
 	 */
 	public static void returnToAuthenticationEngine(ServletContext context, HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
 		LOG.debug("Returning control to authentication engine");
@@ -242,7 +248,16 @@ public class AuthenticationEngine extends HttpServlet {
 			ProfileException profileException = new ProfileException(msg);
 			httpRequest.setAttribute(AbstractErrorHandler.ERROR_KEY, profileException);
 			//forwardRequest("/error.do", httpRequest, httpResponse);
-			forwardRequest("/SSOLogout", httpRequest, httpResponse);
+			//forwardRequest("/SSOLogout", httpRequest, httpResponse);
+			HttpSession session = httpRequest.getSession(false);
+            if(session!=null) {
+                 String appUrl = (String)session.getAttribute("eai-redir-url-header");
+                 try {
+                    httpResponse.sendRedirect(appUrl);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
 			
 		} else {
 			forwardRequest(loginContext.getAuthenticationEngineURL(), httpRequest, httpResponse);
@@ -268,7 +283,12 @@ public class AuthenticationEngine extends HttpServlet {
 			ProfileException profileException = new ProfileException(msg);
 			httpRequest.setAttribute(AbstractErrorHandler.ERROR_KEY, profileException);
 			//forwardRequest("/error.do", httpRequest, httpResponse);
-			forwardRequest("/SSOLogout", httpRequest, httpResponse);
+			//forwardRequest("/SSOLogout", httpRequest, httpResponse);
+			HttpSession session = httpRequest.getSession(false);
+            if(session!=null) {
+                 String appUrl = (String)session.getAttribute("eai-redir-url-header");
+                 httpResponse.sendRedirect(appUrl);
+            }
 			
 			return;
 		}
@@ -281,7 +301,8 @@ public class AuthenticationEngine extends HttpServlet {
 			forwardRequest("/error.do", httpRequest, httpResponse);
 			return;
 		} else {
-			httpResponse.sendRedirect(httpRequest.getContextPath() + "/" + loginContext.getAccessEnforcerURL());
+			httpResponse.sendRedirect(httpRequest.getContextPath() + loginContext.getAccessEnforcerURL());
+			LOG.info("returnToAccessEnforcer:" + httpRequest.getContextPath() + loginContext.getAccessEnforcerURL());
 			return;
 		}
 

@@ -430,23 +430,23 @@
         </bean>
         
         <!-- Check mobile no Login Module -->
-        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+        <!-- <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
           <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.UserMobileBindingLdapLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
-              <!-- Define how to search user by username, {0} mean username -->
+              Define how to search user by username, {0} mean username
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="userFilter"></property>
-                <!-- <property name="value" value="(&amp;(uid={0})(objectclass=inetOrgPerson))"></property>-->
+                <property name="value" value="(&amp;(uid={0})(objectclass=inetOrgPerson))"></property>
                 <property name="value" value="(&amp;(uid={0})(objectclass=inetOrgPerson))"></property> 
               </bean>
-              <!-- Define spring ldap template bean name -->
+              Define spring ldap template bean name
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="ldapTemplateBeanName"></property>
                 <property name="value" value="tamLdapTemplate"></property>
               </bean>
-              <!-- Define baseDN -->
+              Define baseDN
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="baseDn"></property>
                 <property name="value" value="${eai.tam.ldap.user.baseDn}"></property>
@@ -469,7 +469,7 @@
               </bean>
             </list>
           </property>
-        </bean>
+        </bean> -->
       </list>
     </property>
   </bean>
@@ -683,23 +683,23 @@
         </bean>
         
         <!-- Check mobile no Login Module -->
-        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+        <!-- <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
           <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.UserMobileBindingLdapLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
-              <!-- Define how to search user by username, {0} mean username -->
+              Define how to search user by username, {0} mean username
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="userFilter"></property>
-                <!-- <property name="value" value="(&amp;(uid={0})(objectclass=inetOrgPerson))"></property>-->
+                <property name="value" value="(&amp;(uid={0})(objectclass=inetOrgPerson))"></property>
                 <property name="value" value="(&amp;(uid={0})(objectclass=inetOrgPerson))"></property> 
               </bean>
-              <!-- Define spring ldap template bean name -->
+              Define spring ldap template bean name
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="ldapTemplateBeanName"></property>
                 <property name="value" value="tamLdapTemplate"></property>
               </bean>
-              <!-- Define baseDN -->
+              Define baseDN
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="baseDn"></property>
                 <property name="value" value="${eai.tam.ldap.user.baseDn}"></property>
@@ -722,7 +722,7 @@
               </bean>
             </list>
           </property>
-        </bean>
+        </bean> -->
       </list>
     </property>
   </bean>
@@ -939,22 +939,22 @@
         </bean>
         
          <!-- Check mobile no Login Module -->
-        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+        <!-- <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
           <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.UserMobileBindingLdapLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
-              <!-- Define how to search user by username, {0} mean username -->
+              Define how to search user by username, {0} mean username
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="userFilter"></property>
                 <property name="value" value="(&amp;(uid={0})(objectclass=inetOrgPerson))"></property> 
               </bean>
-              <!-- Define spring ldap template bean name -->
+              Define spring ldap template bean name
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="ldapTemplateBeanName"></property>
                 <property name="value" value="tamLdapTemplate"></property>
               </bean>
-              <!-- Define baseDN -->
+              Define baseDN
               <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
                 <property name="name" value="baseDn"></property>
                 <property name="value" value="${eai.tam.ldap.user.baseDn}"></property>
@@ -977,7 +977,7 @@
               </bean>
             </list>
           </property>
-        </bean> 
+        </bean>  -->
         
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
           <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.ValidateReAuthenLoginModule"></property>
