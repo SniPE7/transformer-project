@@ -25,7 +25,6 @@ import com.sinopec.siam.am.idp.themes.ThemesUtils;
 import edu.internet2.middleware.shibboleth.common.profile.AbstractErrorHandler;
 import edu.internet2.middleware.shibboleth.common.util.HttpHelper;
 import edu.internet2.middleware.shibboleth.idp.authn.LoginContext;
-import edu.internet2.middleware.shibboleth.idp.authn.LoginHandler;
 import edu.internet2.middleware.shibboleth.idp.util.HttpServletHelper;
 
 
@@ -62,6 +61,9 @@ public class AccessEnforcer implements Filter {
 	private String defaultWebSEALURL = "/";
 	
   private String logoutCustomeizedPageURI = "/html/%s";
+  
+  private String forceHttpsHost = "";
+
   
   /*
   static {
@@ -103,6 +105,11 @@ public class AccessEnforcer implements Filter {
     String tmp = this.filterConfig.getInitParameter("LogoutCustomeizedHtmlURI");
     this.logoutCustomeizedPageURI = (tmp == null)?"/html/%s":tmp;
     log.info(String.format("[%s]:EAI Logout redirect URL{[%s]}", fConfig.getFilterName(), this.logoutCustomeizedPageURI));
+    
+    String forceHttpsHost = this.filterConfig.getInitParameter("ForceHttpsHost");
+    this.forceHttpsHost = (forceHttpsHost == null)? "" : forceHttpsHost.toLowerCase();
+    
+    log.info(String.format("[%s]:EAI Force transfer access app by https{[%s]}", fConfig.getFilterName(), this.forceHttpsHost));
   }
 
   /**
@@ -110,6 +117,21 @@ public class AccessEnforcer implements Filter {
    */
   public void destroy() {
     
+  }
+  
+      /**
+       * forceHttpsHost逗号分隔,包含此hostname,其子域都被强制转换 为 https请求
+       *  例如:  hostname1,hostname2,hostname3    
+     * @param hostName  url 里 hostname
+     * @return
+     */
+  protected boolean isForceHttpsHost(String hostName) {
+      boolean bResult = false;
+      
+      if(forceHttpsHost.contains(hostName.toLowerCase())) {
+          bResult =  true;
+      }
+      return bResult;
   }
 
   /**
@@ -121,6 +143,9 @@ public class AccessEnforcer implements Filter {
     // Cast to HttpServletXXXX
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     HttpServletResponse httpResponse = (HttpServletResponse) response;
+    
+    String pro = request.getParameter("PROTOCOL");
+    String hst = request.getParameter("HOSTNAME");
     
     String tamOp = httpRequest.getParameter("TAM_OP");
     String reURL = request.getParameter("URL");
@@ -144,7 +169,7 @@ public class AccessEnforcer implements Filter {
           String filename = reURL.substring("/pkmslogout?filename=".length());
           reURL = String.format(logoutCustomeizedPageURI, filename);
         } else {
-          reURL = "/";
+          //reURL = "/";
           reURL = defaultWebSEALURL;
         }
         String redirectUrl = request.getParameter("PROTOCOL") + "://" + request.getParameter("HOSTNAME") + reURL;
@@ -171,6 +196,27 @@ public class AccessEnforcer implements Filter {
          return;
       }
     }
+    
+    if (tamOp != null && tamOp.equals("logout") ) {
+        if (this.isAuthenticated(httpRequest)) {
+             if (log.isDebugEnabled()) {
+                  log.debug("TAM_OP=logout, destroy current session.");
+             }
+             httpRequest.getSession(false).invalidate();
+        }
+    } else if (tamOp != null && tamOp.equals("login_success") ) {
+        if (this.isAuthenticated(httpRequest)) {
+             String redirectUrl = defaultWebSEALURL;
+             if (!redirectUrl.toLowerCase().startsWith("http")) {
+                 redirectUrl = String.format("%s://%s%s", request.getParameter("PROTOCOL"), request.getParameter("HOSTNAME"), defaultWebSEALURL);
+             }
+             if (log.isDebugEnabled()) {
+                  log.debug(String.format("TAM_OP=login_success, redirect to default URL: [%s]", redirectUrl));
+             }
+             httpResponse.sendRedirect(redirectUrl );
+                 return;
+      }
+   }
 
     String level = request.getParameter("AUTHNLEVEL");
     if(level!=null && reURL!=null && !"".equals(reURL)) {
@@ -181,39 +227,65 @@ public class AccessEnforcer implements Filter {
         
         HttpSession session = httpRequest.getSession(true);
 
-        String pro = request.getParameter("PROTOCOL");
-        String hst = request.getParameter("HOSTNAME");
-        String appUrl = pro + "://" + hst + reURL;
+        String appUrl = (isForceHttpsHost(hst)?"https":pro) + "://" + hst + reURL;
         log.info("set session's eai-redir-url-header=" + appUrl);
         session.setAttribute("eai-redir-url-header", appUrl);
     }
-    //log.info(String.format("url is level: %s", pro + "://" + hst + reURL + "[" + level + "]"));
-
+    log.info(String.format("url is level: %s", pro + "://" + hst + reURL + "[" + level + "]"));
     
     if (log.isDebugEnabled()) {
        dumpToLog(httpRequest);
     }
     
-    if (tamOp != null && tamOp.equals("logout") ) {
-    	if (this.isAuthenticated(httpRequest)) {
-    		 if (log.isDebugEnabled()) {
-    			  log.debug("TAM_OP=logout, destroy current session.");
-    		 }
-    		 httpRequest.getSession(false).invalidate();
-    	}
-    } else if (tamOp != null && tamOp.equals("login_success") ) {
-    	if (this.isAuthenticated(httpRequest)) {
-    		 String redirectUrl = defaultWebSEALURL;
-    		 if (!redirectUrl.toLowerCase().startsWith("http")) {
-    			 redirectUrl = String.format("%s://%s%s", request.getParameter("PROTOCOL"), request.getParameter("HOSTNAME"), defaultWebSEALURL);
-    		 }
-	   		 if (log.isDebugEnabled()) {
-	   			  log.debug(String.format("TAM_OP=login_success, redirect to default URL: [%s]", redirectUrl));
-	   		 }
-	   		 httpResponse.sendRedirect(redirectUrl );
-				 return;
-   	  }
-   }
+    //强制转换成https 和 支持 word类似提交
+    if(httpRequest.getRequestURI().contains("login/info.do") && httpRequest.getQueryString()!=null) {
+        
+        String userAgent = request.getParameter("useragent");//user-agent
+        //提取request 的 user-agent
+        String curUserAgent = httpRequest.getHeader("User-Agent");
+        
+        String redirectUrl = "https" + "://" + hst + httpRequest.getRequestURI();
+        String params = httpRequest.getQueryString();
+        
+        if(userAgent==null) {
+            redirectUrl += "?" + params + "&useragent=" + curUserAgent + "&count=0";
+            httpResponse.sendRedirect(redirectUrl);
+            return;
+         } else {
+             String count = request.getParameter("count");//计数器 count
+             if(userAgent.equals(curUserAgent) && "0".equals(count)) {
+                 redirectUrl += "?" + params.replace("count=0", "count=1");
+                 httpResponse.setContentType("text/html");
+                 httpResponse.getWriter().println(String.format("<script language='javascript'>window.location='%s';</script>", redirectUrl));
+                 httpResponse.flushBuffer();
+                 return;
+             } else {
+                 if(!userAgent.equals(curUserAgent)) {
+                     httpResponse.sendRedirect((isForceHttpsHost(hst)?"https":pro) + "://" + hst + reURL);
+                     return;
+                 }
+             }
+         }
+    }
+    
+    /*String forceProtocol = request.getParameter("forceprotocol");
+    //强制判断https转换eaiweb的请求(方法1)
+    if(httpRequest.getRequestURI().contains("login/info.do") && httpRequest.getQueryString()!=null && !"https".equalsIgnoreCase(forceProtocol) && pro!=null && hst!=null && !"https".equalsIgnoreCase(pro)) {
+        String redirectUrl = "https" + "://" + hst + httpRequest.getRequestURI();
+        
+        String params = httpRequest.getQueryString();
+        if(params!=null && !"".equals(params)) {
+            redirectUrl += "?" + params + "&forceprotocol=https";
+        } else {
+            redirectUrl += "?" + "forceprotocol=https";
+        }
+         
+         //String redirectUrl = httpRequest.getRequestURL().toString();
+         //redirectUrl = redirectUrl.replaceFirst("http", "https");
+         
+         httpResponse.sendRedirect(redirectUrl);
+         return;
+     }*/
     
     ApplicationContext applicationContext = WebApplicationContextUtils.getWebApplicationContext(filterConfig.getServletContext());
     // Need to authenticate?
@@ -232,7 +304,7 @@ public class AccessEnforcer implements Filter {
     
     if (log.isDebugEnabled()) {
       log.debug("Authentication is ok.");
-   }
+    }
     
     // Already authentication, call post
     try {
@@ -366,7 +438,8 @@ public class AccessEnforcer implements Filter {
     
     try {
       log.debug("Redirecting user to authentication engine at {}", authnEngineUrl);
-      httpResponse.sendRedirect(authnEngineUrl);
+      //httpResponse.sendRedirect(authnEngineUrl);
+      httpRequest.getRequestDispatcher("/AuthnEngine").forward(httpRequest, httpResponse);
     } catch (Exception e) {
       httpRequest.setAttribute(AbstractErrorHandler.ERROR_KEY, e);
       log.error("Failure to process SAML2 Authen request, cause: " + e.getMessage(), e);

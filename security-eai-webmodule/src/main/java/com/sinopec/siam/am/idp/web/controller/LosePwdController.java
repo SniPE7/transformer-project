@@ -74,7 +74,7 @@ public class LosePwdController extends BaseController {
                 if (redirUrl != null) {
                     realUrl = redirUrl.toString();
                 } else {
-                    realUrl = request.getContextPath() + "/" + entry.getLoginContext().getAccessEnforcerURL();
+                    realUrl = request.getContextPath() + entry.getLoginContext().getAccessEnforcerURL();
                 }
 
                 request.setAttribute("gotoUrl", realUrl);

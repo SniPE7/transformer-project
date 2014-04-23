@@ -17,6 +17,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -98,6 +100,9 @@ public class ResetPwdByMailController extends BaseController {
 	@Value("#{beanProperties['eai.loginmodule.mail.username']}")
 	private String mailUserName = "用户管理员";
 	
+	@Autowired
+	ReloadableResourceBundleMessageSource messageSource;
+	
 	@RequestMapping(value = "/setpwdchoose.do", method = { RequestMethod.GET, RequestMethod.POST, RequestMethod.HEAD })
 	  public ModelAndView chooseTypeSetPwd(HttpServletRequest request, HttpServletResponse response) {
 	      
@@ -110,7 +115,7 @@ public class ResetPwdByMailController extends BaseController {
 	                if(redirUrl!=null) {
 	                    realUrl = redirUrl.toString();
 	                } else {
-	                    realUrl = request.getContextPath() + "/" + entry.getLoginContext().getAccessEnforcerURL();
+	                    realUrl = request.getContextPath() + entry.getLoginContext().getAccessEnforcerURL();
 	                }
 	                
 	              request.setAttribute("gotoUrl", realUrl);
@@ -140,7 +145,7 @@ public class ResetPwdByMailController extends BaseController {
 			    if(redirUrl!=null) {
 			        realUrl = redirUrl.toString();
 			    } else {
-			        realUrl = request.getContextPath() + "/" + entry.getLoginContext().getAccessEnforcerURL();
+			        realUrl = request.getContextPath() + entry.getLoginContext().getAccessEnforcerURL();
 			    }
 			    
 			  request.setAttribute("gotoUrl", realUrl);
@@ -164,7 +169,7 @@ public class ResetPwdByMailController extends BaseController {
                 if(redirUrl!=null) {
                     realUrl = redirUrl.toString();
                 } else {
-                    realUrl = request.getContextPath() + "/" + entry.getLoginContext().getAccessEnforcerURL();
+                    realUrl = request.getContextPath() + entry.getLoginContext().getAccessEnforcerURL();
                 }
                 
               request.setAttribute("gotoUrl", realUrl);
@@ -327,6 +332,9 @@ public class ResetPwdByMailController extends BaseController {
 		} catch (PersonServiceException e) {
 			msg = String.format("PersonServiceException Exception. username:%s", userid);
 	    	log.error(String.format(msg, userid), e);
+	    	
+	    	msg = messageSource.getMessage("global.msg.error", null, LocaleContextHolder.getLocale()) + " "
+	    	        + messageSource.getMessage("modifyPass.info.userpass.policy", null, LocaleContextHolder.getLocale());
 	    	
 	    	status = "fail";
 		}

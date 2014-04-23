@@ -108,6 +108,11 @@
       <param-name>AfterAuthenDefaultURL</param-name>
       <param-value>/index.html</param-value>
     </init-param>
+    <init-param>
+      <description>Force transfer access app by https</description>
+      <param-name>ForceHttpsHost</param-name>
+      <param-value>app.shanghaigm.com</param-value>
+    </init-param>
   </filter>
   
   <filter-mapping>

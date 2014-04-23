@@ -6,7 +6,7 @@
  * http://www.techlaboratory.net 
  * http://tech-laboratory.blogspot.com
  */
- 
+
 (function($){
     $.fn.smartWizard = function(action) {
         var options = $.extend({}, $.fn.smartWizard.defaults, action);
@@ -352,7 +352,7 @@
     // Default Properties and Events
     $.fn.smartWizard.defaults = {
           selected: 0,  // Selected Step, 0 = first step   
-          keyNavigation: true, // Enable/Disable key navigation(left and right keys are used if enabled)
+          keyNavigation: false, // Enable/Disable key navigation(left and right keys are used if enabled)
           enableAllSteps: false,
           updateHeight: true,
           transitionEffect: 'fade', // Effect on navigation, none/fade/slide/slideleft

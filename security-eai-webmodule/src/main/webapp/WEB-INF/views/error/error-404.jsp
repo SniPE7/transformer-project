@@ -9,6 +9,8 @@
             <div id="acloginpanel" class="loginpanel">
                 <fieldset>
                 <strong><spring:message code="error.message.title"/><spring:message code="error.message"/></strong>
+                <% String uri = (String)request.getAttribute("javax.servlet.forward.request_uri"); %>
+                <br/><strong>[<%=uri %>]</strong>
                 </fieldset>
             </div><!-- End of #acloginpanel -->
           </div><!-- End of #acloginpod -->

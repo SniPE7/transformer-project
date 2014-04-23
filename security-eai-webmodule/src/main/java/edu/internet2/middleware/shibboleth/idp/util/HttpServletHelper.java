@@ -409,10 +409,10 @@ public class HttpServletHelper {
 		if (session != null) {
 			LoginContextEntry entry = (LoginContextEntry) session.getAttribute(LOGIN_CTX_KEY_NAME);
 			if (entry != null) {
-				log.trace("Retrieved LoginContext {} from HttpSession", entry);
+				log.info("Retrieved LoginContext {} from HttpSession", entry);
 				return entry.getLoginContext();
 			} else {
-				log.debug("No login context in storage service");
+				log.error("No login context in storage service");
 			}
 		}
 		return null;

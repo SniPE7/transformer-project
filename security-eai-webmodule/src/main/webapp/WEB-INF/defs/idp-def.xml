@@ -125,19 +125,19 @@
   
   <!-- error view -->
   <definition name="/error" extends="tiles.baseTemplate">
-    <put-attribute name="title" value="logon.title.logout" />
+    <put-attribute name="title" value="logon.title.error" />
     <put-attribute name="body" value="/WEB-INF/views/error/error.jsp" />
   </definition>
   
   <!-- error404 view -->
   <definition name="/error404" extends="tiles.baseTemplate">
-    <put-attribute name="title" value="logon.title.logout" />
+    <put-attribute name="title" value="logon.title.error" />
     <put-attribute name="body" value="/WEB-INF/views/error/error-404.jsp" />
   </definition>
   
   <!-- login error view -->
   <definition name="/loginerror" extends="tiles.baseTemplate">
-    <put-attribute name="title" value="logon.title.logout" />
+    <put-attribute name="title" value="logon.title.error" />
     <put-attribute name="body" value="/WEB-INF/views/error/login-error.jsp" />
   </definition>
 

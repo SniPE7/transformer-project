@@ -108,7 +108,7 @@
   margin: 0;
   padding:3px;
   height:60px;
-  width:230px;
+  width:250px;
   text-decoration: none;
   outline-style:none;
   -moz-border-radius  : 5px;
@@ -140,14 +140,14 @@
   color:#F8F8F8;
   background: #EA8511;  /* EA8511 */
   border: 1px solid #EA8511;
-  cursor:text;
+  /*cursor:text;*/
   -moz-box-shadow: 5px 5px 8px #888;
   -webkit-box-shadow: 5px 5px 8px #888;
   box-shadow: 5px 5px 8px #888;
 }
 .swMain ul.anchor li a.selected:hover {
-  color:#F8F8F8;  
-  background: #EA8511;  
+  /*color:#F8F8F8;  
+  background: #EA8511;  */
 }
 
 .swMain ul.anchor li a.done { 
@@ -158,19 +158,19 @@
   z-index:99;
 }
 .swMain ul.anchor li a.done:hover {
-  color:#5A5655;  
+  /*color:#5A5655;  
   background: #8CC63F; 
-  border: 1px solid #5A5655;   
+  border: 1px solid #5A5655;   */
 }
 .swMain ul.anchor li a.disabled {
   color:#CCCCCC;  
   background: #F8F8F8;
   border: 1px solid #CCC;  
-  cursor:text;   
+  /*cursor:text;  */ 
 }
 .swMain ul.anchor li a.disabled:hover {
-  color:#CCCCCC;  
-  background: #F8F8F8;     
+  /*color:#CCCCCC;  
+  background: #F8F8F8;      */
 }
 
 .swMain ul.anchor li a.error {
@@ -179,7 +179,7 @@
   border: 1px solid #fb3500 !important;      
 }
 .swMain ul.anchor li a.error:hover {
-  color:#000 !important;       
+  /*color:#000 !important;*/       
 }
 
 .swMain .buttonNext, .buttonFinish, .buttonPrevious {
