@@ -126,11 +126,9 @@ public abstract class AbstractAuditEventRecognizer implements AuditEventRecogniz
 
     edu.internet2.middleware.shibboleth.idp.authn.LoginContext loginContext;
     try {
-      loginContext = HttpServletHelper.getLoginContext(this.storageService, request.getSession().getServletContext(),
-          request);   
+      loginContext = HttpServletHelper.getLoginContext(request);   
       loginAuthnMethod = loginContext.getAttemptedAuthnMethod();
-      SP_entityID = loginContext.getRelyingPartyId();
-    } catch (Exception e) {
+     } catch (Exception e) {
       log.info("Could not get loginContext, please check configuration.");
     }
 
@@ -141,9 +139,6 @@ public abstract class AbstractAuditEventRecognizer implements AuditEventRecogniz
 
     where.setType("IP");
     where.setName(request.getRemoteAddr());
-
-    fromWhere.setName(SP_entityID);
-    fromWhere.setType("SP");
 
     toWhere.setType("IDP");
     toWhere.setName(IDP_entityID);

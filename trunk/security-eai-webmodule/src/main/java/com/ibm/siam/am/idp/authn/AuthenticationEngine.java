@@ -40,7 +40,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.joda.time.DateTime;
-import org.opensaml.util.storage.StorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -54,16 +53,12 @@ import com.sinopec.siam.am.idp.authn.util.AuthencationUtil;
 import edu.internet2.middleware.shibboleth.common.profile.AbstractErrorHandler;
 import edu.internet2.middleware.shibboleth.common.profile.NoProfileHandlerException;
 import edu.internet2.middleware.shibboleth.common.profile.ProfileException;
-import edu.internet2.middleware.shibboleth.common.relyingparty.RelyingPartyConfigurationManager;
-import edu.internet2.middleware.shibboleth.common.session.SessionManager;
 import edu.internet2.middleware.shibboleth.common.util.HttpHelper;
 import edu.internet2.middleware.shibboleth.idp.authn.AuthenticationException;
 import edu.internet2.middleware.shibboleth.idp.authn.ForceAuthenticationException;
 import edu.internet2.middleware.shibboleth.idp.authn.LoginContext;
-import edu.internet2.middleware.shibboleth.idp.authn.LoginContextEntry;
 import edu.internet2.middleware.shibboleth.idp.authn.LoginHandler;
 import edu.internet2.middleware.shibboleth.idp.authn.UsernamePrincipal;
-import edu.internet2.middleware.shibboleth.idp.profile.IdPProfileHandlerManager;
 import edu.internet2.middleware.shibboleth.idp.session.AuthenticationMethodInformation;
 import edu.internet2.middleware.shibboleth.idp.session.ServiceInformation;
 import edu.internet2.middleware.shibboleth.idp.session.Session;
@@ -127,25 +122,11 @@ public class AuthenticationEngine extends HttpServlet {
 	private ServletContext context;
 
 	/**
-	 * Storage service used to store {@link LoginContext}s while authentication is
-	 * in progress.
-	 */
-	private static StorageService<String, LoginContextEntry> storageService;
-	
-	  private RelyingPartyConfigurationManager relayPartyManager;
-	
-	 /** Profile handler manager. */
-	  private IdPProfileHandlerManager handlerManager;
-
-	/**
 	 * Whether the public credentials of a {@link Subject} are retained after
 	 * authentication.
 	 */
 	private boolean retainSubjectsPublicCredentials;
 	
-	  /** Session manager. */
-	  private SessionManager<Session> sessionManager;
-
 	/**
 	 * Whether the private credentials of a {@link Subject} are retained after
 	 * authentication.
@@ -173,11 +154,6 @@ public class AuthenticationEngine extends HttpServlet {
 		}
 		context = config.getServletContext();
 		
-		handlerManager = HttpServletHelper.getProfileHandlerManager(context);
-	    sessionManager = HttpServletHelper.getSessionManager(context);
-	    storageService = HttpServletHelper.getLoginContextStorageService(context);
-	    relayPartyManager = HttpServletHelper.getRelyingPartyConfigurationManager(context);
-
 		// Get Spring Bean Factory
 		ApplicationContext appContext = ContextLoader.getCurrentWebApplicationContext();
 		this.loginHandlerManager = appContext.getBean("loginHandlerManager", LoginHandlerManager.class);
@@ -231,7 +207,7 @@ public class AuthenticationEngine extends HttpServlet {
 	}
 
 	/**
-	 * Returns control back to the authentication engine.
+	 * From LoginHandler returns control back to the authentication engine.
 	 * 
 	 * @param httpRequest
 	 *          current HTTP request
@@ -274,7 +250,7 @@ public class AuthenticationEngine extends HttpServlet {
 	 *          current HTTP response
 	 * @throws IOException 
 	 */
-	public void returnToAccessEnforcer(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws IOException {
+	private void returnToAccessEnforcer(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws IOException {
 		LOG.debug("Returning control to profile handler");
 		LoginContext loginContext = HttpServletHelper.getLoginContext(context, httpRequest);
 		if (loginContext == null) {
@@ -600,13 +576,11 @@ public class AuthenticationEngine extends HttpServlet {
 				}
 			}
 
-			loginContext.setPrincipalAuthenticated(true);
 			updateUserSession(loginContext, subject, actualAuthnMethod, actualAuthnInstant, httpRequest, httpResponse);
 			updateToPrincipal(httpRequest, subject, actualAuthnMethod);
 			LOG.debug("User {} authenticated with method {}", loginContext.getPrincipalName(), loginContext.getAuthenticationMethod());
 		} catch (AuthenticationException e) {
 			LOG.error("Authentication failed with the error:", e);
-			loginContext.setPrincipalAuthenticated(false);
 			loginContext.setAuthenticationFailure(e);
 		}
 
@@ -643,7 +617,6 @@ public class AuthenticationEngine extends HttpServlet {
 		if (errorMessage != null) {
 			LOG.debug("Error returned from login handler for authentication method {}:\n{}", loginContext.getAttemptedAuthnMethod(), errorMessage);
 			loginContext.setAuthenticationFailure(new AuthenticationException(errorMessage));
-			loginContext.setPrincipalAuthenticated(false);
 			return;
 		}
 
@@ -651,7 +624,6 @@ public class AuthenticationEngine extends HttpServlet {
 		if (authnException != null) {
 			LOG.debug("Exception returned from login handler for authentication method {}:\n{}", loginContext.getAttemptedAuthnMethod(), authnException);
 			loginContext.setAuthenticationFailure(authnException);
-			loginContext.setPrincipalAuthenticated(false);
 			return;
 		}
 
@@ -759,7 +731,6 @@ public class AuthenticationEngine extends HttpServlet {
 			userSession = new SessionImpl();
 			
 			//userSession = (Session) sessionManager.createSession();
-			loginContext.setSessionID(userSession.getSessionID());
 			session.setAttribute(Session.HTTP_SESSION_BINDING_ATTRIBUTE, userSession);
 			
 		}
