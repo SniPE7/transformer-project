@@ -480,7 +480,6 @@ public class AccessEnforcer implements Filter {
     loginContext.setAuthenticationEngineURL(authnEngineUrl);
     loginContext.setAccessEnforcerURL(HttpHelper.getRequestUriWithoutContext(httpRequest));
     loginContext.setDefaultAuthenticationMethod(requiredAuthenticationMethod);
-
     HttpServletHelper.bindLoginContext(loginContext, httpRequest.getSession().getServletContext(), httpRequest, httpResponse);
     
     String themeName = httpRequest.getParameter(ThemesUtils.THEME_PARAM_NAME);

@@ -6,7 +6,6 @@ package com.sinopec.siam.am.idp.audit;
 import com.sinopec.siam.am.idp.authn.LoginContextBasedLoginModule;
 import com.sinopec.siam.am.idp.authn.LoginContextEvent;
 import com.sinopec.siam.am.idp.authn.LoginModuleEvent;
-import com.sinopec.siam.am.idp.authn.module.cert.ClientCertLoginModule;
 import com.sinopec.siam.audit.model.W7Event;
 
 /**

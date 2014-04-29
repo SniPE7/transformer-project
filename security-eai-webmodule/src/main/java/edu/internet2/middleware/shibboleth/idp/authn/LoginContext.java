@@ -22,7 +22,6 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.joda.time.DateTime;
 
@@ -57,23 +56,15 @@ public class LoginContext implements Serializable {
     /** Serial version UID. */
     private static final long serialVersionUID = -8764003758734956911L;
 
-    /** Entity ID of the relying party. */
-    private String relyingPartyId;
     /** Should user authentication be forced. */
     private boolean forceAuth;
 
     /** Must authentication not interact with the UI. */
     private boolean passiveAuth;
 
-    /** A catch-all map for other properties. */
-    private Map<String, Serializable> propsMap = new ConcurrentHashMap<String, Serializable>(0);
-
     /** The Access Enforcer URL. */
     private String accessEnforcerURL;
 	
-	/** The ProfileHandler URL. */
-    private String profileHandlerURL;
-
     /** The authentication engine's URL. */
     private String authnEngineURL;
 
@@ -83,14 +74,8 @@ public class LoginContext implements Serializable {
     /** Attempted user authentication method. */
     private String attemptedAuthnMethod;
 
-    /** Did authentication succeed? */
-    private boolean principalAuthenticated;
-
     /** Exception that occurred during authentication. */
     private AuthenticationException authnException;
-
-    /** The session id. */
-    private String sessionID;
 
     /** Default authentication method to use if no other method is requested. */
     private String defaultAuthenticationMethod;
@@ -102,7 +87,7 @@ public class LoginContext implements Serializable {
     private AuthenticationMethodInformation authenticationMethodInformation;
 
     /** Creates a new instance of LoginContext. */
-    public LoginContext() {
+    protected LoginContext() {
         requestAuthenticationMethods = new ArrayList<String>();
     }
 
@@ -138,19 +123,6 @@ public class LoginContext implements Serializable {
     }
 
     /**
-     * Gets the duration of authentication.
-     * 
-     * @return The duration of authentication, or zero if none was set.
-     */
-    public synchronized long getAuthenticationDuration() {
-        if(authenticationMethodInformation == null){
-            return 0;
-        }
-
-        return authenticationMethodInformation.getAuthenticationDuration();
-    }
-
-    /**
      * Gets the authentication engine's URL.
      * 
      * @return the URL of the authentication engine
@@ -169,19 +141,6 @@ public class LoginContext implements Serializable {
     }
 
     /**
-     * Gets the authentication instant.
-     * 
-     * @return The instant of authentication, or <code>null</code> if none was set.
-     */
-    public synchronized DateTime getAuthenticationInstant() {
-        if(authenticationMethodInformation == null){
-            return null;
-        }
-
-        return authenticationMethodInformation.getAuthenticationInstant();
-    }
-
-    /**
      * Gets the method used to authenticate the user.
      * 
      * @return The method used to authenticate the user.
@@ -193,14 +152,6 @@ public class LoginContext implements Serializable {
         return authenticationMethodInformation.getAuthenticationMethod();
     }
 
-    /**
-     * Gets information about the authentication event.
-     * 
-     * @return information about the authentication event.
-     */
-    public synchronized AuthenticationMethodInformation getAuthenticationMethodInformation() {
-        return authenticationMethodInformation;
-    }
 
     /**
      * Gets the authentication method to use if none is requested.
@@ -238,35 +189,6 @@ public class LoginContext implements Serializable {
         return accessEnforcerURL;
     }
 	
-	    /**
-     * Gets the ProfileHandler URL.
-     * 
-     * @return the URL of the profile handler that is invoking the Authentication Manager.
-     */
-    public synchronized String getProfileHandlerURL() {
-        return profileHandlerURL;
-    }
-
-    /**
-     * Get an optional property object.
-     * 
-     * @param key The key in the properties Map.
-     * 
-     * @return The object, or <code>null</code> is no object exists for the key.
-     */
-    public synchronized Object getProperty(String key) {
-        return propsMap.get(key);
-    }
-
-    /**
-     * Gets the entity ID of the relying party.
-     * 
-     * @return entity ID of the relying party
-     */
-    public synchronized String getRelyingPartyId() {
-        return relyingPartyId;
-    }
-
     /**
      * Return the acceptable authentication handler URIs, in preference order, for authenticating this user. If no
      * authentication methods are preferred the resultant list will be empty.
@@ -277,16 +199,7 @@ public class LoginContext implements Serializable {
         return requestAuthenticationMethods;
     }
 
-    /**
-     * Gets the {@link edu.internet2.middleware.shibboleth.idp.session.Session} ID.
-     * 
-     * @return the Session id
-     */
-    public synchronized String getSessionID() {
-        return sessionID;
-    }
-
-    /**
+     /**
      * Returns if authentication must be forced.
      * 
      * @return <code>true</code> if the authentication manager must re-authenticate the user.
@@ -302,15 +215,6 @@ public class LoginContext implements Serializable {
      */
     public synchronized boolean isPassiveAuthRequired() {
         return passiveAuth;
-    }
-
-    /**
-     * Returns if authentication succeeded.
-     * 
-     * @return <code>true</code> is the user was successfully authenticated.
-     */
-    public synchronized boolean isPrincipalAuthenticated() {
-        return principalAuthenticated;
     }
 
     /**
@@ -331,17 +235,7 @@ public class LoginContext implements Serializable {
         authnAttempted = true;
     }
 
-    /**
-     * Sets the duration of authentication.
-     * 
-     * @param duration The duration of authentication.
-     * 
-     * @deprecated this information is contained in the {@link AuthenticationMethodInformation}
-     */
-    public synchronized void setAuthenticationDuration(long duration) {
-    }
-
-    /**
+     /**
      * Sets the authentication engine's URL.
      * 
      * @param url the URL of the authentication engine
@@ -367,16 +261,6 @@ public class LoginContext implements Serializable {
      * @deprecated this information is contained in the {@link AuthenticationMethodInformation}
      */
     public synchronized void setAuthenticationInstant(final DateTime instant) {
-    }
-
-    /**
-     * Sets the method used to authenticate the user.
-     * 
-     * @param method The method used to authenticate the user.
-     * 
-     * @deprecated this information is contained in the {@link AuthenticationMethodInformation}
-     */
-    public synchronized void setAuthenticationMethod(String method) {
     }
 
     /**
@@ -417,15 +301,6 @@ public class LoginContext implements Serializable {
     }
 
     /**
-     * Sets if authentication succeeded.
-     * 
-     * @param authnOK if authentication succeeded;
-     */
-    public synchronized void setPrincipalAuthenticated(boolean authnOK) {
-        this.principalAuthenticated = authnOK;
-    }
-
-    /**
      * Sets the ID of the authenticated user.
      * 
      * @param id The userid.
@@ -444,43 +319,5 @@ public class LoginContext implements Serializable {
     public synchronized void setAccessEnforcerURL(String url) {
         accessEnforcerURL = url;
     }
-	
-	    /**
-     * Sets the ProfileHandler URL.
-     * 
-     * @param url The URL of the profile handler that invoked the AuthenticationManager/
-     */
-    public synchronized void setProfileHandlerURL(String url) {
-        profileHandlerURL = url;
-    }
 
-    /**
-     * Sets an optional property object.
-     * 
-     * If an object is already associated with key, it will be overwritten.
-     * 
-     * @param key The key to set.
-     * @param obj The object to associate with key.
-     */
-    public synchronized void setProperty(String key, final Serializable obj) {
-        propsMap.put(key, obj);
-    }
-
-    /**
-     * Gets the entity ID of the relying party.
-     * 
-     * @param id entity ID of the relying party
-     */
-    public synchronized void setRelyingParty(String id) {
-        relyingPartyId = id;
-    }
-
-    /**
-     * Sets the {@link edu.internet2.middleware.shibboleth.idp.session.Session} ID.
-     * 
-     * @param id the Session ID
-     */
-    public synchronized void setSessionID(String id) {
-        sessionID = id;
-    }
 }
