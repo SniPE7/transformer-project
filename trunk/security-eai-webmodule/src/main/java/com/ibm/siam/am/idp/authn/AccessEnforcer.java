@@ -133,6 +133,47 @@ public class AccessEnforcer implements Filter {
       }
       return bResult;
   }
+  
+  //标记为重复url
+  protected String decorateReturnURL(String url) {
+      String sResult = url;
+      
+      if(url!=null && !"".equals(url) && url.indexOf("eairepeat=1")<0) {
+          if(url.indexOf("?")>=0) {
+              sResult = url + "&eairepeat=1";
+          } else {
+              sResult = url + "?eairepeat=1";
+          }
+      }
+
+      return sResult;
+  }
+  
+  //判断是否为重复请求 
+  protected boolean isDecorateReturnURL(String url) {
+      boolean bResult = false;
+      
+      if(url!=null && !"".equals(url) && url.indexOf("eairepeat=1")>=0) {
+          bResult = true;
+      }
+
+      return bResult;
+  }
+  
+  private void terminateAccess(ServletRequest request, HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
+      String msg = String.format("ERROR_CODE=%s<br/>ERROR_TEXT=%s<br/>METHOD=%s<br/>URL=%s<br/>HOSTNAME=%s<br/>FAILREASON=%s<br/>PROTOCOL=%s<br/>", 
+                        "repeat action url", 
+                        "repeat action url", 
+                        "eai auth", 
+                        request.getParameter("URL"), 
+                        request.getParameter("HOSTNAME"), 
+                        "repeat action url", 
+                        request.getParameter("PROTOCOL"));
+      Exception e = new Exception(msg);
+      request.setAttribute(AbstractErrorHandler.ERROR_KEY, e);
+
+      httpRequest.getRequestDispatcher("/error.do").forward(httpRequest, httpResponse);
+    }
 
   /**
    * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
@@ -149,6 +190,13 @@ public class AccessEnforcer implements Filter {
     
     String tamOp = httpRequest.getParameter("TAM_OP");
     String reURL = request.getParameter("URL");
+    
+    //如果是重复提交，则中断提示错误
+    if(isDecorateReturnURL(reURL)) {
+        terminateAccess(request, httpRequest, httpResponse);
+        return;
+    }
+    
     if ("error".equals(tamOp)) {
        handleErrorOP(request, httpRequest, httpResponse);
        return;
@@ -172,13 +220,16 @@ public class AccessEnforcer implements Filter {
           //reURL = "/";
           reURL = defaultWebSEALURL;
         }
-        String redirectUrl = request.getParameter("PROTOCOL") + "://" + request.getParameter("HOSTNAME") + reURL;
+        //String redirectUrl = request.getParameter("PROTOCOL") + "://" + request.getParameter("HOSTNAME") + reURL;
+        String redirectUrl = (isForceHttpsHost(hst)?"https":pro) + "://" + hst + reURL;
         if (log.isDebugEnabled()) {
           log.debug(String.format("TAM_OP=logout, redirect to URL: [%s]", redirectUrl));
         }
         //httpResponse.sendRedirect(redirectUrl);
         httpResponse.setContentType("text/html");
-        httpResponse.getWriter().println(String.format("<script language='javascript'>var protocol='%s';var host='%s';var uri='%s';window.location=protocol + '://' + host + uri;</script>", request.getParameter("PROTOCOL"), request.getParameter("HOSTNAME"), reURL));
+        //httpResponse.getWriter().println(String.format("<script language='javascript'>var protocol='%s';var host='%s';var uri='%s';window.location=protocol + '://' + host + uri;</script>", request.getParameter("PROTOCOL"), request.getParameter("HOSTNAME"), reURL));
+		httpResponse.getWriter().println(String.format("<script language='javascript'>var protocol='%s';var host='%s';var uri='%s';window.location=protocol + '://' + host + uri;</script>", (isForceHttpsHost(hst)?"https":pro), request.getParameter("HOSTNAME"), reURL));
+		
         httpResponse.flushBuffer();
         return;
       }
@@ -221,13 +272,13 @@ public class AccessEnforcer implements Filter {
     String level = request.getParameter("AUTHNLEVEL");
     if(level!=null && reURL!=null && !"".equals(reURL)) {
         
-        if(reURL.toLowerCase().indexOf("pkmslogout")>=0) {
+        /*if(reURL.toLowerCase().indexOf("pkmslogout")>=0) {
             reURL = "/";
-        }
+        }*/
         
         HttpSession session = httpRequest.getSession(true);
 
-        String appUrl = (isForceHttpsHost(hst)?"https":pro) + "://" + hst + reURL;
+        String appUrl = (isForceHttpsHost(hst)?"https":pro) + "://" + hst + decorateReturnURL(reURL);
         log.info("set session's eai-redir-url-header=" + appUrl);
         session.setAttribute("eai-redir-url-header", appUrl);
     }
@@ -240,7 +291,7 @@ public class AccessEnforcer implements Filter {
     //强制转换成https 和 支持 word类似提交
     if(httpRequest.getRequestURI().contains("login/info.do") && httpRequest.getQueryString()!=null) {
         
-        String userAgent = request.getParameter("useragent");//user-agent
+        String userAgent = request.getParameter("eaiuseragent");//user-agent
         //提取request 的 user-agent
         String curUserAgent = httpRequest.getHeader("User-Agent");
         
@@ -248,13 +299,13 @@ public class AccessEnforcer implements Filter {
         String params = httpRequest.getQueryString();
         
         if(userAgent==null) {
-            redirectUrl += "?" + params + "&useragent=" + curUserAgent + "&count=0";
+            redirectUrl += "?" + params + "&eaiuseragent=" + curUserAgent + "&eaicount=0";
             httpResponse.sendRedirect(redirectUrl);
             return;
          } else {
-             String count = request.getParameter("count");//计数器 count
+             String count = request.getParameter("eaicount");//计数器 count
              if(userAgent.equals(curUserAgent) && "0".equals(count)) {
-                 redirectUrl += "?" + params.replace("count=0", "count=1");
+                 redirectUrl += "?" + params.replace("eaicount=0", "eaicount=1");
                  httpResponse.setContentType("text/html");
                  httpResponse.getWriter().println(String.format("<script language='javascript'>window.location='%s';</script>", redirectUrl));
                  httpResponse.flushBuffer();
