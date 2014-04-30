@@ -13,6 +13,12 @@
 		<param-value>shanghaigm.com</param-value>
 	</context-param>
 
+  <context-param>
+    <description>Force transfer access app by https</description>
+    <param-name>ForceHttpsHost</param-name>
+    <param-value>app.shanghaigm.com</param-value>
+  </context-param>
+
 	<!-- Spring application context files. Files are loaded in the order they 
 		appear with subsequent files overwriting same named beans in previous files. -->
 	<context-param>
@@ -108,11 +114,6 @@
       <param-name>AfterAuthenDefaultURL</param-name>
       <param-value>/index.html</param-value>
     </init-param>
-    <init-param>
-      <description>Force transfer access app by https</description>
-      <param-name>ForceHttpsHost</param-name>
-      <param-value>app.shanghaigm.com</param-value>
-    </init-param>
   </filter>
   
   <filter-mapping>
@@ -120,7 +121,17 @@
     <url-pattern>/login/info.do</url-pattern>
   </filter-mapping>
 
-   
+  <filter>
+    <description>
+    </description>
+    <display-name>EAIReturnURLResetFilter</display-name>
+    <filter-name>com.ibm.siam.am.idp.authn.EAIReturnURLResetFilter</filter-name>
+    <filter-class>com.ibm.siam.am.idp.authn.EAIReturnURLResetFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>com.ibm.siam.am.idp.authn.EAIReturnURLResetFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>   
 
 	<!-- Authentication Engine Entry Point -->
 	<servlet>
