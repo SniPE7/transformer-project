@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="eai"%>
         <div id="content">
           <div class="aui-message error invisible" id="errorDivMsg">
             <!-- shown with class="aui-message error" -->
@@ -11,7 +12,7 @@
             <div id="acloginpanel" class="loginpanel">
               <form class="aui cmxform" method="post" id="passHintForm" 
               name="passHintForm" action="<%=request.getAttribute("actionUrl")%>">
-                <input type="hidden" name="op" value="<%=request.getAttribute("op")%>" />
+                <input type="hidden" name="op" value="<%=request.getAttribute("op")%>" /><eai:returnUrl/>
                 <fieldset>
                   <label class="float-left"><spring:message code="passhint.form.username" /></label>
                   <input type="text" name="j_username" id="j_username" class="text medium-field" 
