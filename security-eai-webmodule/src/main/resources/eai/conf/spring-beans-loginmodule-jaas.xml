@@ -23,7 +23,7 @@
     <property name="loginContextClassName" value="com.sinopec.siam.am.idp.authn.AuditableSpringLoginContext"></property>
     <property name="loginModuleEventListener" ref="loginEventListen"></property>
     <property name="loginContextEventListener">
-      <bean class=" com.sinopec.siam.am.idp.authn.ChainLoginContextEventListener">
+      <bean class="com.sinopec.siam.am.idp.authn.ChainLoginContextEventListener">
         <constructor-arg>
           <list>
             <!-- For Audit events -->
