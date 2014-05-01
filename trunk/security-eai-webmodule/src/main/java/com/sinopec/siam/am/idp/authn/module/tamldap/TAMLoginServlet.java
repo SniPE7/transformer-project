@@ -139,7 +139,7 @@ public class TAMLoginServlet extends HttpServlet {
 			//for upgrade auth level, fill username or cardid
 			request.getSession(true).setAttribute("j_username", username);
 
-			AuthenticationEngine.returnToAuthenticationEngine(this.getServletContext(), request, response);
+			AuthenticationEngine.returnToAuthenticationEngine(this.getServletContext(), request, response, this.authenticationMethod);
 		} catch (PasswordReminderLoginException e) {
 			// 捕获异常，转移到口令即将过期的提醒页面
 			// 统一ID

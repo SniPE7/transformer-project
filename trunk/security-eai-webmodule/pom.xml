@@ -305,6 +305,11 @@
 		</dependency>
 		<!-- End of 审计相关 -->
 
+		<dependency>
+		  <groupId>junit</groupId>
+		  <artifactId>junit</artifactId>
+		  <version>4.11</version>
+		</dependency>
   </dependencies>
 
 </project>
