@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="edu.internet2.middleware.shibboleth.idp.authn.LoginHandler" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="eai"%>
         <div id="content">
           <div class="aui-message error invisible" id="errorDivMsg">
             <!-- shown with class="aui-message error" -->
@@ -17,7 +18,7 @@
                 name="loginForm" onSubmit="return validate(this);"
                 action="<%=request.getContextPath() %>/ModifyPassword">
                 <input type="hidden" name="op" value="<%=request.getAttribute("op") != null ? 
-                    request.getAttribute("op") : "resetpassword"%>" />
+                    request.getAttribute("op") : "resetpassword"%>" /><eai:returnUrl/>
                 <fieldset>
                   <label class="float-left"><spring:message code="modifyPass.form.username" /></label>
                   <input type="hidden" name="j_username" id="j_username" class="textinput" 
