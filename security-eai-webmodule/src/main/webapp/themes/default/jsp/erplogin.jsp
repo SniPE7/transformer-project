@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="eai"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
         <div id="content">
           <div class="aui-message error invisible" id="errorDivMsg">
@@ -13,7 +14,7 @@
                 name="loginForm" 
                 action="<%=request.getAttribute("actionUrl") != null ? 
                     request.getAttribute("actionUrl") : "Authn/ClientCert"%>">
-                <input type="hidden" name="op" value="login" />
+                <input type="hidden" name="op" value="login" /><eai:returnUrl/>
                 <fieldset>
                   <div class="aclogin-action">
                     <div class="fl-left">

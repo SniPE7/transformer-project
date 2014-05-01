@@ -12,7 +12,10 @@
     <c:set var="inputName" value="eaiReturnUrlInPage" />
 </c:if>
 <%
-String retUrl = (String)request.getAttribute("eai-redir-url-header");
+String retUrl = request.getParameter("eaiReturnUrlInPage");
+if (retUrl == null && session != null) {
+  retUrl = (String)session.getAttribute("eai-redir-url-header");
+}
 if (retUrl == null && session != null) {
   retUrl = (String)session.getAttribute("eai-redir-url-header");
 }

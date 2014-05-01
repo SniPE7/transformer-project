@@ -9,8 +9,7 @@
 	          <div id="acloginpanel" class="loginpanel">
 	            <form class="aui cmxform" method="post" id="authenForm" name="loginForm"
 	              action="${actionUrl}" onSubmit="return validate(this);">
-	              <input type="hidden" name="op" value="login" />
-	              <eai:returnUrl/>
+	              <input type="hidden" name="op" value="login" /><eai:returnUrl/>
 	              <fieldset>
 	                <legend>
 	                  <em>请输入您的统一账号和密码</em>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="eai"%>
 <script type="text/javascript">
 function toLogin() {
 	$("#cardForm").attr("action", "login/info.do");
@@ -18,7 +19,7 @@ function toLogin() {
 	        <div id="acloginpod">
 	          <div id="acloginpanel" class="loginpanel">
 	            <form class="aui cmxform" method="post" id="cardForm" name="cardForm" action="${actionUrl}">
-	              <input type="hidden" name="op" value="login" />
+	              <input type="hidden" name="op" value="login" /><eai:returnUrl/>
 	              <fieldset>
 	                <legend>
 	                  <em>请输入您的统一账号和密码</em>
