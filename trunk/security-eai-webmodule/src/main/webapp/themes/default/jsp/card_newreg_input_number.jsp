@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-
+<%@ taglib tagdir="/WEB-INF/tags" prefix="eai"%>
 <%@ page import="com.ibm.siam.am.idp.authn.entity.CardRegisterEntity" %>
 <%
 	CardRegisterEntity cardRegisterEntity = (CardRegisterEntity) session.getAttribute("cardRegisterEntity");
@@ -33,7 +33,7 @@ function nextstep() {
 	          <div id="acloginpanel" class="loginpanel">
 	            <form class="aui cmxform" method="post" id="cardForm" name="cardForm"
 	              action="${actionUrl}" onSubmit="return validate(this);">
-	              <input type="hidden" name="op" value="login" />
+	              <input type="hidden" name="op" value="login" /><eai:returnUrl/>
 	              <fieldset>
 
 	                <span style="display: block; clear: both;"><font size="2px">工卡读入成功.</font></span>

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-
+<%@ taglib tagdir="/WEB-INF/tags" prefix="eai"%>
 <script type="text/javascript">
 function prevstep() {
 	$("#cardForm").attr("action", "card/selectop.do");
@@ -25,7 +25,7 @@ function nextstep() {
 	          <div id="acloginpanel" class="loginpanel">
 	            <form class="aui cmxform" method="post" id="cardForm" name="cardForm"
 	              action="${actionUrl}" onSubmit="return validate(this);">
-	              <input type="hidden" name="op" value="login" />
+	              <input type="hidden" name="op" value="login" /><eai:returnUrl/>
 	              <fieldset>
 
 	                <label for="ac_username">请填写您已经注册的手机/Please input your registered mobile phone:</label>
