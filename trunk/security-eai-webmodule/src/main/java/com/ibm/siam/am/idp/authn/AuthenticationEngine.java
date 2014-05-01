@@ -218,9 +218,9 @@ public class AuthenticationEngine extends HttpServlet {
 	public static void returnToAuthenticationEngine(ServletContext context, HttpServletRequest httpRequest, HttpServletResponse httpResponse, String authenticationMethod) {
 		LOG.debug("Returning control to authentication engine");
 		LoginContext loginContext = HttpServletHelper.getLoginContext(context, httpRequest);
-		if (loginContext != null) {
+		if (loginContext == null) {
 		    // 登录成功后，缺少由AccessEnforcer设置在Session中的LoginContext, 重建一个新的LoginContext
-            LOG.warn(String.format("No login context available, re-create default LoginContext, before return to authentication engine!"));
+            LOG.warn(String.format("No login context available, re-create default LoginContext before return to authentication engine!"));
             // 获取当前处理对应的认证方法名称
 //            String requiredAuthenticationMethod = null;
 //            ApplicationContext applicationContext = WebApplicationContextUtils.getWebApplicationContext(context);
