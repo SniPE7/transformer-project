@@ -24,9 +24,6 @@ public class TAMLoginHandler extends AbstractLoginHandler {
   /** Class logger. */
   private final Logger log = LoggerFactory.getLogger(TAMLoginHandler.class);
 
-  /** The context-relative path of the servlet used to perform authentication. */
-  private String authenticationServletPath;
-
   public TAMLoginHandler() {
 	  super();
   }
@@ -37,23 +34,13 @@ public class TAMLoginHandler extends AbstractLoginHandler {
    * @param authenticationServletPath
    */
   public TAMLoginHandler(String authenticationServletPath) {
-    super();
-    this.authenticationServletPath = authenticationServletPath;
+    super(authenticationServletPath);
   }
-
-  public String getAuthenticationServletPath() {
-		return authenticationServletPath;
-	}
-
-	public void setAuthenticationServletPath(String authenticationServletPath) {
-		this.authenticationServletPath = authenticationServletPath;
-	}
-
 	/** {@inheritDoc} */
   public void login(ServletContext servletContext, HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
     // forward control to the servlet.
     try {
-      String authnServletUrl = HttpServletHelper.getContextRelativeUrl(httpRequest, authenticationServletPath)
+      String authnServletUrl = HttpServletHelper.getContextRelativeUrl(httpRequest, this.getAuthenticationServletPath())
           .buildURL();
       authnServletUrl = super.setAuthnServletUrl(authnServletUrl, httpRequest);
       log.debug("Redirecting to {}", authnServletUrl);

@@ -49,12 +49,33 @@ public abstract class AbstractLoginHandler implements LoginHandler {
 	 */
 	private int authenticationLevel = 1;
 
+	/** The context-relative path of the servlet used to perform authentication. */
+	private String authenticationServletPath;
+
 	/** Constructor. */
 	protected AbstractLoginHandler() {
 		supportedAuthenticationMethods = new ArrayList<String>();
 		supportsForceAuthentication = false;
 		supportsPassive = false;
 	}
+
+    /**
+   * Constructor.
+   * 
+   * @param authenticationServletPath
+   */
+    public AbstractLoginHandler(String authenticationServletPath) {
+      this();
+      this.authenticationServletPath = authenticationServletPath;
+    }
+
+    public String getAuthenticationServletPath() {
+        return authenticationServletPath;
+    }
+
+    public void setAuthenticationServletPath(String authenticationServletPath) {
+        this.authenticationServletPath = authenticationServletPath;
+    }
 
 	/** {@inheritDoc} */
 	public List<String> getSupportedAuthenticationMethods() {

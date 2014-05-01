@@ -179,7 +179,7 @@ public class AuthenticationEngine extends HttpServlet {
 			//forwardRequest("/SSOLogout", httpRequest, httpResponse);
 	        HttpSession session = httpRequest.getSession(false);
 			if(session!=null) {
-		         String appUrl = (String)session.getAttribute("eai-redir-url-header");
+		         String appUrl = (String)session.getAttribute(AccessEnforcer.SESSION_ATTR_NAME_EAI_RETURN_URL);
 		         httpResponse.sendRedirect(appUrl);
 			}
 			
@@ -215,29 +215,45 @@ public class AuthenticationEngine extends HttpServlet {
 	 *          current HTTP response
 	 * @throws IOException 
 	 */
-	public static void returnToAuthenticationEngine(ServletContext context, HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
+	public static void returnToAuthenticationEngine(ServletContext context, HttpServletRequest httpRequest, HttpServletResponse httpResponse, String authenticationMethod) {
 		LOG.debug("Returning control to authentication engine");
 		LoginContext loginContext = HttpServletHelper.getLoginContext(context, httpRequest);
-		if (loginContext == null) {
-			String msg = "No login context available, unable to return to authentication engine!";
-			LOG.error(msg);
-			ProfileException profileException = new ProfileException(msg);
-			httpRequest.setAttribute(AbstractErrorHandler.ERROR_KEY, profileException);
-			//forwardRequest("/error.do", httpRequest, httpResponse);
-			//forwardRequest("/SSOLogout", httpRequest, httpResponse);
-			HttpSession session = httpRequest.getSession(false);
-            if(session!=null) {
-                 String appUrl = (String)session.getAttribute("eai-redir-url-header");
-                 try {
-                    httpResponse.sendRedirect(appUrl);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-			
-		} else {
-			forwardRequest(loginContext.getAuthenticationEngineURL(), httpRequest, httpResponse);
+		if (loginContext != null) {
+		    // 登录成功后，缺少由AccessEnforcer设置在Session中的LoginContext, 重建一个新的LoginContext
+            LOG.warn(String.format("No login context available, re-create default LoginContext, before return to authentication engine!"));
+            // 获取当前处理对应的认证方法名称
+//            String requiredAuthenticationMethod = null;
+//            ApplicationContext applicationContext = WebApplicationContextUtils.getWebApplicationContext(context);
+//            LoginHandlerManager loginHandlerManager = applicationContext.getBean("loginHandlerManager", LoginHandlerManager.class);
+//            String currentServletURI = httpRequest.getServletPath();
+//            for (LoginHandler loginHandler: loginHandlerManager.getLoginHandlers().values()) {
+//              if (loginHandler instanceof AbstractLoginHandler) {
+//                 if (currentServletURI.equals(((AbstractLoginHandler)loginHandler).getAuthenticationServletPath())) {
+//                   requiredAuthenticationMethod = loginHandler.getSupportedAuthenticationMethods().get(0);
+//                 }
+//              }
+//            }
+//            if (requiredAuthenticationMethod == null) {
+//               // 不期望运行到此段处理逻辑, 前面应该总是能根据URL找到当前所做的认证方法
+//               requiredAuthenticationMethod = "urn:oasis:names:tc:SAML:2.0:ac:classes:TAMUsernamePassword";
+//            }
+            String authnEngineUrl = HttpServletHelper.getContextRelativeUrl(httpRequest, "/AuthnEngine").buildURL();
+		    boolean alwaysReauthen = false;
+            loginContext = new LoginContext(alwaysReauthen , false);
+            loginContext.setAuthenticationAttempted();
+		    loginContext.setAuthenticationEngineURL(authnEngineUrl);
+		    loginContext.setAccessEnforcerURL("/login/info.do");
+            loginContext.setDefaultAuthenticationMethod(authenticationMethod);
+            
+            loginContext.setAttemptedAuthnMethod(authenticationMethod);
+            List<String> requestedMethods = new ArrayList<String>();
+            requestedMethods.add(authenticationMethod);
+            loginContext.getRequestedAuthenticationMethods().clear();
+            loginContext.getRequestedAuthenticationMethods().addAll(requestedMethods);
+            
+		    HttpServletHelper.bindLoginContext(loginContext, httpRequest.getSession().getServletContext(), httpRequest, httpResponse);
 		}
+		forwardRequest("/AuthnEngine", httpRequest, httpResponse);
 	}
 
 	/**
@@ -262,7 +278,7 @@ public class AuthenticationEngine extends HttpServlet {
 			//forwardRequest("/SSOLogout", httpRequest, httpResponse);
 			HttpSession session = httpRequest.getSession(false);
             if(session!=null) {
-                 String appUrl = (String)session.getAttribute("eai-redir-url-header");
+                 String appUrl = (String)session.getAttribute(AccessEnforcer.SESSION_ATTR_NAME_EAI_RETURN_URL);
                  httpResponse.sendRedirect(appUrl);
             }
 			
