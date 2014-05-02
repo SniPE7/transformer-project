@@ -14,11 +14,11 @@ import org.springframework.ldap.filter.EqualsFilter;
 import org.springframework.ldap.filter.Filter;
 import org.springframework.ldap.filter.HardcodedFilter;
 
+import com.ibm.util.ITIMChallengeAndResponseUtil;
 import com.sinopec.siam.am.idp.entity.LdapUserEntity;
 import com.sinopec.siam.am.idp.ldap.DirectoryEntity2ModifyAttributeConverter;
 import com.sinopec.siam.am.idp.ldap.LdapConverter;
 import com.sinopec.siam.am.idp.ldap.ModifyAttribute;
-import com.sinopec.siam.utils.ITIMChallengeAndResponseUtil;
 
 /**
  * TAM 用户口令服务实现类

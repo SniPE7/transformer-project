@@ -2,7 +2,7 @@
 <!DOCTYPE beans PUBLIC "-//SPRING/DTD BEAN/EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
   <!-- Load configuration -->
-  <bean id="idp.main.propertyPlaceholderConfigurer" class="com.sinopec.siam.utils.MyPropertyPlaceholderConfigurer">
+  <bean id="idp.main.propertyPlaceholderConfigurer" class="com.ibm.util.MyPropertyPlaceholderConfigurer">
     <property name="order" value="100"></property>
     <property name="ignoreUnresolvablePlaceholders" value="true"></property>
     <!-- Set how to check system properties: as fallback, as override, or never. The default is "fallback": If not being able to resolve a placeholder with the specified 
@@ -27,7 +27,7 @@
       </list>
     </property>
   </bean>
-  <bean name="configProperties" class="com.sinopec.siam.utils.PropertiesWrapper">
+  <bean name="configProperties" class="com.ibm.util.PropertiesWrapper">
     <constructor-arg>
       <ref bean="idp.main.propertyPlaceholderConfigurer" />
     </constructor-arg>
