@@ -60,7 +60,7 @@
 	<!-- Add P3P Header filter to all requests -->
 	<filter>
 		<filter-name>P3PHeaderFilter</filter-name>
-		<filter-class>com.sinopec.siam.filters.P3PHeaderFilter</filter-class>
+		<filter-class>com.ibm.siam.filters.P3PHeaderFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>P3PHeaderFilter</filter-name>
@@ -365,12 +365,6 @@
 			<param-name>kaptcha.textproducer.font.names</param-name>
 			<param-value>arial</param-value>
 		</init-param>
-		<!--
-		<init-param>
-					<param-name>kaptcha.obscurificator.impl</param-name>
-					<param-value>com.sinopec.siam.am.idp.authn.kaptcha.NoObscurificator</param-value>
-				</init-param>-->
-		
 		<init-param>
 			<param-name>kaptcha.noise.impl</param-name>
 			<param-value>com.google.code.kaptcha.impl.DefaultNoise</param-value>
