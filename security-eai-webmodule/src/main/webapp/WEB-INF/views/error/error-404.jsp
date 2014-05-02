@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@page import="edu.internet2.middleware.shibboleth.common.profile.AbstractErrorHandler"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
         <div id="content">
           <div class="aui-message error invisible" id="errorDivMsg">

@@ -16,9 +16,9 @@ import org.springframework.ldap.filter.EqualsFilter;
 import org.springframework.ldap.filter.Filter;
 import org.springframework.ldap.support.LdapUtils;
 
-import com.sinopec.siam.am.idp.authn.service.UserService;
-import com.sinopec.siam.am.idp.entity.LdapUserEntity;
-import com.sinopec.siam.am.idp.ldap.DirectoryEntityContextMapper;
+import com.ibm.siam.am.idp.authn.service.UserService;
+import com.ibm.siam.am.idp.entity.LdapUserEntity;
+import com.ibm.siam.am.idp.ldap.DirectoryEntityContextMapper;
 
 /**
  * TAM LDAP 用户服务类

@@ -21,11 +21,11 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.sinopec.siam.am.idp.themes.ThemesUtils;
+import com.ibm.siam.am.idp.AbstractErrorHandler;
+import com.ibm.siam.am.idp.themes.ThemesUtils;
 
-import edu.internet2.middleware.shibboleth.common.profile.AbstractErrorHandler;
-import edu.internet2.middleware.shibboleth.common.util.HttpHelper;
 import edu.internet2.middleware.shibboleth.idp.authn.LoginContext;
+import edu.internet2.middleware.shibboleth.idp.util.HttpHelper;
 import edu.internet2.middleware.shibboleth.idp.util.HttpServletHelper;
 
 /**

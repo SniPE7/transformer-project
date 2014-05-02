@@ -11,15 +11,15 @@ import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.auth.login.LoginException;
 
-import com.sinopec.siam.am.idp.authn.module.AbstractLoginModule;
-import com.sinopec.siam.am.idp.authn.module.AbstractSpringLoginModule;
-import com.sinopec.siam.am.idp.authn.module.DetailLoginException;
-import com.sinopec.siam.am.idp.authn.module.PasswordExpiredLoginException;
-import com.sinopec.siam.am.idp.authn.principal.UserAccountPrincipal;
-import com.sinopec.siam.am.idp.authn.principal.UserPrincipal;
-import com.sinopec.siam.am.idp.authn.provider.PasswordUpdateOperationStatusCallback;
-import com.sinopec.siam.am.idp.authn.service.UserPassService;
-import com.sinopec.siam.am.idp.entity.LdapUserEntity;
+import com.ibm.siam.am.idp.authn.module.AbstractLoginModule;
+import com.ibm.siam.am.idp.authn.module.AbstractSpringLoginModule;
+import com.ibm.siam.am.idp.authn.module.DetailLoginException;
+import com.ibm.siam.am.idp.authn.module.PasswordExpiredLoginException;
+import com.ibm.siam.am.idp.authn.principal.UserAccountPrincipal;
+import com.ibm.siam.am.idp.authn.principal.UserPrincipal;
+import com.ibm.siam.am.idp.authn.provider.PasswordUpdateOperationStatusCallback;
+import com.ibm.siam.am.idp.authn.service.UserPassService;
+import com.ibm.siam.am.idp.entity.LdapUserEntity;
 
 /**
  * 用户密码过期，强制修改口令LoginModule（基本Ldap实现）

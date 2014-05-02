@@ -3,7 +3,7 @@
         <div id="logo"></div>
         <div id="slogan">
           <h1><a href="#"></a></h1>
-          <h2><a href="http://siam.sinopec.com"></a></h2>
+          <h2><a href="#"></a></h2>
         </div>
       </div><!-- end #banner -->
       <div id="menu">

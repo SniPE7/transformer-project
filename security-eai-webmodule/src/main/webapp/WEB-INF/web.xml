@@ -157,7 +157,7 @@
   <!-- TAM LDAP Username and Password Login Handler -->
   <servlet>
     <servlet-name>TAMAuthHandler</servlet-name>
-    <servlet-class>com.sinopec.siam.am.idp.authn.module.tamldap.TAMLoginServlet</servlet-class>
+    <servlet-class>com.ibm.siam.am.idp.authn.module.tamldap.TAMLoginServlet</servlet-class>
     <init-param>
       <param-name>authnMethod</param-name>
       <param-value>urn:oasis:names:tc:SAML:2.0:ac:classes:TAMUsernamePassword</param-value>
@@ -194,7 +194,7 @@
   <!-- SMSUserAuth Login Handler -->
   <servlet>
     <servlet-name>SMSUserAuthHandler</servlet-name>
-    <servlet-class>com.sinopec.siam.am.idp.authn.module.tamldap.TAMLoginServlet</servlet-class>
+    <servlet-class>com.ibm.siam.am.idp.authn.module.tamldap.TAMLoginServlet</servlet-class>
     <init-param>
       <param-name>authnMethod</param-name>
       <param-value>urn:oasis:names:tc:SAML:2.0:ac:classes:SMSUserAuth</param-value>
@@ -232,7 +232,7 @@
   <!-- SMSUserPassAuth Login Handler -->
   <servlet>
     <servlet-name>SMSUserPassAuthHandler</servlet-name>
-    <servlet-class>com.sinopec.siam.am.idp.authn.module.tamldap.TAMLoginServlet</servlet-class>
+    <servlet-class>com.ibm.siam.am.idp.authn.module.tamldap.TAMLoginServlet</servlet-class>
     <init-param>
       <param-name>authnMethod</param-name>
       <param-value>urn:oasis:names:tc:SAML:2.0:ac:classes:SMSUserPassAuth</param-value>
@@ -269,7 +269,7 @@
   <!-- Modify Password Handler -->
   <servlet>
     <servlet-name>ModifyPasswordHandler</servlet-name>
-    <servlet-class>com.sinopec.siam.am.idp.web.servlet.ModifyPasswordServlet</servlet-class>
+    <servlet-class>com.ibm.siam.am.idp.web.servlet.ModifyPasswordServlet</servlet-class>
     <init-param>
       <param-name>authnPage</param-name>
       <param-value>/Authn/TAMUserPassAuth</param-value>
@@ -389,7 +389,7 @@
 		<description>注销接口 先清理本地session 然后转向webseal注销url</description>
 		<display-name>SSOLogoutServlet</display-name>
 		<servlet-name>SSOLogoutServlet</servlet-name>
-		<servlet-class>com.sinopec.siam.am.idp.authn.module.SSOLogoutServlet</servlet-class>
+		<servlet-class>com.ibm.siam.am.idp.authn.module.SSOLogoutServlet</servlet-class>
 		<init-param>
 			<param-name>sloPath</param-name>
 			<param-value>/pkmslogout</param-value>

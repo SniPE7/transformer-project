@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="edu.internet2.middleware.shibboleth.idp.authn.LoginHandler"%>
-<%@ page import="com.sinopec.siam.am.idp.utils.message.I18NMessageUtils"%>
+<%@ page import="com.ibm.util.message.I18NMessageUtils"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>

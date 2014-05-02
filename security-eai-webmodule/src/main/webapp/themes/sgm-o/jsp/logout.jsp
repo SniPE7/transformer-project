@@ -4,7 +4,6 @@
 <%@page import="java.util.List"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.HashMap"%>
-<%@page import="edu.internet2.middleware.shibboleth.common.session.SessionManager"%>
 <%!
 private String getSpReturnUrl(String startPageUrl, String lloUrl) {
  	if(startPageUrl != null) {

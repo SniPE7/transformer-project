@@ -1,1 +1,0 @@
-mvn install:install-file -DgroupId=com.sun.jndi.ldap -DartifactId=ldapbp -Dversion=1.0 -Dpackaging=jar -Dfile=/home/zhao/workspaces/cmcc-hlj-saml-common/lib/ldapbp.jar -DgeneratePom=true 

@@ -61,7 +61,7 @@
 	<!-- 皮肤定制 -->
 	<bean id="themeSource"
 		class="org.springframework.ui.context.support.ResourceBundleThemeSource">
-		<property name="basenamePrefix" value="com/sinopec/siam/am/idp/web/theme-" />
+		<property name="basenamePrefix" value="com/ibm/siam/am/idp/web/theme-" />
 	</bean>
 
 	<!-- Theme Change Interceptor and Resolver definition -->

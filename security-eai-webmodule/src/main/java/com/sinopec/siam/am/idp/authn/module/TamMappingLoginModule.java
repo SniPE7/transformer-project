@@ -10,10 +10,12 @@ import javax.security.auth.login.LoginException;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.ibm.util.ExpressionEvaluator;
-import com.ibm.util.VariableResolver;
+import com.sinopec.siam.am.idp.authn.module.AbstractSpringLoginModule;
+import com.sinopec.siam.am.idp.authn.module.DetailLoginException;
 import com.sinopec.siam.am.idp.authn.service.UserService;
 import com.sinopec.siam.am.idp.entity.LdapUserEntity;
+import com.sinopec.siam.utils.ExpressionEvaluator;
+import com.sinopec.siam.utils.VariableResolver;
 
 import edu.internet2.middleware.shibboleth.idp.authn.UsernamePrincipal;
 import edu.vt.middleware.ldap.bean.LdapAttribute;

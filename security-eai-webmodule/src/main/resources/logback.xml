@@ -152,7 +152,7 @@
     <!-- Logs EAI, but not OpenSAML, messages -->
     <logger name="com.ibm.siam.*" level="ERROR"/>
     <logger name="com.techcenter" level="ERROR"/>
-    <logger name="com.sinopec.siam.*" level="ERROR"/>
+    <logger name="com.ibm.siam.*" level="ERROR"/>
     <logger name="edu.internet2.middleware.shibboleth" level="ERROR"/>
 
     <!-- Logs OpenSAML, but not EAI, messages -->

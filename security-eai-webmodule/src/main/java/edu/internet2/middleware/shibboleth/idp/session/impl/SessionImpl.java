@@ -26,7 +26,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.security.auth.Subject;
 
-import edu.internet2.middleware.shibboleth.common.session.SessionEventType;
 import edu.internet2.middleware.shibboleth.idp.authn.UsernamePrincipal;
 import edu.internet2.middleware.shibboleth.idp.session.AbstractSession;
 import edu.internet2.middleware.shibboleth.idp.session.AuthenticationMethodInformation;
@@ -86,8 +85,6 @@ public class SessionImpl extends AbstractSession implements Session {
 
     public synchronized void addAuthenticationMethod(AuthenticationMethodInformation authenticationMethod) {
       this.authnMethods.put(authenticationMethod.getAuthenticationMethod(), authenticationMethod);
-      // Notify session listner
-      fireEvent(SessionEventType.CHANGED);
     }
 
     /** {@inheritDoc} */
@@ -101,9 +98,6 @@ public class SessionImpl extends AbstractSession implements Session {
 
     public void addServiceInformation(ServiceInformation servicesInformation) {
       this.servicesInformation.put(servicesInformation.getEntityID(), servicesInformation);
-
-      // Notify session listner
-      fireEvent(SessionEventType.CHANGED);
     }
     /**
      * Gets the service information for the given entity ID.

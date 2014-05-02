@@ -46,14 +46,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.sinopec.siam.am.idp.authn.LoginHandlerManager;
-import com.sinopec.siam.am.idp.authn.module.AbstractSpringLoginModule;
-import com.sinopec.siam.am.idp.authn.util.AuthencationUtil;
+import com.ibm.siam.am.idp.AbstractErrorHandler;
+import com.ibm.siam.am.idp.authn.LoginHandlerManager;
+import com.ibm.siam.am.idp.authn.module.AbstractSpringLoginModule;
+import com.ibm.siam.am.idp.authn.util.AuthencationUtil;
 
-import edu.internet2.middleware.shibboleth.common.profile.AbstractErrorHandler;
-import edu.internet2.middleware.shibboleth.common.profile.NoProfileHandlerException;
-import edu.internet2.middleware.shibboleth.common.profile.ProfileException;
-import edu.internet2.middleware.shibboleth.common.util.HttpHelper;
 import edu.internet2.middleware.shibboleth.idp.authn.AuthenticationException;
 import edu.internet2.middleware.shibboleth.idp.authn.ForceAuthenticationException;
 import edu.internet2.middleware.shibboleth.idp.authn.LoginContext;
@@ -65,6 +62,7 @@ import edu.internet2.middleware.shibboleth.idp.session.Session;
 import edu.internet2.middleware.shibboleth.idp.session.impl.AuthenticationMethodInformationImpl;
 import edu.internet2.middleware.shibboleth.idp.session.impl.ServiceInformationImpl;
 import edu.internet2.middleware.shibboleth.idp.session.impl.SessionImpl;
+import edu.internet2.middleware.shibboleth.idp.util.HttpHelper;
 import edu.internet2.middleware.shibboleth.idp.util.HttpServletHelper;
 import edu.vt.middleware.ldap.bean.LdapAttribute;
 import edu.vt.middleware.ldap.jaas.LdapPrincipal;
@@ -171,7 +169,7 @@ public class AuthenticationEngine extends HttpServlet {
 		if (loginContext == null) {
 			String msg = "No login context available, unable to proceed with authentication!";
 			LOG.error(msg);
-			ProfileException profileException = new ProfileException(msg);
+			Exception profileException = new Exception(msg);
 			httpRequest.setAttribute(AbstractErrorHandler.ERROR_KEY, profileException);
 
 			//forwardRequest("/error.do", httpRequest, httpResponse);
@@ -272,7 +270,7 @@ public class AuthenticationEngine extends HttpServlet {
 		if (loginContext == null) {
 			String msg = "No login context available, unable to return to profile handler!";
 			LOG.error(msg);
-			ProfileException profileException = new ProfileException(msg);
+			Exception profileException = new Exception(msg);
 			httpRequest.setAttribute(AbstractErrorHandler.ERROR_KEY, profileException);
 			//forwardRequest("/error.do", httpRequest, httpResponse);
 			//forwardRequest("/SSOLogout", httpRequest, httpResponse);
@@ -288,7 +286,7 @@ public class AuthenticationEngine extends HttpServlet {
 		if (loginContext.getAccessEnforcerURL() == null) {
 			String msg = "Login context did not contain a profile handler path, unable to return to profile handler!";
 			LOG.error(msg);
-			NoProfileHandlerException noProfileException = new NoProfileHandlerException(msg);
+			Exception noProfileException = new Exception(msg);
 			httpRequest.setAttribute(AbstractErrorHandler.ERROR_KEY, noProfileException);
 			forwardRequest("/error.do", httpRequest, httpResponse);
 			return;

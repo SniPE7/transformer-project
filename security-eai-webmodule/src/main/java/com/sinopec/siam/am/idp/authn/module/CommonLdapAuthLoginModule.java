@@ -436,7 +436,7 @@ public class CommonLdapAuthLoginModule extends AbstractSpringLoginModule impleme
       this.authenticated = false;
       throw new LoginException(e != null ? e.getMessage() : "Authentication Error");
     } catch (Exception e) {
-        logger.debug("Error occured attempting authentication", e);
+          logger.debug("Error occured attempting authentication", e);
         this.authenticated = false;
         throw new LoginException(e != null ? e.getMessage() : "Authentication Error");
     } finally {

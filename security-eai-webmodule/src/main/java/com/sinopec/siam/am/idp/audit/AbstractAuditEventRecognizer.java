@@ -17,24 +17,31 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.opensaml.util.storage.StorageService;
 
-import com.ibm.util.FileOrClasspathInputStream;
 import com.sinopec.siam.am.idp.authn.AuditableSpringLoginContext;
 import com.sinopec.siam.am.idp.authn.LoginContextEvent;
+import com.sinopec.siam.am.idp.authn.LoginContextStorageManagerAware;
 import com.sinopec.siam.am.idp.authn.LoginModuleEvent;
 import com.sinopec.siam.am.idp.authn.provider.RequestCallback;
+import com.sinopec.siam.am.idp.authn.provider.cert.ClientCertCallbackHandler;
 import com.sinopec.siam.am.idp.authn.provider.tamldap.TAMCallbackHandler;
 import com.sinopec.siam.audit.model.W7Event;
 import com.sinopec.siam.audit.model.W7OnWhat;
 import com.sinopec.siam.audit.model.W7What;
 import com.sinopec.siam.audit.model.W7Where;
 import com.sinopec.siam.audit.model.W7Who;
+import com.sinopec.siam.utils.FileOrClasspathInputStream;
+
+import edu.internet2.middleware.shibboleth.idp.authn.LoginContext;
+import edu.internet2.middleware.shibboleth.idp.authn.LoginContextEntry;
+import edu.internet2.middleware.shibboleth.idp.util.HttpServletHelper;
 
 /**
  * @author zhaodonglu
  * 
  */
-public abstract class AbstractAuditEventRecognizer implements AuditEventRecognizer {
+public abstract class AbstractAuditEventRecognizer implements AuditEventRecognizer, LoginContextStorageManagerAware {
 
   private static Log log = LogFactory.getLog(AbstractAuditEventRecognizer.class);
 
@@ -43,10 +50,27 @@ public abstract class AbstractAuditEventRecognizer implements AuditEventRecogniz
   private String logModuleNameMappingPath = null;
 
   /**
+   * Storage service used to store {@link LoginContext}s while authentication is
+   * in progress.
+   */
+  private StorageService<String, LoginContextEntry> storageService;
+
+  /**
    * 
    */
   public AbstractAuditEventRecognizer() {
     super();
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * com.sinopec.siam.am.idp.authn.LoginContextStorageManagerAware#setStorageService
+   * (org.opensaml.util.storage.StorageService)
+   */
+  public void setStorageService(StorageService<String, LoginContextEntry> storageService) {
+    this.storageService = storageService;
   }
 
   /**
@@ -72,6 +96,7 @@ public abstract class AbstractAuditEventRecognizer implements AuditEventRecogniz
     W7Where toWhere = new W7Where();
 
     String IDP_entityID = null;
+    String SP_entityID = null;
     String uid = null;
     HttpServletRequest request = null;
     String loginAuthnMethod = null;
@@ -93,6 +118,18 @@ public abstract class AbstractAuditEventRecognizer implements AuditEventRecogniz
     if (callbackHandler instanceof TAMCallbackHandler) {
       request = requestCallback.getRequest();
       uid = ncb.getName();
+    }
+    if (callbackHandler instanceof ClientCertCallbackHandler) {
+      request = requestCallback.getRequest();
+      uid = ncb.getName();
+    }
+
+    edu.internet2.middleware.shibboleth.idp.authn.LoginContext loginContext;
+    try {
+      loginContext = HttpServletHelper.getLoginContext(request);   
+      loginAuthnMethod = loginContext.getAttemptedAuthnMethod();
+     } catch (Exception e) {
+      log.info("Could not get loginContext, please check configuration.");
     }
 
     IDP_entityID = request.getServerName();

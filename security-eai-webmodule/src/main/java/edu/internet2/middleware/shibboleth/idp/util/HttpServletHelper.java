@@ -23,13 +23,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.opensaml.util.URLBuilder;
-import org.opensaml.util.storage.StorageService;
 import org.opensaml.xml.util.DatatypeHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import edu.internet2.middleware.shibboleth.common.attribute.filtering.AttributeFilteringEngine;
 import edu.internet2.middleware.shibboleth.idp.authn.LoginContext;
 import edu.internet2.middleware.shibboleth.idp.authn.LoginContextEntry;
 import edu.internet2.middleware.shibboleth.idp.session.Session;
@@ -88,18 +85,6 @@ public class HttpServletHelper {
      */
     public static String getCookieDomain(ServletContext context) {
         return context.getInitParameter(COOKIE_DOMAIN_PARAM);
-    }
-
-    /**
-     * Gets the {@link AttributeFilteringEngine} bound to the Servlet context.
-     * 
-     * @param context the Servlet context
-     * @param serviceId the ID under which the service bound
-     * 
-     * @return the service or null if there is no such service bound to the context
-     */
-    public static AttributeFilteringEngine<?> getAttributeFilterEnginer(ServletContext context, String serviceId) {
-        return (AttributeFilteringEngine<?>) context.getAttribute(serviceId);
     }
 
     /**

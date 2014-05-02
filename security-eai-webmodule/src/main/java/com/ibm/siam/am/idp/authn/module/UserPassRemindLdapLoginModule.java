@@ -17,17 +17,17 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.opensaml.xml.util.DatatypeHelper;
 
-import com.sinopec.siam.am.idp.authn.module.AbstractLoginModule;
-import com.sinopec.siam.am.idp.authn.module.AbstractSpringLoginModule;
-import com.sinopec.siam.am.idp.authn.module.DetailLoginException;
-import com.sinopec.siam.am.idp.authn.module.PasswordReminderLoginException;
-import com.sinopec.siam.am.idp.authn.principal.UserAccountPrincipal;
-import com.sinopec.siam.am.idp.authn.principal.UserPrincipal;
-import com.sinopec.siam.am.idp.authn.provider.PasswordUpdateOperationStatusCallback;
-import com.sinopec.siam.am.idp.authn.provider.RequestCallback;
-import com.sinopec.siam.am.idp.authn.provider.ResponseCallback;
-import com.sinopec.siam.am.idp.authn.service.UserPassService;
-import com.sinopec.siam.am.idp.entity.LdapUserEntity;
+import com.ibm.siam.am.idp.authn.module.AbstractLoginModule;
+import com.ibm.siam.am.idp.authn.module.AbstractSpringLoginModule;
+import com.ibm.siam.am.idp.authn.module.DetailLoginException;
+import com.ibm.siam.am.idp.authn.module.PasswordReminderLoginException;
+import com.ibm.siam.am.idp.authn.principal.UserAccountPrincipal;
+import com.ibm.siam.am.idp.authn.principal.UserPrincipal;
+import com.ibm.siam.am.idp.authn.provider.PasswordUpdateOperationStatusCallback;
+import com.ibm.siam.am.idp.authn.provider.RequestCallback;
+import com.ibm.siam.am.idp.authn.provider.ResponseCallback;
+import com.ibm.siam.am.idp.authn.service.UserPassService;
+import com.ibm.siam.am.idp.entity.LdapUserEntity;
 
 /**
  * 提醒用户密码即将过期LoginModule（基本Ldap实现）

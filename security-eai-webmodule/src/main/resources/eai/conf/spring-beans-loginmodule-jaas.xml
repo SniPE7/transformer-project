@@ -18,12 +18,12 @@
   </bean>
   
   <bean id="loginContextManager"
-    class="com.sinopec.siam.am.idp.authn.SpringBasedLoginContextManager">
+    class="com.ibm.siam.am.idp.authn.SpringBasedLoginContextManager">
     <property name="configuration" ref="jaasConfiguration"></property>
-    <property name="loginContextClassName" value="com.sinopec.siam.am.idp.authn.AuditableSpringLoginContext"></property>
+    <property name="loginContextClassName" value="com.ibm.siam.am.idp.authn.AuditableSpringLoginContext"></property>
     <property name="loginModuleEventListener" ref="loginEventListen"></property>
     <property name="loginContextEventListener">
-      <bean class="com.sinopec.siam.am.idp.authn.ChainLoginContextEventListener">
+      <bean class="com.ibm.siam.am.idp.authn.ChainLoginContextEventListener">
         <constructor-arg>
           <list>
             <!-- For Audit events -->
@@ -34,38 +34,38 @@
     </property>
   </bean>
   
-  <bean id="loginEventListen" class="com.sinopec.siam.am.idp.authn.AuditLoginEventListener">
+  <bean id="loginEventListen" class="com.ibm.siam.am.idp.authn.AuditLoginEventListener">
     <property name="auditEventRecognizer">
-      <bean class="com.sinopec.siam.am.idp.audit.ChainAuditEventRecognizer">
+      <bean class="com.ibm.siam.am.idp.audit.ChainAuditEventRecognizer">
         <constructor-arg>
           <list>
-            <bean class="com.sinopec.siam.am.idp.audit.UserLockAuditEventRecognizer">
+            <bean class="com.ibm.siam.am.idp.audit.UserLockAuditEventRecognizer">
               <property name="logModuleNameMappingPath" value="${idp.loginmodule.audit.namemappingpath}"/>
             </bean>
      
-            <bean class="com.sinopec.siam.am.idp.audit.CommonLdapLoginEventRecognizer">
+            <bean class="com.ibm.siam.am.idp.audit.CommonLdapLoginEventRecognizer">
               <property name="logModuleNameMappingPath" value="${idp.loginmodule.audit.namemappingpath}"/>
             </bean> 
-            <bean class="com.sinopec.siam.am.idp.audit.PassPastDueLdapAuditEventRecognizer">
+            <bean class="com.ibm.siam.am.idp.audit.PassPastDueLdapAuditEventRecognizer">
               <property name="logModuleNameMappingPath" value="${idp.loginmodule.audit.namemappingpath}"/>
             </bean>
-            <bean class="com.sinopec.siam.am.idp.audit.PassResetLdapAuditEventRecognizer">
+            <bean class="com.ibm.siam.am.idp.audit.PassResetLdapAuditEventRecognizer">
               <property name="logModuleNameMappingPath" value="${idp.loginmodule.audit.namemappingpath}"/>
             </bean>
-            <!-- <bean class="com.sinopec.siam.am.idp.audit.SetPasswordHintAuditEventRecognizer">
+            <!-- <bean class="com.ibm.siam.am.idp.audit.SetPasswordHintAuditEventRecognizer">
               <property name="storageService" ref="shibboleth.StorageService"/>
               <property name="logModuleNameMappingPath" value="${idp.loginmodule.audit.namemappingpath}"/>
             </bean> -->
-            <bean class="com.sinopec.siam.am.idp.audit.TamAndADMappingAuditEventRecognizer">
+            <bean class="com.ibm.siam.am.idp.audit.TamAndADMappingAuditEventRecognizer">
               <property name="logModuleNameMappingPath" value="${idp.loginmodule.audit.namemappingpath}"/>
             </bean>
-            <bean class="com.sinopec.siam.am.idp.audit.UpdateUserLockAuditEventRecognizer">
+            <bean class="com.ibm.siam.am.idp.audit.UpdateUserLockAuditEventRecognizer">
               <property name="logModuleNameMappingPath" value="${idp.loginmodule.audit.namemappingpath}"/>
             </bean>
-            <bean class="com.sinopec.siam.am.idp.audit.UserAcctValidAuditEventRecognizer">
+            <bean class="com.ibm.siam.am.idp.audit.UserAcctValidAuditEventRecognizer">
               <property name="logModuleNameMappingPath" value="${idp.loginmodule.audit.namemappingpath}"/>
             </bean>
-           <bean class="com.sinopec.siam.am.idp.audit.LoginContextEventRecognizer">
+           <bean class="com.ibm.siam.am.idp.audit.LoginContextEventRecognizer">
               <property name="logModuleNameMappingPath" value="${idp.loginmodule.audit.namemappingpath}"/>
             </bean>
           </list>

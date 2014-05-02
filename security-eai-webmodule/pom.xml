@@ -220,22 +220,38 @@
     <!-- kaptcha end -->
 
     <dependency>
-      <groupId>com.sinopec.siam.am</groupId>
-      <artifactId>siam-am-idp-loginmodule</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
-      <type>jar</type>
-      <scope>compile</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>siam-am-common</artifactId>
-          <groupId>com.sinopec.siam.am</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>siam-am-opensaml-extension</artifactId>
-          <groupId>com.sinopec.siam.am</groupId>
-        </exclusion>
-      </exclusions>
+      <groupId>com.sinopec.siam.common</groupId>
+      <artifactId>siam-tuna-jaas-ext</artifactId>
+      <version>0.0.3-SNAPSHOT</version>
     </dependency>
+    <!-- itim soap client dependency for ITIMLoginModule -->
+    <dependency>
+      <groupId>com.ibm.ws</groupId>
+      <artifactId>itim.ws.client</artifactId>
+      <version>1.32.a</version>
+      <type>pom</type>
+    </dependency>
+<!--     <dependency> -->
+<!--       <groupId>com.ibm.siam.am</groupId> -->
+<!--       <artifactId>siam-am-idp-loginmodule</artifactId> -->
+<!--       <version>0.0.1-SNAPSHOT</version> -->
+<!--       <type>jar</type> -->
+<!--       <scope>compile</scope> -->
+<!--       <exclusions> -->
+<!--         <exclusion> -->
+<!--           <artifactId>siam-am-common</artifactId> -->
+<!--           <groupId>com.ibm.siam.am</groupId> -->
+<!--         </exclusion> -->
+<!--         <exclusion> -->
+<!--           <artifactId>siam-am-opensaml-extension</artifactId> -->
+<!--           <groupId>com.ibm.siam.am</groupId> -->
+<!--         </exclusion> -->
+<!--         <exclusion> -->
+<!--           <artifactId>siam-am-idp-web-common</artifactId> -->
+<!--           <groupId>com.ibm.siam.am</groupId> -->
+<!--         </exclusion> -->
+<!--       </exclusions> -->
+<!--     </dependency> -->
     <dependency>
       <groupId>org.springframework.ldap</groupId>
       <artifactId>spring-ldap-core</artifactId>
@@ -295,10 +311,70 @@
 		</dependency>
 		<!-- End of 审计相关 -->
 
+    <dependency>
+      <groupId>edu.vt.middleware</groupId>
+      <artifactId>vt-ldap</artifactId>
+      <version>3.3.4</version>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+        <groupId>org.owasp.esapi</groupId>
+        <artifactId>esapi</artifactId>
+        <version>2.0.1</version>
+        <exclusions>
+            <exclusion>
+                <groupId>commons-configuration</groupId>
+                <artifactId>commons-configuration</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils-core</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>xom</groupId>
+                <artifactId>xom</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>org.beanshell</groupId>
+                <artifactId>bsh-core</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>org.owasp.antisamy</groupId>
+                <artifactId>antisamy</artifactId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+
 		<dependency>
 		  <groupId>junit</groupId>
 		  <artifactId>junit</artifactId>
 		  <version>4.11</version>
+		</dependency>
+		<dependency>
+		  <groupId>javax.mail</groupId>
+		  <artifactId>mail</artifactId>
+		  <version>1.4.7</version>
 		</dependency>
   </dependencies>
 

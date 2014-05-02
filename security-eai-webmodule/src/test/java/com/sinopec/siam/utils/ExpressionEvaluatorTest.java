@@ -12,9 +12,6 @@ import junit.framework.TestCase;
 
 import org.springframework.mock.web.MockHttpServletRequest;
 
-import com.ibm.util.ExpressionEvaluator;
-import com.ibm.util.VariableResolver;
-
 public class ExpressionEvaluatorTest extends TestCase {
 
   protected void setUp() throws Exception {

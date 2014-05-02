@@ -112,7 +112,7 @@
   <!-- ========================================================================================================= -->
   <!-- TAM User Pass Service -->
   <!-- ========================================================================================================= -->
-  <bean id="timUserPassService" class="com.sinopec.siam.am.idp.authn.service.TamUserPassServiceImpl">
+  <bean id="timUserPassService" class="com.ibm.siam.am.idp.authn.service.TamUserPassServiceImpl">
     <property name="ldapTemplate" ref="tamLdapTemplate"></property>
     <property name="ldapUserBaseDN" value="${eai.tam.ldap.secauthority.baseDN}"></property>
     <property name="userNameLdapAttribute" value="${eai.tam.ldap.secauthority.userNameAttr}"></property>
@@ -126,12 +126,12 @@
     <property name="userOwnerLdapAttribute" value="${eai.loginmodule.tim.ldap.userOwnerLdapAttribute}"></property>
   </bean>
   
-  <bean id="personService" class="com.sinopec.siam.am.idp.authn.service.ComboPersonService">
+  <bean id="personService" class="com.ibm.siam.am.idp.authn.service.ComboPersonService">
     <property name="timPersonService">
       <!-- ========================================================================================================= -->
       <!-- TIM Person Service -->
       <!-- ========================================================================================================= -->
-      <bean class="com.sinopec.siam.am.idp.authn.service.TimPersonService">
+      <bean class="com.ibm.siam.am.idp.authn.service.TimPersonService">
         <property name="ldapTemplate" ref="timLdapTemplate"></property>
         <property name="ldapUserBaseDN" value="${eai.tim.ldap.userBaseDN}"></property>
         <property name="userNameLdapAttribute" value="${eai.loginmodule.tim.ldap.userNameAttribute}"></property>
@@ -146,7 +146,7 @@
       <!-- ========================================================================================================= -->
       <!-- TAM Person Service -->
       <!-- ========================================================================================================= -->
-      <bean class="com.sinopec.siam.am.idp.authn.service.TamPersonService">
+      <bean class="com.ibm.siam.am.idp.authn.service.TamPersonService">
         <property name="ldapTemplate" ref="tamLdapTemplate"></property>
         <property name="ldapUserBaseDN" value="${eai.tam.ldap.user.baseDn}"></property>
         <property name="ldapSecurityUserBaseDN" value="${eai.tam.ldap.secauthority.baseDN}"></property>
@@ -158,7 +158,7 @@
   <!-- ========================================================================================================= -->
   <!-- TAM Local User Lock Service -->
   <!-- ========================================================================================================= -->
-  <bean id="tamLocalUserLockService" class="com.sinopec.siam.am.idp.authn.service.LocalUserLockService">
+  <bean id="tamLocalUserLockService" class="com.ibm.siam.am.idp.authn.service.LocalUserLockService">
     <property name="userNameAttr" value="${eai.loginmodule.userlock.userNameAttr}"></property>
     
     <property name="maxFailedNumber" value="${eai.loginmodule.userlock.maxFailedNumber}"></property>
@@ -210,7 +210,7 @@
       <list>
         <!-- VerifyCode check Login Module -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.VerifyCodeCheckLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.VerifyCodeCheckLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -227,7 +227,7 @@
         </bean>
         <!-- SMSCode check Login Module -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.SMSCodeCheckLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.SMSCodeCheckLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -244,7 +244,7 @@
         </bean>
         <!-- User Lock State Check Login Module, Where user is locked, this login will fail -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.CheckUserLockStateLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.CheckUserLockStateLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -257,7 +257,7 @@
         </bean>
         <!-- LDAP Login Module: Composite TAM LDAP and AD Login Modules -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.LoginContextBasedLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.LoginContextBasedLoginModule"></property>
           <property name="moduleFlag" value="REQUIRED"></property>
           <property name="moduleOptions">
             <list>
@@ -275,7 +275,7 @@
         
         <!-- Update Lock State Login Module, Base on previouse login modules, this module will count failure login. -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.UpdateUserLockStateLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.UpdateUserLockStateLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -289,7 +289,7 @@
         
         <!-- Check SMS Code Auth Login Module and reflect loingtag to  uid for loginname -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.LoginStateSetLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.LoginStateSetLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -325,7 +325,7 @@
         
         <!-- TAM and AD Mapping Login Module -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.TamMappingLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.TamMappingLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -350,7 +350,7 @@
         </bean>
         <!-- User Account Valid -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.CheckUserAcctValidLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.CheckUserAcctValidLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -388,7 +388,7 @@
         </bean>
         <!-- User Pass Reset Login Module -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.UserPassResetLdapLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.UserPassResetLdapLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -425,13 +425,13 @@
           </property>
         </bean>
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.ValidateReAuthenLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.ValidateReAuthenLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
         </bean>
         
         <!-- Check mobile no Login Module -->
         <!-- <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.UserMobileBindingLdapLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.UserMobileBindingLdapLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -491,7 +491,7 @@
       <list>
         <!-- VerifyCode check Login Module -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.VerifyCodeCheckLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.VerifyCodeCheckLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -508,7 +508,7 @@
         </bean>
         <!-- SMSCode check Login Module -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.SMSCodeCheckLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.SMSCodeCheckLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -529,7 +529,7 @@
         </bean>
         <!-- Check SMS Code Auth Login Module and reflect loingtag to  uid for loginname -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.LoginStateSetLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.LoginStateSetLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -564,7 +564,7 @@
         </bean>
         <!-- User Lock State Check Login Module, Where user is locked, this login will fail -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.CheckUserLockStateLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.CheckUserLockStateLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -578,7 +578,7 @@
        
         <!-- TAM and AD Mapping Login Module -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.TamMappingLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.TamMappingLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -603,7 +603,7 @@
         </bean>
         <!-- User Account Valid -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.CheckUserAcctValidLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.CheckUserAcctValidLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -641,7 +641,7 @@
         </bean>
         <!-- User Pass Reset Login Module -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.UserPassResetLdapLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.UserPassResetLdapLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -678,13 +678,13 @@
           </property> 
         </bean>
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.ValidateReAuthenLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.ValidateReAuthenLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
         </bean>
         
         <!-- Check mobile no Login Module -->
         <!-- <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.UserMobileBindingLdapLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.UserMobileBindingLdapLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -743,7 +743,7 @@
       <list>
         <!-- VerifyCode check Login Module -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.VerifyCodeCheckLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.VerifyCodeCheckLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -760,7 +760,7 @@
         </bean>
         <!-- User Lock State Check Login Module, Where user is locked, this login will fail -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.CheckUserLockStateLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.CheckUserLockStateLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -773,7 +773,7 @@
         </bean>
         <!-- LDAP Login Module: Composite TAM LDAP and AD Login Modules -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.LoginContextBasedLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.LoginContextBasedLoginModule"></property>
           <property name="moduleFlag" value="REQUIRED"></property>
           <property name="moduleOptions">
             <list>
@@ -790,7 +790,7 @@
         </bean>
         <!-- Update Lock State Login Module, Base on previouse login modules, this module will count failure login. -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.UpdateUserLockStateLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.UpdateUserLockStateLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -803,7 +803,7 @@
         </bean>
         <!-- Check SMS Code Auth Login Module and reflect loingtag to  uid for loginname -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.LoginStateSetLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.LoginStateSetLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -838,7 +838,7 @@
         </bean>
         <!-- TAM and AD Mapping Login Module -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.TamMappingLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.TamMappingLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -863,7 +863,7 @@
         </bean>
         <!-- User Account Valid -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.CheckUserAcctValidLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.CheckUserAcctValidLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -901,7 +901,7 @@
         </bean>
         <!-- User Pass Reset Login Module -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.UserPassResetLdapLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.UserPassResetLdapLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -940,7 +940,7 @@
         
          <!-- Check mobile no Login Module -->
         <!-- <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.UserMobileBindingLdapLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.UserMobileBindingLdapLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
           <property name="moduleOptions">
             <list>
@@ -980,7 +980,7 @@
         </bean>  -->
         
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.ValidateReAuthenLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.ValidateReAuthenLoginModule"></property>
           <property name="moduleFlag" value="REQUISITE"></property>
         </bean>
       </list>
@@ -993,12 +993,12 @@
     <property name="loginModules">
       <list>
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.tamldap.LoginStateCheckerLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.tamldap.LoginStateCheckerLoginModule"></property>
           <property name="moduleFlag" value="SUFFICIENT"></property>
         </bean>
         <!-- 基于用户名或CardUID认证 -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.CommonLdapAuthLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.CommonLdapAuthLoginModule"></property>
           <property name="moduleFlag" value="SUFFICIENT"></property>
           <property name="moduleOptions">
             <list>
@@ -1043,7 +1043,7 @@
         </bean>
         <!-- 基于MATCHCode认证 -->
         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
-          <property name="loginModuleClass" value="com.sinopec.siam.am.idp.authn.module.SGMMatchCodeAuthLoginModule"></property>
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.SGMMatchCodeAuthLoginModule"></property>
           <property name="moduleFlag" value="SUFFICIENT"></property>
           <property name="moduleOptions">
             <list>

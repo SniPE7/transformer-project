@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ibm.siam.am.idp.authn.AuthenticationEngine;
-import com.sinopec.siam.am.idp.authn.module.AbstractSpringLoginModule;
+import com.ibm.siam.am.idp.authn.module.AbstractSpringLoginModule;
 
 /**
  * Authentication handlers authenticate a user in an implementation specific manner. Some examples of this might be by
