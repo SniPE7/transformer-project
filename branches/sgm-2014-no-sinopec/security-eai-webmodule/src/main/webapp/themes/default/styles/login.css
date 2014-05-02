@@ -1,0 +1,802 @@
+/*
+Design by SIAM Team
+*/
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+	border: 0 none;
+	font: inherit;
+	margin: 0;
+	padding: 0;
+}
+body {
+	color: #ffffff;
+	font-family: 微软雅黑,simsun,Helvetica,Arial,Verdana,Geneva,sans-serif;
+	font-size: 16px;
+	background: url("../images/page_bg.gif") #dcedf3 repeat-x;
+	
+	zoom: 100%;
+	/*
+	transform:  scale(1.1);
+	
+	-ms-transform: scale(1.1);  
+	-ms-transform-origin:top left; 
+	
+	-moz-transform:scale(1.1);
+	-moz-transform-origin:top left;
+	
+	-webkit-transform:scale(1.1);
+	-webkit-transform-origin:top left;*/
+}
+a {
+	color: navy;
+	text-decoration: none;
+}
+a:hover {
+	color: red;
+}
+#main {
+	margin: 0 auto;
+	/*width: 600px;*/
+	/*width: 1000px;*/	
+}
+
+#header, #footer {
+	margin: 0 auto;
+	/*width: 1000px;*/	
+}
+
+#banner {
+	height: 90px;
+}
+#logo {
+	background: url("../images/login/logo2.png") no-repeat scroll 0 0 none;
+	display: block;
+	float: left;
+	height: 35px;
+	margin: 10px 0 0 16px;
+	width: 60px;
+}
+#slogan {
+	float: left;
+	margin: 0;
+	padding: 10px 0 0 6px;
+	width: 240px;
+}
+#slogan h1 {
+	font: bold 36px/100% "SimHei",Times,serif;
+	letter-spacing: 2px;
+	margin: 0;
+	padding: 4px 0 0 12px;
+	text-transform: lowercase;
+}
+#slogan h2 {
+	color: #D9170E;
+	font-size: 12px;
+	font-weight: normal;
+	letter-spacing: 1px;
+	line-height: 150%;
+	margin: 0;
+	padding: 0 0 0 1px;
+	text-transform: uppercase;
+}
+#slogan h2 a {
+	color: #9AA9B1;
+}
+#slogan a {
+	color: #D9170E;
+	text-decoration: none;
+}
+
+#slides {
+	/*background: url("../images/login/sinopec-logo24.png") no-repeat scroll 3px 0 transparent;*/
+	display: block;
+	float: left;
+	padding: 5px 0 5px -34px;
+	font-weight: bold;
+	font-size:16px; 
+	color: #444444;
+}
+ul#tabs
+{
+	/*border-bottom: 1px solid #ccc;*/
+	padding-top: 6px;
+	padding-bottom: 8px;
+}
+
+ul#tabs li
+{
+	display: inline;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.clear{ clear:both; font-size:0px; line-height:0px; height:0px; overflow:hidden}
+
+
+ul#tabs li a:link, #tabs a:visited
+{
+	background: #F0F0F0;
+	border: 1px solid #ccc;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	color: #686868;
+	float: right;
+	font-weight: bold;
+	line-height: 23px;
+	margin-right: 8px;
+	padding: 2px 10px;
+	text-decoration: none;
+}
+
+ul#tabs li a.current:link, ul#tabs li a.current:hover, ul#tabs li a.current:visited
+{
+	background: #fff;
+	border-bottom: 1px solid #fff;
+	color: #444444;
+}
+
+ul#tabs li a:hover {
+	color: #f00;
+	background: #FFF;
+}
+
+#panel {
+	margin: 16px auto;
+	width: 600px;
+	min-height: 300px;
+	/*position:relative;*/
+	overflow: auto;
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+.line {
+	border-bottom: 1px solid #ccc;
+}
+
+#footer {
+	margin-top: 20px;
+}
+
+#footer p {
+	color: #4D4D4D;
+	font-size: 16px;
+	padding: 5px 0 0;
+	text-align: center;
+	text-transform: uppercase;
+}
+#sidebar {
+	display: block;
+	float: left;
+	width: 42%;
+	padding: 0 5px;
+}
+#sidebar h3 {
+	background: url("../images/login/arrows.png") no-repeat scroll 0 -33px transparent;
+	padding-left: 25px;
+	font-weight: bold;
+	text-decoration: none;
+}
+#sidebar h3:first-child {
+	border-bottom: 1px dotted #CCC;
+	margin-top: 0px;
+	padding-bottom: 5px;
+}
+#sidebar h3 {
+	border-bottom: 1px dotted #CCC;
+	margin-top: 5px;
+	padding-bottom: 5px;
+}
+#sidebar h3 a {
+	color: #686868;
+	text-decoration: none;
+}
+#sidebar h3 a:hover {
+	color: red;
+	text-decoration: none;
+}
+#sidebar h3.active {
+	background-position: 0 5px;
+}
+#sidebar div.desc {
+	padding: 12px 12px 12px 24px;
+	font-size: 12px;
+	color: #686868;
+	line-height: 200%;
+}
+#sidebar div.desc ol li {
+	margin-left: 22px;
+}
+
+#sidebar div.desc ol li.selected {
+  margin-left: 22px;
+  border: 1px solid #D3D3D3;
+}
+
+#content {
+	display: block;
+	width: 100%;	
+	min-height: 216px;
+}
+
+#acloginpod {
+	/*background: url("../images/login/acloginpodbg.gif") repeat-x scroll 0 0 #EBEBEB;
+	border: 1px solid #D3D3D3;
+	border-radius: 7px 7px 7px 7px;*/
+	width: 480px;
+	margin-left: 70px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+#acloginpod .loginpanel {
+	margin: 2px 2px 0px 2px;
+}
+#acloginpod form, #acloginpod fieldset {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+#acloginpod legend em {
+	left: -9999em;
+	position: absolute;
+}
+#acloginpod label , .normal-label{
+	color: #ffffff;
+	display: block;
+	font-size: 16px;
+	margin-bottom: 3px;
+/*	font-weight: bold;*/
+	line-height: 18px;
+}
+
+#wizard label , .normal-label{
+	color: #ffffff;
+	display: block;
+	font-size: 16px;
+	margin-bottom: 3px;
+	font-weight: bold;
+	line-height: 18px;
+}
+
+#acloginpod label span.loginerror {
+	color: #8D1C1C;
+	font-size: 10px;
+}
+#acloginpod input.textinput, .textinput {
+	background: url("../images/login/textinputbg.gif") repeat-x scroll 0 0 #FFFFFF;
+	border: 1px solid #D3D3D3;
+	color: #000000;
+	font-size: 15px;
+	margin-bottom: 10px;
+	padding: 7px 3px;
+	text-indent: 7px;
+	width: 400px;
+}
+#acloginpod input.textCKcode, .textCKcode {
+  background: url("../images/login/textinputbg.gif") repeat-x scroll 0 0 #FFFFFF;
+  border: 1px solid #D3D3D3;
+  color: #000000;
+  font-size: 15px;
+  margin-bottom: 10px;
+  padding: 7px 3px;
+  text-indent: 7px;
+  width: 120px;
+}
+#acloginpod input:focus {
+	border-color: #77B2EE;
+}
+#acloginpod input.error, #acloginpod input.error:focus {
+	border-color: #8D1C1C;
+}
+#acloginpod .errormsg {
+	color: #8D1C1C;
+	font-weight: bold;
+	margin-bottom: 15px;
+}
+#acloginpod .acloginbttn {
+	background: url("../images/login/acloginpodbttn.gif") no-repeat scroll 0 0 transparent;
+	display: block;
+	float: right;
+	height: 42px;
+	margin-top: 10px;
+	width: 121px;
+}
+#acloginpod .acloginbttn:hover, #acloginpod .acloginbttn:focus {
+	background-position: right top;
+}
+#acloginpod .aclogin-action label {
+	border-bottom: 1px solid #D3D3D3;
+	color: #777777;
+	font-size: 16px;
+	margin: 0 0 7px;
+	padding: 0 0 5px;
+}
+#acloginpod .aclogin-action label input {
+	vertical-align: middle;
+}
+#acloginpod a.forgotpass, .forgotpass {
+	color: #ffffff;
+	font-size: 16px;
+	text-decoration:underline;
+	line-height:250%;
+}
+
+#wizard a.forgotpass, .forgotpass {
+	color: #FFFFFF;
+	font-size: 16px;
+	text-decoration:underline;
+	line-height:250%;
+}
+
+.forgotpass {
+	background: url("../images/login/icon-question.png") no-repeat scroll 3px 0 transparent;
+	padding-left: 25px;
+	background-position: 3% center;
+}
+#acloginpod a.forgotpass:hover, #acloginpod a.forgotpass:focus {
+	color: red;
+}
+.fl-right {
+	float: right;
+}
+.fl-left {
+	float: left;
+}
+.invisible {
+	display: none;
+}
+.aui-message {
+    background: none repeat scroll 0 0 #F0F0F0;
+    border: 1px solid #BBBBBB;
+    border-radius: 5px 5px 5px 5px;
+    color: #333333;
+    margin: 0.5em auto 1em auto;
+    min-height: 1em;
+    width: 400px;
+    padding: 1em 1em 1em 35px;
+    /*position: relative;*/
+}
+.aui-message, .aui-message.warning, .aui-message.error, .aui-message.info, .aui-message.success, .aui-message.hint, .aui-message.load {
+    color: #333333;
+    font-weight: normal;
+}
+.aui-message.error {
+    background: none repeat scroll 0 0 #FFE7E7;
+    border-color: #DF9898;
+}
+.aui-message.warning {
+    background: none repeat scroll 0 0 #FFFFDD;
+    border-color: #F7DF92;
+}
+.aui-message.info {
+    background: none repeat scroll 0 0 #E0EFFF;
+    border-color: #9EB6D4;
+}
+.aui-message.success {
+    background: none repeat scroll 0 0 #DDFADE;
+    border-color: #93C49F;
+}
+.aui-message.hint {
+    background: none repeat scroll 0 0 #DFF8FB;
+    border-color: #93BBBF;
+}
+.aui-message.load {
+    background: none repeat scroll 0 0 #DFF8FB;
+    border-color: #93BBBF;
+}
+.aui-message .aui-icon {
+    left: 8px;
+    top: 1em;
+    margin: 0;
+}
+.aui-message .aui-icon {
+    background-image: url("../images/login/aui-message-icon-sprite.png");
+    background-repeat: no-repeat;
+    border: medium none;
+    display: block;
+    height: 14px;
+    left: 10px;
+    padding: 0;
+    /*position: absolute;*/
+    text-indent: -9999px;
+    top: 1em;
+    width: 14px;
+    overflow: hidden;
+    vertical-align: middle;
+    float: left;
+}
+.aui-message .icon-error {
+    background-position: -24px 0;
+}
+.aui-message .icon-generic {
+    background-position: -48px 0;
+}
+.aui-message .icon-hint {
+    background-position: -72px 0;
+}
+.aui-message .icon-info {
+    background-position: -96px 0;
+}
+.aui-message .icon-success {
+    background-position: -120px 0;
+}
+.aui-message .icon-warning {
+    background-position: -144px 0;
+}
+.infoui-message {
+    background: none repeat scroll 0 0 #F0F0F0;
+    border: 1px solid #BBBBBB;
+    border-radius: 5px 5px 5px 5px;
+    color: #333333;
+    margin: 0.5em auto 1em auto;
+    min-height: 1em;
+    width: 500px;
+    padding: 1em 1em 1em 35px;
+    position: relative;
+}
+.infoui-message.info {
+    background: none repeat scroll 0 0 #E0EFFF;
+    border-color: #9EB6D4;
+}
+.icon-help {
+	background-image: url("../images/login/icon-help.png");
+}
+/* ******************************************* */
+#panel-logout {
+	background:  repeat-y scroll 0 0 transparent;
+	margin: 16px auto;
+	width: 100%;
+	min-height: 300px;
+	/*position:relative;*/
+	overflow: auto;
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+
+#Noinfor{
+	border-bottom: 0px dotted #D3D3D3;
+	height:25px;
+}
+
+#logoutcontent {
+	border-bottom: 0px solid #D3D3D3;
+	width: 500px;
+	float: left;
+	margin-top: 40px;
+	margin-left: 70px;	
+}
+
+#logoutcontent li {
+	border-bottom: 1px solid #D3D3D3;
+	width: 500px;
+	float: left;
+	margin-top: 40px;
+	margin-left: 70px;	
+}
+
+
+#GLObutton{
+	float: left;
+	
+}
+
+#GLOAPPCount{
+	float: left;
+	margin-top: 10px;
+}
+
+#logoutcontent iframe{
+/* 	border: 1px solid #D3D3D3; */
+	overflow:hidden;
+	font-size: 16px;
+	color: #686868;
+	width: 100px;
+	height:18px;
+	float:right;
+	
+}
+/* ****************************************************** */
+#APPid{
+	float:left;
+}
+
+/* **********************按键******************************** */
+/*
+===================
+核心背景整合
+===================
+*/
+.btn/*按钮背景*/,
+.core_follow/*全局关注按钮*/,
+.pop_deep .ct dt.reward/*打卡奖励金币图*/,
+.pages a/*分页样式*/,
+.pages strong,
+.design_mode_edit/*模块管理按钮*/,
+#back_top/*返回顶部*/,
+.pop_showmsg/*无操作提示*/{
+	background:url(../images/core_bg.png);
+}
+
+button::-moz-focus-inner, input::-moz-focus-inner {
+    border: 0 none;
+    padding: 0;
+}
+.btn {
+    background-color: #F3F3F3;
+    background-position: 0 0;
+    border: 1px solid #ffffff;
+    border-radius: 2px 2px 2px 2px;
+    color: #333333 !important;
+    cursor: pointer;
+    display: inline-block;
+    font-family: inherit;
+    font-size: 100%;
+    line-height: normal;
+    margin: 0;
+    margin-left: 5px;
+    overflow: visible;
+    padding: 4px 10px;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+input.btn_big,
+button.btn_big{
+	*padding: 6px 18px 5px !important;
+	_padding: 6px 18px 3px !important;
+}
+
+.btn_error,
+.btn_error:hover,
+.btn_success,
+.btn_success:hover,
+.btn_submit,
+.btn_submit:hover{
+  color: #ffffff !important;
+}
+
+.btn em {
+    font-size: 10px;
+    font-style: normal;
+    padding-left: 2px;
+    vertical-align: 1px;
+}
+
+.btn:hover {
+    background-position: 0 -40px;
+    color: #333333;
+    text-decoration: none;
+}
+.btn:active {
+    background-position: 0 -81px;
+    border-color: #0C487B #0E5D8E #0F75A3;
+}
+.btn_big {
+    border-radius: 2px 2px 2px 2px;
+    line-height: normal;
+    padding: 6px 18px;
+}
+
+.btn_error, .btn_error:hover, .btn_success, .btn_success:hover, .btn_submit, .btn_submit:hover {
+    color: #FFFFFF !important;
+}
+
+.btn_submit {
+    background-color: #3B7DC3;
+    background-position: 0 -120px;
+    border-color: #0F75A4 #0E6191 #0C497C;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    padding-left:25px;
+	padding-right:25px;
+}
+
+.btn_submit:hover {
+    background-position: 0 -160px;
+}
+
+.btn_submit:active {
+    background-position: 0 -201px;
+    border-color: #0C487B #0E5D8E #0F75A3;
+}
+
+.mr20 {
+    margin-right: 20px !important;
+}
+
+h1.read_h1 {
+    background: url("../images/docreadicon.png") no-repeat scroll 0 -413px transparent;
+    padding: 20px 0 15px 30px;
+}
+
+.read_h1, .read_h1 a {
+    color: #0066CC;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-top: 20px;
+    padding: 0;
+}
+
+#overlay {
+    background-color: #111111;
+    display: none;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+}
+#preloader {
+    background: url("../images/loading.gif") no-repeat scroll 12px 10px;
+    border-radius: 8px 8px 8px 8px;
+    color: #000000;
+    display: none;
+    font-size: 16px;
+    height: 20px;
+    left: 50%;
+    line-height: 35px;
+    margin: -20px 0 0 -45px;
+    opacity: 0.8;
+    padding: 10px;
+    position: fixed;
+    text-align: left;
+    text-indent: 36px;
+    text-shadow: none;
+    top: 50%;
+    width: 180px;
+    z-index: 10000;
+}
+
+#sgmbanner {
+	width: 100%;
+}
+
+#sgmbanner .topleft{
+	background-image: url("../images/login_top_bg.gif"); 
+	height: 81px;
+	width: 28px;
+	float: left;
+}
+
+#sgmbanner .topcenter {
+	background-image: url("../images/login_top_bg.gif"); 
+	height: 81px;
+	width: 530px;
+	float: left;
+}
+
+#sgmbanner .topright {
+	width: 24px;
+	float: left;
+}
+
+#sgmcontent , #sgmfooter, #sgmbanner {
+	clear: both; 
+	overflow: hidden;
+}
+
+#sgmfooter .footerleft{
+	background-image: url("../images/login_bottom_bg.gif"); 
+	height: 13px;
+	width: 558px; 
+	float: left;
+}
+
+#sgmfooter .footerright {
+	background-image: url("../images/login_right_bottom.gif");
+	width: 24px; 
+	height: 13px;
+	float: left;
+}
+
+#sgmcontent .contentleft{
+	background-image: url("../images/login_bg.gif");
+	background-repeat:repeat-x;
+	background-color:#48aac4;
+	/*height: 480px;*/
+	width: 558px;
+	float: left;
+}
+
+
+#sgmcontent .contentright {
+	background-image: url("../images/login_right_bg.gif");
+	height: 100%;
+	float: left;
+	margin-bottom:-2000px;
+	padding-bottom:2000px;
+}
+
+#panel2 {
+    margin: 16px auto;
+    width: 600px;
+}
+
+
+#sgm-auth-types {
+	margin-top: 5px;
+}
+
+#sgm-auth-types label {
+	color: #FFFFFF;
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 18px;
+}
+
+#sgm-auth-types a:link, #sgm-auth-types  a:hover, #sgm-auth-types  a:visited
+{
+	color: #FFFFFF;
+    font-size: 16px;
+    line-height: 250%;
+    text-decoration: underline;
+}
+
+/**** for wizard  ****/
+#panel3 {
+    margin: 16px auto;
+    overflow: hidden;
+    clear: both;
+    width: 982px;
+}
+
+#sgmbanner2 .topleft{
+	background-image: url("../images/login_top_bg.gif"); 
+	height: 81px;
+	width: 28px;
+	float: left;
+}
+
+#sgmbanner2 .topcenter {
+	background-image: url("../images/login_top_bg.gif"); 
+	height: 81px;
+	width: 930px;
+	float: left;
+}
+
+#sgmbanner2 .topright {
+	width: 24px;
+	float: left;
+}
+
+
+#sgmfooter2 .footerleft{
+	background-image: url("../images/login_bottom_bg.gif"); 
+	height: 13px;
+	width: 958px; 
+	float: left;
+}
+
+#sgmfooter2 .footerright {
+	background-image: url("../images/login_right_bottom.gif");
+	width: 24px; 
+	height: 13px;
+	float: left;
+}
+
+#sgmcontent2 , #sgmfooter2, #sgmbanner2 {
+	clear: both; 
+	overflow: hidden;
+}
+
+#sgmcontent2 .contentleft{
+	background-image: url("../images/login_bg.gif");
+	background-repeat:repeat-x;
+	background-color:#48aac4;
+	/*height: 480px;*/
+	width: 958px;
+	float: left;
+}
+
+
+#sgmcontent2 .contentright {
+	background-image: url("../images/login_right_bg.gif");
+	height: 100%;
+	float: left;
+	margin-bottom:-2000px;
+	padding-bottom:2000px;
+}
+

@@ -1,0 +1,381 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>group.tivoli.security</groupId>
+  <version>0.0.1-SNAPSHOT</version>
+  <artifactId>security-eai-webmodule</artifactId>
+  <packaging>war</packaging>
+  <name>security-eai-webmodule</name>
+  <description>EAI WebModule</description>
+
+  <reporting>
+  </reporting>
+  <properties>
+    <m2eclipse.wtp.contextRoot>/eaiweb</m2eclipse.wtp.contextRoot>
+  </properties>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>1.0.1</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <source>1.5</source>
+          <target>1.6</target>
+          <optimize>true</optimize>
+          <debug>true</debug>
+          <encoding>GBK</encoding>
+        </configuration>
+      </plugin>
+      
+      <!--  package jar on package -->
+		<plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>2.4</version>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>jar</goal>
+                        <goal>test-jar</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+		
+      <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-war-plugin</artifactId>
+	        <configuration>
+	            <warName>${project.artifactId}</warName>
+	            <warSourceExcludes>**/*.js,**/*.css</warSourceExcludes>
+	        </configuration>
+	    </plugin>
+	    
+       <plugin>
+	        <groupId>net.alchim31.maven</groupId>
+	        <artifactId>yuicompressor-maven-plugin</artifactId>
+	        <version>1.3.3</version>
+	        <!-- <executions>
+	            <execution>
+	            	<phase>compile</phase>
+	                <goals>
+	                    <goal>compress</goal>
+	                </goals>
+	            </execution>
+	        </executions> -->
+	        <configuration>
+            <encoding>UTF-8</encoding>
+	        	<!-- 忽略 js 错误警告 -->
+	            <jswarn>false</jswarn>
+	            <nosuffix>true</nosuffix>
+	            <linebreakpos>-1</linebreakpos>
+	            <includes>
+	                <include>**/*.js</include>
+	                <include>**/*.css</include>
+	            </includes>
+	            <excludes>
+	                <exclude>**/**min.js</exclude>
+	                <exclude>**/**min.css</exclude>
+	            </excludes>
+	        </configuration>
+		</plugin>
+		
+		<!--  install jar to local repository -->
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-install-plugin</artifactId>
+			<version>2.5.1</version>
+			<executions>
+				<execution>
+					<phase>install</phase>
+					<goals>
+						<goal>install-file</goal>
+					</goals>
+					<configuration>
+						<packaging>jar</packaging>
+						<artifactId>${project.artifactId}</artifactId>
+						<groupId>${project.groupId}</groupId>
+						<version>${project.version}</version>
+						<file>
+							${project.build.directory}/${project.artifactId}-${project.version}.jar
+						</file>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <!-- Spring Libs -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>3.1.0.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <version>3.1.0.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
+      <version>3.1.0.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>3.1.0.RELEASE</version>
+    </dependency>
+    <!-- End of Spring -->
+
+    <!-- Override BC version from xmltooling because 1.46 causes an issue with the IdP installer -->
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcprov-jdk15</artifactId>
+      <version>1.45</version>
+    </dependency>
+
+    <!-- OpenSAML Libs -->
+
+    <!-- Web Common Libs -->
+    <dependency>
+      <groupId>jstl</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>taglibs</groupId>
+      <artifactId>standard</artifactId>
+      <version>1.1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.4</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet.jsp</groupId>
+      <artifactId>jsp-api</artifactId>
+      <version>2.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Testing Libs -->
+    <dependency>
+      <groupId>xmlunit</groupId>
+      <artifactId>xmlunit</artifactId>
+      <version>1.3</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-mock</artifactId>
+      <version>2.0.8</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- 配置定义调度的jar依赖 -->
+    <dependency>
+      <groupId>org.quartz-scheduler</groupId>
+      <artifactId>quartz</artifactId>
+      <version>1.8.4</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>slf4j-api</artifactId>
+          <groupId>org.slf4j</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <!-- Tiles -->
+    <dependency>
+      <groupId>org.apache.tiles</groupId>
+      <artifactId>tiles-servlet</artifactId>
+      <version>2.2.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.tiles</groupId>
+      <artifactId>tiles-jsp</artifactId>
+      <version>2.2.2</version>
+    </dependency>
+
+    <!-- 审计相关 -->
+    <!-- End of 审计相关 -->
+
+    <!-- kaptcha -->
+    <dependency>
+      <groupId>com.google.code</groupId>
+      <artifactId>kaptcha</artifactId>
+      <version>2.3.2</version>
+    </dependency>
+    <!-- kaptcha end -->
+
+    <dependency>
+      <groupId>com.sinopec.siam.common</groupId>
+      <artifactId>siam-tuna-jaas-ext</artifactId>
+      <version>0.0.3-SNAPSHOT</version>
+    </dependency>
+    <!-- itim soap client dependency for ITIMLoginModule -->
+    <dependency>
+      <groupId>com.ibm.ws</groupId>
+      <artifactId>itim.ws.client</artifactId>
+      <version>1.32.a</version>
+      <type>pom</type>
+    </dependency>
+<!--     <dependency> -->
+<!--       <groupId>com.ibm.siam.am</groupId> -->
+<!--       <artifactId>siam-am-idp-loginmodule</artifactId> -->
+<!--       <version>0.0.1-SNAPSHOT</version> -->
+<!--       <type>jar</type> -->
+<!--       <scope>compile</scope> -->
+<!--       <exclusions> -->
+<!--         <exclusion> -->
+<!--           <artifactId>siam-am-common</artifactId> -->
+<!--           <groupId>com.ibm.siam.am</groupId> -->
+<!--         </exclusion> -->
+<!--         <exclusion> -->
+<!--           <artifactId>siam-am-opensaml-extension</artifactId> -->
+<!--           <groupId>com.ibm.siam.am</groupId> -->
+<!--         </exclusion> -->
+<!--         <exclusion> -->
+<!--           <artifactId>siam-am-idp-web-common</artifactId> -->
+<!--           <groupId>com.ibm.siam.am</groupId> -->
+<!--         </exclusion> -->
+<!--       </exclusions> -->
+<!--     </dependency> -->
+    <dependency>
+      <groupId>org.springframework.ldap</groupId>
+      <artifactId>spring-ldap-core</artifactId>
+      <version>1.3.1.RELEASE</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>commons-pool</groupId>
+      <artifactId>commons-pool</artifactId>
+      <version>1.3</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <version>1.5.2</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.opensaml</groupId>
+      <artifactId>xmltooling</artifactId>
+      <version>1.3.4</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+    
+	<dependency>
+		<groupId>org.codehaus.jackson</groupId>
+		<artifactId>jackson-core-asl</artifactId>
+		<version>1.9.7</version>
+	</dependency>
+	<dependency>
+		<groupId>org.codehaus.jackson</groupId>
+		<artifactId>jackson-mapper-asl</artifactId>
+		<version>1.9.7</version>
+	</dependency>
+	<dependency>
+	  <groupId>com.alibaba</groupId>
+	  <artifactId>fastjson</artifactId>
+	  <version>1.1.37</version>
+	</dependency>
+
+  <dependency>
+    <groupId>group.tivoli.security</groupId>
+    <artifactId>security-eai-api-sms</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </dependency>
+
+		<!-- 审计相关 -->
+		<dependency>
+			<groupId>com.sinopec.siam</groupId>
+			<artifactId>siam-audit-common</artifactId>
+			<version>1.1.RELEASE</version>
+		</dependency>
+		<!-- End of 审计相关 -->
+
+    <dependency>
+      <groupId>edu.vt.middleware</groupId>
+      <artifactId>vt-ldap</artifactId>
+      <version>3.3.4</version>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+        <groupId>org.owasp.esapi</groupId>
+        <artifactId>esapi</artifactId>
+        <version>2.0.1</version>
+        <exclusions>
+            <exclusion>
+                <groupId>commons-configuration</groupId>
+                <artifactId>commons-configuration</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils-core</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>xom</groupId>
+                <artifactId>xom</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>org.beanshell</groupId>
+                <artifactId>bsh-core</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>org.owasp.antisamy</groupId>
+                <artifactId>antisamy</artifactId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+
+		<dependency>
+		  <groupId>junit</groupId>
+		  <artifactId>junit</artifactId>
+		  <version>4.11</version>
+		</dependency>
+		<dependency>
+		  <groupId>javax.mail</groupId>
+		  <artifactId>mail</artifactId>
+		  <version>1.4.7</version>
+		</dependency>
+  </dependencies>
+
+</project>

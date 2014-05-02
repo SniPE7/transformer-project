@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+	version="2.4">
+
+	<display-name>WebSEAL EAI Server</display-name>
+
+	<!-- Parameter that allows the domain of all cookies to be explicitly set. 
+		If not set the domain is let empty which means that the cookie will only 
+		ever be sent to the host. -->
+	<context-param>
+		<param-name>cookieDomain</param-name>
+		<param-value>shanghaigm.com</param-value>
+	</context-param>
+
+  <context-param>
+    <description>Force transfer access app by https</description>
+    <param-name>ForceHttpsHost</param-name>
+    <param-value>app.shanghaigm.com</param-value>
+  </context-param>
+
+	<!-- Spring application context files. Files are loaded in the order they 
+		appear with subsequent files overwriting same named beans in previous files. -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+		  classpath*:eai/conf/spring-beans-*.xml
+		  </param-value>
+	</context-param>
+	<!-- Spring listener used to load up the configuration -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+  
+	<!-- Fix WebSphere Issue, see also: http://forum.springsource.org/showthread.php?94033-Spring-security-Websphere-6-Error-500-springSecurityFilterChain-is-unavailable -->
+	<filter>
+		<filter-name>requestContextFilter</filter-name>
+		<filter-class>org.springframework.web.filter.RequestContextFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>requestContextFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- 配置spring的过滤器 -->
+	<filter>
+	  <filter-name>CharacterEncodingFilter</filter-name>
+	  <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+	  <init-param>
+	    <param-name>encoding</param-name>
+	    <param-value>utf-8</param-value>
+	  </init-param>
+	</filter>
+	
+	<filter-mapping>
+	  <filter-name>CharacterEncodingFilter</filter-name>
+	  <url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- Add P3P Header filter to all requests -->
+	<filter>
+		<filter-name>P3PHeaderFilter</filter-name>
+		<filter-class>com.ibm.siam.filters.P3PHeaderFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>P3PHeaderFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- Add SLF4J MDC cleanup filter to all requests -->
+	<filter>
+		<filter-name>SL4JCleanupFilter</filter-name>
+		<filter-class>edu.internet2.middleware.shibboleth.common.log.SLF4JMDCCleanupFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>SL4JCleanupFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+
+	<!-- HTTP headers to every response in order to prevent response caching -->
+	<filter>
+		<filter-name>NoCacheFilter</filter-name>
+		<filter-class>edu.internet2.middleware.shibboleth.idp.util.NoCacheFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>NoCacheFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+  <!-- For tam ldap -->
+  <filter>
+    <description>Authentication Filter</description>
+    <display-name>com.ibm.siam.am.idp.authn.AccessEnforcer</display-name>
+    <filter-name>com.ibm.siam.am.idp.authn.AccessEnforcer</filter-name>
+    <filter-class>com.ibm.siam.am.idp.authn.AccessEnforcer</filter-class>
+    <init-param>
+      <description>Define authentication method for protected resources.</description>
+      <param-name>AuthenticationMethod</param-name>
+      <param-value>urn:oasis:names:tc:SAML:2.0:ac:classes:TAMUsernamePassword</param-value>
+    </init-param>
+    <init-param>
+      <description>Flag for Re-Authen</description>
+      <param-name>AlwaysReauthen</param-name>
+      <param-value>false</param-value>
+    </init-param>
+    <init-param>
+      <description>Flag for EAI Authen</description>
+      <param-name>eaiAuthen</param-name>
+      <param-value>true</param-value>
+    </init-param>
+    <init-param>
+      <description>Default URL after authenticated</description>
+      <param-name>AfterAuthenDefaultURL</param-name>
+      <param-value>/index.html</param-value>
+    </init-param>
+  </filter>
+  
+  <filter-mapping>
+    <filter-name>com.ibm.siam.am.idp.authn.AccessEnforcer</filter-name>
+    <url-pattern>/login/info.do</url-pattern>
+  </filter-mapping>
+
+  <filter>
+    <description>
+    </description>
+    <display-name>EAIReturnURLResetFilter</display-name>
+    <filter-name>com.ibm.siam.am.idp.authn.EAIReturnURLResetFilter</filter-name>
+    <filter-class>com.ibm.siam.am.idp.authn.EAIReturnURLResetFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>com.ibm.siam.am.idp.authn.EAIReturnURLResetFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>   
+
+	<!-- Authentication Engine Entry Point -->
+	<servlet>
+		<servlet-name>AuthenticationEngine</servlet-name>
+		<servlet-class>com.ibm.siam.am.idp.authn.AuthenticationEngine</servlet-class>
+
+		<!-- Whether public credentials returned by a login handler are retained 
+			in the subject. -->
+		<!-- <init-param> <param-name>retainSubjectsPublicCredentials</param-name> 
+			<param-value>false</param-value> </init-param> -->
+
+		<!-- Whether private credentials returned by a login handler are retained 
+			in the subject. -->
+		<!-- <init-param> <param-name>retainSubjectsPrivateCredentials</param-name> 
+			<param-value>false</param-value> </init-param> -->
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AuthenticationEngine</servlet-name>
+		<url-pattern>/AuthnEngine</url-pattern>
+	</servlet-mapping>
+
+  <!-- TAM LDAP Username and Password Login Handler -->
+  <servlet>
+    <servlet-name>TAMAuthHandler</servlet-name>
+    <servlet-class>com.ibm.siam.am.idp.authn.module.tamldap.TAMLoginServlet</servlet-class>
+    <init-param>
+      <param-name>authnMethod</param-name>
+      <param-value>urn:oasis:names:tc:SAML:2.0:ac:classes:TAMUsernamePassword</param-value>
+    </init-param>
+    <init-param>
+      <param-name>jaasConfigName</param-name>
+      <param-value>TamLdapUserPassAuth</param-value>
+    </init-param>
+    <init-param>
+      <param-name>loginPage</param-name>
+      <param-value>/login/tam/loginform.do</param-value>
+    </init-param>
+    <init-param>
+      <param-name>failureParam</param-name>
+      <param-value>loginFailed</param-value>
+    </init-param>
+    <!-- 登录操作的标识 -->
+    <init-param>
+      <param-name>loginOptFlag</param-name>
+      <param-value>login</param-value>
+    </init-param>
+    <!-- Form表单操作标识属性名称 -->
+    <init-param>
+      <param-name>formOptFlagAttribute</param-name>
+      <param-value>op</param-value>
+    </init-param>
+    <load-on-startup>6</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TAMAuthHandler</servlet-name>
+    <url-pattern>/Authn/TAMUserPassAuth</url-pattern>
+  </servlet-mapping>
+  
+  <!-- SMSUserAuth Login Handler -->
+  <servlet>
+    <servlet-name>SMSUserAuthHandler</servlet-name>
+    <servlet-class>com.ibm.siam.am.idp.authn.module.tamldap.TAMLoginServlet</servlet-class>
+    <init-param>
+      <param-name>authnMethod</param-name>
+      <param-value>urn:oasis:names:tc:SAML:2.0:ac:classes:SMSUserAuth</param-value>
+    </init-param>
+    <init-param>
+      <param-name>jaasConfigName</param-name>
+      <param-value>SMSUserAuth</param-value>
+    </init-param>
+    <init-param>
+      <param-name>loginPage</param-name>
+      <param-value>/login/smsuser/loginform.do</param-value>
+    </init-param>
+    <init-param>
+      <param-name>failureParam</param-name>
+      <param-value>loginFailed</param-value>
+    </init-param>
+    <!-- 登录操作的标识 -->
+    <init-param>
+      <param-name>loginOptFlag</param-name>
+      <param-value>login</param-value>
+    </init-param>
+    <!-- Form表单操作标识属性名称 -->
+    <init-param>
+      <param-name>formOptFlagAttribute</param-name>
+      <param-value>op</param-value>
+    </init-param>
+    <load-on-startup>6</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SMSUserAuthHandler</servlet-name>
+    <url-pattern>/Authn/SMSUserAuth</url-pattern>
+  </servlet-mapping>
+  
+  
+  <!-- SMSUserPassAuth Login Handler -->
+  <servlet>
+    <servlet-name>SMSUserPassAuthHandler</servlet-name>
+    <servlet-class>com.ibm.siam.am.idp.authn.module.tamldap.TAMLoginServlet</servlet-class>
+    <init-param>
+      <param-name>authnMethod</param-name>
+      <param-value>urn:oasis:names:tc:SAML:2.0:ac:classes:SMSUserPassAuth</param-value>
+    </init-param>
+    <init-param>
+      <param-name>jaasConfigName</param-name>
+      <param-value>SMSUserPassAuth</param-value>
+    </init-param>
+    <init-param>
+      <param-name>loginPage</param-name>
+      <param-value>/login/smspass/loginform.do</param-value>
+    </init-param>
+    <init-param>
+      <param-name>failureParam</param-name>
+      <param-value>loginFailed</param-value>
+    </init-param>
+    <!-- 登录操作的标识 -->
+    <init-param>
+      <param-name>loginOptFlag</param-name>
+      <param-value>login</param-value>
+    </init-param>
+    <!-- Form表单操作标识属性名称 -->
+    <init-param>
+      <param-name>formOptFlagAttribute</param-name>
+      <param-value>op</param-value>
+    </init-param>
+    <load-on-startup>6</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SMSUserPassAuthHandler</servlet-name>
+    <url-pattern>/Authn/SMSUserPassAuth</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Modify Password Handler -->
+  <servlet>
+    <servlet-name>ModifyPasswordHandler</servlet-name>
+    <servlet-class>com.ibm.siam.am.idp.web.servlet.ModifyPasswordServlet</servlet-class>
+    <init-param>
+      <param-name>authnPage</param-name>
+      <param-value>/Authn/TAMUserPassAuth</param-value>
+    </init-param>
+    <init-param>
+      <param-name>usernameAttribute</param-name>
+      <param-value>j_username</param-value>
+    </init-param>
+    <init-param>
+      <param-name>showUsernameAttribute</param-name>
+      <param-value>show_username</param-value>
+    </init-param>
+    <init-param>
+      <param-name>passwordAttribute</param-name>
+      <param-value>j_password</param-value>
+    </init-param>
+    <init-param>
+      <param-name>newPassAttribute</param-name>
+      <param-value>j_new_password</param-value>
+    </init-param>
+    <init-param>
+      <param-name>optFlagAttribute</param-name>
+      <param-value>op</param-value>
+    </init-param>
+    <init-param>
+			<param-name>modifyPasswordFlag</param-name>
+			<param-value>modifypassword</param-value>
+		</init-param>
+		<init-param>
+			<param-name>modifyPasswordPage</param-name>
+			<param-value>/modify_password.do</param-value>
+		</init-param>
+		<init-param>
+			<param-name>userPassServiceBeanId</param-name>
+			<param-value>timUserPassService</param-value>
+		</init-param>
+    <load-on-startup>7</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ModifyPasswordHandler</servlet-name>
+    <url-pattern>/ModifyPassword</url-pattern>
+  </servlet-mapping>
+  
+	<servlet>
+		<servlet-name>springmvc</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:webui/springmvc-servlet.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<!-- 覆盖default servlet的/, springmvc servlet将处理原来处理静态资源的映射 -->
+	<servlet-mapping>
+		<servlet-name>springmvc</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+
+	<!-- 验证码Servlet -->
+	<servlet>
+		<servlet-name>Kaptcha</servlet-name>
+		<servlet-class>com.google.code.kaptcha.servlet.KaptchaServlet</servlet-class>
+		<!--
+			For a complete list of Init Parameters, please see:
+			http://code.google.com/p/kaptcha/wiki/ConfigParameters
+		-->
+		<init-param>
+			<param-name>kaptcha.border</param-name>
+			<param-value>no</param-value>
+		</init-param>
+    <init-param>
+      <param-name>kaptcha.textproducer.char.length</param-name>
+      <param-value>4</param-value>
+    </init-param>
+    <init-param>
+      <param-name>kaptcha.textproducer.char.string </param-name>
+      <param-value>0123456789</param-value>
+    </init-param>
+		<init-param>
+			<param-name>kaptcha.textproducer.font.color</param-name>
+			<param-value>red</param-value>
+		</init-param>
+		<init-param>
+			<param-name>kaptcha.textproducer.char.space</param-name>
+			<param-value>10</param-value>
+		</init-param>
+		<init-param>
+			<param-name>kaptcha.textproducer.font.size</param-name>
+			<param-value>30</param-value>
+		</init-param>
+		<init-param>
+			<param-name>kaptcha.textproducer.font.names</param-name>
+			<param-value>arial</param-value>
+		</init-param>
+		<init-param>
+			<param-name>kaptcha.noise.impl</param-name>
+			<param-value>com.google.code.kaptcha.impl.DefaultNoise</param-value>
+		</init-param>
+		
+		<init-param>
+			<param-name>kaptcha.image.width</param-name>
+			<param-value>160</param-value>
+		</init-param>
+		<init-param>
+			<param-name>kaptcha.image.height</param-name>
+			<param-value>35</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Kaptcha</servlet-name>
+		<url-pattern>/Kaptcha.jpg</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<description>注销接口 先清理本地session 然后转向webseal注销url</description>
+		<display-name>SSOLogoutServlet</display-name>
+		<servlet-name>SSOLogoutServlet</servlet-name>
+		<servlet-class>com.ibm.siam.am.idp.authn.module.SSOLogoutServlet</servlet-class>
+		<init-param>
+			<param-name>sloPath</param-name>
+			<param-value>/pkmslogout</param-value>
+		</init-param>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>SSOLogoutServlet</servlet-name>
+		<url-pattern>/SSOLogout</url-pattern>
+	</servlet-mapping>
+
+	<error-page>
+		<error-code>500</error-code>
+		<location>/error.do</location>
+	</error-page>
+
+	<error-page>
+		<error-code>404</error-code>
+		<location>/error404.do</location>
+	</error-page>
+	
+	<!--30分钟-->
+	<session-config>
+	    <session-timeout>30</session-timeout>
+	</session-config>
+
+</web-app>

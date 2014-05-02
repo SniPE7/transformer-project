@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false" scan="true" scanPeriod="30 seconds">
+    <!--  ***************************************************************************************** -->
+    <!--  All EAI logs will be output into ${eai.log.dir} directory.                                -->
+    <!--  If you wan to set other directory, Un-comment the following property and set a directory. -->
+    <!--  By default, log directory will output into:                                               -->
+    <!--     * WebSphere env, - all logs will output into "WAS_INSTALL/profiles/Cell/logs".         -->
+    <!--     * Tomcat env, - all logs will output into "CATALINA_HOME/logs".                        -->
+    <!--  ***************************************************************************************** -->
+    <property scope="context" name="eai.log.dir" value="${java.io.tmpdir}"/>
+
+    <!-- Guess default log directory -->
+    <if condition='isNull("eai.log.dir")'>
+      <then>
+        <!-- Detect which container installed -->
+        <if condition='isDefined("user.install.root")'>
+          <then>
+            <!-- In WAS, output to profiles/Cell/logs -->
+            <property scope="context" name="eai.log.dir" value="${user.install.root}/logs"/>
+          </then>
+        </if>
+        <if condition='isDefined("catalina.home")'>
+          <then>
+            <!-- In Tomcat, output to $CATALINA_HOME/logs -->
+            <property scope="context" name="eai.log.dir" value="${catalina.home}/logs"/>
+          </then>
+        </if>
+      </then>
+    </if>
+    
+    <!-- 
+        Normally you should not edit below this point.  These default configurations are sufficient for 
+        almost every system.
+    -->
+
+    <!-- 
+        Logging appenders define where and how logging messages are logged.
+     -->
+    <appender name="EAI_ACCESS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${eai.log.dir}/logs/eai-access.log</File>
+
+<!--         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${eai.log.dir}/logs/eai-access-%d{yyyy-MM-dd}.log</FileNamePattern>
+            <MaxHistory>31</MaxHistory>
+        </rollingPolicy> 
+-->
+				<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy"> 
+					<fileNamePattern>${eai.log.dir}/logs/eai-access.%i.log.zip</fileNamePattern> 
+					<minIndex>1</minIndex> 
+					<maxIndex>10</maxIndex> 
+				</rollingPolicy> 
+				<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy"> 
+					<maxFileSize>5MB</maxFileSize> 
+				</triggeringPolicy> 
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <charset>UTF-8</charset>
+            <Pattern>%msg%n</Pattern>
+        </encoder>
+    </appender>
+
+    <appender name="EAI_AUDIT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${eai.log.dir}/logs/eai-audit.log</File>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${eai.log.dir}/logs/eai-audit-%d{yyyy-MM-dd}.log</FileNamePattern>
+            <MaxHistory>7</MaxHistory>
+        </rollingPolicy>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <charset>UTF-8</charset>
+            <Pattern>%msg%n</Pattern>
+        </encoder>
+    </appender>
+    <!-- Core appender for all information -->
+    <appender name="EAI_PROCESS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${eai.log.dir}/logs/eai-process.log</File>
+        
+<!--         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${eai.log.dir}/logs/eai-process-%d{yyyy-MM-dd}.log</FileNamePattern>
+            <MaxHistory>7</MaxHistory>
+        </rollingPolicy> 
+-->
+				<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy"> 
+					<fileNamePattern>${eai.log.dir}/logs/eai-process.%i.log.zip</fileNamePattern> 
+					<minIndex>1</minIndex> 
+					<maxIndex>10</maxIndex> 
+				</rollingPolicy> 
+				<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy"> 
+					<maxFileSize>5MB</maxFileSize> 
+				</triggeringPolicy> 
+				
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <charset>UTF-8</charset>
+            <Pattern>%date{HH:mm:ss.SSS} - %level [%logger:%line] - %msg%n</Pattern>
+        </encoder>
+    </appender>
+    <!-- Login audit appender -->
+    <appender name="EAI.LOGIN.AUDIT.LOG.W7.APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${eai.log.dir}/logs/eai-w7-login.log</File>
+        
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${eai.log.dir}/logs/eai-w7-login-%d{yyyy-MM-dd}.log</FileNamePattern>
+            <!-- 90 days -->
+            <MaxHistory>92</MaxHistory>
+        </rollingPolicy>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <charset>UTF-8</charset>
+            <Pattern>%msg%n</Pattern>
+        </encoder>
+    </appender>
+    <!-- Login audit appender -->
+    <appender name="EAI.METADATA.PROVIDER.APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${eai.log.dir}/logs/eai-metadata.log</File>
+        
+<!--         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${eai.log.dir}/logs/eai-metadata-%d{yyyy-MM-dd}.log</FileNamePattern>
+            90 days
+            <MaxHistory>7</MaxHistory>
+        </rollingPolicy> -->
+        
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy"> 
+					<fileNamePattern>${eai.log.dir}/logs/eai-metadata.%i.log.zip</fileNamePattern> 
+					<minIndex>1</minIndex> 
+					<maxIndex>10</maxIndex> 
+				</rollingPolicy> 
+				<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy"> 
+					<maxFileSize>5MB</maxFileSize> 
+				</triggeringPolicy> 
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <charset>UTF-8</charset>
+            <Pattern>%date{HH:mm:ss.SSS} - %level [%logger:%line] - %msg%n</Pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+      <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+          <charset>GBK</charset>
+          <pattern>%date{HH:mm:ss.SSS} - %level [%logger:%line] - %msg%n</pattern>
+      </encoder>
+    </appender>
+
+    <!--
+        Loggers define indicate which packages/categories are logged, at which level, and to which appender.
+        Levels: OFF, ERROR, WARN, INFO, DEBUG, TRACE, ALL
+    -->
+    <logger name="org.springframework" level="INFO"/>
+    
+    <logger name="org.apache.catalina" level="ERROR"/>
+
+    <!-- Logs EAI, but not OpenSAML, messages -->
+    <logger name="com.ibm.siam.*" level="ERROR"/>
+    <logger name="com.techcenter" level="ERROR"/>
+    <logger name="com.ibm.siam.*" level="ERROR"/>
+    <logger name="edu.internet2.middleware.shibboleth" level="ERROR"/>
+
+    <!-- Logs OpenSAML, but not EAI, messages -->
+    <logger name="org.opensaml" level="ERROR"/>
+    
+    <!-- Logs VT LDAP LoginModule related messages, now not yet used -->
+    <logger name="edu.vt.middleware.ldap" level="OFF"/>
+    
+    <!-- Logs inbound and outbound protocols messages, set DEBUG to turn on -->
+    <logger name="PROTOCOL_MESSAGE" level="OFF" />
+    
+    <!-- EAI Access Logger -->
+    <logger name="EAI-Access" level="OFF">
+        <appender-ref ref="EAI_ACCESS"/>
+    </logger>
+    
+    <!-- EAI Common Audit Logger -->
+    <logger name="EAI-Audit" level="OFF">
+        <appender-ref ref="EAI_AUDIT"/>
+    </logger>
+        
+    <!-- EAI Login Module W7 Log, DEBUG will turn on W7 log, otherwise will turn off -->
+    <logger name="EAI-Login-AUDIT-Logger-W7" level="OFF">
+       <appender-ref ref="EAI.LOGIN.AUDIT.LOG.W7.APPENDER"/>
+    </logger>
+
+    <!-- Root category -->
+    <root level="INFO">
+        <appender-ref ref="EAI_PROCESS"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</configuration>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING/DTD BEAN/EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+  <bean name="smsClient" class="com.techcenter.SpringSMSClient" init-method="init" lazy-init="false" destroy-method="destory">
+  	<property name="ip" value="${eai.sms.api.ip}"></property>
+  	<property name="port" value="${eai.sms.api.port}"></property>
+  	<property name="clientId" value="${eai.sms.api.clientId}"></property>
+  	<property name="productId" value="${eai.sms.api.productId}"></property>
+  	<property name="loginName" value="${eai.sms.api.loginName}"></property>
+  	<property name="password" value="${eai.sms.api.password}"></property>
+  	<property name="longCode" value="${eai.sms.api.longCode}"></property>
+  	<property name="submitPath" value="${eai.sms.api.submitPath}"></property>
+  	<property name="resourceFilePath" value="${eai.sms.api.resourceFilePath}"></property>
+  	<property name="copyPath" value="${eai.sms.api.copyPath}"></property>
+  	<property name="resourceIdFilePath" value="${eai.sms.api.resourceIdFilePath}"></property>
+  	<property name="submitBakPath" value="${eai.sms.api.submitBakPath}"></property>
+  	<property name="controlWindowSize" value="${eai.sms.api.controlWindowSize}"></property>
+  	<property name="keepDate" value="${eai.sms.api.keepDate}"></property>
+  	<property name="maxQueueSize" value="${eai.sms.api.maxQueueSize}"></property>
+  	<property name="clearTimeOut" value="${eai.sms.api.clearTimeOut}"></property>
+  	<property name="clearSleepTime" value="${eai.sms.api.clearSleepTime}"></property>
+  	<property name="idleTime" value="${eai.sms.api.idleTime}"></property>
+  	<property name="inBufferSize" value="${eai.sms.api.inBufferSize}"></property>
+  	<property name="outBufferSize" value="${eai.sms.api.outBufferSize}"></property>
+  </bean>
+</beans>

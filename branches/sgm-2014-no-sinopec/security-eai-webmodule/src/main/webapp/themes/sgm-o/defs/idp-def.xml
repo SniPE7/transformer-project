@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+	<!-- base template view -->
+	<definition name="tiles.baseTemplate" template="/WEB-INF/views/common/base_template.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="head" value="/WEB-INF/views/common/themes.jsp" />
+		<put-attribute name="banner" value="/WEB-INF/views/common/login_banner.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="info" value="/WEB-INF/views/common/login_user_info.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/common/login_footer.jsp" />
+	</definition>
+	
+	<!-- info template view -->
+	<definition name="tiles.infoTemplate" template="/WEB-INF/views/common/info_template.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="head" value="/WEB-INF/views/common/themes.jsp" />
+		<put-attribute name="banner" value="/WEB-INF/views/common/info_banner.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="info" value="/WEB-INF/views/common/login_user_info.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/common/login_footer.jsp" />
+	</definition>
+	
+	<!-- user password login view -->
+  <definition name="/login/userpass/loginform" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="logon.title.login" />
+    <put-attribute name="body" value="/WEB-INF/views/login.jsp" />
+  </definition>
+  
+	<!-- abs login view -->
+	<definition name="/login/abs/loginform" extends="tiles.baseTemplate">
+		<put-attribute name="title" value="logon.title.login" />
+		<put-attribute name="body" value="/WEB-INF/views/abslogin.jsp" />
+	</definition>
+	
+	<!-- user modify password view -->
+	<definition name="/modify_password" extends="tiles.baseTemplate">
+		<put-attribute name="title" value="modifyPass.title.modifyPass" />
+		<put-attribute name="body" value="/WEB-INF/views/modify_password.jsp" />
+	</definition>
+	
+	<!-- user smscode view -->
+	<definition name="/modify_password" extends="tiles.baseTemplate">
+		<put-attribute name="title" value="modifyPass.title.modifyPass" />
+		<put-attribute name="body" value="/WEB-INF/views/modify_password.jsp" />
+	</definition>
+	
+	<!-- remind password view -->
+  <definition name="/remind_password" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="modifyPass.title.remindPass" />
+    <put-attribute name="body" value="/WEB-INF/views/remind_password.jsp" />
+  </definition>
+  
+  	<!-- remind bind mobile view -->
+  <definition name="/remind_mobile" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="regmobile.info.remind.title" />
+    <put-attribute name="body" value="/WEB-INF/views/remind_mobile.jsp" />
+  </definition>
+	
+	<!-- client cert login failure view -->
+	<definition name="/login/cert/loginform" extends="tiles.baseTemplate">
+		<put-attribute name="title" value="logon.title.login" />
+		<put-attribute name="body" value="/WEB-INF/views/certlogin.jsp" />
+	</definition>
+	
+	<!-- erp client cert login failure view -->
+	<definition name="/login/erp/loginform" extends="tiles.baseTemplate">
+		<put-attribute name="title" value="logon.title.login" />
+		<put-attribute name="body" value="/WEB-INF/views/erplogin.jsp" />
+	</definition>
+	
+	<!-- client cert login failure view -->
+  <definition name="/login/itim/loginform" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="logon.title.login" />
+    <put-attribute name="body" value="/WEB-INF/views/itimlogin.jsp" />
+  </definition>
+  
+  <!-- tam ldap login view -->
+  <definition name="/login/tam/loginform" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="logon.title.login" />
+    <put-attribute name="body" value="/WEB-INF/views/tamlogin.jsp" />
+  </definition>
+  
+  <!-- SMSUserAuth login view -->
+  <definition name="/login/smsuser/loginform" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="logon.title.login" />
+    <put-attribute name="body" value="/WEB-INF/views/smsuserlogin.jsp" />
+  </definition>
+
+  <!-- SMSUserPassAuth login view -->
+  <definition name="/login/smspass/loginform" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="logon.title.login" />
+    <put-attribute name="body" value="/WEB-INF/views/smspasslogin.jsp" />
+  </definition>
+  
+  <!-- ad login view -->
+  <definition name="/login/ad/loginform" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="logon.title.login" />
+    <put-attribute name="body" value="/WEB-INF/views/adlogin.jsp" />
+  </definition>
+  
+  <!-- Set password hint view -->
+  <definition name="/set_password_hint" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="passhint.title" />
+    <put-attribute name="body" value="/WEB-INF/views/set_password_hint.jsp" />
+  </definition>
+  
+  <!-- login user info view -->
+  <definition name="/login/info" extends="tiles.infoTemplate">
+    <put-attribute name="title" value="logon.title.login" />
+    <put-attribute name="info" value="/WEB-INF/views/common/login_user_info.jsp" />
+  </definition>
+  
+  <!-- global logout view -->
+  <definition name="/logout" template="/WEB-INF/views/common/logout_base_template.jsp">
+    <put-attribute name="title" value="logon.title.logout" />
+    <put-attribute name="head" value="/WEB-INF/views/common/themes.jsp" />
+    <put-attribute name="banner" value="/WEB-INF/views/common/logout_banner.jsp" />
+    <put-attribute name="body" value="/WEB-INF/views/logout.jsp" />
+    <put-attribute name="footer" value="/WEB-INF/views/common/login_footer.jsp" />
+  </definition>
+  
+  
+  <!-- error view -->
+  <definition name="/error" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="logon.title.logout" />
+    <put-attribute name="body" value="/WEB-INF/views/error/error.jsp" />
+  </definition>
+  
+  <!-- error404 view -->
+  <definition name="/error404" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="logon.title.logout" />
+    <put-attribute name="body" value="/WEB-INF/views/error/error-404.jsp" />
+  </definition>
+  
+  <!-- login error view -->
+  <definition name="/loginerror" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="logon.title.logout" />
+    <put-attribute name="body" value="/WEB-INF/views/error/login-error.jsp" />
+  </definition>
+
+
+	<!-- global common view -->
+  <definition name="tiles.commom.base" template="/WEB-INF/views/common/common_base_template.jsp">
+    <put-attribute name="title" value="" />
+    <put-attribute name="head" value="/WEB-INF/views/common/themes.jsp" />
+    <put-attribute name="banner" value="/WEB-INF/views/common/common_banner.jsp" />
+    <put-attribute name="body" value="/WEB-INF/views/logout.jsp" />
+    <put-attribute name="footer" value="/WEB-INF/views/common/login_footer.jsp" />
+  </definition>
+  
+	<!-- 忘记密码 -->
+	<definition name="/lose/password" extends="tiles.commom.base">
+		<put-attribute name="title" value="accout.title.losepwd" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/losepwd.jsp" />
+	</definition>
+	
+	<!-- 忘记用户名 -->
+	<definition name="/lose/user" extends="tiles.commom.base">
+		<put-attribute name="title" value="accout.title.loseuser" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/loseuser.jsp" />
+	</definition>
+	
+	<!-- 注册手机号 -->
+	<definition name="/regmobile" extends="tiles.commom.base">
+		<put-attribute name="title" value="accout.title.changemobile" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/regmobile.jsp" />
+	</definition>
+
+  <!-- card insert -->
+  <definition name="/card/insert" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="card.register" />
+    <put-attribute name="body" value="/WEB-INF/views/card_insert.jsp" />
+  </definition>
+  <definition name="/card/selectop" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="card.register" />
+    <put-attribute name="body" value="/WEB-INF/views/card_selectop.jsp" />
+  </definition>
+
+  <definition name="/card/newreg_input_number" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="card.register" />
+    <put-attribute name="body" value="/WEB-INF/views/card_newreg_input_number.jsp" />
+  </definition>
+  <definition name="/card/newreg_regist" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="card.register" />
+    <put-attribute name="body" value="/WEB-INF/views/card_newreg_regist.jsp" />
+  </definition>
+  <definition name="/card/newreg_verify_user" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="card.register" />
+    <put-attribute name="body" value="/WEB-INF/views/card_newreg_verify_user.jsp" />
+  </definition>
+  <definition name="/card/newreg_success" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="card.register" />
+    <put-attribute name="body" value="/WEB-INF/views/card_newreg_success.jsp" />
+  </definition>
+  <definition name="/card/chgreg_verify_user" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="card.register" />
+    <put-attribute name="body" value="/WEB-INF/views/card_chgreg_verify_user.jsp" />
+  </definition>
+  <definition name="/card/chgreg_success" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="card.register" />
+    <put-attribute name="body" value="/WEB-INF/views/card_chgreg_success.jsp" />
+  </definition>
+  <definition name="/card/error" extends="tiles.baseTemplate">
+    <put-attribute name="title" value="card.register" />
+    <put-attribute name="body" value="/WEB-INF/views/card_error.jsp" />
+  </definition>
+
+</tiles-definitions>
