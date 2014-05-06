@@ -62,14 +62,14 @@
 	        <groupId>net.alchim31.maven</groupId>
 	        <artifactId>yuicompressor-maven-plugin</artifactId>
 	        <version>1.3.3</version>
-	        <!-- <executions>
+	        <executions>
 	            <execution>
 	            	<phase>compile</phase>
 	                <goals>
 	                    <goal>compress</goal>
 	                </goals>
 	            </execution>
-	        </executions> -->
+	        </executions>
 	        <configuration>
             <encoding>UTF-8</encoding>
 	        	<!-- 忽略 js 错误警告 -->
