@@ -138,6 +138,13 @@ public class AccessEnforcer implements Filter {
       terminateAccess(request, httpRequest, httpResponse);
       return;
     }
+    // 由于WebSEAL的原因, 会造成/pkms*之前增加了某些junction, 例如/junction/pkmslogout, 如下逻辑总是过滤掉前面的junction
+    if (reURL != null && reURL.indexOf("/pkms") > 0) {
+       // 消除/junction/pkmslogout的Junction前缀，结果为/pkmslogout
+       String newReURL = reURL.substring(reURL.indexOf("/pkms"));
+       log.debug(String.format("transfer EAI Return URL: [%s] -> [%s]", reURL, newReURL));
+       reURL = newReURL;
+    }
 
     if ("error".equals(tamOp)) {
       handleErrorOP(request, httpRequest, httpResponse);
@@ -358,7 +365,14 @@ public class AccessEnforcer implements Filter {
   // 标记为重复url
   protected static String decorateReturnURL(String url) {
     String sResult = url;
-
+    if (url == null) {
+       return sResult;
+    }
+    // 如果Return URL中包含/pkms*, 则不做计数器装饰
+    if (url.indexOf("/pkms") >= 0) {
+       log.debug(String.format("Decorate EAI Return URL: found WebSEAL control URL, and keep original URL: [%s]", url));
+       return sResult;
+    }
     if (url != null && !"".equals(url) && url.indexOf("eairepeat=1") < 0) {
       if (url.indexOf("?") >= 0) {
         sResult = url + "&eairepeat=1";
@@ -366,7 +380,7 @@ public class AccessEnforcer implements Filter {
         sResult = url + "?eairepeat=1";
       }
     }
-
+    log.debug(String.format("Decorate EAI Return URL: append 'eairepeater' URL: [%s] -> [%s]", url, sResult));
     return sResult;
   }
 
@@ -392,7 +406,7 @@ public class AccessEnforcer implements Filter {
 
   private boolean containePDSessionCookie(HttpServletRequest request) {
     for (Cookie cookie : request.getCookies()) {
-      if (this.pdSessionCookieName != null && this.pdSessionCookieName.equals(cookie.getName())) {
+      if (StringUtils.isNotEmpty(this.pdSessionCookieName) && this.pdSessionCookieName.equals(cookie.getName())) {
         return true;
       }
     }
