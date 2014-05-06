@@ -114,6 +114,11 @@
       <param-name>AfterAuthenDefaultURL</param-name>
       <param-value>/index.html</param-value>
     </init-param>
+    <init-param>
+      <description>PDSession Cookie Name</description>
+      <param-name>pdSessionCookieName</param-name>
+      <param-value>PD-H-SESSION-ID</param-value>
+    </init-param>
   </filter>
   
   <filter-mapping>
