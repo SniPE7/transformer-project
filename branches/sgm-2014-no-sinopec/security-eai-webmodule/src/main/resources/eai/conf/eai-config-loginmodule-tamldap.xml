@@ -4,9 +4,9 @@
   <comment>IDP LoginModule TAM LDAP configuration file</comment>
   <entry key="eai.loginmodule.userlock.userNameAttr">principalName</entry>
   <!-- 最多失败次数 -->
-  <entry key="eai.loginmodule.userlock.maxFailedNumber">10</entry>
+  <entry key="eai.loginmodule.userlock.maxFailedNumber">5</entry>
   <!-- 解锁时间间隔 -->
-  <entry key="eai.loginmodule.userlock.unLockTimeInterval">300000</entry>
+  <entry key="eai.loginmodule.userlock.unLockTimeInterval">600000</entry>
   <!-- 登录用户解锁时间unlockTime对应ldap属性名称 -->
   <entry key="eai.loginmodule.userlock.ldap.unlockTimeAttr">secpwdunlockTime</entry>
   <!-- 登录用户解锁时间格式 -->
@@ -77,18 +77,29 @@
   <!--  发送重置密码验证URL的时效  -->
   <entry key="eai.loginmodule.resetpwd.active.timeout">1800000</entry>
   <!--  发送重置密码验证邮件的标题  -->
-  <entry key="eai.loginmodule.resetpwd.mail.title">用户密码修复</entry>
+  <entry key="eai.loginmodule.resetpwd.mail.title">上海通用汽车密码重置 SGM Password Reset</entry>
   <!--  发送重置密码验证邮件的模版内容  -->
-  <entry key="eai.loginmodule.resetpwd.mail.content">请您点击下面链接来修复登录密码:${activeurl}  为了确保您的帐号安全，该链接仅30分钟内访问有效。</entry>
+  <entry key="eai.loginmodule.resetpwd.mail.content">请您点击下面链接来重置登录密码 Please click below link to reset your password: 
   
+  ${activeurl}  
+  
+  为了确保您的帐号安全，该链接仅30分钟内访问有效。 For security reason, this url will be valid for only 30 minutes.
+  如果您没有发起过密码重置操作，请忽略本邮件。If you didn't perform any password reset activity, please ignore this email.
+
+  ----------------------------------------------------------------------
+  上海通用汽车统一身份管理平台 SGM Unified Identity Management Platform
+  请不要回复该邮件             Do not reply to this email address
+  ----------------------------------------------------------------------
+  </entry>
+    
   <!--  邮件服务器SMTP IP or hostname  -->
-  <entry key="eai.loginmodule.mail.smtp">smtp.163.com</entry>
+  <entry key="eai.loginmodule.mail.smtp">smtp.shanghaigm.com</entry>
   <!--  邮件服务器 验证用户  -->
-  <entry key="eai.loginmodule.mail.userid">xrogzu@163.com</entry>
+  <entry key="eai.loginmodule.mail.userid">idadmin@shanghaigm.com</entry>
   <!--  邮件服务器 验证用户密码  -->
-  <entry key="eai.loginmodule.mail.password">000000</entry>
+  <entry key="eai.loginmodule.mail.password"></entry>
   <!--  邮件服务器 验证用户显示名称  -->
-  <entry key="eai.loginmodule.mail.username">用户管理员</entry>
+  <entry key="eai.loginmodule.mail.username">ID Admin</entry>
   
   <!--  内外网标识  -->
   <entry key="eai.loginmodule.isinternet">false</entry>
