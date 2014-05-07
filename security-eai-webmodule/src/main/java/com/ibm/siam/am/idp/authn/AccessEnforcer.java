@@ -138,12 +138,13 @@ public class AccessEnforcer implements Filter {
       terminateAccess(request, httpRequest, httpResponse);
       return;
     }
-    // 由于WebSEAL的原因, 会造成/pkms*之前增加了某些junction, 例如/junction/pkmslogout, 如下逻辑总是过滤掉前面的junction
+    // 由于WebSEAL的原因, 会造成/pkms*之前增加了某些junction, 例如/junction/pkmslogout,
+    // 如下逻辑总是过滤掉前面的junction
     if (reURL != null && reURL.indexOf("/pkms") > 0) {
-       // 消除/junction/pkmslogout的Junction前缀，结果为/pkmslogout
-       String newReURL = reURL.substring(reURL.indexOf("/pkms"));
-       log.debug(String.format("transfer EAI Return URL: [%s] -> [%s]", reURL, newReURL));
-       reURL = newReURL;
+      // 消除/junction/pkmslogout的Junction前缀，结果为/pkmslogout
+      String newReURL = reURL.substring(reURL.indexOf("/pkms"));
+      log.debug(String.format("transfer EAI Return URL: [%s] -> [%s]", reURL, newReURL));
+      reURL = newReURL;
     }
 
     if ("error".equals(tamOp)) {
@@ -201,7 +202,7 @@ public class AccessEnforcer implements Filter {
         request.getRequestDispatcher("/modify_password.do").forward(request, response);
         return;
       }
-    } else if ("login".equals(tamOp) && containePDSessionCookie((HttpServletRequest) request)) {
+    } else if ("login".equals(tamOp) && !containePDSessionCookie((HttpServletRequest) request)) {
       // WebSEAL要求登录，但缺少PDSession相关的Cookie
       String redirectUrl = (isForceHttpsHost(this.forceHttpsHost, hst) ? "https" : pro) + "://" + hst + reURL;
       httpResponse.sendRedirect(redirectUrl);
@@ -242,56 +243,64 @@ public class AccessEnforcer implements Filter {
     }
 
     // 强制转换成https 和 支持 word类似提交
-    if (httpRequest.getRequestURI().contains("login/info.do") && httpRequest.getQueryString() != null) {
+//    if (httpRequest.getRequestURI().contains("login/info.do") && httpRequest.getQueryString() != null) {
+//
+//      String userAgent = request.getParameter("eaiuseragent");// user-agent
+//      // 提取request 的 user-agent
+//      String curUserAgent = httpRequest.getHeader("User-Agent");
+//
+//      String redirectUrl = "https" + "://" + hst + httpRequest.getRequestURI();
+//      String params = httpRequest.getQueryString();
+//
+//      if (userAgent == null) {
+//        redirectUrl += "?" + params + "&eaiuseragent=" + curUserAgent + "&eaicount=0";
+//        httpResponse.sendRedirect(redirectUrl);
+//        return;
+//      } else {
+//        String count = request.getParameter("eaicount");// 计数器 count
+//        if (userAgent.equals(curUserAgent) && "0".equals(count)) {
+//          redirectUrl += "?" + params.replace("eaicount=0", "eaicount=1");
+//          httpResponse.setContentType("text/html");
+//          httpResponse.getWriter().println(String.format("<script language='javascript'>window.location='%s';</script>", redirectUrl));
+//          httpResponse.flushBuffer();
+//          return;
+//        } else {
+//          if (!userAgent.equals(curUserAgent)) {
+//            httpResponse.sendRedirect((isForceHttpsHost(this.forceHttpsHost, hst) ? "https" : pro) + "://" + hst + reURL);
+//            return;
+//          }
+//        }
+//      }
+//    }
 
-      String userAgent = request.getParameter("eaiuseragent");// user-agent
-      // 提取request 的 user-agent
-      String curUserAgent = httpRequest.getHeader("User-Agent");
+//    String forceProtocol = request.getParameter("forceprotocol");
+//    // 强制判断https转换eaiweb的请求(方法1)
+//    if (httpRequest.getRequestURI().contains("login/info.do") && httpRequest.getQueryString() != null && !"https".equalsIgnoreCase(forceProtocol) && pro != null && hst != null
+//        && !"https".equalsIgnoreCase(pro)) {
+//      String redirectUrl = "https" + "://" + hst + httpRequest.getRequestURI();
+//
+//      String params = httpRequest.getQueryString();
+//      if (params != null && !"".equals(params)) {
+//        redirectUrl += "?" + params + "&forceprotocol=https";
+//      } else {
+//        redirectUrl += "?" + "forceprotocol=https";
+//      }
+//      httpResponse.sendRedirect(redirectUrl);
+//      return;
+//    }
 
-      String redirectUrl = "https" + "://" + hst + httpRequest.getRequestURI();
-      String params = httpRequest.getQueryString();
+    String via = httpRequest.getHeader("Via"); 
+    //强制转换eaiweb的请求为https
+    if(httpRequest.getRequestURI().contains("login/info.do") && httpRequest.getQueryString()!=null && via!=null && !via.contains("443")) {
+        String redirectUrl = "https" + "://" + via.substring(via.indexOf(" "), via.indexOf(":")) + httpRequest.getRequestURI();
+        String params = httpRequest.getQueryString(); 
 
-      if (userAgent == null) {
-        redirectUrl += "?" + params + "&eaiuseragent=" + curUserAgent + "&eaicount=0";
-        httpResponse.sendRedirect(redirectUrl);
-        return;
-      } else {
-        String count = request.getParameter("eaicount");// 计数器 count
-        if (userAgent.equals(curUserAgent) && "0".equals(count)) {
-          redirectUrl += "?" + params.replace("eaicount=0", "eaicount=1");
-          httpResponse.setContentType("text/html");
-          httpResponse.getWriter().println(String.format("<script language='javascript'>window.location='%s';</script>", redirectUrl));
-          httpResponse.flushBuffer();
-          return;
-        } else {
-          if (!userAgent.equals(curUserAgent)) {
-            httpResponse.sendRedirect((isForceHttpsHost(this.forceHttpsHost, hst) ? "https" : pro) + "://" + hst + reURL);
-            return;
-          }
-        }
-      }
+        redirectUrl += "?" + params; 
+         
+        httpResponse.sendRedirect(redirectUrl); 
+        return; 
     }
-
-    /*
-     * String forceProtocol = request.getParameter("forceprotocol");
-     * //强制判断https转换eaiweb的请求(方法1)
-     * if(httpRequest.getRequestURI().contains("login/info.do") &&
-     * httpRequest.getQueryString()!=null &&
-     * !"https".equalsIgnoreCase(forceProtocol) && pro!=null && hst!=null &&
-     * !"https".equalsIgnoreCase(pro)) { String redirectUrl = "https" + "://" +
-     * hst + httpRequest.getRequestURI();
-     * 
-     * String params = httpRequest.getQueryString(); if(params!=null &&
-     * !"".equals(params)) { redirectUrl += "?" + params +
-     * "&forceprotocol=https"; } else { redirectUrl += "?" +
-     * "forceprotocol=https"; }
-     * 
-     * //String redirectUrl = httpRequest.getRequestURL().toString();
-     * //redirectUrl = redirectUrl.replaceFirst("http", "https");
-     * 
-     * httpResponse.sendRedirect(redirectUrl); return; }
-     */
-
+    
     ApplicationContext applicationContext = WebApplicationContextUtils.getWebApplicationContext(filterConfig.getServletContext());
     // Need to authenticate?
     if (needToAuthenticate(httpRequest)) {
@@ -366,12 +375,12 @@ public class AccessEnforcer implements Filter {
   protected static String decorateReturnURL(String url) {
     String sResult = url;
     if (url == null) {
-       return sResult;
+      return sResult;
     }
     // 如果Return URL中包含/pkms*, 则不做计数器装饰
     if (url.indexOf("/pkms") >= 0) {
-       log.debug(String.format("Decorate EAI Return URL: found WebSEAL control URL, and keep original URL: [%s]", url));
-       return sResult;
+      log.debug(String.format("Decorate EAI Return URL: found WebSEAL control URL, and keep original URL: [%s]", url));
+      return sResult;
     }
     if (url != null && !"".equals(url) && url.indexOf("eairepeat=1") < 0) {
       if (url.indexOf("?") >= 0) {
@@ -396,8 +405,15 @@ public class AccessEnforcer implements Filter {
   }
 
   private void terminateAccess(ServletRequest request, HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
-    String msg = String.format("ERROR_CODE=%s<br/>ERROR_TEXT=%s<br/>METHOD=%s<br/>URL=%s<br/>HOSTNAME=%s<br/>FAILREASON=%s<br/>PROTOCOL=%s<br/>", "repeat action url",
-        "repeat action url", "eai auth", request.getParameter("URL"), request.getParameter("HOSTNAME"), "repeat action url", request.getParameter("PROTOCOL"));
+    String msg = null;
+    if (request.getParameter("ERROR_CODE") == null || request.getParameter("ERROR_CODE").trim().length() == 0) {
+        msg = String.format("URL=%s<br/>ERROR_TEXT=%s<br/>PROTOCOL=%s<br/>METHOD=%s<br/>HOSTNAME=%s<br/>ERROR_CODE=%s<br/>FAILREASON=%s<br/>",request.getParameter("URL"),
+             "repeat action url",request.getParameter("PROTOCOL"), "eai auth",  request.getParameter("HOSTNAME"),"repeat action url" , "repeat action url" );
+    
+    } else {
+      // Build message from WebSEAL URL parameter
+      msg = this.buildErrorMessage(httpRequest);
+    }
     Exception e = new Exception(msg);
     request.setAttribute(AbstractErrorHandler.ERROR_KEY, e);
 
@@ -421,9 +437,7 @@ public class AccessEnforcer implements Filter {
    * @throws IOException
    */
   private void handleErrorOP(ServletRequest request, HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
-    String msg = String.format("ERROR_CODE=%s<br/>ERROR_TEXT=%s<br/>METHOD=%s<br/>URL=%s<br/>HOSTNAME=%s<br/>FAILREASON=%s<br/>PROTOCOL=%s<br/>",
-        request.getParameter("ERROR_CODE"), request.getParameter("ERROR_TEXT"), request.getParameter("METHOD"), request.getParameter("URL"), request.getParameter("HOSTNAME"),
-        request.getParameter("FAILREASON"), request.getParameter("PROTOCOL"));
+    String msg = buildErrorMessage(request);
     Exception e = new Exception(msg);
     request.setAttribute(AbstractErrorHandler.ERROR_KEY, e);
 
@@ -431,6 +445,17 @@ public class AccessEnforcer implements Filter {
     // httpResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
     // }
     httpRequest.getRequestDispatcher("/error.do").forward(httpRequest, httpResponse);
+  }
+
+  /**
+   * @param request
+   * @return
+   */
+  private String buildErrorMessage(ServletRequest request) {
+    String msg = String.format("URL=%s<br/>ERROR_TEXT=%s<br/>PROTOCOL=%s<br/>METHOD=%s<br/>HOSTNAME=%s<br/>ERROR_CODE=%s<br/>FAILREASON=%s<br/>",
+        request.getParameter("URL"),request.getParameter("ERROR_TEXT"), request.getParameter("PROTOCOL"),  request.getParameter("METHOD"),
+          request.getParameter("HOSTNAME"),request.getParameter("ERROR_CODE"), request.getParameter("FAILREASON"));
+    return msg;
   }
 
   /**
