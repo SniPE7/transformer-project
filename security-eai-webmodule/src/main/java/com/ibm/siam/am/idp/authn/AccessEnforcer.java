@@ -291,8 +291,13 @@ public class AccessEnforcer implements Filter {
 
     String via = httpRequest.getHeader("Via"); 
     //强制转换eaiweb的请求为https
-    if(httpRequest.getRequestURI().contains("login/info.do") && httpRequest.getQueryString()!=null && via!=null && !via.contains("443")) {
-        String redirectUrl = "https" + "://" + via.substring(via.indexOf(" "), via.indexOf(":")) + httpRequest.getRequestURI();
+    if(httpRequest.getRequestURI().contains("login/info.do") && httpRequest.getQueryString()!=null && via!=null && !via.contains("443") && via.indexOf(" ") >1) {
+        
+        String redirectUrl = "https" + "://" + via.substring(via.indexOf(" ")+1, via.indexOf(":")) + httpRequest.getRequestURI();
+        if (log.isDebugEnabled()) {
+            log.debug(String.format("via is  [%s].", via));
+            log.debug(String.format("redirectUrl is  [%s].", redirectUrl));
+          }
         String params = httpRequest.getQueryString(); 
 
         redirectUrl += "?" + params; 
@@ -407,7 +412,12 @@ public class AccessEnforcer implements Filter {
   private void terminateAccess(ServletRequest request, HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
     String msg = null;
     if (request.getParameter("ERROR_CODE") == null || request.getParameter("ERROR_CODE").trim().length() == 0) {
-        msg = String.format("URL=%s<br/>ERROR_TEXT=%s<br/>PROTOCOL=%s<br/>METHOD=%s<br/>HOSTNAME=%s<br/>ERROR_CODE=%s<br/>FAILREASON=%s<br/>",request.getParameter("URL"),
+      String url = request.getParameter("URL");
+
+      if(url.indexOf("eairepeat") > 0 ){
+          url = url.substring(0, url.indexOf("eairepeat")-1);
+      }
+      msg = String.format("URL=%s<br/>ERROR_TEXT=%s<br/>PROTOCOL=%s<br/>METHOD=%s<br/>HOSTNAME=%s<br/>ERROR_CODE=%s<br/>FAILREASON=%s<br/>",url,
              "repeat action url",request.getParameter("PROTOCOL"), "eai auth",  request.getParameter("HOSTNAME"),"repeat action url" , "repeat action url" );
     
     } else {
@@ -452,8 +462,13 @@ public class AccessEnforcer implements Filter {
    * @return
    */
   private String buildErrorMessage(ServletRequest request) {
+      String url = request.getParameter("URL");
+
+      if(url.indexOf("eairepeat") > 0 ){
+          url = url.substring(0, url.indexOf("eairepeat")-1);
+      }
     String msg = String.format("URL=%s<br/>ERROR_TEXT=%s<br/>PROTOCOL=%s<br/>METHOD=%s<br/>HOSTNAME=%s<br/>ERROR_CODE=%s<br/>FAILREASON=%s<br/>",
-        request.getParameter("URL"),request.getParameter("ERROR_TEXT"), request.getParameter("PROTOCOL"),  request.getParameter("METHOD"),
+            url,request.getParameter("ERROR_TEXT"), request.getParameter("PROTOCOL"),  request.getParameter("METHOD"),
           request.getParameter("HOSTNAME"),request.getParameter("ERROR_CODE"), request.getParameter("FAILREASON"));
     return msg;
   }
