@@ -13,8 +13,8 @@
 </c:if>
 <%
 String retUrl = request.getParameter("eaiReturnUrlInPage");
-if (retUrl == null && session != null) {
-  retUrl = (String)session.getAttribute("eai-redir-url-header");
+if (retUrl == null) {
+  retUrl = (String)request.getAttribute("eai-redir-url-header");
 }
 if (retUrl == null && session != null) {
   retUrl = (String)session.getAttribute("eai-redir-url-header");
