@@ -13,7 +13,8 @@
   border: 0px solid #CCC;
   overflow:visible;
   /*float:left;*/
-  width:960px;
+/**  width:960px;*/
+width:960px;
 }
 .swMain .stepContainer {
   display:block;
@@ -31,7 +32,8 @@
   margin: 0;
   padding:5px;    
   border: 1px solid #4E84A6; 
-  font: normal 12px Verdana, Arial, Helvetica, sans-serif; 
+/**  font: normal 16px Verdana, Arial, Helvetica, sans-serif; */
+  font-family: Î¢ÈíÑÅºÚ,simsun,Helvetica,Arial,Verdana,Geneva,sans-serif;
   color:#ffffff;   
   /*background-color:#F8F8F8;  */
   height:300px;
@@ -134,20 +136,20 @@
   font: bold 20px Verdana, Arial, Helvetica, sans-serif;
 }
 .swMain ul.anchor li a .stepDesc small{
-  font: normal 12px Verdana, Arial, Helvetica, sans-serif;
+  font: normal 14px Verdana, Arial, Helvetica, sans-serif;
 }
 .swMain ul.anchor li a.selected{
   color:#F8F8F8;
   background: #EA8511;  /* EA8511 */
   border: 1px solid #EA8511;
-  /*cursor:text;*/
+  cursor:text;
   -moz-box-shadow: 5px 5px 8px #888;
   -webkit-box-shadow: 5px 5px 8px #888;
   box-shadow: 5px 5px 8px #888;
 }
 .swMain ul.anchor li a.selected:hover {
-  /*color:#F8F8F8;  
-  background: #EA8511;  */
+  color:#F8F8F8;  
+  background: #EA8511;  
 }
 
 .swMain ul.anchor li a.done { 
@@ -158,19 +160,19 @@
   z-index:99;
 }
 .swMain ul.anchor li a.done:hover {
-  /*color:#5A5655;  
+  color:#5A5655;  
   background: #8CC63F; 
-  border: 1px solid #5A5655;   */
+  border: 1px solid #5A5655;   
 }
 .swMain ul.anchor li a.disabled {
   color:#CCCCCC;  
   background: #F8F8F8;
   border: 1px solid #CCC;  
-  /*cursor:text;  */ 
+  cursor:text;   
 }
 .swMain ul.anchor li a.disabled:hover {
-  /*color:#CCCCCC;  
-  background: #F8F8F8;      */
+  color:#CCCCCC;  
+  background: #F8F8F8;     
 }
 
 .swMain ul.anchor li a.error {
@@ -179,7 +181,7 @@
   border: 1px solid #fb3500 !important;      
 }
 .swMain ul.anchor li a.error:hover {
-  /*color:#000 !important;*/       
+  color:#000 !important;       
 }
 
 .swMain .buttonNext, .buttonFinish, .buttonPrevious {
@@ -321,7 +323,7 @@
   padding:5px;
   border: 1px solid #FFD700; 
   background-color: #FFFFDD;  
-  font: normal 12px Verdana, Arial, Helvetica, sans-serif; 
+  font: normal 14px Verdana, Arial, Helvetica, sans-serif; 
   color:#5A5655;         
   -moz-border-radius  : 5px;
   -webkit-border-radius: 5px;
@@ -330,7 +332,7 @@
   width: 60%;
 }
 .swMain .msgBox .content {
-  font: normal 12px Verdana,Arial,Helvetica,sans-serif;
+  font: normal 14px Verdana,Arial,Helvetica,sans-serif;
   padding: 0px;
   float:left;
 }

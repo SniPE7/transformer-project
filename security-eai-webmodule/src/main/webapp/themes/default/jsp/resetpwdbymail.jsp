@@ -9,17 +9,17 @@
           			
 						<ul>
 							<li>
-								<a href="#step-1" onclick="return false" onfocus="this.blur()"> <span class="stepNumber">1</span> <span class="stepDesc"> 输入找回账号
+								<a href="#step-1" onclick="return false" onfocus="return false"> <span class="stepNumber">1</span> <span class="stepDesc"> 输入找回账号
 									<br />
 									<small>Enter user information</small> </span> </a>
 							</li>
 							<li>
-								<a href="#step-2" onclick="return false" onfocus="this.blur()"> <span class="stepNumber">2</span> <span class="stepDesc"> 安全邮件验证
+								<a href="#step-2" onclick="return false" onfocus="return false"> <span class="stepNumber">2</span> <span class="stepDesc"> 安全邮件验证
 									<br />
 									<small>Secure E-mail validation</small> </span> </a>
 							</li>
 							<li>
-								<a href="#step-3" onclick="return false" onfocus="this.blur()"> <span class="stepNumber">3</span> <span class="stepDesc"> 设置新口令
+								<a href="#step-3" onclick="return false" onfocus="return false"> <span class="stepNumber">3</span> <span class="stepDesc"> 设置新口令
 									<br />
 									<small>Change password</small> </span> </a>
 							</li>

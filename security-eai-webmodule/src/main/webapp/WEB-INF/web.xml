@@ -117,7 +117,7 @@
     <init-param>
       <description>PDSession Cookie Name</description>
       <param-name>pdSessionCookieName</param-name>
-      <param-value>PD-H-SESSION-ID</param-value>
+      <param-value>SGM-PD-H-SESSION-ID</param-value>
     </init-param>
   </filter>
   

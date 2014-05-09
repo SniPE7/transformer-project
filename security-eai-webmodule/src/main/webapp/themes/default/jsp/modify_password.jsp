@@ -3,6 +3,10 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="eai"%>
         <div id="content">
+			<div id="blank" style='display:none;'>
+			<br>
+			<br>
+			</div>
           <div class="aui-message error invisible" id="errorDivMsg">
             <!-- shown with class="aui-message error" -->
           </div>
