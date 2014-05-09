@@ -13,10 +13,18 @@
 		<param-value>shanghaigm.com</param-value>
 	</context-param>
 
+  <!-- Host will be force to HTTPS -->
   <context-param>
     <description>Force transfer access app by https</description>
     <param-name>ForceHttpsHost</param-name>
     <param-value>app.shanghaigm.com</param-value>
+  </context-param>
+
+  <!-- WebSEAL Host, If set will only permit to access with these hosts in http(s). -->
+  <context-param>
+    <description>WebSEAL Hosts, separated by ','</description>
+    <param-name>WebSEALHosts</param-name>
+    <param-value>webseal1.shanghaigm.com,webseal2.shanghaigm.com</param-value>
   </context-param>
 
 	<!-- Spring application context files. Files are loaded in the order they 
