@@ -1,7 +1,10 @@
 package com.ibm.siam.am.idp.authn;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -69,6 +72,8 @@ public class AccessEnforcer implements Filter {
 
   private String pdSessionCookieName = "PD-H-SESSION-ID";
 
+  private Set<String> webSEALHosts;
+
   /*
    * static { java.security.Security.addProvider(new
    * org.bouncycastle.jce.provider.BouncyCastleProvider()); }
@@ -112,8 +117,11 @@ public class AccessEnforcer implements Filter {
     String forceHttpsHost = this.filterConfig.getServletContext().getInitParameter("ForceHttpsHost");
     this.forceHttpsHost = (forceHttpsHost == null) ? "" : forceHttpsHost.toLowerCase();
 
-    String pdSessionCookieName = this.filterConfig.getInitParameter("pdSessionCookieName");
-    this.pdSessionCookieName = (pdSessionCookieName == null) ? "" : pdSessionCookieName;
+    String tt = this.filterConfig.getInitParameter("WebSEALHosts");
+    if (tt != null && tt.trim().length() > 0) {
+      String[] hosts = StringUtils.split(tt.toLowerCase(), ',');
+      webSEALHosts = new HashSet<String>(Arrays.asList(hosts));
+    }
 
     log.info(String.format("[%s]:EAI Force transfer access app by https{[%s]}", fConfig.getFilterName(), this.forceHttpsHost));
   }
@@ -132,6 +140,18 @@ public class AccessEnforcer implements Filter {
 
     String tamOp = httpRequest.getParameter("TAM_OP");
     String reURL = request.getParameter("URL");
+    
+    // 检查是否请求的URL是允许的WebSEAL Hosts
+    if (!this.webSEALHosts.isEmpty() && StringUtils.isNotEmpty(hst)) {
+       if (!this.webSEALHosts.contains(hst.toLowerCase())) {
+         log.debug("Not validate access, expect WebHost[%s], but [%s]", this.webSEALHosts, hst);
+         String msg = String.format("请使用正确的地址访问服务器，不允许使用IP地址. <br/>您当前的访问方式为<%s>://<%s><br/>允许访问的地址为: <%s>", pro, hst, this.webSEALHosts);
+         Exception e = new Exception(msg);
+         request.setAttribute(AbstractErrorHandler.ERROR_KEY, e);
+         httpRequest.getRequestDispatcher("/error.do").forward(httpRequest, httpResponse);
+         return;
+       }
+    }
 
     // 如果是重复提交，则中断提示错误
     if (isDecorateReturnURL(reURL)) {
