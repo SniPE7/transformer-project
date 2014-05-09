@@ -9,7 +9,7 @@
 		<put-attribute name="head" value="/WEB-INF/views/common/themes.jsp" />
 		<put-attribute name="banner" value="/WEB-INF/views/common/login_banner.jsp" />
 		<put-attribute name="body" value="" />
-		<put-attribute name="info" value="" />
+		<put-attribute name="info" value="/WEB-INF/views/common/login_user_info.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/views/common/login_footer.jsp" />
 	</definition>
 	

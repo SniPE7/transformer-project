@@ -12,7 +12,8 @@
 				<%
 				  Throwable error = (Throwable) request.getAttribute(AbstractErrorHandler.ERROR_KEY);
 				%>
-				<strong><spring:message code="error.message.title" /><p><%=(error != null) ? error.getMessage() : ""%></p></strong>
+<!--				<strong><spring:message code="error.message.title" /><p><%=(error != null) ? error.getMessage() : ""%></p></strong>-->
+				<spring:message code="error.message.title" /><p><font size=2px><%=(error != null) ? error.getMessage() : ""%><font></p>
 			</fieldset>
 		</div>
 		<!-- End of #acloginpanel -->

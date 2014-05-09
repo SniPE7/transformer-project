@@ -5,7 +5,7 @@
   <entry key="eai.loginmodule.userlock.userNameAttr">principalName</entry>
   <!-- 最多失败次数 -->
   <entry key="eai.loginmodule.userlock.maxFailedNumber">5</entry>
-  <!-- 解锁时间间隔 -->
+  <!-- 解锁时间间隔ms -->
   <entry key="eai.loginmodule.userlock.unLockTimeInterval">600000</entry>
   <!-- 登录用户解锁时间unlockTime对应ldap属性名称 -->
   <entry key="eai.loginmodule.userlock.ldap.unlockTimeAttr">secpwdunlockTime</entry>
@@ -38,16 +38,16 @@
   		remindPasswordStatus     ：提醒密码过期开关
   		remindPasswordTime       ：提醒密码过期时间（毫秒）
 	 -->
-  <!-- 口令的过期时间（毫秒）. 2592000000为30天 -->
-  <entry key="eai.loginmodule.userpasswd.pastDue.time">2592000000</entry>
+  <!-- 口令的过期时间（毫秒）. 2592000000为3000天 -->
+  <entry key="eai.loginmodule.userpasswd.pastDue.time">259200000000</entry>
   <!-- 提前提醒口令激将过期的时间（毫秒）. 1209600000为14天 -->
   <entry key="eai.loginmodule.userpasswd.pastDue.remindPasswordTime">1209600000</entry>
   <!-- 口令即将过期提醒的时间间隔，小于此时间间隔时，系统不重复提醒. 设置参数为秒 -->
   <!-- 86400表示提醒间隔为1天 -->
   <entry key="eai.loginmodule.remind.intervalInSeconds.password.expire">86400</entry>
   
-  <!--  手机号修改过期时间 ，单位毫秒. 2592000000为30天-->
-  <entry key="eai.loginmodule.usermobile.pastDue.time">2592000000</entry>
+  <!--  手机号修改过期时间 ，单位毫秒. 259200000000为3000天-->
+  <entry key="eai.loginmodule.usermobile.pastDue.time">259200000000</entry>
   
   <!-- 需要注册和更新手机号提醒的时间间隔，小于此时间间隔时，系统不重复提醒. 设置参数为秒 -->
   <!-- 86400表示提醒间隔为1天 -->
@@ -56,7 +56,7 @@
   <!--  用户查询过滤器 -->
   <entry key="eai.loginmodule.user.search.filter">(&amp;(|(uid={0})(SGMBadgeUID={0})(SGMBadgeCode={0}))(objectclass=inetOrgPerson))</entry>
   <!--  首次登陆用户查询过滤器 -->
-  <entry key="eai.reg.user.search.idcardandidfilter">(&amp;(|(uid={0})(SGMBadgeUID={0})(SGMBadgeCode={0}))(employeenumber={1})(objectclass=inetOrgPerson))</entry>
+  <entry key="eai.reg.user.search.idcardandidfilter">(&amp;(|(SGMBadgeUID={0})(SGMBadgeCode={0}))(SGMCertID={1})(objectclass=inetOrgPerson))</entry>
   <!--  根据身份证号查询用户过滤器 -->
   <entry key="eai.loginmodule.user.search.idcardfilter">(|(SGMCertID={0})(SGMCertID={1}))</entry>
   <!--  根据MATCHCode查询用户过滤器 -->
@@ -68,12 +68,12 @@
   <!--  用户的显示属性名称 -->
   <entry key="eai.loginmodule.user.search.displayattrname">givenName</entry>
   <!--  发送短信验证码的模版  -->
-  <entry key="eai.template.sms">您的短信验证是${smscode}</entry>
+  <entry key="eai.template.sms">您的短信验证码是(Your SGM SMS One Time Password is): ${smscode}</entry>
   
    <!--  加密秘钥  -->
   <entry key="eai.loginmodule.cry.key">012=456789ab-def</entry>
   <!--  发送重置密码验证URL前缀 -->
-  <entry key="eai.loginmodule.resetpwd.active.url">https://192.168.134.146/eaiweb/setpwdbymail.do?sid=</entry>
+  <entry key="eai.loginmodule.resetpwd.active.url">https://www.shanghaigm.com/eaiweb/setpwdbymail.do?sid=</entry>
   <!--  发送重置密码验证URL的时效  -->
   <entry key="eai.loginmodule.resetpwd.active.timeout">1800000</entry>
   <!--  发送重置密码验证邮件的标题  -->
@@ -91,7 +91,6 @@
   请不要回复该邮件             Do not reply to this email address
   ----------------------------------------------------------------------
   </entry>
-    
   <!--  邮件服务器SMTP IP or hostname  -->
   <entry key="eai.loginmodule.mail.smtp">smtp.shanghaigm.com</entry>
   <!--  邮件服务器 验证用户  -->
@@ -102,6 +101,6 @@
   <entry key="eai.loginmodule.mail.username">ID Admin</entry>
   
   <!--  内外网标识  -->
-  <entry key="eai.loginmodule.isinternet">false</entry>
+  <entry key="eai.loginmodule.isinternet">true</entry>
 
 </properties>

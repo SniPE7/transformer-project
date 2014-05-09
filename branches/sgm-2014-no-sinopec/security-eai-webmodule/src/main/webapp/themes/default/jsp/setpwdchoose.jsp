@@ -6,7 +6,7 @@
 	<div class="swMain" id="wizard">
 
 		<ul class="anchor">
-			<li><a onfocus="this.blur()" onclick="return false" href="#step-1" class="done" isdone="1" rel="1"> <span class="stepNumber"></span> <span class="stepDesc">选择找回方式<br>
+			<li><a onfocus="return false" onclick="return false" href="#step-1" class="done" isdone="1" rel="1"> <span class="stepNumber"></span> <span class="stepDesc">选择找回方式<br>
 						<small>Choose Type</small>
 				</span>
 			</a></li>
