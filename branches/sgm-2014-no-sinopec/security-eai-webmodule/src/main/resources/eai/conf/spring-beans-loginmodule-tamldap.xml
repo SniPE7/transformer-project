@@ -1042,67 +1042,67 @@
           </property>
         </bean>
         <!-- 基于MATCHCode认证 -->
-<!--         <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem"> -->
-<!--           <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.SGMMatchCodeAuthLoginModule"></property> -->
-<!--           <property name="moduleFlag" value="SUFFICIENT"></property> -->
-<!--           <property name="moduleOptions"> -->
-<!--             <list> -->
-<!--               Enable store source to shareState, share authenticated source with other LoginModule -->
-<!--               <bean class="com.ibm.tivoli.jaas.config.ModuleOption"> -->
-<!--                 <property name="name" value="authnSource"></property> -->
-<!--                 <property name="value" value="SIAM"></property> -->
-<!--               </bean> -->
-<!--               Enable store username to shareState, share authenticated username with other LoginModule -->
-<!--               <bean class="com.ibm.tivoli.jaas.config.ModuleOption"> -->
-<!--                 <property name="name" value="storePass"></property> -->
-<!--                 <property name="value" value="true"></property> -->
-<!--               </bean> -->
-<!--               Define how to search user by username, {0} mean username -->
-<!--               <bean class="com.ibm.tivoli.jaas.config.ModuleOption"> -->
-<!--                 <property name="name" value="userFilter"></property> -->
-<!--                 <property name="value" value="${eai.loginmodule.user.search.matchcodefilter}"></property>  -->
-<!--               </bean> -->
-<!--               Define login user return attribute name -->
-<!--               <bean class="com.ibm.tivoli.jaas.config.ModuleOption"> -->
-<!--                 <property name="name" value="returnAttributeNames"></property> -->
-<!--                 <property name="value" value="${eai.loginmodule.login.returnAttributeNames}"></property> -->
-<!--               </bean> -->
-<!--               Define spring ldap template bean name -->
-<!--               <bean class="com.ibm.tivoli.jaas.config.ModuleOption"> -->
-<!--                 <property name="name" value="ldapTemplateBeanName"></property> -->
-<!--                 <property name="value" value="tamLdapTemplate"></property> -->
-<!--               </bean> -->
-<!--               Define baseDN -->
-<!--               <bean class="com.ibm.tivoli.jaas.config.ModuleOption"> -->
-<!--                 <property name="name" value="baseDn"></property> -->
-<!--                 <property name="value" value="${eai.tam.ldap.user.baseDn}"></property> -->
-<!--               </bean> -->
-<!--               whether use bind mode -->
-<!--               <bean class="com.ibm.tivoli.jaas.config.ModuleOption"> -->
-<!--                 <property name="name" value="bindMode"></property> -->
-<!--                 <property name="value" value="false"></property> -->
-<!--               </bean> -->
-<!--               Define MatchCodeService bean name -->
-<!--               <bean class="com.ibm.tivoli.jaas.config.ModuleOption"> -->
-<!--                 <property name="name" value="matchCodeServiceBeanName"></property> -->
-<!--                 <property name="value" value="matchCodeService"></property> -->
-<!--               </bean> -->
-<!--               Define PersonService bean name -->
-<!--               <bean class="com.ibm.tivoli.jaas.config.ModuleOption"> -->
-<!--                 <property name="name" value="personServiceBeanName"></property> -->
-<!--                 <property name="value" value="personService"></property> -->
-<!--               </bean> -->
-<!--               <bean class="com.ibm.tivoli.jaas.config.ModuleOption"> -->
-<!--                 <property name="name" value="sgmBadgeUIDName"></property> -->
-<!--                 <property name="value" value="SGMBadgeUID"></property> -->
-<!--               </bean> -->
-<!--               <bean class="com.ibm.tivoli.jaas.config.ModuleOption"> -->
-<!--                 <property name="name" value="sgmBadgeTimeName"></property> -->
-<!--                 <property name="value" value="SGMBadgeTime"></property> -->
-<!--               </bean> -->
-<!--             </list> -->
-<!--           </property> -->
-<!--         </bean> -->
+        <bean class="com.ibm.tivoli.jaas.config.LoginModuleItem">
+          <property name="loginModuleClass" value="com.ibm.siam.am.idp.authn.module.SGMMatchCodeAuthLoginModule"></property>
+          <property name="moduleFlag" value="SUFFICIENT"></property>
+          <property name="moduleOptions">
+            <list>
+              <!-- Enable store source to shareState, share authenticated source with other LoginModule -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="authnSource"></property>
+                <property name="value" value="SIAM"></property>
+              </bean>
+              <!-- Enable store username to shareState, share authenticated username with other LoginModule -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="storePass"></property>
+                <property name="value" value="true"></property>
+              </bean>
+              <!-- Define how to search user by username, {0} mean username -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="userFilter"></property>
+                <property name="value" value="${eai.loginmodule.user.search.matchcodefilter}"></property> 
+              </bean>
+              <!-- Define login user return attribute name -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="returnAttributeNames"></property>
+                <property name="value" value="${eai.loginmodule.login.returnAttributeNames}"></property>
+              </bean>
+              <!-- Define spring ldap template bean name -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="ldapTemplateBeanName"></property>
+                <property name="value" value="tamLdapTemplate"></property>
+              </bean>
+              <!-- Define baseDN -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="baseDn"></property>
+                <property name="value" value="${eai.tam.ldap.user.baseDn}"></property>
+              </bean>
+              <!-- whether use bind mode -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="bindMode"></property>
+                <property name="value" value="false"></property>
+              </bean>
+              <!-- Define MatchCodeService bean name -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="matchCodeServiceBeanName"></property>
+                <property name="value" value="matchCodeService"></property>
+              </bean>
+              <!-- Define PersonService bean name -->
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="personServiceBeanName"></property>
+                <property name="value" value="personService"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="sgmBadgeUIDName"></property>
+                <property name="value" value="SGMBadgeUID"></property>
+              </bean>
+              <bean class="com.ibm.tivoli.jaas.config.ModuleOption">
+                <property name="name" value="sgmBadgeTimeName"></property>
+                <property name="value" value="SGMBadgeTime"></property>
+              </bean>
+            </list>
+          </property>
+        </bean>
       </list>
     </property>
   </bean>
