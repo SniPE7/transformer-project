@@ -8,7 +8,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
-import sun.misc.BASE64Encoder;
+import org.apache.commons.codec.binary.Base64;
 
 /**
  * @author zhaodonglu
@@ -118,9 +118,7 @@ public class ChallengeAndResposneUtil {
   }
 
   private static final String base64Encode(byte[] b) {
-    BASE64Encoder encoder = new BASE64Encoder();
-
-    return encoder.encode(b);
+    return new String(Base64.encodeBase64(b));
   }
 
 }
