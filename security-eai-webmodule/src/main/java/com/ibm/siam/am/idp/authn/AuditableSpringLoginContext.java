@@ -18,19 +18,19 @@ import javax.security.auth.login.Configuration;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import sun.security.util.PendingException;
-
 /**
- * 
- * @author jiaodongliang
  * 
  */
 
 public class AuditableSpringLoginContext extends LoginContext implements ApplicationContextAware, LoginModuleEventListenerAware, LoginContextEventListenerAware {
+
+  private static Logger log = LoggerFactory.getLogger(AuditableSpringLoginContext.class);
 
   private static final String INIT_METHOD = "initialize";
   private static final String LOGIN_METHOD = "login";
@@ -56,7 +56,6 @@ public class AuditableSpringLoginContext extends LoginContext implements Applica
   private LoginException firstRequiredError = null;
   private boolean success = false;
   private ApplicationContext applicationContext = null;
-  private static final sun.security.util.Debug debug = sun.security.util.Debug.getInstance("logincontext", "\t[LoginContext]");
 
   /**
    * LoginModuleEventListener
@@ -688,17 +687,17 @@ public class AuditableSpringLoginContext extends LoginContext implements Applica
             // clear state
             clearState();
 
-            if (debug != null)
-              debug.println(methodName + " SUFFICIENT success");
+            if (log.isDebugEnabled())
+              log.debug(methodName + " SUFFICIENT success");
             return;
           }
 
-          if (debug != null)
-            debug.println(methodName + " success");
+          if (log.isDebugEnabled())
+            log.debug(methodName + " success");
           success = true;
         } else {
-          if (debug != null)
-            debug.println(methodName + " ignored");
+          if (log.isDebugEnabled())
+            log.debug(methodName + " ignored");
         }
 
       } catch (NoSuchMethodException nsme) {
@@ -718,11 +717,7 @@ public class AuditableSpringLoginContext extends LoginContext implements Applica
 
         LoginException le;
 
-        if (ite.getCause() instanceof PendingException && methodName.equals(LOGIN_METHOD)) {
-
-          throw (PendingException) ite.getCause();
-
-        } else if (ite.getCause() instanceof LoginException) {
+        if (ite.getCause() instanceof LoginException) {
 
           le = (LoginException) ite.getCause();
 
@@ -733,9 +728,9 @@ public class AuditableSpringLoginContext extends LoginContext implements Applica
 
           le = new LoginException("Security Exception");
           le.initCause(new SecurityException());
-          if (debug != null) {
-            debug.println("original security exception with detail msg " + "replaced by new exception with empty detail msg");
-            debug.println("original security exception: " + ite.getCause().toString());
+          if (log.isDebugEnabled()) {
+            log.debug("original security exception with detail msg " + "replaced by new exception with empty detail msg");
+            log.debug("original security exception: " + ite.getCause().toString());
           }
         } else {
 
@@ -759,8 +754,8 @@ public class AuditableSpringLoginContext extends LoginContext implements Applica
 
         if (moduleStack[i].entry.getControlFlag() == AppConfigurationEntry.LoginModuleControlFlag.REQUISITE) {
 
-          if (debug != null)
-            debug.println(methodName + " REQUISITE failure");
+          if (log.isDebugEnabled())
+            log.debug(methodName + " REQUISITE failure");
 
           // if REQUISITE, then immediately throw an exception
           if (methodName.equals(ABORT_METHOD) || methodName.equals(LOGOUT_METHOD)) {
@@ -772,16 +767,16 @@ public class AuditableSpringLoginContext extends LoginContext implements Applica
 
         } else if (moduleStack[i].entry.getControlFlag() == AppConfigurationEntry.LoginModuleControlFlag.REQUIRED) {
 
-          if (debug != null)
-            debug.println(methodName + " REQUIRED failure");
+          if (log.isDebugEnabled())
+            log.debug(methodName + " REQUIRED failure");
           // mark down that a REQUIRED module failed
           if (firstRequiredError == null)
             firstRequiredError = le;
 
         } else {
 
-          if (debug != null)
-            debug.println(methodName + " OPTIONAL failure");
+          if (log.isDebugEnabled())
+            log.debug(methodName + " OPTIONAL failure");
           // mark down that an OPTIONAL module failed
           if (firstError == null)
             firstError = le;
