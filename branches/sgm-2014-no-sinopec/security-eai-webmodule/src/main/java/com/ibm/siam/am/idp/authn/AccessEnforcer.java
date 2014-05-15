@@ -72,7 +72,7 @@ public class AccessEnforcer implements Filter {
 
   private String pdSessionCookieName = "PD-H-SESSION-ID";
 
-  private Set<String> webSEALHosts;
+  private Set<String> webSEALHosts = new HashSet<String>();
 
   /*
    * static { java.security.Security.addProvider(new
@@ -451,10 +451,12 @@ public class AccessEnforcer implements Filter {
   }
 
   private boolean containePDSessionCookie(HttpServletRequest request) {
-    for (Cookie cookie : request.getCookies()) {
-      if (StringUtils.isNotEmpty(this.pdSessionCookieName) && this.pdSessionCookieName.equals(cookie.getName())) {
-        return true;
-      }
+    if (null != request.getCookies()) {
+       for (Cookie cookie : request.getCookies()) {
+           if (StringUtils.isNotEmpty(this.pdSessionCookieName) && this.pdSessionCookieName.equals(cookie.getName())) {
+              return true;
+           }
+       }
     }
     return false;
   }
