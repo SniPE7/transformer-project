@@ -117,13 +117,17 @@ public class AccessEnforcer implements Filter {
     String forceHttpsHost = this.filterConfig.getServletContext().getInitParameter("ForceHttpsHost");
     this.forceHttpsHost = (forceHttpsHost == null) ? "" : forceHttpsHost.toLowerCase();
 
-    String tt = this.filterConfig.getInitParameter("WebSEALHosts");
+    String pdSessionCookieName = this.filterConfig.getInitParameter("pdSessionCookieName");
+    this.pdSessionCookieName = (pdSessionCookieName == null) ? "" : pdSessionCookieName;
+    
+    String tt = this.filterConfig.getServletContext().getInitParameter("WebSEALHosts");
     if (tt != null && tt.trim().length() > 0) {
       String[] hosts = StringUtils.split(tt.toLowerCase(), ',');
       webSEALHosts = new HashSet<String>(Arrays.asList(hosts));
     }
 
     log.info(String.format("[%s]:EAI Force transfer access app by https{[%s]}", fConfig.getFilterName(), this.forceHttpsHost));
+    log.debug(String.format("[%s]:WebSEALHosts{[%s]}", tt, this.webSEALHosts));
   }
 
   /**
@@ -140,12 +144,13 @@ public class AccessEnforcer implements Filter {
 
     String tamOp = httpRequest.getParameter("TAM_OP");
     String reURL = request.getParameter("URL");
-    
+    log.debug("this.webSEALHosts.isEmpty()[%s], this.webSEALHosts.size [%s]", this.webSEALHosts.isEmpty(), this.webSEALHosts.size());
     // 检查是否请求的URL是允许的WebSEAL Hosts
     if (!this.webSEALHosts.isEmpty() && StringUtils.isNotEmpty(hst)) {
        if (!this.webSEALHosts.contains(hst.toLowerCase())) {
          log.debug("Not validate access, expect WebHost[%s], but [%s]", this.webSEALHosts, hst);
-         String msg = String.format("请使用正确的地址访问服务器，不允许使用IP地址. <br/>您当前的访问方式为<%s>://<%s><br/>允许访问的地址为: <%s>", pro, hst, this.webSEALHosts);
+ //        String msg = String.format("请使用正确的域名访问，不允许使用IP地址. <br/>您当前的访问方式为<%s>://<%s><br/>允许访问的地址为: <%s>", pro, hst, this.webSEALHosts);
+         String msg = String.format("请使用正确的域名访问，不允许使用IP地址访问!");
          Exception e = new Exception(msg);
          request.setAttribute(AbstractErrorHandler.ERROR_KEY, e);
          httpRequest.getRequestDispatcher("/error.do").forward(httpRequest, httpResponse);
@@ -208,7 +213,8 @@ public class AccessEnforcer implements Filter {
         httpResponse.flushBuffer();
         return;
       }
-    } else if ("help".equals(tamOp) && "/pkmspasswd".equals(reURL)) {
+    } else if ("help".equals(tamOp) ) {
+    if("/pkmspasswd".equals(reURL)){
       // httpRequest.getSession().setAttribute("j_username", "jsmith");
       if (httpRequest.getSession(false) != null && httpRequest.getSession(false).getAttribute("j_username") != null) {
         String username = (String) httpRequest.getSession(false).getAttribute("j_username");
@@ -222,11 +228,19 @@ public class AccessEnforcer implements Filter {
         request.getRequestDispatcher("/modify_password.do").forward(request, response);
         return;
       }
-    } else if ("login".equals(tamOp) && !containePDSessionCookie((HttpServletRequest) request)) {
-      // WebSEAL要求登录，但缺少PDSession相关的Cookie
-      String redirectUrl = (isForceHttpsHost(this.forceHttpsHost, hst) ? "https" : pro) + "://" + hst + reURL;
-      httpResponse.sendRedirect(redirectUrl);
-      return;
+    }
+    if(request.getParameter("ERROR_CODE") != null && "0x13212079".equals(request.getParameter("ERROR_CODE")))
+    {
+        handleErrorOP(request, httpRequest, httpResponse);
+        return;   	
+    }
+    } else if ("login".equals(tamOp)) {
+    	if( !containePDSessionCookie((HttpServletRequest) request)){
+	      // WebSEAL要求登录，但缺少PDSession相关的Cookie
+	      String redirectUrl = (isForceHttpsHost(this.forceHttpsHost, hst) ? "https" : pro) + "://" + hst + reURL;
+	      httpResponse.sendRedirect(redirectUrl);
+	      return;
+    	}
     }
 
     if (tamOp != null && tamOp.equals("logout")) {
@@ -311,11 +325,13 @@ public class AccessEnforcer implements Filter {
 
     String via = httpRequest.getHeader("Via"); 
     //强制转换eaiweb的请求为https
-    if(httpRequest.getRequestURI().contains("login/info.do") && httpRequest.getQueryString()!=null && via!=null && !via.contains("443") && via.indexOf(" ") >1) {
+    if(httpRequest.getRequestURI().contains("login/info.do") && httpRequest.getQueryString()!=null && via!=null && !via.contains("443") && via.indexOf("HTTP/1.1 ") >-1) {
+    	
         
-        String redirectUrl = "https" + "://" + via.substring(via.indexOf(" ")+1, via.indexOf(":")) + httpRequest.getRequestURI();
+    	//String redirectUrl = "https" + "://" + via.substring(via.indexOf("HTTP/1.1 ")+9, via.indexOf(":")) + httpRequest.getRequestURI();
+    	String redirectUrl = "https" + "://" + hst + httpRequest.getRequestURI();
         if (log.isDebugEnabled()) {
-            log.debug(String.format("via is  [%s].", via));
+           	log.debug(String.format("via is  [%s].", via));
             log.debug(String.format("redirectUrl is  [%s].", redirectUrl));
           }
         String params = httpRequest.getQueryString(); 
@@ -432,12 +448,12 @@ public class AccessEnforcer implements Filter {
   private void terminateAccess(ServletRequest request, HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
     String msg = null;
     if (request.getParameter("ERROR_CODE") == null || request.getParameter("ERROR_CODE").trim().length() == 0) {
-      String url = request.getParameter("URL");
+  	  String url = request.getParameter("URL");
 
-      if(url.indexOf("eairepeat") > 0 ){
-          url = url.substring(0, url.indexOf("eairepeat")-1);
-      }
-      msg = String.format("URL=%s<br/>ERROR_TEXT=%s<br/>PROTOCOL=%s<br/>METHOD=%s<br/>HOSTNAME=%s<br/>ERROR_CODE=%s<br/>FAILREASON=%s<br/>",url,
+	  if(url.indexOf("eairepeat") > 0 ){
+		  url = url.substring(0, url.indexOf("eairepeat")-1);
+	  }
+	  msg = String.format("URL=%s<br/>ERROR_TEXT=%s<br/>PROTOCOL=%s<br/>METHOD=%s<br/>HOSTNAME=%s<br/>ERROR_CODE=%s<br/>FAILREASON=%s<br/>",url,
              "repeat action url",request.getParameter("PROTOCOL"), "eai auth",  request.getParameter("HOSTNAME"),"repeat action url" , "repeat action url" );
     
     } else {
@@ -451,13 +467,13 @@ public class AccessEnforcer implements Filter {
   }
 
   private boolean containePDSessionCookie(HttpServletRequest request) {
-    if (null != request.getCookies()) {
-       for (Cookie cookie : request.getCookies()) {
-           if (StringUtils.isNotEmpty(this.pdSessionCookieName) && this.pdSessionCookieName.equals(cookie.getName())) {
-              return true;
-           }
-       }
+	  if(request.getCookies() != null){
+	 for (Cookie cookie : request.getCookies()) {
+      if (StringUtils.isNotEmpty(this.pdSessionCookieName) && this.pdSessionCookieName.equals(cookie.getName())) {
+        return true;
+      }
     }
+	}
     return false;
   }
 
@@ -484,13 +500,13 @@ public class AccessEnforcer implements Filter {
    * @return
    */
   private String buildErrorMessage(ServletRequest request) {
-      String url = request.getParameter("URL");
+	  String url = request.getParameter("URL");
 
-      if(url.indexOf("eairepeat") > 0 ){
-          url = url.substring(0, url.indexOf("eairepeat")-1);
-      }
+	  if(url.indexOf("eairepeat") > 0 ){
+		  url = url.substring(0, url.indexOf("eairepeat")-1);
+	  }
     String msg = String.format("URL=%s<br/>ERROR_TEXT=%s<br/>PROTOCOL=%s<br/>METHOD=%s<br/>HOSTNAME=%s<br/>ERROR_CODE=%s<br/>FAILREASON=%s<br/>",
-            url,request.getParameter("ERROR_TEXT"), request.getParameter("PROTOCOL"),  request.getParameter("METHOD"),
+    		url,request.getParameter("ERROR_TEXT"), request.getParameter("PROTOCOL"),  request.getParameter("METHOD"),
           request.getParameter("HOSTNAME"),request.getParameter("ERROR_CODE"), request.getParameter("FAILREASON"));
     return msg;
   }
