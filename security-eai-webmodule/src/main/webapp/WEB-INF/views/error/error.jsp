@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="com.ibm.siam.am.idp.AbstractErrorHandler"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <div id="content">
 	<div class="aui-message error invisible" id="errorDivMsg">
@@ -12,8 +13,11 @@
 				<%
 				  Throwable error = (Throwable) request.getAttribute(AbstractErrorHandler.ERROR_KEY);
 				%>
-<!--				<strong><spring:message code="error.message.title" /><p><%=(error != null) ? error.getMessage() : ""%></p></strong>-->
 				<spring:message code="error.message.title" /><p><font size=2px><%=(error != null) ? error.getMessage() : ""%><font></p>
+        <c:if test="${empty ERROR_RELOAD_URL}">
+        <br>
+        <p><form method="get" action="${ERROR_RELOAD_URL}"><input type="submit" value=" 刷新/Reload "></form></p>
+        </c:if>
 			</fieldset>
 		</div>
 		<!-- End of #acloginpanel -->

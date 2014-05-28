@@ -238,7 +238,18 @@ public class AccessEnforcer implements Filter {
     	if( !containePDSessionCookie((HttpServletRequest) request)){
 	      // WebSEAL要求登录，但缺少PDSession相关的Cookie
 	      String redirectUrl = (isForceHttpsHost(this.forceHttpsHost, hst) ? "https" : pro) + "://" + hst + reURL;
-	      httpResponse.sendRedirect(redirectUrl);
+	      //httpResponse.sendRedirect(redirectUrl);
+	      
+	      // 转移到错误页面
+	      if (!StringUtils.isEmpty(request.getParameter("eaiReturnUrlInPage"))) {
+	        redirectUrl = request.getParameter("eaiReturnUrlInPage");
+	      }
+	      // 为错误页面设置刷新按钮的目标URL
+	      request.setAttribute("ERROR_RELOAD_URL", redirectUrl);
+	      Exception e = new Exception("检查你的浏览器设置，确保将http://<domain>和https://<domain>都加入到信任站点，若无问题，请尝试点击下面按钮刷新。<br/>");
+	      request.setAttribute(AbstractErrorHandler.ERROR_KEY, e);
+	      httpRequest.getRequestDispatcher("/error.do").forward(httpRequest, httpResponse);
+	      
 	      return;
     	}
     }
