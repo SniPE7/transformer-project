@@ -127,6 +127,16 @@
       <param-name>pdSessionCookieName</param-name>
       <param-value>SGM-PD-H-SESSION-ID</param-value>
     </init-param>
+    <init-param>
+      <description>intervalInSeconds4Throtter</description>
+      <param-name>intervalInSeconds4Throtter</param-name>
+      <param-value>30</param-value>
+    </init-param>
+    <init-param>
+      <description>maxAccess4Throtter</description>
+      <param-name>maxAccess4Throtter</param-name>
+      <param-value>6</param-value>
+    </init-param>
   </filter>
   
   <filter-mapping>

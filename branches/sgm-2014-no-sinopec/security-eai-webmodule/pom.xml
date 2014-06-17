@@ -57,7 +57,7 @@
 	            <warSourceExcludes>**/*.js,**/*.css</warSourceExcludes>
 	        </configuration>
 	    </plugin>
-	    
+<!--	    
        <plugin>
 	        <groupId>net.alchim31.maven</groupId>
 	        <artifactId>yuicompressor-maven-plugin</artifactId>
@@ -72,7 +72,6 @@
 	        </executions>
 	        <configuration>
             <encoding>UTF-8</encoding>
-	        	<!-- 忽略 js 错误警告 -->
 	            <jswarn>false</jswarn>
 	            <nosuffix>true</nosuffix>
 	            <linebreakpos>-1</linebreakpos>
@@ -86,7 +85,7 @@
 	            </excludes>
 	        </configuration>
 		</plugin>
-		
+-->		
 		<!--  install jar to local repository -->
 		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>

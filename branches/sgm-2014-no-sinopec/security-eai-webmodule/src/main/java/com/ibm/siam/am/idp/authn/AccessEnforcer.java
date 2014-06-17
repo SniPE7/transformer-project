@@ -82,7 +82,7 @@ public class AccessEnforcer implements Filter {
   /**
    * 最大访问次数的时间范围（秒）
    */
-  private int timeIntervalInSeconds = 60;
+  private int intervalInSeconds = 60;
 
   /**
    * EAI Junction URL
@@ -140,9 +140,9 @@ public class AccessEnforcer implements Filter {
       webSEALHosts = new HashSet<String>(Arrays.asList(hosts));
     }
 
-    tmp = this.filterConfig.getServletContext().getInitParameter("timeIntervalInSeconds4Throtter");
+    tmp = this.filterConfig.getServletContext().getInitParameter("intervalInSeconds4Throtter");
     if (tmp != null && tmp.trim().length() > 0 ) {
-       this.timeIntervalInSeconds = Integer.parseInt(tmp);
+       this.intervalInSeconds = Integer.parseInt(tmp);
     }
 
     tmp = this.filterConfig.getServletContext().getInitParameter("maxAccess4Throtter");
@@ -267,7 +267,7 @@ public class AccessEnforcer implements Filter {
     //      }
       
       // 做节流控制，如果连续访问op=login在指定时间内达到指定次数，则终止访问
-      AccessThrotter throtter = new AccessThrotter(this.timeIntervalInSeconds, this.maxAccess);
+      AccessThrotter throtter = new AccessThrotter(this.intervalInSeconds, this.maxAccess);
       if (throtter.isOverLoad((HttpServletRequest) request, (HttpServletResponse) response)) {
         terminateAccess(request, httpRequest, httpResponse);
         return;        
