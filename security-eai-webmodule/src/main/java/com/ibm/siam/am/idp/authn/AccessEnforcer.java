@@ -73,7 +73,21 @@ public class AccessEnforcer implements Filter {
   private String pdSessionCookieName = "PD-H-SESSION-ID";
 
   private Set<String> webSEALHosts = new HashSet<String>();
+  
+  /**
+   * 指定时间内允许访问的最大次数
+   */
+  private int maxAccess = 10;
 
+  /**
+   * 最大访问次数的时间范围（秒）
+   */
+  private int timeIntervalInSeconds = 60;
+
+  /**
+   * EAI Junction URL
+   */
+  private String eaiJunctionUrl = "/eaiweb";
   /*
    * static { java.security.Security.addProvider(new
    * org.bouncycastle.jce.provider.BouncyCastleProvider()); }
@@ -124,6 +138,16 @@ public class AccessEnforcer implements Filter {
     if (tt != null && tt.trim().length() > 0) {
       String[] hosts = StringUtils.split(tt.toLowerCase(), ',');
       webSEALHosts = new HashSet<String>(Arrays.asList(hosts));
+    }
+
+    tmp = this.filterConfig.getServletContext().getInitParameter("timeIntervalInSeconds4Throtter");
+    if (tmp != null && tmp.trim().length() > 0 ) {
+       this.timeIntervalInSeconds = Integer.parseInt(tmp);
+    }
+
+    tmp = this.filterConfig.getServletContext().getInitParameter("maxAccess4Throtter");
+    if (tmp != null && tmp.trim().length() > 0 ) {
+       this.maxAccess = Integer.parseInt(tmp);
     }
 
     log.info(String.format("[%s]:EAI Force transfer access app by https{[%s]}", fConfig.getFilterName(), this.forceHttpsHost));
@@ -193,7 +217,8 @@ public class AccessEnforcer implements Filter {
           reURL = String.format(logoutCustomeizedPageURI, filename);
         } else {
           // reURL = "/";
-          reURL = defaultWebSEALURL;
+      //    reURL = defaultWebSEALURL;
+          reURL = String.format(logoutCustomeizedPageURI, "logout.html");
         }
         // String redirectUrl = request.getParameter("PROTOCOL") + "://" +
         // request.getParameter("HOSTNAME") + reURL;
@@ -235,8 +260,23 @@ public class AccessEnforcer implements Filter {
         return;   	
     }
     } else if ("login".equals(tamOp)) {
-    	if( !containePDSessionCookie((HttpServletRequest) request)){
-	      // WebSEAL要求登录，但缺少PDSession相关的Cookie
+   // 	if (log.isDebugEnabled()) {
+            log.error("iv-user is===" + httpRequest.getHeader("iv-user"));
+            log.error("PD Cookie Name configured: " + this.pdSessionCookieName);
+            log.error( "has PD Session:"+ containePDSessionCookie((HttpServletRequest) request));
+    //      }
+      
+      // 做节流控制，如果连续访问op=login在指定时间内达到指定次数，则终止访问
+      AccessThrotter throtter = new AccessThrotter(this.timeIntervalInSeconds, this.maxAccess);
+      if (throtter.isOverLoad((HttpServletRequest) request, (HttpServletResponse) response)) {
+        terminateAccess(request, httpRequest, httpResponse);
+        return;        
+      }
+    	if( !containePDSessionCookie((HttpServletRequest) request) || 
+    			(request.getParameter("OLDSESSION") != null && "1".equals(request.getParameter("OLDSESSION"))) || 
+    			(httpRequest.getHeader("iv-user") != null && !"unauthenticated".equals(httpRequest.getHeader("iv-user").toLowerCase()) &&
+    					request.getParameter("USERNAME") != null && "unauthenticated".equals(request.getParameter("USERNAME").toLowerCase()) )){
+	      // WebSEAL要求登录，但缺少PDSession相关的Cookie,或WebSEAL认为为OldSession
 	      String redirectUrl = (isForceHttpsHost(this.forceHttpsHost, hst) ? "https" : pro) + "://" + hst + reURL;
 	      //httpResponse.sendRedirect(redirectUrl);
 	      
@@ -246,10 +286,10 @@ public class AccessEnforcer implements Filter {
 	      }
 	      // 为错误页面设置刷新按钮的目标URL
 	      request.setAttribute("ERROR_RELOAD_URL", redirectUrl);
-	      Exception e = new Exception("检查你的浏览器设置，确保将http://<domain>和https://<domain>都加入到信任站点，若无问题，请尝试点击下面按钮刷新。<br/>");
+	      String msg = String.format("请检查您的浏览器设置，确保将http://%s和https://%s都加入到信任站点，若无问题，请清空您的浏览器缓存，重新打开浏览器,输入地址访问。若您是从word、excel或邮箱中点击link访问，请直接将相应URL输入浏览器地址访问。<br/>", request.getParameter("HOSTNAME"), request.getParameter("HOSTNAME"));
+	      Exception e = new Exception(msg);
 	      request.setAttribute(AbstractErrorHandler.ERROR_KEY, e);
 	      httpRequest.getRequestDispatcher("/error.do").forward(httpRequest, httpResponse);
-	      
 	      return;
     	}
     }
@@ -277,8 +317,10 @@ public class AccessEnforcer implements Filter {
 
     String level = request.getParameter("AUTHNLEVEL");
     if (level != null && reURL != null && !"".equals(reURL)) {
+  //    String appUrl = (isForceHttpsHost(forceHttpsHost, httpRequest.getParameter("HOSTNAME")) ? "https" : httpRequest.getParameter("PROTOCOL")) + "://"
+  //        + httpRequest.getParameter("HOSTNAME") + decorateReturnURL(reURL);
       String appUrl = (isForceHttpsHost(forceHttpsHost, httpRequest.getParameter("HOSTNAME")) ? "https" : httpRequest.getParameter("PROTOCOL")) + "://"
-          + httpRequest.getParameter("HOSTNAME") + decorateReturnURL(reURL);
+      + httpRequest.getParameter("HOSTNAME") + reURL;
       remeberEAIReturnUrl(httpRequest, appUrl, this.forceHttpsHost);
     }
     log.debug(String.format("EAI Return url: %s", pro + "://" + hst + reURL + "[" + level + "]"));
@@ -480,6 +522,7 @@ public class AccessEnforcer implements Filter {
   private boolean containePDSessionCookie(HttpServletRequest request) {
 	  if(request.getCookies() != null){
 	 for (Cookie cookie : request.getCookies()) {
+		 log.error("current cookie:"+cookie.getName());
       if (StringUtils.isNotEmpty(this.pdSessionCookieName) && this.pdSessionCookieName.equals(cookie.getName())) {
         return true;
       }
